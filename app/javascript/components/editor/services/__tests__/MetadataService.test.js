@@ -17,6 +17,32 @@ describe('Testing MetadataService', () => {
           })
         }
       }
+      case '/api/drafts/1?draft_type=VariableDraft': {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            draft: {
+              Name: 'a name', LongName: 'a long name', Definition: 'Def', StandardName: 'Web Portal'
+            },
+            id: 50,
+            user_id: 9
+          })
+        }
+      }
+      case '/api/drafts/55/publish?draft_type=ToolDraft': {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            draft: {
+              Name: 'a name', LongName: 'a long name', Definition: 'Def', StandardName: 'Web Portal'
+            },
+            id: 55,
+            user_id: 9
+          })
+        }
+      }
       case '/api/drafts/101?draft_type=ToolDraft': {
         return {
           ok: false,
@@ -71,6 +97,24 @@ describe('Testing MetadataService', () => {
           })
         }
       }
+      case '/api/kms_keywords/science_keywords': {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
+          })
+        }
+      }
+      case '/api/kms_keywords/science': {
+        return {
+          ok: false,
+          status: 404,
+          json: async () => ({
+            error: 'Error found'
+          })
+        }
+      }
       default: {
         console.log(`Unhandled request: ${url}`)
         return undefined
@@ -90,7 +134,7 @@ describe('Testing MetadataService', () => {
 
   beforeAll(() => jest.spyOn(window, 'fetch'))
 
-  test('fetch draft', async () => {
+  test('fetch tool draft', async () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
     metadataService.fetchDraft(1).then((draft) => {
       expect(draft.json.Name).toEqual('a name')
@@ -101,6 +145,17 @@ describe('Testing MetadataService', () => {
       console.log(draft)
     }).catch((error) => {
       expect(error.message).toEqual('Error code: 404')
+    })
+  })
+
+  test('fetch variable draft', async () => {
+    const metadataService = new MetadataService('test_token', 'variable_drafts', 'test_user', 'provider')
+    metadataService.fetchDraft(1).then((draft) => {
+      expect(draft.json.Name).toEqual('a name')
+      expect(draft.json.LongName).toEqual('a long name')
+      expect(draft.json.Definition).toEqual('Def')
+      expect(draft.json.StandardName).toEqual('Web Portal')
+      expect(draft.apiId).toEqual(50)
     })
   })
 
@@ -125,6 +180,31 @@ describe('Testing MetadataService', () => {
     draft.apiId = 200
     metadataService.updateDraft(draft).then((result) => {
       console.log(result)
+    }).catch((error) => {
+      expect(error.message).toEqual('Error code: 404')
+    })
+  })
+
+  test('publish draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.apiId = 55
+    draft.apiUserId = 10
+    draft.json = { Name: 'Test Record' }
+    metadataService.publishDraft(draft).then((result) => {
+      expect(result.apiId).toEqual(55)
+    })
+  })
+
+  test('fetch kms keywords', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    metadataService.fetchKmsKeywords('science_keywords').then((keywords) => {
+      expect(keywords).toEqual({
+        Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
+      })
+    })
+    metadataService.fetchKmsKeywords('science').then((keywords) => {
+      console.log(keywords)
     }).catch((error) => {
       expect(error.message).toEqual('Error code: 404')
     })

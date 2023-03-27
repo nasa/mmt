@@ -15,18 +15,38 @@ describe('json utils tests', () => {
 
   it('removes nulls', async () => {
     const obj = {
-      alpha: null,
-      beta: { },
-      gamma: [{}, null],
-      delta: { foo: 'x', bar: { zee: null } },
-      epsilon: { foo: 'x', bar: [{ zee: null }, null] }
+      store: {
+        book: [
+          null,
+          {
+            category: 'fiction',
+            author: 'Evelyn Waugh',
+            title: 'Sword of Honour',
+            price: 12.99
+          },
+          null,
+          {
+            category: 'fiction',
+            author: 'J. R. R. Tolkien',
+            title: 'The Lord of the Rings'
+          }
+        ],
+        bicycle: {
+          color: 'red',
+          price: null
+        }
+      }
     }
     const newObj = removeNulls(obj)
-    expect(newObj).toEqual({
-      beta: {},
-      gamma: [{}],
-      delta: { foo: 'x', bar: {} },
-      epsilon: { foo: 'x', bar: [{}] }
-    })
+    expect(newObj).toEqual(
+      {
+        store: {
+          book: [{
+            category: 'fiction', author: 'Evelyn Waugh', title: 'Sword of Honour', price: 12.99
+          }, { category: 'fiction', author: 'J. R. R. Tolkien', title: 'The Lord of the Rings' }],
+          bicycle: { color: 'red' }
+        }
+      }
+    )
   })
 })

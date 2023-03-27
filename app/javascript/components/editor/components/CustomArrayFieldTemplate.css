@@ -1,0 +1,58 @@
+.title {
+  font-size: 22px;
+  font-weight: 550;
+
+  border-bottom: solid 2px rgb(240, 240, 240);
+  padding-bottom: 14px;
+  padding-top: 14px
+}
+
+.element {
+  border-left: solid 6px rgb(240, 240, 240);
+  border-bottom: solid 2px rgb(240, 240, 240);
+  margin-bottom: 25px;
+  padding-left: 10px;
+}
+
+.element-index-title {
+  color: gray;
+  margin-left: 5px;
+  padding-top: 20px
+}
+
+.remove-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: -12px;
+  border-bottom: solid 2px rgb(240, 240, 240);
+  margin-bottom: 10px;
+  padding-bottom: 10px
+}
+
+.remove-title {
+  height: 14px
+}
+
+.remove-label {
+  color: red;
+  font-weight: 'bold'
+}
+
+.remove-button {
+  color: red
+}
+
+.add-header {
+  margin-top: -30px
+}
+
+.add-button {
+  color: rgb(31, 107, 162);
+  margin-left: -12px
+}
+
+.add-label {
+  color: rgb(31, 107, 162);
+  font-weight: bold
+}

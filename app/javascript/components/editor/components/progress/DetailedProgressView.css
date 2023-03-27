@@ -1,0 +1,27 @@
+.box {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box>* {
+    flex: 1 1 160px;
+}
+
+.progress-section {
+    padding: 10px;
+    flex: 33.33%;
+}
+
+.header {
+    font-size: 21px;
+    font-weight: bold
+}
+
+.header-col {
+    margin-left: 23px;
+    padding: 15px;
+}
+
+.form {
+    display: hidden;
+}

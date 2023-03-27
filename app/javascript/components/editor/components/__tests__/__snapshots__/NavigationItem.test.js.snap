@@ -3,16 +3,15 @@
 exports[`Navigation Item Component clicking on a item triggers navigate to 1`] = `
 <div>
   <div
+    class="navigation-item navigation-item-no-focus"
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
   >
     <button
-      class="list-group-item list-group-item-action"
+      class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <span
-        style="font-weight: bold; font-size: 17px;"
+        class="section-highlighted"
       >
         <i
           class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -25,13 +24,12 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
       <div
         class="error-list"
         data-testid="error-list-title__root"
-        style="margin-top: 0px; margin-bottom: 3px;"
       >
         <span
-          style="margin-top: -50px;"
+          class="error-list-header"
         />
         <ul
-          style="padding-left: 15px; margin-bottom: -2px;"
+          class="error-list-header-list"
         >
           <div
             class="error-list-item"
@@ -109,16 +107,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
 exports[`Navigation Item Component hovers over 1`] = `
 <div>
   <div
+    class="navigation-item navigation-item-no-focus"
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
   >
     <button
-      class="list-group-item list-group-item-action"
+      class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <span
-        style="font-weight: bold; font-size: 17px;"
+        class="section-highlighted"
       >
         <i
           class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -131,13 +128,12 @@ exports[`Navigation Item Component hovers over 1`] = `
       <div
         class="error-list"
         data-testid="error-list-title__root"
-        style="margin-top: 0px; margin-bottom: 3px;"
       >
         <span
-          style="margin-top: -50px;"
+          class="error-list-header"
         />
         <ul
-          style="padding-left: 15px; margin-bottom: -2px;"
+          class="error-list-header-list"
         >
           <div
             class="error-list-item"
@@ -215,16 +211,15 @@ exports[`Navigation Item Component hovers over 1`] = `
 exports[`Navigation Item Component renders a navigation item 1`] = `
 <div>
   <div
+    class="navigation-item navigation-item-no-focus"
     data-testid="navigationitem--tool-information"
-    style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
   >
     <button
-      class="list-group-item list-group-item-action"
+      class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
       data-testid="navigationitem--listgroup.item__tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <span
-        style="font-weight: bold; font-size: 17px;"
+        class="section-highlighted"
       >
         <i
           class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -239,7 +234,7 @@ exports[`Navigation Item Component renders a navigation item 1`] = `
         data-testid="error-list-item__root"
       >
         <span
-          style="margin-top: -50px;"
+          class="error-list-header"
         />
       </div>
     </div>
@@ -284,20 +279,18 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       
   </div>
   <div
-    class="list-group"
-    style="height: 400px; width: 300px; margin-top: 5px;"
+    class="section-list list-group"
   >
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
         <span
-          style="font-weight: bold; font-size: 17px;"
+          class="section-highlighted"
         >
           <i
             class="eui-icon eui-icon--sm eui-check green-progress-circle"
@@ -312,21 +305,22 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
           data-testid="error-list-item__root"
         >
           <span
-            style="margin-top: -50px;"
+            class="error-list-header"
           />
         </div>
       </div>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -336,15 +330,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -354,15 +349,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -372,15 +368,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -390,15 +387,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -408,15 +406,16 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -426,7 +425,7 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
       </button>
     </div>
     <div
-      style="display: none;"
+      class="form"
     >
       <form
         class="rjsf"
@@ -2819,20 +2818,18 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       
   </div>
   <div
-    class="list-group"
-    style="height: 400px; width: 300px; margin-top: 5px;"
+    class="section-list list-group"
   >
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
         <span
-          style="font-weight: bold; font-size: 17px;"
+          class="section-highlighted"
         >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
@@ -2845,13 +2842,12 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
         <div
           class="error-list"
           data-testid="error-list-title__root"
-          style="margin-top: 0px; margin-bottom: 3px;"
         >
           <span
-            style="margin-top: -50px;"
+            class="error-list-header"
           />
           <ul
-            style="padding-left: 15px; margin-bottom: -2px;"
+            class="error-list-header-list"
           >
             <div
               class="error-list-item"
@@ -2913,15 +2909,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </div>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -2931,15 +2928,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -2949,15 +2947,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -2967,15 +2966,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -2985,15 +2985,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -3003,15 +3004,16 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -3021,7 +3023,7 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
       </button>
     </div>
     <div
-      style="display: none;"
+      class="form"
     >
       <form
         class="rjsf"
@@ -5499,20 +5501,18 @@ exports[`Navigation Item Component shows required error 1`] = `
       
   </div>
   <div
-    class="list-group"
-    style="height: 400px; width: 300px; margin-top: 5px;"
+    class="section-list list-group"
   >
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-information"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-information"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
         <span
-          style="font-weight: bold; font-size: 17px;"
+          class="section-highlighted"
         >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -5525,13 +5525,12 @@ exports[`Navigation Item Component shows required error 1`] = `
         <div
           class="error-list"
           data-testid="error-list-title__root"
-          style="margin-top: 0px; margin-bottom: 3px;"
         >
           <span
-            style="margin-top: -50px;"
+            class="error-list-header"
           />
           <ul
-            style="padding-left: 15px; margin-bottom: -2px;"
+            class="error-list-header-list"
           >
             <div
               class="error-list-item"
@@ -5604,15 +5603,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </div>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--related-ur-ls"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__related-ur-ls"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5622,15 +5622,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--compatibility-and-usability"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5640,15 +5641,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--descriptive-keywords"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__descriptive-keywords"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5658,15 +5660,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-organizations"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-organizations"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5676,15 +5679,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--tool-contacts"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__tool-contacts"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5694,15 +5698,16 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
+      class="navigation-item navigation-item-no-focus"
       data-testid="navigationitem--potential-action"
-      style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
     >
       <button
-        class="list-group-item list-group-item-action"
+        class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
         data-testid="navigationitem--listgroup.item__potential-action"
-        style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
       >
-        <span>
+        <span
+          class="section"
+        >
           <i
             class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
           />
@@ -5712,7 +5717,7 @@ exports[`Navigation Item Component shows required error 1`] = `
       </button>
     </div>
     <div
-      style="display: none;"
+      class="form"
     >
       <form
         class="rjsf"

@@ -3,8 +3,8 @@
 exports[`Progress field navigation test array field navigate to edit a field in array 1`] = `
 <div>
   <div
+    class="progress-view"
     data-testid="progress-section__tool-contacts_pass"
-    style="display: flex; align-items: center;"
   >
     <div
       class="section-circle"

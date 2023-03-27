@@ -32,7 +32,8 @@ type RouterType = {
     id: string,
     sectionName: string,
     fieldName: string,
-    offset: string
+    offset: string,
+    index: number
   }
 }
 

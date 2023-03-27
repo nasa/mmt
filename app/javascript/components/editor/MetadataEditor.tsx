@@ -139,7 +139,7 @@ export default class MetadataEditor {
     return this.model.uiSchema
   }
   get focusField() {
-    return this.formProps.focusField
+    return this.formProps.focusField ?? ''
   }
   get arrayFieldAutoScroll() {
     return this.formProps.arrayFieldAutoScroll

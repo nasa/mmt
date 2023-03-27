@@ -5,13 +5,12 @@ import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
-import MetadataEditor from '../../MetadataEditor'
+import './Widget.css'
 
 interface CustomMultiSelectWidgetProps extends WidgetProps {
   label: string,
   options: {
-    title: string,
-    editor?: MetadataEditor
+    title: string
   }
   value: string[],
   required: boolean,
@@ -33,7 +32,6 @@ type CustomMultiSelectWidgetState = {
 
 class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetProps, CustomMultiSelectWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   multiSelectScrollRef: React.RefObject<HTMLDivElement>
 
   constructor(props: CustomMultiSelectWidgetProps) {
@@ -81,18 +79,16 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       multiValue, filterOptions, setFocus, isOpen
     } = this.state
     const {
-      label, options, required, schema
+      label, options, required, schema, registry
     } = this.props
     const { id } = this.props
-    const { title = label, editor } = options
+    const { title = label } = options
+    const { formContext } = registry
+    const { editor } = formContext
     let shouldFocus = false
 
-    if (editor?.focusField === id) {
+    if (editor.focusField === id) {
       shouldFocus = true
-    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
-      if (id !== '' && id.startsWith(editor?.focusField)) {
-        shouldFocus = true
-      }
     }
     if (shouldFocus) {
       this.multiSelectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -101,12 +97,12 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`} ref={this.multiSelectScrollRef}>
         <div>
           <span>
-            {title ?? 'Values'}
-            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
+            {title}
+            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
-        <div className="custom-select-widget-description" style={{ paddingLeft: '5px' }} data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
-          <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
+        <div className="widget-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+          <span>
             {setFocus ? schema.description : ''}
           </span>
         </div>

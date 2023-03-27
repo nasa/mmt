@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen
+  render, fireEvent, screen, waitFor
 } from '@testing-library/react'
 import {
   BrowserRouter,
@@ -8,6 +8,8 @@ import {
 } from 'react-router-dom'
 import { createSchemaUtils } from '@rjsf/utils'
 import validator from '@rjsf/validator-ajv8'
+import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 import CustomSelectWidget from '../CustomSelectWidget'
 import UmmToolsModel from '../../../model/UmmToolsModel'
 import MetadataEditor from '../../../MetadataEditor'
@@ -16,15 +18,13 @@ import MetadataEditorForm from '../../MetadataEditorForm'
 describe('Custom Select Widget Component', () => {
   const model = new UmmToolsModel()
   const editor = new MetadataEditor(model)
-  CustomSelectWidget.defaultProps = { title: '', options: { editor } }
 
   it('renders the custom select widget when no enum', async () => {
     const props = {
       label: 'MyTestDataLabel',
       required: false,
       schema: {},
-      registry: { schemaUtils: createSchemaUtils(validator, {}) },
-      options: { editor },
+      registry: { schemaUtils: createSchemaUtils(validator, {}), formContext: { editor } },
       onChange: {},
       value: 'Web Portal'
     }
@@ -48,11 +48,11 @@ describe('Custom Select Widget Component', () => {
       required: false,
       schema,
       registry: {
-        schemaUtils: createSchemaUtils(validator, schema)
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
       },
       options: {
-        title: '',
-        editor
+        title: ''
       },
       onChange: {}
     }
@@ -76,11 +76,11 @@ describe('Custom Select Widget Component', () => {
       required: true,
       schema,
       registry: {
-        schemaUtils: createSchemaUtils(validator, schema)
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
       },
       options: {
-        title: 'My Test Data Label',
-        editor
+        title: 'My Test Data Label'
       },
       onChange: {}
     }
@@ -104,10 +104,8 @@ describe('Custom Select Widget Component', () => {
       required: true,
       schema,
       registry: {
-        schemaUtils: createSchemaUtils(validator, schema)
-      },
-      options: {
-        editor
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
       },
       onChange: {}
     }
@@ -131,11 +129,11 @@ describe('Custom Select Widget Component', () => {
       required: true,
       schema,
       registry: {
-        schemaUtils: createSchemaUtils(validator, schema)
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
       },
       options: {
-        title: 'My Test Data Label',
-        editor
+        title: 'My Test Data Label'
       },
       onChange: mockedOnChange
     }
@@ -150,8 +148,9 @@ describe('Custom Select Widget Component', () => {
     expect(mySelectComponent).toBeDefined()
     expect(mySelectComponent).not.toBeNull()
     expect(mockedOnChange).toHaveBeenCalledTimes(0)
-
-    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    await waitFor(async () => {
+      fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    })
     fireEvent.click(await getByText('Option1'))
     expect(mockedOnChange).toHaveBeenCalledWith('Option1')
 
@@ -160,6 +159,9 @@ describe('Custom Select Widget Component', () => {
     expect(mockedOnChange).toHaveBeenCalledWith('Option3')
 
     expect(mockedOnChange).toHaveBeenCalledTimes(2)
+    await waitFor(async () => {
+      userEvent.tab()
+    })
     expect(container).toMatchSnapshot()
   })
 
@@ -177,11 +179,11 @@ describe('Custom Select Widget Component', () => {
       required: true,
       schema,
       registry: {
-        schemaUtils: createSchemaUtils(validator, schema)
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
       },
       options: {
-        title: 'My Test Data Label',
-        editor
+        title: 'My Test Data Label'
       },
       onChange: mockedOnChange
     }
@@ -209,10 +211,11 @@ describe('Custom Select Widget Component', () => {
     expect(container).toMatchSnapshot()
   })
 
-  test('testing autofocus for a custom select widget', async () => {
+  it('testing autofocus for a custom select widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     HTMLElement.prototype.scrollIntoView = jest.fn()
+
     const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
@@ -220,8 +223,48 @@ describe('Custom Select Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    expect(container).toMatchSnapshot()
+    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
+
     const clickTextField = screen.queryAllByTestId('error-list-item__type')
-    fireEvent.click(await clickTextField[0])
+
+    await act(async () => {
+      fireEvent.click(clickTextField[0])
+      userEvent.tab()
+    })
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing autofocus against array section', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      PotentialAction: {
+        Target: {
+          ResponseContentType: [
+            'response content type'
+          ],
+          HttpMethod: [
+            'GET'
+          ],
+          Type: 'EntryPoint',
+          Description: 'target description',
+          UrlTemplate: 'url template'
+        },
+        Type: 'SearchAction'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    editor.setFocusField('PotentialAction_Target_HttpMethod')
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Potential_Action']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    await waitFor(async () => {
+      expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
+    })
+    expect(container).toMatchSnapshot()
   })
 })

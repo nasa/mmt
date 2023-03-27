@@ -2,7 +2,6 @@
 import {
   makeObservable, observable, computed, toJS
 } from 'mobx'
-import schema from '../data/schemas/umm_tools_schema'
 import { MetadataService } from '../services/MetadataService'
 import Draft from './Draft'
 import FormModel from './FormModel'
@@ -17,7 +16,7 @@ export default class UmmModel implements FormModel {
   currentSection: FormSection
   service: MetadataService
 
-  constructor() {
+  constructor(schema: any) {
     this.draft = new Draft()
     this.fullErrors = []
     this.publishErrors = []
@@ -54,6 +53,7 @@ export default class UmmModel implements FormModel {
         formData[property] = this.draft.json[property]
       }
     })
+
     return formData
   }
 

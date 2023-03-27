@@ -50,17 +50,17 @@ describe('Error List test', () => {
         <MetadataEditorForm editor={editor} />
       </BrowserRouter>
     )
-    const clickRelatedURLs = screen.queryByTestId('navigationitem--listgroup.item__related-ur-ls')
-    fireEvent.click(await clickRelatedURLs)
-
-    const addNewField = screen.queryByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
-    fireEvent.click(await addNewField)
-
-    const inputElement = screen.queryByTestId('custom-text-area-widget__description--text-area-input')
-    userEvent.clear(inputElement)
-    userEvent.type(inputElement, 'Cloudy day')
-
     await waitFor(async () => {
+      const clickRelatedURLs = screen.queryByTestId('navigationitem--listgroup.item__related-ur-ls')
+      fireEvent.click(await clickRelatedURLs)
+
+      const addNewField = screen.queryByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
+      fireEvent.click(await addNewField)
+
+      const inputElement = screen.queryByTestId('custom-text-area-widget__description--text-area-input')
+      userEvent.clear(inputElement)
+      userEvent.type(inputElement, 'Cloudy day')
+
       screen.queryAllByTestId('error-list-item__url-content-type')[0].click()
     })
 

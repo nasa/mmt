@@ -47,16 +47,14 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -75,8 +73,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -91,21 +88,19 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a name"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -124,8 +119,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -140,21 +134,19 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a long name #new"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -173,8 +165,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -189,21 +180,19 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="1"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -216,7 +205,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -226,9 +215,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -239,19 +226,17 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -271,18 +256,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -367,8 +349,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -385,7 +366,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -397,11 +378,8 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -425,8 +403,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -439,7 +416,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -449,13 +426,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -466,19 +440,17 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -509,21 +481,19 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -536,8 +506,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -550,26 +519,24 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -582,7 +549,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -592,9 +559,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -605,19 +570,17 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -630,9 +593,8 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -648,18 +610,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -745,9 +704,8 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -763,18 +721,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -861,9 +816,8 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -881,12 +835,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__subtype--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__subtype--selector"
@@ -977,8 +929,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -997,8 +948,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -1013,13 +963,12 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -1076,20 +1025,18 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
@@ -1102,13 +1049,12 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -1137,15 +1083,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1155,15 +1102,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1173,15 +1121,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1191,15 +1140,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1209,15 +1159,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1227,15 +1178,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -1245,7 +1197,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -3635,8 +3587,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"
@@ -3791,16 +3742,14 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3819,8 +3768,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3835,21 +3783,19 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3868,8 +3814,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3884,21 +3829,19 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3917,8 +3860,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3933,21 +3875,19 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3960,7 +3900,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -3970,9 +3910,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -3983,19 +3921,17 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4015,18 +3951,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -4113,8 +4046,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4131,7 +4063,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -4143,11 +4075,8 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -4171,8 +4100,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4185,7 +4113,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -4195,13 +4123,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -4212,19 +4137,17 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4255,21 +4178,19 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4282,8 +4203,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -4296,26 +4216,24 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4328,7 +4246,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -4338,9 +4256,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -4351,19 +4267,17 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4376,9 +4290,8 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -4394,18 +4307,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -4491,9 +4401,8 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -4509,18 +4418,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -4607,9 +4513,8 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -4627,12 +4532,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__subtype--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__subtype--selector"
@@ -4723,8 +4626,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4743,8 +4645,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -4759,13 +4660,12 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -4822,20 +4722,18 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -4848,13 +4746,12 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -4927,15 +4824,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4945,15 +4843,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4963,15 +4862,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4981,15 +4881,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4999,15 +4900,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -5017,15 +4919,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -5035,7 +4938,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -7493,8 +7396,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"
@@ -7596,16 +7498,14 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7624,8 +7524,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7640,21 +7539,19 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7673,8 +7570,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7689,21 +7585,19 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7722,8 +7616,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7738,21 +7631,19 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7765,7 +7656,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -7775,9 +7666,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -7788,19 +7677,17 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7820,18 +7707,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -7918,8 +7802,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7936,7 +7819,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -7948,11 +7831,8 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -7976,8 +7856,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7990,7 +7869,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -8000,13 +7879,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -8017,19 +7893,17 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -8060,21 +7934,19 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -8087,8 +7959,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -8101,26 +7972,24 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8133,7 +8002,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -8143,9 +8012,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -8156,19 +8023,17 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8181,9 +8046,8 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8199,18 +8063,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -8296,9 +8157,8 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8314,18 +8174,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -8412,9 +8269,8 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8432,12 +8288,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__subtype--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__subtype--selector"
@@ -8528,8 +8382,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8548,8 +8401,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -8564,13 +8416,12 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -8627,20 +8478,18 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -8653,13 +8502,12 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -8732,15 +8580,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8750,15 +8599,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8768,15 +8618,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8786,15 +8637,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8804,15 +8656,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8822,15 +8675,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8840,7 +8694,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -11298,8 +11152,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"
@@ -11379,16 +11232,14 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11407,8 +11258,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -11423,21 +11273,19 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a name"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11456,8 +11304,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -11472,21 +11319,19 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="a long name #1"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11505,8 +11350,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -11521,21 +11365,19 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value="1"
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11548,7 +11390,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -11558,9 +11400,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -11571,19 +11411,17 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11603,18 +11441,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -11699,8 +11534,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11717,7 +11551,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -11729,11 +11563,8 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -11757,8 +11588,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11771,7 +11601,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -11781,13 +11611,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -11798,19 +11625,17 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11841,21 +11666,19 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -11868,8 +11691,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -11882,26 +11704,24 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -11914,7 +11734,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -11924,9 +11744,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -11937,19 +11755,17 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -11962,9 +11778,8 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -11980,18 +11795,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -12077,9 +11889,8 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -12095,18 +11906,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -12193,9 +12001,8 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -12213,12 +12020,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__subtype--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__subtype--selector"
@@ -12309,8 +12114,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -12329,8 +12133,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -12345,13 +12148,12 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -12408,20 +12210,18 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
@@ -12434,13 +12234,12 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -12469,15 +12268,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12487,15 +12287,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12505,15 +12306,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12523,15 +12325,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12541,15 +12344,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12559,15 +12363,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -12577,7 +12382,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -14967,8 +14772,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"

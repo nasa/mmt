@@ -1,16 +1,21 @@
 import React from 'react'
 import {
   fireEvent,
-  render, screen, within
+  render, screen, waitFor, within
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
-import { BrowserRouter } from 'react-router-dom'
+import {
+  BrowserRouter, MemoryRouter, Route, Routes
+} from 'react-router-dom'
 import validator from '@rjsf/validator-ajv8'
+import { act } from 'react-dom/test-utils'
 import ControlledFields from '../ControlledFields'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditor from '../../MetadataEditor'
-import CustomSelectWidget from '../widgets/CustomSelectWidget'
 import CustomTextWidget from '../widgets/CustomTextWidget'
+import MetadataEditorForm from '../MetadataEditorForm'
+import { MetadataService } from '../../services/MetadataService'
+import { cmrResponse } from '../../data/test/cmr_keywords_response'
 
 const keywords = [
   ['alpha', 'beta', 'gamma', 'delta'],
@@ -52,15 +57,12 @@ const uiSchema = {
 }
 const model = new UmmToolsModel()
 const editor = new MetadataEditor(model)
-ControlledFields.defaultProps = { options: { editor } }
-CustomSelectWidget.defaultProps = { title: uiSchema['ui:title'], options: { editor } }
-CustomTextWidget.defaultProps = { options: { editor } }
 
 describe('Controlled Fields Layout', () => {
   it('renders all fields', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -85,7 +87,7 @@ describe('Controlled Fields Layout', () => {
     const { container } = render(
 
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -102,7 +104,7 @@ describe('Controlled Fields Layout', () => {
   it('shows values in second select box', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -125,7 +127,7 @@ describe('Controlled Fields Layout', () => {
   it('shows values in third, text box', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -153,7 +155,7 @@ describe('Controlled Fields Layout', () => {
   it('shows no value in third select', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -178,7 +180,7 @@ describe('Controlled Fields Layout', () => {
   it('it clears the next boxes', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -220,7 +222,7 @@ describe('Controlled Fields Layout', () => {
     }
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
     expect(container).not.toHaveTextContent('Todo')
@@ -230,11 +232,10 @@ describe('Controlled Fields Layout', () => {
   it('renders all fields in case of textfields', async () => {
     uiSchema.priority1 = { 'ui:widget': CustomTextWidget }
     uiSchema.priority2 = { 'ui:widget': CustomTextWidget }
-    CustomTextWidget.defaultProps = { title: uiSchema['ui:title'], options: { editor } }
 
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -268,7 +269,7 @@ describe('Controlled Fields Layout', () => {
 
     const { container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />
+        <Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -287,6 +288,78 @@ describe('Controlled Fields Layout', () => {
     fireEvent.keyDown(categoryComponent, { key: 'ArrowDown' })
     fireEvent.click(await within(categoryComponent).getByText('alpha'))
 
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing adding related url', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      MetadataSpecification: {
+        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+        Name: 'UMM-T',
+        Version: '1.1'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Related_URLs']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockResolvedValue(cmrResponse)
+    await waitFor(async () => {
+      screen.queryByTestId('custom-array-template__add-button--related-ur-ls').click()
+    })
+    expect(container).toMatchSnapshot()
+  })
+
+  test('test url types', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      MetadataSpecification: {
+        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+        Name: 'UMM-T',
+        Version: '1.1'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    await act(async () => null)
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing adding related url with error', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      MetadataSpecification: {
+        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+        Name: 'UMM-T',
+        Version: '1.1'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Related_URLs']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockRejectedValue('Error retrieving keywords')
+    await waitFor(async () => {
+      screen.queryByTestId('custom-array-template__add-button--related-ur-ls').click()
+    })
     expect(container).toMatchSnapshot()
   })
 })

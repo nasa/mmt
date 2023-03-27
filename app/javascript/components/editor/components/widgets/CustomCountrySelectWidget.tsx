@@ -3,6 +3,7 @@ import { kebabCase } from 'lodash'
 import React from 'react'
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
+import './Widget.css'
 
 interface CustomCountrySelectWidgetProps extends WidgetProps {
   label: string,
@@ -63,7 +64,7 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
       <div className="country-select-widget" data-testid={`country-select-widget__${kebabCase(label)}`}>
         <div>
           <span data-testid={`country-select-widget__${kebabCase(label)}--title`}>
-            {title ?? 'Values'}
+            {title}
             {required ? '*' : ''}
           </span>
         </div>

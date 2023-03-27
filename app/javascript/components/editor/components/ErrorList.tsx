@@ -10,7 +10,7 @@ import { cloneDeep, kebabCase } from 'lodash'
 import { toJS } from 'mobx'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
-import './ErrorList.scoped.css'
+import './ErrorList.css'
 import { createPath, prefixProperty, removeEmpty } from '../utils/json_utils'
 
 type ErrorListProps = {
@@ -77,6 +77,9 @@ class ErrorList extends React.Component<ErrorListProps> {
   }
 
   displayErrors(error: string) {
+    // if (error.startsWith("'")) {
+    //   return error
+    // }
     const str = error
     let result = []
     if (str.match(/\[[0-9]]/)) {
@@ -86,27 +89,29 @@ class ErrorList extends React.Component<ErrorListProps> {
     const words = error.split(' ')
     words.forEach((word: string) => {
       if (this.countCapitals(word) >= 2 && this.countCapitalsTogether(word) === 0) {
-        const newWord = word.replace(/([A-Z])/g, ' $1')
+        let newWord = word.replace(/([A-Z])/g, ' $1')
+        newWord = newWord.replace(/' /g, '\'')
         if (newWord !== word) {
           const re = new RegExp(word, 'g')
           error = error.replace(re, newWord)
         }
       }
     })
-    if (error.startsWith(' ')) {
-      error = error.slice(1)
-    }
-    error = error.replace(/' /g, '\'')
     return error.charAt(0).toUpperCase() + error.slice(1)
   }
 
   navigateToField(error: string) {
     const { editor } = this.props
-
+    editor.setFocusField('')
     if (error.startsWith('.')) {
       error = error.substring(1)
     }
-
+    // setTimeout(() => {
+    //   editor.setFocusField('')
+    //   setTimeout(() => {
+    //     editor.setFocusField(error.replace(/\./g, '_'))
+    //   })
+    // })
     editor.setFocusField(error.replace(/\./g, '_'))
   }
   displayArrayIndex(error: string, length: number) {
@@ -146,10 +151,21 @@ class ErrorList extends React.Component<ErrorListProps> {
     if (node === null) {
       return
     }
-    const { errorProperty = '', path: fullPath = '', message = '' } = node
+    const { errorProperty = '', path: fullPath = '' } = node
+    let { message = '' } = node
     delete node.errorProperty
     delete node.path
     delete node.message
+
+    const pos = errorProperty.lastIndexOf('.')
+    let field = errorProperty
+    if (pos > -1) {
+      field = errorProperty.substring(pos + 1)
+    }
+    if (message.indexOf(field) === -1) {
+      message = `'${field}' ${message}`
+    }
+
     const keys = Object.keys(node)
     const r = []
     keys.forEach((key: string) => {
@@ -167,17 +183,13 @@ class ErrorList extends React.Component<ErrorListProps> {
 
     if (keys.length > 0) {
       rows.push(
-        <div className="error-list" data-testid={`error-list-title__${kebabCase(key)}`} style={{ marginTop: '0px', marginBottom: '3px' }} key={key}>
+        <div className="error-list" data-testid={`error-list-title__${kebabCase(key)}`} key={key}>
           {key !== 'root' ? (
-            <h6
-              style={{
-                fontWeight: 'bold', fontSize: '15px', color: 'rgb(73,80,87)', marginBottom: '0px'
-              }}
-            >
+            <h6 className="error-list-header-array">
               {length > 0 ? this.displayArrayIndex(key, length) : this.displayErrors(key)}
             </h6>
-          ) : <span style={{ marginTop: '-50px' }} />}
-          <ul style={{ paddingLeft: 15, marginBottom: '-2px' }}>
+          ) : <span className="error-list-header" />}
+          <ul className="error-list-header-list">
             {r}
           </ul>
         </div>
@@ -190,7 +202,7 @@ class ErrorList extends React.Component<ErrorListProps> {
               <i className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle" />
               {this.displayErrors(message)}
             </li>
-          ) : <span style={{ marginTop: '-50px' }} />}
+          ) : <span className="error-list-header" />}
         </div>
       )
     }
@@ -235,7 +247,6 @@ class ErrorList extends React.Component<ErrorListProps> {
     const { fullErrors } = editor
     const errors: FormError[] = fullErrors
     const filteredErrors: FormError[] = errors.filter((error: FormError) => section.properties.some((propertyPrefix) => prefixProperty(error.property).startsWith(prefixProperty(propertyPrefix))))
-
     const root = {}
     filteredErrors.forEach((error) => {
       const parts = error.stack.split('.')

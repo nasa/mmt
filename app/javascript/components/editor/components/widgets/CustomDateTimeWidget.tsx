@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDateTimeWidget.css'
 import { WidgetProps } from '@rjsf/utils'
 import { observer } from 'mobx-react'
-import MetadataEditor from '../../MetadataEditor'
+import './Widget.css'
 
 interface props {
   onFieldChange: (value: string) => void,
@@ -20,8 +20,7 @@ interface props {
 
 interface CustomDateTimeWidgetProps extends WidgetProps {
   options: {
-    title?: string,
-    editor?: MetadataEditor
+    title?: string
   }
   label: string,
   required: boolean,
@@ -45,8 +44,8 @@ const CustomWidget = ({
 
   return (
     <>
-      <div className="custom-date-time-widget-description" style={{ paddingLeft: '5px' }} data-testid="custom-date-time-widget--description">
-        <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
+      <div className="custom-date-time-widget-description" data-testid="custom-date-time-widget--description">
+        <span>
           {showDescription ? schema.description : ''}
         </span>
       </div>
@@ -64,13 +63,17 @@ const CustomWidget = ({
             timeZone: 'GMT'
           })) : null}
         onChange={(fieldValue: Date) => {
-          onChange(fieldValue)
-          let formatedDateTime = fieldValue.toISOString()
-          formatedDateTime = `${formatedDateTime.substring(0, 10)}T00:00:00.000Z`
-          onFieldChange(formatedDateTime)
+          if (fieldValue) {
+            onChange(fieldValue)
+            let formatedDateTime = fieldValue.toISOString()
+            formatedDateTime = `${formatedDateTime.substring(0, 10)}T00:00:00.000Z`
+            onFieldChange(formatedDateTime)
+          } else {
+            onFieldChange(null)
+          }
         }}
         onFocus={() => { setDescription(true) }}
-        onBlur={() => { setDescription(false) }}
+        onBlur={() => { /* istanbul ignore next */ setDescription(false) }}
       />
     </>
 
@@ -79,20 +82,17 @@ const CustomWidget = ({
 
 class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, CustomDateTimeWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   render() {
     const {
-      required, label, onChange, value, options = {}, id, schema
+      required, label, onChange, value, options, id, schema, registry
     } = this.props
-    const { title = label, editor } = options
+    const { title = label } = options
+    const { formContext } = registry
+    const { editor } = formContext
 
     let focus = false
     if (editor?.focusField === id) {
       focus = true
-    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
-      if (id !== '' && id.startsWith(editor?.focusField)) {
-        focus = true
-      }
     }
     if (focus) {
       // this.selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -100,7 +100,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
 
     return (
       <div className="custom-date-time-widget" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
-        <div className="dateTimeWidgetLabel">
+        <div className="custom-date-time-widget-label">
           <span>
             {title}
             {required ? '*' : ''}

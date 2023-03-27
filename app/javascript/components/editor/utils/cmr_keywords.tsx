@@ -13,8 +13,10 @@ function traverse(node: Node, parent: string, name: string, path: string[], path
   if (node.value && filter.includes(parent)) {
     path.push(node.value)
   }
+
   children.forEach((child: Node) => {
     const childPath = cloneDeep(path)
+
     if (child.subfields) {
       child.subfields.forEach((subfield: string) => {
         traverse(child, name, subfield, cloneDeep(childPath), paths, filter)
@@ -48,7 +50,7 @@ function traverseArrays(parent: Node, tokens: string[]) {
 // produces a map of keywords used by the controlled fields widget.   The map is used like below:
 // map['atmosphere']['atmospheric phenomema'] returns ['hurricanes']
 export function buildMap(paths: string[][]) {
-  const map = { } as Node
+  const map = {} as Node
   paths.forEach((tokens: string[]) => {
     traverseArrays(map, tokens)
   })
@@ -67,9 +69,9 @@ export function buildMap(paths: string[][]) {
 export function parseCmrResponse(response: Node, filter: string[]) {
   let paths = [] as string[][]
   const path = [] as string[]
-  traverse(response, 'root', Object.keys(response)[0], path, paths, filter)
 
-  paths = paths.sort((a:string[], b:string[]) => {
+  traverse(response, 'root', Object.keys(response)[0], path, paths, filter)
+  paths = paths.sort((a: string[], b: string[]) => {
     const j1 = a.join('>')
     const j2 = b.join('>')
     return j1.localeCompare(j2)

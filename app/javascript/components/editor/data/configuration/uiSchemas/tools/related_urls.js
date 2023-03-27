@@ -3,6 +3,7 @@ import ControlledFields from '../../../../components/ControlledFields'
 
 const relatedUrlsUiSchema = {
   RelatedURLs: {
+    'ui:title': 'Related URLs',
     items: {
       'ui:field': 'layout',
       'ui:keyword_scheme': 'related-urls',
@@ -40,6 +41,16 @@ const relatedUrlsUiSchema = {
                 {
                   'ui:row': [
                     { 'ui:col': { md: 12, children: ['URL'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['Format'] } }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 12, children: ['MimeType'] } }
                   ]
                 }
               ]

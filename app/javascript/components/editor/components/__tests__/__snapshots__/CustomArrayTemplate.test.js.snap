@@ -16,40 +16,39 @@ exports[`Custom Array Template renders the custom array template and adds an arr
         >
           <div
             class="title"
-            style="padding-bottom: 14px; padding-top: 14px;"
           >
             CustomArrayFieldTest
           </div>
           <p />
           <br />
           <div
-            class="array-item"
-            style="border-bottom: 2px solid rgb(240,240,240); margin-bottom: 25px; padding-left: 10px;"
+            class="array-item element"
           >
             <div
               class="custom-array-template-remove-btn"
             >
               <div
-                style="display: flex; align-items: center; justify-content: space-between; margin-right: -12px; border-bottom: 2px solid rgb(240,240,240); margin-bottom: 10px; padding-bottom: 10px;"
+                class="remove-header"
               >
                 <h6
-                  style="height: 14px;"
+                  class="remove-title"
                 >
                   <b>
                     CustomArrayFieldTest
                   </b>
                   <span
-                    style="color: gray; margin-left: 5px; padding-top: 20px;"
+                    class="element-index-title"
                   >
-                    (1 of 1)
+                    (1 of 2)
                   </span>
                 </h6>
                 <button
                   class="btn"
+                  data-testid="custom-array-template__remove-button--custom-array-field-test"
                   type="button"
                 >
                   <span
-                    style="color: red;"
+                    class="remove-button"
                   >
                     <i
                       class="fa-solid fa-circle-minus fa-lg"
@@ -57,7 +56,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                   </span>
                    
                   <span
-                    style="color: red; font-weight: bold;"
+                    class="remove-label"
                   >
                      
                     Remove
@@ -188,16 +187,181 @@ exports[`Custom Array Template renders the custom array template and adds an arr
             </div>
           </div>
           <div
-            class="custom-array-template-add-btn"
+            class="array-item element"
+          >
+            <div
+              class="custom-array-template-remove-btn"
+            >
+              <div
+                class="remove-header"
+              >
+                <h6
+                  class="remove-title"
+                >
+                  <b>
+                    CustomArrayFieldTest
+                  </b>
+                  <span
+                    class="element-index-title"
+                  >
+                    (2 of 2)
+                  </span>
+                </h6>
+                <button
+                  class="btn"
+                  data-testid="custom-array-template__remove-button--custom-array-field-test"
+                  type="button"
+                >
+                  <span
+                    class="remove-button"
+                  >
+                    <i
+                      class="fa-solid fa-circle-minus fa-lg"
+                    />
+                  </span>
+                   
+                  <span
+                    class="remove-label"
+                  >
+                     
+                    Remove
+                  </span>
+                </button>
+              </div>
+              <div
+                class="mb-2  d-flex align-items-center row"
+              >
+                <div
+                  class="array-item col-lg-12 col-12"
+                  data-testid="custom-array-element"
+                >
+                  <div
+                    class="form-group field field-undefined"
+                  >
+                    <div
+                      class="form-group"
+                    >
+                      <div
+                        class="p-0 container-fluid"
+                      >
+                        <div
+                          class="row"
+                          style="margin-bottom: 10px;"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                             
+                            <div
+                              class="form-group field field-string"
+                            >
+                              <div
+                                class="form-group"
+                              >
+                                <label
+                                  class="form-label"
+                                  for="root"
+                                >
+                                  First Name
+                                </label>
+                                <input
+                                  aria-describedby="root__error root__description root__help"
+                                  class="form-control"
+                                  id="root"
+                                  name="root"
+                                  placeholder=""
+                                  type="text"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                          style="margin-bottom: 10px;"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                             
+                            <div
+                              class="form-group field field-string"
+                            >
+                              <div
+                                class="form-group"
+                              >
+                                <label
+                                  class="form-label"
+                                  for="root"
+                                >
+                                  Last Name
+                                </label>
+                                <input
+                                  aria-describedby="root__error root__description root__help"
+                                  class="form-control"
+                                  id="root"
+                                  name="root"
+                                  placeholder=""
+                                  type="text"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                          style="margin-bottom: 10px;"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                             
+                            <div
+                              class="form-group field field-integer"
+                            >
+                              <div
+                                class="form-group"
+                              >
+                                <label
+                                  class="form-label"
+                                  for="root"
+                                >
+                                  Age
+                                </label>
+                                <input
+                                  aria-describedby="root__error root__description root__help"
+                                  class="form-control"
+                                  id="root"
+                                  name="root"
+                                  placeholder=""
+                                  step="1"
+                                  type="number"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="custom-array-template-add-btn add-header"
             data-testid="custom-array-template-add-btn"
-            style="margin-top: -10px;"
           >
             <button
               class="btn"
+              data-testid="custom-array-template__add-button--custom-array-field-test"
               type="button"
             >
               <span
-                style="color: rgb(31, 107, 162); margin-left: -12px;"
+                class="add-button"
               >
                 <i
                   class="fa-solid fa-circle-plus fa-lg"
@@ -205,7 +369,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
               </span>
                
               <span
-                style="color: rgb(31, 107, 162); font-weight: bold;"
+                class="add-label"
               >
                 Add another
                  
@@ -244,23 +408,22 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
         >
           <div
             class="title"
-            style="padding-bottom: 14px; padding-top: 14px;"
           >
             CustomArrayFieldTest
           </div>
           <p />
           <br />
           <div
-            class="custom-array-template-add-btn"
+            class="custom-array-template-add-btn add-header"
             data-testid="custom-array-template-add-btn"
-            style="margin-top: -30px;"
           >
             <button
               class="btn"
+              data-testid="custom-array-template__add-button--custom-array-field-test"
               type="button"
             >
               <span
-                style="color: rgb(31, 107, 162); margin-left: -12px;"
+                class="add-button"
               >
                 <i
                   class="fa-solid fa-circle-plus fa-lg"
@@ -268,7 +431,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
               </span>
                
               <span
-                style="color: rgb(31, 107, 162); font-weight: bold;"
+                class="add-label"
               >
                 Add
                  

@@ -65,42 +65,41 @@ exports[`Error List test testing array field 1`] = `
                       >
                         <div
                           class="title"
-                          style="padding-bottom: 14px; padding-top: 14px;"
                         >
-                          RelatedURLs
+                          Related URLs
                         </div>
                         <p>
                           A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.
                         </p>
                         <br />
                         <div
-                          class="array-item"
-                          style="border-bottom: 2px solid rgb(240,240,240); margin-bottom: 25px; padding-left: 10px;"
+                          class="array-item element"
                         >
                           <div
                             class="custom-array-template-remove-btn"
                           >
                             <div
-                              style="display: flex; align-items: center; justify-content: space-between; margin-right: -12px; border-bottom: 2px solid rgb(240,240,240); margin-bottom: 10px; padding-bottom: 10px;"
+                              class="remove-header"
                             >
                               <h6
-                                style="height: 14px;"
+                                class="remove-title"
                               >
                                 <b>
-                                  RelatedURL
+                                  Related URL
                                 </b>
                                 <span
-                                  style="color: gray; margin-left: 5px; padding-top: 20px;"
+                                  class="element-index-title"
                                 >
                                   (1 of 1)
                                 </span>
                               </h6>
                               <button
                                 class="btn"
+                                data-testid="custom-array-template__remove-button--related-ur-ls"
                                 type="button"
                               >
                                 <span
-                                  style="color: red;"
+                                  class="remove-button"
                                 >
                                   <i
                                     class="fa-solid fa-circle-minus fa-lg"
@@ -108,7 +107,7 @@ exports[`Error List test testing array field 1`] = `
                                 </span>
                                  
                                 <span
-                                  style="color: red; font-weight: bold;"
+                                  class="remove-label"
                                 >
                                    
                                   Remove
@@ -126,16 +125,14 @@ exports[`Error List test testing array field 1`] = `
                                   class="form-group field field-object"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
                                     >
                                        
                                       <div
-                                        class="row"
-                                        style="margin-bottom: -5px;"
+                                        class="row row-children"
                                       >
                                         <div
                                           class="col-md-12"
@@ -148,7 +145,7 @@ exports[`Error List test testing array field 1`] = `
                                               class="form-group field field-string"
                                             >
                                               <div
-                                                class="custom-textarea-widget-header"
+                                                class="widget-header"
                                                 data-testid="custom-text-area-widget__description--text-area-header"
                                               >
                                                 <span>
@@ -158,9 +155,7 @@ exports[`Error List test testing array field 1`] = `
                                                     Description
                                                   </span>
                                                 </span>
-                                                <span
-                                                  style="float: right;"
-                                                >
+                                                <span>
                                                   10
                                                   /
                                                   4000
@@ -171,21 +166,21 @@ exports[`Error List test testing array field 1`] = `
                                                 data-testid="custom-text-area-widget__description--text-area-input"
                                                 maxlength="4000"
                                                 name="Description"
-                                                style="min-height: 100px; min-width: 100%;"
                                               >
                                                 Cloudy day
                                               </textarea>
                                               <span
-                                                data-testid="custom-text-widget--description-field__description"
-                                                style="font-style: italic;"
-                                              />
+                                                class="widget-description"
+                                                data-testid="custom-text-area-widget--description-field__description"
+                                              >
+                                                Description of the web page at this URL.
+                                              </span>
                                             </div>
                                           </span>
                                         </div>
                                       </div>
                                       <div
-                                        class="row"
-                                        style="margin-bottom: -5px;"
+                                        class="row row-children"
                                       >
                                         <div
                                           class="col"
@@ -198,9 +193,8 @@ exports[`Error List test testing array field 1`] = `
                                               class="undefined"
                                             >
                                               <div
-                                                class="row"
+                                                class="field row"
                                                 data-testid="controlled-fields__row--url-content-type"
-                                                style="margin-top: 5px; margin-bottom: 5px;"
                                               >
                                                 <div
                                                   class="col-md-12"
@@ -216,18 +210,15 @@ exports[`Error List test testing array field 1`] = `
                                                         <span>
                                                           URL Content Type
                                                           <i
-                                                            class="eui-icon eui-required-o"
-                                                            style="color: green; padding: 5px;"
+                                                            class="eui-icon eui-required-o required-icon"
                                                           />
                                                         </span>
                                                       </div>
                                                       <div
-                                                        class="custom-select-widget-description"
+                                                        class="widget-description"
                                                         data-testid="custom-select-widget__url-content-type--description"
                                                       >
-                                                        <span
-                                                          style="font-style: italic; font-size: .85rem;"
-                                                        >
+                                                        <span>
                                                           A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.
                                                         </span>
                                                       </div>
@@ -240,7 +231,7 @@ exports[`Error List test testing array field 1`] = `
                                                         >
                                                           <span
                                                             class="css-1f43avz-a11yText-A11yText"
-                                                            id="react-select-27-live-region"
+                                                            id="react-select-28-live-region"
                                                           >
                                                             <span
                                                               id="aria-selection"
@@ -276,7 +267,7 @@ exports[`Error List test testing array field 1`] = `
                                                               >
                                                                 <input
                                                                   aria-autocomplete="list"
-                                                                  aria-describedby="react-select-27-live-region"
+                                                                  aria-describedby="react-select-28-live-region"
                                                                   aria-expanded="false"
                                                                   aria-haspopup="true"
                                                                   autocapitalize="none"
@@ -284,7 +275,7 @@ exports[`Error List test testing array field 1`] = `
                                                                   autocorrect="off"
                                                                   class=""
                                                                   disabled=""
-                                                                  id="react-select-27-input"
+                                                                  id="react-select-28-input"
                                                                   role="combobox"
                                                                   spellcheck="false"
                                                                   style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -340,9 +331,8 @@ exports[`Error List test testing array field 1`] = `
                                                 </div>
                                               </div>
                                               <div
-                                                class="row"
+                                                class="field row"
                                                 data-testid="controlled-fields__row--type"
-                                                style="margin-top: 5px; margin-bottom: 5px;"
                                               >
                                                 <div
                                                   class="col-md-12"
@@ -358,18 +348,15 @@ exports[`Error List test testing array field 1`] = `
                                                         <span>
                                                           Type
                                                           <i
-                                                            class="eui-icon eui-required-o"
-                                                            style="color: green; padding: 5px;"
+                                                            class="eui-icon eui-required-o required-icon"
                                                           />
                                                         </span>
                                                       </div>
                                                       <div
-                                                        class="custom-select-widget-description"
+                                                        class="widget-description"
                                                         data-testid="custom-select-widget__type--description"
                                                       >
-                                                        <span
-                                                          style="font-style: italic; font-size: .85rem;"
-                                                        />
+                                                        <span />
                                                       </div>
                                                       <div
                                                         data-testid="custom-select-widget__type--selector"
@@ -377,130 +364,6 @@ exports[`Error List test testing array field 1`] = `
                                                         <div
                                                           class=" css-3iigni-container"
                                                           id="RelatedURLs_0_Type"
-                                                        >
-                                                          <span
-                                                            class="css-1f43avz-a11yText-A11yText"
-                                                            id="react-select-28-live-region"
-                                                          />
-                                                          <span
-                                                            aria-atomic="false"
-                                                            aria-live="polite"
-                                                            aria-relevant="additions text"
-                                                            class="css-1f43avz-a11yText-A11yText"
-                                                          />
-                                                          <div
-                                                            class=" css-1insrsq-control"
-                                                          >
-                                                            <div
-                                                              class=" css-319lph-ValueContainer"
-                                                            >
-                                                              <div
-                                                                class=" css-lr9fot-singleValue"
-                                                              >
-                                                                Fetching Keywords.....
-                                                              </div>
-                                                              <div
-                                                                class=" css-jzldcf-Input"
-                                                                data-value=""
-                                                              >
-                                                                <input
-                                                                  aria-autocomplete="list"
-                                                                  aria-expanded="false"
-                                                                  aria-haspopup="true"
-                                                                  autocapitalize="none"
-                                                                  autocomplete="off"
-                                                                  autocorrect="off"
-                                                                  class=""
-                                                                  disabled=""
-                                                                  id="react-select-28-input"
-                                                                  role="combobox"
-                                                                  spellcheck="false"
-                                                                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                                  tabindex="0"
-                                                                  type="text"
-                                                                  value=""
-                                                                />
-                                                              </div>
-                                                            </div>
-                                                            <div
-                                                              class=" css-1hb7zxy-IndicatorsContainer"
-                                                            >
-                                                              <div
-                                                                aria-hidden="true"
-                                                                class=" css-at12u2-loadingIndicator"
-                                                              >
-                                                                <span
-                                                                  class="css-1xtdfmb-LoadingDot"
-                                                                />
-                                                                <span
-                                                                  class="css-zoievk-LoadingDot"
-                                                                />
-                                                                <span
-                                                                  class="css-x748d8-LoadingDot"
-                                                                />
-                                                              </div>
-                                                              <span
-                                                                class=" css-109onse-indicatorSeparator"
-                                                              />
-                                                              <div
-                                                                aria-hidden="true"
-                                                                class=" css-tlfecz-indicatorContainer"
-                                                              >
-                                                                <svg
-                                                                  aria-hidden="true"
-                                                                  class="css-tj5bde-Svg"
-                                                                  focusable="false"
-                                                                  height="20"
-                                                                  viewBox="0 0 20 20"
-                                                                  width="20"
-                                                                >
-                                                                  <path
-                                                                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </span>
-                                                </div>
-                                              </div>
-                                              <div
-                                                class="row"
-                                                data-testid="controlled-fields__row--subtype"
-                                                style="margin-top: 5px; margin-bottom: 5px;"
-                                              >
-                                                <div
-                                                  class="col-md-12"
-                                                >
-                                                  <span
-                                                    data-testid="controlled-fields__custom-select-widget--subtype"
-                                                  >
-                                                    <div
-                                                      class="custom-select-widget"
-                                                      data-testid="custom-select-widget__subtype"
-                                                    >
-                                                      <div>
-                                                        <span>
-                                                          Subtype
-                                                        </span>
-                                                      </div>
-                                                      <div
-                                                        class="custom-select-widget-description"
-                                                        data-testid="custom-select-widget__subtype--description"
-                                                      >
-                                                        <span
-                                                          style="font-style: italic; font-size: .85rem;"
-                                                        />
-                                                      </div>
-                                                      <div
-                                                        data-testid="custom-select-widget__subtype--selector"
-                                                      >
-                                                        <div
-                                                          class=" css-3iigni-container"
-                                                          id="RelatedURLs_0_Subtype"
                                                         >
                                                           <span
                                                             class="css-1f43avz-a11yText-A11yText"
@@ -591,13 +454,133 @@ exports[`Error List test testing array field 1`] = `
                                                   </span>
                                                 </div>
                                               </div>
+                                              <div
+                                                class="field row"
+                                                data-testid="controlled-fields__row--subtype"
+                                              >
+                                                <div
+                                                  class="col-md-12"
+                                                >
+                                                  <span
+                                                    data-testid="controlled-fields__custom-select-widget--subtype"
+                                                  >
+                                                    <div
+                                                      class="custom-select-widget"
+                                                      data-testid="custom-select-widget__subtype"
+                                                    >
+                                                      <div>
+                                                        <span>
+                                                          Subtype
+                                                        </span>
+                                                      </div>
+                                                      <div
+                                                        class="widget-description"
+                                                        data-testid="custom-select-widget__subtype--description"
+                                                      >
+                                                        <span />
+                                                      </div>
+                                                      <div
+                                                        data-testid="custom-select-widget__subtype--selector"
+                                                      >
+                                                        <div
+                                                          class=" css-3iigni-container"
+                                                          id="RelatedURLs_0_Subtype"
+                                                        >
+                                                          <span
+                                                            class="css-1f43avz-a11yText-A11yText"
+                                                            id="react-select-30-live-region"
+                                                          />
+                                                          <span
+                                                            aria-atomic="false"
+                                                            aria-live="polite"
+                                                            aria-relevant="additions text"
+                                                            class="css-1f43avz-a11yText-A11yText"
+                                                          />
+                                                          <div
+                                                            class=" css-1insrsq-control"
+                                                          >
+                                                            <div
+                                                              class=" css-319lph-ValueContainer"
+                                                            >
+                                                              <div
+                                                                class=" css-lr9fot-singleValue"
+                                                              >
+                                                                Fetching Keywords.....
+                                                              </div>
+                                                              <div
+                                                                class=" css-jzldcf-Input"
+                                                                data-value=""
+                                                              >
+                                                                <input
+                                                                  aria-autocomplete="list"
+                                                                  aria-expanded="false"
+                                                                  aria-haspopup="true"
+                                                                  autocapitalize="none"
+                                                                  autocomplete="off"
+                                                                  autocorrect="off"
+                                                                  class=""
+                                                                  disabled=""
+                                                                  id="react-select-30-input"
+                                                                  role="combobox"
+                                                                  spellcheck="false"
+                                                                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                                  tabindex="0"
+                                                                  type="text"
+                                                                  value=""
+                                                                />
+                                                              </div>
+                                                            </div>
+                                                            <div
+                                                              class=" css-1hb7zxy-IndicatorsContainer"
+                                                            >
+                                                              <div
+                                                                aria-hidden="true"
+                                                                class=" css-at12u2-loadingIndicator"
+                                                              >
+                                                                <span
+                                                                  class="css-1xtdfmb-LoadingDot"
+                                                                />
+                                                                <span
+                                                                  class="css-zoievk-LoadingDot"
+                                                                />
+                                                                <span
+                                                                  class="css-x748d8-LoadingDot"
+                                                                />
+                                                              </div>
+                                                              <span
+                                                                class=" css-109onse-indicatorSeparator"
+                                                              />
+                                                              <div
+                                                                aria-hidden="true"
+                                                                class=" css-tlfecz-indicatorContainer"
+                                                              >
+                                                                <svg
+                                                                  aria-hidden="true"
+                                                                  class="css-tj5bde-Svg"
+                                                                  focusable="false"
+                                                                  height="20"
+                                                                  viewBox="0 0 20 20"
+                                                                  width="20"
+                                                                >
+                                                                  <path
+                                                                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                  />
+                                                                </svg>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </span>
+                                                </div>
+                                              </div>
                                             </div>
                                           </span>
                                         </div>
                                       </div>
                                       <div
-                                        class="row"
-                                        style="margin-bottom: -5px;"
+                                        class="row row-children"
                                       >
                                         <div
                                           class="col-md-12"
@@ -616,8 +599,7 @@ exports[`Error List test testing array field 1`] = `
                                                 <span>
                                                   URL
                                                   <i
-                                                    class="eui-icon eui-required-o"
-                                                    style="color: green; padding-left: 5px;"
+                                                    class="eui-icon eui-required-o required-icon"
                                                   />
                                                 </span>
                                                 <span>
@@ -632,13 +614,98 @@ exports[`Error List test testing array field 1`] = `
                                                 id="RelatedURLs_0_URL"
                                                 maxlength="1024"
                                                 name="URL"
-                                                style="min-width: 100%; height: 37px;"
                                                 type="text"
                                                 value=""
                                               />
                                               <span
+                                                class="widget-description"
                                                 data-testid="custom-text-widget--description-field__url"
-                                                style="font-style: italic;"
+                                              />
+                                            </div>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="row row-children"
+                                      >
+                                        <div
+                                          class="col-md-12"
+                                        >
+                                           
+                                          <span
+                                            data-testid="layout-grid-field__schema-field--format"
+                                          >
+                                            <div
+                                              class="form-group field field-string"
+                                            >
+                                              <div
+                                                class="widget-header"
+                                                data-testid="custom-text-widget__format--text-header"
+                                              >
+                                                <span>
+                                                  Format
+                                                </span>
+                                                <span>
+                                                  0
+                                                  /
+                                                  80
+                                                </span>
+                                              </div>
+                                              <input
+                                                class="custom-text-widget-input"
+                                                data-testid="custom-text-widget__format--text-input"
+                                                id="RelatedURLs_0_Format"
+                                                maxlength="80"
+                                                name="Format"
+                                                type="text"
+                                                value=""
+                                              />
+                                              <span
+                                                class="widget-description"
+                                                data-testid="custom-text-widget--description-field__format"
+                                              />
+                                            </div>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="row row-children"
+                                      >
+                                        <div
+                                          class="col-md-12"
+                                        >
+                                           
+                                          <span
+                                            data-testid="layout-grid-field__schema-field--mime-type"
+                                          >
+                                            <div
+                                              class="form-group field field-string"
+                                            >
+                                              <div
+                                                class="widget-header"
+                                                data-testid="custom-text-widget__mime-type--text-header"
+                                              >
+                                                <span>
+                                                  MimeType
+                                                </span>
+                                                <span>
+                                                  0
+                                                  /
+                                                  80
+                                                </span>
+                                              </div>
+                                              <input
+                                                class="custom-text-widget-input"
+                                                data-testid="custom-text-widget__mime-type--text-input"
+                                                id="RelatedURLs_0_MimeType"
+                                                maxlength="80"
+                                                name="MimeType"
+                                                type="text"
+                                                value=""
+                                              />
+                                              <span
+                                                class="widget-description"
+                                                data-testid="custom-text-widget--description-field__mime-type"
                                               />
                                             </div>
                                           </span>
@@ -652,16 +719,16 @@ exports[`Error List test testing array field 1`] = `
                           </div>
                         </div>
                         <div
-                          class="custom-array-template-add-btn"
+                          class="custom-array-template-add-btn add-header"
                           data-testid="custom-array-template-add-btn"
-                          style="margin-top: -10px;"
                         >
                           <button
                             class="btn"
+                            data-testid="custom-array-template__add-button--related-ur-ls"
                             type="button"
                           >
                             <span
-                              style="color: rgb(31, 107, 162); margin-left: -12px;"
+                              class="add-button"
                             >
                               <i
                                 class="fa-solid fa-circle-plus fa-lg"
@@ -669,11 +736,11 @@ exports[`Error List test testing array field 1`] = `
                             </span>
                              
                             <span
-                              style="color: rgb(31, 107, 162); font-weight: bold;"
+                              class="add-label"
                             >
                               Add another
                                
-                              RelatedURL
+                              Related URL
                             </span>
                           </button>
                         </div>
@@ -723,20 +790,18 @@ exports[`Error List test testing array field 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style=""
+                  class="section"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -747,16 +812,15 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
@@ -769,21 +833,19 @@ exports[`Error List test testing array field 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list"
                       data-testid="error-list-title__related-ur-ls-0"
-                      style="margin-top: 0px; margin-bottom: 3px;"
                     >
                       <h6
-                        style="font-weight: bold; font-size: 15px; color: rgb(73, 80, 87); margin-bottom: 0px;"
+                        class="error-list-header-array"
                       >
                         <span>
                           RelatedURL
@@ -798,7 +860,7 @@ exports[`Error List test testing array field 1`] = `
                         </span>
                       </h6>
                       <ul
-                        style="padding-left: 15px; margin-bottom: -2px;"
+                        class="error-list-header-list"
                       >
                         <div
                           class="error-list-item"
@@ -840,15 +902,16 @@ exports[`Error List test testing array field 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -858,15 +921,16 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -876,15 +940,16 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -894,15 +959,16 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -912,15 +978,16 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -930,7 +997,7 @@ exports[`Error List test testing array field 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -3691,8 +3758,7 @@ exports[`Error List test testing array field 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"
@@ -3796,16 +3862,14 @@ exports[`Error List test testing for controlled Field 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3824,8 +3888,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3840,23 +3903,19 @@ exports[`Error List test testing for controlled Field 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
-                          >
-                            The name of the downloadable tool or web user interface.
-                          </span>
+                          />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3875,8 +3934,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3891,21 +3949,19 @@ exports[`Error List test testing for controlled Field 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3924,8 +3980,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -3940,21 +3995,19 @@ exports[`Error List test testing for controlled Field 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -3967,7 +4020,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -3977,9 +4030,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -3990,19 +4041,17 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4022,18 +4071,15 @@ exports[`Error List test testing for controlled Field 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -4044,7 +4090,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                               >
                                 <span
                                   class="css-1f43avz-a11yText-A11yText"
-                                  id="react-select-10-live-region"
+                                  id="react-select-14-live-region"
                                 />
                                 <span
                                   aria-atomic="false"
@@ -4060,7 +4106,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                   >
                                     <div
                                       class=" css-14el2xx-placeholder"
-                                      id="react-select-10-placeholder"
+                                      id="react-select-14-placeholder"
                                     >
                                       Select Type
                                     </div>
@@ -4070,14 +4116,14 @@ exports[`Error List test testing for controlled Field 1`] = `
                                     >
                                       <input
                                         aria-autocomplete="list"
-                                        aria-describedby="react-select-10-placeholder"
+                                        aria-describedby="react-select-14-placeholder"
                                         aria-expanded="false"
                                         aria-haspopup="true"
                                         autocapitalize="none"
                                         autocomplete="off"
                                         autocorrect="off"
                                         class=""
-                                        id="react-select-10-input"
+                                        id="react-select-14-input"
                                         role="combobox"
                                         spellcheck="false"
                                         style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -4120,8 +4166,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4138,7 +4183,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -4150,11 +4195,8 @@ exports[`Error List test testing for controlled Field 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -4178,8 +4220,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4192,7 +4233,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -4202,13 +4243,10 @@ exports[`Error List test testing for controlled Field 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -4219,19 +4257,17 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4262,21 +4298,19 @@ exports[`Error List test testing for controlled Field 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -4289,8 +4323,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -4303,26 +4336,24 @@ exports[`Error List test testing for controlled Field 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4335,7 +4366,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -4345,9 +4376,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -4358,19 +4387,17 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4383,9 +4410,8 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -4401,18 +4427,15 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -4423,7 +4446,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                     >
                                                       <span
                                                         class="css-1f43avz-a11yText-A11yText"
-                                                        id="react-select-14-live-region"
+                                                        id="react-select-15-live-region"
                                                       />
                                                       <span
                                                         aria-atomic="false"
@@ -4439,7 +4462,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                         >
                                                           <div
                                                             class=" css-14el2xx-placeholder"
-                                                            id="react-select-14-placeholder"
+                                                            id="react-select-15-placeholder"
                                                           >
                                                             Select URL Content Type
                                                           </div>
@@ -4449,14 +4472,14 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                           >
                                                             <input
                                                               aria-autocomplete="list"
-                                                              aria-describedby="react-select-14-placeholder"
+                                                              aria-describedby="react-select-15-placeholder"
                                                               aria-expanded="false"
                                                               aria-haspopup="true"
                                                               autocapitalize="none"
                                                               autocomplete="off"
                                                               autocorrect="off"
                                                               class=""
-                                                              id="react-select-14-input"
+                                                              id="react-select-15-input"
                                                               role="combobox"
                                                               spellcheck="false"
                                                               style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -4498,9 +4521,8 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -4516,18 +4538,15 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -4535,118 +4554,6 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                     <div
                                                       class=" css-3iigni-container"
                                                       id="URL_Type"
-                                                    >
-                                                      <span
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                        id="react-select-15-live-region"
-                                                      />
-                                                      <span
-                                                        aria-atomic="false"
-                                                        aria-live="polite"
-                                                        aria-relevant="additions text"
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                      />
-                                                      <div
-                                                        class=" css-1insrsq-control"
-                                                      >
-                                                        <div
-                                                          class=" css-319lph-ValueContainer"
-                                                        >
-                                                          <div
-                                                            class=" css-14el2xx-placeholder"
-                                                            id="react-select-15-placeholder"
-                                                          >
-                                                            No available  Type
-                                                          </div>
-                                                          <div
-                                                            class=" css-jzldcf-Input"
-                                                            data-value=""
-                                                          >
-                                                            <input
-                                                              aria-autocomplete="list"
-                                                              aria-describedby="react-select-15-placeholder"
-                                                              aria-expanded="false"
-                                                              aria-haspopup="true"
-                                                              autocapitalize="none"
-                                                              autocomplete="off"
-                                                              autocorrect="off"
-                                                              class=""
-                                                              disabled=""
-                                                              id="react-select-15-input"
-                                                              role="combobox"
-                                                              spellcheck="false"
-                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                              tabindex="0"
-                                                              type="text"
-                                                              value=""
-                                                            />
-                                                          </div>
-                                                        </div>
-                                                        <div
-                                                          class=" css-1hb7zxy-IndicatorsContainer"
-                                                        >
-                                                          <span
-                                                            class=" css-109onse-indicatorSeparator"
-                                                          />
-                                                          <div
-                                                            aria-hidden="true"
-                                                            class=" css-tlfecz-indicatorContainer"
-                                                          >
-                                                            <svg
-                                                              aria-hidden="true"
-                                                              class="css-tj5bde-Svg"
-                                                              focusable="false"
-                                                              height="20"
-                                                              viewBox="0 0 20 20"
-                                                              width="20"
-                                                            >
-                                                              <path
-                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                              />
-                                                            </svg>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </span>
-                                            </div>
-                                          </div>
-                                          <div
-                                            class="row"
-                                            data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
-                                          >
-                                            <div
-                                              class="col-md-12"
-                                            >
-                                              <span
-                                                data-testid="controlled-fields__custom-select-widget--subtype"
-                                              >
-                                                <div
-                                                  class="custom-select-widget"
-                                                  data-testid="custom-select-widget__subtype"
-                                                >
-                                                  <div>
-                                                    <span>
-                                                      Subtype
-                                                    </span>
-                                                  </div>
-                                                  <div
-                                                    class="custom-select-widget-description"
-                                                    data-testid="custom-select-widget__subtype--description"
-                                                  >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
-                                                  </div>
-                                                  <div
-                                                    data-testid="custom-select-widget__subtype--selector"
-                                                  >
-                                                    <div
-                                                      class=" css-3iigni-container"
-                                                      id="URL_Subtype"
                                                     >
                                                       <span
                                                         class="css-1f43avz-a11yText-A11yText"
@@ -4668,7 +4575,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                                             class=" css-14el2xx-placeholder"
                                                             id="react-select-16-placeholder"
                                                           >
-                                                            No available Subtype
+                                                            No available  Type
                                                           </div>
                                                           <div
                                                             class=" css-jzldcf-Input"
@@ -4725,13 +4632,121 @@ exports[`Error List test testing for controlled Field 1`] = `
                                               </span>
                                             </div>
                                           </div>
+                                          <div
+                                            class="field row"
+                                            data-testid="controlled-fields__row--subtype"
+                                          >
+                                            <div
+                                              class="col-md-12"
+                                            >
+                                              <span
+                                                data-testid="controlled-fields__custom-select-widget--subtype"
+                                              >
+                                                <div
+                                                  class="custom-select-widget"
+                                                  data-testid="custom-select-widget__subtype"
+                                                >
+                                                  <div>
+                                                    <span>
+                                                      Subtype
+                                                    </span>
+                                                  </div>
+                                                  <div
+                                                    class="widget-description"
+                                                    data-testid="custom-select-widget__subtype--description"
+                                                  >
+                                                    <span />
+                                                  </div>
+                                                  <div
+                                                    data-testid="custom-select-widget__subtype--selector"
+                                                  >
+                                                    <div
+                                                      class=" css-3iigni-container"
+                                                      id="URL_Subtype"
+                                                    >
+                                                      <span
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                        id="react-select-17-live-region"
+                                                      />
+                                                      <span
+                                                        aria-atomic="false"
+                                                        aria-live="polite"
+                                                        aria-relevant="additions text"
+                                                        class="css-1f43avz-a11yText-A11yText"
+                                                      />
+                                                      <div
+                                                        class=" css-1insrsq-control"
+                                                      >
+                                                        <div
+                                                          class=" css-319lph-ValueContainer"
+                                                        >
+                                                          <div
+                                                            class=" css-14el2xx-placeholder"
+                                                            id="react-select-17-placeholder"
+                                                          >
+                                                            No available Subtype
+                                                          </div>
+                                                          <div
+                                                            class=" css-jzldcf-Input"
+                                                            data-value=""
+                                                          >
+                                                            <input
+                                                              aria-autocomplete="list"
+                                                              aria-describedby="react-select-17-placeholder"
+                                                              aria-expanded="false"
+                                                              aria-haspopup="true"
+                                                              autocapitalize="none"
+                                                              autocomplete="off"
+                                                              autocorrect="off"
+                                                              class=""
+                                                              disabled=""
+                                                              id="react-select-17-input"
+                                                              role="combobox"
+                                                              spellcheck="false"
+                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                              tabindex="0"
+                                                              type="text"
+                                                              value=""
+                                                            />
+                                                          </div>
+                                                        </div>
+                                                        <div
+                                                          class=" css-1hb7zxy-IndicatorsContainer"
+                                                        >
+                                                          <span
+                                                            class=" css-109onse-indicatorSeparator"
+                                                          />
+                                                          <div
+                                                            aria-hidden="true"
+                                                            class=" css-tlfecz-indicatorContainer"
+                                                          >
+                                                            <svg
+                                                              aria-hidden="true"
+                                                              class="css-tj5bde-Svg"
+                                                              focusable="false"
+                                                              height="20"
+                                                              viewBox="0 0 20 20"
+                                                              width="20"
+                                                            >
+                                                              <path
+                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                              />
+                                                            </svg>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </span>
+                                            </div>
+                                          </div>
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -4750,8 +4765,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -4766,13 +4780,12 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -4829,20 +4842,18 @@ exports[`Error List test testing for controlled Field 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -4855,13 +4866,12 @@ exports[`Error List test testing for controlled Field 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -4934,15 +4944,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4952,15 +4963,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4970,15 +4982,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -4988,15 +5001,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -5006,15 +5020,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -5024,15 +5039,16 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -5042,7 +5058,7 @@ exports[`Error List test testing for controlled Field 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -7500,8 +7516,7 @@ exports[`Error List test testing for controlled Field 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"
@@ -7581,16 +7596,14 @@ exports[`Error List test testing valid field onClick 1`] = `
               class="form-group field field-undefined"
             >
               <div
-                class="row"
-                style="margin-bottom: -5px;"
+                class="row row-children"
               >
                 <div
                   class="col-md-12"
                 >
                    
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7609,8 +7622,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             <span>
                               Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7625,13 +7637,12 @@ exports[`Error List test testing valid field onClick 1`] = `
                             id="Name"
                             maxlength="85"
                             name="Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__name"
-                            style="font-style: italic;"
                           >
                             The name of the downloadable tool or web user interface.
                           </span>
@@ -7640,8 +7651,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7660,8 +7670,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             <span>
                               Long Name
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7676,21 +7685,19 @@ exports[`Error List test testing valid field onClick 1`] = `
                             id="LongName"
                             maxlength="1024"
                             name="Long Name"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__long-name"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7709,8 +7716,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             <span>
                               Version
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
                             <span>
@@ -7725,21 +7731,19 @@ exports[`Error List test testing valid field onClick 1`] = `
                             id="Version"
                             maxlength="20"
                             name="Version"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__version"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7752,7 +7756,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__version-description--text-area-header"
                           >
                             <span>
@@ -7762,9 +7766,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                 Version Description
                               </span>
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -7775,19 +7777,17 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-area-widget__version-description--text-area-input"
                             maxlength="1024"
                             name="Version Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__version-description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__version-description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7807,18 +7807,15 @@ exports[`Error List test testing valid field onClick 1`] = `
                               <span>
                                 Type
                                 <i
-                                  class="eui-icon eui-required-o"
-                                  style="color: green; padding: 5px;"
+                                  class="eui-icon eui-required-o required-icon"
                                 />
                               </span>
                             </div>
                             <div
-                              class="custom-select-widget-description"
+                              class="widget-description"
                               data-testid="custom-select-widget__type--description"
                             >
-                              <span
-                                style="font-style: italic; font-size: .85rem;"
-                              />
+                              <span />
                             </div>
                             <div
                               data-testid="custom-select-widget__type--selector"
@@ -7905,8 +7902,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7923,7 +7919,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-date-time-widget__last-updated-date"
                           >
                             <div
-                              class="dateTimeWidgetLabel"
+                              class="custom-date-time-widget-label"
                             >
                               <span>
                                 Last Updated Date
@@ -7935,11 +7931,8 @@ exports[`Error List test testing valid field onClick 1`] = `
                               <div
                                 class="custom-date-time-widget-description"
                                 data-testid="custom-date-time-widget--description"
-                                style="padding-left: 5px;"
                               >
-                                <span
-                                  style="font-style: italic; font-size: .85rem;"
-                                />
+                                <span />
                               </div>
                               <div
                                 class="react-datepicker-wrapper"
@@ -7963,8 +7956,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -7977,7 +7969,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                           class="form-group field field-string"
                         >
                           <div
-                            class="custom-textarea-widget-header"
+                            class="widget-header"
                             data-testid="custom-text-area-widget__description--text-area-header"
                           >
                             <span>
@@ -7987,13 +7979,10 @@ exports[`Error List test testing valid field onClick 1`] = `
                                 Description
                               </span>
                               <i
-                                class="eui-icon eui-required-o"
-                                style="color: green; padding-left: 5px;"
+                                class="eui-icon eui-required-o required-icon"
                               />
                             </span>
-                            <span
-                              style="float: right;"
-                            >
+                            <span>
                               0
                               /
                               1024
@@ -8004,19 +7993,17 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-area-widget__description--text-area-input"
                             maxlength="1024"
                             name="Description"
-                            style="min-height: 100px; min-width: 100%;"
                           />
                           <span
-                            data-testid="custom-text-widget--description-field__description"
-                            style="font-style: italic;"
+                            class="widget-description"
+                            data-testid="custom-text-area-widget--description-field__description"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -8047,21 +8034,19 @@ exports[`Error List test testing valid field onClick 1`] = `
                             id="DOI"
                             maxlength="1024"
                             name="DOI"
-                            style="min-width: 100%; height: 37px;"
                             type="text"
                             value=""
                           />
                           <span
+                            class="widget-description"
                             data-testid="custom-text-widget--description-field__doi"
-                            style="font-style: italic;"
                           />
                         </div>
                       </span>
                     </div>
                   </div>
                   <div
-                    class="row"
-                    style="margin-bottom: -5px;"
+                    class="row row-children"
                   >
                     <div
                       class="col-md-12"
@@ -8074,8 +8059,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                           class="form-group field field-object"
                         >
                           <div
-                            class="row"
-                            style="margin-bottom: -5px;"
+                            class="row row-children"
                           >
                             <div
                               class="col-md-12"
@@ -8088,26 +8072,24 @@ exports[`Error List test testing valid field onClick 1`] = `
                                 >
                                   <div>
                                     <div
-                                      style="padding-bottom: 6px; margin-top: 8px; margin-bottom: 8px;"
+                                      class="custom-title-header"
                                     >
                                       <span
-                                        class="title"
+                                        class="custom-title"
                                       >
                                         URL
                                         <i
-                                          class="eui-icon eui-required-o"
-                                          style="color: green; padding: 5px;"
+                                          class="eui-icon eui-required-o required-icon"
                                         />
                                       </span>
                                     </div>
                                   </div>
                                 </span>
                                 <div
-                                  style="padding-left: 8px;"
+                                  class="col-children"
                                 >
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8120,7 +8102,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           class="form-group field field-string"
                                         >
                                           <div
-                                            class="custom-textarea-widget-header"
+                                            class="widget-header"
                                             data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
@@ -8130,9 +8112,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                 URL Description
                                               </span>
                                             </span>
-                                            <span
-                                              style="float: right;"
-                                            >
+                                            <span>
                                               0
                                               /
                                               4000
@@ -8143,19 +8123,17 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
-                                            style="min-height: 100px; min-width: 100%;"
                                           />
                                           <span
-                                            data-testid="custom-text-widget--description-field__description"
-                                            style="font-style: italic;"
+                                            class="widget-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8168,9 +8146,8 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           class="URL"
                                         >
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--url-content-type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8186,18 +8163,15 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                     <span>
                                                       URL Content Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__url-content-type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__url-content-type--selector"
@@ -8283,9 +8257,8 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--type"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8301,18 +8274,15 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                     <span>
                                                        Type
                                                       <i
-                                                        class="eui-icon eui-required-o"
-                                                        style="color: green; padding: 5px;"
+                                                        class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__type--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__type--selector"
@@ -8399,9 +8369,8 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             </div>
                                           </div>
                                           <div
-                                            class="row"
+                                            class="field row"
                                             data-testid="controlled-fields__row--subtype"
-                                            style="margin-top: 5px; margin-bottom: 5px;"
                                           >
                                             <div
                                               class="col-md-12"
@@ -8419,12 +8388,10 @@ exports[`Error List test testing valid field onClick 1`] = `
                                                     </span>
                                                   </div>
                                                   <div
-                                                    class="custom-select-widget-description"
+                                                    class="widget-description"
                                                     data-testid="custom-select-widget__subtype--description"
                                                   >
-                                                    <span
-                                                      style="font-style: italic; font-size: .85rem;"
-                                                    />
+                                                    <span />
                                                   </div>
                                                   <div
                                                     data-testid="custom-select-widget__subtype--selector"
@@ -8515,8 +8482,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    class="row"
-                                    style="margin-bottom: -5px;"
+                                    class="row row-children"
                                   >
                                     <div
                                       class="col-md-12"
@@ -8535,8 +8501,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             <span>
                                               URL Value
                                               <i
-                                                class="eui-icon eui-required-o"
-                                                style="color: green; padding-left: 5px;"
+                                                class="eui-icon eui-required-o required-icon"
                                               />
                                             </span>
                                             <span>
@@ -8551,13 +8516,12 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
-                                            style="min-width: 100%; height: 37px;"
                                             type="text"
                                             value=""
                                           />
                                           <span
+                                            class="widget-description"
                                             data-testid="custom-text-widget--description-field__url-value"
-                                            style="font-style: italic;"
                                           />
                                         </div>
                                       </span>
@@ -8614,20 +8578,18 @@ exports[`Error List test testing valid field onClick 1`] = `
               
           </div>
           <div
-            class="list-group"
-            style="height: 400px; width: 300px; margin-top: 5px;"
+            class="section-list list-group"
           >
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-information"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-information"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
                 <span
-                  style="font-weight: bold; font-size: 17px;"
+                  class="section-highlighted"
                 >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
@@ -8640,13 +8602,12 @@ exports[`Error List test testing valid field onClick 1`] = `
                 <div
                   class="error-list"
                   data-testid="error-list-title__root"
-                  style="margin-top: 0px; margin-bottom: 3px;"
                 >
                   <span
-                    style="margin-top: -50px;"
+                    class="error-list-header"
                   />
                   <ul
-                    style="padding-left: 15px; margin-bottom: -2px;"
+                    class="error-list-header-list"
                   >
                     <div
                       class="error-list-item"
@@ -8719,15 +8680,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </div>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--related-ur-ls"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__related-ur-ls"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8737,15 +8699,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--compatibility-and-usability"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__compatibility-and-usability"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8755,15 +8718,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--descriptive-keywords"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__descriptive-keywords"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8773,15 +8737,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-organizations"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-organizations"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8791,15 +8756,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--tool-contacts"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__tool-contacts"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8809,15 +8775,16 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
               data-testid="navigationitem--potential-action"
-              style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
             >
               <button
-                class="list-group-item list-group-item-action"
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
                 data-testid="navigationitem--listgroup.item__potential-action"
-                style="background-color: rgb(235, 242, 246); font-size: 16px; margin: 0px; padding: 0px; width: 330px;"
               >
-                <span>
+                <span
+                  class="section"
+                >
                   <i
                     class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
@@ -8827,7 +8794,7 @@ exports[`Error List test testing valid field onClick 1`] = `
               </button>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -11285,8 +11252,7 @@ exports[`Error List test testing valid field onClick 1`] = `
         </div>
       </div>
       <div
-        class="row"
-        style="margin-top: 10px; margin-bottom: 50px;"
+        class="json-view row"
       >
         <div
           class="col-sm-8"

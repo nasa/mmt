@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   getByTestId,
-  render, screen
+  render, screen, waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -88,10 +88,12 @@ describe('Navigation Item Component', () => {
       </Router>
     )
     const toolInformation = screen.getByTestId('navigationitem--listgroup.item__tool-information')
-    userEvent.hover(toolInformation)
-    expect(spy).toHaveBeenCalledTimes(1)
-    userEvent.unhover(toolInformation)
-    expect(spy).toHaveBeenCalledTimes(2)
+    await waitFor(async () => {
+      userEvent.hover(toolInformation)
+      expect(spy).toHaveBeenCalledTimes(1)
+      userEvent.unhover(toolInformation)
+      expect(spy).toHaveBeenCalledTimes(2)
+    })
     expect(container).toMatchSnapshot()
   })
 
@@ -104,8 +106,10 @@ describe('Navigation Item Component', () => {
     )
     const toolInformation = screen.getByTestId('navigationitem--listgroup.item__tool-information')
     const spy = jest.spyOn(MetadataEditor.prototype, 'navigateTo')
-    userEvent.click(toolInformation)
-    expect(spy).toHaveBeenCalledTimes(1)
+    await waitFor(async () => {
+      userEvent.click(toolInformation)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
     expect(container).toMatchSnapshot()
   })
 })

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react'
 import App from './App'
 import UmmToolsModel from './model/UmmToolsModel'
 import MetadataEditor from './MetadataEditor'
-import './index.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 

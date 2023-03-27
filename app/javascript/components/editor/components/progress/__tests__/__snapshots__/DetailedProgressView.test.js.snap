@@ -19,12 +19,10 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
           />
         </div>
         <div
-          class="row"
-          style="font-size: 21px; font-weight: bold;"
+          class="header row"
         >
           <div
-            class="col-md-12"
-            style="margin-left: 23px; padding: 15px;"
+            class="header-col col-md-12"
           >
             Metadata Fields
           </div>
@@ -39,12 +37,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
               class="box"
             >
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-information_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-information_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -231,12 +229,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__related-ur-ls_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__related-ur-ls_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -297,12 +295,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__compatibility-and-usability_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__compatibility-and-usability_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -471,12 +469,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__descriptive-keywords_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__descriptive-keywords_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -537,12 +535,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-organizations_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-organizations_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -585,12 +583,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-contacts_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-contacts_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -651,12 +649,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__potential-action_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__potential-action_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -700,7 +698,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
               </div>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"
@@ -3716,12 +3714,10 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
           </div>
         </div>
         <div
-          class="row"
-          style="font-size: 21px; font-weight: bold;"
+          class="header row"
         >
           <div
-            class="col-md-12"
-            style="margin-left: 23px; padding: 15px;"
+            class="header-col col-md-12"
           >
             Metadata Fields
           </div>
@@ -3736,12 +3732,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
               class="box"
             >
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-information_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-information_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -3928,12 +3924,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__related-ur-ls_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__related-ur-ls_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -3976,12 +3972,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__compatibility-and-usability_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__compatibility-and-usability_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -4150,12 +4146,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__descriptive-keywords_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__descriptive-keywords_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -4216,12 +4212,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-organizations_error"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-organizations_error"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -4264,12 +4260,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__tool-contacts_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__tool-contacts_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -4330,12 +4326,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                 </div>
               </div>
               <div
+                class="progress-section"
                 data-testid="detailed-progress-view--progress-section__potential-action_pass"
-                style="padding: 10px; flex: 33.33%;"
               >
                 <div
+                  class="progress-view"
                   data-testid="progress-section__potential-action_pass"
-                  style="display: flex; align-items: center;"
                 >
                   <div
                     class="section-circle"
@@ -4379,7 +4375,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
               </div>
             </div>
             <div
-              style="display: none;"
+              class="form"
             >
               <form
                 class="rjsf"

@@ -9,7 +9,7 @@ import {
   ErrorSchema, FieldProps, GenericObjectType, getUiOptions
 } from '@rjsf/utils'
 import { observer } from 'mobx-react'
-import MetadataEditor from '../MetadataEditor'
+import './LayoutGridField.css'
 
 type ComponentProps = {
   [name: string]: any
@@ -34,12 +34,12 @@ type LayoutGridSchemaState = {
  */
 class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   private scrollRef: React.RefObject<HTMLFieldSetElement>
   constructor(props: LayoutGridSchemaProps) {
     super(props)
     this.scrollRef = React.createRef()
   }
+  /* istanbul ignore next */
   onPropertyChange = (name: string, addedByAdditionalProperties = false) => (value: any | undefined, newErrorSchema?: ErrorSchema, id?: string) => {
     const { formData, onChange, errorSchema } = this.props
     if (value === undefined && addedByAdditionalProperties) {
@@ -64,7 +64,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       id
     )
   }
-
+  /* istanbul ignore next */
   getAvailableKey = (preferredKey: string, formData?: any) => {
     const { uiSchema } = this.props
     const { duplicateKeySuffixSeparator = '-' } = getUiOptions(uiSchema)
@@ -78,6 +78,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     return newKey
   }
 
+  /* istanbul ignore next */
   onKeyChange = (oldValue: any) => (value: string, newErrorSchema: ErrorSchema) => {
     if (oldValue === value) {
       return
@@ -121,9 +122,10 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       readonly,
       onBlur,
       onFocus,
-      formData = {}
+      formData = {},
+      registry
     } = this.props
-    const { registry, schema: s } = this.props
+    const { schema: s } = this.props
     const { fields, schemaUtils } = registry
     const { SchemaField } = fields
     const schema = schemaUtils.retrieveSchema(s)
@@ -141,20 +143,18 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       parentName = parentName.substring(0, pos)
     }
 
-    if (idSchema) {
-      if (idSchema[name]) {
-        const childIdSchema = idSchema[name]
-        const keys = Object.keys(childIdSchema)
-        keys.forEach((key) => {
-          if (key === '$id') {
-            childIdSchema[key] = childIdSchema[key].replace('root', parentName)
-          } else if (childIdSchema && childIdSchema[key] && childIdSchema[key].$id) {
-            childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
-          }
-        })
-      } else {
-        idSchema.$id = name
-      }
+    if (idSchema[name]) {
+      const childIdSchema = idSchema[name]
+      const keys = Object.keys(childIdSchema)
+      keys.forEach((key) => {
+        if (key === '$id') {
+          childIdSchema[key] = childIdSchema[key].replace('root', parentName)
+        } else {
+          childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
+        }
+      })
+    } else {
+      idSchema.$id = name
     }
     if (schema.properties[name] && !render) {
       return (
@@ -203,15 +203,18 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const group = layoutGridSchema['ui:group']
     const groupDescription = layoutGridSchema['ui:group-description']
     if (group) {
-      const { registry, idSchema, options } = this.props
-      const { editor } = options
+      const {
+        registry, idSchema
+      } = this.props
       const { fields, formContext } = registry
+      const { editor } = formContext
       const { TitleField } = fields
       const { required, schema } = this.props
       const { description = '' } = schema
       const title = group && typeof group === 'string' ? group : null
       if (idSchema.$id === editor.focusField) {
         setTimeout(() => {
+          /* istanbul ignore next */
           this.executeScroll()
         })
       }
@@ -227,9 +230,8 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                   name={title}
                   title={title}
                   required={required}
-                  formContext={formContext}
-                  onBlur={() => undefined}
-                  onFocus={() => undefined}
+                  onBlur={undefined}
+                  onFocus={undefined}
                   options={undefined}
                   idSchema={undefined}
                   id={uniqueId()}
@@ -237,16 +239,16 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                   schema={undefined}
                   readonly={false}
                   disabled={false}
-                  registry={undefined}
+                  registry={registry}
                 />
               ) : null}
             </span>
             {groupDescription ? (
-              <div style={{ paddingBottom: 30 }}>
+              <div className="group-description">
                 {description}
               </div>
             ) : null}
-            <div style={{ borderLeft: 'solid 5px rgb(240,240,240', paddingLeft: 8 }}>
+            <div className="col-children">
               {this.renderChildren(children)}
             </div>
           </fieldset>
@@ -266,6 +268,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const rows = layoutGridSchema['ui:row']
     const group = layoutGridSchema['ui:group']
     const groupDescription = layoutGridSchema['ui:group-description']
+    const groupClassName = layoutGridSchema['ui:group-className']
 
     if (group) {
       const { registry } = this.props
@@ -276,7 +279,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
 
       const title = group && typeof group === 'string' ? group : null
       return (
-        <div style={{ marginBottom: -5 }}>
+        <div className="row-fieldset">
           <fieldset
             className="rjsf-layout-grid-group"
           >
@@ -284,11 +287,12 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
               {title ? (
                 <TitleField
                   name={title}
+                  className={groupClassName}
                   title={title}
                   required={required}
                   formContext={formContext}
-                  onBlur={() => undefined}
-                  onFocus={() => undefined}
+                  onBlur={undefined}
+                  onFocus={undefined}
                   options={undefined}
                   idSchema={undefined}
                   id={uniqueId()}
@@ -296,12 +300,12 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                   schema={undefined}
                   readonly={false}
                   disabled={false}
-                  registry={undefined}
+                  registry={registry}
                 />
               ) : null}
             </span>
             {groupDescription ? (
-              <div style={{ paddingBottom: 30 }}>
+              <div className="group-description">
                 {description}
               </div>
             ) : null}
@@ -310,7 +314,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
         </div>
       )
     }
-    return <div style={{ marginBottom: -5 }} className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
+    return <div className="row row-children" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
   }
 
   renderChildren(childrenLayoutGridSchema: LayoutGridSchemaProps) {

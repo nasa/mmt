@@ -14,6 +14,13 @@
 .react-datepicker__day--outside-month {
   color: grey;
 }
-.dateTimeWidgetLabel {
+
+.custom-date-time-widget-label {
   margin-bottom: 5px;
+}
+
+.custom-date-time-widget-description {
+  padding-left: 5px;
+  font-style: italic;
+  font-size: .85rem
 }

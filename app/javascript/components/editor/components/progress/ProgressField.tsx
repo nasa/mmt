@@ -70,13 +70,18 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
     const { params } = router
     const { id } = params
     const sectionName = section.replace(/\s/g, '_')
-    if (index) {
-      // editor.setArrayField(index)
+    if (index >= 0 && index !== null) {
+      setTimeout(() => {
+        editor.setArrayAutoScroll(fieldInfo.index)
+        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}/${fieldInfo.index + 1}`
+      }, 50)
+    } else {
+      setTimeout(() => {
+        editor.setFocusField(fieldInfo.name)
+        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}`
+      }, 50)
+      // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })}
     }
-    setTimeout(() => {
-      window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
-    }, 50)
-    // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })
   }
   render() {
     const { fieldInfo } = this.props

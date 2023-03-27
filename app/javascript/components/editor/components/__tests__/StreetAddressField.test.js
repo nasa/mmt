@@ -18,7 +18,9 @@ describe('StreetAddressFieldTest', () => {
         maxLength: 80,
         description: 'The street address description'
       },
-      options: { editor },
+      registry: {
+        formContext: { editor }
+      },
       onChange: mockedOnChange,
       formData: ['my first line', 'my second line', 'my third line']
     }
@@ -43,7 +45,9 @@ describe('StreetAddressFieldTest', () => {
         maxLength: 80,
         description: 'The street address description'
       },
-      options: { editor },
+      registry: {
+        formContext: { editor }
+      },
       onChange: mockedOnChange,
       formData: []
     }
@@ -68,7 +72,9 @@ describe('StreetAddressFieldTest', () => {
         maxLength: 80,
         description: 'The street address description'
       },
-      options: { editor },
+      registry: {
+        formContext: { editor }
+      },
       onChange: mockedOnChange
     }
     const { container } = render(
@@ -92,7 +98,9 @@ describe('StreetAddressFieldTest', () => {
         maxLength: 80,
         description: 'The street address description'
       },
-      options: { editor },
+      registry: {
+        formContext: { editor }
+      },
       onChange: mockedOnChange,
       formData: ['my first line', 'my second line', 'my third line']
     }

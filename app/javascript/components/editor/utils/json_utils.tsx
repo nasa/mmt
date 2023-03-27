@@ -19,7 +19,7 @@ export function removeNulls(obj: any) {
     } else if (typeof obj[k] === 'object') {
       removeNulls(obj[k])
     }
-    if (isArray && obj.length === k) {
+    if (isArray && obj.length === Number(k)) {
       removeNulls(obj)
     }
   })

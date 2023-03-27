@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/sort-comp */
@@ -11,7 +12,8 @@ import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.css'
 import { FieldProps } from '@rjsf/utils'
 import { MetadataService } from '../services/MetadataService'
-import { Node, parseCmrResponse } from '../utils/cmr_keywords'
+import { parseCmrResponse } from '../utils/cmr_keywords'
+import Status from '../model/Status'
 
 interface KeywordPickerProps extends FieldProps {
   formData: any,
@@ -39,8 +41,9 @@ type KeywordPickerState = {
 export default class KeywordsField extends React.Component<KeywordPickerProps, KeywordPickerState> {
   constructor(props: KeywordPickerProps) {
     super(props)
+    const { formData = [] } = props
     this.state = {
-      value: props.formData,
+      value: formData,
       selectedKeywords: [],
       currentList: [],
       marginTop: 50,
@@ -55,7 +58,9 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
   }
 
   componentDidMount() {
-    const { uiSchema } = this.props
+    const { uiSchema, registry } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
     const keywords = uiSchema['ui:keywords']
     if (keywords) {
       this.initializeKeywords(keywords)
@@ -66,27 +71,36 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       const keywordSchemeColumnNames = uiSchema['ui:keyword_scheme_column_names']
       this.setState({ loading: true }, () => {
         const initalValue = uiSchema['ui:picker_title']
-
-        service.fetchCmrKeywords(keywordScheme).then((keywords) => {
-          const newOtherKeyword = { toolkeywords: [{ value: initalValue, subfields: [keywordSchemeColumnNames.at(1)], ...keywords }] } as Node
-          const paths = parseCmrResponse(newOtherKeyword, keywordSchemeColumnNames)
+        service.fetchCmrKeywords(keywordScheme).then((keywords: any) => {
+          const intitalKeyword = keywordSchemeColumnNames.at(0)
+          const keywordObject = {}
+          keywordObject[intitalKeyword] = [{ value: initalValue, subfields: [keywordSchemeColumnNames.at(1)], ...keywords }]
+          const filter = uiSchema['ui:filter'] as (path: string[]) => boolean
+          let paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
+          if (filter) {
+            paths = paths.filter(filter)
+          }
           this.initializeKeywords(paths)
           this.setState({ loading: false })
         })
           .catch((error) => {
             console.log('error=', error)
+            editor.status = new Status('warning', 'Error retrieving keywords.')
           })
       })
     }
   }
 
   initializeKeywords(keywords: any) {
-    const { formData } = this.props
+    const { formData = [] } = this.props
     const fullPath: Array<string> = []
     const currList: Array<string> = []
     const selectedKeywords: Array<string> = []
-
-    currList.push(keywords[0][1])
+    keywords.forEach((keyword: Array<string>) => {
+      if (!currList.includes(keyword[1])) {
+        currList.push(keyword[1])
+      }
+    })
     selectedKeywords.push(keywords[0][0])
 
     // creates a fullPath arrray with a > sperator
@@ -242,8 +256,11 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
   }
 
   isKeywordAdded(keyword: Array<string>) {
-    const { formData } = this.props
+    let { formData } = this.props
     let found = false
+    if (!formData) {
+      formData = []
+    }
     formData.forEach((item: any) => {
       if (Object.values(item).join('>').includes(keyword.join('>'))) {
         found = true
@@ -285,7 +302,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
     // Therefore, having a complete list of all keyword variation allows us to find the user seletect value and add it to formData
     const filter = fullPath.filter((path) => path.indexOf(split[split.length - 1]) !== -1)
 
-    const filterArr: string[] = filter.toString().split('>').slice(1)
+    const filterArr: string[] = filter[0].toString().split('>').slice(1)
     const keywords = this.addKeywords(filterArr)
     if (keywords) {
       value.push(keywords)
@@ -311,7 +328,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       selectedKeywords, currentList, marginTop, marginLeft, disableAddKeywordBtn, finalSelectedKeywords, fullPath, showSearchDropdown, value, loading
     } = this.state
     const {
-      formData,
+      formData = [],
       onChange,
       schema,
       uiSchema
@@ -335,15 +352,15 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
     return (
       <div id="keyword-picker">
         <div>
-          <div style={{ fontSize: '1.10rem' }}>
-            <span className="title">
+          <div className="title-header">
+            <span className="keyword-picker-title">
               {title}
             </span>
-            <hr className="border-0 bg-secondary" style={{ height: '1px' }} />
+            <hr className="border-0 bg-secondary title-hr" />
             {description}
           </div>
 
-          <div className="added-keywords" data-testid="added-tool-keywords" style={{ padding: '20px' }}>
+          <div className="added-keywords" data-testid="added-tool-keywords">
             {
               Object.values(formData).map((item: object, index: number) => (
                 <li key={JSON.stringify(Object.values(item))}>
@@ -352,7 +369,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
                     onClick={() => this.setState(value.splice(index, 1), () => onChange(value))}
                     data-testid={`tool-keyword__added-keyword--${index}`}
                   >
-                    <i className="fa fa-times-circle" style={{ padding: '5px', color: 'red' }} />
+                    <i className="fa fa-times-circle remove-button" />
                   </a>
                 </li>
               ))
@@ -376,9 +393,9 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
             </ul>
 
             <div className="eui-item-list-pane" style={{ marginTop }}>
-              <div data-testid="tool-keyword__search-keyword-field">
+              <div id="search-keywords" data-testid="tool-keyword__search-keyword-field">
                 <Typeahead
-                  id="search-keywords"
+                  id="typeahead"
                   placeholder={loading ? 'Fetching Keywords...' : 'Search for Keywords...'}
                   onChange={(text) => (text.length > 0 ? this.clickSelectedItem(text) : null)}
                   options={searchResult}
@@ -391,7 +408,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
                       this.setState({ showSearchDropdown: true })
                     }
                   }}
-                  style={{ width: '399px', borderStyle: 'hidden' }}
+                  className="typeahead"
                   open={showSearchDropdown}
                   onBlur={() => this.setState({ showSearchDropdown: false })}
                 />
@@ -406,7 +423,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
             </div>
           </div>
           <Button
-            style={{ marginTop: '25px', marginLeft: '15px' }}
             className="eui-btn--blue add-science-keyword"
             data-testid="tool-keyword__add-keyword-btn"
             disabled={disableAddKeywordBtn}
@@ -419,7 +435,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
               this.setState({ finalSelectedKeywords: [], finalSelectedValue: '', disableAddKeywordBtn: true })
             }}
           >
-            <span style={{ marginRight: '.25em' }}>
+            <span className="add-button-icon">
               <i className="fa-solid fa-circle-plus fa-sm" />
             </span>
             Add Keyword

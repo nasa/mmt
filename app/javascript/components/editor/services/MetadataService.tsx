@@ -16,8 +16,18 @@ export class MetadataService {
     this.providerId = providerId
   }
 
+  get draftType() {
+    if (this.docType === 'tool_drafts') {
+      return 'ToolDraft'
+    }
+    if (this.docType === 'variable_drafts') {
+      return 'VariableDraft'
+    }
+    return this.docType
+  }
+
   async fetchDraft(id: number): Promise<Draft> {
-    const url = `/api/drafts/${id}?draft_type=ToolDraft`
+    const url = `/api/drafts/${id}?draft_type=${this.draftType}`
     const requestOptions = {
       method: 'GET',
       headers: {
@@ -40,7 +50,7 @@ export class MetadataService {
   }
 
   async saveDraft(draft: Draft): Promise<Draft> {
-    const url = '/api/drafts/?draft_type=ToolDraft'
+    const url = `/api/drafts/?draft_type=${this.draftType}`
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify(draft.json),
@@ -66,7 +76,7 @@ export class MetadataService {
   }
 
   async publishDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/${draft.apiId}/publish?draft_type=ToolDraft`
+    const url = `/api/drafts/${draft.apiId}/publish?draft_type=${this.draftType}`
     const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
@@ -96,7 +106,7 @@ export class MetadataService {
   }
 
   async updateDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/${draft.apiId}?draft_type=ToolDraft`
+    const url = `/api/drafts/${draft.apiId}?draft_type=${this.draftType}`
     const requestOptions = {
       method: 'PUT',
       body: JSON.stringify(draft.json),

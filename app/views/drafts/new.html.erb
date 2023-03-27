@@ -3,11 +3,16 @@
 <% end %>
 
 <div class="grid-row row-content">
-  <% if resource_name == 'tool_draft' and Rails.configuration.react_forms_enabled %>
+  <% if (resource_name == 'tool_draft' or resource_name == 'variable_draft') and Rails.configuration.react_forms_enabled %>
     <section id="react-editor-form" class="metadata">
-      <%= react_component("editor/UmmToolsForm", {heading: "Create Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
+      <% if (resource_name == 'tool_draft') %>
+        <%= react_component("editor/UmmToolsForm", {heading: "Create Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
+      <% end %>
+      <% if (resource_name == 'variable_draft') %>
+        <%= react_component("editor/UmmToolsForm", {heading: "Create Variable Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
+      <% end %>
     </section>
-<% else %>
+  <% else %>
     <section>
       <%= form_tag(send("#{plural_resource_name}_path", associated_collection_id: @associated_collection_id), method: :post, id: 'umm_form', class: "umm-form #{published_resource_name}-form", novalidate: 'novalidate') do %>
         <%= render partial: 'form', locals: { resource: get_resource, json_form: @json_form, current_form: @current_form } %>

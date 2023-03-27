@@ -25,8 +25,8 @@ import CustomTextWidget from './widgets/CustomTextWidget'
 import KeywordsField from './KeywordPicker'
 import CustomTitleFieldTemplate from './CustomTitleFieldTemplate'
 import Status from '../model/Status'
-import CustomMultiSelectWidget from './widgets/CustomMultiSelectWidget'
 import CustomFieldTemplate from './CustomFieldTemplate'
+import './MetadataEditorForm.css'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -35,25 +35,18 @@ type MetadataEditorFormProps = {
 };
 
 class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never> {
-  constructor(props: MetadataEditorFormProps) {
-    super(props)
-    const { editor } = this.props
-    CustomTextWidget.defaultProps = { options: { editor } }
-    CustomTextareaWidget.defaultProps = { options: { editor } }
-    CustomSelectWidget.defaultProps = { options: { editor } }
-    ControlledFields.defaultProps = { options: { editor } }
-    CustomArrayFieldTemplate.defaultProps = { options: { editor } }
-    CustomMultiSelectWidget.defaultProps = { options: { editor } }
-    LayoutGridField.defaultProps = { options: { editor } }
-    CustomDateTimeWidget.defaultProps = { options: { editor } }
-  }
-
   componentDidMount() {
     const { router, editor } = this.props
     const { params, location, navigate } = router
     let { sectionName } = params
     const { id } = params
+    if (router.params.fieldName) {
+      editor.setFocusField(router.params.fieldName)
+    }
 
+    if (router.params.index && router.params.index !== null) {
+      editor.setArrayAutoScroll(router.params.index - 1)
+    }
     sectionName = editor.migratedSectionName(sectionName)
     if (sectionName) {
       editor.navigateToDisplayName(sectionName.replace(/_/g, ' '))
@@ -95,7 +88,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {
     const oldSection = prevProps.editor.currentSection
     const { router, editor } = this.props
-    const { params } = router
+    const { params, navigate } = router
     let { sectionName } = params
     if (sectionName) {
       sectionName = editor.migratedSectionName(sectionName)
@@ -133,30 +126,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     const {
       formSchema: schema, formData, uiSchema, draft, publishErrors, status
     } = editor
-
-    // if (loading) {
-    //   return (
-    //     <div id="react-editor-form-containter">
-    //       <Card
-    //         style={{
-    //           display: 'flex',
-    //           width: 1000,
-    //           height: 800,
-    //           alignItems: 'center',
-    //           justifyContent: 'center'
-    //         }}
-    //         id="metadata-form"
-    //       >
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //           <h5>Loading...&nbsp;&nbsp;</h5>
-    //           <div className="spinner-grow text-success" role="status">
-    //             <span className="sr-only">Loading...</span>
-    //           </div>
-    //         </div>
-    //       </Card>
-    //     </div>
-    //   )
-    // }
 
     return (
       <div id="react-editor-form-containter">
@@ -197,8 +166,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
                 uiSchema={uiSchema}
                 fields={fields}
                 templates={templates}
-                // FieldTemplate={CustomFieldTemplate}
-                // ArrayFieldTemplate={CustomArrayTemplate}
+                formContext={{ editor }}
                 widgets={widgets}
                 onChange={(e: IChangeEvent) => {
                   editor.formData = e.formData
@@ -211,7 +179,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
               <NavigationView editor={editor} />
             </div>
           </Row>
-          <Row style={{ marginTop: 10, marginBottom: 50 }}>
+          <Row className="json-view">
             <Col sm={8}>
               <JSONView editor={editor} />
             </Col>

@@ -11,8 +11,12 @@ import potentialActionUiSchema from '../data/configuration/uiSchemas/tools/poten
 import toolContactsUISchema from '../data/configuration/uiSchemas/tools/tool_contacts'
 import compatibilityAndUsabilityUiSchema from '../data/configuration/uiSchemas/tools/compatibility_and_usability'
 import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
+import schema from '../data/schemas/umm_tools_schema'
 
 export default class UmmToolsModel extends UmmModel {
+  constructor() {
+    super(schema)
+  }
   get documentTypeForDisplay() {
     return 'Tool Record'
   }
@@ -27,7 +31,7 @@ export default class UmmToolsModel extends UmmModel {
     return super.getFormSchema()
   }
   get uiSchema() {
-    const base:UiSchema = {
+    const base: UiSchema = {
       'ui:submitButtonOptions': { norender: true, submitText: 'Save' },
       'ui:ArrayFieldTemplate': CustomArrayFieldTemplate
     }
@@ -43,12 +47,15 @@ export default class UmmToolsModel extends UmmModel {
       const uiSchema = descriptiveKeywordsUiSchema
       const toolKeywords: any = uiSchema.ToolKeywords
       toolKeywords['ui:service'] = this.service
+
       toolKeywords['ui:keyword_scheme'] = 'science_keywords'
       toolKeywords['ui:picker_title'] = 'TOOL KEYWORD'
       toolKeywords['ui:scheme_values'] = [
         'ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'
       ]
       toolKeywords['ui:keyword_scheme_column_names'] = ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3']
+      toolKeywords['ui:filter'] = (path: string[]) => path[1] !== 'EARTH SCIENCE'
+
       return { ...uiSchema, ...base }
     }
     if (this.currentSection.displayName === 'Tool Organizations') {

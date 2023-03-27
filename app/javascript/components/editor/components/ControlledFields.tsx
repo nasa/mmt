@@ -10,8 +10,9 @@ import { FieldProps } from '@rjsf/utils'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
 import CustomTextWidget from './widgets/CustomTextWidget'
 import { MetadataService } from '../services/MetadataService'
-import MetadataEditor from '../MetadataEditor'
 import { Node, buildMap, parseCmrResponse } from '../utils/cmr_keywords'
+import './ControlledFields.css'
+import Status from '../model/Status'
 
 /**
  * Custom field component for handling controlled fields
@@ -26,7 +27,6 @@ type ControlledFieldProps = FieldProps
 
 class ControlledFields extends React.Component<ObjectFieldProps, ControlledFieldsState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   private scrollRef: React.RefObject<HTMLDivElement>
   constructor(props: ControlledFieldProps) {
     super(props)
@@ -37,17 +37,16 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
   }
 
   componentDidMount() {
-    const { uiSchema } = this.props
-    const { root } = this.state
+    const { uiSchema, registry } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
     const keywords = uiSchema['ui:keywords']
 
     if (keywords) {
-      if (Object.keys(root).length === 0) {
-        const lastUpdated = new Date()
-        const map = buildMap(cloneDeep(keywords))
-        this.setState({ loading: false, root: map, lastUpdated })
-      }
-    } else if (Object.keys(root).length === 0) {
+      const lastUpdated = new Date()
+      const map = buildMap(cloneDeep(keywords))
+      this.setState({ loading: false, root: map, lastUpdated })
+    } else {
       const service = uiSchema['ui:service'] as MetadataService
       const keywordScheme = uiSchema['ui:keyword_scheme']
       const names = uiSchema['ui:keyword_scheme_column_names']
@@ -60,7 +59,10 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
           this.setState({ loading: false, root: map, lastUpdated })
         })
           .catch((error) => {
-            console.log('error=', error)
+            setTimeout(() => {
+              /* istanbul ignore next */
+              editor.status = new Status('warning', error)
+            })
           })
       })
     }
@@ -104,7 +106,6 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
       registry,
       idSchema
     } = this.props
-
     const fieldUiSchema = uiSchema[name]
     const widget = fieldUiSchema != null ? fieldUiSchema['ui:widget'] : null
     const fieldSchema = schema.properties[name]
@@ -121,16 +122,15 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
         value = formData[name]
         if (priorValue !== value) {
           setTimeout(() => {
+            /* istanbul ignore next */
             onChange(formData, null)
           })
         }
       }
 
-      if (idSchema && idSchema[name]) {
-        const id = idSchema[name].$id ?? ''
-        const { name: parentName } = this.props
-        idSchema[name].$id = id.replace('root', parentName)
-      }
+      const id = idSchema[name].$id
+      const { name: parentName } = this.props
+      idSchema[name].$id = id.replace('root', parentName)
 
       return (
         <span
@@ -144,86 +144,80 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
             required={this.isRequired(name)}
             label={title}
             value={value}
-            onChange={() => undefined}
+            onChange={undefined}
             schema={fieldSchema}
-            onBlur={() => undefined}
-            onFocus={() => undefined}
-            registry={undefined}
-            options={undefined}
-          />
-        </span>
-      )
-    }
-
-    if (!widget) {
-      const title = fieldUiSchema != null ? fieldUiSchema['ui:title'] : name
-      const value = formData[name]
-
-      const { length: enumsLength } = enums
-
-      if (!this.isRequired(name)) {
-        enums.unshift(null)
-      }
-      let placeholder = `Select ${title}`
-      if (enumsLength === 0) {
-        placeholder = `No available ${title}`
-      }
-
-      let description = ''
-      if (schema.properties[name]) {
-        description = schema.properties[name].description
-      }
-
-      if (idSchema && idSchema[name]) {
-        const { name: parentName } = this.props
-        const id = idSchema[name].$id ?? ''
-        idSchema[name].$id = id.replace('root', parentName)
-      }
-
-      return (
-        <span
-          key={`controlled-fields__custom-select-widget--${name}-${value}`}
-          data-testid={`controlled-fields__custom-select-widget--${kebabCase(name)}`}
-        >
-          <CustomSelectWidget
-            name={name}
-            required={this.isRequired(name)}
-            label={title}
-            schema={{ enum: enums, description }}
-            uiSchema={uiSchema}
+            onBlur={undefined}
+            onFocus={undefined}
             registry={registry}
-            value={loading && !value ? 'Fetching Keywords.....' : value}
-            isLoading={loading}
-            placeholder={placeholder}
-            onChange={(value: any) => {
-              const values: object = { [name]: value, ...this.clearDescendents(name, value) }
-              this.setState(values, () => {
-                const changes: any = _.cloneDeep(this.state)
-                delete changes.root
-                delete changes.lastUpdated
-                this.copyFormDataToChanges(formData, changes)
-                onChange(changes, null)
-              })
-            }}
-            onBlur={() => undefined}
-            onFocus={() => undefined}
             options={undefined}
-            disabled={enumsLength === 0}
-            id={idSchema[name].$id}
+            uiSchema={uiSchema}
           />
         </span>
       )
     }
-    return null
+
+    const title = fieldUiSchema != null ? fieldUiSchema['ui:title'] : name
+    const value = formData[name]
+
+    const { length: enumsLength } = enums
+
+    if (!this.isRequired(name)) {
+      enums.unshift(null)
+    }
+    let placeholder = `Select ${title}`
+    if (enumsLength === 0) {
+      placeholder = `No available ${title}`
+    }
+
+    const { description } = schema.properties[name]
+
+    const { name: parentName } = this.props
+    const id = idSchema[name].$id
+    idSchema[name].$id = id.replace('root', parentName)
+
+    return (
+      <span
+        key={`controlled-fields__custom-select-widget--${name}-${value}`}
+        data-testid={`controlled-fields__custom-select-widget--${kebabCase(name)}`}
+      >
+        <CustomSelectWidget
+          name={name}
+          required={this.isRequired(name)}
+          label={title}
+          schema={{ enum: enums, description }}
+          uiSchema={uiSchema}
+          registry={registry}
+          value={loading && !value ? 'Fetching Keywords.....' : value}
+          isLoading={loading}
+          placeholder={placeholder}
+          onChange={(value: any) => {
+            const values: object = { [name]: value, ...this.clearDescendents(name, value) }
+            this.setState(values, () => {
+              const changes: any = _.cloneDeep(this.state)
+              delete changes.root
+              delete changes.lastUpdated
+              this.copyFormDataToChanges(formData, changes)
+              onChange(changes, null)
+            })
+          }}
+          onBlur={undefined}
+          onFocus={undefined}
+          options={undefined}
+          disabled={enumsLength === 0}
+          id={idSchema[name].$id}
+        />
+      </span>
+    )
   }
 
   render() {
     const {
       uiSchema,
       formData,
-      options
+      registry
     } = this.props
-    const { editor } = options
+    const { formContext } = registry
+    const { editor } = formContext
     const uiControlledFields = uiSchema['ui:controlledFields']
     const title = uiSchema['ui:title']
     const { root, loading } = this.state
@@ -231,6 +225,7 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
     if (editor?.focusField) {
       if (title === editor.focusField) {
         setTimeout(() => {
+          /* istanbul ignore next */
           this.executeScroll()
         }, 200)
       }
@@ -248,7 +243,7 @@ class ControlledFields extends React.Component<ObjectFieldProps, ControlledField
         enums = []
       }
       return (
-        <div style={{ marginTop: 5, marginBottom: 5 }} data-testid={`controlled-fields__row--${kebabCase(field)}`} className="row" key={JSON.stringify(`${field}-${formData[field]}-${loading}`)}>
+        <div data-testid={`controlled-fields__row--${kebabCase(field)}`} className="field row" key={JSON.stringify(`${field}-${formData[field]}-${loading}`)}>
           <Col md={12}>
             {this.renderField(loading, field, enums)}
           </Col>
