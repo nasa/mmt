@@ -1927,17 +1927,22 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                           >
                             A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.
                           </p>
-                          <input
+                          <select
                             aria-describedby="root_URL_URLContentType__error root_URL_URLContentType__description root_URL_URLContentType__help"
                             class="form-control"
                             id="root_URL_URLContentType"
-                            label="URLContentType"
                             name="root_URL_URLContentType"
-                            placeholder=""
                             required=""
-                            type="text"
-                            value=""
-                          />
+                          >
+                            <option
+                              value=""
+                            />
+                            <option
+                              value="0"
+                            >
+                              DistributionURL
+                            </option>
+                          </select>
                         </div>
                         <div
                           class="form-group field field-string"
@@ -4664,346 +4669,332 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                       class="col-md-12"
                                     >
                                        
-                                      <span
-                                        data-testid="layout-grid-field__schema-field--url-types"
+                                      <div
+                                        class="form-group field field-string"
+                                        data-testid="layout-grid-field__custom-select-widget--url-content-type"
                                       >
                                         <div
-                                          class="URL"
+                                          class="custom-select-widget"
+                                          data-testid="custom-select-widget__url-content-type"
                                         >
-                                          <div
-                                            class="field row"
-                                            data-testid="controlled-fields__row--url-content-type"
-                                          >
-                                            <div
-                                              class="col-md-12"
-                                            >
-                                              <span
-                                                data-testid="controlled-fields__custom-select-widget--url-content-type"
-                                              >
-                                                <div
-                                                  class="custom-select-widget"
-                                                  data-testid="custom-select-widget__url-content-type"
-                                                >
-                                                  <div>
-                                                    <span>
-                                                      URL Content Type
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                  </div>
-                                                  <div
-                                                    class="widget-description"
-                                                    data-testid="custom-select-widget__url-content-type--description"
-                                                  >
-                                                    <span />
-                                                  </div>
-                                                  <div
-                                                    data-testid="custom-select-widget__url-content-type--selector"
-                                                  >
-                                                    <div
-                                                      class=" css-b62m3t-container"
-                                                      id="URL_URLContentType"
-                                                    >
-                                                      <span
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                        id="react-select-7-live-region"
-                                                      />
-                                                      <span
-                                                        aria-atomic="false"
-                                                        aria-live="polite"
-                                                        aria-relevant="additions text"
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                      />
-                                                      <div
-                                                        class=" css-1s2u09g-control"
-                                                      >
-                                                        <div
-                                                          class=" css-319lph-ValueContainer"
-                                                        >
-                                                          <div
-                                                            class=" css-14el2xx-placeholder"
-                                                            id="react-select-7-placeholder"
-                                                          >
-                                                            Select URL Content Type
-                                                          </div>
-                                                          <div
-                                                            class=" css-6j8wv5-Input"
-                                                            data-value=""
-                                                          >
-                                                            <input
-                                                              aria-autocomplete="list"
-                                                              aria-describedby="react-select-7-placeholder"
-                                                              aria-expanded="false"
-                                                              aria-haspopup="true"
-                                                              autocapitalize="none"
-                                                              autocomplete="off"
-                                                              autocorrect="off"
-                                                              class=""
-                                                              id="react-select-7-input"
-                                                              role="combobox"
-                                                              spellcheck="false"
-                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                              tabindex="0"
-                                                              type="text"
-                                                              value=""
-                                                            />
-                                                          </div>
-                                                        </div>
-                                                        <div
-                                                          class=" css-1hb7zxy-IndicatorsContainer"
-                                                        >
-                                                          <span
-                                                            class=" css-1okebmr-indicatorSeparator"
-                                                          />
-                                                          <div
-                                                            aria-hidden="true"
-                                                            class=" css-tlfecz-indicatorContainer"
-                                                          >
-                                                            <svg
-                                                              aria-hidden="true"
-                                                              class="css-tj5bde-Svg"
-                                                              focusable="false"
-                                                              height="20"
-                                                              viewBox="0 0 20 20"
-                                                              width="20"
-                                                            >
-                                                              <path
-                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                              />
-                                                            </svg>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </span>
-                                            </div>
+                                          <div>
+                                            <span>
+                                              URL Content Type
+                                              <i
+                                                class="eui-icon eui-required-o required-icon"
+                                              />
+                                            </span>
                                           </div>
                                           <div
-                                            class="field row"
-                                            data-testid="controlled-fields__row--type"
+                                            class="widget-description"
+                                            data-testid="custom-select-widget__url-content-type--description"
                                           >
-                                            <div
-                                              class="col-md-12"
-                                            >
-                                              <span
-                                                data-testid="controlled-fields__custom-select-widget--type"
-                                              >
-                                                <div
-                                                  class="custom-select-widget"
-                                                  data-testid="custom-select-widget__type"
-                                                >
-                                                  <div>
-                                                    <span>
-                                                       Type
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                  </div>
-                                                  <div
-                                                    class="widget-description"
-                                                    data-testid="custom-select-widget__type--description"
-                                                  >
-                                                    <span />
-                                                  </div>
-                                                  <div
-                                                    data-testid="custom-select-widget__type--selector"
-                                                  >
-                                                    <div
-                                                      class=" css-3iigni-container"
-                                                      id="URL_Type"
-                                                    >
-                                                      <span
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                        id="react-select-8-live-region"
-                                                      />
-                                                      <span
-                                                        aria-atomic="false"
-                                                        aria-live="polite"
-                                                        aria-relevant="additions text"
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                      />
-                                                      <div
-                                                        class=" css-1insrsq-control"
-                                                      >
-                                                        <div
-                                                          class=" css-319lph-ValueContainer"
-                                                        >
-                                                          <div
-                                                            class=" css-14el2xx-placeholder"
-                                                            id="react-select-8-placeholder"
-                                                          >
-                                                            No available  Type
-                                                          </div>
-                                                          <div
-                                                            class=" css-jzldcf-Input"
-                                                            data-value=""
-                                                          >
-                                                            <input
-                                                              aria-autocomplete="list"
-                                                              aria-describedby="react-select-8-placeholder"
-                                                              aria-expanded="false"
-                                                              aria-haspopup="true"
-                                                              autocapitalize="none"
-                                                              autocomplete="off"
-                                                              autocorrect="off"
-                                                              class=""
-                                                              disabled=""
-                                                              id="react-select-8-input"
-                                                              role="combobox"
-                                                              spellcheck="false"
-                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                              tabindex="0"
-                                                              type="text"
-                                                              value=""
-                                                            />
-                                                          </div>
-                                                        </div>
-                                                        <div
-                                                          class=" css-1hb7zxy-IndicatorsContainer"
-                                                        >
-                                                          <span
-                                                            class=" css-109onse-indicatorSeparator"
-                                                          />
-                                                          <div
-                                                            aria-hidden="true"
-                                                            class=" css-tlfecz-indicatorContainer"
-                                                          >
-                                                            <svg
-                                                              aria-hidden="true"
-                                                              class="css-tj5bde-Svg"
-                                                              focusable="false"
-                                                              height="20"
-                                                              viewBox="0 0 20 20"
-                                                              width="20"
-                                                            >
-                                                              <path
-                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                              />
-                                                            </svg>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </span>
-                                            </div>
+                                            <span />
                                           </div>
                                           <div
-                                            class="field row"
-                                            data-testid="controlled-fields__row--subtype"
+                                            data-testid="custom-select-widget__url-content-type--selector"
                                           >
                                             <div
-                                              class="col-md-12"
+                                              class=" css-b62m3t-container"
+                                              id="URL_URLContentType"
                                             >
                                               <span
-                                                data-testid="controlled-fields__custom-select-widget--subtype"
+                                                class="css-1f43avz-a11yText-A11yText"
+                                                id="react-select-7-live-region"
+                                              />
+                                              <span
+                                                aria-atomic="false"
+                                                aria-live="polite"
+                                                aria-relevant="additions text"
+                                                class="css-1f43avz-a11yText-A11yText"
+                                              />
+                                              <div
+                                                class=" css-1s2u09g-control"
                                               >
                                                 <div
-                                                  class="custom-select-widget"
-                                                  data-testid="custom-select-widget__subtype"
+                                                  class=" css-319lph-ValueContainer"
                                                 >
-                                                  <div>
-                                                    <span>
-                                                      Subtype
-                                                    </span>
+                                                  <div
+                                                    class=" css-14el2xx-placeholder"
+                                                    id="react-select-7-placeholder"
+                                                  >
+                                                    Select URL Content Type
                                                   </div>
                                                   <div
-                                                    class="widget-description"
-                                                    data-testid="custom-select-widget__subtype--description"
+                                                    class=" css-6j8wv5-Input"
+                                                    data-value=""
                                                   >
-                                                    <span />
-                                                  </div>
-                                                  <div
-                                                    data-testid="custom-select-widget__subtype--selector"
-                                                  >
-                                                    <div
-                                                      class=" css-3iigni-container"
-                                                      id="URL_Subtype"
-                                                    >
-                                                      <span
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                        id="react-select-9-live-region"
-                                                      />
-                                                      <span
-                                                        aria-atomic="false"
-                                                        aria-live="polite"
-                                                        aria-relevant="additions text"
-                                                        class="css-1f43avz-a11yText-A11yText"
-                                                      />
-                                                      <div
-                                                        class=" css-1insrsq-control"
-                                                      >
-                                                        <div
-                                                          class=" css-319lph-ValueContainer"
-                                                        >
-                                                          <div
-                                                            class=" css-14el2xx-placeholder"
-                                                            id="react-select-9-placeholder"
-                                                          >
-                                                            No available Subtype
-                                                          </div>
-                                                          <div
-                                                            class=" css-jzldcf-Input"
-                                                            data-value=""
-                                                          >
-                                                            <input
-                                                              aria-autocomplete="list"
-                                                              aria-describedby="react-select-9-placeholder"
-                                                              aria-expanded="false"
-                                                              aria-haspopup="true"
-                                                              autocapitalize="none"
-                                                              autocomplete="off"
-                                                              autocorrect="off"
-                                                              class=""
-                                                              disabled=""
-                                                              id="react-select-9-input"
-                                                              role="combobox"
-                                                              spellcheck="false"
-                                                              style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                              tabindex="0"
-                                                              type="text"
-                                                              value=""
-                                                            />
-                                                          </div>
-                                                        </div>
-                                                        <div
-                                                          class=" css-1hb7zxy-IndicatorsContainer"
-                                                        >
-                                                          <span
-                                                            class=" css-109onse-indicatorSeparator"
-                                                          />
-                                                          <div
-                                                            aria-hidden="true"
-                                                            class=" css-tlfecz-indicatorContainer"
-                                                          >
-                                                            <svg
-                                                              aria-hidden="true"
-                                                              class="css-tj5bde-Svg"
-                                                              focusable="false"
-                                                              height="20"
-                                                              viewBox="0 0 20 20"
-                                                              width="20"
-                                                            >
-                                                              <path
-                                                                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                              />
-                                                            </svg>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
+                                                    <input
+                                                      aria-autocomplete="list"
+                                                      aria-describedby="react-select-7-placeholder"
+                                                      aria-expanded="false"
+                                                      aria-haspopup="true"
+                                                      autocapitalize="none"
+                                                      autocomplete="off"
+                                                      autocorrect="off"
+                                                      class=""
+                                                      id="react-select-7-input"
+                                                      role="combobox"
+                                                      spellcheck="false"
+                                                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                      tabindex="0"
+                                                      type="text"
+                                                      value=""
+                                                    />
                                                   </div>
                                                 </div>
-                                              </span>
+                                                <div
+                                                  class=" css-1hb7zxy-IndicatorsContainer"
+                                                >
+                                                  <span
+                                                    class=" css-1okebmr-indicatorSeparator"
+                                                  />
+                                                  <div
+                                                    aria-hidden="true"
+                                                    class=" css-tlfecz-indicatorContainer"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      class="css-tj5bde-Svg"
+                                                      focusable="false"
+                                                      height="20"
+                                                      viewBox="0 0 20 20"
+                                                      width="20"
+                                                    >
+                                                      <path
+                                                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
-                                      </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="row row-children"
+                                  >
+                                    <div
+                                      class="col-md-12"
+                                    >
+                                       
+                                      <div
+                                        class="form-group field field-string"
+                                        data-testid="layout-grid-field__custom-select-widget--type"
+                                      >
+                                        <div
+                                          class="custom-select-widget"
+                                          data-testid="custom-select-widget__type"
+                                        >
+                                          <div>
+                                            <span>
+                                               Type
+                                              <i
+                                                class="eui-icon eui-required-o required-icon"
+                                              />
+                                            </span>
+                                          </div>
+                                          <div
+                                            class="widget-description"
+                                            data-testid="custom-select-widget__type--description"
+                                          >
+                                            <span />
+                                          </div>
+                                          <div
+                                            data-testid="custom-select-widget__type--selector"
+                                          >
+                                            <div
+                                              class=" css-3iigni-container"
+                                              id="URL_Type"
+                                            >
+                                              <span
+                                                class="css-1f43avz-a11yText-A11yText"
+                                                id="react-select-8-live-region"
+                                              />
+                                              <span
+                                                aria-atomic="false"
+                                                aria-live="polite"
+                                                aria-relevant="additions text"
+                                                class="css-1f43avz-a11yText-A11yText"
+                                              />
+                                              <div
+                                                class=" css-1insrsq-control"
+                                              >
+                                                <div
+                                                  class=" css-319lph-ValueContainer"
+                                                >
+                                                  <div
+                                                    class=" css-14el2xx-placeholder"
+                                                    id="react-select-8-placeholder"
+                                                  >
+                                                    No available  Type
+                                                  </div>
+                                                  <div
+                                                    class=" css-jzldcf-Input"
+                                                    data-value=""
+                                                  >
+                                                    <input
+                                                      aria-autocomplete="list"
+                                                      aria-describedby="react-select-8-placeholder"
+                                                      aria-expanded="false"
+                                                      aria-haspopup="true"
+                                                      autocapitalize="none"
+                                                      autocomplete="off"
+                                                      autocorrect="off"
+                                                      class=""
+                                                      disabled=""
+                                                      id="react-select-8-input"
+                                                      role="combobox"
+                                                      spellcheck="false"
+                                                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                      tabindex="0"
+                                                      type="text"
+                                                      value=""
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class=" css-1hb7zxy-IndicatorsContainer"
+                                                >
+                                                  <span
+                                                    class=" css-109onse-indicatorSeparator"
+                                                  />
+                                                  <div
+                                                    aria-hidden="true"
+                                                    class=" css-tlfecz-indicatorContainer"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      class="css-tj5bde-Svg"
+                                                      focusable="false"
+                                                      height="20"
+                                                      viewBox="0 0 20 20"
+                                                      width="20"
+                                                    >
+                                                      <path
+                                                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="row row-children"
+                                  >
+                                    <div
+                                      class="col-md-12"
+                                    >
+                                       
+                                      <div
+                                        class="form-group field field-string"
+                                        data-testid="layout-grid-field__custom-select-widget--subtype"
+                                      >
+                                        <div
+                                          class="custom-select-widget"
+                                          data-testid="custom-select-widget__subtype"
+                                        >
+                                          <div>
+                                            <span>
+                                              Subtype
+                                            </span>
+                                          </div>
+                                          <div
+                                            class="widget-description"
+                                            data-testid="custom-select-widget__subtype--description"
+                                          >
+                                            <span />
+                                          </div>
+                                          <div
+                                            data-testid="custom-select-widget__subtype--selector"
+                                          >
+                                            <div
+                                              class=" css-3iigni-container"
+                                              id="URL_Subtype"
+                                            >
+                                              <span
+                                                class="css-1f43avz-a11yText-A11yText"
+                                                id="react-select-9-live-region"
+                                              />
+                                              <span
+                                                aria-atomic="false"
+                                                aria-live="polite"
+                                                aria-relevant="additions text"
+                                                class="css-1f43avz-a11yText-A11yText"
+                                              />
+                                              <div
+                                                class=" css-1insrsq-control"
+                                              >
+                                                <div
+                                                  class=" css-319lph-ValueContainer"
+                                                >
+                                                  <div
+                                                    class=" css-14el2xx-placeholder"
+                                                    id="react-select-9-placeholder"
+                                                  >
+                                                    No available Subtype
+                                                  </div>
+                                                  <div
+                                                    class=" css-jzldcf-Input"
+                                                    data-value=""
+                                                  >
+                                                    <input
+                                                      aria-autocomplete="list"
+                                                      aria-describedby="react-select-9-placeholder"
+                                                      aria-expanded="false"
+                                                      aria-haspopup="true"
+                                                      autocapitalize="none"
+                                                      autocomplete="off"
+                                                      autocorrect="off"
+                                                      class=""
+                                                      disabled=""
+                                                      id="react-select-9-input"
+                                                      role="combobox"
+                                                      spellcheck="false"
+                                                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                      tabindex="0"
+                                                      type="text"
+                                                      value=""
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class=" css-1hb7zxy-IndicatorsContainer"
+                                                >
+                                                  <span
+                                                    class=" css-109onse-indicatorSeparator"
+                                                  />
+                                                  <div
+                                                    aria-hidden="true"
+                                                    class=" css-tlfecz-indicatorContainer"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      class="css-tj5bde-Svg"
+                                                      focusable="false"
+                                                      height="20"
+                                                      viewBox="0 0 20 20"
+                                                      width="20"
+                                                    >
+                                                      <path
+                                                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                   <div
@@ -9518,17 +9509,22 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                           >
                             A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.
                           </p>
-                          <input
+                          <select
                             aria-describedby="root_URL_URLContentType__error root_URL_URLContentType__description root_URL_URLContentType__help"
                             class="form-control"
                             id="root_URL_URLContentType"
-                            label="URLContentType"
                             name="root_URL_URLContentType"
-                            placeholder=""
                             required=""
-                            type="text"
-                            value=""
-                          />
+                          >
+                            <option
+                              value=""
+                            />
+                            <option
+                              value="0"
+                            >
+                              DistributionURL
+                            </option>
+                          </select>
                         </div>
                         <div
                           class="form-group field field-string"

@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
-import _ from 'lodash'
+import _, { uniqueId } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import { RJSFValidationError } from '@rjsf/utils'
 import MetadataEditor from '../../MetadataEditor'
@@ -175,6 +175,9 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         </div>
       )
     })
+    while ((sectionList.length % 3) !== 0) {
+      sectionList.push(<div className="progress-section" key={`empty-section-${uniqueId.toString()}`} />)
+    }
 
     return (
       <Container>

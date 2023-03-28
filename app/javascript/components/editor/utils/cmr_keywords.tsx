@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { cloneDeep } from 'lodash'
 
 // Private
@@ -77,4 +78,92 @@ export function parseCmrResponse(response: Node, filter: string[]) {
     return j1.localeCompare(j2)
   })
   return paths
+}
+
+export type CmrResponseType = {
+  value: string,
+  subfields?: string[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [Key: string]: any
+}
+
+function collectKeywords(response: CmrResponseType,
+  type: string, filter: DictionaryType, keys: string[], list: string[]) {
+  const node = response
+  const { value, subfields, ...rest } = node
+  const array = Object.keys(rest)
+  array.forEach((key) => {
+    const array = node[key]
+    if (type === key) {
+      const finalNode = node[type] ?? []
+      finalNode.forEach((n) => {
+        list.push(n.value)
+      })
+    } else if (array) {
+      if (Array.isArray(array)) {
+        array.forEach((item) => {
+          if (keys.includes(key)) {
+            const { value } = item
+            if (value === filter[key]) {
+              collectKeywords(item, type, filter, keys, list)
+            }
+          } else {
+            collectKeywords(item, type, filter, keys, list)
+          }
+        })
+      }
+    }
+  })
+}
+
+/**
+ * Given the specified cmr response object and corresponding default values, will return a list of keywords.
+ * i.e., type='subtype', values= { url_content_type: 'PublicationURL', type: 'VIEW RELATED INFORMATION' }
+ * it will return a list of all keywords for PublicationURL>VIEW RELATED INFORMATION hierachy
+ */
+export function getKeywords(response: CmrResponseType, type: string, filter: DictionaryType, keys: string[]): string[] {
+  const list = []
+  collectKeywords(response, type, filter, keys, list)
+  return list
+}
+
+function walkMap(node:DictionaryType, current: string, level:string[], cmrResponse:CmrResponseType) {
+  const key = level.shift()
+  const children = Object.keys(node)
+
+  if (current) { cmrResponse[current] = [] }
+
+  children.forEach((field) => {
+    if (key) {
+      const value = node[field] as DictionaryType
+      const dict = { subfields: [key], value: field }
+      cmrResponse[current].push(dict)
+      walkMap(value, key, level, dict)
+    } else {
+      const value = node[field] as DictionaryType
+      const dict = { value: field }
+      cmrResponse[current].push(dict)
+      walkMap(value, key, level, dict)
+    }
+  })
+}
+
+// Given array of keyowrds, i.e.,
+// ['DistributionURL', 'DOWNLOAD SOFTWARE', 'MOBILE APP'],
+// ['DistributionURL', 'DOWNLOAD SOFTWARE'],
+// ['DistributionURL', 'GOTO WEB TOOL', 'LIVE ACCESS SERVER (LAS)'],
+// ['DistributionURL', 'GOTO WEB TOOL', 'SUBSETTER'],
+// ['DistributionURL', 'GOTO WEB TOOL']
+// with array of keys (i.e., ['url_content_type', 'type', 'subtype'])
+// it will return a cmr response object, i.e,
+// field: [
+// {subfields: ..., value:..., subfield1:...},
+// {subfields: ..., value:..., subfield1:...},
+// ]
+export function createResponseFromKeywords(keywords:string[][], keys:string[]):CmrResponseType {
+  const map = buildMap(cloneDeep(keywords)) as DictionaryType
+  const current = cloneDeep(keys.shift())
+  const response = {} as CmrResponseType
+  walkMap(map, current, keys, response)
+  return response
 }

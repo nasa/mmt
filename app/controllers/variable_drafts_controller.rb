@@ -1,6 +1,7 @@
 # :nodoc:
 class VariableDraftsController < BaseDraftsController
   include ControlledKeywords
+  include Cmr::Util
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :update_associated_collection]
   before_action :ensure_published_record_supported_version, only: [:show, :edit]
@@ -8,6 +9,7 @@ class VariableDraftsController < BaseDraftsController
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
   before_action :set_preview, only: [:show]
+  before_action :set_react_token, only: [:new, :create, :edit, :update, :show]
 
   def edit
     super
@@ -18,19 +20,19 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def new
-    super and return if params[:associated_collection_id].blank?
+      super and return if params[:associated_collection_id].blank?
 
-    @associated_collection_id = params[:associated_collection_id].strip
-    current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
+      @associated_collection_id = params[:associated_collection_id].strip
+      current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
 
-    if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
-      super
-    elsif !current_collection_response.success?
-      redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
-    elsif current_collection_response.body['hits'] == 0
-      redirect_to manage_variables_path, flash: { error: "No matches were found for #{@associated_collection_id}" }
-    elsif !current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
-      redirect_to manage_variables_path, flash: { error: "Variables can only be associated to collections within the same provider. To create a variable for #{@associated_collection_id} you must change your provider context." }
+      if current_collection_response.success? && current_collection_response.body['hits'] > 0 && current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
+        super
+      elsif !current_collection_response.success?
+        redirect_to manage_variables_path, flash: { error: current_collection_response.body['errors'].first }
+      elsif current_collection_response.body['hits'] == 0
+        redirect_to manage_variables_path, flash: { error: "No matches were found for #{@associated_collection_id}" }
+      elsif !current_provider?(current_collection_response.body.dig('items', 0, 'meta', 'provider-id'))
+        redirect_to manage_variables_path, flash: { error: "Variables can only be associated to collections within the same provider. To create a variable for #{@associated_collection_id} you must change your provider context." }
     end
   end
 
@@ -52,6 +54,20 @@ class VariableDraftsController < BaseDraftsController
   def set_schema
     @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-var-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
+  end
+
+  def prefix_token(token)
+    new_token = token
+    if is_urs_token?(token)
+      new_token = "Bearer #{token}"
+    end
+    new_token
+  end
+
+  def set_react_token
+    @react_token = prefix_token(token)
+    @react_user = current_user.urs_uid
+    @react_provider = current_user.provider_id
   end
 
   def set_form

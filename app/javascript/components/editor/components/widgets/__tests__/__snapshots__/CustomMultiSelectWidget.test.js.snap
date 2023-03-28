@@ -983,7 +983,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                   >
                                                     <span
                                                       class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-16-live-region"
+                                                      id="react-select-15-live-region"
                                                     />
                                                     <span
                                                       aria-atomic="false"
@@ -1036,7 +1036,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                             autocomplete="off"
                                                             autocorrect="off"
                                                             class=""
-                                                            id="react-select-16-input"
+                                                            id="react-select-15-input"
                                                             role="combobox"
                                                             spellcheck="false"
                                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1106,215 +1106,201 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                         class="row row-children"
                                       >
                                         <div
-                                          class="col"
+                                          class="col-md-12"
                                         >
                                            
-                                          <span
-                                            data-testid="layout-grid-field__schema-field--organizations"
+                                          <div
+                                            class="form-group field field-string"
+                                            data-testid="layout-grid-field__custom-select-widget--short-name"
                                           >
                                             <div
-                                              class="undefined"
+                                              class="custom-select-widget"
+                                              data-testid="custom-select-widget__short-name"
                                             >
+                                              <div>
+                                                <span>
+                                                  Short Name
+                                                  <i
+                                                    class="eui-icon eui-required-o required-icon"
+                                                  />
+                                                </span>
+                                              </div>
                                               <div
-                                                class="field row"
-                                                data-testid="controlled-fields__row--short-name"
+                                                class="widget-description"
+                                                data-testid="custom-select-widget__short-name--description"
+                                              >
+                                                <span />
+                                              </div>
+                                              <div
+                                                data-testid="custom-select-widget__short-name--selector"
                                               >
                                                 <div
-                                                  class="col-md-12"
+                                                  class=" css-3iigni-container"
+                                                  id="Organizations_0_ShortName"
                                                 >
                                                   <span
-                                                    data-testid="controlled-fields__custom-select-widget--short-name"
+                                                    class="css-1f43avz-a11yText-A11yText"
+                                                    id="react-select-16-live-region"
+                                                  />
+                                                  <span
+                                                    aria-atomic="false"
+                                                    aria-live="polite"
+                                                    aria-relevant="additions text"
+                                                    class="css-1f43avz-a11yText-A11yText"
+                                                  />
+                                                  <div
+                                                    class=" css-1insrsq-control"
                                                   >
                                                     <div
-                                                      class="custom-select-widget"
-                                                      data-testid="custom-select-widget__short-name"
+                                                      class=" css-319lph-ValueContainer"
                                                     >
-                                                      <div>
-                                                        <span>
-                                                          Short Name
-                                                          <i
-                                                            class="eui-icon eui-required-o required-icon"
-                                                          />
-                                                        </span>
+                                                      <div
+                                                        class=" css-lr9fot-singleValue"
+                                                      >
+                                                        AARHUS-HYDRO
                                                       </div>
                                                       <div
-                                                        class="widget-description"
-                                                        data-testid="custom-select-widget__short-name--description"
+                                                        class=" css-jzldcf-Input"
+                                                        data-value=""
                                                       >
-                                                        <span />
+                                                        <input
+                                                          aria-autocomplete="list"
+                                                          aria-expanded="false"
+                                                          aria-haspopup="true"
+                                                          autocapitalize="none"
+                                                          autocomplete="off"
+                                                          autocorrect="off"
+                                                          class=""
+                                                          disabled=""
+                                                          id="react-select-16-input"
+                                                          role="combobox"
+                                                          spellcheck="false"
+                                                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                          tabindex="0"
+                                                          type="text"
+                                                          value=""
+                                                        />
                                                       </div>
+                                                    </div>
+                                                    <div
+                                                      class=" css-1hb7zxy-IndicatorsContainer"
+                                                    >
                                                       <div
-                                                        data-testid="custom-select-widget__short-name--selector"
+                                                        aria-hidden="true"
+                                                        class=" css-at12u2-loadingIndicator"
                                                       >
-                                                        <div
-                                                          class=" css-3iigni-container"
-                                                          id="Organizations_0_ShortName"
+                                                        <span
+                                                          class="css-1xtdfmb-LoadingDot"
+                                                        />
+                                                        <span
+                                                          class="css-zoievk-LoadingDot"
+                                                        />
+                                                        <span
+                                                          class="css-x748d8-LoadingDot"
+                                                        />
+                                                      </div>
+                                                      <span
+                                                        class=" css-109onse-indicatorSeparator"
+                                                      />
+                                                      <div
+                                                        aria-hidden="true"
+                                                        class=" css-tlfecz-indicatorContainer"
+                                                      >
+                                                        <svg
+                                                          aria-hidden="true"
+                                                          class="css-tj5bde-Svg"
+                                                          focusable="false"
+                                                          height="20"
+                                                          viewBox="0 0 20 20"
+                                                          width="20"
                                                         >
-                                                          <span
-                                                            class="css-1f43avz-a11yText-A11yText"
-                                                            id="react-select-17-live-region"
+                                                          <path
+                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
                                                           />
-                                                          <span
-                                                            aria-atomic="false"
-                                                            aria-live="polite"
-                                                            aria-relevant="additions text"
-                                                            class="css-1f43avz-a11yText-A11yText"
-                                                          />
-                                                          <div
-                                                            class=" css-1insrsq-control"
-                                                          >
-                                                            <div
-                                                              class=" css-319lph-ValueContainer"
-                                                            >
-                                                              <div
-                                                                class=" css-lr9fot-singleValue"
-                                                              >
-                                                                AARHUS-HYDRO
-                                                              </div>
-                                                              <div
-                                                                class=" css-jzldcf-Input"
-                                                                data-value=""
-                                                              >
-                                                                <input
-                                                                  aria-autocomplete="list"
-                                                                  aria-expanded="false"
-                                                                  aria-haspopup="true"
-                                                                  autocapitalize="none"
-                                                                  autocomplete="off"
-                                                                  autocorrect="off"
-                                                                  class=""
-                                                                  disabled=""
-                                                                  id="react-select-17-input"
-                                                                  role="combobox"
-                                                                  spellcheck="false"
-                                                                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                                  tabindex="0"
-                                                                  type="text"
-                                                                  value=""
-                                                                />
-                                                              </div>
-                                                            </div>
-                                                            <div
-                                                              class=" css-1hb7zxy-IndicatorsContainer"
-                                                            >
-                                                              <div
-                                                                aria-hidden="true"
-                                                                class=" css-at12u2-loadingIndicator"
-                                                              >
-                                                                <span
-                                                                  class="css-1xtdfmb-LoadingDot"
-                                                                />
-                                                                <span
-                                                                  class="css-zoievk-LoadingDot"
-                                                                />
-                                                                <span
-                                                                  class="css-x748d8-LoadingDot"
-                                                                />
-                                                              </div>
-                                                              <span
-                                                                class=" css-109onse-indicatorSeparator"
-                                                              />
-                                                              <div
-                                                                aria-hidden="true"
-                                                                class=" css-tlfecz-indicatorContainer"
-                                                              >
-                                                                <svg
-                                                                  aria-hidden="true"
-                                                                  class="css-tj5bde-Svg"
-                                                                  focusable="false"
-                                                                  height="20"
-                                                                  viewBox="0 0 20 20"
-                                                                  width="20"
-                                                                >
-                                                                  <path
-                                                                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
+                                                        </svg>
                                                       </div>
                                                     </div>
-                                                  </span>
-                                                </div>
-                                              </div>
-                                              <div
-                                                class="field row"
-                                                data-testid="controlled-fields__row--long-name"
-                                              >
-                                                <div
-                                                  class="col-md-12"
-                                                >
-                                                  <span
-                                                    data-testid="controlled-fields__custom-text-widget--long-name"
-                                                  >
-                                                    <div
-                                                      class="widget-header"
-                                                      data-testid="custom-text-widget__long-name--text-header"
-                                                    >
-                                                      <span>
-                                                        Long Name
-                                                      </span>
-                                                    </div>
-                                                    <input
-                                                      class="custom-text-widget-input"
-                                                      data-testid="custom-text-widget__long-name--text-input"
-                                                      disabled=""
-                                                      id="Organizations_0_LongName"
-                                                      name="Long Name"
-                                                      type="text"
-                                                      value="Hydrogeophysics Group, Aarhus University "
-                                                    />
-                                                    <span
-                                                      class="widget-description"
-                                                      data-testid="custom-text-widget--description-field__long-name"
-                                                    />
-                                                  </span>
-                                                </div>
-                                              </div>
-                                              <div
-                                                class="field row"
-                                                data-testid="controlled-fields__row--url-value"
-                                              >
-                                                <div
-                                                  class="col-md-12"
-                                                >
-                                                  <span
-                                                    data-testid="controlled-fields__custom-text-widget--url-value"
-                                                  >
-                                                    <div
-                                                      class="widget-header"
-                                                      data-testid="custom-text-widget__url-value--text-header"
-                                                    >
-                                                      <span>
-                                                        URL value
-                                                      </span>
-                                                      <span>
-                                                        0
-                                                        /
-                                                        1024
-                                                      </span>
-                                                    </div>
-                                                    <input
-                                                      class="custom-text-widget-input"
-                                                      data-testid="custom-text-widget__url-value--text-input"
-                                                      disabled=""
-                                                      id="Organizations_0_URLValue"
-                                                      maxlength="1024"
-                                                      name="URL value"
-                                                      type="text"
-                                                      value=""
-                                                    />
-                                                    <span
-                                                      class="widget-description"
-                                                      data-testid="custom-text-widget--description-field__url-value"
-                                                    />
-                                                  </span>
+                                                  </div>
                                                 </div>
                                               </div>
                                             </div>
-                                          </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="row row-children"
+                                      >
+                                        <div
+                                          class="col-md-12"
+                                        >
+                                           
+                                          <div
+                                            class="form-group field field-string"
+                                            data-testid="controlled-fields__custom-text-widget--long-name"
+                                          >
+                                            <div
+                                              class="widget-header"
+                                              data-testid="custom-text-widget__long-name--text-header"
+                                            >
+                                              <span>
+                                                Long Name
+                                              </span>
+                                            </div>
+                                            <input
+                                              class="custom-text-widget-input"
+                                              data-testid="custom-text-widget__long-name--text-input"
+                                              disabled=""
+                                              id="Organizations_0_LongName"
+                                              name="Long Name"
+                                              type="text"
+                                              value=""
+                                            />
+                                            <span
+                                              class="widget-description"
+                                              data-testid="custom-text-widget--description-field__long-name"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="row row-children"
+                                      >
+                                        <div
+                                          class="col-md-12"
+                                        >
+                                           
+                                          <div
+                                            class="form-group field field-string"
+                                            data-testid="controlled-fields__custom-text-widget--url-value"
+                                          >
+                                            <div
+                                              class="widget-header"
+                                              data-testid="custom-text-widget__url-value--text-header"
+                                            >
+                                              <span>
+                                                URL value
+                                              </span>
+                                              <span>
+                                                0
+                                                /
+                                                1024
+                                              </span>
+                                            </div>
+                                            <input
+                                              class="custom-text-widget-input"
+                                              data-testid="custom-text-widget__url-value--text-input"
+                                              disabled=""
+                                              id="Organizations_0_URLValue"
+                                              maxlength="1024"
+                                              name="URL value"
+                                              type="text"
+                                              value=""
+                                            />
+                                            <span
+                                              class="widget-description"
+                                              data-testid="custom-text-widget--description-field__url-value"
+                                            />
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -2807,7 +2793,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                       name="root_Organizations_0_LongName"
                                       placeholder=""
                                       type="text"
-                                      value="Hydrogeophysics Group, Aarhus University "
+                                      value=""
                                     />
                                   </div>
                                   <div
@@ -4103,19 +4089,6 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                     class="__json-string__"
                   >
                     "AARHUS-HYDRO"
-                  </span>
-                  ,
-      "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Hydrogeophysics Group, Aarhus University "
                   </span>
                   
     }

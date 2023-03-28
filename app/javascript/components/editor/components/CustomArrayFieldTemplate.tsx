@@ -40,12 +40,18 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     this.titleScrollRef = React.createRef()
   }
 
-  parseTitle(title: string) {
-    if (title.charAt(title.length - 1) === 's' && title.charAt(title.length - 2) !== 's') {
-      title = title.slice(0, -1)
+  parseTitle(title:string) {
+    if (title == null) {
+      return title
+    }
+    if (title.length > 1) {
+      if (title.charAt(title.length - 1) === 's' && title.charAt(title.length - 2) !== 's') {
+        title = title.slice(0, -1)
+      }
     }
     return title
   }
+
   render() {
     const {
       items, canAdd, onAddClick, schema, uiSchema, registry
@@ -75,6 +81,10 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     if (uiTitle) {
       title = uiTitle
     }
+    let itemTitle = null
+    if (uiSchema.items) {
+      itemTitle = uiSchema.items['ui:title'] ?? title
+    }
     return (
       <div data-testid="custom-array-template" ref={this.titleScrollRef}>
         {uiClassNames ? (
@@ -90,6 +100,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
         <br />
 
         {items && items.map((element: Element, index: number) => (
+
           <div
             key={element.key}
             className={`${element.className} element`}
@@ -98,7 +109,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
             <div className="custom-array-template-remove-btn">
               <div className="remove-header">
                 <h6 className="remove-title">
-                  <b>{this.parseTitle(title)}</b>
+                  <b>{this.parseTitle(itemTitle)}</b>
                   <span className="element-index-title">
                     {items.length > 0 && `(${index + 1} of ${items.length})`}
                   </span>
@@ -129,35 +140,32 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
             </div>
           </div>
         ))}
-
-        {
-          (items.length === 0 && canAdd) && (
-            <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
-              <button
-                data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
-                className="btn"
-                type="button"
-                onClick={(e) => {
-                  onAddClick(e)
-                  editor.setArrayAutoScroll(items.length)
-                  setTimeout(() => {
-                    editor.setArrayAutoScroll(-1)
-                  }, 400)
-                }}
-              >
-                <span className="add-button">
-                  <i className="fa-solid fa-circle-plus fa-lg" />
-                </span>
-                {' '}
-                <span className="add-label">
-                  Add
-                  {' '}
-                  {this.parseTitle(title)}
-                </span>
-              </button>
-            </div>
-          )
-        }
+        {(items.length === 0 && canAdd) && (
+        <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
+          <button
+            data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
+            className="btn"
+            type="button"
+            onClick={(e) => {
+              onAddClick(e)
+              editor.setArrayAutoScroll(items.length)
+              setTimeout(() => {
+                editor.setArrayAutoScroll(-1)
+              }, 400)
+            }}
+          >
+            <span className="add-button">
+              <i className="fa-solid fa-circle-plus fa-lg" />
+            </span>
+            {' '}
+            <span className="add-label">
+              Add
+              {' '}
+              {this.parseTitle(itemTitle)}
+            </span>
+          </button>
+        </div>
+        )}
         {
           (items.length > 0 && canAdd) && (
             <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
@@ -180,7 +188,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
                 <span className="add-label">
                   Add another
                   {' '}
-                  {this.parseTitle(title)}
+                  {this.parseTitle(itemTitle)}
                 </span>
               </button>
             </div>

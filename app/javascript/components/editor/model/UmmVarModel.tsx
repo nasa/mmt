@@ -10,6 +10,7 @@ import variableInformationUiSchema from '../data/configuration/uiSchemas/variabl
 import dimensionsUiSchema from '../data/configuration/uiSchemas/variables/dimensions'
 import fillValuesUiSchema from '../data/configuration/uiSchemas/variables/fill_values'
 import SamplingIdentifiersUiSchema from '../data/configuration/uiSchemas/variables/sampling_identifiers'
+import measurementIdentifiersUiSchema from '../data/configuration/uiSchemas/variables/measurement_identifiers'
 import SetsUiSchema from '../data/configuration/uiSchemas/variables/sets'
 
 export default class UmmVarModel extends UmmModel {
@@ -58,6 +59,13 @@ export default class UmmVarModel extends UmmModel {
     }
     if (this.currentSection.displayName === 'Fill Values') {
       const uiSchema: any = fillValuesUiSchema
+      return { ...uiSchema, ...base }
+    }
+    if (this.currentSection.displayName === 'Measurement Identifiers') {
+      const uiSchema: any = measurementIdentifiersUiSchema
+      uiSchema.MeasurementIdentifiers.items['ui:service'] = this.service
+      uiSchema.MeasurementIdentifiers.items.MeasurementQuantities.items['ui:service'] = this.service
+
       return { ...uiSchema, ...base }
     }
     if (this.currentSection.displayName === 'Sampling Identifiers') {

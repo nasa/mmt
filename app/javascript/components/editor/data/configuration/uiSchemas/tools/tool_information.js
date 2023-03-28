@@ -1,5 +1,3 @@
-import React from 'react'
-import ControlledFields from '../../../../components/ControlledFields'
 import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
 import urltypes from '../../kms/urltype_tool'
 
@@ -82,8 +80,14 @@ const toolInformationUiSchema = {
     'ui:root': 'URL',
     'ui:title': 'URL',
     'ui:field': 'layout',
-    'ui:controlledFields': ['URLContentType', 'Type', 'Subtype'],
-    'ui:keywords': urltypes,
+    'ui:controlled': {
+      keywords: urltypes,
+      map: {
+        URLContentType: 'url_content_type',
+        Type: 'type',
+        Subtype: 'subtype'
+      }
+    },
     'ui:layout_grid': {
       'ui:row': [
         {
@@ -98,18 +102,17 @@ const toolInformationUiSchema = {
               },
               {
                 'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: [{
-                        name: 'url-types',
-                        render: (props) => (
-                          <ControlledFields {...props} />
-                        )
-                      }]
-                    }
-                  }
-
+                  { 'ui:col': { controlName: 'url_content_type', md: 12, children: ['URLContentType'] } }
+                ]
+              },
+              {
+                'ui:row': [
+                  { 'ui:col': { controlName: 'type', md: 12, children: ['Type'] } }
+                ]
+              },
+              {
+                'ui:row': [
+                  { 'ui:col': { controlName: 'subtype', md: 12, children: ['Subtype'] } }
                 ]
               },
               {

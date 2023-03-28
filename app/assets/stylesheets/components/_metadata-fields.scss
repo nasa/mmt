@@ -5,6 +5,10 @@
 // Note: Needs refactoring.
 
 // this is used for progress circle sections
+
+#react-editor-form .container {
+  border-bottom: 1px solid $dolphin-grey;
+}
 .metadata,
 .collection-association {
   padding-bottom: 1.275em;
@@ -22,7 +26,7 @@
     color: $ocean-blue;
   }
 
-  ul {
+  ul:not(#react-editor-form *) {
     list-style: none;
     padding-left: 0;
   }

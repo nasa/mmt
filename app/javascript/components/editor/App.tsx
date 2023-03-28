@@ -18,6 +18,7 @@ class App extends React.Component<AppProps, never> {
       <BrowserRouter>
         <Routes>
           <Route path={`/${editor.model.documentType}/:id`} element={<DetailedProgressView editor={editor} />} />
+          <Route path={`/${editor.model.documentType}/:id/edit`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName/:index`} element={<MetadataEditorForm editor={editor} {...this.props} />} />

@@ -15,7 +15,6 @@ import CustomTextareaWidget from './widgets/CustomTextareaWidget'
 import LayoutGridField from './LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
 import CustomArrayFieldTemplate from './CustomArrayFieldTemplate'
-import ControlledFields from './ControlledFields'
 import withRouter from './withRouter'
 import NavigationView from './NavigationView'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
@@ -46,6 +45,9 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
 
     if (router.params.index && router.params.index !== null) {
       editor.setArrayAutoScroll(router.params.index - 1)
+    }
+    if (!sectionName) {
+      sectionName = editor.formSections.at(0).displayName
     }
     sectionName = editor.migratedSectionName(sectionName)
     if (sectionName) {
@@ -88,7 +90,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {
     const oldSection = prevProps.editor.currentSection
     const { router, editor } = this.props
-    const { params, navigate } = router
+    const { params } = router
     let { sectionName } = params
     if (sectionName) {
       sectionName = editor.migratedSectionName(sectionName)
@@ -107,7 +109,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     }
     const fields: RegistryFieldsType = {
       layout: LayoutGridField,
-      controlled: ControlledFields,
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleFieldTemplate

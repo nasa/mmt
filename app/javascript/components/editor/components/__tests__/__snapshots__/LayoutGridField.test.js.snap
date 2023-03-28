@@ -1940,17 +1940,22 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                           >
                             A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.
                           </p>
-                          <input
+                          <select
                             aria-describedby="root_URL_URLContentType__error root_URL_URLContentType__description root_URL_URLContentType__help"
                             class="form-control"
                             id="root_URL_URLContentType"
-                            label="URLContentType"
                             name="root_URL_URLContentType"
-                            placeholder=""
                             required=""
-                            type="text"
-                            value=""
-                          />
+                          >
+                            <option
+                              value=""
+                            />
+                            <option
+                              value="0"
+                            >
+                              DistributionURL
+                            </option>
+                          </select>
                         </div>
                         <div
                           class="form-group field field-string"
@@ -9682,17 +9687,22 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                           >
                             A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.
                           </p>
-                          <input
+                          <select
                             aria-describedby="root_URL_URLContentType__error root_URL_URLContentType__description root_URL_URLContentType__help"
                             class="form-control"
                             id="root_URL_URLContentType"
-                            label="URLContentType"
                             name="root_URL_URLContentType"
-                            placeholder=""
                             required=""
-                            type="text"
-                            value=""
-                          />
+                          >
+                            <option
+                              value=""
+                            />
+                            <option
+                              value="0"
+                            >
+                              DistributionURL
+                            </option>
+                          </select>
                         </div>
                         <div
                           class="form-group field field-string"
