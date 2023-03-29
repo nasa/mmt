@@ -88,23 +88,20 @@ export default class UmmModel implements FormModel {
     return formSchema
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   get uiSchema(): object {
     throw new Error('Method uiSchema() must be implemented.')
   }
-  /* istanbul ignore next */
+
   get formSections(): FormSection[] {
     throw new Error('Method formSections() must be implemented.')
   }
-  /* istanbul ignore next */
   get documentType(): string {
     throw new Error('Method documentType() must be implemented.')
   }
-  /* istanbul ignore next */
   get documentTypeForDisplay(): string {
     throw new Error('Method documentTypeForDisplay() must be implemented.')
   }
-  /* istanbul ignore next */
   migratedSectionName(sectionName: string): string {
     throw new Error(`Method migratedSectionName(${sectionName}) must be implemented.`)
   }

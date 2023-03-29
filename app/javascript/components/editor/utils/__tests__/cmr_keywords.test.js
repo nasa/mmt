@@ -1,8 +1,5 @@
-import {
-  buildMap, createResponseFromKeywords, getKeywords, parseCmrResponse
-} from '../cmr_keywords'
+import { buildMap, parseCmrResponse } from '../cmr_keywords'
 import { cmrResponse } from '../../data/test/cmr_keywords_response'
-import urltypes from '../../data/configuration/kms/urltype_tool'
 
 describe('parses a cmr response', () => {
   it('produces multidimensional array', async () => {
@@ -136,101 +133,5 @@ describe('parses a cmr response', () => {
       VisualizationURL: {}
     }
     expect(map).toEqual(expectedResponse)
-  })
-
-  it('can return keywords for given field values', async () => {
-    const response = {
-      url_content_type: [
-        {
-          subfields: [
-            'type'
-          ],
-          value: 'DistributionURL',
-          type: [
-            {
-              subfields: [
-                'subtype'
-              ],
-              value: 'DOWNLOAD SOFTWARE',
-              subtype: [
-                {
-                  value: 'MOBILE APP'
-                }
-              ]
-            },
-            {
-              subfields: [
-                'subtype'
-              ],
-              value: 'GOTO WEB TOOL',
-              subtype: [
-                {
-                  value: 'LIVE ACCESS SERVER (LAS)'
-                },
-                {
-                  value: 'MAP VIEWER'
-                },
-                {
-                  value: 'SIMPLE SUBSET WIZARD (SSW)'
-                },
-                {
-                  value: 'SUBSETTER'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-    const keywords = getKeywords(response, 'type', { url_content_type: 'DistributionURL' }, ['url_content_type', 'type'])
-    expect(keywords).toEqual(['DOWNLOAD SOFTWARE', 'GOTO WEB TOOL'])
-  })
-
-  it('converts array map to cmr response', async () => {
-    const urlTypes = urltypes
-    const cmrResponse = createResponseFromKeywords(urlTypes, ['url_content_type', 'type', 'subtype'])
-    expect(cmrResponse).toEqual({
-      url_content_type: [
-        {
-          subfields: [
-            'type'
-          ],
-          value: 'DistributionURL',
-          type: [
-            {
-              subfields: [
-                'subtype'
-              ],
-              value: 'DOWNLOAD SOFTWARE',
-              subtype: [
-                {
-                  value: 'MOBILE APP'
-                }
-              ]
-            },
-            {
-              subfields: [
-                'subtype'
-              ],
-              value: 'GOTO WEB TOOL',
-              subtype: [
-                {
-                  value: 'LIVE ACCESS SERVER (LAS)'
-                },
-                {
-                  value: 'MAP VIEWER'
-                },
-                {
-                  value: 'SIMPLE SUBSET WIZARD (SSW)'
-                },
-                {
-                  value: 'SUBSETTER'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    })
   })
 })

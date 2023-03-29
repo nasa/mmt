@@ -37,22 +37,22 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-13cymwt-control"
         >
           <div
-            class=" css-g1d714-ValueContainer"
+            class=" css-3w2yfm-ValueContainer"
           >
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Portal
               </div>
               <div
                 aria-label="Remove Portal"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -70,16 +70,16 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Author
               </div>
               <div
                 aria-label="Remove Author"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -97,7 +97,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class=" css-6j8wv5-Input"
+              class=" css-qbdosj-Input"
               data-value=""
             >
               <input
@@ -123,7 +123,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -139,11 +139,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </svg>
             </div>
             <span
-              class=" css-1okebmr-indicatorSeparator"
+              class=" css-1u9des2-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -212,22 +212,22 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-13cymwt-control"
         >
           <div
-            class=" css-g1d714-ValueContainer"
+            class=" css-3w2yfm-ValueContainer"
           >
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Web
               </div>
               <div
                 aria-label="Remove Web"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -245,16 +245,16 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Portal
               </div>
               <div
                 aria-label="Remove Portal"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -272,7 +272,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class=" css-6j8wv5-Input"
+              class=" css-qbdosj-Input"
               data-value=""
             >
               <input
@@ -298,7 +298,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -314,11 +314,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </svg>
             </div>
             <span
-              class=" css-1okebmr-indicatorSeparator"
+              class=" css-1u9des2-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -390,22 +390,22 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-13cymwt-control"
         >
           <div
-            class=" css-g1d714-ValueContainer"
+            class=" css-3w2yfm-ValueContainer"
           >
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Web
               </div>
               <div
                 aria-label="Remove Web"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -423,16 +423,16 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Portal
               </div>
               <div
                 aria-label="Remove Portal"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -450,7 +450,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class=" css-6j8wv5-Input"
+              class=" css-qbdosj-Input"
               data-value=""
             >
               <input
@@ -476,7 +476,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -492,11 +492,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </svg>
             </div>
             <span
-              class=" css-1okebmr-indicatorSeparator"
+              class=" css-1u9des2-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -568,22 +568,22 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-13cymwt-control"
         >
           <div
-            class=" css-g1d714-ValueContainer"
+            class=" css-3w2yfm-ValueContainer"
           >
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Web
               </div>
               <div
                 aria-label="Remove Web"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -601,16 +601,16 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class="css-1rhbuit-multiValue"
+              class=" css-1p3m7a8-multiValue"
             >
               <div
-                class="css-12jo7m5"
+                class=" css-wsp0cs-MultiValueGeneric"
               >
                 Portal
               </div>
               <div
                 aria-label="Remove Portal"
-                class="css-xb97g8"
+                class=" css-12a83d4-MultiValueRemove"
                 role="button"
               >
                 <svg
@@ -628,7 +628,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </div>
             </div>
             <div
-              class=" css-6j8wv5-Input"
+              class=" css-qbdosj-Input"
               data-value=""
             >
               <input
@@ -654,7 +654,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
           >
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -670,11 +670,11 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
               </svg>
             </div>
             <span
-              class=" css-1okebmr-indicatorSeparator"
+              class=" css-1u9des2-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -741,19 +741,19 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
           class="css-1f43avz-a11yText-A11yText"
         />
         <div
-          class=" css-1s2u09g-control"
+          class=" css-13cymwt-control"
         >
           <div
-            class=" css-319lph-ValueContainer"
+            class=" css-1fdsijx-ValueContainer"
           >
             <div
-              class=" css-14el2xx-placeholder"
+              class=" css-1jqq78o-placeholder"
               id="react-select-3-placeholder"
             >
               Select Values
             </div>
             <div
-              class=" css-6j8wv5-Input"
+              class=" css-qbdosj-Input"
               data-value=""
             >
               <input
@@ -779,11 +779,11 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
             class=" css-1hb7zxy-IndicatorsContainer"
           >
             <span
-              class=" css-1okebmr-indicatorSeparator"
+              class=" css-1u9des2-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class=" css-tlfecz-indicatorContainer"
+              class=" css-1xc3v61-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
@@ -804,6 +804,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
           <input
             name="Select-MyTestDataLabel"
             type="hidden"
+            value=""
           />
         </div>
       </div>
@@ -972,7 +973,9 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                   class="widget-description"
                                                   data-testid="custom-select-widget__roles--description"
                                                 >
-                                                  <span />
+                                                  <span>
+                                                    This is the roles of the organization.
+                                                  </span>
                                                 </div>
                                                 <div
                                                   data-testid="custom-multi-select-widget__roles--selector"
@@ -983,8 +986,19 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                   >
                                                     <span
                                                       class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-15-live-region"
-                                                    />
+                                                      id="react-select-14-live-region"
+                                                    >
+                                                      <span
+                                                        id="aria-selection"
+                                                      >
+                                                        option , selected.
+                                                      </span>
+                                                      <span
+                                                        id="aria-context"
+                                                      >
+                                                        option SERVICE PROVIDER focused, 1 of 5. 5 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+                                                      </span>
+                                                    </span>
                                                     <span
                                                       aria-atomic="false"
                                                       aria-live="polite"
@@ -992,51 +1006,33 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                       class="css-1f43avz-a11yText-A11yText"
                                                     />
                                                     <div
-                                                      class=" css-1s2u09g-control"
+                                                      class=" css-t3ipsp-control"
                                                     >
                                                       <div
-                                                        class=" css-g1d714-ValueContainer"
+                                                        class=" css-1fdsijx-ValueContainer"
                                                       >
                                                         <div
-                                                          class="css-1rhbuit-multiValue"
+                                                          class=" css-1jqq78o-placeholder"
+                                                          id="react-select-14-placeholder"
                                                         >
-                                                          <div
-                                                            class="css-12jo7m5"
-                                                          >
-                                                            SERVICE PROVIDER
-                                                          </div>
-                                                          <div
-                                                            aria-label="Remove SERVICE PROVIDER"
-                                                            class="css-xb97g8"
-                                                            role="button"
-                                                          >
-                                                            <svg
-                                                              aria-hidden="true"
-                                                              class="css-tj5bde-Svg"
-                                                              focusable="false"
-                                                              height="14"
-                                                              viewBox="0 0 20 20"
-                                                              width="14"
-                                                            >
-                                                              <path
-                                                                d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                                                              />
-                                                            </svg>
-                                                          </div>
+                                                          Select Roles
                                                         </div>
                                                         <div
-                                                          class=" css-6j8wv5-Input"
+                                                          class=" css-qbdosj-Input"
                                                           data-value=""
                                                         >
                                                           <input
                                                             aria-autocomplete="list"
-                                                            aria-expanded="false"
+                                                            aria-controls="react-select-14-listbox"
+                                                            aria-describedby="react-select-14-placeholder"
+                                                            aria-expanded="true"
                                                             aria-haspopup="true"
+                                                            aria-owns="react-select-14-listbox"
                                                             autocapitalize="none"
                                                             autocomplete="off"
                                                             autocorrect="off"
                                                             class=""
-                                                            id="react-select-15-input"
+                                                            id="react-select-14-input"
                                                             role="combobox"
                                                             spellcheck="false"
                                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1049,29 +1045,12 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                       <div
                                                         class=" css-1hb7zxy-IndicatorsContainer"
                                                       >
-                                                        <div
-                                                          aria-hidden="true"
-                                                          class=" css-tlfecz-indicatorContainer"
-                                                        >
-                                                          <svg
-                                                            aria-hidden="true"
-                                                            class="css-tj5bde-Svg"
-                                                            focusable="false"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            width="20"
-                                                          >
-                                                            <path
-                                                              d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                                                            />
-                                                          </svg>
-                                                        </div>
                                                         <span
-                                                          class=" css-1okebmr-indicatorSeparator"
+                                                          class=" css-1u9des2-indicatorSeparator"
                                                         />
                                                         <div
                                                           aria-hidden="true"
-                                                          class=" css-tlfecz-indicatorContainer"
+                                                          class=" css-15lsz6c-indicatorContainer"
                                                         >
                                                           <svg
                                                             aria-hidden="true"
@@ -1088,11 +1067,60 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                         </div>
                                                       </div>
                                                     </div>
+                                                    <div
+                                                      class=" css-1nmdiq5-menu"
+                                                      id="react-select-14-listbox"
+                                                    >
+                                                      <div
+                                                        class=" css-1n6sfyn-MenuList"
+                                                      >
+                                                        <div
+                                                          aria-disabled="false"
+                                                          class=" css-d7l1ni-option"
+                                                          id="react-select-14-option-0"
+                                                          tabindex="-1"
+                                                        >
+                                                          SERVICE PROVIDER
+                                                        </div>
+                                                        <div
+                                                          aria-disabled="false"
+                                                          class=" css-10wo9uf-option"
+                                                          id="react-select-14-option-1"
+                                                          tabindex="-1"
+                                                        >
+                                                          DEVELOPER
+                                                        </div>
+                                                        <div
+                                                          aria-disabled="false"
+                                                          class=" css-10wo9uf-option"
+                                                          id="react-select-14-option-2"
+                                                          tabindex="-1"
+                                                        >
+                                                          PUBLISHER
+                                                        </div>
+                                                        <div
+                                                          aria-disabled="false"
+                                                          class=" css-10wo9uf-option"
+                                                          id="react-select-14-option-3"
+                                                          tabindex="-1"
+                                                        >
+                                                          AUTHOR
+                                                        </div>
+                                                        <div
+                                                          aria-disabled="false"
+                                                          class=" css-10wo9uf-option"
+                                                          id="react-select-14-option-4"
+                                                          tabindex="-1"
+                                                        >
+                                                          ORIGINATOR
+                                                        </div>
+                                                      </div>
+                                                    </div>
                                                     <div>
                                                       <input
                                                         name="Select-Roles"
                                                         type="hidden"
-                                                        value="SERVICE PROVIDER"
+                                                        value=""
                                                       />
                                                     </div>
                                                   </div>
@@ -1106,201 +1134,215 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                         class="row row-children"
                                       >
                                         <div
-                                          class="col-md-12"
+                                          class="col"
                                         >
                                            
-                                          <div
-                                            class="form-group field field-string"
-                                            data-testid="layout-grid-field__custom-select-widget--short-name"
+                                          <span
+                                            data-testid="layout-grid-field__schema-field--organizations"
                                           >
                                             <div
-                                              class="custom-select-widget"
-                                              data-testid="custom-select-widget__short-name"
+                                              class="undefined"
                                             >
-                                              <div>
-                                                <span>
-                                                  Short Name
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
-                                              </div>
                                               <div
-                                                class="widget-description"
-                                                data-testid="custom-select-widget__short-name--description"
-                                              >
-                                                <span />
-                                              </div>
-                                              <div
-                                                data-testid="custom-select-widget__short-name--selector"
+                                                class="field row"
+                                                data-testid="controlled-fields__row--short-name"
                                               >
                                                 <div
-                                                  class=" css-3iigni-container"
-                                                  id="Organizations_0_ShortName"
+                                                  class="col-md-12"
                                                 >
                                                   <span
-                                                    class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-16-live-region"
-                                                  />
-                                                  <span
-                                                    aria-atomic="false"
-                                                    aria-live="polite"
-                                                    aria-relevant="additions text"
-                                                    class="css-1f43avz-a11yText-A11yText"
-                                                  />
-                                                  <div
-                                                    class=" css-1insrsq-control"
+                                                    data-testid="controlled-fields__custom-select-widget--short-name"
                                                   >
                                                     <div
-                                                      class=" css-319lph-ValueContainer"
+                                                      class="custom-select-widget"
+                                                      data-testid="custom-select-widget__short-name"
                                                     >
-                                                      <div
-                                                        class=" css-lr9fot-singleValue"
-                                                      >
-                                                        AARHUS-HYDRO
-                                                      </div>
-                                                      <div
-                                                        class=" css-jzldcf-Input"
-                                                        data-value=""
-                                                      >
-                                                        <input
-                                                          aria-autocomplete="list"
-                                                          aria-expanded="false"
-                                                          aria-haspopup="true"
-                                                          autocapitalize="none"
-                                                          autocomplete="off"
-                                                          autocorrect="off"
-                                                          class=""
-                                                          disabled=""
-                                                          id="react-select-16-input"
-                                                          role="combobox"
-                                                          spellcheck="false"
-                                                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                          tabindex="0"
-                                                          type="text"
-                                                          value=""
-                                                        />
-                                                      </div>
-                                                    </div>
-                                                    <div
-                                                      class=" css-1hb7zxy-IndicatorsContainer"
-                                                    >
-                                                      <div
-                                                        aria-hidden="true"
-                                                        class=" css-at12u2-loadingIndicator"
-                                                      >
-                                                        <span
-                                                          class="css-1xtdfmb-LoadingDot"
-                                                        />
-                                                        <span
-                                                          class="css-zoievk-LoadingDot"
-                                                        />
-                                                        <span
-                                                          class="css-x748d8-LoadingDot"
-                                                        />
-                                                      </div>
-                                                      <span
-                                                        class=" css-109onse-indicatorSeparator"
-                                                      />
-                                                      <div
-                                                        aria-hidden="true"
-                                                        class=" css-tlfecz-indicatorContainer"
-                                                      >
-                                                        <svg
-                                                          aria-hidden="true"
-                                                          class="css-tj5bde-Svg"
-                                                          focusable="false"
-                                                          height="20"
-                                                          viewBox="0 0 20 20"
-                                                          width="20"
-                                                        >
-                                                          <path
-                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                      <div>
+                                                        <span>
+                                                          Short Name
+                                                          <i
+                                                            class="eui-icon eui-required-o required-icon"
                                                           />
-                                                        </svg>
+                                                        </span>
+                                                      </div>
+                                                      <div
+                                                        class="widget-description"
+                                                        data-testid="custom-select-widget__short-name--description"
+                                                      >
+                                                        <span />
+                                                      </div>
+                                                      <div
+                                                        data-testid="custom-select-widget__short-name--selector"
+                                                      >
+                                                        <div
+                                                          class=" css-3iigni-container"
+                                                          id="Organizations_0_ShortName"
+                                                        >
+                                                          <span
+                                                            class="css-1f43avz-a11yText-A11yText"
+                                                            id="react-select-15-live-region"
+                                                          />
+                                                          <span
+                                                            aria-atomic="false"
+                                                            aria-live="polite"
+                                                            aria-relevant="additions text"
+                                                            class="css-1f43avz-a11yText-A11yText"
+                                                          />
+                                                          <div
+                                                            class=" css-16xfy0z-control"
+                                                          >
+                                                            <div
+                                                              class=" css-1fdsijx-ValueContainer"
+                                                            >
+                                                              <div
+                                                                class=" css-olqui2-singleValue"
+                                                              >
+                                                                AARHUS-HYDRO
+                                                              </div>
+                                                              <div
+                                                                class=" css-1h01tm3-Input"
+                                                                data-value=""
+                                                              >
+                                                                <input
+                                                                  aria-autocomplete="list"
+                                                                  aria-expanded="false"
+                                                                  aria-haspopup="true"
+                                                                  autocapitalize="none"
+                                                                  autocomplete="off"
+                                                                  autocorrect="off"
+                                                                  class=""
+                                                                  disabled=""
+                                                                  id="react-select-15-input"
+                                                                  role="combobox"
+                                                                  spellcheck="false"
+                                                                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                                  tabindex="0"
+                                                                  type="text"
+                                                                  value=""
+                                                                />
+                                                              </div>
+                                                            </div>
+                                                            <div
+                                                              class=" css-1hb7zxy-IndicatorsContainer"
+                                                            >
+                                                              <div
+                                                                aria-hidden="true"
+                                                                class=" css-pogzpp-loadingIndicator"
+                                                              >
+                                                                <span
+                                                                  class="css-1xtdfmb-LoadingDot"
+                                                                />
+                                                                <span
+                                                                  class="css-zoievk-LoadingDot"
+                                                                />
+                                                                <span
+                                                                  class="css-x748d8-LoadingDot"
+                                                                />
+                                                              </div>
+                                                              <span
+                                                                class=" css-894a34-indicatorSeparator"
+                                                              />
+                                                              <div
+                                                                aria-hidden="true"
+                                                                class=" css-1xc3v61-indicatorContainer"
+                                                              >
+                                                                <svg
+                                                                  aria-hidden="true"
+                                                                  class="css-tj5bde-Svg"
+                                                                  focusable="false"
+                                                                  height="20"
+                                                                  viewBox="0 0 20 20"
+                                                                  width="20"
+                                                                >
+                                                                  <path
+                                                                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                  />
+                                                                </svg>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                     </div>
-                                                  </div>
+                                                  </span>
+                                                </div>
+                                              </div>
+                                              <div
+                                                class="field row"
+                                                data-testid="controlled-fields__row--long-name"
+                                              >
+                                                <div
+                                                  class="col-md-12"
+                                                >
+                                                  <span
+                                                    data-testid="controlled-fields__custom-text-widget--long-name"
+                                                  >
+                                                    <div
+                                                      class="widget-header"
+                                                      data-testid="custom-text-widget__long-name--text-header"
+                                                    >
+                                                      <span>
+                                                        Long Name
+                                                      </span>
+                                                    </div>
+                                                    <input
+                                                      class="custom-text-widget-input"
+                                                      data-testid="custom-text-widget__long-name--text-input"
+                                                      disabled=""
+                                                      id="Organizations_0_LongName"
+                                                      name="Long Name"
+                                                      type="text"
+                                                      value="Hydrogeophysics Group, Aarhus University "
+                                                    />
+                                                    <span
+                                                      class="widget-description"
+                                                      data-testid="custom-text-widget--description-field__long-name"
+                                                    />
+                                                  </span>
+                                                </div>
+                                              </div>
+                                              <div
+                                                class="field row"
+                                                data-testid="controlled-fields__row--url-value"
+                                              >
+                                                <div
+                                                  class="col-md-12"
+                                                >
+                                                  <span
+                                                    data-testid="controlled-fields__custom-text-widget--url-value"
+                                                  >
+                                                    <div
+                                                      class="widget-header"
+                                                      data-testid="custom-text-widget__url-value--text-header"
+                                                    >
+                                                      <span>
+                                                        URL value
+                                                      </span>
+                                                      <span>
+                                                        0
+                                                        /
+                                                        1024
+                                                      </span>
+                                                    </div>
+                                                    <input
+                                                      class="custom-text-widget-input"
+                                                      data-testid="custom-text-widget__url-value--text-input"
+                                                      disabled=""
+                                                      id="Organizations_0_URLValue"
+                                                      maxlength="1024"
+                                                      name="URL value"
+                                                      type="text"
+                                                      value=""
+                                                    />
+                                                    <span
+                                                      class="widget-description"
+                                                      data-testid="custom-text-widget--description-field__url-value"
+                                                    />
+                                                  </span>
                                                 </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="row row-children"
-                                      >
-                                        <div
-                                          class="col-md-12"
-                                        >
-                                           
-                                          <div
-                                            class="form-group field field-string"
-                                            data-testid="controlled-fields__custom-text-widget--long-name"
-                                          >
-                                            <div
-                                              class="widget-header"
-                                              data-testid="custom-text-widget__long-name--text-header"
-                                            >
-                                              <span>
-                                                Long Name
-                                              </span>
-                                            </div>
-                                            <input
-                                              class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__long-name--text-input"
-                                              disabled=""
-                                              id="Organizations_0_LongName"
-                                              name="Long Name"
-                                              type="text"
-                                              value=""
-                                            />
-                                            <span
-                                              class="widget-description"
-                                              data-testid="custom-text-widget--description-field__long-name"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="row row-children"
-                                      >
-                                        <div
-                                          class="col-md-12"
-                                        >
-                                           
-                                          <div
-                                            class="form-group field field-string"
-                                            data-testid="controlled-fields__custom-text-widget--url-value"
-                                          >
-                                            <div
-                                              class="widget-header"
-                                              data-testid="custom-text-widget__url-value--text-header"
-                                            >
-                                              <span>
-                                                URL value
-                                              </span>
-                                              <span>
-                                                0
-                                                /
-                                                1024
-                                              </span>
-                                            </div>
-                                            <input
-                                              class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__url-value--text-input"
-                                              disabled=""
-                                              id="Organizations_0_URLValue"
-                                              maxlength="1024"
-                                              name="URL value"
-                                              type="text"
-                                              value=""
-                                            />
-                                            <span
-                                              class="widget-description"
-                                              data-testid="custom-text-widget--description-field__url-value"
-                                            />
-                                          </div>
+                                          </span>
                                         </div>
                                       </div>
                                     </div>
@@ -1472,7 +1514,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-check green-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
                   />
                    
                   Tool Organizations
@@ -1480,12 +1522,51 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
               </button>
               <div>
                 <div
-                  class="error-list-item"
-                  data-testid="error-list-item__root"
+                  class="error-list"
+                  data-testid="error-list-title__root"
                 >
                   <span
                     class="error-list-header"
                   />
+                  <ul
+                    class="error-list-header-list"
+                  >
+                    <div
+                      class="error-list"
+                      data-testid="error-list-title__organizations-0"
+                    >
+                      <h6
+                        class="error-list-header-array"
+                      >
+                        <span>
+                          Organization
+                           
+                        </span>
+                        <span>
+                          <span
+                            class="error-list-total-number-of-arrays"
+                          >
+                            (1 of 1)
+                          </span>
+                        </span>
+                      </h6>
+                      <ul
+                        class="error-list-header-list"
+                      >
+                        <div
+                          class="error-list-item"
+                          data-testid="error-list-item__roles"
+                        >
+                          <li>
+                            <i
+                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                            />
+                            Must have required property 'Roles'
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -1582,6 +1663,11 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                       class="list-group-item text-danger"
                     >
                       must have required property 'URL'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Roles'
                     </li>
                     <li
                       class="list-group-item text-danger"
@@ -2609,7 +2695,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                     The organization or institution responsible for developing, archiving, and/or hosting the web user interface or downloadable tool.
                                   </p>
                                   <div
-                                    class="form-group field field-array"
+                                    class="form-group field field-array field-error has-error has-danger"
                                   >
                                     <fieldset
                                       class="field field-array field-array-of-string"
@@ -2737,6 +2823,18 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                         </p>
                                       </div>
                                     </fieldset>
+                                    <div>
+                                      <ul
+                                        class="error-detail bs-callout bs-callout-info"
+                                        id="root_Organizations_0_Roles__error"
+                                      >
+                                        <li
+                                          class="text-danger"
+                                        >
+                                          must have required property 'Roles'
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
                                   <div
                                     class="form-group field field-string"
@@ -2793,7 +2891,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                       name="root_Organizations_0_LongName"
                                       placeholder=""
                                       type="text"
-                                      value=""
+                                      value="Hydrogeophysics Group, Aarhus University "
                                     />
                                   </div>
                                   <div
@@ -4067,21 +4165,6 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                   <span
                     class="__json-key__"
                   >
-                    Roles
-                  </span>
-                  ": [
-        
-                  <span
-                    class="__json-string__"
-                  >
-                    "SERVICE PROVIDER"
-                  </span>
-                  
-      ],
-      "
-                  <span
-                    class="__json-key__"
-                  >
                     ShortName
                   </span>
                   ": 
@@ -4089,6 +4172,19 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                     class="__json-string__"
                   >
                     "AARHUS-HYDRO"
+                  </span>
+                  ,
+      "
+                  <span
+                    class="__json-key__"
+                  >
+                    LongName
+                  </span>
+                  ": 
+                  <span
+                    class="__json-string__"
+                  >
+                    "Hydrogeophysics Group, Aarhus University "
                   </span>
                   
     }

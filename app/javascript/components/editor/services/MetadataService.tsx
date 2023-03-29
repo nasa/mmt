@@ -49,8 +49,11 @@ export class MetadataService {
     return Promise.reject(new Error(`Error code: ${response.status}`))
   }
 
-  async saveDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/?draft_type=${this.draftType}`
+  async saveDraft(draft: Draft, associatedCollectionId: string): Promise<Draft> {
+    let url = `/api/drafts/?draft_type=${this.draftType}`
+    if (associatedCollectionId) {
+      url = url.concat(`&associated_collection_id=${associatedCollectionId}`)
+    }
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify(draft.json),

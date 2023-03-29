@@ -26,6 +26,7 @@ type RouterNavigateProps = {
 type RouterType = {
   location?: {
     hash?: string
+    search?: string
   },
   navigate?: (path: string, { replace: boolean }: RouterNavigateProps) => void
   params?: {
@@ -46,5 +47,5 @@ declare module 'react-uuid';
 type EmptyObject = Record<string, never>
 
 interface DictionaryType {
-  [Key: string]: DictionaryType | EmptyObject | string | DictionaryType[]
+  [Key: string]: DictionaryType | EmptyObject | string
 }

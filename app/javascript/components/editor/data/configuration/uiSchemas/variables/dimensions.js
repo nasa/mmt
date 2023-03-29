@@ -37,7 +37,7 @@ const dimensionsUiSchema = {
                   'ui:group': 'Size',
                   'ui:group-className': 'field-title',
                   'ui:row': [
-                    { 'ui:col': { md: 6, className: 'field-left-border-padded field-bottom-padded', children: ['Size'] } }
+                    { 'ui:col': { md: 6, className: 'field-left-border-padded', children: ['Size'] } }
                   ]
                 },
                 {

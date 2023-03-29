@@ -696,6 +696,12 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                   </div>
                 </div>
               </div>
+              <div
+                class="progress-section"
+              />
+              <div
+                class="progress-section"
+              />
             </div>
             <div
               class="form"
@@ -4373,6 +4379,12 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                   </div>
                 </div>
               </div>
+              <div
+                class="progress-section"
+              />
+              <div
+                class="progress-section"
+              />
             </div>
             <div
               class="form"

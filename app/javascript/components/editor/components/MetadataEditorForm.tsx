@@ -15,6 +15,7 @@ import CustomTextareaWidget from './widgets/CustomTextareaWidget'
 import LayoutGridField from './LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
 import CustomArrayFieldTemplate from './CustomArrayFieldTemplate'
+import ControlledFields from './ControlledFields'
 import withRouter from './withRouter'
 import NavigationView from './NavigationView'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
@@ -37,6 +38,8 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidMount() {
     const { router, editor } = this.props
     const { params, location, navigate } = router
+    const urlParams = new URLSearchParams(router.location.search)
+    const associatedCollectionId = urlParams.get('associated_collection_id')
     let { sectionName } = params
     const { id } = params
     if (router.params.fieldName) {
@@ -76,7 +79,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         editor.loading = false
       })
     } else {
-      editor.saveDraft(editor.draft).then((draft) => {
+      editor.saveDraft(editor.draft, associatedCollectionId).then((draft) => {
         editor.draft = draft
         editor.loading = false
         navigate(`/${editor.model.documentType}/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })
@@ -90,7 +93,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {
     const oldSection = prevProps.editor.currentSection
     const { router, editor } = this.props
-    const { params } = router
+    const { params, navigate } = router
     let { sectionName } = params
     if (sectionName) {
       sectionName = editor.migratedSectionName(sectionName)
@@ -109,6 +112,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     }
     const fields: RegistryFieldsType = {
       layout: LayoutGridField,
+      controlled: ControlledFields,
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleFieldTemplate

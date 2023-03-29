@@ -1,3 +1,5 @@
+import React from 'react'
+import ControlledFields from '../../../../components/ControlledFields'
 import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
 import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 
@@ -5,14 +7,9 @@ const organizationUiSchema = {
   Organizations: {
     items: {
       'ui:field': 'layout',
-      'ui:controlled': {
-        name: 'providers',
-        map: {
-          ShortName: 'short_name',
-          LongName: 'long_name',
-          URLValue: 'url'
-        }
-      },
+      'ui:keyword_scheme': 'providers',
+      'ui:keyword_scheme_column_names': ['short_name', 'long_name', 'url'],
+      'ui:controlledFields': ['ShortName', 'LongName', 'URLValue'],
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -29,21 +26,16 @@ const organizationUiSchema = {
                 {
                   'ui:row': [
                     {
-                      'ui:col': { controlName: 'short_name', md: 12, children: ['ShortName'] }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': { controlName: 'long_name', md: 12, children: ['LongName'] }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': { controlName: 'url', md: 12, children: ['URLValue'] }
+                      'ui:col': {
+                        children: [
+                          {
+                            name: 'Organizations',
+                            render: (props) => (
+                              <ControlledFields {...props} />
+                            )
+                          }
+                        ]
+                      }
                     }
                   ]
                 }

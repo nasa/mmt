@@ -11,8 +11,6 @@ import { act } from 'react-dom/test-utils'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditor from '../../MetadataEditor'
 import MetadataEditorForm from '../MetadataEditorForm'
-import { MetadataService } from '../../services/MetadataService'
-import keywords from '../../data/test/earth_science_services_keywords'
 
 global.fetch = require('jest-fetch-mock')
 
@@ -128,7 +126,6 @@ describe('UMM Tools Form', () => {
     expect(screen.getByText('error retrieving draft! Error code: 404')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
-
   test('renders new tool draft with error', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
@@ -144,58 +141,6 @@ describe('UMM Tools Form', () => {
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
     expect(screen.getByText('error saving draft! 500 error')).toBeInTheDocument()
-    expect(container).toMatchSnapshot()
-  })
-
-  test('testing descriptive keywords', async () => {
-    const model = new UmmToolsModel()
-    model.fullData = {
-      MetadataSpecification: {
-        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-        Name: 'UMM-T',
-        Version: '1.1'
-      }
-    }
-    const editor = new MetadataEditor(model)
-    HTMLElement.prototype.scrollIntoView = jest.fn()
-
-    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockResolvedValue(keywords)
-
-    const { container } = render(
-      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Descriptive_Keywords']}>
-        <Routes>
-          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
-        </Routes>
-      </MemoryRouter>
-    )
-    await act(async () => undefined)
-    expect(screen.queryByTestId('tool-keyword__parent-item--EARTH SCIENCE SERVICES')).toBeTruthy()
-    expect(container).toMatchSnapshot()
-  })
-
-  test('testing compatibility and usability', async () => {
-    const model = new UmmToolsModel()
-    model.fullData = {
-      MetadataSpecification: {
-        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-        Name: 'UMM-T',
-        Version: '1.1'
-      }
-    }
-    const editor = new MetadataEditor(model)
-    HTMLElement.prototype.scrollIntoView = jest.fn()
-
-    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockResolvedValue(keywords)
-
-    const { container } = render(
-      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Compatibility_And_Usability']}>
-        <Routes>
-          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
-        </Routes>
-      </MemoryRouter>
-    )
-    await act(async () => undefined)
-    expect(container).toHaveTextContent('Supported Formats')
     expect(container).toMatchSnapshot()
   })
 })

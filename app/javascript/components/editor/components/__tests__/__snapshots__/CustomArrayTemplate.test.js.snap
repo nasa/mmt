@@ -33,7 +33,9 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 <h6
                   class="remove-title"
                 >
-                  <b />
+                  <b>
+                    CustomArrayFieldTest
+                  </b>
                   <span
                     class="element-index-title"
                   >
@@ -196,7 +198,9 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 <h6
                   class="remove-title"
                 >
-                  <b />
+                  <b>
+                    CustomArrayFieldTest
+                  </b>
                   <span
                     class="element-index-title"
                   >
@@ -369,6 +373,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
               >
                 Add another
                  
+                CustomArrayFieldTest
               </span>
             </button>
           </div>
@@ -430,6 +435,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
               >
                 Add
                  
+                CustomArrayFieldTest
               </span>
             </button>
           </div>

@@ -58,7 +58,6 @@ export default class UmmToolsModel extends UmmModel {
 
       return { ...uiSchema, ...base }
     }
-
     if (this.currentSection.displayName === 'Tool Organizations') {
       const uiSchema: any = organizationUiSchema
       const organizations: any = uiSchema.Organizations.items
