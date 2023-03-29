@@ -42,11 +42,28 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       showDescription: false
     }
     this.textareaScrollRef = React.createRef()
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  onHandleFocus() {
+    this.setState({ showDescription: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e.target
+    const len = value.length
+    this.setState({ value, charsUsed: len })
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ showDescription: false })
   }
 
   render() {
     const {
-      label, schema, required, onChange, options = {}, id, uiSchema = {}, registry
+      label, schema, required, options = {}, id, uiSchema = {}, registry
     } = this.props
     const { title = label } = options
     const { formContext } = registry
@@ -89,16 +106,10 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
           data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-input`}
           maxLength={maxLength}
           value={value}
-          onFocus={() => { this.setState({ showDescription: true }) }}
-          onChange={(e) => {
-            const { value } = e.target
-            const len = value.length
-            this.setState({ value, charsUsed: len })
-            onChange(value)
-          }}
-          onBlur={() => {
-            this.setState({ showDescription: false })
-          }}
+          onFocus={this.onHandleFocus}
+          onChange={this.onHandleChange}
+          onBlur={this.onHandleBlur}
+
         />
         <span className="widget-description" data-testid={`custom-text-area-widget--description-field__${kebabCase(label)}`}>
           {showDescription ? description : ''}

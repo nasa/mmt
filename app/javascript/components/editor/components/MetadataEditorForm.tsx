@@ -15,7 +15,6 @@ import CustomTextareaWidget from './widgets/CustomTextareaWidget'
 import LayoutGridField from './LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
 import CustomArrayFieldTemplate from './CustomArrayFieldTemplate'
-import ControlledFields from './ControlledFields'
 import withRouter from './withRouter'
 import NavigationView from './NavigationView'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
@@ -35,6 +34,10 @@ type MetadataEditorFormProps = {
 };
 
 class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never> {
+  constructor(props:MetadataEditorFormProps) {
+    super(props)
+    this.onHandleChange = this.onHandleChange.bind(this)
+  }
   componentDidMount() {
     const { router, editor } = this.props
     const { params, location, navigate } = router
@@ -93,7 +96,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {
     const oldSection = prevProps.editor.currentSection
     const { router, editor } = this.props
-    const { params, navigate } = router
+    const { params } = router
     let { sectionName } = params
     if (sectionName) {
       sectionName = editor.migratedSectionName(sectionName)
@@ -104,6 +107,12 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     }
   }
 
+  onHandleChange(e:IChangeEvent) {
+    const { editor } = this.props
+    editor.formData = e.formData
+    editor.formErrors = e.errors
+  }
+
   render() {
     const { editor } = this.props
     let { heading } = this.props
@@ -112,7 +121,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     }
     const fields: RegistryFieldsType = {
       layout: LayoutGridField,
-      controlled: ControlledFields,
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleFieldTemplate
@@ -173,10 +181,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
                 templates={templates}
                 formContext={{ editor }}
                 widgets={widgets}
-                onChange={(e: IChangeEvent) => {
-                  editor.formData = e.formData
-                  editor.formErrors = e.errors
-                }}
+                onChange={this.onHandleChange}
               />
             </Col>
 

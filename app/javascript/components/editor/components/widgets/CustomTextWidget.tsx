@@ -41,11 +41,28 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
       showDescription: false
     }
     this.inputScrollRef = React.createRef()
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  onHandleFocus() {
+    this.setState({ showDescription: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e.target
+    const len = value.length
+    this.setState({ value, charsUsed: len })
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ showDescription: false })
   }
 
   render() {
     const {
-      label = '', schema, required, onChange, disabled, options = {}, id, registry, uiSchema
+      label = '', schema, required, disabled, options = {}, id, registry, uiSchema
     } = this.props
     const { title = label } = options
     const { formContext } = registry
@@ -97,18 +114,9 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           type={fieldType && fieldType === 'number' ? 'number' : 'text'}
           value={value}
           maxLength={maxLength}
-          onFocus={() => {
-            this.setState({ showDescription: true })
-          }}
-          onChange={(e) => {
-            const { value } = e.target
-            const len = value.length
-            this.setState({ value, charsUsed: len })
-            onChange(value)
-          }}
-          onBlur={() => {
-            this.setState({ showDescription: false })
-          }}
+          onFocus={this.onHandleFocus}
+          onChange={this.onHandleChange}
+          onBlur={this.onHandleBlur}
         />
         <span className="widget-description" data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {

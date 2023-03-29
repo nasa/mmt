@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { kebabCase } from 'lodash'
 import moment from 'moment'
 import React from 'react'
@@ -33,6 +34,7 @@ interface CustomDateTimeWidgetProps extends WidgetProps {
 type CustomDateTimeWidgetState = {
   shouldFocus: boolean
 }
+
 const CustomWidget = ({
   onFieldChange, value, autoFocus, id, schema
 }: props) => {
@@ -41,6 +43,19 @@ const CustomWidget = ({
 
   const dateWithZone = moment(date, 'America/New_York').format('YYYY-MM-DDTHH:mm:ss.SSS')
   const fieldValue = new Date(dateWithZone)
+
+  function onHandleChange(fieldValue: Date) {
+    if (fieldValue) {
+      onChange(fieldValue)
+      let formatedDateTime = fieldValue.toISOString()
+      formatedDateTime = `${formatedDateTime.substring(0, 10)}T00:00:00.000Z`
+      onFieldChange(formatedDateTime)
+    } else {
+      onFieldChange(null)
+    }
+  }
+  function onHandleFocus() { setDescription(true) }
+  function onHandleBlur() { /* istanbul ignore next */ setDescription(false) }
 
   return (
     <>
@@ -62,18 +77,9 @@ const CustomWidget = ({
           ? new Date(fieldValue.toLocaleString('en-US', {
             timeZone: 'GMT'
           })) : null}
-        onChange={(fieldValue: Date) => {
-          if (fieldValue) {
-            onChange(fieldValue)
-            let formatedDateTime = fieldValue.toISOString()
-            formatedDateTime = `${formatedDateTime.substring(0, 10)}T00:00:00.000Z`
-            onFieldChange(formatedDateTime)
-          } else {
-            onFieldChange(null)
-          }
-        }}
-        onFocus={() => { setDescription(true) }}
-        onBlur={() => { /* istanbul ignore next */ setDescription(false) }}
+        onFocus={onHandleFocus}
+        onChange={onHandleChange}
+        onBlur={onHandleBlur}
       />
     </>
 

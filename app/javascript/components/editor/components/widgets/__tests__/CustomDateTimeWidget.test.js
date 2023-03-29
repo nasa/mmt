@@ -4,7 +4,6 @@ import {
   render, waitFor, screen
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils'
 import {
   BrowserRouter, MemoryRouter, Route, Routes
 } from 'react-router-dom'
@@ -78,7 +77,6 @@ describe('Custom Date Time Widget Component', () => {
     await waitFor(async () => {
       screen.getByTestId('custom-date-time-widget__my-test-data-label--input-field').querySelector('input').click()
     })
-    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
     await waitFor(async () => {
       userEvent.type(fieldElement, '2022-07-02T00:00:00.000Z')
       expect(mockedOnChange).toHaveBeenCalledWith('2022-07-02T00:00:00.000Z')
@@ -105,7 +103,6 @@ describe('Custom Date Time Widget Component', () => {
 
     const fieldElement = getByTestId('custom-date-time-widget__my-test-data-label--input-field').querySelector('input')
     expect(fieldElement.value).toBe('2020-08-28T00:00:00.000Z')
-    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
     await waitFor(async () => {
       screen.getByTestId('custom-date-time-widget__my-test-data-label--input-field').querySelector('input').click()
     })
@@ -134,7 +131,6 @@ describe('Custom Date Time Widget Component', () => {
       </MemoryRouter>
     )
 
-    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
     await waitFor(async () => {
       screen.getByTestId('custom-date-time-widget__last-updated-date--input-field').querySelector('input').click()
     })
@@ -143,8 +139,8 @@ describe('Custom Date Time Widget Component', () => {
     await waitFor(async () => {
       const input = screen.getByTestId('custom-text-widget__name--text-input')
       userEvent.type(input, 'abc')
+      userEvent.clear(screen.getByTestId('custom-date-time-widget__last-updated-date--input-field').querySelector('input'))
     })
-    userEvent.clear(screen.getByTestId('custom-date-time-widget__last-updated-date--input-field').querySelector('input'))
     expect(container).toMatchSnapshot()
   })
 })

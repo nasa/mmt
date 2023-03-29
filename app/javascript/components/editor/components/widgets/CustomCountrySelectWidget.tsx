@@ -36,6 +36,11 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
     list.unshift({ value: null, label: '✓' })
     const selected = countryList().getData().filter((item) => (item.value === value))[0]
     this.state = { country: selected, filterOptions: list }
+    this.onHandleChange = this.onHandleChange.bind(this)
+  }
+
+  onHandleChange(val:SelectOptions) {
+    this.selectCountry(val)
   }
 
   getSelectOption(list:SelectOptions[], value:string) {
@@ -75,7 +80,7 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
             name={`Select-${label}`}
             placeholder={`Select ${label}`}
             options={filterOptions}
-            onChange={(val:SelectOptions) => this.selectCountry(val)}
+            onChange={this.onHandleChange}
             value={country}
           />
         </div>

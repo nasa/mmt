@@ -60,11 +60,24 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       setFocus: false,
       isOpen: undefined
     }
-    this.handleMultiChange = this.handleMultiChange.bind(this)
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+
     this.multiSelectScrollRef = React.createRef()
   }
 
-  handleMultiChange(selectedValues: SelectOptions[]) {
+  onHandleFocus() {
+    this.setState({ isOpen: true, setFocus: true })
+  }
+  onHandleBlur() {
+    const { registry } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
+    editor.setFocusField('')
+    this.setState({ isOpen: false, setFocus: false })
+  }
+  onHandleChange(selectedValues: SelectOptions[]) {
     this.setState({ multiValue: selectedValues })
     const result: string[] = []
     selectedValues.forEach((current: SelectOptions) => {
@@ -115,12 +128,9 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
             placeholder={title ? `Select ${title}` : 'Select Values'}
             value={multiValue}
             options={filterOptions}
-            onFocus={() => { this.setState({ isOpen: true, setFocus: true }) }}
-            onBlur={() => {
-              editor.setFocusField('')
-              this.setState({ isOpen: false, setFocus: false })
-            }}
-            onChange={this.handleMultiChange}
+            onFocus={this.onHandleFocus}
+            onChange={this.onHandleChange}
+            onBlur={this.onHandleBlur}
             menuIsOpen={isOpen}
             isMulti
           />

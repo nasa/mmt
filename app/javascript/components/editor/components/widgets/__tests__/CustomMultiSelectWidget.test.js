@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen, waitFor
+  render, fireEvent, screen, waitFor, act
 } from '@testing-library/react'
 import { createSchemaUtils } from '@rjsf/utils'
 import validator from '@rjsf/validator-ajv8'
@@ -35,6 +35,7 @@ describe('Custom Multi Select Widget Component', () => {
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container } = render(<CustomMultiSelectWidget {...props} />)
+
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).not.toHaveTextContent('My Test Data Label*')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Portal')
@@ -57,6 +58,7 @@ describe('Custom Multi Select Widget Component', () => {
       value: []
     }
     const { container } = render(<CustomMultiSelectWidget {...props} />)
+
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).not.toHaveTextContent('My Test Data Label*')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).not.toHaveTextContent('Web')
     expect(container).toMatchSnapshot()
@@ -80,6 +82,7 @@ describe('Custom Multi Select Widget Component', () => {
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container } = render(<CustomMultiSelectWidget {...props} />)
+
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Portal')
@@ -107,6 +110,7 @@ describe('Custom Multi Select Widget Component', () => {
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container } = render(<CustomMultiSelectWidget {...props} />)
+
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Portal')
@@ -139,6 +143,7 @@ describe('Custom Multi Select Widget Component', () => {
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container, getByText, queryByTestId } = render(<CustomMultiSelectWidget {...props} />)
+
     const mySelectComponent = queryByTestId('custom-multi-select-widget__my-test-data-label--selector')
 
     expect(mySelectComponent).toBeDefined()
@@ -188,9 +193,8 @@ describe('Custom Multi Select Widget Component', () => {
       setTimeout(() => {
         expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
       }, 200)
+      userEvent.tab()
     })
-
-    userEvent.tab()
 
     expect(container).toMatchSnapshot()
   })

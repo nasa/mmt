@@ -41,6 +41,20 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
       }
     }
     this.state = { lines }
+    this.updateValue = this.updateValue.bind(this)
+    this.onHandleChangeLine1 = this.onHandleChangeLine1.bind(this)
+    this.onHandleChangeLine2 = this.onHandleChangeLine2.bind(this)
+    this.onHandleChangeLine3 = this.onHandleChangeLine3.bind(this)
+  }
+
+  onHandleChangeLine1(value) {
+    this.updateValue(value, 1)
+  }
+  onHandleChangeLine2(value) {
+    this.updateValue(value, 2)
+  }
+  onHandleChangeLine3(value) {
+    this.updateValue(value, 3)
   }
   updateValue(line: string, pos: number) {
     const { onChange } = this.props
@@ -82,9 +96,7 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
             id={`${id}_1`}
             disabled={false}
             options={options}
-            onChange={(value) => {
-              this.updateValue(value, 1)
-            }}
+            onChange={this.onHandleChangeLine1}
             onBlur={() => undefined}
             onFocus={() => undefined}
             registry={registry}
@@ -101,9 +113,7 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
             required={false}
             disabled={false}
             options={options}
-            onChange={(value) => {
-              this.updateValue(value, 2)
-            }}
+            onChange={this.onHandleChangeLine2}
             onBlur={() => undefined}
             onFocus={() => undefined}
             registry={registry}
@@ -120,9 +130,7 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
             required={false}
             disabled={false}
             options={options}
-            onChange={(value) => {
-              this.updateValue(value, 3)
-            }}
+            onChange={this.onHandleChangeLine3}
             onBlur={() => undefined}
             onFocus={() => undefined}
             registry={registry}

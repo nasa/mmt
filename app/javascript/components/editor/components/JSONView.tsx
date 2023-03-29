@@ -1,3 +1,4 @@
+// import { cloneDeep } from 'lodash'
 import { cloneDeep } from 'lodash'
 import { observer } from 'mobx-react'
 import React from 'react'
@@ -17,6 +18,7 @@ class JSONView extends React.Component<JSONViewProps, JSONViewState> {
   render() {
     const { editor } = this.props
     const data = removeEmpty(cloneDeep(editor.fullData))
+    // const data = editor.fullData
     return (
       <Card>
         <Card.Header>JSON</Card.Header>

@@ -47,5 +47,5 @@ declare module 'react-uuid';
 type EmptyObject = Record<string, never>
 
 interface DictionaryType {
-  [Key: string]: DictionaryType | EmptyObject | string
+  [Key: string]: DictionaryType | EmptyObject | string | DictionaryType[]
 }

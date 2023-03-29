@@ -39,13 +39,29 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     super(props)
     this.selectScrollRef = React.createRef()
     this.state = { setFocus: false }
+
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  onHandleFocus() {
+    this.setState({ setFocus: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ setFocus: false })
   }
 
   render() {
     const selectOptions: SelectOptions[] = []
     const { setFocus } = this.state
     const {
-      required, label, onChange, schema, options = { enumOptions: null }, registry, isLoading, disabled, id
+      required, label, schema, options = { enumOptions: null }, registry, isLoading, disabled, id
     } = this.props
     let {
       placeholder
@@ -115,14 +131,9 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
-            onChange={(e) => {
-              const { value } = e
-              onChange(value)
-            }}
-            onFocus={() => { this.setState({ setFocus: true }) }}
-            onBlur={() => {
-              this.setState({ setFocus: false })
-            }}
+            onFocus={this.onHandleFocus}
+            onChange={this.onHandleChange}
+            onBlur={this.onHandleBlur}
           />
         </div>
       </div>

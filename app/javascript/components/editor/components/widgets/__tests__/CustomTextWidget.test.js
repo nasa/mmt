@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  act,
   render, screen, waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -190,11 +191,13 @@ describe('Custom Text Widget Component', () => {
     )
     const inputElement = getByTestId('custom-text-widget__my-test-data-label--text-input')
 
-    expect(inputElement.value).toBe('1234.56')
-    userEvent.clear(inputElement)
-    userEvent.type(inputElement, 'abcdef')
-    expect(inputElement.value).toBe('')
-    expect(container).toMatchSnapshot()
+    await waitFor(async () => {
+      expect(inputElement.value).toBe('1234.56')
+      userEvent.clear(inputElement)
+      userEvent.type(inputElement, 'abcdef')
+      expect(inputElement.value).toBe('')
+      expect(container).toMatchSnapshot()
+    })
   })
 
   test('should call onChange on a first character', async () => {
@@ -250,8 +253,8 @@ describe('Custom Text Widget Component', () => {
     )
     await waitFor(async () => {
       screen.queryByTestId('error-list-item__name').click()
+      userEvent.tab()
     })
-    userEvent.tab()
     expect(container).toHaveTextContent('The name of the downloadable tool or web user interface.')
     expect(container).toMatchSnapshot()
   })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, waitFor, screen
+  render, waitFor, screen, act
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -86,6 +86,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
+    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).not.toHaveTextContent('my title*')
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('0/10')
     expect(container).toMatchSnapshot()

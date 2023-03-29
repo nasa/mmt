@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  act,
   render, screen
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
@@ -111,19 +112,24 @@ describe('StreetAddressFieldTest', () => {
     )
     const inputElement = screen.getByTestId('custom-text-widget__address-line-1--text-input')
 
-    userEvent.clear(inputElement)
-    userEvent.type(inputElement, 'Cloudy day')
+    act(() => {
+      userEvent.clear(inputElement)
+      userEvent.type(inputElement, 'Cloudy day')
+    })
     expect(inputElement.value).toBe('Cloudy day')
     expect(mockedOnChange).toBeCalledTimes(11)
     expect(mockedOnChange).toBeCalledWith(['Cloudy day', 'my second line', 'my third line'])
 
     const inputElement2 = screen.getByTestId('custom-text-widget__address-line-2--text-input')
-    userEvent.clear(inputElement2)
+    act(() => {
+      userEvent.clear(inputElement2)
+    })
 
     const inputElement3 = screen.getByTestId('custom-text-widget__address-line-3--text-input')
-    userEvent.clear(inputElement3)
-    userEvent.type(inputElement3, 'Sunny day')
-
+    act(() => {
+      userEvent.clear(inputElement3)
+      userEvent.type(inputElement3, 'Sunny day')
+    })
     expect(mockedOnChange).toBeCalledTimes(22)
     expect(mockedOnChange).toBeCalledWith(['Cloudy day', 'Sunny day'])
 

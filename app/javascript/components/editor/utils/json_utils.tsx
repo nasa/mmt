@@ -37,5 +37,12 @@ export function prefixProperty(prefix: string) {
 export function createPath(property: string) {
   property = property.replace(/\.(\d)/g, '[$1')
   property = property.replace(/(\d)\./g, '$1].')
+  if (property.match(/^.*\d$/)) { // ends with a digit
+    property += ']'
+  }
   return property
+}
+
+export function convertToDottedNotation(property: string) {
+  return property.replace(/_/g, '.')
 }
