@@ -12,12 +12,9 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     set_resource(resource_class.new(provider_id: provider_id, user: user, draft: {}))
-    get_resource.collection_concept_id = params[:associated_collection_id] if params[:associated_collection_id]
     json_params = JSON.parse(request.body.read())
-    if !json_params.is_a?(Hash)
-      json_params = JSON.parse(json_params)
-    end
-    get_resource.draft = json_params
+    json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+    json_params_to_resource(json_params: json_params)
     if get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
@@ -32,10 +29,8 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     json_params = JSON.parse(request.body.read())
-    if !json_params.is_a?(Hash)
-      json_params = JSON.parse(json_params)
-    end
-    get_resource.draft = json_params
+    json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+    json_params_to_resource(json_params: json_params)
     if get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
@@ -50,10 +45,8 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     json_params = JSON.parse(request.body.read())
-    if !json_params.is_a?(Hash)
-      json_params = JSON.parse(json_params)
-    end
-    get_resource.draft = json_params
+    json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+    json_params_to_resource(json_params: json_params)
     if get_resource.save
       if (params[:draft_type] == 'ToolDraft')
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
@@ -109,9 +102,7 @@ class Api::DraftsController < BaseDraftsController
         auid = token_response.body.fetch('auid', nil)
         @urs_profile_response = cmr_client.get_urs_uid_from_nams_auid(auid)
 
-        if @urs_profile_response.success?
-          urs_uid = @urs_profile_response.body.fetch('uid', '')
-        end
+        urs_uid = @urs_profile_response.body.fetch('uid', '') if @urs_profile_response.success?
       end
     end
 
@@ -135,9 +126,12 @@ class Api::DraftsController < BaseDraftsController
       end
     end
 
-    unless authorized
-      render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401
-    end
+    render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401 unless authorized
+  end
+
+  def json_params_to_resource(json_params: {})
+    get_resource.draft = json_params['json']
+    get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
 
   def draft_json_result(errors: {}, concept_id: nil, revision_id: nil)
@@ -148,6 +142,7 @@ class Api::DraftsController < BaseDraftsController
     json['errors'] = errors
     json['concept_id'] = concept_id
     json['revision_id'] = revision_id
+    json['collection_concept_id'] = get_resource.collection_concept_id
     JSON.pretty_generate(json)
   end
 

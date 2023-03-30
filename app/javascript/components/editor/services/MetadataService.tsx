@@ -40,23 +40,17 @@ export class MetadataService {
     const response = await fetch(url, requestOptions)
     if (response.ok) {
       const data = await response.json()
-      const draft = new Draft()
-      draft.json = data.draft
-      draft.apiId = data.id
-      draft.apiUserId = data.user_id
+      const draft = this.convertToDraft(data)
       return draft
     }
     return Promise.reject(new Error(`Error code: ${response.status}`))
   }
 
-  async saveDraft(draft: Draft, associatedCollectionId: string): Promise<Draft> {
-    let url = `/api/drafts/?draft_type=${this.draftType}`
-    if (associatedCollectionId) {
-      url = url.concat(`&associated_collection_id=${associatedCollectionId}`)
-    }
+  async saveDraft(draft: Draft): Promise<Draft> {
+    const url = `/api/drafts/?draft_type=${this.draftType}`
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(draft.json),
+      body: JSON.stringify(draft),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,
@@ -69,10 +63,7 @@ export class MetadataService {
     const response = await fetch(url, requestOptions)
     if (response.ok) {
       const data = await response.json()
-      const draft = new Draft()
-      draft.json = data.draft
-      draft.apiId = data.id
-      draft.apiUserId = data.user_id
+      const draft = this.convertToDraft(data)
       return draft
     }
     return Promise.reject(new Error(`Error code: ${response.status}`))
@@ -83,7 +74,7 @@ export class MetadataService {
     const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(draftClone.json),
+      body: JSON.stringify(draftClone),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,
@@ -96,12 +87,7 @@ export class MetadataService {
     const response = await fetch(url, requestOptions)
     if (response.ok) {
       const data = await response.json()
-      const draft = new Draft()
-      draft.json = data.draft
-      draft.apiId = data.id
-      draft.apiUserId = data.user_id
-      draft.conceptId = data.concept_id
-      draft.revisionId = data.revision_id
+      const draft = this.convertToDraft(data)
       return draft
     }
     const data = await response.json()
@@ -112,7 +98,7 @@ export class MetadataService {
     const url = `/api/drafts/${draft.apiId}?draft_type=${this.draftType}`
     const requestOptions = {
       method: 'PUT',
-      body: JSON.stringify(draft.json),
+      body: JSON.stringify(draft),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,
@@ -125,10 +111,7 @@ export class MetadataService {
     const response = await fetch(url, requestOptions)
     if (response.ok) {
       const data = await response.json()
-      const draft = new Draft()
-      draft.json = data.draft
-      draft.apiId = data.id
-      draft.apiUserId = data.user_id
+      const draft = this.convertToDraft(data)
       return draft
     }
     return Promise.reject(new Error(`Error code: ${response.status}`))
@@ -170,6 +153,19 @@ export class MetadataService {
       return data
     }
     return Promise.reject(new Error(`Error code: ${response.status}`))
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  convertToDraft(data: any): Draft {
+    const draft = new Draft()
+    draft.json = data.draft
+    draft.apiId = data.id
+    draft.apiUserId = data.user_id
+    draft.conceptId = data.concept_id
+    draft.revisionId = data.revision_id
+    draft.associatedCollectionId = data.collection_concept_id
+    draft.errors = data.errors
+    return draft
   }
 
   getSchema(): object {
