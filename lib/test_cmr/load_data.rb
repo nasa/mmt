@@ -218,7 +218,6 @@ module Cmr
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
         req.body = '{"name": "LARC Admin Group", "description": "Test group for provider", "provider_id": "LARC"}'
-        {"name": "LARC Admin Group", "description": "Test group for provider", "provider_id": "LARC"}
       end
       larc_group_concept = JSON.parse(resp.body)['concept_id']
       puts "Created LARC group in access control: #{resp.body}, with concept_id #{larc_group_concept}"
