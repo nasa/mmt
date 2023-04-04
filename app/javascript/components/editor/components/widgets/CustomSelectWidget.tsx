@@ -8,6 +8,8 @@ import { observer } from 'mobx-react'
 import { EnumOptionsType, RJSFSchema, WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
 import './Widget.css'
+import { parseCmrResponse } from '../../utils/cmr_keywords'
+import Status from '../../model/Status'
 
 interface CustomSelectWidgetProps extends WidgetProps {
   label: string,
@@ -20,11 +22,13 @@ interface CustomSelectWidgetProps extends WidgetProps {
   isLoading: boolean,
   required: boolean,
   onChange: (value: string) => void,
-  disabled: boolean
+  disabled: boolean,
+  uiSchema?: any
 }
 
 type CustomSelectWidgetState = {
   setFocus: boolean
+  loading: boolean
 }
 type SelectOptions = {
   value: string,
@@ -38,11 +42,36 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
   constructor(props: CustomSelectWidgetProps) {
     super(props)
     this.selectScrollRef = React.createRef()
-    this.state = { setFocus: false }
+    this.state = { setFocus: false, loading: false }
 
     this.onHandleFocus = this.onHandleFocus.bind(this)
     this.onHandleChange = this.onHandleChange.bind(this)
     this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  componentDidMount() {
+    const { uiSchema = {}, schema } = this.props
+    const service = uiSchema['ui:service']
+    const controlled = uiSchema['ui:controlled'] || {}
+    const { name, controlName } = controlled
+
+    if (name && controlName) {
+      this.setState({ loading: true }, () => {
+        service.fetchCmrKeywords(name).then((keywords) => {
+          const paths = parseCmrResponse(keywords, controlName)
+          const enums = paths.map((path:string[]) => (path[0]))
+          schema.enum = enums
+          this.setState({ loading: false })
+        })
+          .catch(() => {
+            const { registry } = this.props
+            const { formContext } = registry
+            const { editor } = formContext
+            this.setState({ loading: false })
+            editor.status = new Status('warning', `Error retrieving ${name} keywords`)
+          })
+      })
+    }
   }
 
   onHandleFocus() {
@@ -59,9 +88,9 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
 
   render() {
     const selectOptions: SelectOptions[] = []
-    const { setFocus } = this.state
+    const { setFocus, loading } = this.state
     const {
-      required, label, schema, options = { enumOptions: null }, registry, isLoading, disabled, id
+      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled, id
     } = this.props
     let {
       placeholder

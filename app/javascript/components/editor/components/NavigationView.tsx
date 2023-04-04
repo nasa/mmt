@@ -36,7 +36,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       draft
     } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.saveDraft(draft, null).then((draft) => {
         editor.draft = draft
         this.setState({ saving: false })
         if (navigateNext) {
@@ -57,7 +57,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       draft
     } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.saveDraft(draft, null).then((draft) => {
         editor.draft = draft
         editor.publishDraft(draft).then((draft) => {
           editor.draft = draft
@@ -84,7 +84,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       draft
     } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.saveDraft(draft, null).then((draft) => {
         editor.draft = draft
         this.setState({ saving: false })
         // this will be needed to redirect to the preview page which is rendered by rails

@@ -82,8 +82,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         editor.loading = false
       })
     } else {
-      editor.draft.associatedCollectionId = associatedCollectionId
-      editor.saveDraft(editor.draft).then((draft) => {
+      editor.saveDraft(editor.draft, associatedCollectionId).then((draft) => {
         editor.draft = draft
         editor.loading = false
         navigate(`/${editor.model.documentType}/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })

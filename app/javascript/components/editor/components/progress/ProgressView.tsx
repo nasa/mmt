@@ -29,7 +29,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       draft
     } = editor
     this.setState({ status: null }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.saveDraft(draft, null).then((draft) => {
         editor.draft = draft
         this.setState({ status: 'Draft Saved' })
         if (navigateNext) {
@@ -48,7 +48,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
       draft
     } = editor
     this.setState({ status: null }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.saveDraft(draft, null).then((draft) => {
         editor.draft = draft
         this.setState({ status: 'Draft Saved' })
         editor.publishDraft(draft).then((draft) => {

@@ -8,8 +8,6 @@ export default class Draft {
   apiUserId: number
   conceptId: string
   revisionId: number
-  associatedCollectionId: string
-  errors: any
 
   constructor() {
     this.key = new Date()
@@ -18,10 +16,8 @@ export default class Draft {
     this.apiUserId = -1
     this.conceptId = null
     this.revisionId = -1
-    this.associatedCollectionId = null
-    this.errors = {}
     makeObservable(this, {
-      json: observable, apiId: observable, apiUserId: observable, conceptId: observable, revisionId: observable, associatedCollectionId: observable, errors: observable
+      json: observable, apiId: observable, apiUserId: observable, conceptId: observable, revisionId: observable
     })
   }
 }

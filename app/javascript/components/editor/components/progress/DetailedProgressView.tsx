@@ -176,7 +176,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       )
     })
     while ((sectionList.length % 3) !== 0) {
-      sectionList.push(<div className="progress-section" key={`empty-section-${uniqueId.toString()}`} />)
+      sectionList.push(<div className="progress-section" key={`${uniqueId('empty-section')}`} />)
     }
 
     return (

@@ -33,7 +33,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
             />
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 105px; padding: 15px;"
+              style="margin-left: 104px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -69,7 +69,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -110px;"
+                style="margin-top: -102px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -202,7 +202,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
             </div>
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 105px; padding: 15px;"
+              style="margin-left: 104px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -238,7 +238,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -110px;"
+                style="margin-top: -102px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -371,7 +371,7 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
             </div>
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 70px; padding: 15px;"
+              style="margin-left: 66px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -400,7 +400,7 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -70px;"
+                style="margin-top: -64px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -543,7 +543,7 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
             </div>
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 105px; padding: 15px;"
+              style="margin-left: 104px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -579,7 +579,7 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -110px;"
+                style="margin-top: -102px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -722,7 +722,7 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
             />
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 105px; padding: 15px;"
+              style="margin-left: 104px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -758,7 +758,7 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -110px;"
+                style="margin-top: -102px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -891,7 +891,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
             </div>
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 105px; padding: 15px;"
+              style="margin-left: 104px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -927,7 +927,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -110px;"
+                style="margin-top: -102px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1060,7 +1060,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
             </div>
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 70px; padding: 15px;"
+              style="margin-left: 66px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -1089,7 +1089,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -70px;"
+                style="margin-top: -64px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1200,7 +1200,7 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
             />
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 0px; padding: 15px;"
+              style="margin-left: -10px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -1215,7 +1215,7 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: 10px;"
+                style="margin-top: 12px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1326,7 +1326,7 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
             />
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 0px; padding: 15px;"
+              style="margin-left: -48px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -1448,7 +1448,7 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
             />
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 0px; padding: 15px;"
+              style="margin-left: -10px; padding: 15px;"
             >
               <ul
                 class="eui-item-path"
@@ -1463,7 +1463,7 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: 10px;"
+                style="margin-top: 12px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"

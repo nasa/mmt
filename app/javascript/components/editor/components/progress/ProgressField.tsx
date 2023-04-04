@@ -73,16 +73,12 @@ class ProgressField extends React.Component<ProgressFieldProps, never> {
     if (index >= 0 && index !== null) {
       setTimeout(() => {
         editor.setArrayAutoScroll(fieldInfo.index)
-        // MMT-3203: Turn off 'no route error'. To be fixed later
-        // window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}/${fieldInfo.index + 1}`
-        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
+        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}/${fieldInfo.index + 1}`
       }, 50)
     } else {
       setTimeout(() => {
         editor.setFocusField(fieldInfo.name)
-        // MMT-3203: Turn off 'no route error'. To be fixed later
-        // window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}`
-        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}`
+        window.location.href = `/${editor.documentType}/${id}/edit/${sectionName}/${fieldInfo.name}`
       }, 50)
       // navigate(`/${editor.documentType}/${id}/edit/${sectionName}`, { replace: false })}
     }

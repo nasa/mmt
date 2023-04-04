@@ -7,6 +7,15 @@
   padding-top: 14px
 }
 
+.small-bold-title {
+  font-size: 1rem;
+  font-weight: 550;
+
+  border-bottom: solid 2px rgb(240, 240, 240);
+  padding-bottom: 14px;
+  padding-top: 14px
+}
+
 .element {
   border-left: solid 6px rgb(240, 240, 240);
   border-bottom: solid 2px rgb(240, 240, 240);

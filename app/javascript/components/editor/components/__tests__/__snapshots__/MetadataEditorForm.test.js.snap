@@ -15611,7 +15611,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                 data-testid="layout-grid-field__schema-field--access-constraints"
                               >
                                 <div
-                                  class="form-group field field-string mediumTitle"
+                                  class="form-group field field-string"
                                 >
                                   <div
                                     class="widget-header"
@@ -18525,7 +18525,7 @@ exports[`UMM Tools Form testing descriptive keywords 1`] = `
                               />
                               <div
                                 class="eui-nested-item-picker"
-                                style="margin-left: 0px; padding: 15px;"
+                                style="margin-left: -10px; padding: 15px;"
                               >
                                 <ul
                                   class="eui-item-path"
@@ -18540,7 +18540,7 @@ exports[`UMM Tools Form testing descriptive keywords 1`] = `
                                 </ul>
                                 <div
                                   class="eui-item-list-pane"
-                                  style="margin-top: 10px;"
+                                  style="margin-top: 12px;"
                                 >
                                   <div
                                     data-testid="tool-keyword__search-keyword-field"

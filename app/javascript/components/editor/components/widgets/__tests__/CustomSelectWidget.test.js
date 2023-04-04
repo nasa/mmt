@@ -1,6 +1,7 @@
 import React from 'react'
+import Form from '@rjsf/bootstrap-4'
 import {
-  render, fireEvent, screen, waitFor
+  render, fireEvent, screen, waitFor, within
 } from '@testing-library/react'
 import {
   BrowserRouter,
@@ -11,9 +12,102 @@ import validator from '@rjsf/validator-ajv8'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
 import CustomSelectWidget from '../CustomSelectWidget'
-import UmmToolsModel from '../../../model/UmmToolsModel'
+import UmmVarModel from '../../../model/UmmVarModel'
 import MetadataEditor from '../../../MetadataEditor'
 import MetadataEditorForm from '../../MetadataEditorForm'
+import mimeTypeKeywords from '../../../data/test/mime_type_keywords'
+import { MetadataService } from '../../../services/MetadataService'
+import UmmToolsModel from '../../../model/UmmToolsModel'
+
+global.fetch = require('jest-fetch-mock')
+
+describe('Var Keywords test with keywords from CMR', () => {
+  const metadataService = new MetadataService('test_token', 'test_drafts', 'test_user', 'provider')
+
+  it('fetches CMR keywords and updates', async () => {
+    const model = new UmmVarModel()
+    const editor = new MetadataEditor(model)
+
+    const uiSchema = {
+      'ui:title': 'Mime Type',
+      'ui:controlled': {
+        name: 'mime-type',
+        controlName: 'mime_type'
+      },
+      'ui:service': metadataService,
+      'ui:widget': CustomSelectWidget
+    }
+    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockResolvedValue(mimeTypeKeywords)
+
+    const props = {
+      label: 'Mime Type',
+      required: true,
+      schema: {},
+      registry: {
+        schemaUtils: createSchemaUtils(validator, {}),
+        formContext: { editor }
+      },
+      options: {
+        title: 'My Test Data Label'
+      },
+      uiSchema
+    }
+    const { container } = render(
+      <BrowserRouter>
+        <CustomSelectWidget {...props} />
+      </BrowserRouter>
+    )
+
+    const mimeTypeComponent = screen.queryByTestId('custom-select-widget__mime-type--selector').firstChild
+
+    expect(mimeTypeComponent).not.toBeNull()
+    await act(async () => {
+      fireEvent.keyDown(mimeTypeComponent, { key: 'ArrowDown' })
+      fireEvent.click(mimeTypeComponent)
+    })
+    expect(mimeTypeComponent).toHaveTextContent('application/gzip')
+    expect(container).toMatchSnapshot()
+  })
+
+  it('testing for error retrieving CMR keywords', async () => {
+    const model = new UmmVarModel()
+    const editor = new MetadataEditor(model)
+
+    const uiSchema = {
+      'ui:title': 'Mime Type',
+      'ui:controlled': {
+        name: 'mime-type',
+        controlName: 'mime_type'
+      },
+      'ui:service': metadataService,
+      'ui:widget': CustomSelectWidget
+    }
+
+    const props = {
+      label: 'Mime Type',
+      required: true,
+      schema: {},
+      registry: {
+        schemaUtils: createSchemaUtils(validator, {}),
+        formContext: { editor }
+      },
+      options: {
+        title: 'My Test Data Label'
+      },
+      uiSchema
+    }
+    jest.spyOn(MetadataService.prototype, 'fetchCmrKeywords').mockRejectedValue('Error retrieving keywords')
+    const status = jest.spyOn(MetadataEditor.prototype, 'status', 'set')
+    const { container } = render(
+      <BrowserRouter>
+        <CustomSelectWidget {...props} />
+      </BrowserRouter>
+    )
+    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
+    expect(status).toBeCalledWith({ type: 'warning', message: 'Error retrieving mime-type keywords' })
+    expect(container).toMatchSnapshot()
+  })
+})
 
 describe('Custom Select Widget Component', () => {
   const model = new UmmToolsModel()
@@ -37,6 +131,7 @@ describe('Custom Select Widget Component', () => {
     expect(screen.getByTestId('custom-select-widget__my-test-data-label--selector')).toHaveTextContent('Web Portal')
     expect(container).toMatchSnapshot()
   })
+
   it('renders the custom select widget when no option', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)

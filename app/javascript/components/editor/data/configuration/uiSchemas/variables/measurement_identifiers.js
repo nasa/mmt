@@ -67,6 +67,7 @@ const measurementIdentifiersUiSchema = {
       },
       MeasurementQuantities: {
         'ui:title': 'Measurement Quantities',
+        'ui:className': 'small-bold-title',
         items: {
           'ui:title': 'Measurement Quantity',
           'ui:field': 'layout',

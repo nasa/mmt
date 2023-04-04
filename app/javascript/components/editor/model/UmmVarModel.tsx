@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UiSchema } from '@rjsf/utils'
+import relatedUrlsUiSchema from '../data/configuration/uiSchemas/variables/related_urls'
 import UmmModel from './UmmModel'
 import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
 import varConfiguration from '../data/configuration/uiForms/varConfiguration'
@@ -34,6 +35,24 @@ export default class UmmVarModel extends UmmModel {
     const base: UiSchema = {
       'ui:submitButtonOptions': { norender: true, submitText: 'Save' },
       'ui:ArrayFieldTemplate': CustomArrayFieldTemplate
+    }
+    if (this.currentSection.displayName === 'Related URLs') {
+      const uiSchema: any = relatedUrlsUiSchema
+      const urlUiSchema: any = uiSchema.RelatedURLs.items
+      urlUiSchema['ui:service'] = this.service
+
+      // Format
+      const formatUiSchema: any = uiSchema.RelatedURLs.items.Format
+      formatUiSchema['ui:service'] = this.service
+      formatUiSchema['ui:keyword_scheme'] = 'granule_data_format'
+      formatUiSchema['ui:keyword_scheme_column_names'] = ['short_name']
+
+      // Mime Type
+      const mimeTypeUiSchema: any = uiSchema.RelatedURLs.items.MimeType
+      mimeTypeUiSchema['ui:service'] = this.service
+      mimeTypeUiSchema['ui:keyword_scheme'] = 'mime_type'
+      mimeTypeUiSchema['ui:keyword_scheme_column_names'] = ['mime_type']
+      return { ...uiSchema, ...base }
     }
     if (this.currentSection.displayName === 'Science Keywords') {
       const uiSchema = scienceKeywordsUiSchema

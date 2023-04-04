@@ -28,8 +28,6 @@ type KeywordPickerState = {
   value: any,
   selectedKeywords: any,
   currentList: any,
-  marginTop: number,
-  marginLeft: number,
   disableAddKeywordBtn: boolean,
   finalSelectedKeywords: any,
   finalSelectedValue: string,
@@ -39,6 +37,9 @@ type KeywordPickerState = {
 }
 
 export default class KeywordsField extends React.Component<KeywordPickerProps, KeywordPickerState> {
+  defaultMarginTop = 12
+  defaultMarginLeft = -10
+
   constructor(props: KeywordPickerProps) {
     super(props)
     const { formData = [] } = props
@@ -46,8 +47,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       value: formData,
       selectedKeywords: [],
       currentList: [],
-      marginTop: 50,
-      marginLeft: 0,
       disableAddKeywordBtn: true,
       finalSelectedKeywords: [],
       finalSelectedValue: '',
@@ -113,8 +112,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       value: formData,
       selectedKeywords,
       currentList: currList,
-      marginTop: 10,
-      marginLeft: 0,
       disableAddKeywordBtn: true,
       finalSelectedKeywords: [],
       finalSelectedValue: '',
@@ -133,13 +130,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
     }
     const tempItem = selectedKeywords[index - 1]
     selectedKeywords.splice(index - 1)
-    if (index === 2) {
-      this.setState({ marginTop: 10, marginLeft: 0 })
-    } else if (index === 3) {
-      this.setState({ marginTop: -30, marginLeft: 30 })
-    } else {
-      this.setState({ marginTop: 50, marginLeft: -40 })
-    }
     this.setState({ selectedKeywords, finalSelectedKeywords, showSearchDropdown: false }, () => { this.selectItem(tempItem) })
   }
 
@@ -186,7 +176,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
   //            returns [DATA ANALYSIS AND VISUALIZATION, DATA MANAGEMENT/DATA HANDLING]
   selectItem(item: string) {
     const {
-      selectedKeywords, marginTop, marginLeft
+      selectedKeywords
     } = this.state
     let updatedList: Array<string> = []
     const fullSelectedPath = this.getFullSelectedPath(item)
@@ -197,8 +187,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
     this.setState({
       currentList: updatedList,
       selectedKeywords,
-      marginTop: marginTop - 40,
-      marginLeft: marginLeft + 35,
       finalSelectedValue: '',
       finalSelectedKeywords: [],
       disableAddKeywordBtn: true
@@ -325,8 +313,10 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
 
   render() {
     const {
-      selectedKeywords, currentList, marginTop, marginLeft, disableAddKeywordBtn, finalSelectedKeywords, fullPath, showSearchDropdown, value, loading
+      selectedKeywords, currentList, disableAddKeywordBtn, finalSelectedKeywords, fullPath, showSearchDropdown, value, loading
     } = this.state
+    let marginTop = this.defaultMarginTop
+    let marginLeft = this.defaultMarginLeft
     const {
       formData = [],
       onChange,
@@ -348,6 +338,9 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
         searchResult.push(path.at(0))
       }
     })
+
+    marginTop -= (38 * (selectedKeywords.length - 1))
+    marginLeft += (38 * (selectedKeywords.length - 1))
 
     return (
       <div id="keyword-picker">

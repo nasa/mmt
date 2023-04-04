@@ -60,13 +60,12 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     const { formContext } = registry
     const { editor } = formContext
     const uiTitle = uiSchema['ui:title']
-    const uiClassNames = uiSchema['ui:classNames']
+    const uiClassName = uiSchema['ui:className'] ?? 'title'
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
     if (editor?.arrayFieldAutoScroll !== -1) {
       if (editor.focusField === title) {
-        console.log('inside the title', editor?.arrayFieldAutoScroll)
         setTimeout(() => {
           this.titleScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
         }, 200)
@@ -87,13 +86,9 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     }
     return (
       <div data-testid="custom-array-template" ref={this.titleScrollRef}>
-        {uiClassNames ? (
-          <div className={uiClassNames}>{this.parseTitle(title)}</div>
-        ) : (
-          <div className="title">
-            {title}
-          </div>
-        )}
+        <div className={uiClassName}>
+          {title}
+        </div>
         <p>
           {schema.description}
         </p>

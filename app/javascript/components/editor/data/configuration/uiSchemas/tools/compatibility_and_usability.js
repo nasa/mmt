@@ -195,7 +195,7 @@ const compatibilityAndUsabilityUiSchema = {
   },
   AccessConstraints: {
     'ui:title': 'Access Constraints',
-    'ui:classNames': 'mediumTitle',
+    'ui:className': 'mediumTitle',
     'ui:widget': 'textarea'
   }
 

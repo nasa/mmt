@@ -5093,23 +5093,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       29
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, March 30th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--030"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       30
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, March 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--031"
+                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       31
                     </div>
@@ -6783,23 +6783,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       29
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, March 30th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--030"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       30
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, March 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--031"
+                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       31
                     </div>
