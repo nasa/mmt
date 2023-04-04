@@ -1,0 +1,40 @@
+.mediumTitle {
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.col-children {
+    border-Left: solid 5px rgb(240, 240, 240);
+    padding-left: 15px
+}
+
+.row-children {
+    margin-bottom: -5px
+}
+
+.group-description {
+    padding-bottom: 30px;
+}
+
+.row-fieldset {
+    margin-bottom: -5px;
+}
+
+.field-left-border {
+    border-left: solid 5px rgb(240, 240, 240);
+    margin-left: 10px;
+}
+
+.field-left-border-padded {
+    border-left: solid 5px rgb(240, 240, 240);
+    margin-left: 20px;
+}
+
+.field-bottom-border {
+    padding-bottom: 10px;
+    border-bottom: solid 2px rgb(240, 240, 240);
+}
+
+.field-bottom-padded {
+    margin-bottom: 10px;
+}

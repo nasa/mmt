@@ -28,9 +28,7 @@ const toolContactsUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: {
-                          borderLeft: 'solid 5px rgb(240,240,240', marginLeft: 10, borderBottom: 'solid 5px rgb(240,240,240', paddingBottom: 10
-                        },
+                        className: 'field-left-border field-bottom-border',
                         md: 12,
                         children: ['ContactInformation']
                       }

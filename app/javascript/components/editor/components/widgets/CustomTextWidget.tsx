@@ -4,13 +4,12 @@ import React from 'react'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
-import MetadataEditor from '../../MetadataEditor'
+import './Widget.css'
 
 interface CustomTextWidgetProps extends WidgetProps {
   label: string,
   options: {
     title?: string
-    editor: MetadataEditor
   },
   schema: {
     maxLength: number,
@@ -20,7 +19,8 @@ interface CustomTextWidgetProps extends WidgetProps {
   onChange: (value: string) => void,
   value: string,
   disabled: boolean,
-  id: string
+  id: string,
+  uiSchema: object
 }
 
 type CustomTextWidgetState = {
@@ -31,7 +31,6 @@ type CustomTextWidgetState = {
 
 class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomTextWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   inputScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomTextWidgetProps) {
     super(props)
@@ -42,23 +41,43 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
       showDescription: false
     }
     this.inputScrollRef = React.createRef()
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  onHandleFocus() {
+    this.setState({ showDescription: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e.target
+    const len = value.length
+    this.setState({ value, charsUsed: len })
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ showDescription: false })
   }
 
   render() {
     const {
-      label = '', schema, required, onChange, disabled, options, id
+      label = '', schema, required, disabled, options = {}, id, registry, uiSchema
     } = this.props
-    const { title = label, editor } = options
+    const { title = label } = options
+    const { formContext } = registry
+    const { editor } = formContext
     const { maxLength, description } = schema
     const { value, charsUsed, showDescription } = this.state
-    const { focusField = '' } = editor
+    const { focusField } = editor
     const disabledFlag = disabled || false
+    const fieldType = uiSchema ? uiSchema['ui:type'] : null
     let shouldFocus = false
 
-    if (editor?.focusField === id) {
+    if (focusField === id) {
       shouldFocus = true
-    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
-      if (id !== '' && id.startsWith(editor?.focusField)) {
+    } else if (focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(focusField)) {
         shouldFocus = true
       }
     }
@@ -72,7 +91,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           {title && (
             <span>
               {title}
-              {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
+              {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
             </span>
           )}
           {maxLength && (
@@ -92,25 +111,14 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           disabled={disabledFlag}
           className="custom-text-widget-input"
           data-testid={`custom-text-widget__${kebabCase(label)}--text-input`}
-          style={{ minWidth: '100%', height: 37 }}
-          type="text"
+          type={fieldType && fieldType === 'number' ? 'number' : 'text'}
           value={value}
           maxLength={maxLength}
-          onFocus={() => {
-            this.setState({ showDescription: true })
-          }}
-          onChange={(e) => {
-            const { value } = e.target
-            const len = value.length
-            this.setState({ value, charsUsed: len })
-            onChange(value)
-          }}
-          onBlur={() => {
-            editor.setFocusField('')
-            this.setState({ showDescription: false })
-          }}
+          onFocus={this.onHandleFocus}
+          onChange={this.onHandleChange}
+          onBlur={this.onHandleBlur}
         />
-        <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
+        <span className="widget-description" data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {
             showDescription ? description : ''
           }

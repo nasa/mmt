@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
-import _ from 'lodash'
+import _, { uniqueId } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import { RJSFValidationError } from '@rjsf/utils'
 import MetadataEditor from '../../MetadataEditor'
@@ -16,6 +16,7 @@ import { FieldInfo } from './FieldInfo'
 import { ProgressCircleType } from './ProgressCircleType'
 import { createPath, prefixProperty, removeEmpty } from '../../utils/json_utils'
 import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
+import './DetailedProgressView.css'
 
 type DetailedProgressViewProps = {
   router: RouterType
@@ -161,7 +162,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       const fields = this.fieldsForSection(section, draftJson)
       return (
         <div
-          style={{ padding: 10, flex: '33.33%' }}
+          className="progress-section"
           key={JSON.stringify(section)}
           data-testid={`detailed-progress-view--progress-section__${_.kebabCase(sectionLabel)}_${_.kebabCase(status)}`}
         >
@@ -174,34 +175,13 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         </div>
       )
     })
-
-    // if (loading) {
-    //   return (
-    //     <div id="react-editor-form-containter">
-    //       <Card
-    //         style={{
-    //           display: 'flex',
-    //           width: 1000,
-    //           height: 400,
-    //           alignItems: 'center',
-    //           justifyContent: 'center'
-    //         }}
-    //         id="metadata-form"
-    //       >
-    //         <div style={{ display: 'flex', alignItems: 'center' }}>
-    //           <h5>Loading...&nbsp;&nbsp;</h5>
-    //           <div className="spinner-grow text-success" role="status">
-    //             <span className="sr-only">Loading...</span>
-    //           </div>
-    //         </div>
-    //       </Card>
-    //     </div>
-    //   )
-    // }
+    while ((sectionList.length % 3) !== 0) {
+      sectionList.push(<div className="progress-section" key={`${uniqueId('empty-section')}`} />)
+    }
 
     return (
-      <Container>
-        <Row>
+      <Container fluid>
+        <Row noGutters>
           <Col md={12}>
             <Row>
               <Col md={12}>
@@ -212,8 +192,8 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                 )}
               </Col>
             </Row>
-            <Row style={{ fontSize: 21, fontWeight: 'bold' }}>
-              <Col md={12} style={{ marginLeft: 23, padding: 15 }}>
+            <Row className="header">
+              <Col md={12} className="header-col">
                 Metadata Fields
               </Col>
             </Row>
@@ -222,7 +202,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                 <div className="box">
                   {sectionList}
                 </div>
-                <div style={{ display: 'none' }}>
+                <div className="form">
                   <ReactJsonSchemaForm
                     validator={validator}
                     schema={fullSchema}

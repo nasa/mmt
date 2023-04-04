@@ -12,29 +12,29 @@ const compatibilityAndUsabilityUiSchema = {
             {
               'ui:group': 'Supported Formats',
               'ui:row': [
-                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)' }, md: 10, children: ['SupportedInputFormats'] } },
-                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)', marginBottom: '30px' }, md: 10, children: ['SupportedOutputFormats'] } }
-
+                { 'ui:col': { className: 'field-left-border', md: 10, children: ['SupportedInputFormats'] } },
+                { 'ui:col': { className: 'field-left-border', md: 10, children: ['SupportedOutputFormats'] } }
               ]
             },
             {
               'ui:row': [
-                { 'ui:col': { style: { marginBottom: '30px' }, md: 12, children: ['SupportedOperatingSystems'] } }
+                { 'ui:col': { md: 12, children: ['SupportedOperatingSystems'] } }
               ]
             },
             {
               'ui:row': [
-                { 'ui:col': { style: { marginBottom: '30px' }, md: 12, children: ['SupportedBrowsers'] } }
+                { 'ui:col': { md: 12, children: ['SupportedBrowsers'] } }
               ]
             },
             {
               'ui:row': [
-                { 'ui:col': { style: { marginBottom: '30px' }, md: 12, children: ['SupportedSoftwareLanguages'] } }
+                { 'ui:col': { md: 12, children: ['SupportedSoftwareLanguages'] } }
               ]
             },
             {
+              'ui:group': 'Quality',
               'ui:row': [
-                { 'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)', marginBottom: '30px' }, md: 12, children: ['Quality'] } }
+                { 'ui:col': { className: 'field-left-border', md: 12, children: ['Quality'] } }
               ]
             },
             {
@@ -42,17 +42,17 @@ const compatibilityAndUsabilityUiSchema = {
                 {
 
                   'ui:col': {
-                    style: { borderLeft: 'solid 5px rgb(240,240,240)' },
+                    className: 'field-left-border',
                     md: 12,
                     children: [
                       {
-                        'ui:group': 'Constraints',
+                        'ui:group': 'UseConstraints',
                         'ui:group-description': false,
                         'ui:row': [
 
                           { 'ui:col': { md: 12, children: ['AccessConstraints'] } },
                           {
-                            'ui:col': { style: { borderLeft: 'solid 5px rgb(240,240,240)', marginLeft: '10px', fontSize: 'bold' }, md: 12, children: ['UseConstraints'] }
+                            'ui:col': { className: 'field-left-border-padded', md: 12, children: ['UseConstraints'] }
                           }
                         ]
                       }
@@ -195,7 +195,7 @@ const compatibilityAndUsabilityUiSchema = {
   },
   AccessConstraints: {
     'ui:title': 'Access Constraints',
-    'ui:classNames': 'mediumTitle',
+    'ui:className': 'mediumTitle',
     'ui:widget': 'textarea'
   }
 

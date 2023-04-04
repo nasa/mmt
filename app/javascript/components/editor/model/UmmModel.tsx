@@ -2,7 +2,6 @@
 import {
   makeObservable, observable, computed, toJS
 } from 'mobx'
-import schema from '../data/schemas/umm_tools_schema'
 import { MetadataService } from '../services/MetadataService'
 import Draft from './Draft'
 import FormModel from './FormModel'
@@ -17,7 +16,7 @@ export default class UmmModel implements FormModel {
   currentSection: FormSection
   service: MetadataService
 
-  constructor() {
+  constructor(schema: any) {
     this.draft = new Draft()
     this.fullErrors = []
     this.publishErrors = []
@@ -54,6 +53,7 @@ export default class UmmModel implements FormModel {
         formData[property] = this.draft.json[property]
       }
     })
+
     return formData
   }
 
@@ -88,20 +88,23 @@ export default class UmmModel implements FormModel {
     return formSchema
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  /* istanbul ignore next */
   get uiSchema(): object {
     throw new Error('Method uiSchema() must be implemented.')
   }
-
+  /* istanbul ignore next */
   get formSections(): FormSection[] {
     throw new Error('Method formSections() must be implemented.')
   }
+  /* istanbul ignore next */
   get documentType(): string {
     throw new Error('Method documentType() must be implemented.')
   }
+  /* istanbul ignore next */
   get documentTypeForDisplay(): string {
     throw new Error('Method documentTypeForDisplay() must be implemented.')
   }
+  /* istanbul ignore next */
   migratedSectionName(sectionName: string): string {
     throw new Error(`Method migratedSectionName(${sectionName}) must be implemented.`)
   }

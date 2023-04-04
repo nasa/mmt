@@ -3,10 +3,11 @@
 /* eslint-disable react/static-property-placement */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ArrayFieldTemplateProps } from '@rjsf/utils'
+import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import React, { MouseEventHandler, ReactNode } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import MetadataEditor from '../MetadataEditor'
+import './CustomArrayFieldTemplate.css'
 
 type Element = {
   index: number,
@@ -21,15 +22,12 @@ interface CustomArrayTemplateProps extends ArrayFieldTemplateProps {
   canAdd: boolean
   onAddClick: (event: object) => void
   title: string
-  uiSchema: any,
-  options: {
-    editor: MetadataEditor
-  }
+  uiSchema: any
 }
 
 class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps, never> {
-  static defaultProps = {}
   private scrollRef: Array<React.RefObject<HTMLDivElement>>
+  private titleScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomArrayTemplateProps) {
     super(props)
     const {
@@ -39,83 +37,89 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
+    this.titleScrollRef = React.createRef()
   }
-  componentDidUpdate(): void {
-    const { options = { editor: null } } = this.props
-    const { editor } = options
-    // Keep this setTimeout at 200 ms. If it is anything less than 200ms it will set the
-    // FocusArrayField to null before the page renders causing a console error.
-    if (editor.arrayFieldAutoScroll) {
-      setTimeout(() => {
-        editor.setArrayAutoScroll(-1)
-      }, 200)
+
+  parseTitle(title:string) {
+    if (title == null) {
+      return title
     }
-  }
-  parseTitle(title: string) {
-    if (title.charAt(title.length - 1) === 's' && title.charAt(title.length - 2) !== 's') {
-      title = title.slice(0, -1)
+    if (title.length > 1) {
+      if (title.charAt(title.length - 1) === 's' && title.charAt(title.length - 2) !== 's') {
+        title = title.slice(0, -1)
+      }
     }
     return title
   }
+
   render() {
     const {
-      items, canAdd, onAddClick, schema, uiSchema, options = { editor: null }
+      items, canAdd, onAddClick, schema, uiSchema, registry
     } = this.props
     let { title } = this.props
-    const { editor } = options
+    const { formContext } = registry
+    const { editor } = formContext
     const uiTitle = uiSchema['ui:title']
-    const uiClassNames = uiSchema['ui:classNames']
+    const uiClassName = uiSchema['ui:className'] ?? 'title'
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
-    if (editor?.arrayFieldAutoScroll) {
-      setTimeout(() => {
-        this.scrollRef[editor.arrayFieldAutoScroll]?.current?.scrollIntoView({ behavior: 'smooth' })
-      }, 200)
+    if (editor?.arrayFieldAutoScroll !== -1) {
+      if (editor.focusField === title) {
+        setTimeout(() => {
+          this.titleScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+        }, 200)
+      }
+      if (editor?.arrayFieldAutoScroll || editor.focusField === title) {
+        setTimeout(() => {
+          this.scrollRef[editor.arrayFieldAutoScroll]?.current?.scrollIntoView({ behavior: 'smooth' })
+        }, 200)
+      }
     }
+
     if (uiTitle) {
       title = uiTitle
     }
+    let itemTitle = null
+    if (uiSchema.items) {
+      itemTitle = uiSchema.items['ui:title'] ?? title
+    }
     return (
-      <div data-testid="custom-array-template">
-        {uiClassNames ? (
-          <div className={uiClassNames}>{this.parseTitle(title)}</div>
-        ) : (
-          <div className="title" style={{ borderBottom: 'solid 2px rgb(240,240,240', paddingBottom: 14, paddingTop: 14 }}>
-            {title}
-          </div>
-        )}
+      <div data-testid="custom-array-template" ref={this.titleScrollRef}>
+        <div className={uiClassName}>
+          {title}
+        </div>
         <p>
           {schema.description}
         </p>
         <br />
 
         {items && items.map((element: Element, index: number) => (
+
           <div
             key={element.key}
-            className={element.className}
-            style={{
-              borderLeft: 'solid 6px rgb(240,240,240', borderBottom: 'solid 2px rgb(240,240,240)', marginBottom: 25, paddingLeft: 10
-            }}
+            className={`${element.className} element`}
             ref={this.scrollRef[index]}
           >
             <div className="custom-array-template-remove-btn">
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginRight: -12, borderBottom: 'solid 2px rgb(240,240,240)', marginBottom: 10, paddingBottom: 10
-              }}
-              >
-                <h6 style={{ height: 14 }}>
-                  <b>{this.parseTitle(title)}</b>
-                  <span style={{ color: 'gray', marginLeft: 5, paddingTop: 20 }}>
+              <div className="remove-header">
+                <h6 className="remove-title">
+                  <b>{this.parseTitle(itemTitle)}</b>
+                  <span className="element-index-title">
                     {items.length > 0 && `(${index + 1} of ${items.length})`}
                   </span>
                 </h6>
-                <button className="btn" onClick={element.onDropIndexClick(element.index)} type="button">
-                  <span style={{ color: 'red' }}>
+                <button
+                  data-testid={`custom-array-template__remove-button--${kebabCase(title)}`}
+                  className="btn"
+                  onClick={element.onDropIndexClick(element.index)}
+                  type="button"
+                >
+                  <span className="remove-button">
                     <i className="fa-solid fa-circle-minus fa-lg" />
                   </span>
                   {' '}
-                  <span style={{ color: 'red', fontWeight: 'bold' }}>
+                  <span className="remove-label">
                     {' '}
                     Remove
                   </span>
@@ -131,50 +135,55 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
             </div>
           </div>
         ))}
-
-        {
-          (items.length === 0 && canAdd) && (
-            <div className="custom-array-template-add-btn" data-testid="custom-array-template-add-btn" style={{ marginTop: -30 }}>
-              <button
-                className="btn"
-                type="button"
-                onClick={(e) => {
-                  onAddClick(e)
-                  editor.setArrayAutoScroll(items.length)
-                }}
-              >
-                <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
-                  <i className="fa-solid fa-circle-plus fa-lg" />
-                </span>
-                {' '}
-                <span style={{ color: 'rgb(31, 107, 162)', fontWeight: 'bold' }}>
-                  Add
-                  {' '}
-                  {this.parseTitle(title)}
-                </span>
-              </button>
-            </div>
-          )
-        }
+        {(items.length === 0 && canAdd) && (
+        <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
+          <button
+            data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
+            className="btn"
+            type="button"
+            onClick={(e) => {
+              onAddClick(e)
+              editor.setArrayAutoScroll(items.length)
+              setTimeout(() => {
+                editor.setArrayAutoScroll(-1)
+              }, 400)
+            }}
+          >
+            <span className="add-button">
+              <i className="fa-solid fa-circle-plus fa-lg" />
+            </span>
+            {' '}
+            <span className="add-label">
+              Add
+              {' '}
+              {this.parseTitle(itemTitle)}
+            </span>
+          </button>
+        </div>
+        )}
         {
           (items.length > 0 && canAdd) && (
-            <div className="custom-array-template-add-btn" data-testid="custom-array-template-add-btn" style={{ marginTop: -10 }}>
+            <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
               <button
+                data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
                 className="btn"
                 type="button"
                 onClick={(e) => {
                   onAddClick(e)
                   editor.setArrayAutoScroll(items.length)
+                  setTimeout(() => {
+                    editor.setArrayAutoScroll(-1)
+                  }, 400)
                 }}
               >
-                <span style={{ color: 'rgb(31, 107, 162)', marginLeft: '-12px' }}>
+                <span className="add-button">
                   <i className="fa-solid fa-circle-plus fa-lg" />
                 </span>
                 {' '}
-                <span style={{ color: 'rgb(31, 107, 162)', fontWeight: 'bold' }}>
+                <span className="add-label">
                   Add another
                   {' '}
-                  {this.parseTitle(title)}
+                  {this.parseTitle(itemTitle)}
                 </span>
               </button>
             </div>

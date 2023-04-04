@@ -1,0 +1,14 @@
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    width: 25%;
+    height: 25vh;
+    padding-top: 10px;
+    margin-left: 20px;
+}
+
+.json-view {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}

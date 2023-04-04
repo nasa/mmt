@@ -3,8 +3,8 @@
 exports[`Progress Section Test renders in case section empty 1`] = `
 <div>
   <div
+    class="progress-view"
     data-testid="progress-section__tool-contacts_not-started"
-    style="display: flex; align-items: center;"
   >
     <div
       class="section-circle"
@@ -69,8 +69,8 @@ exports[`Progress Section Test renders in case section empty 1`] = `
 exports[`Progress Section Test renders in case section not passed 1`] = `
 <div>
   <div
+    class="progress-view"
     data-testid="progress-section__tool-information_error"
-    style="display: flex; align-items: center;"
   >
     <div
       class="section-circle"
@@ -261,8 +261,8 @@ exports[`Progress Section Test renders in case section not passed 1`] = `
 exports[`Progress Section Test renders in case section passed 1`] = `
 <div>
   <div
+    class="progress-view"
     data-testid="progress-section__tool-information_pass"
-    style="display: flex; align-items: center;"
   >
     <div
       class="section-circle"
@@ -453,8 +453,8 @@ exports[`Progress Section Test renders in case section passed 1`] = `
 exports[`Progress Section Test renders in case section status unknown 1`] = `
 <div>
   <div
+    class="progress-view"
     data-testid="progress-section__tool-contacts_made-up"
-    style="display: flex; align-items: center;"
   >
     <div
       class="section-circle"

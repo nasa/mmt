@@ -5,26 +5,30 @@ import React from 'react'
 import Select from 'react-select'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
-import { WidgetProps } from '@rjsf/utils'
+import { EnumOptionsType, RJSFSchema, WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
-import MetadataEditor from '../../MetadataEditor'
+import './Widget.css'
+import { parseCmrResponse } from '../../utils/cmr_keywords'
+import Status from '../../model/Status'
 
 interface CustomSelectWidgetProps extends WidgetProps {
   label: string,
   options: {
-    title: string,
-    editor: MetadataEditor
+    title?: string,
+    enumOptions?: EnumOptionsType<RJSFSchema>[]
   },
   value: string,
   placeholder: string,
   isLoading: boolean,
   required: boolean,
   onChange: (value: string) => void,
-  disabled: boolean
+  disabled: boolean,
+  uiSchema?: any
 }
 
 type CustomSelectWidgetState = {
   setFocus: boolean
+  loading: boolean
 }
 type SelectOptions = {
   value: string,
@@ -34,29 +38,70 @@ type SelectOptions = {
 
 class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, CustomSelectWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   selectScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomSelectWidgetProps) {
     super(props)
     this.selectScrollRef = React.createRef()
-    this.state = { setFocus: false }
+    this.state = { setFocus: false, loading: false }
+
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  componentDidMount() {
+    const { uiSchema = {}, schema } = this.props
+    const service = uiSchema['ui:service']
+    const controlled = uiSchema['ui:controlled'] || {}
+    const { name, controlName } = controlled
+
+    if (name && controlName) {
+      this.setState({ loading: true }, () => {
+        service.fetchCmrKeywords(name).then((keywords) => {
+          const paths = parseCmrResponse(keywords, controlName)
+          const enums = paths.map((path:string[]) => (path[0]))
+          schema.enum = enums
+          this.setState({ loading: false })
+        })
+          .catch(() => {
+            const { registry } = this.props
+            const { formContext } = registry
+            const { editor } = formContext
+            this.setState({ loading: false })
+            editor.status = new Status('warning', `Error retrieving ${name} keywords`)
+          })
+      })
+    }
+  }
+
+  onHandleFocus() {
+    this.setState({ setFocus: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ setFocus: false })
   }
 
   render() {
     const selectOptions: SelectOptions[] = []
-    const { setFocus } = this.state
+    const { setFocus, loading } = this.state
     const {
-      required, label = '', onChange, schema, options, registry, isLoading, disabled, id
+      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled, id
     } = this.props
     let {
       placeholder
     } = this.props
-    const { schemaUtils } = registry
+    const { schemaUtils, formContext } = registry
     const { items = {} } = schema
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
 
     const { value } = this.props
-    const { title = label, editor } = options
+    const { title = label, enumOptions } = options
+    const { editor } = formContext
     const listOfEnums = schema.enum ? schema.enum : []
 
     if (listOfEnums.length === 0 && retrievedSchema.enum) {
@@ -72,7 +117,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
       }
     })
     const existingValue = value != null ? { value, label: value } : {}
-    const { focusField = '' } = editor
+    const { focusField } = editor
     let shouldFocus = false
 
     if (editor?.focusField === id) {
@@ -95,11 +140,11 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
         <div>
           <span>
             {title}
-            {required && title ? <i className="eui-icon eui-required-o" style={{ color: 'green', padding: '5px' }} /> : ''}
+            {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
-        <div className="custom-select-widget-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
-          <span style={{ fontStyle: 'italic', fontSize: '.85rem' }}>
+        <div className="widget-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+          <span>
             {setFocus ? schema.description : null}
           </span>
         </div>
@@ -111,19 +156,13 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
             // @ts-ignore
-            options={selectOptions}
+            options={enumOptions ?? selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
-            onChange={(e) => {
-              const { value } = e
-              onChange(value)
-            }}
-            onFocus={() => { this.setState({ setFocus: true }) }}
-            onBlur={() => {
-              editor.setFocusField('')
-              this.setState({ setFocus: false })
-            }}
+            onFocus={this.onHandleFocus}
+            onChange={this.onHandleChange}
+            onBlur={this.onHandleBlur}
           />
         </div>
       </div>

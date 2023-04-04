@@ -4,7 +4,7 @@ import React from 'react'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
-import MetadataEditor from '../../MetadataEditor'
+import './Widget.css'
 
 interface CustomTextAreaWidgetProps extends WidgetProps {
   label: string,
@@ -14,9 +14,8 @@ interface CustomTextAreaWidgetProps extends WidgetProps {
   },
   required: boolean,
   options: {
-    minHeight: number,
-    title: string,
-    editor: MetadataEditor
+    minHeight?: number,
+    title?: string,
   },
   onChange: (value: string) => void,
   value: string,
@@ -33,7 +32,6 @@ type CustomTextAreaWidgetState = {
 }
 class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, CustomTextAreaWidgetState> {
   // eslint-disable-next-line react/static-property-placement
-  static defaultProps: { options: { editor: MetadataEditor } }
   textareaScrollRef: React.RefObject<HTMLDivElement>
   constructor(props: CustomTextAreaWidgetProps) {
     super(props)
@@ -44,29 +42,40 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       showDescription: false
     }
     this.textareaScrollRef = React.createRef()
+    this.onHandleFocus = this.onHandleFocus.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
+    this.onHandleBlur = this.onHandleBlur.bind(this)
+  }
+
+  onHandleFocus() {
+    this.setState({ showDescription: true })
+  }
+  onHandleChange(e) {
+    const { onChange } = this.props
+    const { value } = e.target
+    const len = value.length
+    this.setState({ value, charsUsed: len })
+    onChange(value)
+  }
+  onHandleBlur() {
+    this.setState({ showDescription: false })
   }
 
   render() {
     const {
-      label = '', schema, required, onChange, options, id, uiSchema = {}
+      label, schema, required, options = {}, id, uiSchema = {}, registry
     } = this.props
-    const { minHeight = 100, title = label, editor } = options
-    const style = {
-      minHeight,
-      minWidth: '100%'
-    }
+    const { title = label } = options
+    const { formContext } = registry
+    const { editor } = formContext
     const classNames = uiSchema['ui:classNames'] ?? ''
     const { maxLength, description } = schema
     const { value, charsUsed, showDescription } = this.state
-    const { focusField = '' } = editor
+    const { focusField } = editor
     let shouldFocus = false
 
-    if (editor?.focusField === id) {
+    if (focusField === id) {
       shouldFocus = true
-    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
-      if (id !== '' && id.startsWith(editor?.focusField)) {
-        shouldFocus = true
-      }
     }
     if (shouldFocus) {
       this.textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -74,15 +83,15 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
 
     return (
       <>
-        <div className="custom-textarea-widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`} ref={this.textareaScrollRef}>
+        <div className="widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`} ref={this.textareaScrollRef}>
           <span>
             <span className={classNames}>
               {title}
             </span>
-            {required ? <i className="eui-icon eui-required-o" style={{ color: 'green', paddingLeft: '5px' }} /> : ''}
+            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
           {maxLength && (
-            <span style={{ float: 'right' }}>
+            <span>
               {charsUsed}
               /
               {maxLength}
@@ -95,22 +104,14 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
           name={title}
           className="custom-textarea-widget-input"
           data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-input`}
-          style={style}
           maxLength={maxLength}
           value={value}
-          onFocus={() => { this.setState({ showDescription: true }) }}
-          onChange={(e) => {
-            const { value } = e.target
-            const len = value.length
-            this.setState({ value, charsUsed: len })
-            onChange(value)
-          }}
-          onBlur={() => {
-            editor.setFocusField('')
-            this.setState({ showDescription: false })
-          }}
+          onFocus={this.onHandleFocus}
+          onChange={this.onHandleChange}
+          onBlur={this.onHandleBlur}
+
         />
-        <span style={{ fontStyle: 'italic' }} data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
+        <span className="widget-description" data-testid={`custom-text-area-widget--description-field__${kebabCase(label)}`}>
           {showDescription ? description : ''}
         </span>
 

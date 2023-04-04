@@ -44,7 +44,7 @@ const potentialActionUiSchema = {
             'ui:group': 'Target',
             'ui:group-description': true,
             'ui:col': {
-              style: { borderBottom: 'solid 5px rgb(240,240,240', paddingBottom: 10 },
+              className: 'field-left-border',
               md: 12,
               children: [
                 {

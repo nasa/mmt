@@ -3,14 +3,13 @@
 exports[`StreetAddressFieldTest basic test 1`] = `
 <div>
   <span
+    class="header-description"
     data-testid="street-address-field__title"
-    style="font-style: italic;"
   >
     The street address description
   </span>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -31,18 +30,16 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       id="undefined_1"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value="my first line"
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-1"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -63,18 +60,16 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       id="undefined_2"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value="my second line"
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-2"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -95,13 +90,12 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       id="undefined_3"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value="my third line"
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-3"
-      style="font-style: italic;"
     />
   </div>
 </div>
@@ -110,14 +104,13 @@ exports[`StreetAddressFieldTest basic test 1`] = `
 exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
 <div>
   <span
+    class="header-description"
     data-testid="street-address-field__title"
-    style="font-style: italic;"
   >
     The street address description
   </span>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -138,18 +131,16 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       id="undefined_1"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-1"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -170,18 +161,16 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       id="undefined_2"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-2"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -202,13 +191,12 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       id="undefined_3"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-3"
-      style="font-style: italic;"
     />
   </div>
 </div>
@@ -217,14 +205,13 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
 exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
 <div>
   <span
+    class="header-description"
     data-testid="street-address-field__title"
-    style="font-style: italic;"
   >
     The street address description
   </span>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -245,18 +232,16 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       id="undefined_1"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-1"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -277,18 +262,16 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       id="undefined_2"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-2"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -309,13 +292,12 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       id="undefined_3"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-3"
-      style="font-style: italic;"
     />
   </div>
 </div>
@@ -324,14 +306,13 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
 exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
 <div>
   <span
+    class="header-description"
     data-testid="street-address-field__title"
-    style="font-style: italic;"
   >
     The street address description
   </span>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px; margin-top: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -352,18 +333,16 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       id="undefined_1"
       maxlength="80"
       name="Address Line 1"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value="Cloudy day"
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-1"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -384,18 +363,16 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       id="undefined_2"
       maxlength="80"
       name="Address Line 2"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value=""
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-2"
-      style="font-style: italic;"
     />
   </div>
   <div
-    class="col-md-12"
-    style="margin-left: -15px; margin-bottom: 10px;"
+    class="address-line col-md-12"
   >
     <div
       class="widget-header"
@@ -416,13 +393,12 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       id="undefined_3"
       maxlength="80"
       name="Address Line 3"
-      style="min-width: 100%; height: 37px;"
       type="text"
       value="Sunny day"
     />
     <span
+      class="widget-description"
       data-testid="custom-text-widget--description-field__address-line-3"
-      style="font-style: italic;"
     />
   </div>
 </div>

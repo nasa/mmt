@@ -1,0 +1,24 @@
+.link-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.spinner {
+    width: 24;
+    height: 24;
+}
+
+.section-list {
+    height: 400px;
+    width: 300px;
+    margin-top: 5px;
+}
+
+.form {
+    display: none
+}

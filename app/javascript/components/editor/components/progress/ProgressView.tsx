@@ -5,6 +5,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import NavigationItem from '../NavigationItem'
 import MetadataEditor from '../../MetadataEditor'
+import './ProgressView.css'
 
 type ProgressViewProps = {
   router: RouterType
@@ -144,12 +145,12 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           </button>
           &nbsp;&nbsp;
           {status && (
-            <Alert style={{ height: 20, display: 'inline' }} key={status} variant="warning">
+            <Alert className="alert" key={status} variant="warning">
               {status}
             </Alert>
           )}
         </div>
-        <ListGroup style={{ height: 400, width: 300 }}>
+        <ListGroup className="section-list">
           {sectionList}
         </ListGroup>
       </>

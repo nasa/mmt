@@ -78,38 +78,49 @@
         </div>
       </section>
     <% end %>
-    <% if resource_name == 'tool_draft' and Rails.configuration.react_forms_enabled %>
+
+    <% if Rails.configuration.react_forms_enabled and (resource_name == 'tool_draft' or resource_name == 'variable_draft') %>
+      <% if resource_name == 'variable_draft' %>
+        <div class="variable_draft_collection_association">
+          <%= render partial: 'drafts/shared/collection_association_progress_panel' %>
+        </div>
+      <% end %>
       <section id="react-editor-form" class="metadata">
-        <%= react_component("editor/UmmToolsForm", {token: @react_token, user: @react_user, provider: @react_provider}) %>
+        <% if resource_name == 'tool_draft' %>
+          <%= react_component("editor/UmmToolsForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
+        <% end %>
+        <% if resource_name == 'variable_draft' %>
+          <%= react_component("editor/UmmVarForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
+        <% end %>
       </section>
     <% else %>
-        <% if resource_name == 'variable_draft' %>
+      <% if resource_name == 'variable_draft' %>
           <%= render partial: 'drafts/shared/collection_association_progress_panel' %>
-        <% end %>
-        <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
+      <% end %>
+      <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
-      <div class="grid-row content">
-        <% if @preview.sidebars.blank? %>
-          <!-- No sidebar -->
-          <section class="umm-preview">
-            <% @preview.forms.each do |form| %>
-              <%= form.render %>
-            <% end %>
-          </section>
-        <% else %>
-          <!-- With sidebar -->
-          <section class="preview">
-            <% @preview.forms.each do |form| %>
-              <%= form.render %>
-            <% end %>
-          </section>
+    <div class="preview-content grid-row content">
+      <% if @preview.sidebars.blank? %>
+        <!-- No sidebar -->
+        <section class="umm-preview">
+          <% @preview.forms.each do |form| %>
+            <%= form.render %>
+          <% end %>
+        </section>
+      <% else %>
+        <!-- With sidebar -->
+        <section class="preview">
+          <% @preview.forms.each do |form| %>
+            <%= form.render %>
+          <% end %>
+        </section>
 
-          <aside class="umm-preview-sidebar">
-            <% @preview.sidebars.each do |sidebar| %>
-              <%= sidebar.render_sidebar %>
-            <% end %>
-          </aside>
-        <% end %>
+        <aside class="umm-preview-sidebar">
+          <% @preview.sidebars.each do |sidebar| %>
+            <%= sidebar.render_sidebar %>
+          <% end %>
+        </aside>
+      <% end %>
     </div>
   </div>
 <% end %>

@@ -17,3 +17,47 @@
 a {
   cursor: pointer;
 }
+
+.title {
+  font-size: 22px;
+  font-weight: 550;
+}
+
+.title-header {
+  font-size: 1.10rem
+}
+
+.title-hr {
+  height: 1px
+}
+
+.added-keywords {
+  padding: 20px
+}
+
+.remove-button {
+  padding: 5px;
+  color: red
+}
+
+.add-button-icon {
+  margin-right: .25em
+}
+
+
+.add-science-keyword {
+  margin-top: 25px;
+  margin-left: 15px
+}
+
+#search-keywords input {
+  margin: 0px;
+  border-style: hidden;
+}
+
+.keyword-picker-title {
+  font-size: 22px;
+  font-weight: 550;
+  padding-bottom: 14px;
+  padding-top: 14px
+}

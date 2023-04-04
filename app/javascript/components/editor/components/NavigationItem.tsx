@@ -76,23 +76,18 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
     const { navigate, params } = router
     const { id } = params
     const { hasFocus } = this.state
-    const styles = {
-      backgroundColor: hasFocus ? '#f5f5f5' : 'rgb(235,242,246)',
-      fontSize: 16,
-      border: 'none',
-      margin: 0,
-      padding: 0,
-      width: '330px'
-    }
+
+    const focusClass = hasFocus ? 'navigation-item-has-focus' : 'navigation-item-no-focus'
+    const sectionClass = section.displayName === editor.currentSection.displayName ? 'section-highlighted' : 'section'
     return (
       <div
         data-testid={`navigationitem--${kebabCase(section.displayName)}`}
-        style={styles}
+        className={`navigation-item ${focusClass}`}
         key={section.displayName}
       >
         <ListGroup.Item
+          className={`navigation-item ${focusClass}`}
           data-testid={`navigationitem--listgroup.item__${kebabCase(section.displayName)}`}
-          style={styles}
           action
           onMouseOver={() => {
             this.setFocus(true)
@@ -108,11 +103,7 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
             navigate(`/${editor.documentType}/${id}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           }}
         >
-          <span style={{
-            fontWeight: section.displayName === editor.currentSection.displayName ? 'bold' : null,
-            fontSize: section.displayName === editor.currentSection.displayName ? 17 : null
-          }}
-          >
+          <span className={sectionClass}>
             {this.progressCircle(section)}
             {' '}
             {section.displayName}

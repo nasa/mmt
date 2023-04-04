@@ -30,8 +30,6 @@ const schema = {
   }
 }
 
-CustomArrayFieldTemplate.defaultProps = { options: { editor } }
-
 const templates = {
   ArrayFieldTemplate: CustomArrayFieldTemplate
 }
@@ -40,7 +38,7 @@ describe('Custom Array Template', () => {
   it('renders the custom array template and adds an array', async () => {
     const { getByTestId, container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} templates={templates} />
+        <Form validator={validator} schema={schema} templates={templates} formContext={{ editor }} />
       </BrowserRouter>
     )
 
@@ -51,12 +49,19 @@ describe('Custom Array Template', () => {
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('First Name')
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Last Name')
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Age')
+
+    const addAnotherNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
+    fireEvent.click(await addAnotherNewField)
+
+    const removeButtons = container.getElementsByClassName('custom-array-template-remove-btn')
+    expect(removeButtons).toHaveLength(2)
+
     expect(container).toMatchSnapshot()
   })
   it('renders the custom array template. 1.) Adds a field 2.) removes the added field', async () => {
     const { getByTestId, container } = render(
       <BrowserRouter>
-        <Form validator={validator} schema={schema} templates={templates} />
+        <Form validator={validator} schema={schema} templates={templates} formContext={{ editor }} />
       </BrowserRouter>
     )
     const addNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')

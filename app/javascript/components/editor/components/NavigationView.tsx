@@ -13,6 +13,7 @@ import withRouter from './withRouter'
 import Status from '../model/Status'
 import { removeEmpty } from '../utils/json_utils'
 import ReactJsonSchemaForm from './ReactJsonSchemaForm'
+import './NavigationView.css'
 
 type ProgressViewProps = {
   router?: RouterType
@@ -196,12 +197,12 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           </button>
           &nbsp;&nbsp;
           {saving && (
-            <div style={{ width: 24, height: 24 }} className="spinner-border" role="status" />
+            <div className="spinner-border spinner" role="status" />
           )}
         </div>
-        <ListGroup style={{ height: 400, width: 300, marginTop: 5 }}>
+        <ListGroup className="section-list">
           {sectionList}
-          <div style={{ display: 'none' }}>
+          <div className="form">
             <ReactJsonSchemaForm
               validator={validator}
               schema={fullSchema}

@@ -18,16 +18,6 @@ class Api::CmrKeywordsController < BaseDraftsController
   def show
     keyword_scheme = params[:id]
     keywords = fetch(keyword_scheme)
-    if keyword_scheme == 'science_keywords'
-      if keywords.key? 'category'
-        keywords['category'].each do |category|
-          if category['value'] == 'EARTH SCIENCE'
-            keywords['category'].delete(category)
-            break
-          end
-        end
-      end
-    end
     render json: JSON.pretty_generate(keywords)
   end
 end

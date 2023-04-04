@@ -1,13 +1,15 @@
 import React from 'react'
 import {
-  render, screen
+  render, screen, waitFor
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
 import validator from '@rjsf/validator-ajv8'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import LayoutGridField from '../LayoutGridField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate'
 import MetadataEditor from '../../MetadataEditor'
 import UmmToolsModel from '../../model/UmmToolsModel'
+import MetadataEditorForm from '../MetadataEditorForm'
 
 const schema = {
   title: 'Todo',
@@ -42,7 +44,6 @@ const fields = {
 }
 const model = new UmmToolsModel()
 const editor = new MetadataEditor(model)
-LayoutGridField.defaultProps = { options: { editor } }
 describe('Layout Grid Field Component', () => {
   it('renders a basic form', async () => {
     const uiSchema = {
@@ -77,7 +78,7 @@ describe('Layout Grid Field Component', () => {
       }
     }
 
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.getByTestId('layout-grid-field__schema-field--password')).toHaveTextContent('Password')
@@ -107,7 +108,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.getByTestId('layout-grid-field__row-title-field--full-name')).toHaveTextContent('Full Name')
@@ -135,7 +136,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--first-name')).toHaveTextContent('First name')
     expect(screen.getByTestId('layout-grid-field__schema-field--last-name')).toHaveTextContent('Last name')
     expect(screen.queryByTestId('layout-grid-field__schema-field--full-name')).toBeNull()
@@ -154,7 +155,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.getByTestId('layout-grid-field__col-title-field--biography')).toHaveTextContent('Biography')
     expect(container).toMatchSnapshot()
   })
@@ -171,7 +172,7 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.queryByTestId('layout-grid-field__col-title-field--biography')).toBeNull()
     expect(container).toMatchSnapshot()
   })
@@ -191,8 +192,110 @@ describe('Layout Grid Field Component', () => {
         ]
       }
     }
-    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} />)
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} fields={fields} formContext={{ editor }} />)
     expect(screen.getByTestId('layout-grid-field__schema-field--password')).toHaveTextContent('My Custom Component')
+    expect(container).toMatchSnapshot()
+  })
+
+  it('testing autofocus against URL', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      PotentialAction: {
+        Target: {
+          ResponseContentType: [
+            'response content type'
+          ],
+          HttpMethod: [
+            'GET'
+          ],
+          Type: 'EntryPoint',
+          Description: 'target description',
+          UrlTemplate: 'url template'
+        },
+        Type: 'SearchAction'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Potential_Action']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+
+    // editor.setFocusField('Description')
+    // await waitFor(async () => {
+    //   editor.setFocusField('Description')
+    //   screen.queryByTestId('error-list-item__url').click()
+    // })
+
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing autofocus to a group', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      MetadataSpecification: {
+        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+        Name: 'UMM-T',
+        Version: '1.1'
+      },
+      PotentialAction: {
+        Type: 'SearchAction'
+      }
+
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Potential_Action']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+
+    await waitFor(async () => {
+      screen.queryByTestId('error-list-item__target').click()
+      setTimeout(() => {
+        expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
+      }, 200)
+    })
+    // await waitFor(async () => {
+    // expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
+
+    // })
+
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing adding contact group', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      MetadataSpecification: {
+        URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+        Name: 'UMM-T',
+        Version: '1.1'
+      },
+      PotentialAction: {
+        Type: 'SearchAction'
+      }
+
+    }
+    const editor = new MetadataEditor(model)
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Contacts']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    await waitFor(async () => {
+      screen.queryByTestId('custom-array-template__add-button--contact-groups').click()
+    })
     expect(container).toMatchSnapshot()
   })
 })

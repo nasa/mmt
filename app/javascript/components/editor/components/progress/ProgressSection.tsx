@@ -60,7 +60,7 @@ class ProgressSection extends React.Component<ProgressSectionProps, never> {
       </span>
     ))
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }} key={JSON.stringify(fields)} data-testid={`progress-section__${_.kebabCase(section)}_${_.kebabCase(status)}`}>
+      <div className="progress-view" key={JSON.stringify(fields)} data-testid={`progress-section__${_.kebabCase(section)}_${_.kebabCase(status)}`}>
         <div className="section-circle">
           {this.progressSectionCircle(status)}
         </div>

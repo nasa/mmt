@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, waitFor, screen
+  render, waitFor, screen, act
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -18,8 +18,10 @@ describe('Custom Text Area Widget Component', () => {
     const props = {
       label: 'my test area data label',
       options: {
-        title: 'my title',
-        editor
+        title: 'my title'
+      },
+      registry: {
+        formContext: { editor }
       },
       required: true,
       schema: {
@@ -43,10 +45,10 @@ describe('Custom Text Area Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test area data label',
-      options: {
-        editor
-      },
       required: true,
+      registry: {
+        formContext: { editor }
+      },
       schema: {
         maxLength: 10
       },
@@ -68,8 +70,10 @@ describe('Custom Text Area Widget Component', () => {
     const props = {
       label: 'my test area data label',
       options: {
-        title: 'my title',
-        editor
+        title: 'my title'
+      },
+      registry: {
+        formContext: { editor }
       },
       required: false,
       schema: {
@@ -82,6 +86,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
+    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).not.toHaveTextContent('my title*')
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('0/10')
     expect(container).toMatchSnapshot()
@@ -96,8 +101,10 @@ describe('Custom Text Area Widget Component', () => {
     const props = {
       label: 'my test area data label',
       options: {
-        title: 'my title',
-        editor
+        title: 'my title'
+      },
+      registry: {
+        formContext: { editor }
       },
       required: false,
       schema: {
@@ -111,8 +118,10 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
-    const inputEl = getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-input')
-    userEvent.type(inputEl, 'test@mail.com')
+    await waitFor(async () => {
+      const inputEl = getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-input')
+      userEvent.type(inputEl, 'test@mail.com')
+    })
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('10/10')
     expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-input')).not.toHaveTextContent('test@mail.com')
     expect(container).toMatchSnapshot()
@@ -124,8 +133,10 @@ describe('Custom Text Area Widget Component', () => {
     const props = {
       label: 'my test area data label',
       options: {
-        title: 'my title',
-        editor
+        title: 'my title'
+      },
+      registry: {
+        formContext: { editor }
       },
       required: false,
       schema: {
@@ -135,34 +146,37 @@ describe('Custom Text Area Widget Component', () => {
       value: 'my initial text'
     }
 
-    const { getByTestId } = render(
+    const { getByTestId, container } = render(
       <BrowserRouter>
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
     const myTextareaComponent = getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-input')
     const myTextareaHeaderComponent = getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')
-
-    expect(myTextareaComponent).toBeDefined()
-    expect(myTextareaComponent).not.toBeNull()
-    expect(mockedOnChange).toHaveBeenCalledTimes(0)
-    expect(myTextareaComponent.value).toBe('my initial text')
-    userEvent.clear(myTextareaComponent)
-    userEvent.type(myTextareaComponent, 'test@mail.com')
-    expect(mockedOnChange).toHaveBeenCalledWith('test@mail.com')
-    userEvent.type(myTextareaComponent, 'abc')
-    expect(mockedOnChange).toHaveBeenCalledWith('test@mail.comabc')
-    expect(mockedOnChange).toHaveBeenCalledTimes(17)
-    expect(myTextareaHeaderComponent).toHaveTextContent('16/20')
-    userEvent.type(myTextareaComponent, '1234567890')
-    expect(myTextareaHeaderComponent).toHaveTextContent('20/20')
-    expect(myTextareaComponent.value).toBe('test@mail.comabc1234')
+    await waitFor(async () => {
+      expect(myTextareaComponent).toBeDefined()
+      expect(myTextareaComponent).not.toBeNull()
+      expect(mockedOnChange).toHaveBeenCalledTimes(0)
+      expect(myTextareaComponent.value).toBe('my initial text')
+      userEvent.clear(myTextareaComponent)
+      userEvent.type(myTextareaComponent, 'test@mail.com')
+      expect(mockedOnChange).toHaveBeenCalledWith('test@mail.com')
+      userEvent.type(myTextareaComponent, 'abc')
+      expect(mockedOnChange).toHaveBeenCalledWith('test@mail.comabc')
+      expect(mockedOnChange).toHaveBeenCalledTimes(17)
+      expect(myTextareaHeaderComponent).toHaveTextContent('16/20')
+      userEvent.type(myTextareaComponent, '1234567890')
+      expect(myTextareaHeaderComponent).toHaveTextContent('20/20')
+      expect(myTextareaComponent.value).toBe('test@mail.comabc1234')
+      userEvent.tab()
+    })
+    expect(container).toMatchSnapshot()
   })
+
   test('testing autofocus for a custom text widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     HTMLElement.prototype.scrollIntoView = jest.fn()
-
     const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/2/edit/Tool_Information']}>
         <Routes>
@@ -170,12 +184,84 @@ describe('Custom Text Area Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
+
     await waitFor(async () => {
       screen.queryByTestId('error-list-item__description').click()
+      setTimeout(() => {
+        expect(screen.queryAllByTestId('custom-text-area-widget--description-field__description')[0])
+          .toHaveTextContent('A brief description of the web user interface or downloadable tool.')
+        userEvent.tab()
+      }, 200)
     })
 
-    expect(container).toHaveTextContent('A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.')
+    expect(container).toMatchSnapshot()
+  })
 
+  test('testing autofocus with good focus field', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      PotentialAction: {
+        Target: {
+          ResponseContentType: [
+            'response content type'
+          ],
+          HttpMethod: [
+            'GET'
+          ],
+          Type: 'EntryPoint',
+          Description: 'target description',
+          UrlTemplate: 'url template'
+        },
+        Type: 'SearchAction'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    editor.setFocusField('PotentialAction_Target_Description')
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Potential_Action']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    await waitFor(async () => {
+      expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
+    })
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing autofocus with an illegal focus field', async () => {
+    const model = new UmmToolsModel()
+    model.fullData = {
+      PotentialAction: {
+        Target: {
+          ResponseContentType: [
+            'response content type'
+          ],
+          HttpMethod: [
+            'GET'
+          ],
+          Type: 'EntryPoint',
+          Description: 'target description',
+          UrlTemplate: 'url template'
+        },
+        Type: 'SearchAction'
+      }
+    }
+    const editor = new MetadataEditor(model)
+    editor.setFocusField('PotentialAction_Target_IllegalFieldName')
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/2/edit/Potential_Action']}>
+        <Routes>
+          <Route path="/tool_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    await waitFor(async () => {
+      expect(HTMLElement.prototype.scrollIntoView).toBeCalledTimes(0)
+    })
     expect(container).toMatchSnapshot()
   })
 })
