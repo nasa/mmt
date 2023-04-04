@@ -3,10 +3,10 @@
 exports[`Detailed Progress View renders tool draft 1 and tests section progress circles 1`] = `
 <div>
   <div
-    class="container"
+    class="container-fluid"
   >
     <div
-      class="row"
+      class="row no-gutters"
     >
       <div
         class="col-md-12"
@@ -3697,10 +3697,10 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
 exports[`Detailed Progress View shows error if draft not found 1`] = `
 <div>
   <div
-    class="container"
+    class="container-fluid"
   >
     <div
-      class="row"
+      class="row no-gutters"
     >
       <div
         class="col-md-12"
