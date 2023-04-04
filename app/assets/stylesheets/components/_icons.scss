@@ -4,10 +4,10 @@
 
 // Note: Needs improved naming convention
 
-.eui-completed,
-.eui-required,
-.eui-required-o {
-  &:before:not(#react-editor-form *) {
+.eui-completed:not(#react-editor-form *),
+.eui-required:not(#react-editor-form *),
+.eui-required-o:not(#react-editor-form *) {
+  &:before {
     font-family: "EUI-Icon-Library";
     color: $dark-green;
     display: block;
@@ -16,8 +16,8 @@
   }
 }
 
-.eui-required-grey-o {
-  &:before:not(#react-editor-form *) {
+.eui-required-grey-o:not(#react-editor-form *) {
+  &:before {
     font-family: "EUI-Icon-Library";
     color: $medium-grey;
     display: block;
@@ -26,15 +26,15 @@
   }
 }
 
-.eui-required {
-  &:before:not(#react-editor-form *) {
+.eui-required:not(#react-editor-form *) {
+  &:before {
     content: '\f126';
   }
 }
 
-.eui-required-o,
-.eui-required-grey-o {
-  &:before:not(#react-editor-form *) {
+.eui-required-o:not(#react-editor-form *),
+.eui-required-grey-o:not(#react-editor-form *) {
+  &:before {
     content: '\f125';
   }
 }
@@ -45,16 +45,16 @@
 // the unicode should match up with font awesome icons, but I could not seem to
 // find the appropriate list where the unicode matched up with the expected icon
 
-.eui-completed {
-  &:before:not(#react-editor-form *) {
+.eui-completed:not(#react-editor-form *) {
+  &:before {
     content: '\f111';
   }
 }
 
 .compass-coordinates {
-  .eui-completed,
-  .eui-required {
-    &:before:not(#react-editor-form *) {
+  .eui-completed:not(#react-editor-form *),
+  .eui-required:not(#react-editor-form *) {
+    &:before {
       font-size: 0.85em;
       display: inline-block;
       margin: 0;
@@ -82,7 +82,7 @@
   }
 }
 
-.eui-circle-left {
+.eui-circle-left:not(#react-editor-form *) {
   &:before {
     font-family: "EUI-Icon-Library";
     content: "\f10e";
@@ -90,7 +90,7 @@
   }
 }
 
-.eui-circle-right {
+.eui-circle-right:not(#react-editor-form *) {
   &:before {
     font-family: "EUI-Icon-Library";
     content: "\f10f";
