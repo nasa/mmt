@@ -6,16 +6,12 @@
 
 // this is used for progress circle sections
 
-#react-editor-form .container {
-  border-bottom: 1px solid $dolphin-grey;
+.variable_draft_collection_association {
+  margin-left: 50px;
 }
+
 .metadata,
 .collection-association {
-  padding-bottom: 1.275em;
-  padding-top: 1em;
-  border-bottom: 1px solid $dolphin-grey;
-  margin-bottom: 1em;
-
   #legend {
     margin-left: .5em;
     color: $ocean-blue;

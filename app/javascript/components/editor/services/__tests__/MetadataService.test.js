@@ -79,15 +79,6 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/?draft_type=ToolDraft&associated_collection_id=asc_col_id': {
-        return {
-          ok: true,
-          status: 200,
-          json: async () => ({
-            id: 12
-          })
-        }
-      }
       case '/api/cmr_keywords/science_keywords': {
         return {
           ok: true,
@@ -172,7 +163,7 @@ describe('Testing MetadataService', () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
     const draft = new Draft()
     draft.json = { Name: 'Test Record' }
-    metadataService.saveDraft(draft, 'asc_col_id').then((result) => {
+    metadataService.saveDraft(draft).then((result) => {
       expect(result.apiId).toEqual(12)
     })
   })

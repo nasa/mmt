@@ -180,8 +180,8 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     }
 
     return (
-      <Container>
-        <Row>
+      <Container fluid>
+        <Row noGutters>
           <Col md={12}>
             <Row>
               <Col md={12}>

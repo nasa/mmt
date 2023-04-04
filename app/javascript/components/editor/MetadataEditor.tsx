@@ -180,9 +180,9 @@ export default class MetadataEditor {
     return this.service.fetchDraft(draftId)
   }
 
-  async saveDraft(draft: Draft, associatedCollectionId: string): Promise<Draft> {
+  async saveDraft(draft: Draft): Promise<Draft> {
     if (this.model.draft.apiId === -1) {
-      return this.service.saveDraft(draft, associatedCollectionId)
+      return this.service.saveDraft(draft)
     }
     return this.service.updateDraft(draft)
   }
