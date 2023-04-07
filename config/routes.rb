@@ -130,6 +130,8 @@ Rails.application.routes.draw do
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
       get '/collection_search' => 'variable_drafts_collection_searches#new', as: 'collection_search'
       post 'update_associated_collection'
     end
@@ -138,12 +140,16 @@ Rails.application.routes.draw do
   resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
     end
   end
 
   resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
     end
   end
 
