@@ -1,21 +1,20 @@
-<div class="row align-c metadata-cta nav-<%= location %>">
-  <div class="col-2">
+<div class="grid-row align-c metadata-cta nav-<%= location %>">
+  <div class="grid-col-2">
     <%= submit_tag 'Previous', class: 'eui-btn save-form' %>
     <%= hidden_field_tag 'previous_section', draft_form.previous_form.parsed_json['id'] %>
   </div>
 
-  <div class="col-5 form-nav">
+  <div class="grid-col-5 form-nav">
     <label for="next-section-<%= location %>">Save &amp; Jump To: </label>
-
     <%= select_tag 'jump_to_section', options_for_select(draft_forms.map { |form| [form.parsed_json['title'], form.parsed_json['id']] }, draft_form.parsed_json['id']), class: 'jump-to-section', id: "next-section-#{location}" %>
   </div>
 
-  <div class="col-2">
+  <div class="grid-col-2">
     <%= submit_tag 'Next', class: 'eui-btn save-form' %>
     <%= hidden_field_tag 'next_section', draft_form.next_form.parsed_json['id'] %>
   </div>
 
-  <div class="col-3">
+  <div class="grid-col-3">
     <%= submit_tag 'Save', class: 'eui-btn save-form' %>
     <%= hidden_field_tag 'current_section', draft_form.parsed_json['id'] %>
 

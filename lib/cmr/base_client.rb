@@ -116,6 +116,11 @@ module Cmr
       proposal_mode_safe_post(url, body, headers)
     end
 
+    # MMT-3097: Need to send proposed record to CMR for validation only before approval
+    def send_to_validation(url, body, headers = {})
+      proposal_mode_safe_post(url, body, headers)
+    end
+
     def proposal_mode_safe_post(url, body, headers = {})
       request(:post, url, nil, body, headers)
     end

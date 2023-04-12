@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="grid-row sub-fields">
   <!-- Upload Shape file -->
   <div id="shape_file_upload" class="dropzone" >
     <h2>Create by Shape File</h2>
@@ -69,7 +69,7 @@
         prefix: name_prefix
       ) %>
 
-      <div class="row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
+      <div class="grid-row sub-fields points-fields geometry-fields" style="<%= 'display: none;' unless points_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'point',
             values: geometry['Points'] || [{}],
@@ -86,7 +86,7 @@
         prefix: name_prefix
       ) %>
 
-      <div class="row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
+      <div class="grid-row sub-fields bounding-rectangles-fields geometry-fields" style="<%= 'display: none;' unless bounding_rectangles_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'bounding_rectangle',
             values: geometry['BoundingRectangles'] || [{}],
@@ -103,7 +103,7 @@
         prefix: name_prefix
       ) %>
 
-      <div class="row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
+      <div class="grid-row sub-fields g-polygons-fields geometry-fields" style="<%= 'display: none;' unless g_polygons_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'g_polygon',
             values: geometry['GPolygons'] || [{}],
@@ -120,7 +120,7 @@
         prefix: name_prefix
       ) %>
 
-      <div class="row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">
+      <div class="grid-row sub-fields lines-fields geometry-fields" style="<%= 'display: none;' unless lines_checked %>">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'line',
             values: geometry['Lines'] || [{}],

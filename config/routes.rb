@@ -25,14 +25,19 @@ Rails.application.routes.draw do
   resource :data_quality_summary_assignments, except: :show
   get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
 
-  resources :service_entries
-  resources :service_options
-  resource :service_option_assignments, except: :show
-  get '/service_option_assignments' => 'service_option_assignments#index'
+  if Rails.configuration.use_legacy_order_service
+    resources :service_entries
+    resources :service_options
+    resource :service_option_assignments, except: :show
+    get '/service_option_assignments' => 'service_option_assignments#index'
+  end
 
   resources :orders do
     collection do
       put 'search'
+    end
+    member do
+      post 'resubmit'
     end
   end
   resources :provider_orders, only: [:show, :edit, :destroy] do
@@ -125,6 +130,8 @@ Rails.application.routes.draw do
   resources :variable_drafts, controller: 'variable_drafts', draft_type: 'VariableDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
       get '/collection_search' => 'variable_drafts_collection_searches#new', as: 'collection_search'
       post 'update_associated_collection'
     end
@@ -133,20 +140,25 @@ Rails.application.routes.draw do
   resources :service_drafts, controller: 'service_drafts', draft_type: 'ServiceDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
     end
   end
 
   resources :tool_drafts, controller: 'tool_drafts', draft_type: 'ToolDraft' do
     member do
       get :edit, path: 'edit(/:form)'
+      get :edit, path: 'edit(/:form/:fieldName)'
+      get :edit, path: 'edit(/:form/:fieldName/:index)'
     end
   end
 
   namespace :api , constraints: { format: 'json' } do
-    resource :tool_drafts, only: [:create]
-    get '/tool_drafts/:id' => 'tool_drafts#show'
+    resource :drafts, :controller => "drafts", only: [:create]
+    get '/drafts/:id' => 'drafts#show'
+    put '/drafts/:id' => 'drafts#update'
+    post '/drafts/:id/publish' => 'drafts#publish'
     get '/cmr_keywords/:id' => 'cmr_keywords#show'
-    put '/tool_drafts/:id' => 'tool_drafts#update'
     get '/kms_keywords/:id' => 'kms_keywords#show'
   end
 

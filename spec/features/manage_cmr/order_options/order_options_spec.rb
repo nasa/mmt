@@ -1,4 +1,4 @@
-describe 'Creating Order Options' do
+describe 'Creating Order Options', js: true do
   let(:option_name)        { 'Test Order Option ABC-1' }
   let(:option_description) { 'Test Order Option Definition Description' }
   let(:bad_form)           { '<form>what</form>' }
@@ -48,19 +48,20 @@ describe 'Creating Order Options' do
     end
 
     it 'displays the new order option entry fields' do
-      expect(page).to have_field('Name', type: 'text')
-      expect(page).to have_field('Sort Key', type: 'text')
-      expect(page).to have_field('Description', type: 'textarea')
-      expect(page).to have_field('Form XML', type: 'textarea')
+      expect(page).to have_field('order_option_Name', type: 'text')
+      expect(page).to have_field('order_option_SortKey', type: 'text')
+      expect(page).to have_field('order_option_Description', type: 'textarea')
+      expect(page).to have_field('order_option_Form', type: 'textarea')
     end
 
     context 'when creating an order option with complete information' do
       before do
-        fill_in 'Name', with: option_name
-        fill_in 'Description', with: option_description
-        fill_in 'Form XML', with: echo_form
-
-        VCR.use_cassette('echo_rest/order_options/create', record: :none) do
+        fill_in 'order_option_Name', with: option_name
+        fill_in 'order_option_Description', with: option_description
+        fill_in 'order_option_Form', with: echo_form
+        allow_any_instance_of(OrderOptionsController).to receive(:get_native_id).and_return('native_id_1')
+        allow_any_instance_of(OrderOptionsController).to receive(:get_order_option_id).and_return('order_option_id_1')
+        VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           within '.order-options' do
             click_on 'Submit'
           end
@@ -81,12 +82,12 @@ describe 'Creating Order Options' do
         expect(page).to have_content('prov:options xmlns:prov="http://myorganization.gov/orderoptions"')
         expect(page).to have_content('constraints')
         expect(page).to have_content('pattern')
-        expect(page).to have_content('range end="1000" label="File Size (MB)" ref="prov:filesize" start="0" step="10" type="xsd:int"')
+        expect(page).to have_content('step="10" end="1000" label="File Size (MB)"')
       end
     end
 
     context 'when attempting to create an order option with incomplete information' do
-      context 'when submitting an invalid form', js: true do
+      context 'when submitting an invalid form' do
         before do
           within '.order-options' do
             click_on 'Submit'
@@ -98,25 +99,6 @@ describe 'Creating Order Options' do
           expect(page).to have_content('Name is required.')
           expect(page).to have_content('Description is required.')
           expect(page).to have_content('Form XML is required.')
-        end
-      end
-
-      context 'when submitting a form with a bad ECHO form' do
-        before do
-          fill_in 'Name', with: option_name
-          fill_in 'Description', with: option_description
-          fill_in 'Form XML', with: bad_form
-
-          VCR.use_cassette('echo_rest/order_options/create_with_error', record: :none) do
-            within '.order-options' do
-              click_on 'Submit'
-            end
-          end
-        end
-
-        it 'displays bad echo form error message' do
-          expect(page).to have_css('.eui-banner--danger')
-          expect(page).to have_content('ECHO Form is not valid')
         end
       end
     end

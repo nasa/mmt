@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Deleting a Service Option' do
+describe 'Deleting a Service Option', skip: !Rails.configuration.use_legacy_order_service do
   before do
     login
   end

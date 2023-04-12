@@ -102,7 +102,8 @@ describe 'Conditionally required fields', js: true do
             within '.resolution-and-coordinate-system .gridded-range-resolutions .multiple-item-0' do
               fill_in 'Maximum X Dimension', with: '50'
             end
-            find('body').click
+            field = find('#draft_spatial_extent_horizontal_spatial_domain_resolution_and_coordinate_system_horizontal_data_resolution_gridded_range_resolutions_0_maximum_x_dimension')
+            field.native.send_keys :tab
           end
 
           it 'displays the required icons and optionally required icons' do

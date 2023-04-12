@@ -3,10 +3,10 @@
     <h3 class="eui-accordion__title eui-required-o always-required">Collection Information</h3>
   </div>
   <div class="eui-accordion__body">
-    <div class="row">
+    <div class="grid-row">
       <% if Rails.configuration.templates_enabled && resource_name == "collection_template" %>
-        <div class="row">
-          <div class="col-12">
+        <div class="grid-row">
+          <div class="grid-col-12">
             <%= mmt_text_field(
               name: 'template_name',
               title: 'Template Name',
@@ -22,7 +22,7 @@
       <% end %>
 
       <!-- Short Name [r] -->
-      <div class="col-6">
+      <div class="grid-col-6">
         <%= mmt_text_field(
           name: 'short_name',
           title: 'Short Name',
@@ -35,7 +35,7 @@
          ) %>
       </div>
       <!-- Version [r] -->
-      <div class="col-6">
+      <div class="grid-col-6">
         <%= mmt_text_field(
           name: 'version',
           title: 'Version',
@@ -51,8 +51,8 @@
     </div>
 
     <!-- Version Description -->
-    <div class="row">
-      <div class="col-12">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= mmt_text_field(
           name: 'version_description',
           title: 'Version Description',
@@ -67,8 +67,8 @@
     </div>
 
     <!-- Entry Title [r] -->
-    <div class="row">
-      <div class="col-12">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= mmt_text_field(
           name: 'entry_title',
           title: 'Entry Title',
@@ -96,7 +96,7 @@
       help: 'properties/DOI',
       help_url: 'DOI'
     ) %>
-    <div class="row sub-fields">
+    <div class="grid-row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'doi',
           values: draft.draft['DOI'] || {},
@@ -118,7 +118,7 @@
       help: 'properties/AssociatedDOIs',
       help_url: 'Associated+DOIs'
     ) %>
-    <div class="row sub-fields">
+    <div class="grid-row sub-fields">
       <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'associated_doi',
           values: draft.draft['AssociatedDOIs'] || [{}],
@@ -129,8 +129,8 @@
 
 
     <!-- Abstract [r] -->
-    <div class="row">
-      <div class="col-12">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= mmt_text_area(
           name: 'abstract',
           title: 'Abstract',
@@ -147,8 +147,8 @@
 
 
     <!-- Purpose -->
-    <div class="row">
-      <div class="col-12">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= mmt_text_area(
           name: 'purpose',
           title: 'Purpose',
@@ -164,8 +164,8 @@
 
 
     <!-- Data language -->
-    <div class="row">
-      <div class="col-12">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= mmt_select(
           name: 'data_language',
           title: 'Data Language',

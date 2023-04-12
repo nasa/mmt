@@ -43,7 +43,9 @@ class BaseDraftsController < DraftsController
 
     add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
 
-    add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
+    unless @json_form.get_form(@current_form).nil?
+      add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
+    end
   end
 
   def create
@@ -61,8 +63,8 @@ class BaseDraftsController < DraftsController
 
     if get_resource.save
       # Successful flash message
-      flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
-      Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id}")
+        flash[:success] = I18n.t("controllers.draft.#{plural_resource_name}.create.flash.success")
+        Rails.logger.info("Audit Log: #{current_user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{current_user.provider_id}")
 
       # TODO: Prevent this piece of code from being duplicated
       case params[:commit]

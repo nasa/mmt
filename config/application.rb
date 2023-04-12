@@ -47,14 +47,27 @@ module Mmt
 
     # Versions of UMM for the different metadata types MMT is on
 
-    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.17.0'
+    config.umm_c_version = 'vnd.nasa.cmr.umm+json; version=1.17.2'
     config.umm_var_version = 'vnd.nasa.cmr.umm+json; version=1.8.1'
     config.umm_s_version = 'vnd.nasa.cmr.umm+json; version=1.4'
     config.umm_t_version = 'vnd.nasa.cmr.umm+json; version=1.1'
 
+    config.order_option_label = 'Order Option'
+    config.order_option_version = '1.0.0'
+    config.order_option_url = 'https://cdn.earthdata.nasa.gov/generics/order-option/v1.0.0'
+
+    config.data_quality_summary_label = 'Data Quality Summary'
+    config.data_quality_summary_version = '1.0.0'
+    config.data_quality_summary_url = 'https://cdn.earthdata.nasa.gov/generics/data-quality-summary/v1.0.0'
+
+    config.support_email = 'support@earthdata.nasa.gov'
+
     # Is this the Proposal Mode version of MMT?
     config.proposal_mode = false
     config.proposal_mode = true if ENV['proposal_mode'] == 'true'
+
+    #Feature toggle for using legacy order service
+    config.use_legacy_order_service = ENV['use_legacy_order_service'] == 'true'
 
     config.middleware.insert_after Rails::Rack::Logger, MiddlewareHealthcheck
 
@@ -74,7 +87,6 @@ module Mmt
 
     # Store boolean values are in sqlite3 databases as 1 and 0 instead of 't' and
     # 'f' after migrating old data.
-    config.active_record.sqlite3.represent_boolean_as_integer = true
 
     # Don't require `belongs_to` associations by default. In Rails 5 default was changed to true.
     config.active_record.belongs_to_required_by_default = false
@@ -90,6 +102,7 @@ module Mmt
       '(unknown)'
     end
 
+    config.react.server_renderer_extensions = ["jsx", "js", "tsx", "ts"]
     config.version = load_version
 
     # Log request UUID so we can track requests across threaded log messages

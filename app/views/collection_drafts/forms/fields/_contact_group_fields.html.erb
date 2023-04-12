@@ -1,4 +1,4 @@
-<div class="row sub-fields">
+<div class="grid-row sub-fields">
   <!-- Roles [r] -->
   <%= mmt_select(
     name: 'roles',
@@ -27,7 +27,7 @@
 
   <% unless options[:data_center_affiliation] %>
     <!-- NonDataCenterAffiliation (unless data_center_affiliation) -->
-    <div class="row">
+    <div class="grid-row">
       <%= mmt_text_field(
       name: 'non_data_center_affiliation',
       title: 'Non Data Center Affiliation',

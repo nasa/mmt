@@ -1,18 +1,15 @@
-describe 'Viewing and Creating Order Option Assignments' do
-  let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
-
+describe 'Viewing and Creating Order Option Assignments', js: true do
   before do
-    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+    services_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/order_option_assignments/services_search.json'))))
+    allow_any_instance_of(Cmr::CmrClient).to receive(:get_services).and_return(services_response)
+    collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/order_option_assignments/cmr_search.json'))))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-
     login
-
     visit order_option_assignments_path
-
     wait_for_jQuery
   end
 
-  context 'When trying to display option assignments without selecting any collections', js: true do
+  context 'When trying to display option assignments without selecting any collections' do
     before do
       click_on 'Display Assignments'
     end
@@ -22,8 +19,10 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'When displaying option assignments', js: true do
+  context 'When displaying option assignments' do
     before do
+      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/order_option_assignments/cmr_search_selected.json'))))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
       within '#collectionsChooser' do
         select('lorem_223 | ipsum', from: 'Available Collections')
 
@@ -32,7 +31,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         end
       end
 
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         click_on 'Display Assignments'
       end
     end
@@ -41,47 +40,16 @@ describe 'Viewing and Creating Order Option Assignments' do
       expect(page).to have_content('Include selected collections with no assigned options?')
 
       within('#collections-table tbody') do
-        expect(page).to have_content '1001 V5'
-        expect(page).to have_content 'Test Order Option 1'
-        expect(page).to have_content '1001 - UPDATE'
-        expect(page).to have_content 'James-1'
-        expect(page).to have_content 'JAMES-2000'
-        expect(page).to have_content 'James-1004'
-        expect(page).to have_content '1003'
-        expect(page).to have_content 'James-2007'
-        expect(page).to have_content 'Opt A02'
+        expect(page).to have_content 'ipsum'
+        expect(page).to have_content 'lorem'
+        expect(page).to have_content '223'
+        expect(page).to have_content 'AST14DMO.3 Order'
+        expect(page).to have_content 'AST14DMO.4 Order'
       end
     end
   end
 
-  context 'When displaying option assignments and there is a timeout error', js: true do
-    before do
-      within '#collectionsChooser' do
-        select('lorem_223 | ipsum', from: 'Available Collections')
-
-        within '.button-container' do
-          find('.add_button').click
-        end
-      end
-
-      # mock a timeout error
-      echo_response = echo_fail_response(timeout_error_html_body, status = 504, headers = {'content-type' => 'text/html'})
-      allow_any_instance_of(Echo::DataManagement).to receive(:get_order_options).and_return(echo_response)
-
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
-        click_on 'Display Assignments'
-      end
-    end
-
-    it 'displays the appropriate error message' do
-      within '.eui-banner--danger.eui-banner__dismiss' do
-        expect(page).to have_content('504 ERROR: We are unable to retrieve order options at this time. If this error persists, please contact Earthdata Support about')
-      end
-    end
-  end
-
-
-  context 'When sorting option assignments', js: true do
+  context 'When sorting option assignments' do
     before do
       within '#collectionsChooser' do
         page.all(:xpath, "//select[@id='collectionsChooser_fromList']/option").each do |e|
@@ -93,7 +61,7 @@ describe 'Viewing and Creating Order Option Assignments' do
         end
       end
 
-      VCR.use_cassette('echo_rest/order_option_assignments/display-sort', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         click_on 'Display Assignments'
       end
 
@@ -207,7 +175,7 @@ describe 'Viewing and Creating Order Option Assignments' do
           first_cell = find('#collections-table tbody tr:first-child td:nth-child(5)')
           last_cell = find('#collections-table tbody tr:last-child td:nth-child(5)')
           expect(first_cell).to have_content ''
-          expect(last_cell).to have_content 'Opt A07'
+          expect(last_cell).to have_content 'AST14DMO.4 Order'
         end
       end
     end
@@ -222,43 +190,44 @@ describe 'Viewing and Creating Order Option Assignments' do
         within('#collections-table tbody') do
           first_cell = find('#collections-table tbody tr:first-child td:nth-child(5)')
           last_cell = find('#collections-table tbody tr:last-child td:nth-child(5)')
-          expect(first_cell).to have_content 'Opt A07'
+          expect(first_cell).to have_content 'AST14DMO.4 Order'
           expect(last_cell).to have_content ''
         end
       end
     end
   end
 
-  context 'When attempting to make an option assignment without selecting any collections', js: true do
+  context 'When attempting to make an option assignment without selecting any collections' do
     before do
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_order_options_vcr", record: :none) do
         visit new_order_option_assignment_path
       end
 
       click_on 'Submit'
     end
 
-    it 'Displays an error message and does not submit the form' do
+    it 'Displays error messages and does not submit the form' do
+      expect(page).to have_content('Service is required.')
+      expect(page).to have_content('Order Option is required.')
       expect(page).to have_content('You must select at least 1 collection.')
     end
   end
 
-  context 'When trying to create an option assignment with a deprecated order option', js: true do
+  context 'When trying to create an option assignment with a deprecated order option' do
     before do
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_order_options_depr_vcr", record: :none) do
         visit new_order_option_assignment_path
       end
     end
 
     it 'does not display deprecated order options' do
-      # manually changed VCR cassette display.yml to deprecate "Opt A02"
-      expect(page).to_not have_select('Option Definition', with_options: ['Opt A02'])
+      expect(page).to_not have_select('Option Definition', with_options: ['AST14DMO.3 Order'])
     end
   end
 
-  context 'When successfully creating an option assignment', js: true do
+  context 'When successfully creating an option assignment' do
     before do
-      VCR.use_cassette('echo_rest/order_option_assignments/display', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_order_options_vcr", record: :none) do
         visit new_order_option_assignment_path
       end
 
@@ -270,9 +239,10 @@ describe 'Viewing and Creating Order Option Assignments' do
         end
       end
 
-      select '1001 V5', from: 'Option Definition'
+      select 'AIRX3STD-8102-1.4', from: 'Service'
+      select 'AST14DMO.3 Order', from: 'Option Definition'
 
-      VCR.use_cassette('echo_rest/order_option_assignments/create-success', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_success_vcr", record: :new_episodes) do
         click_on 'Submit'
       end
     end
@@ -282,15 +252,19 @@ describe 'Viewing and Creating Order Option Assignments' do
     end
   end
 
-  context 'when viewing the create option assignment page when the provider only has one order option', js: true do
+  context 'when viewing the create option assignment page when the provider only has one order option' do
     before do
-      VCR.use_cassette('echo_soap/data_management_service/option_definitions/single_list', record: :none) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_order_options_vcr", record: :none) do
         visit new_order_option_assignment_path
       end
     end
 
     it 'displays the page with the appropriate order option' do
-      expect(page).to have_select('Option Definition', with_options: ['1001 V700'])
+      expect(page).to have_select('Option Definition', with_options: ['AST14DMO.3 Order'])
+    end
+
+    it 'displays the page with the appropriate service' do
+      expect(page).to have_select('Service', with_options: ['AIRX3STD-8102-1.4'])
     end
 
     it 'displays the collections in the chooser with entry id that includes version' do

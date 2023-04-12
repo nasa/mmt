@@ -1,0 +1,30 @@
+.field-circle {
+    font-size: 14px;
+    padding: 0 0.25em 
+}
+
+.invalid-circle {
+    color: rgb(231,  76,  60)
+}
+.not-started-required-circle {
+    color: rgb(24, 156, 84)
+}
+
+.not-started-not-required-circle {
+    color: rgb(140, 140, 140)
+}
+
+.pass-required-circle {
+    color: rgb(24, 156, 84)
+}
+
+.pass-not-required-circle {
+    color: rgb(149, 165, 166)
+}
+
+.error-circle {
+    color: rgb(231,  76,  60)
+}
+.progressField{
+    cursor: pointer;
+}

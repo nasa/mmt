@@ -5,19 +5,19 @@
 
   <%= form_tag(reject_collection_draft_proposal_path(get_resource), method: :put, class: 'reject-proposal-form') %>
     <fieldset>
-      <div class="row">
-        <div class="col-4">
+      <div class="grid-row">
+        <div class="grid-col-4">
           <%= label_tag('rejection[reasons]', 'Reason(s) for Rejection') %>
         </div>
-        <div class="col-8">
+        <div class="grid-col-8">
           <%= select_tag 'rejection[reasons]', options_for_select(ProposalsHelper::REASONS_FOR_REJECTION), class: 'proposal-reject-select2', id: 'proposal-rejection-reasons', multiple: true %>
         </div>
       </div>
 
-      <div class="row">
+      <div class="grid-row">
         <%= label_tag('rejection[note]', 'Note') %>
       </div>
-      <div class="row">
+      <div class="grid-row">
         <%= text_area_tag('rejection[note]', nil) %>
       </div>
     </fieldset>

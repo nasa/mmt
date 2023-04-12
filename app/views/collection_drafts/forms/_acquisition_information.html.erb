@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
-      <div class="col-12">
+    <div class="grid-row taller">
+      <div class="grid-col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'platform',
             values: draft.draft['Platforms'] || [{}],
@@ -41,8 +41,8 @@
     </div>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
-      <div class="col-12">
+    <div class="grid-row taller">
+      <div class="grid-col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
             type: 'project',
             values: draft.draft['Projects'] || [{}],

@@ -2,7 +2,7 @@ describe 'Deprecating Order Options' do
   context 'when viewing the index page', js: true do
     before do
       login
-      VCR.use_cassette('echo_rest/order_options/list_deprecated', record: :none) do
+      VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit order_options_path
       end
     end
@@ -36,7 +36,7 @@ describe 'Deprecating Order Options' do
         expect(page).to have_no_link('Deprecate')
       end
       within '.order-options-table tbody tr:nth-child(10)' do
-        expect(page).to have_no_link('Deprecate')
+        expect(page).to have_link('Deprecate')
       end
     end
 
@@ -58,7 +58,7 @@ describe 'Deprecating Order Options' do
 
     context 'When clicking the No button on the confirmation dialog, it does not deprecate the order option.' do
       before do
-        VCR.use_cassette('echo_rest/order_options/list', record: :none) do
+        VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           visit order_options_path
         end
 
@@ -82,8 +82,8 @@ describe 'Deprecating Order Options' do
           click_on 'Deprecate'
         end
 
-        within('#deprecate-option-modal-24') do
-          VCR.use_cassette('echo_rest/order_options/deprecate', record: :none) do
+        within('#deprecate-option-modal-9') do
+          VCR.use_cassette("order_options/#{File.basename(__FILE__, '.rb')}_deprecate_vcr", record: :none) do
             click_on 'Yes'
           end
         end

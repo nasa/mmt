@@ -357,6 +357,10 @@ class ApplicationController < ActionController::Base
     redirect_to manage_collections_path unless Rails.configuration.umm_t_enabled
   end
 
+  def use_legacy_order_service?
+    Rails.configuration.use_legacy_order_service
+  end
+
   ###
 
   def authenticated_urs_uid

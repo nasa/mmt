@@ -137,6 +137,8 @@ $(document).ready ->
           error.insertAfter(element)
 
       rules:
+        'services':
+          required: true
         'order-options':
           required: true
         'collectionsChooser_toList[]':
@@ -146,6 +148,8 @@ $(document).ready ->
       messages:
         'order-options':
           required: 'Order Option is required.'
+        'services':
+          required: 'Service is required.'
         'collectionsChooser_toList[]':
           required: 'You must select at least 1 collection.'
 

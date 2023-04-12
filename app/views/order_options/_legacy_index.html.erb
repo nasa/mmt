@@ -1,0 +1,70 @@
+<!-- THIS PAGE IS USING LEGACY ORDER SERVICE -->
+<div class="grid-row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Order Options</h2>
+
+    <%= link_to 'Create an Order Option', new_order_option_path, class: 'eui-btn--blue space-bot' %>
+
+    <% if @order_options.any? %>
+      <p><%= page_entries_info @order_options, entry_name: 'Order Option' %></p>
+    <% end %>
+
+    <table class="order-options-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Scope</th>
+        <th>Deprecated?</th>
+        <th>Last Update</th>
+        <th colspan="3">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @order_options.empty? %>
+        <tr>
+          <td colspan="5">No <%= current_user.provider_id %> Order Options found.</td>
+        </tr>
+      <% else %>
+        <% @order_options.each_with_index do |order_option, index| %>
+          <tr>
+            <td><%= link_to order_option['Name'], order_option_path(order_option['Guid']) %></td>
+            <td><%= order_option.fetch('Scope', '').humanize %></td>
+            <td><%= order_option.fetch('Deprecated', '').humanize %></td>
+            <td><%= echo_formatted_date(order_option['LastUpdate'], default: 'Never Updated') %></td>
+
+            <td>
+              <%= link_to 'Edit', edit_order_option_path(order_option['Guid']) %>
+            </td>
+            <td>
+              <% unless order_option.fetch('Deprecated', 'false') == 'true' %>
+                <%= link_to 'Deprecate', "#deprecate-option-modal-#{index}", class: 'display-modal' %>
+                <div id="deprecate-option-modal-<%= index %>" class="eui-modal-content">
+                  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                  <p>Are you sure you want to deprecate the order option named '<%= order_option['Name'] %>'? This action cannot be undone.</p>
+                  <p>
+                    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                    <%= link_to 'Yes', order_option_deprecate_path(order_option['Guid']), method: :post, class: 'eui-btn--blue spinner' %>
+                  </p>
+                </div>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'Delete', "#delete-option-modal-#{index}", class: 'display-modal' %>
+              <div id="delete-option-modal-<%= index %>" class="eui-modal-content">
+                <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                <p>Are you sure you want to delete the order option named '<%= order_option['Name'] %>'?</p>
+                <p>
+                  <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                  <%= link_to 'Yes', order_option_path(order_option['Guid']), method: :delete, class: 'eui-btn--blue spinner' %>
+                </p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= paginate @order_options %>
+  </section>
+</div>

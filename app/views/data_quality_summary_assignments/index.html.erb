@@ -1,4 +1,4 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2><%= current_user.provider_id %> Data Quality Summary Assignments</h2>
 
@@ -9,7 +9,11 @@
     <p>To <em>view</em> or <em>remove</em> currently assigned Data Quality Summaries select the collections to view below.</p>
 
     <%= form_tag(data_quality_summary_assignments_path, method: :put, class: "data-quality-summary-form", id: "data-quality-summary-assignments-form") do %>
-      <%= render partial: "form" %>
+      <% if Rails.configuration.use_legacy_order_service %>
+        <%= render partial: "legacy_form" %>
+      <% else %>
+        <%= render partial: "form" %>
+      <% end %>
 
       <fieldset>
         <%= button_tag 'Display Assignments', class: 'eui-btn' %>

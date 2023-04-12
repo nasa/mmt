@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/search/services/S1200416520-CMR_ONLY/associations
+    body:
+      encoding: UTF-8
+      string: '[{"concept_id":"C1200056652-MMT_2","data":{"order_option":"OO1200459555-CMR_ONLY"}}]'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Accept:
+      - application/json; charset=utf-8
+      Authorization:
+      - ABC-2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '46'
+      connection:
+      - keep-alive
+      date:
+      - Fri, 24 Feb 2023 17:15:13 GMT
+      access-control-allow-origin:
+      - "*"
+      cmr-request-id:
+      - 199fe5d7-13c9-4a9b-84c7-6f779cf0dc1d
+      x-request-id:
+      - JDtuNBL2pRxXiOKfqJSYFBEX1_1drkdFoZD4z7gI6YZzECfin0ETmA==
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      server:
+      - ServerTokens ProductOnly
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 b801e28312cb905b93f908c025aa63f4.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - DUB2-C1
+      x-amz-cf-id:
+      - JDtuNBL2pRxXiOKfqJSYFBEX1_1drkdFoZD4z7gI6YZzECfin0ETmA==
+    body:
+      encoding: UTF-8
+      string: '{"concept_id":"C1200056652-MMT_2"}'
+  recorded_at: Fri, 24 Feb 2023 17:15:13 GMT
+recorded_with: VCR 6.1.0

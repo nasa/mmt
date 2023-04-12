@@ -1,4 +1,4 @@
-describe 'Updating a Service Entry', reset_provider: true do
+describe 'Updating a Service Entry', skip: !Rails.configuration.use_legacy_order_service, reset_provider: true do
   let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
 
   before do

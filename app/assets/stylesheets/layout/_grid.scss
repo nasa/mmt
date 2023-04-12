@@ -34,31 +34,31 @@ section {
 
 // END NOTE
 
-.col-1 { 
+.grid-col-1 {
   @include neat-span-of-columns(1)
 }
-.col-2 { 
+.grid-col-2 {
   @include neat-span-of-columns(2)
 }
-.col-3 { 
+.grid-col-3 {
   @include neat-span-of-columns(3)
 }
-.col-4 { 
+.grid-col-4 {
   @include neat-span-of-columns(4)
 }
-.col-5 { 
+.grid-col-5 {
   @include neat-span-of-columns(5)
 }
-.col-6 { 
+.grid-col-6 {
   @include neat-span-of-columns(6)
 }
-.col-7 { 
+.grid-col-7 {
   @include neat-span-of-columns(7)
 }
-.col-8 { 
+.grid-col-8 {
   @include neat-span-of-columns(8)
 }
-.col-9 { 
+.grid-col-9 {
   @include neat-span-of-columns(9)
 }
 
@@ -90,7 +90,7 @@ section {
   }
 }
 
-.row {
+.grid-row {
   display: block;
   position: relative;
   padding: 0;

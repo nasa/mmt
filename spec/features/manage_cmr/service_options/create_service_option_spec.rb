@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe 'Creating a Service Option' do
+describe 'Creating a Service Option', skip: !Rails.configuration.use_legacy_order_service do
   before do
     login
   end

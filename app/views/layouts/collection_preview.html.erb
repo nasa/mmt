@@ -2,7 +2,7 @@
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"  lang="en"> <![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"  lang="en"> <![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie9"  lang="en"> <![endif]-->
-<!--[if gt IE 8]><html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><html class="no-js" lang="en"> <![endif]-->
 <html lang="en">
 <head>
   <title>Metadata Management Tool</title>
@@ -17,6 +17,7 @@
   <%= render partial: 'shared/google_tag_manager_head' %>
   <script defer src="<%= Rails.configuration.metadata_preview_js_url %>"></script>
   <link href="<%= Rails.configuration.metadata_preview_css_url %>" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="dashboard <%= 'proposal-mode-body offset-background-image' if Rails.configuration.proposal_mode %>">
@@ -36,7 +37,7 @@
         <div id="internal-inside">
 
           <header>
-            <div class="row wide-content">
+            <div class="grid-row wide-content">
               <div class="wide-content-inside">
 
                 <div class="collection-basics">

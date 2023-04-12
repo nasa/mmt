@@ -4,7 +4,7 @@ ruby "2.7.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
-gem 'rails', '~> 5.2.8'
+gem 'rails', '~> 6.0'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
 
@@ -34,7 +34,7 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', group: :doc
+gem 'sdoc', '2.3.1', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'
@@ -42,7 +42,6 @@ gem 'unicorn'
 gem 'faraday'
 gem 'faraday_middleware'
 
-gem 'awrence' # convert snake_case hash keys to CamelCase hash keys
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
@@ -51,7 +50,12 @@ gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
 gem 'font-awesome-rails'
-gem 'jquery-ui-rails'	# for $(document).tooltip()
+#gem 'jquery-ui-rails'	# for $(document).tooltip()
+#Need to use this branch to get jquery-ui 1.13.2
+#Can remove if jquery-ui-rails actually gets updated but it hasnt been updated since 2017
+#If we need to update jquery ui again, we can do so with the same repository
+#Just need to point the submodule to the correct jquery-ui version then run "rake build"
+gem 'jquery-ui-rails', github: 'william-valencia/jquery-ui-rails', branch: 'jquery-ui-1.13.2'
 gem 'json-schema'
 gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
@@ -73,19 +77,11 @@ gem 'aasm'
 
 gem 'browser'
 
-gem 'actionpack', '>= 5.2.8'
+gem 'actionpack', '~> 6.0'
 
 gem 'pg', '<1.3'
 
 gem 'dotenv-rails'
-
-# collections metadata preview
-# run this command to work from a local copy of the gem's repo
-# bundle config local.cmr_metadata_preview /path/to/local/git/repository
-# make sure to delete the local config when done making changes to merge into master
-# bundle config --delete local.cmr_metadata_preview
-gem 'cmr_metadata_preview', git: 'https://git.earthdata.nasa.gov/scm/cmr/cmr_metadata_preview.git', ref: '888dc34df9c07bc8a4391a746b43147eb2de2dc2'
-
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -125,3 +121,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'webdrivers'
 end
+
+gem "shakapacker", "= 6.5"
+
+gem "react-rails", "= 2.6"

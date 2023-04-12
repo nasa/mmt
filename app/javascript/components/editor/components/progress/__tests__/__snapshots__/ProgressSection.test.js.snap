@@ -1,0 +1,517 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Progress Section Test renders in case section empty 1`] = `
+<div>
+  <div
+    class="progress-view"
+    data-testid="progress-section__tool-contacts_not-started"
+  >
+    <div
+      class="section-circle"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o invalid-circle"
+      />
+    </div>
+    <div>
+      <div
+        class="section-label"
+      >
+        <div
+          data-testid="progress-section__tool-contacts_link"
+        >
+          Tool Contacts
+        </div>
+      </div>
+      <div>
+        <span
+          data-testid="progress-field__contact-groups_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-groups_null_required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-groups_link"
+            >
+              <i
+                class="eui-icon eui-required-o not-started-required-circle"
+                title="ContactGroups"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__contact-persons_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-persons_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-persons_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="ContactPersons"
+              />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Progress Section Test renders in case section not passed 1`] = `
+<div>
+  <div
+    class="progress-view"
+    data-testid="progress-section__tool-information_error"
+  >
+    <div
+      class="section-circle"
+    >
+      <i
+        class="eui-icon eui-fa-circle-o invalid-circle"
+      />
+    </div>
+    <div>
+      <div
+        class="section-label"
+      >
+        <div
+          data-testid="progress-section__tool-information_link"
+        >
+          Tool Information
+        </div>
+      </div>
+      <div>
+        <span
+          data-testid="progress-field__name_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__name_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__name_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Name - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__long-name_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__long-name_null_required_error"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__long-name_link"
+            >
+              <i
+                class="eui-icon eui-fa-minus-circle error-circle"
+                title="LongName"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__version_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__version_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__version_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Version - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__version-description_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__version-description_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__version-description_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="VersionDescription"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__type_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__type_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__type_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Type - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__last-updated-date_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__last-updated-date_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__last-updated-date_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="LastUpdatedDate"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__description_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__description_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__description_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Description - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__doi_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__doi_null_not-required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__doi_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle icon-grey pass-not-required-circle"
+                title="DOI"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__url_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__url_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__url_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="URL - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Progress Section Test renders in case section passed 1`] = `
+<div>
+  <div
+    class="progress-view"
+    data-testid="progress-section__tool-information_pass"
+  >
+    <div
+      class="section-circle"
+    >
+      <i
+        class="eui-icon eui-check pass-circle"
+      />
+    </div>
+    <div>
+      <div
+        class="section-label"
+      >
+        <div
+          data-testid="progress-section__tool-information_link"
+        >
+          Tool Information
+        </div>
+      </div>
+      <div>
+        <span
+          data-testid="progress-field__name_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__name_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__name_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Name - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__long-name_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__long-name_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__long-name_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="LongName - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__version_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__version_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__version_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Version - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__version-description_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__version-description_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__version-description_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="VersionDescription"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__type_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__type_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__type_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Type - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__last-updated-date_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__last-updated-date_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__last-updated-date_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="LastUpdatedDate"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__description_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__description_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__description_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="Description - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__doi_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__doi_null_not-required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__doi_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle icon-grey pass-not-required-circle"
+                title="DOI"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__url_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__url_null_required_pass"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__url_link"
+            >
+              <i
+                class="eui-icon eui-required icon-green pass-required-circle"
+                title="URL - Required field complete"
+              />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Progress Section Test renders in case section status unknown 1`] = `
+<div>
+  <div
+    class="progress-view"
+    data-testid="progress-section__tool-contacts_made-up"
+  >
+    <div
+      class="section-circle"
+    >
+      <span>
+        Status Unknown
+      </span>
+    </div>
+    <div>
+      <div
+        class="section-label"
+      >
+        <div
+          data-testid="progress-section__tool-contacts_link"
+        >
+          Tool Contacts
+        </div>
+      </div>
+      <div>
+        <span
+          data-testid="progress-field__contact-groups_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-groups_null_required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-groups_link"
+            >
+              <i
+                class="eui-icon eui-required-o not-started-required-circle"
+                title="ContactGroups"
+              />
+            </span>
+          </span>
+        </span>
+        <span
+          data-testid="progress-field__contact-persons_null"
+        >
+          <span
+            class="field-circle"
+            data-testid="progress-field__contact-persons_null_not-required_not-started"
+          >
+            <span
+              class="progressField"
+              data-testid="progress-field__contact-persons_link"
+            >
+              <i
+                class="eui-icon eui-fa-circle-o not-started-not-required-circle"
+                title="ContactPersons"
+              />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

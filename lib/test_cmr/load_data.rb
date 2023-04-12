@@ -67,6 +67,24 @@ module Cmr
       end
     end
 
+    def provider_template(provider_id)
+      {
+        "MetadataSpecification": {
+          "Name":"provider",
+          "Version": "1.0.0",
+          "URL": "https://cdn.earthdata.nasa.gov/schemas/provider/v1.0.0"},
+        "ProviderId": provider_id,
+        "DescriptionOfHolding": "PROV1 Testing.",
+        "Organizations": [
+          {"ShortName": provider_id,
+           "Roles": ["PUBLISHER"],
+           "URLValue": "https://quidditch.example.gov/"
+          }],
+        "Administrators": ["chris.gokey"],
+        "Consortiums": ["EOSDIS"]
+      }.to_json
+    end
+
     def setup_cmr
       ###
       ### Create Users (and their tokens) in Mock Echo
@@ -101,73 +119,73 @@ module Cmr
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "SEDAC", "short-name": "SEDAC", "cmr-only": true}'
+        req.body = provider_template('SEDAC')
       end
       # Provider LARC
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "LARC", "short-name": "LARC", "cmr-only": true}'
+        req.body = provider_template('LARC')
       end
       # Provider MMT_1
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "MMT_1", "short-name": "MMT_1", "cmr-only": true}'
+        req.body = provider_template('MMT_1')
       end
       # Provider MMT_2
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "MMT_2", "short-name": "MMT_2", "cmr-only": true}'
+        req.body = provider_template('MMT_2')
       end
       # Provider NSIDC_ECS
       connection.post do |req|
         req.url('http://localhost:3002/providers')
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '{"provider-id": "NSIDC_ECS", "short-name": "NSIDC_ECS", "cmr-only": true}'
+        req.body = provider_template('NSIDC_ECS')
       end
 
-      ## Create providers in Mock Echo
-      # Provider SEDAC
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid1","provider_id":"SEDAC"}}]'
-      end
-      # Provider LARC
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid2","provider_id":"LARC"}}]'
-      end
-      # Provider MMT_1
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid3","provider_id":"MMT_1"}}]'
-      end
-      # Provider MMT_2
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
-      end
-      # Provider NSIDC_ECS
-      connection.post do |req|
-        req.url('http://localhost:3008/providers')
-        req.headers['Content-Type'] = 'application/json'
-        req.headers['Authorization'] = 'mock-echo-system-token'
-        req.body = '[{"provider":{"id":"provguid5","provider_id":"NSIDC_ECS"}}]'
-      end
+      # ## Create providers in Mock Echo
+      # # Provider SEDAC
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/providers')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Authorization'] = 'mock-echo-system-token'
+      #   req.body = '[{"provider":{"id":"provguid1","provider_id":"SEDAC"}}]'
+      # end
+      # # Provider LARC
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/providers')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Authorization'] = 'mock-echo-system-token'
+      #   req.body = '[{"provider":{"id":"provguid2","provider_id":"LARC"}}]'
+      # end
+      # # Provider MMT_1
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/providers')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Authorization'] = 'mock-echo-system-token'
+      #   req.body = '[{"provider":{"id":"provguid3","provider_id":"MMT_1"}}]'
+      # end
+      # # Provider MMT_2
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/providers')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Authorization'] = 'mock-echo-system-token'
+      #   req.body = '[{"provider":{"id":"provguid4","provider_id":"MMT_2"}}]'
+      # end
+      # # Provider NSIDC_ECS
+      # connection.post do |req|
+      #   req.url('http://localhost:3008/providers')
+      #   req.headers['Content-Type'] = 'application/json'
+      #   req.headers['Authorization'] = 'mock-echo-system-token'
+      #   req.body = '[{"provider":{"id":"provguid5","provider_id":"NSIDC_ECS"}}]'
+      # end
 
       clear_cache
 

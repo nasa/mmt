@@ -1,10 +1,10 @@
 <div class="license-group">
-  <% description_only_checked = !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
+  <% description_only_checked = !(use_constraints['Description'].nil? && use_constraints['FreeAndOpenData'].nil? && use_constraints['EULAIdentifiers'].nil?) && use_constraints['LicenseURL'].nil? && use_constraints['LicenseText'].nil? %>
   <% license_url_checked =  !use_constraints['LicenseURL'].nil? %>
   <% license_text_checked =  !use_constraints['LicenseText'].nil? %>
 
 
-  <div class="use-constraint-type-group use-constraint-type-clear-link-radio-fields row sub-fields">
+  <div class="use-constraint-type-group use-constraint-type-clear-link-radio-fields grid-row sub-fields">
     <!-- Constraint type selector -->
     <%= mmt_label(
       name: 'use_constraint_type',
@@ -18,7 +18,7 @@
     <p class="radio-group"><%= radio_button_tag('use_constraint_type_Text','LicenseText', license_text_checked, class: 'use-constraint-type-select') %><label for="use_constraint_type_Text">License Text</label></p>
   </div>
 
-  <div class="description-only-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless(description_only_checked || license_url_checked || license_text_checked) %>">
+  <div class="description-only-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields grid-row sub-fields" style="<%= 'display: none' unless(description_only_checked || license_url_checked || license_text_checked) %>">
     <!-- These fields should be shown for all use constraint type options, but
          we don't want to show them if no use constraint type is selected -->
     <!-- Description -->
@@ -54,11 +54,37 @@
         <p class="radio-group"><%= radio_button_tag(name_to_param("#{name_prefix}|free_and_open_data|"), 'false', free_and_open_data.to_s == 'false', data: { level: remove_pipes(name_prefix) }) %><label for="<%= remove_pipes(name_prefix) %>free_and_open_data_true">False</label></p>
       </div>
     </div>
+
+    <!-- EULA Identifier -->
+    <% eula_identifiers = use_constraints['EULAIdentifiers'] || [nil] # [nil] creates at least one field %>
+    <div class="multiple simple-multiple eula-identifiers">
+      <%= mmt_label(
+            name: 'eula_identifiers',
+            title: 'EULA Identifier',
+            prefix: name_prefix
+          ) %>
+      <%= mmt_help_icon(
+            title: 'EULA Identifier',
+            help: 'definitions/EULAIdentifierType'
+          ) %>
+
+      <% eula_identifiers.each_with_index do |eula_identifier, index| %>
+        <div class="multiple-item multiple-item-<%= index %>">
+          <%= text_field_tag(name_to_param("#{name_prefix}|eula_identifiers|_#{index}"), eula_identifier, class: 'half-width eula-identifier simple-multiple-field validate', data: { level: "#{remove_pipes(name_prefix)}" }) %>
+          <a class="remove remove-<%=eula_identifier %> %>">
+            <i class="fa fa-times-circle remove-item"></i>
+            <span class="is-invisible">Remove <%= eula_identifier %></span>
+          </a>
+          <div class="actions">
+            <button type="button" class="eui-btn--blue add-new new-simple"><i class="fa fa-plus-circle"></i> Add another EULA Identifiers</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-
   <!-- License URL -->
-  <div class="license-url-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
+  <div class="license-url-fields use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields grid-row sub-fields" style="<%= 'display: none' unless license_url_checked %>">
     <%= mmt_label(
       name: 'license_url',
       title: 'License URL',
@@ -78,7 +104,7 @@
 
 
   <!-- License Text -->
-  <div class="license-text-field use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
+  <div class="license-text-field use-constraint-type-clear-link-clear-fields use-constraint-type-clear-link-hide-fields grid-row sub-fields" style="<%= 'display: none' unless license_text_checked%>">
     <!-- License Text -->
     <%= mmt_text_area(
       name: 'license_text',

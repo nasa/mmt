@@ -1,8 +1,6 @@
-require 'rails_helper'
-
 describe 'Chooser Disable Selected Options', js: true do
   before do
-    collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
+    collections_response = cmr_success_response(File.read('spec/fixtures/order_option_assignments/cmr_search.json'))
     allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
     login
@@ -10,7 +8,7 @@ describe 'Chooser Disable Selected Options', js: true do
 
   context 'when selecting items from the left hand side of the chooser' do
     before do
-      VCR.use_cassette('echo_soap/data_management_service/data_quality_summary_assignments/create', record: :none) do
+      VCR.use_cassette("data_quality_summary_assignments/create_data_quality_summary_assignments_spec_list_vcr", record: :none) do
         visit new_data_quality_summary_assignments_path
       end
 

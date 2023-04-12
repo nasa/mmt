@@ -319,6 +319,8 @@ $(document).ready ->
     $(summary).insertAfter('.nav-top')
 
   getErrorDetails = (error) ->
+    if error.dataPath == 'MilitryFieldGridField'
+       ; # you shall pass
     if error.keyword == 'additionalProperties'
       # ignore/suppress errors with keyword additionalProperties
       # since we control the forms, we should not be sending properties not
@@ -408,7 +410,6 @@ $(document).ready ->
         # html cannot hold boolean values, they are represented as string
         error = null
         return
-
 
     # Hide individual required errors from an anyOf constraint
     # So we don't fill the form with errors that don't make sense to the user
@@ -791,7 +792,6 @@ $(document).ready ->
         visitField(error.id)
 
     valid = summaryErrors.length == 0
-
     if template_error and opts.showConfirm
       $('#display-invalid-template-modal').click()
       $('#invalid-draft-deny').hide()
@@ -843,9 +843,17 @@ $(document).ready ->
               ["/Projects/#{index}/StartDate", 'End Date', 'startAfterEnd']
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
-              ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
+              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
 
-          # The other errors which are likely to occur here are required errors
+              # Since 'Military Grid Reference System' is now an alpha-numeric field there is no need to check if the
+              # value for min is lower then max. Therefore, if tiling_identification_system_name is Military Grid Reference System
+              # do no check else check if the MIN value is less then MAX value
+              if titlingIdentifier != 'Military Grid Reference System'
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
+              else
+                ['MilitryFieldGridField']
+
+# The other errors which are likely to occur here are required errors
           # (which means we shouldn't be here because it is blank), and format
           # errors. We don't need to tell the user about this error if they are
           # not entering data in the right format (e.g. NaN or NaDate)

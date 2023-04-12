@@ -74,6 +74,39 @@ describe 'Collection Draft Proposal Approve', js: true do
     end
   end
 
+  context 'when viewing a submitted invalid proposal as an approver' do
+    before do
+      set_as_proposal_mode_mmt(with_draft_approver_acl: true)
+      @collection_draft_proposal = create(:full_collection_draft_proposal)
+      mock_submit(@collection_draft_proposal)
+      visit collection_draft_proposal_path(@collection_draft_proposal)
+    end
+
+    it 'displays the Non-NASA Draft Approver actions' do
+      expect(page).to have_content('Approve Proposal Submission')
+      expect(page).to have_content('Reject Proposal Submission')
+    end
+
+    context 'when approving the proposal' do
+      before do
+        allow_any_instance_of(Cmr::Response).to receive(:success?).and_return(false)
+        click_on 'Approve Proposal Submission'
+      end
+
+      context 'when clicking Yes' do
+        before do
+          VCR.use_cassette('urs/proposal_email_fetch/proposal_urs_ids') do
+            click_on 'Yes'
+          end
+        end
+
+        it 'approves a proposal' do
+          expect(page).to have_content('Collection Draft Proposal was not validated successfully')
+        end
+      end
+    end
+  end
+
   context 'when viewing a submitted proposal as a user' do
     before do
       set_as_proposal_mode_mmt(with_draft_user_acl: true)

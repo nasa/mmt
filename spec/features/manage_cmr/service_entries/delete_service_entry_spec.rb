@@ -1,17 +1,19 @@
-describe 'Deleting a Service Entry', js: true do
+describe 'Deleting a Service Entry', skip: !Rails.configuration.use_legacy_order_service do
+  before :all do
+    # create a group
+    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [DELETE]', members: ['testuser'])
+
+    # give the group permission to delete
+    @delete_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
+  end
+
+  after :all do
+    remove_group_permissions(@delete_permissions['concept_id'])
+    delete_group(concept_id: @service_entry_group['concept_id'])
+  end
+
   before do
-    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-      @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
-      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
-      # create a group
-      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_DELETE_19', members: ['hvtranho'])
-      # give the group permission to delete
-      @delete_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2', @token)
-      allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
-      allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
-      login
-    end
+    login
   end
 
   after do

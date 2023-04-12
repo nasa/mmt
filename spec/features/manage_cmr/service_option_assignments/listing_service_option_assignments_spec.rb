@@ -1,9 +1,4 @@
-# MMT-562
-
-require 'rails_helper'
-
-
-describe 'Viewing Service Option Assignments', reset_provider: true, js: true do
+describe 'Viewing Service Option Assignments', reset_provider: true, js: true, skip: !Rails.configuration.use_legacy_order_service do
   context 'when viewing the service option assignments page' do
     before do
       VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do

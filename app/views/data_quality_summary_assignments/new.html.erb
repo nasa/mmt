@@ -1,9 +1,13 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2>New <%= current_user.provider_id %> Data Quality Summary Assignments</h2>
 
     <%= form_tag(data_quality_summary_assignments_path, method: :post, class: "data-quality-summary-form", id: "data-quality-summary-assignments-form") do %>
-      <%= render partial: "form" %>
+      <% if Rails.configuration.use_legacy_order_service %>
+        <%= render partial: "legacy_form" %>
+      <% else %>
+        <%= render partial: "form" %>
+      <% end %>
 
       <fieldset>
         <%= submit_tag('Submit', class: 'eui-btn--blue') %>

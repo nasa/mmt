@@ -1,6 +1,6 @@
 # :nodoc:
 module OrdersHelper
-  ORDER_STATES = %w(
+  LEGACY_ORDER_STATES = %w(
     VALIDATED
     NOT_VALIDATED
     QUOTING
@@ -13,6 +13,16 @@ module OrdersHelper
     PROCESSING
     CANCELLING
     CANCELLED
+    CLOSED
+  ).freeze
+
+  ORDER_STATES = %w(
+    VALIDATED
+    PENDING_SUBMISSION
+    SUBMITTING
+    SUBMIT_FAILED
+    SUBMIT_REJECTED
+    PROCESSING
     CLOSED
   ).freeze
 

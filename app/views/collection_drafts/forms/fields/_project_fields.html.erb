@@ -1,7 +1,7 @@
-<div class="row sub-fields parent-pair">
+<div class="grid-row sub-fields parent-pair">
   <!-- Short Name [r] -->
-  <div class="row">
-    <div class="col-6">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <%= mmt_select(
         name: 'short_name',
         title: 'Short Name',
@@ -13,7 +13,7 @@
         required: true
       ) %>
     </div>
-    <div class="col-6">
+    <div class="grid-col-6">
       <!-- Long Name -->
       <%= mmt_text_field(
         name: 'long_name',
@@ -57,7 +57,7 @@
   </div>
 
 
-  <div class="col-6">
+  <div class="grid-col-6">
     <!-- StartDate -->
     <%= mmt_datetime(
       name: 'start_date',
@@ -70,7 +70,7 @@
     ) %>
   </div>
 
-  <div class="col-6">
+  <div class="grid-col-6">
     <!-- EndDate -->
     <%= mmt_datetime(
       name: 'end_date',

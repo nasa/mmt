@@ -1,0 +1,31 @@
+.error-list-item {
+    cursor: pointer;
+    font-size: 15px;
+    list-style: none;
+    margin-top: 0px;
+}
+
+.error-list-header-array {
+    font-weight: bold;
+    font-size: 15px;
+    color: rgb(73, 80, 87);
+    margin-bottom: 0px;
+}
+
+.error-list-header {
+    margin-top: -50px
+}
+
+.error-list-item:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.error-list-header-list {
+    padding-left: 15px;
+    margin-bottom: -2px;
+}
+
+.error-list-total-number-of-arrays {
+    /* font-style: italic; */
+    font-weight: normal;
+}

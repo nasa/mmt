@@ -62,6 +62,11 @@ nohup.out
 # ignore certificates
 /lib/assets/certs
 
-#ignore package
-package-lock.json
-package.json
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+/public/
+serviceaccount.pfx

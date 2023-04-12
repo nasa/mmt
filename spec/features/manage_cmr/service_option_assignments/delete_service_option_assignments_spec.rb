@@ -1,4 +1,4 @@
-describe 'Deleting a Service Option Assignment', reset_provider: true, js: true do
+describe 'Deleting a Service Option Assignment', reset_provider: true, js: true, skip: !Rails.configuration.use_legacy_order_service do
   before :all do
     @token = 'jwt_access_token'
     # create a group

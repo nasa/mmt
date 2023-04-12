@@ -327,8 +327,7 @@ module Cmr
         'Accept' => 'application/json',
         'Content-Type' => "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
       }
-
-      post(url, metadata, headers)
+      send_to_validation(url, metadata, headers)
     end
 
     def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)
@@ -629,6 +628,96 @@ module Cmr
 
       options['page_size']=2000
       get(url, options, token_header(token))
+    end
+
+    def delete_collection_service_association(service_concept_id:, collection_concept_id:, token:)
+      payload = []
+      concept_id = {}
+      concept_id[:concept_id] = collection_concept_id
+      payload << concept_id
+      delete("/search/services/#{service_concept_id}/associations", {}, payload.to_json, token_header(token))
+    end
+
+    def create_collection_service_association(collection_concept_id:, service_concept_id:, order_option_concept_id:, token:)
+      url = "/search/services/#{service_concept_id}/associations"
+      payload = []
+      association = {}
+      association[:concept_id] = collection_concept_id
+      data = {}
+      data[:order_option] = order_option_concept_id
+      association[:data] = data
+      payload << association
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def get_order_options(provider_id:, token:, concept_id: nil)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:concept_id] = concept_id if concept_id
+      options[:page_size] = 2000
+      get('/search/order-options.umm_json', options, token_header(token))
+    end
+
+    def remove_order_option(provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, nil, headers.merge(token_header(token)))
+    end
+
+    def create_update_order_option(order_option:, provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/order-options/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, order_option.to_json, headers.merge(token_header(token)))
+    end
+
+    def get_data_quality_summaries(provider_id:, concept_id: nil, token:)
+      options = {}
+      options[:provider_id] = provider_id
+      options[:concept_id] = concept_id if concept_id
+      options[:page_size] = 2000
+      get('/search/data-quality-summaries.umm_json', options, token_header(token))
+    end
+
+    def create_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      post(url, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def remove_collection_association(collection_concept_id:, concept_id:, token:)
+      url = "/search/associate/#{collection_concept_id}"
+      payload = []
+      concept = {}
+      concept[:concept_id] = concept_id
+      payload << concept
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, payload.to_json, headers.merge(token_header(token)))
+    end
+
+    def create_update_data_quality_summary(data_quality_summary:, provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/data-quality-summaries/#{encode_if_needed(native_id)}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/json'
+      }
+      post(url, data_quality_summary.to_json, headers.merge(token_header(token)))
+    end
+
+    def remove_data_quality_summary(provider_id:, native_id:, token:)
+      url = "/ingest/providers/#{provider_id}/data-quality-summaries/#{encode_if_needed(native_id)}"
+      headers = { 'Accept' => 'application/json; charset=utf-8' }
+      delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
     private

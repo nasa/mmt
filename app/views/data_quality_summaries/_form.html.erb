@@ -1,16 +1,19 @@
-<%= hidden_field_tag('id', @summary.fetch('Guid', '')) %>
-
+<% umm = @summary.fetch('umm', {}) %>
+<% meta = @summary.fetch('meta', {}) %>
+<%= hidden_field_tag('id', meta.fetch('concept-id', '')) %>
+<%= hidden_field_tag('native_id', meta.fetch('native-id', '')) %>
+<%= hidden_field_tag('data_quality_summary', @summary) %>
 <fieldset>
-  <div class="row">
+  <div class="grid-row">
     <label for="name" class="eui-required-o">Name</label>
-    <%= text_field_tag('name', @summary.fetch('Name', ''), class: 'full-width') %>
+    <%= text_field_tag('name', umm.fetch('Name', ''), class: 'full-width') %>
   </div>
 </fieldset>
 
 <fieldset>
-  <div class="row">
+  <div class="grid-row">
     <label for="summary" class="eui-required-o">Summary</label>
-    <%= text_area_tag('summary', @summary.fetch('Summary', ''), class: 'full-width redactor textarea-tall') %>
+    <%= text_area_tag('summary', umm.fetch('Summary', ''), class: 'full-width redactor textarea-tall') %>
   </div>
 </fieldset>
 

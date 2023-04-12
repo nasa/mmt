@@ -1,0 +1,41 @@
+{
+  "hits": 6,
+  "took": 12,
+  "items": [
+    {
+      "meta": {
+        "revision-id": 1,
+        "deleted": false,
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "provider-id": "MMT_2",
+        "user-id": "test_user",
+        "native-id": "mmt_collection_113",
+        "concept-id": "C1200056652-MMT_2",
+        "revision-date": "2016-01-06T21:32:30Z",
+        "concept-type": "collection",
+        "association-details": {
+          "services": [
+            {
+              "data": {
+                "order_option": "OO1200457533-EDF_DEV01"
+              },
+              "concept-id": "S1200056652-MMT_2"
+            },
+            {
+              "data": {
+                "order_option": "OO1200457534-EDF_DEV01"
+              },
+              "concept-id": "S1200056653-MMT_2"
+            }
+          ]
+        }
+      },
+      "umm": {
+        "entry-title": "ipsum",
+        "entry-id": "lorem_223",
+        "short-name": "lorem",
+        "version-id": "223"
+      }
+    }
+  ]
+}

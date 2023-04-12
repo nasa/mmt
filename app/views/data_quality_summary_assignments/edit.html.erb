@@ -1,18 +1,22 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2><%= current_user.provider_id %> Data Quality Summary Assignments</h2>
 
-    <%= form_tag(data_quality_summary_assignments_path, method: :delete, class: "data-quality-summary-form", id: "delete-data-quality-summary-assignments-form") do %>
-      <fieldset>
-        <%= label_tag(:show_unassigned_collections, class: 'show-unassigned-collections') do %>
-          <%= check_box_tag(:show_unassigned_collections, nil, false, class: 'toggle-unassigned-collections') %>
-          Include selected collections with no assigned summaries?
-        <% end %>
-      </fieldset>
+    <% if Rails.configuration.use_legacy_order_service %>
+      <%= render partial: "legacy_edit" %>
+    <% else %>
+      <!-- THIS PAGE IS NOT USING LEGACY SERVICE -->
+      <%= form_tag(data_quality_summary_assignments_path, method: :delete, class: "data-quality-summary-form", id: "delete-data-quality-summary-assignments-form") do %>
+        <fieldset>
+          <%= label_tag(:show_unassigned_collections, class: 'show-unassigned-collections') do %>
+            <%= check_box_tag(:show_unassigned_collections, nil, false, class: 'toggle-unassigned-collections') %>
+            Include selected collections with no assigned summaries?
+          <% end %>
+        </fieldset>
 
-      <fieldset>
-        <table id="assignment-collections" class="tablesorter">
-          <thead>
+        <fieldset>
+          <table id="assignment-collections" class="tablesorter">
+            <thead>
             <tr>
               <th class="align-c"><input type="checkbox" name="checkall" class="checkall" data-group="data_quality_summary_assignment[]" /></th>
               <th>Collection</th>
@@ -20,13 +24,13 @@
               <th>Version ID</th>
               <th>Data Quality Summary</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <% @assignments.each do |collection| %>
               <% if collection.fetch('data_quality_summaries', []).empty? %>
                 <tr class="unassigned-collection">
                   <td></td>
-                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}).fetch('concept-id', nil)), target: '_blank' %></td>
+                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}).fetch('concept-id', '')), target: '_blank' %></td>
                   <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
                   <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
                   <td></td>
@@ -35,12 +39,14 @@
               <% collection.fetch('data_quality_summaries', []).each do |assignment| %>
                 <tr>
                   <td class="align-c">
-                    <%= check_box_tag('data_quality_summary_assignment[]', assignment.fetch('AssignmentGuid'), false, id: "data_quality_summary_assignment_#{assignment.fetch('AssignmentGuid')}") %>
+                    <% collection_concept_id = collection.fetch('meta', {}).fetch('concept-id', '') %>
+                    <% data_quality_summary_concept_id = assignment.fetch('data_quality_summary_concept_id', '') %>
+                    <%= check_box_tag('data_quality_summary_assignment[]', collection_concept_id + '@' + data_quality_summary_concept_id, false, id: "data_quality_summary_assignment_#{assignment.fetch('data_quality_summary_concept_id', '')}") %>
                   </td>
-                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}).fetch('concept-id', nil)), target: '_blank' %></td>
+                  <td><%= link_to collection.fetch('umm', {}).fetch('entry-title', ''), collection_path(collection.fetch('meta', {}).fetch('concept-id', '')), target: '_blank' %></td>
                   <td><%= collection.fetch('umm', {}).fetch('short-name', '') %></td>
                   <td><%= collection.fetch('umm', {}).fetch('version-id', '') %></td>
-                  <td><%= link_to assignment.fetch('Name'), data_quality_summary_path(assignment.fetch('Guid')) %></td>
+                  <td><%= link_to assignment.fetch('umm', {}).fetch('Name'), data_quality_summary_path(assignment.fetch('meta', {}).fetch('concept-id', '')) %></td>
                 </tr>
               <% end %>
             <% end %>
@@ -49,28 +55,28 @@
                 <td colspan="5">No assignments found for the selected collections.</td>
               </tr>
             <% end %>
-          </tbody>
-          <tfoot>
+            </tbody>
+            <tfoot>
             <tr>
               <th colspan="5">Select one or more collections.</th>
             </tr>
-          </tfoot>
-        </table>
-      </fieldset>
+            </tfoot>
+          </table>
+        </fieldset>
 
-      <fieldset>
-        <%= link_to 'Delete Selected Assignments', '#delete-assignments-modal', class: 'eui-btn eui-btn--red display-modal' %>
+        <fieldset>
+          <%= link_to 'Delete Selected Assignments', '#delete-assignments-modal', class: 'eui-btn eui-btn--red display-modal' %>
 
-        <div id='delete-assignments-modal' class="eui-modal-content">
-          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-          <p>Are you sure you want to delete the data quality summary assignments for the selected collections?</p>
-          <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-            <%= submit_tag 'Yes', class: 'eui-btn--blue spinner'%>
-          </p>
-        </div>
-      </fieldset>
+          <div id='delete-assignments-modal' class="eui-modal-content">
+            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+            <p>Are you sure you want to delete the data quality summary assignments for the selected collections?</p>
+            <p>
+              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+              <%= submit_tag 'Yes', class: 'eui-btn--blue spinner'%>
+            </p>
+          </div>
+        </fieldset>
+      <% end %>
     <% end %>
-
   </section>
 </div>

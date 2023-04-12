@@ -1,4 +1,4 @@
-<div class="row row-content">
+<div class="grid-row row-content">
   <section>
     <h2><%= current_user.provider_id %> <%= plural_resource_name.titleize %></h2>
 
@@ -37,8 +37,10 @@
             <td>
               <%= draft.updated_at.to_s(:date) %>
             </td>
-            <td>
-            <%= link_to "Download JSON", "/#{resource_name}s/#{draft.id}.json", download: "#{draft.display_short_name}-#{draft.id}.json", class: 'eui-btn--link' %>
+            <td class="download_json_link">
+            <%= link_to "Download JSON", "/#{resource_name}s/#{draft.id}.json", download: "#{draft.display_short_name}-#{draft.id}.json", id: 'download_link', class: 'eui-btn--link'%>
+              <span id="hidden-downloading-msg" style="color: rgb(31,107,162); display: none">Downloading...</span>
+              <span id="spinner-animation" class="fa fa-circle-o-notch fa-spin" style="display: none"></span>
             </td>
           </tr>
         <% end %>

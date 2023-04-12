@@ -1,0 +1,56 @@
+<!-- THIS PAGE IS USING LEGACY SERVICE -->
+<div class="grid-row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Data Quality Summaries</h2>
+
+    <%= link_to 'Create a Data Quality Summary', new_data_quality_summary_path, class: 'eui-btn--blue space-bot' %>
+
+    <% if @summaries.any? %>
+      <p><%= page_entries_info @summaries, entry_name: 'Data Quality Summary' %></p>
+    <% end %>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Summary</th>
+        <th colspan="2">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @summaries.empty? %>
+        <tr>
+          <td colspan="4">No <%= current_user.provider_id %> Data Quality Summaries found.</td>
+        </tr>
+      <% else %>
+        <% @summaries.each_with_index do |summary, index| %>
+          <tr>
+            <% if summary.error? %>
+              <td colspan="4"><%= summary.error_message %></td>
+            <% else %>
+              <td><%= link_to summary.parsed_body.fetch('Name', ''), data_quality_summary_path(summary.parsed_body.fetch('Guid')) %></td>
+              <td><%= strip_tags(summary.parsed_body.fetch('Summary', '')) %></td>
+              <td>
+                <%= link_to 'Edit', edit_data_quality_summary_path(summary.parsed_body.fetch('Guid')) %>
+              </td>
+              <td>
+                <%= link_to 'Delete', "#delete-summary-modal-#{index}", class: 'display-modal' %>
+                <div id="delete-summary-modal-<%= index %>" class="eui-modal-content">
+                  <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+                  <p>Are you sure you want to delete the data quality summary named '<%= summary.parsed_body.fetch('Name', '') %>'?</p>
+                  <p>
+                    <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+                    <%= link_to 'Yes', data_quality_summary_path(summary.parsed_body.fetch('Guid')), method: :delete, class: 'eui-btn--blue spinner' %>
+                  </p>
+                </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= paginate @summaries %>
+  </section>
+</div>

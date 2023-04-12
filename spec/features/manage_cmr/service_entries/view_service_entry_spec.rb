@@ -1,4 +1,13 @@
-describe 'Viewing a Service Entry', reset_provider: true do
+describe 'Viewing a Service Entry', skip: !Rails.configuration.use_legacy_order_service, reset_provider: true do
+  before :all do
+    # create a group
+    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [VIEW]', members: ['testuser'])
+  end
+
+  after :all do
+    delete_group(concept_id: @service_entry_group['concept_id'])
+  end
+
   before do
     @token = 'jwt_access_token'
     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)

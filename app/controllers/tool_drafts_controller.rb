@@ -1,20 +1,35 @@
 # :nodoc:
 class ToolDraftsController < BaseDraftsController
   include ControlledKeywords
+  include Cmr::Util
   before_action :umm_t_enabled?
 
   before_action :set_schema, only: [:new, :create, :edit, :update, :show]
   before_action :set_form, only: [:edit, :update, :show]
   before_action :set_current_form, only: [:edit]
   before_action :set_preview, only: [:show]
+  before_action :set_react_token, only: [:new, :create, :edit, :update, :show]
 
   def edit
     super
-
     set_tool_keywords if @current_form == 'descriptive_keywords'
   end
 
   private
+
+  def prefix_token(token)
+    new_token = token
+     if is_urs_token?(token)
+       new_token = "Bearer #{token}"
+    end
+    new_token
+  end
+
+  def set_react_token
+    @react_token = prefix_token(token)
+    @react_user = current_user.urs_uid
+    @react_provider = current_user.provider_id
+  end
 
   def set_schema
     @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-t-json-schema.json')

@@ -4,8 +4,8 @@
     <h3 class="eui-accordion__title">Data Contacts</h3>
   </div>
   <div class="eui-accordion__body">
-    <div class="row taller">
-      <div class="col-12">
+    <div class="grid-row taller">
+      <div class="grid-col-12">
         <%= render partial: 'collection_drafts/forms/type', locals: {
           type: 'data_contact',
           values: draft_all_data_contacts_array(draft.draft) || [{}],
