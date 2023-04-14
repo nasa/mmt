@@ -163,15 +163,26 @@ class CollectionsController < ManageCollectionsController
 
     render :show
   end
-
+  # Remove compact_blank function after CMR bug is fixed where for UMM-C version below 1.17.3 adds a empty Related URL/
+  def compact_blank(node)
+    return node.map { |n| compact_blank(n) }.compact.presence if node.is_a?(Array)
+    return node if node == false
+    return node.presence unless node.is_a?(Hash)
+    result = {}
+    node.each do |k, v|
+      result[k] = compact_blank(v)
+    end
+    result = result.compact
+    result.compact.presence
+  end
   def prepare_translated_collections
     original_collection_native_xml = cmr_client.get_concept(params[:id], token, {})
     return { error: 'Failed to retrieve collection from CMR' } unless original_collection_native_xml.success?
 
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
-
-    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type, skip_validation=true)
+    compacted_collection = compact_blank(@collection)
+    translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(compacted_collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type, skip_validation=true)
     return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
 
     return {
