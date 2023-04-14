@@ -46,7 +46,7 @@ describe 'When going through the whole collection proposal approver workflow', j
         mock_approve(@proposal)
 
         # Workflow is in mmt proper, so switch back
-        @token = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImNocmlzLmdva2V5IiwiZXhwIjoxNjg2NTk1MzM5LCJpYXQiOjE2ODE0MTEzMzksImlzcyI6IkVhcnRoZGF0YSBMb2dpbiJ9.BfFV8hjmCsGiyMwLIscfdgBQQzg4PCdgEYD6BjweRQ2NJ3uoMjShv7ToN-9iz2yPtvIp2bLvEHT3iMteEo_ZLb5APKbuawu4Vioc918SkRoE_SEZJVlftQPO_BPHh2y9EspSR0C_I4-3pa_epu0YnUu2xXgt440zr8ZufFfD3PocpHy8f6-a90Wyk3MkMGHgYGepkYRhmwlSraJrlM3n3c_jOsdKyHlh15DRJXpCUx6pL7Xt-F46doxgEatcWjn3U7RLHW8_JKSGBA-GscFCVu5uk6ctBQuQVkL72KcyDE7-qBkLCeH-rpo_ypGDLX7SFRCTWhamoHZblTMx6GilfQ'
+        @token = 'jwt_access_token'
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
 
