@@ -2,11 +2,11 @@ class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
 
   protect_from_forgery with: :null_session
-  before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish]
+  before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish, :destroy]
   before_action :set_resource, only: [:show, :update, :publish]
-  before_action :validate_token, only: [:create, :show, :update, :publish]
-  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish]
-  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish]
+  before_action :validate_token, only: [:create, :show, :update, :publish, :destroy]
+  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish, :destroy]
+  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish, :destroy]
 
   def create
     provider_id = request.headers["Provider"]
@@ -42,6 +42,20 @@ class Api::DraftsController < BaseDraftsController
     end
   end
 
+  def destroy
+    begin
+      provider_id = request.headers["Provider"]
+      user = User.find_or_create_by(urs_uid: request.headers["User"])
+      set_resource
+      get_resource.destroy
+      Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
+      render json: JSON.generate({'result': 'Draft deleted'}), status: 200
+    rescue  => e
+      Rails.logger.info("Audit Log: #{user.urs_uid} could not delete #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
+      render json: JSON.generate({'error': "Could not delete draft: #{e.message}"}), status: 500
+    end
+  end
+
   def publish
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
@@ -49,7 +63,7 @@ class Api::DraftsController < BaseDraftsController
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
     if get_resource.save
-      if (params[:draft_type] == 'ToolDraft')
+      if (params[:draft_type] == 'ToolDraft' || params[:draft_type] == 'VariableDraft')
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
         if ingested_response.success?
           Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
