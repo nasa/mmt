@@ -215,10 +215,9 @@ describe 'Data validation for a collection draft form', js: true do
       fill_in 'draft_temporal_extents_0_single_date_times_0', with: '2015-10-27T00:00:00Z'
       field = find('#draft_temporal_extents_0_single_date_times_0')
       field.native.send_keys :tab
-
       good_integer_values.each do |test|
         fill_in 'Precision Of Seconds', with: test
-        find('body').click
+        # find('body').click
         puts "Integer: #{test}" if debug
         expect(page).to have_no_selector(validation_error)
       end

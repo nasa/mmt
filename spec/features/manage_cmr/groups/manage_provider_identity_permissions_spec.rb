@@ -1,33 +1,45 @@
-describe 'Group show page Manage Provider Object Permissions' do
+describe 'Group show page Manage Provider Object Permissions', js:true do
+  before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+  end
 
   before :all do
-    @test_group_name_admin = 'Test MMT_2 Group Manage Provider Permissions'
-    @test_group_description_admin = 'test group'
-    @test_group_admin = create_group(
-      name: @test_group_name_admin,
-      description: @test_group_description_admin,
-      provider_id: 'MMT_2'
-    )
 
-    @test_group_name_not_admin = 'Test LARC Group Manage Provider Permissions'
-    @test_group_description_not_admin = 'test group'
-    @test_group_not_admin = create_group(
-      name: @test_group_name_not_admin,
-      description: @test_group_description_not_admin,
-      provider_id: 'LARC'
-    )
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @test_group_name_admin = 'Test_MMT_2_Group_Manage_Provider_Permissions'
+      @test_group_description_admin = 'test group'
+      @test_group_admin = create_group(
+        name: @test_group_name_admin,
+        description: @test_group_description_admin,
+        provider_id: 'MMT_2'
+      )
+
+      @test_group_name_not_admin = 'Test_LARC_Group_Manage_Provider_Permissions'
+      @test_group_description_not_admin = 'test group'
+      @test_group_not_admin = create_group(
+        name: @test_group_name_not_admin,
+        description: @test_group_description_not_admin,
+        provider_id: 'LARC'
+      )
+    end
   end
 
   after :all do
-    delete_group(concept_id: @test_group_admin['concept_id'])
-    delete_group(concept_id: @test_group_not_admin['concept_id'])
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      delete_group(concept_id: @test_group_admin['group_id'])
+      delete_group(concept_id: @test_group_not_admin['group_id'])
+    end
   end
 
   context "when logging in as a provider admin for a group's provider and visiting the group page" do
     before do
       login
 
-      visit group_path(@test_group_admin['concept_id'])
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        visit group_path(@test_group_admin['group_id'])
+      end
     end
 
     it 'displays the group show page' do
@@ -37,7 +49,7 @@ describe 'Group show page Manage Provider Object Permissions' do
 
     it 'displays the link to manage Provider Object Permissions' do
       expect(page).to have_content('Manage Provider Object Permissions')
-      expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@test_group_admin['concept_id'], redirect_to: page.current_path))
+      expect(page).to have_link('Provider Object Permissions for MMT_2', href: edit_provider_identity_permission_path(@test_group_admin['group_id'], redirect_to: page.current_path))
     end
   end
 
@@ -45,7 +57,9 @@ describe 'Group show page Manage Provider Object Permissions' do
     before do
       login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
 
-      visit group_path(@test_group_admin['concept_id'])
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        visit group_path(@test_group_admin['group_id'])
+      end
     end
 
     it 'displays the group show page' do
@@ -76,7 +90,9 @@ describe 'Group show page Manage Provider Object Permissions' do
       before do
         login(provider: 'LARC', providers: ['LARC'])
 
-        visit group_path(@test_group_not_admin['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit group_path(@test_group_not_admin['group_id'])
+        end
       end
 
       it 'displays the group show page' do
@@ -96,7 +112,9 @@ describe 'Group show page Manage Provider Object Permissions' do
       before do
         login(providers: %w[MMT_2 LARC])
 
-        visit group_path(@test_group_not_admin['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit group_path(@test_group_not_admin['group_id'])
+        end
       end
 
       it 'displays the group show page' do

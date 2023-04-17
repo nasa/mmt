@@ -1,17 +1,22 @@
 describe 'Viewing Service Option Assignments', reset_provider: true, js: true, skip: !Rails.configuration.use_legacy_order_service do
   context 'when viewing the service option assignments page' do
     before do
-      service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
-      allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
+        @token  = 'jwt_access_token'
+        service_entries_by_provider_response = Echo::Response.new(Faraday::Response.new(status: 200, body: File.read('spec/fixtures/service_management/service_entries_by_provider.xml')))
+        allow_any_instance_of(Echo::ServiceManagement).to receive(:get_service_entries_by_provider).and_return(service_entries_by_provider_response)
 
-      collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
-      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
+        collections_response = Cmr::Response.new(Faraday::Response.new(status: 200, body: JSON.parse(File.read('spec/fixtures/cmr_search.json'))))
+        allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
 
-      login
+        login
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
 
-      visit service_option_assignments_path
+        visit service_option_assignments_path
 
-      wait_for_jQuery
+        wait_for_jQuery(10)
+      end
     end
 
     it 'displays the service option assignments form' do
@@ -60,25 +65,25 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
         context 'when service options have assignments' do
           before do
-            within '#service_entries_fromList' do
-              # Deimos
-              find('option[value="3E5F3D05-C8F5-C540-4484-F3E67A7D5E62"]').select_option
-
-              # Polaris
-              find('option[value="A19EDB8C-2253-3B19-E70D-1AC053DAC384"]').select_option
-            end
-
-            within '.button-container' do
-              find('.add_button').click
-            end
-
             VCR.use_cassette('echo_soap/service_management_service/service_option_assignments/list', record: :none) do
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              within '#service_entries_fromList' do
+                # Deimos
+                find('option[value="3E5F3D05-C8F5-C540-4484-F3E67A7D5E62"]').select_option
+
+                # Polaris
+                find('option[value="A19EDB8C-2253-3B19-E70D-1AC053DAC384"]').select_option
+              end
+
+              within '.button-container' do
+                find('.add_button').click
+              end
               click_on 'Display Assignments'
             end
           end
 
           it 'displays the correct list of assignments' do
-            expect(page).to have_selector('#service-option-assignments tbody tr', count: 4)
+            expect(page).to have_selector('#service-option-assignments tbody tr', count: 2)
           end
 
           context 'when sorting by service implementation' do
@@ -89,7 +94,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(2)' do
-                  expect(page).to have_content('Deimos')
+                  expect(page).to have_content('Polaris')
                 end
               end
 
@@ -112,7 +117,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(2)' do
-                    expect(page).to have_content('Deimos')
+                    expect(page).to have_content('Polaris')
                   end
                 end
               end
@@ -127,7 +132,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(3)' do
-                  expect(page).to have_content('ipsum')
+                  expect(page).to have_content("Matthew's Test")
                 end
               end
 
@@ -150,7 +155,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(3)' do
-                    expect(page).to have_content('ipsum')
+                    expect(page).to have_content("Matthew's Test")
                   end
                 end
               end
@@ -165,7 +170,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(4)' do
-                  expect(page).to have_content('ID')
+                  expect(page).to have_content("Matthew'sTest")
                 end
               end
 
@@ -188,7 +193,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(4)' do
-                    expect(page).to have_content('ID')
+                    expect(page).to have_content("Matthew'sTest")
                   end
                 end
               end
@@ -209,7 +214,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(5)' do
-                  expect(page).to have_content('223')
+                  expect(page).to have_content('2')
                 end
               end
 
@@ -220,7 +225,7 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(5)' do
-                    expect(page).to have_content('223')
+                    expect(page).to have_content('2')
                   end
                 end
 
@@ -279,13 +284,13 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
               it 'sorts has the correct value in the first row' do
                 within '#service-option-assignments tbody tr:first-child td:nth-child(7)' do
-                  expect(page).to have_content('Ligula Vulputate')
+                  expect(page).to have_content('Bibendum Mollis Lorem Elit Condimentum')
                 end
               end
 
               it 'sorts has the correct value in the last row' do
                 within '#service-option-assignments tbody tr:last-child td:nth-child(7)' do
-                  expect(page).to have_content('Risus Malesuada Sit')
+                  expect(page).to have_content('Vestibulum Ridiculus')
                 end
               end
 
@@ -296,13 +301,13 @@ describe 'Viewing Service Option Assignments', reset_provider: true, js: true, s
 
                 it 'sorts has the correct value in the first row' do
                   within '#service-option-assignments tbody tr:first-child td:nth-child(7)' do
-                    expect(page).to have_content('Risus Malesuada Sit')
+                    expect(page).to have_content('Vestibulum Ridiculus')
                   end
                 end
 
                 it 'sorts has the correct value in the last row' do
                   within '#service-option-assignments tbody tr:last-child td:nth-child(7)' do
-                    expect(page).to have_content('Ligula Vulputate')
+                    expect(page).to have_content('Bibendum Mollis Lorem Elit Condimentum')
                   end
                 end
               end

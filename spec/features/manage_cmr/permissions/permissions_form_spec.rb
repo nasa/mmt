@@ -1,9 +1,11 @@
 describe 'Collection Permissions form', js: true do
   context 'when visiting new collection permission page as a regular user' do
     before do
-      login
-
-      visit new_permission_path
+      VCR.use_cassette('edl', record: :none) do
+        login
+        
+        visit new_permission_path
+      end
     end
 
     it 'indicates this is a new collection permission page' do
@@ -225,9 +227,11 @@ describe 'Collection Permissions form', js: true do
 
   context 'when visiting new collection permission page as an admin' do
     before do
-      login_admin
+      VCR.use_cassette('edl', record: :none) do
+        login_admin
 
-      visit new_permission_path
+        visit new_permission_path
+      end
     end
 
     it 'indicates this is a new collection permission page' do
@@ -235,6 +239,7 @@ describe 'Collection Permissions form', js: true do
     end
 
     it 'displays system groups as options in the Groups Permissions table select' do
+      skip #These system groups are not created by default in EDL
       within '#search_groups_cell' do
         expect(page).to have_select('search_groups_', with_options: ['Administrators', 'Administrators_2'])
       end

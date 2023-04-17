@@ -1,9 +1,9 @@
 describe 'Displaying the loss report in browser' do
   context 'when accessing the loss report' do
 
-    let(:echo_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'MISR Level 1A Navigation Data V002' }).body.dig('items', 0, 'meta', 'concept-id') }
-    let(:dif_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SeaWiFS Deep Blue Aerosol Optical Depth and Angstrom Exponent Daily Level 3 Data Gridded at 1.0 Degrees V004 (SWDB_L310) at GES DISC' }).body.dig('items', 0, 'meta', 'concept-id') }
-    let(:iso_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002' }).body.dig('items', 0, 'meta', 'concept-id') }
+    let(:echo_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'MISR Level 1A Navigation Data V002' }, 'access_token').body.dig('items', 0, 'meta', 'concept-id') }
+    let(:dif_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SeaWiFS Deep Blue Aerosol Optical Depth and Angstrom Exponent Daily Level 3 Data Gridded at 1.0 Degrees V004 (SWDB_L310) at GES DISC' }, 'access_token').body.dig('items', 0, 'meta', 'concept-id') }
+    let(:iso_concept_id) { cmr_client.get_collections({ 'EntryTitle': 'SMAP L4 Global 3-hourly 9 km Surface and Rootzone Soil Moisture Analysis Update V002' }, 'access_token').body.dig('items', 0, 'meta', 'concept-id') }
 
     before do
       login
@@ -53,7 +53,6 @@ describe 'Displaying the loss report in browser' do
         visit loss_report_collections_path(echo_concept_id, format: 'text')
         sample_paths = File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.text').split(/\s|\n/).reject! { |path| !path.include?("/") }
         page_paths = page.text.split("\s").reject! { |path| !path.include?("/") }
-
         expect(sample_paths - page_paths).to be_empty
         expect(page_paths - sample_paths).to be_empty
       end

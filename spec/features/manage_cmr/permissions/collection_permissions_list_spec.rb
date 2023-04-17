@@ -8,13 +8,13 @@ describe 'Collection Permissions Index page', reset_provider: true do
   before do
     # stubs for 3 groups
     group1_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group1.json'))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group1_id, 'access_token').and_return(group1_response)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_group).with(group1_id).and_return(group1_response)
 
     group2_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group2.json'))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group2_id, 'access_token').and_return(group2_response)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_group).with(group2_id).and_return(group2_response)
 
     group3_response = cmr_success_response(File.read('spec/fixtures/collection_permissions/group3.json'))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_group).with(group3_id, 'access_token').and_return(group3_response)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_group).with(group3_id).and_return(group3_response)
   end
 
   # In PUMP, collection permissions (aka catalog item ACLs) can be granted

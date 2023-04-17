@@ -2,8 +2,10 @@ describe 'Chooser expected behaviors', js: true do
   context 'when using the chooser' do
     before do
       login
-      visit new_permission_path
-      find('#collection_option_selected').click()
+      VCR.use_cassette('edl', record: :none) do
+        visit new_permission_path
+        find('#collection_option_selected').click()
+      end
     end
 
     it 'does not click the + button when pressing enter in the left filter box' do
@@ -22,8 +24,10 @@ describe 'Chooser expected behaviors', js: true do
       ingest_response, concept_response_1 = publish_collection_draft
       @entry_id_1 = "#{concept_response_1.body['ShortName']}_#{concept_response_1.body['Version']} | #{concept_response_1.body['EntryTitle']}"
       login
-      visit new_permission_path
-      find('#collection_option_selected').click()
+      VCR.use_cassette('edl', record: :none) do
+        visit new_permission_path
+        find('#collection_option_selected').click()
+      end
 
       within '#collectionsChooser' do
         select(@entry_id_1, from: 'Available Collections')

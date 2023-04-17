@@ -70,6 +70,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cmr_client
 
+  def urs_client
+    @cmr_client ||= Cmr::UrsClient.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
+  end
+  helper_method :urs_client
+
   def kms_client
     @kms_client ||= Cmr::Client.client_for_environment(Rails.configuration.kms_env, Rails.configuration.services)
   end

@@ -1,6 +1,5 @@
 # This file contains tests to verify that the draft MMT cannot make any PUT,
 # POST, or DELETE calls through the CMR client
-
 describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to CMR' do
   before do
     login
@@ -60,24 +59,32 @@ describe 'Draft MMT should not be allowed to make PUT/POST/PATCH/DELETE calls to
   end
 
   it 'cannot create_group' do
-    expect { cmr_client.create_group({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      expect { cmr_client.create_edl_group({}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    end
   end
 
   it 'cannot update_group' do
-    expect { cmr_client.update_group({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      expect { cmr_client.update_edl_group('123', {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    end
   end
 
   it 'cannot delete_group' do
-    expect { cmr_client.delete_group({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      expect { cmr_client.delete_edl_group({}) }.to raise_error('A requested action is not allowed in the current configuration.')
+    end
   end
 
-  it 'cannot add_group_members' do
-    expect { cmr_client.add_group_members({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
-  end
+  # removed because we have no API to add members, only updating the group with new members
+  # it 'cannot add_group_members' do
+  #   expect { cmr_client.add_new_members({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+  # end
 
-  it 'cannot remove_group_members' do
-    expect { cmr_client.remove_group_members({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
-  end
+  # removed because we have no API to remove members, only updating the group with the latest members
+  # it 'cannot remove_group_members' do
+  #   expect { cmr_client.remove_group_members({}, {}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')
+  # end
 
   it 'cannot add_group_permissions' do
     expect { cmr_client.add_group_permissions({}, {}) }.to raise_error('A requested action is not allowed in the current configuration.')

@@ -25,7 +25,6 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
     }
   end
   let(:permission) { add_group_permissions(collection_permission) }
-
   context 'when viewing a permission' do
     context 'when the permission provider is not in my available providers' do
       before do
@@ -57,7 +56,7 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
       context 'when clicking the link to change providers' do
         before do
           click_on 'Click here to change your provider.'
-          wait_for_jQuery
+          wait_for_jQuery(10)
         end
 
         it 'changes providers and displays the permission' do
@@ -86,8 +85,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
   context 'when editing a permission' do
     context 'when the permission provider is not in my available providers' do
       before do
-        login(provider: 'MMT_1', providers: ['MMT_1'])
-        visit edit_permission_path(permission['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          login(provider: 'MMT_1', providers: ['MMT_1'])
+          visit edit_permission_path(permission['concept_id'])
+        end
       end
 
       it 'displays the correct message' do
@@ -100,8 +101,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
 
     context 'when the permission provider is within my available providers' do
       before do
-        login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
-        visit edit_permission_path(permission['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          login(provider: 'MMT_1', providers: %w[MMT_1 MMT_2])
+          visit edit_permission_path(permission['concept_id'])
+        end
       end
 
       it 'displays the correct message' do
@@ -113,8 +116,10 @@ describe 'Permissions Permissions', js: true, reset_provider: true do
 
       context 'when clicking the link to change providers' do
         before do
-          click_on 'Click here to change your provider.'
-          wait_for_jQuery
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            click_on 'Click here to change your provider.'
+            wait_for_jQuery(10)
+          end
         end
 
         it 'changes providers and displays the permission' do

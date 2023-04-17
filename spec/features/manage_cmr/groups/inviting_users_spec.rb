@@ -77,22 +77,24 @@ describe 'Inviting users', reset_provider: true, js: true do
 
   context 'when adding users to an existing group' do
     before :all do
-      @group_name = 'Test Group For New Invites'
+      @group_name = 'Test_Group_For_New_Invites'
       @group_description = 'Group to invite users to'
       @provider_id = 'MMT_2'
 
-      @group = create_group(
-        name: @group_name,
-        description: @group_description,
-        provider_id: @provider_id
-      )
+      VCR.use_cassette('edl', record: :none) do
+        @group = create_group(
+          name: @group_name,
+          description: @group_description,
+          provider_id: @provider_id
+        )
+      end
     end
 
     before do
       login
 
       VCR.use_cassette('urs/q6ddmkhivmuhk', record: :none) do
-        visit edit_group_path(@group['concept_id'])
+        visit edit_group_path(@group['group_id'])
       end
     end
 

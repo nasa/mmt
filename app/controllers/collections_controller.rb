@@ -170,7 +170,6 @@ class CollectionsController < ManageCollectionsController
 
     content_type = original_collection_native_xml.headers.fetch('content-type').split(';')[0]
     return { error: 'This collection is already in UMM format so there is no loss report' } if content_type.include?('application/vnd.nasa.cmr.umm+json')
-
     translated_collection_native_xml = cmr_client.translate_collection(JSON.pretty_generate(@collection), "application/#{Rails.configuration.umm_c_version}; charset=utf-8", content_type, skip_validation=true)
     return { error: 'Failed to translate collection from UMM back to native format' } unless translated_collection_native_xml.success?
 
@@ -277,7 +276,7 @@ class CollectionsController < ManageCollectionsController
       @num_tags = @tag_keys.count
 
       unless @tag_keys.blank?
-        cmr_tag_response = cmr_client.get_tags({ tag_key: @tag_keys })
+        cmr_tag_response = cmr_client.get_tags({ tag_key: @tag_keys }, token)
         if cmr_tag_response.success?
           @tags_info = cmr_tag_response.body['items']
         else

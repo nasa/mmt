@@ -9,15 +9,17 @@ describe GroupsController, reset_provider: true do
     end
 
     it 'renders the #index view' do
-      get :index
-
-      expect(response).to render_template(:index)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        get :index
+        expect(response).to render_template(:index)
+      end
     end
 
     it 'requests groups from cmr' do
-      expect_any_instance_of(Cmr::CmrClient).to receive('get_cmr_groups').and_call_original
-
-      get :index
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_groups').and_call_original
+        get :index
+      end
     end
 
     context 'When groups are disabled' do
@@ -26,18 +28,31 @@ describe GroupsController, reset_provider: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        get :index
-
-        expect(response).to redirect_to(manage_collections_path)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          get :index
+          expect(response).to redirect_to(manage_collections_path)
+        end
       end
     end
   end
 
   describe 'GET #show' do
-    before :all do
-      group_response = create_group
+    before do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        group_response = create_group
+        @group_id = group_response['group_id']
+      end
+    end
 
-      @concept_id = group_response['concept_id']
+    after do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        delete_group(concept_id: @group_id)
+      end
     end
 
     before do
@@ -45,15 +60,17 @@ describe GroupsController, reset_provider: true do
     end
 
     it 'renders the #show view' do
-      get :show, params: { id: @concept_id }
-
-      expect(response).to render_template(:show)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        get :show, params: { id: @group_id }
+        expect(response).to render_template(:show)
+      end
     end
 
     it 'requests the group from cmr' do
-      expect_any_instance_of(Cmr::CmrClient).to receive('get_group').with(@concept_id, anything).and_call_original
-
-      get :show, params: { id: @concept_id }
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        expect_any_instance_of(Cmr::UrsClient).to receive('get_edl_group').with(@group_id).and_call_original
+        get :show, params: { id: @group_id }
+      end
     end
 
     context 'When groups are disabled' do
@@ -62,7 +79,7 @@ describe GroupsController, reset_provider: true do
       end
 
       it 'redirects the user to the manage collections page' do
-        get :show, params: { id: @concept_id }
+        get :show, params: { id: @group_id }
 
         expect(response).to redirect_to(manage_collections_path)
       end

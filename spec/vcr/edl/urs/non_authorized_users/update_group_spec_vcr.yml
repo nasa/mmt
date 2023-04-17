@@ -1,0 +1,178 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/ee2f6770-ad75-4eb4-9744-e0f70c145729
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eaccess_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Wed, 19 Oct 2022 20:25:35 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"88f09e13b56eab854eb9fa80d6df9b0c"
+      x-request-id:
+      - c2c8ab27-4219-416f-9683-f07f01864851
+      x-runtime:
+      - '0.009965'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"group_id":"ee2f6770-ad75-4eb4-9744-e0f70c145729","name":"38732ce0dddssssjkjjaasa72ddd331eadycb9b6663ddddddddsdddddff3xx24dd6666deeeaaaaaaaa","description":"Laboriosam
+        omnis suscipit voluptates.","shared_user_group":false,"tag":"MMT_2","created_by":"mmt_test","app_uid":"mmt_test","client_id":"81FEem91NlTQreWv2UgtXQ"}'
+  recorded_at: Wed, 19 Oct 2022 20:25:35 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/group_members/ee2f6770-ad75-4eb4-9744-e0f70c145729
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eaccess_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Wed, 19 Oct 2022 20:25:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"f13a08832cac845ef6526e4c83ba4c94"
+      x-request-id:
+      - 10fa0ed1-a30d-462e-a02b-18eee0f95897
+      x-runtime:
+      - '0.010032'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"q6ddmkhivmuhk","first_name":"Execktamwrwcqs","last_name":"02Wvhznnzjtrunff","email_address":"pvblvweo@hqdybllrn.sghjz"},{"uid":"qhw5mjoxgs2vjptmvzco","first_name":"06dutmtxyfxma","last_name":"Sppfwzsbwz","email_address":"jkbvtdzjtheltsmgx@ybgcztxabzqnzmmvf.ygen"},{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy"}]}'
+  recorded_at: Wed, 19 Oct 2022 20:25:35 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/users?uids%5B%5D=q6ddmkhivmuhk&uids%5B%5D=qhw5mjoxgs2vjptmvzco&uids%5B%5D=rarxd5taqea
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Authorization:
+      - Bearer eaccess_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Wed, 19 Oct 2022 20:25:36 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"1a9b4a3578287239c739b0a27296b50a"
+      x-request-id:
+      - 86ce3e8e-b6ec-41c9-b525-5b0d2e9b7431
+      x-runtime:
+      - '0.009759'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"users":[{"uid":"q6ddmkhivmuhk","first_name":"Execktamwrwcqs","last_name":"02Wvhznnzjtrunff","email_address":"pvblvweo@hqdybllrn.sghjz","email_verified":true,"country":"Mexico","study_area":null,"registered_date":"2012-08-29T11:02:41.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"qhw5mjoxgs2vjptmvzco","first_name":"06dutmtxyfxma","last_name":"Sppfwzsbwz","email_address":"jkbvtdzjtheltsmgx@ybgcztxabzqnzmmvf.ygen","email_verified":true,"country":"Palau","study_area":null,"registered_date":"2012-08-29T11:30:22.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false},{"uid":"rarxd5taqea","first_name":"Rvrhzxhtra","last_name":"Vetxvbpmxf","email_address":"uozydogeyyyujukey@tjbh.eyyy","email_verified":true,"country":"Macedonia","study_area":null,"registered_date":"2012-08-29T11:02:42.000Z","allow_auth_app_emails":true,"agreed_to_meris_eula":false,"agreed_to_sentinel_eula":false}]}'
+  recorded_at: Wed, 19 Oct 2022 20:25:35 GMT
+recorded_with: VCR 6.1.0

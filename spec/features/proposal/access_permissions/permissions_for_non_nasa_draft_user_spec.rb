@@ -1,17 +1,28 @@
 describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true do
-  before do
-    set_as_proposal_mode_mmt(with_draft_user_acl: true)
-  end
 
   context 'when the user has permissions for Non-NASA Draft User' do
-    before :all do
-      @non_nasa_draft_users_group = create_group(name: 'Non-NASA Draft Users Group', members: ['testuser'], provider_id: 'MMT_2')
-      @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['concept_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2')
+    before do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('admin')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @non_nasa_draft_users_group = create_group(name: 'Non_NASA_Draft_Users_Group_003', members: ['admin'], provider_id: 'MMT_2')
+        @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_users_group['group_id'], 'create', 'NON_NASA_DRAFT_USER', 'MMT_2', @token)
+      end
+      set_as_proposal_mode_mmt(with_draft_user_acl: true)
     end
 
-    after :all do
-      remove_group_permissions(@non_nasa_permissions['concept_id'])
-      delete_group(concept_id: @non_nasa_draft_users_group['concept_id'])
+    after do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        set_as_mmt_proper
+        remove_group_permissions(@non_nasa_permissions['concept_id'], @token)
+        delete_group(concept_id: @non_nasa_draft_users_group['group_id'], admin: true)
+      end
     end
 
     before do

@@ -1,22 +1,26 @@
 describe 'Updating a Service Entry', skip: !Rails.configuration.use_legacy_order_service, reset_provider: true do
   let(:guid) { 'E7B6371A-31CD-0AAC-FF18-78A78289BD65' }
 
-  before :all do
+  before do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entry Group', members: ['testuser'])
-
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Update_03', members: ['admin'])
+      collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
+      allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
+      login
+    end
     wait_for_cmr
   end
 
-  after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
-  end
-
-  before do
-    collections_response = cmr_success_response(File.read('spec/fixtures/cmr_search.json'))
-    allow_any_instance_of(Cmr::CmrClient).to receive(:get_collections_by_post).and_return(collections_response)
-
-    login
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   context 'when viewing the edit service entry form' do
@@ -37,17 +41,23 @@ describe 'Updating a Service Entry', skip: !Rails.configuration.use_legacy_order
     end
 
     context 'when the user has the required permissions', js: true do
-      before :all do
-        @group_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
+      before do
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          @group_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2', @token)
+          allow_any_instance_of(ServiceEntryPolicy).to receive(:update?).and_return(true)
+          VCR.use_cassette('echo_soap/service_management_service/service_entries/edit', record: :none) do
+            visit edit_service_entry_path(guid)
+          end
+        end
       end
 
       after :all do
-        remove_group_permissions(@group_permissions['concept_id'])
-      end
-
-      before do
-        VCR.use_cassette('echo_soap/service_management_service/service_entries/edit', record: :none) do
-          visit edit_service_entry_path(guid)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@group_permissions['concept_id'], @token) unless !@group_permissions
         end
       end
 

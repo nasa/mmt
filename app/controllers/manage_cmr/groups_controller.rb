@@ -49,30 +49,32 @@ class GroupsController < ManageCmrController
     page = params.permit(:page).fetch('page', 1)
     @query[:page_num] = page.to_i
 
-    groups_response = cmr_client.get_cmr_groups(@query, token)
+    @query['show_system_groups'] = policy(:system_group).read? && @filters['show_system_groups'] == 'true'
+
+
+    groups_response = urs_client.get_edl_groups(@query)
 
     group_list = if groups_response.success?
                    groups_response.body.fetch('items', [])
                  else
                    []
                  end
-
     @groups = Kaminari.paginate_array(group_list, total_count: groups_response.body.fetch('hits', 0)).page(page).per(RESULTS_PER_PAGE)
   end
 
   def show
-    @concept_id = params[:id]
-    group_response = cmr_client.get_group(@concept_id, token)
+    @group_id = params[:id]
+    group_response = urs_client.get_edl_group(@group_id)
 
     if group_response.success?
       @group = group_response.body
 
-      request_group_members(@concept_id)
+      request_group_members(@group_id)
 
       set_collection_permissions
       check_if_current_group_provider_acl_administrator(group_provider: @group['provider_id']) unless current_provider?(@group['provider_id'])
 
-      add_breadcrumb @group.fetch('name'), group_path(@concept_id)
+      add_breadcrumb @group.fetch('name'), group_path(@group_id)
     else
       Rails.logger.error("Get Group Error: #{group_response.clean_inspect}")
       redirect_to groups_path, flash: { error: group_response.error_message(i18n: I18n.t('controllers.groups.show.flash.error')) }
@@ -94,10 +96,10 @@ class GroupsController < ManageCmrController
     @is_system_group = params[:system_group]
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-    group_creation_response = cmr_client.create_group(@group, token)
+    group_creation_response = urs_client.create_edl_group(@group)
 
     if group_creation_response.success?
-      redirect_to group_path(group_creation_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully created.' }
+      redirect_to group_path(group_creation_response.body.fetch('group_id', nil)), flash: { success: 'Group was successfully created.' }
     else
       # Log error message
       Rails.logger.error("Create Group Error: #{group_creation_response.clean_inspect}")
@@ -110,21 +112,22 @@ class GroupsController < ManageCmrController
   end
 
   def edit
-    @concept_id = params[:id]
+    @group_id = params[:id]
     @members = []
     @non_authorized_members = []
 
-    group_response = cmr_client.get_group(@concept_id, token)
+    group_response = urs_client.get_edl_group(@group_id)
 
     if group_response.success?
       @group = group_response.body
 
-      add_breadcrumb @group.fetch('name'), group_path(@concept_id)
-      add_breadcrumb 'Edit', edit_group_path(@concept_id)
+      add_breadcrumb @group.fetch('name'), group_path(@group_id)
+      add_breadcrumb 'Edit', edit_group_path(@group_id)
 
-      @is_system_group = check_if_system_group?(@group, @concept_id)
+      @is_system_group = check_if_system_group?(@group, @group_id)
 
-      group_members_response = cmr_client.get_group_members(@concept_id, token)
+      group_members_response = urs_client.get_edl_group_members(@group_id)
+
       if group_members_response.success?
         group_member_uids = group_members_response.body
 
@@ -150,10 +153,10 @@ class GroupsController < ManageCmrController
 
     @group['provider_id'] = current_user.provider_id unless @is_system_group
 
-    update_response = cmr_client.update_group(params[:id], @group, token)
+    update_response = urs_client.update_edl_group(params[:id], @group)
 
     if update_response.success?
-      redirect_to group_path(update_response.body.fetch('concept_id', nil)), flash: { success: 'Group was successfully updated.' }
+      redirect_to group_path(update_response.body.fetch('group_id', nil)), flash: { success: 'Group was successfully updated.' }
     else
       Rails.logger.error("Update Group Error: #{update_response.clean_inspect}")
       flash[:error] = update_response.error_message(i18n: I18n.t('controllers.groups.update.flash.error'))
@@ -165,14 +168,16 @@ class GroupsController < ManageCmrController
   end
 
   def destroy
-    concept_id = params[:id]
-    delete_group_response = cmr_client.delete_group(concept_id, token)
+    group_id = params[:id]
+
+    delete_group_response = urs_client.delete_edl_group(group_id)
+
     if delete_group_response.success?
       redirect_to groups_path, flash: { success: "Group #{params[:name]} successfully deleted." }
     else
       # Log error message
       Rails.logger.error("Delete Group Error: #{delete_group_response.clean_inspect}")
-      redirect_to group_path(concept_id), flash: { error: delete_group_response.error_message(i18n: I18n.t('controllers.groups.destroy.flash.error')) }
+      redirect_to group_path(group_id), flash: { error: delete_group_response.error_message(i18n: I18n.t('controllers.groups.destroy.flash.error')) }
     end
   end
 
@@ -228,10 +233,10 @@ class GroupsController < ManageCmrController
     @members.map! { |m| [urs_user_full_name(m), m['uid']] }
   end
 
-  def request_group_members(concept_id)
+  def request_group_members(group_id)
     @members = []
 
-    group_members_response = cmr_client.get_group_members(concept_id, token)
+    group_members_response = urs_client.get_edl_group_members(group_id)
 
     if group_members_response.success?
       group_member_uids = group_members_response.body
@@ -252,7 +257,7 @@ class GroupsController < ManageCmrController
 
     # Default the params that we'll send to CMR
     permission_params = {
-      'permitted_group' => @concept_id,
+      'permitted_group' => @group_id,
       'identity_type' => 'catalog_item',
       'include_full_acl' => true,
       page_num: 1,
@@ -279,7 +284,7 @@ class GroupsController < ManageCmrController
 
       # collection permissions should show as associated permission on the group page
       # only if the group has Search or Search & Order permissions (if a group has only Order permissions, that implies having Search)
-      if group_permissions.any? { |group_permission| group_permission['group_id'] == @concept_id && (group_permission['permissions'].include?('read') || group_permission['permissions'].include?('order')) }
+      if group_permissions.any? { |group_permission| group_permission['group_id'] == @group_id && (group_permission['permissions'].include?('read') || group_permission['permissions'].include?('order')) }
         @permissions << permission
       end
     end
@@ -287,7 +292,4 @@ class GroupsController < ManageCmrController
     @permissions.sort_by! { |permission| permission['name'] }
   end
 
-  def edl_groups_enabled?
-    Rails.configuration.edl_groups_enabled
-  end
 end
