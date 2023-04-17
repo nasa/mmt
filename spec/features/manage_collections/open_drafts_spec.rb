@@ -76,7 +76,6 @@ describe 'Collection Drafts listed on the Manage Collections page', js: true do
         end
 
         it 'the record is opened for view/edit' do
-          screenshot_and_open_image
           within '.eui-breadcrumbs' do
             expect(page).to have_content('Collection Drafts')
           end

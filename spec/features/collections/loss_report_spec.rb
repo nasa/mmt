@@ -48,7 +48,7 @@ describe 'Displaying the loss report in browser' do
       end
     end
 
-    context 'when displaying text', js: true do
+    context 'when displaying text' do
       it 'properly displays the echo text report' do
         visit loss_report_collections_path(echo_concept_id, format: 'text')
         sample_paths = File.read('spec/fixtures/loss_report_samples/loss_report_echo_sample.text').split(/\s|\n/).reject! { |path| !path.include?("/") }

@@ -12,6 +12,7 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     set_resource(resource_class.new(provider_id: provider_id, user: user, draft: {}))
+
     json_params = JSON.parse(request.body.read())
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
