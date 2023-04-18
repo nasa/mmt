@@ -63,7 +63,7 @@ class Api::DraftsController < BaseDraftsController
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
     if get_resource.save
-      if (params[:draft_type] == 'ToolDraft' || params[:draft_type] == 'VariableDraft')
+      if (params[:draft_type] == 'ToolDraft')
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
         if ingested_response.success?
           Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
