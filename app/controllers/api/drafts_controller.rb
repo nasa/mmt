@@ -21,23 +21,23 @@ class Api::DraftsController < BaseDraftsController
     else
       errors_list = generate_model_error
       Rails.logger.info("Audit Log: #{user.urs_uid} could not create #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.pretty_generate({'error': 'Could not create draft'}), status: 500
+      render json: JSON.generate({'error': 'Could not create draft'}), status: 500
     end
   end
 
   def update
-    provider_id = request.headers["Provider"]
-    user = User.find_or_create_by(urs_uid: request.headers["User"])
-    json_params = JSON.parse(request.body.read())
-    json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
-    json_params_to_resource(json_params: json_params)
-    if get_resource.save
+    begin
+      provider_id = request.headers["Provider"]
+      user = User.find_or_create_by(urs_uid: request.headers["User"])
+      json_params = JSON.parse(request.body.read())
+      json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+      json_params_to_resource(json_params: json_params)
+      get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
-    else
-      errors_list = generate_model_error
-      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.pretty_generate({'error': 'Could not update draft'}), status: 500
+    rescue => e
+      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
+      render json: JSON.generate({'error': "Could not update draft: #{e.message}"}), status: 500
     end
   end
 
@@ -74,8 +74,8 @@ class Api::DraftsController < BaseDraftsController
       end
     else
       errors_list = generate_model_error
-      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.pretty_generate({'error': 'Could not update draft'}), status: 500
+      Rails.logger.info("Audit Log: #{user.urs_uid} could not publish #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
+      render json: JSON.generate({'error': 'Could not publish draft'}), status: 500
     end
   end
 
