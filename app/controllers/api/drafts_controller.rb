@@ -62,15 +62,21 @@ class Api::DraftsController < BaseDraftsController
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
     if get_resource.save
-      if (params[:draft_type] == 'ToolDraft')
-        ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-        if ingested_response.success?
-          Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
-          result = ingested_response.body
-          render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
-        else
-          render json: draft_json_result(errors: ingested_response.errors), status: 500
-        end
+      ingest_response = {}
+      case params[:draft_type]
+      when 'ToolDraft'
+        ingest_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
+      when 'VariableDraft'
+        ingest_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
+      when 'CollectionDraft'
+        ingest_response = cmr_client.ingest_collection(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
+      end
+      if ingest_response.success?
+        Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
+        result = ingest_response.body
+        render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
+      else
+        render json: draft_json_result(errors: ingest_response.errors), status: 500
       end
     else
       errors_list = generate_model_error
