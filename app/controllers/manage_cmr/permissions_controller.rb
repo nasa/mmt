@@ -198,12 +198,6 @@ class PermissionsController < ManageCmrController
   # with a boolean representing the users ability to see this group
   def hydrate_groups(permission)
     group_permissions = permission.fetch('group_permissions', [])
-    group_permissions.reject! do | p |
-      group_id = p["group_id"]
-      unless group_id.nil?
-        group_id.starts_with?("AG")
-      end
-    end
 
     permission['group_permissions'] = group_permissions
     permission.fetch('group_permissions', []).each do |group_permission|

@@ -35840,4 +35840,58 @@ http_interactions:
         Collection Permissions with System Groups","provider_id":"MMT_2","collection_applicable":true,"granule_applicable":false}},"name":"Testing
         Collection Permissions with System Groups","location":"https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200443653-CMR"}]}'
   recorded_at: Thu, 27 Oct 2022 12:38:31 GMT
+- request:
+    method: delete
+    uri: https://cmr.sit.earthdata.nasa.gov/access-control/acls/ACL1200443653-CMR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Authorization:
+      - Bearer jwt_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      content-length:
+      - '50'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 19 Apr 2023 16:52:10 GMT
+      cmr-request-id:
+      - eb77d758-bd28-4a5d-9f9d-6f52f6ea4f57
+      x-request-id:
+      - fPrPKRTwk6GVXJtMuQClN-3jKUBZbQ8026_rS5YN4ekNJopxoYZerQ==
+      server:
+      - ServerTokens ProductOnly
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-cache:
+      - Miss from cloudfront
+      via:
+      - 1.1 68d323cfd4a0f1ae252f92c083654190.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - IAD89-P2
+      x-amz-cf-id:
+      - fPrPKRTwk6GVXJtMuQClN-3jKUBZbQ8026_rS5YN4ekNJopxoYZerQ==
+    body:
+      encoding: UTF-8
+      string: '{"revision-id":5,"concept-id":"ACL1200443653-CMR"}'
+  recorded_at: Wed, 19 Apr 2023 16:52:10 GMT
 recorded_with: VCR 6.1.0
