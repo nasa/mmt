@@ -42,14 +42,15 @@ describe Api::DraftsController do
     assert_equal(parsed_body['result'], 'Draft deleted')
   end
 
-  it 'delete a non-existing tool draft' do
-    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    request.headers.merge!({ 'User' => 'testuser' })
-    request.headers.merge!({ 'Provider' => 'MMT_2' })
-    delete :destroy, params: { id: 1003, draft_type: "ToolDraft" }
-    assert_equal(response.status, 500)
+  it 'can not delete if the user does not belong to the provider list.' do
+    # The draft is created by a MMT_2 user
+    # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'LARC' })
+    delete :destroy, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
-    assert_equal(parsed_body['error'], "Could not delete draft: Couldn't find ToolDraft with 'id'=1003")
+    assert_equal(parsed_body['error'], 'unauthorized')
   end
 
   it 'create draft record with correct request headers and send update' do
