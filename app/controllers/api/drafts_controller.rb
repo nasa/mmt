@@ -3,7 +3,7 @@ class Api::DraftsController < BaseDraftsController
 
   protect_from_forgery with: :null_session
   before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish, :destroy]
-  before_action :set_resource, only: [:show, :update, :publish]
+  before_action :set_resource, only: [:show, :update, :publish, :destroy]
   before_action :validate_token, only: [:create, :show, :update, :publish, :destroy]
   skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish, :destroy]
   skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish, :destroy]
@@ -46,7 +46,6 @@ class Api::DraftsController < BaseDraftsController
     begin
       provider_id = request.headers["Provider"]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
-      set_resource
       get_resource.destroy
       Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
       render json: JSON.generate({'result': 'Draft deleted'}), status: 200
