@@ -188,7 +188,7 @@ module Cmr
     # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
     def get_edl_groups(options)
       providers = options['provider']
-      
+
       unless providers.nil? || options['show_system_groups'].nil?
         providers << 'CMR' if options['show_system_groups']
       end
@@ -197,7 +197,8 @@ module Cmr
       if options['member'].blank?
         provider_groups = get_groups_for_provider_list(providers)
         status = provider_groups.empty? ? 400 : 200
-        return Cmr::Response.new(Faraday::Response.new(status: status, body: reformat_search_results(provider_groups, options[:page_num], options[:page_size])))
+        body = reformat_search_results(provider_groups, options[:page_num], options[:page_size])
+        return Cmr::Response.new(Faraday::Response.new(status: status, body: body))
       end
 
       # Search by list of users, then filter that list by provider.
