@@ -180,7 +180,7 @@ class CollectionDraftsController < BaseDraftsController
       revision_id = ingested_response.body['revision-id']
 
       # instantiate and deliver notification email
-      DraftMailer.draft_published_notificandation(get_user_info, concept_id, revision_id, short_name, version, existing_errors, warnings).deliver_now
+      DraftMailer.draft_published_notification(get_user_info, concept_id, revision_id, short_name, version, existing_errors, warnings).deliver_now
 
       redirect_to collection_path(concept_id, revision_id: revision_id)
     else
