@@ -70,7 +70,7 @@ module Cmr
     def provider_template(provider_id)
       {
         "MetadataSpecification": {
-          "Name":"provider",
+          "Name":"Provider",
           "Version": "1.0.0",
           "URL": "https://cdn.earthdata.nasa.gov/schemas/provider/v1.0.0"},
         "ProviderId": provider_id,
