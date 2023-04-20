@@ -67,6 +67,7 @@ describe Api::DraftsController do
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['draft']['Name'], 'a name updated')
   end
+
   it 'create draft record with incorrect request headers' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     jsonContent = { "json": {
