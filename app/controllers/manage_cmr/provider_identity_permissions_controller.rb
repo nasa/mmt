@@ -27,7 +27,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
     groups_response = cmr_client.get_edl_groups(filters)
 
     group_list = if groups_response.success?
-                   group_list = groups_response.body.fetch('items', [])
+                   groups_response.body.fetch('items', [])
                  else
                    Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
                    flash[:error] = groups_response.error_message
