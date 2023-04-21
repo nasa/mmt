@@ -218,7 +218,6 @@ describe 'Publishing collection draft records', js: true do
       draft = create(:full_collection_draft, user: User.where(urs_uid: 'testuser').first, native_id: 'not & url, encoded / native id', draft_short_name: 'test short name')
       visit collection_draft_path(draft)
       click_on 'Publish'
-      sleep 1
     end
 
     it 'displays a confirmation message' do
@@ -239,7 +238,6 @@ describe 'Publishing collection draft records', js: true do
     before do
       visit collection_draft_path(draft)
       click_on 'Publish'
-      sleep(1)
     end
 
     it 'fails to publish and displays the error returned from CMR and a generic error message' do

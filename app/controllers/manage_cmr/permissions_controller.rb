@@ -177,6 +177,24 @@ class PermissionsController < ManageCmrController
     )
   end
 
+  # Fix a bug where MMT at one point duplicated permissions.
+  def unique_permissions(permissions)
+    hash = {}
+    set = []
+    permissions.each do | permission |
+      group_id = permission["group_id"]
+      if group_id.nil?
+        set << permission
+      else
+        if (hash[group_id].nil?)
+          set << permission
+          hash[group_id] = true
+        end
+      end
+    end
+    set
+  end
+
   def set_collection_permission
     @permission = {}
     @permission_concept_id = params[:id]
@@ -184,7 +202,10 @@ class PermissionsController < ManageCmrController
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
     if permission_response.success?
       @permission = permission_response.body
-
+      permissions = @permission["group_permissions"]
+      unless permissions.nil?
+        @permission["group_permissions"] = unique_permissions(permissions)
+      end
       hydrate_groups(@permission)
 
       add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
