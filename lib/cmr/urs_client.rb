@@ -152,8 +152,7 @@ module Cmr
 
       groups = []
       ids.each { |user_id| groups += get_groups_for_user_id(user_id) }
-      resp = groups.uniq { |group| group['name'] }
-      reformat_search_results(resp)
+      groups.uniq { |group| group['name'] }
     end
 
     def get_groups_for_providers(provider_ids)
@@ -186,7 +185,7 @@ module Cmr
     # member: filter the groups using the specific member list.
     # show_system_groups: whether system groups should be included in the results
     # Note: If provider is nil has special meaning, it will return all groups (that have a tag)
-    def get_edl_groups(options)
+    def get_edl_groups(options, include_member_counts=true)
       providers = options['provider']
 
       unless providers.nil? || options['show_system_groups'].nil?
@@ -197,18 +196,22 @@ module Cmr
       if options['member'].blank?
         provider_groups = get_groups_for_provider_list(providers)
         status = provider_groups.empty? ? 400 : 200
-        body = reformat_search_results(provider_groups, options[:page_num], options[:page_size])
-        return Cmr::Response.new(Faraday::Response.new(status: status, body: body))
+        results = reformat_search_results(provider_groups)
+        update_member_counts(results["items"], options[:page_num], options[:page_size])
+        return Cmr::Response.new(Faraday::Response.new(status: status, body: results))
       end
 
       # Search by list of users, then filter that list by provider.
       users = options['member'] || []
       user_groups = get_groups_for_user_list(users)
-      user_groups['items'].select! do |x|
+      status = user_groups.empty? ? 400 : 200
+      results = reformat_search_results(user_groups)
+      update_member_counts(results["items"], options[:page_num], options[:page_size]) unless !include_member_counts
+      results['items'].select! do |x|
         providers.nil? ? x['provider_id'] : providers.include?(x['provider_id'])
       end
-      user_groups['hits'] = user_groups['items'].length
-      Cmr::Response.new(Faraday::Response.new(status: 200, body: user_groups))
+      results['hits'] = results['items'].length
+      Cmr::Response.new(Faraday::Response.new(status: status, body: results))
     end
 
     # TODO: This entire method should be transactional with rollback.s
@@ -274,16 +277,8 @@ module Cmr
       end
     end
 
-    # make the search results match the structure of the cmr results
-    def reformat_search_results(results, page_num=1, page_size=25)
-      items = results.map do |item|
-        { 'group_id' => item['group_id'],
-          'name' => item['name'],
-          'description' => item['description'],
-          'provider_id' => item['tag']
-        }
-      end
-
+    # fetches member counts for a slice of the array starting at page_num
+    def update_member_counts(items, page_num=1, page_size=25)
       index = 0
       if (page_num)
         lower = (page_num-1)*page_size
@@ -301,11 +296,18 @@ module Cmr
         end
         index = index + 1
       end
+    end
 
-      # return empty items if the lower bounds exceeds the number of items
-      return { 'hits' => items.length, 'items' => {} } if lower > items.length
-
-      { 'hits' => items.length, 'items' => items }
+    # make the search results match the structure of the cmr results
+    def reformat_search_results(results)
+      results = results.map do |item|
+        { 'group_id' => item['group_id'],
+          'name' => item['name'],
+          'description' => item['description'],
+          'provider_id' => item['tag']
+        }
+      end
+      { 'hits' => results.length, 'items' => results }
     end
 
     def get_edl_group_member_count(group_id)
