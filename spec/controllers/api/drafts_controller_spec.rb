@@ -33,11 +33,16 @@ describe Api::DraftsController do
 
   it 'can not update if the user does not belong to the provider list.' do
     # The draft is created by a MMT_2 user
-    # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
+    # The user updating the document does not have MMT_2 in their provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    jsonContent = { "json": {
+      "Name": "a name",
+      "LongName": "a long name",
+      "Version": "10.0"
+    }}.to_json
     request.headers.merge!({ 'User' => 'testuser2' })
     request.headers.merge!({ 'Provider' => 'LARC' })
-    get :update, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    put :update, body: jsonContent, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')
   end
