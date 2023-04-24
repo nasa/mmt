@@ -189,8 +189,10 @@ module Cmr
       providers = options['provider']
 
       unless providers.nil? || options['show_system_groups'].nil?
+        providers = Array.wrap(providers)
         providers << 'CMR' if options['show_system_groups']
       end
+      providers = Array.wrap(providers)
 
       # If no user filter, just do a provider level search.
       if options['member'].blank?
@@ -203,7 +205,7 @@ module Cmr
 
       # Search by list of users, then filter that list by provider.
       users = options['member'] || []
-      user_groups = get_groups_for_user_list(users)
+      user_groups = get_groups_for_user_list(Array.wrap(users))
       status = user_groups.empty? ? 400 : 200
       results = reformat_search_results(user_groups)
       update_member_counts(results["items"], options[:page_num], options[:page_size]) unless !include_member_counts

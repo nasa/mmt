@@ -19,9 +19,9 @@ class ProviderIdentityPermissionsController < ManageCmrController
     # we ask for system groups, because in PUMP these ACLs can be set for system groups
     # but if the user does not have the right permissions they will not be in the response
     filters = {
-      provider: [current_user.provider_id, 'CMR'],
       page_size: RESULTS_PER_PAGE,
-      page_num: page
+      page_num: page,
+      'provider' => [current_user.provider_id, 'CMR']
     }
 
     groups_response = cmr_client.get_edl_groups(filters)
