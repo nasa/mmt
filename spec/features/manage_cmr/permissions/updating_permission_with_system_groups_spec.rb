@@ -4,7 +4,7 @@ describe 'Updating Collection Permissions with System Groups', reset_provider: t
       token = 'jwt_access_token'
       @group_name = random_group_name
       @group = create_group(name: @group_name, admin: false)
-      @admin_2_group_concept = group_concept_from_name('Administrators_2', 'access_token_admin')
+      @admin_2_group_concept = group_concept_from_name('Administrator', 'access_token_admin')
 
       wait_for_cmr
 

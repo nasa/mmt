@@ -94,7 +94,7 @@ describe 'Groups list page', js: true, reset_provider: true do
           end
 
           it 'displays the pagination information for page 1' do
-            expect(page).to have_content('Showing Groups 1 - 25 of 239')
+            expect(page).to have_content('Showing Groups 1 - 25 of 162')
             within '.eui-pagination' do
               # first, 1, 2, next, last
               expect(page).to have_selector('li', count: 9)
@@ -117,7 +117,7 @@ describe 'Groups list page', js: true, reset_provider: true do
             end
 
             it 'displays the pagination information for page 2' do
-              expect(page).to have_content('Showing Groups 26 - 50 of 239')
+              expect(page).to have_content('Showing Groups 26 - 50 of 162')
               within '.eui-pagination' do
                 # first, previous, 1, 2, last
                 expect(page).to have_selector('li', count: 11)
@@ -183,13 +183,22 @@ describe 'Groups list page', js: true, reset_provider: true do
 
   context 'when logging in as an admin user with some of the providers' do
     before do
+      @token = 'jwt_access_token'
       login_admin(providers: %w[MMT_1 MMT_2])
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
+
     end
 
     context 'when visiting the groups index page' do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
           visit groups_path
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
+
+
         end
       end
 
@@ -217,8 +226,11 @@ describe 'Groups list page', js: true, reset_provider: true do
 
         context 'when choosing to display System Groups then applying the filters' do
           before do
-            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
               within '.groups-filters' do
+                @token = 'jwt_access_token'
+                allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+                allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
                 check 'Show System Groups?'
                 click_on 'Apply Filters'
               end
@@ -237,22 +249,12 @@ describe 'Groups list page', js: true, reset_provider: true do
           end
 
           it 'displays the provider and system level groups' do
-            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
-              click_on 'Last'
-            end
             within '.groups-table' do
               # Provider level groups
-              expect(page).to have_content('The super group for provider LARCtest1')
-              expect(page).to have_content('Local admin group for provider MMT_1test2')
-              expect(page).to have_content('Local admin group for provider MMT_2test3')
-              expect(page).to have_content('The super group for provider NSIDC_ECStest4')
+              expect(page).to have_content('The super group for provider PODAAC')
 
               # Provider group with only admin users
-              expect(page).to have_content('SEDAC Admin Group Test group for provider SEDACtest5')
-
-              # System level groups
-              expect(page).to have_content('Administrators SYS CMRtest6')
-              expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMRtest7')
+              expect(page).to have_content('Test_System_Permissions_Group_47 SYS')
             end
           end
         end

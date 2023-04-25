@@ -18,7 +18,7 @@ class SystemIdentityPermissionsController < ManageCmrController
 
     # Filters to provide CMR
     filters = {
-      provider: 'CMR',
+      'provider' => ['CMR'],
       page_size: RESULTS_PER_PAGE,
       page_num: page
     }

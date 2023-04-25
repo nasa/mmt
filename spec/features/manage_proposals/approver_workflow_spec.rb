@@ -73,7 +73,7 @@ describe 'When going through the whole collection proposal approver workflow', j
       # Skipping this test because the delete block is deleting the collection in SIT but the collection created is in
       # local CMR. Need to revisit this in MMT-rework
       # after do
-      #   VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :new_episodes) do
+      #   VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
       #     cmr_client.delete_collection('MMT_2', @native_id, @token)
       #   end
       # end

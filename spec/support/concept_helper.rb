@@ -6,12 +6,11 @@ module Helpers
     end
 
     def group_concept_from_name(name, token = 'access_token')
-      filter = { 'name' => name }
-      group_response = cmr_client.get_edl_groups(filter)
+      group_response = cmr_client.get_groups_for_name(name)
 
       raise Array.wrap(group_response.body['errors']).join(' /// ') unless group_response.success?
 
-      group_response.body.fetch('items', [{}]).first['group_id']
+      group_response.body.first['group_id']
     end
 
     def collection_concept_from_keyword(keyword, token = 'access_token')

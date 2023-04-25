@@ -262,19 +262,15 @@ class PermissionsController < ManageCmrController
   end
 
   def get_groups
-    all_groups = []
-
     filters = {
-      'provider'  => current_user.provider_id,
-      :page_num  => 1,
-      :page_size => 1000000
+      'provider'  => current_user.provider_id
     }
 
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
     # Retrieve the first page of groups
-    groups_response = cmr_client.get_edl_groups(filters)
+    groups_response = cmr_client.get_edl_groups(filters, false)
 
     all_groups = []
     all_groups = groups_response.body['items'] unless groups_response.error? || groups_response.body['items'].blank?
