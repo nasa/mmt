@@ -80,11 +80,6 @@ describe 'Changing or Removing System Identity Permissions', js: true do
 
       VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit system_identity_permissions_path
-        # The group that is created for this test is on page on 9 of the table so we need to navigate to page 9
-        click_on 'Last'
-        click_on '13'
-        click_on '9'
-
         click_on @group_name
       end
     end

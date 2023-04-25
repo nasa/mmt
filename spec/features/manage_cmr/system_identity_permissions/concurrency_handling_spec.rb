@@ -96,16 +96,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
         )
 
         visit system_identity_permissions_path
-        click_on 'Last'
-
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
-        click_on 'Previous'
+        click_on '2'
 
         click_on @group_name
       end

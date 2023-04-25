@@ -23,7 +23,7 @@ describe 'System Identity Permissions pages and form', js: true do
       @token = 'jwt_access_token'
       login_admin
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-      allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
 
     end
 
@@ -71,9 +71,9 @@ describe 'System Identity Permissions pages and form', js: true do
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
           login_admin
           # allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
-          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+          # allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-          @group_name = 'Test_System_Identity_Permission_form_8'
+          @group_name = 'Test_System_Identity_Permission_form_12'
           @group_response = create_group(
             name: @group_name,
             description: 'Group to test system permissions',
@@ -85,8 +85,8 @@ describe 'System Identity Permissions pages and form', js: true do
       end
 
       it 'displays the form and table of system targets' do
-        expect(page).to have_content('Service_Entry_Group_35 System Object Permissions')
-        expect(page).to have_content("Set permissions for the Service_Entry_Group_35 group by checking the appropriate boxes below and clicking 'Submit'.")
+        expect(page).to have_content('Test_System_Identity_Permission_form_12 System Object Permissions')
+        expect(page).to have_content("Set permissions for the Test_System_Identity_Permission_form_12 group by checking the appropriate boxes below and clicking 'Submit'.")
 
         within '.system-permissions-table' do
           expect(page).to have_css('tbody > tr', count: SystemIdentityPermissionsHelper::SYSTEM_TARGETS.count)

@@ -35952,4 +35952,63 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"invalid_token"}'
   recorded_at: Thu, 20 Apr 2023 14:10:29 GMT
+- request:
+    method: get
+    uri: https://sit.urs.earthdata.nasa.gov/api/user_groups/search?name=Administrator
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Authorization:
+      - Bearer client_access_token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx/1.20.1
+      date:
+      - Tue, 25 Apr 2023 14:45:20 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-download-options:
+      - noopen
+      x-permitted-cross-domain-policies:
+      - none
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      cache-control:
+      - no-store
+      pragma:
+      - no-cache
+      expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      vary:
+      - Accept
+      etag:
+      - W/"48227c759ce63e74b3b217dd1e9d0d56"
+      x-request-id:
+      - 68a712e7-1705-4e2e-a481-69824a53c76e
+      x-runtime:
+      - '0.011600'
+      strict-transport-security:
+      - max-age=31536000
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '[{"group_id":"aa3e0b55-97c4-44a5-907a-a4cb17611840","name":"MBQ Administrator
+        Group","description":"The administrator group for the MBQ provider","app_uid":"mmt_test","tag":"MBQ","shared_user_group":false,"client_id":"81FEem91NlTQreWv2UgtXQ","created_by":"mmt_test"}]'
+  recorded_at: Tue, 25 Apr 2023 14:45:20 GMT
 recorded_with: VCR 6.1.0

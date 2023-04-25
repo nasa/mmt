@@ -40,9 +40,9 @@ describe 'Saving System Object Permissions from the system object permissions in
       VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do
         visit system_identity_permissions_path(@group_response['group_id'])
         # The group that is created for this test is on page on 11 of the table so we need to navigate to page 11
-        click_on 'Last'
-        click_on '14'
-        click_on '10'
+        # click_on 'Last'
+        click_on '3'
+        # click_on '4'
 
       end
     end
