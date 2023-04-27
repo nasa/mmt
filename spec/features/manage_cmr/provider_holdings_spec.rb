@@ -34,12 +34,12 @@ describe 'Manage CMR provider holdings', js: true do
     context 'when selecting a provider' do
       before do
         within '#data-providers' do
-          click_on 'MMT_1'
+          click_on 'MMT_2'
         end
       end
 
       it 'displays the available provider holdings' do
-        expect(page).to have_content('MMT_1 Holdings')
+        expect(page).to have_content('MMT_2 Holdings')
       end
     end
   end
