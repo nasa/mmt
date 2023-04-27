@@ -35,6 +35,18 @@ describe Api::DraftsController do
     assert_equal(1, array.count)
   end
 
+  it 'shows unauthorized if the user cannot access that provider.' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+
+    # Try getting a list of tool drafts from a provider I don't have access to.
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'PODAAC' })
+    get :index, params: { draft_type: "ToolDraft" }
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
+
   it 'shows draft tool record for mmt proper' do
     # The draft is created by a MMT_2 user
     # The user requesting the document does have MMT_2 in their provider list.
