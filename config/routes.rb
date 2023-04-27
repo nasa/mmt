@@ -155,8 +155,10 @@ Rails.application.routes.draw do
 
   namespace :api , constraints: { format: 'json' } do
     resource :drafts, :controller => "drafts", only: [:create]
+    get '/drafts/' => 'drafts#index'
     get '/drafts/:id' => 'drafts#show'
     put '/drafts/:id' => 'drafts#update'
+    delete '/drafts/:id' => 'drafts#destroy'
     post '/drafts/:id/publish' => 'drafts#publish'
     get '/cmr_keywords/:id' => 'cmr_keywords#show'
     get '/kms_keywords/:id' => 'kms_keywords#show'

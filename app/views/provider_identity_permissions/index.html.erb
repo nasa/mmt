@@ -29,8 +29,8 @@
           <% @groups.each do |group| %>
             <tr>
               <td>
-                <%= link_to group['name'], edit_provider_identity_permission_path(group['concept_id'], redirect_to: request.fullpath) %>
-                <% if check_if_system_group?(group, group['concept_id']) %>
+                <%= link_to group['name'], edit_provider_identity_permission_path(group['group_id'], redirect_to: request.fullpath) %>
+                <% if check_if_system_group?(group, group['group_id']) %>
                   <span class="eui-badge--sm">SYS</span>
                 <% end %>
               </td>

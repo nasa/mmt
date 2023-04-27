@@ -19,15 +19,15 @@ class ProviderIdentityPermissionsController < ManageCmrController
     # we ask for system groups, because in PUMP these ACLs can be set for system groups
     # but if the user does not have the right permissions they will not be in the response
     filters = {
-      provider: [current_user.provider_id, 'CMR'],
       page_size: RESULTS_PER_PAGE,
-      page_num: page
+      page_num: page,
+      'provider' => [current_user.provider_id, 'CMR']
     }
 
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_edl_groups(filters)
 
     group_list = if groups_response.success?
-                   group_list = groups_response.body.fetch('items', [])
+                   groups_response.body.fetch('items', [])
                  else
                    Rails.logger.error("Get Cmr Groups Error: #{groups_response.clean_inspect}")
                    flash[:error] = groups_response.error_message
@@ -47,7 +47,7 @@ class ProviderIdentityPermissionsController < ManageCmrController
     # assemble provider permissions for the table of checkboxes
     @group_provider_permissions, @revision_ids = assemble_permissions_for_table(permissions: group_provider_permissions_list, type: 'provider', group_id: @group_id)
 
-    group_response = cmr_client.get_group(@group_id, token)
+    group_response = cmr_client.get_edl_group(@group_id)
     if group_response.success?
       @group = group_response.body
 

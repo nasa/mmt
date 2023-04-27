@@ -1,6 +1,10 @@
 module Helpers
   # :nodoc:
   module GroupHelper
+    def uuid
+      return SecureRandom.uuid.gsub('-','')
+    end
+
     def create_group(provider_id: 'MMT_2', name: random_group_name, description: random_group_description, members: [], admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
         group_params = {
@@ -13,44 +17,46 @@ module Helpers
         # If members were provided, include them in the payload
         group_params['members'] = members if members.any?
 
-        group_response = cmr_client.create_group(group_params, admin ? 'access_token_admin' : 'access_token')
+        group_response = cmr_client.create_edl_group(group_params)
 
-        raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
-
-        wait_for_cmr
-
+        # raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
+        #
+        # wait_for_cmr
         group_response.body
       end
     end
 
     def delete_group(concept_id:, admin: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#create_group' do
-        group_response = cmr_client.delete_group(concept_id, admin ? 'access_token_admin' : 'access_token')
+
+        if admin
+          group_members_response = cmr_client.get_edl_group_members(concept_id)
+          existing_members = group_members_response.body if group_members_response.success?
+          cmr_client.remove_old_members(concept_id, existing_members) unless existing_members.nil?
+        end
+
+        group_response = cmr_client.delete_edl_group(concept_id)
 
         raise Array.wrap(group_response.body['errors']).join(' /// ') if group_response.body.key?('errors')
 
-        wait_for_cmr
+        # wait_for_cmr
 
         group_response.success?
       end
     end
 
+    # Need to change from random_group_name to just "group_name"
     def random_group_name
-      # Using multiple categories helps ensure randomized results if multiple
-      # requests come in quickly
-      category = %w(galaxy moon star star_cluster).sample
-
-      Faker::Space.unique.send(category)
+      SecureRandom.hex(10).gsub('-','')
     end
 
     def random_group_description
       Faker::Lorem.sentence
     end
 
-    def add_group_permissions(permission_params, token = 'access_token')
+    def add_group_permissions(permission_params, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_group_permissions' do
         permission_response = cmr_client.add_group_permissions(permission_params, token)
-
         raise Array.wrap(permission_response.body['errors']).join(' /// ') if permission_response.body.key?('errors')
 
         wait_for_cmr
@@ -59,7 +65,7 @@ module Helpers
       end
     end
 
-    def add_permissions_to_group(group_id, permissions, target, provider_id)
+    def add_permissions_to_group(group_id, permissions, target, provider_id, token = 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [{
@@ -72,11 +78,11 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
-    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'])
+    def add_associated_permissions_to_group(group_id: 'AG1200000001-CMR', name: 'Test Permission', provider_id: 'MMT_2', permissions: ['read'], token: 'access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#add_permissions_to_group' do
         permission_params = {
           group_permissions: [
@@ -93,13 +99,13 @@ module Helpers
           }
         }
 
-        add_group_permissions(permission_params)
+        add_group_permissions(permission_params, token)
       end
     end
 
-    def remove_group_permissions(concept_id)
+    def remove_group_permissions(concept_id, token='access_token_admin')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::GroupHelper#remove_group_permissions' do
-        acl_response = cmr_client.delete_permission(concept_id, 'access_token_admin')
+        acl_response = cmr_client.delete_permission(concept_id, token)
 
         raise Array.wrap(acl_response.body['errors']).join(' /// ') if acl_response.body.key?('errors')
 

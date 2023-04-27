@@ -1,13 +1,22 @@
 describe 'Listing Service Entries', skip: !Rails.configuration.use_legacy_order_service do
   let(:timeout_error_html_body) { File.read(File.join(Rails.root, 'spec', 'fixtures', 'service_management', 'timeout.html')) }
 
-  before :all do
+  before do
     # create a group
-    @service_entry_group = create_group(name: 'Service Entries Group for Permissions [LIST]', members: ['testuser'])
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      @service_entry_group = create_group(name: 'Service_Entries_Group_for_Permissions_LIST_05', members: ['admin'])
+    end
   end
 
-  after :all do
-    delete_group(concept_id: @service_entry_group['concept_id'])
+  after do
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      @token = 'jwt_access_token'
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@token)
+      delete_group(concept_id: @service_entry_group['group_id'])
+    end
   end
 
   context 'when viewing the index page' do
@@ -124,15 +133,23 @@ describe 'Listing Service Entries', skip: !Rails.configuration.use_legacy_order_
 
     context 'when authorized to create service entries' do
       before do
-        @create_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2')
-
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          @create_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'create', 'EXTENDED_SERVICE', 'MMT_2', @token)
+          allow_any_instance_of(ServiceEntryPolicy).to receive(:create?).and_return(true)
+        end
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path
         end
       end
 
       after do
-        remove_group_permissions(@create_permissions['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@create_permissions['concept_id'], @token)
+        end
       end
 
       it 'displays an edit button for each record' do
@@ -142,15 +159,23 @@ describe 'Listing Service Entries', skip: !Rails.configuration.use_legacy_order_
 
     context 'when authorized to edit service entries' do
       before do
-        @update_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2')
-
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          @update_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'update', 'EXTENDED_SERVICE', 'MMT_2', @token)
+          allow_any_instance_of(ServiceEntryPolicy).to receive(:update?).and_return(true)
+        end
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path
         end
       end
 
       after do
-        remove_group_permissions(@update_permissions['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@update_permissions['concept_id'], @token)
+        end
       end
 
       it 'displays an edit button for each record' do
@@ -162,15 +187,23 @@ describe 'Listing Service Entries', skip: !Rails.configuration.use_legacy_order_
 
     context 'when authorized to delete service entries' do
       before do
-        @delete_permissions = add_permissions_to_group(@service_entry_group['concept_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2')
-
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          @create_permissions = add_permissions_to_group(@service_entry_group['group_id'], 'delete', 'EXTENDED_SERVICE', 'MMT_2', @token)
+          allow_any_instance_of(ServiceEntryPolicy).to receive(:destroy?).and_return(true)
+        end
         VCR.use_cassette('echo_soap/service_management_service/service_entries/list', record: :none) do
           visit service_entries_path
         end
       end
 
       after do
-        remove_group_permissions(@delete_permissions['concept_id'])
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          remove_group_permissions(@create_permissions['concept_id'], @token)
+        end
       end
 
       it 'displays a delete button for each record' do

@@ -177,6 +177,24 @@ class PermissionsController < ManageCmrController
     )
   end
 
+  # Fix a bug where MMT at one point duplicated permissions.
+  def unique_permissions(permissions)
+    hash = {}
+    set = []
+    permissions.each do | permission |
+      group_id = permission["group_id"]
+      if group_id.nil?
+        set << permission
+      else
+        if (hash[group_id].nil?)
+          set << permission
+          hash[group_id] = true
+        end
+      end
+    end
+    set
+  end
+
   def set_collection_permission
     @permission = {}
     @permission_concept_id = params[:id]
@@ -184,7 +202,10 @@ class PermissionsController < ManageCmrController
     permission_response = cmr_client.get_permission(@permission_concept_id, token)
     if permission_response.success?
       @permission = permission_response.body
-
+      permissions = @permission["group_permissions"]
+      unless permissions.nil?
+        @permission["group_permissions"] = unique_permissions(permissions)
+      end
       hydrate_groups(@permission)
 
       add_breadcrumb @permission.fetch('catalog_item_identity', {})['name'], permission_path(@permission_concept_id)
@@ -197,17 +218,21 @@ class PermissionsController < ManageCmrController
   # and hydrates the `group` key with the group details and `is_hidden`
   # with a boolean representing the users ability to see this group
   def hydrate_groups(permission)
+    group_permissions = permission.fetch('group_permissions', [])
+
+    permission['group_permissions'] = group_permissions
     permission.fetch('group_permissions', []).each do |group_permission|
       next unless group_permission.key?('group_id')
 
-      if group_permission['group_id'] =~ /(-CMR)$/ && !policy(:system_group).read?
+      group_response = cmr_client.get_edl_group(group_permission['group_id'])
+
+      if group_response.success?
+        provider_id = group_response.body["tag"]
         # If this user does not have access to view this group mark it for hiding
-        group_permission['is_hidden'] = true
-
-        next
+        if provider_id == "CMR" && !policy(:system_group).read?
+          group_permission['is_hidden'] = true
+        end
       end
-
-      group_response = cmr_client.get_group(group_permission['group_id'], token)
 
       hydrate_group_permissions(group_permission)
 
@@ -237,37 +262,18 @@ class PermissionsController < ManageCmrController
   end
 
   def get_groups
-    all_groups = []
-
     filters = {
-      'provider'  => current_user.provider_id,
-      'page_num'  => 1,
-      'page_size' => 50
+      'provider'  => current_user.provider_id
     }
 
     # get groups for provider AND System Groups if user has Read permissions on System Groups
     filters['provider'] = [current_user.provider_id, 'CMR'] if policy(:system_group).read?
 
     # Retrieve the first page of groups
-    groups_response = cmr_client.get_cmr_groups(filters, token)
+    groups_response = cmr_client.get_edl_groups(filters, false)
 
-    # Request groups
-    until groups_response.error? || groups_response.body['items'].blank?
-      # Add the retrieved groups
-      all_groups.concat(groups_response.body['items'])
-
-      # Tests within this controller family mock the response of `get_cmr_groups`
-      # which means that the criteria set to break on will never be met and will
-      # result in an infinite loop
-      break if Rails.env.test?
-
-      # Increment page number
-      filters['page_num'] += 1
-
-      # Request the next page
-      groups_response = cmr_client.get_cmr_groups(filters, token)
-    end
-
+    all_groups = []
+    all_groups = groups_response.body['items'] unless groups_response.error? || groups_response.body['items'].blank?
     all_groups
   end
 
@@ -275,10 +281,10 @@ class PermissionsController < ManageCmrController
     all_groups = get_groups
 
     all_groups.each do |group|
-      group['name'] += ' (SYS)' if check_if_system_group?(group, group['concept_id'])
+      group['name'] += ' (SYS)' if check_if_system_group?(group, group['group_id'])
     end
 
-    @groups = all_groups.map { |group| [group['name'], group['concept_id']] }
+    @groups = all_groups.map { |group| [group['name'], group['group_id']] }
 
     # add options for registered users and guest users
     @groups.unshift(['All Registered Users', 'registered'])

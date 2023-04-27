@@ -1,7 +1,7 @@
 module Helpers
   module IngestHelpers
     # Publishes a collection draft and returns the new created collection as well as the most recent draft
-    def publish_collection_draft(revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil, collection_data_type: nil, suppress_concept_query_error: false)
+    def publish_collection_draft(token: 'token', revision_count: 1, include_new_draft: false, provider_id: 'MMT_2', native_id: nil, modified_date: nil, short_name: nil, entry_title: nil, version: nil, collection_data_type: nil, suppress_concept_query_error: false)
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_collection_draft' do
         user = User.where(urs_uid: 'testuser').first
 
@@ -37,7 +37,7 @@ module Helpers
 
         revision_count.times do
 
-          ingest_response = cmr_client.ingest_collection(draft.draft.to_json, draft.provider_id, draft.native_id, 'token')
+          ingest_response = cmr_client.ingest_collection(draft.draft.to_json, draft.provider_id, draft.native_id, token)
 
           # We need the native id of the draft to create another draft below
           native_id = draft.native_id
@@ -56,7 +56,7 @@ module Helpers
         revision_id = ingest_response.body['revision-id']
         content_type = "application/#{Rails.configuration.umm_c_version}; charset=utf-8"
 
-        concept_response = cmr_client.get_concept(concept_id, 'token', { 'Accept' => content_type }, revision_id)
+        concept_response = cmr_client.get_concept(concept_id, token, { 'Accept' => content_type }, revision_id)
 
         # suppress_concept_query_error flag is useful when ingesting into a prov
         # which does not have public all collection search.
@@ -366,24 +366,24 @@ module Helpers
       end
     end
 
-    def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1)
+    def publish_new_subscription(name: nil, collection_concept_id: nil, query: nil, subscriber_id: nil, email_address: nil, provider: 'MMT_2', native_id: nil, revision: 1, token:'token')
       ActiveSupport::Notifications.instrument 'mmt.performance', activity: 'Helpers::DraftHelpers#publish_new_subscription' do
         random = SecureRandom.uuid
         subscription = {
           'Name' => name || "Test_Subscription_#{random}",
           'CollectionConceptId' => collection_concept_id || "C#{Faker::Number.number(digits: 6)}-TEST",
           'Query' => query || "bounding_box=-10,-5,10,5&attribute\[\]=float,PERCENTAGE,25.5,30&entry_title=#{random}",
-          'SubscriberId' => subscriber_id || 'rarxd5taqea',
-          'EmailAddress' => email_address || 'uozydogeyyyujukey@tjbh.eyyy'
+          'SubscriberId' => subscriber_id || 'hvtranho',
+          'EmailAddress' => email_address || 'hv.tranho@gmail.com'
         }
 
-        ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{random}", 'token')
+        ingest_response = cmr_client.ingest_subscription(subscription.to_json, provider, native_id || "mmt_subscription_#{name}", token)
 
         raise Array.wrap(ingest_response.body['errors']).join(' /// ') unless ingest_response.success?
 
         wait_for_cmr
 
-        search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, 'token')
+        search_response = cmr_client.get_subscriptions({ 'ConceptId' => ingest_response.parsed_body['result']['concept_id'] }, token)
 
         raise Array.wrap(search_response.body['errors']).join(' /// ') unless search_response.success?
 

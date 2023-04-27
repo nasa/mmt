@@ -1,6 +1,5 @@
 # These tests are for the Groups Index page filtering by radio buttons/checkboxes
 # which set current or available providers, or to show system groups
-
 describe 'Groups list page', js: true, reset_provider: true do
   context 'when there are system level groups' do
     context 'when logging in as a regular user with all the providers' do
@@ -15,7 +14,7 @@ describe 'Groups list page', js: true, reset_provider: true do
           before do
             empty = '{"hits": 0, "took": 7, "items": []}'
             empty_response = cmr_success_response(empty)
-            allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).and_return(empty_response)
+            allow_any_instance_of(Cmr::UrsClient).to receive(:get_edl_groups).and_return(empty_response)
 
             visit groups_path
           end
@@ -27,33 +26,35 @@ describe 'Groups list page', js: true, reset_provider: true do
 
         context 'when there are provider groups under the pagination limit' do
           before do
-            visit groups_path
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              visit groups_path
+            end
           end
 
           it 'displays only the groups from the current provider by default' do
             expect(page).to have_checked_field('Current Provider')
 
             # groups created on our local cmr setup
-            expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+            expect(page).to have_content('Local admin group for provider MMT_2')
           end
 
           context 'when choosing to display groups from Available Providers' do
             before do
-              within '.groups-filters' do
-                choose 'Available Providers'
-
-                click_on 'Apply Filters'
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                within '.groups-filters' do
+                  choose 'Available Providers'
+                  click_on 'Apply Filters'
+              end
               end
             end
 
             it 'displays groups from all Available Providers' do
               expect(page).to have_checked_field('Available Providers')
-
               # groups created on our local cmr setup
               within '.groups-table' do
-                expect(page).to have_content('LARC Admin Group Test group for provider LARC')
-                expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
-                expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+                expect(page).to have_content('The super group for provider LARC')
+                expect(page).to have_content('Local admin group for provider MMT_1')
+                expect(page).to have_content('Local admin group for provider MMT_2')
               end
             end
 
@@ -80,17 +81,9 @@ describe 'Groups list page', js: true, reset_provider: true do
 
         context 'when there are paginated groups' do
           before do
-            # mock for group list page 1
-            groups_page_1_response = cmr_success_response(File.read('spec/fixtures/groups/groups_index_page_1.json'))
-            page_1_options = { 'provider' => ['MMT_2'], page_size: 25, page_num: 1 }
-            allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).with(page_1_options, 'access_token').and_return(groups_page_1_response)
-
-            # mock for group list page 2
-            groups_page_2_response = cmr_success_response(File.read('spec/fixtures/groups/groups_index_page_2.json'))
-            page_2_options = { 'provider' => ['MMT_2'], page_size: 25, page_num: 2 }
-            allow_any_instance_of(Cmr::CmrClient).to receive(:get_cmr_groups).with(page_2_options, 'access_token').and_return(groups_page_2_response)
-
-            visit groups_path
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+              visit groups_path
+            end
           end
 
           it 'lists the first page of groups' do
@@ -101,31 +94,33 @@ describe 'Groups list page', js: true, reset_provider: true do
           end
 
           it 'displays the pagination information for page 1' do
-            expect(page).to have_content('Showing Groups 1 - 25 of 31')
+            expect(page).to have_content('Showing Groups 1 - 25 of 162')
             within '.eui-pagination' do
               # first, 1, 2, next, last
-              expect(page).to have_selector('li', count: 5)
+              expect(page).to have_selector('li', count: 9)
             end
             expect(page).to have_css('.active-page', text: '1')
           end
 
           context 'when clicking to the second page' do
             before do
-              click_link '2'
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                click_link '2'
+              end
             end
 
             it 'lists the second page of groups' do
               within '.groups-table' do
-                expect(page).to have_selector('tbody tr', count: 6)
+                expect(page).to have_selector('tbody tr', count: 25)
                 # cmr controls the order so we should not test specific groups
               end
             end
 
             it 'displays the pagination information for page 2' do
-              expect(page).to have_content('Showing Groups 26 - 31 of 31')
+              expect(page).to have_content('Showing Groups 26 - 50 of 162')
               within '.eui-pagination' do
                 # first, previous, 1, 2, last
-                expect(page).to have_selector('li', count: 5)
+                expect(page).to have_selector('li', count: 11)
               end
               expect(page).to have_css('.active-page', text: '2')
             end
@@ -143,12 +138,12 @@ describe 'Groups list page', js: true, reset_provider: true do
 
       context 'when visiting the groups index page and choosing to display groups from Available Providers' do
         before do
-          visit groups_path
-
-          within '.groups-filters' do
-            choose 'Available Providers'
-
-            click_on 'Apply Filters'
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            visit groups_path
+            within '.groups-filters' do
+              choose 'Available Providers'
+              click_on 'Apply Filters'
+            end
           end
         end
 
@@ -156,15 +151,15 @@ describe 'Groups list page', js: true, reset_provider: true do
           expect(page).to have_checked_field('Available Providers')
 
           within '.groups-table' do
-            expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
-            expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+            expect(page).to have_content('Local admin group for provider MMT_1')
+            expect(page).to have_content('Local admin group for provider MMT_2')
           end
         end
 
         it 'does not display groups from other providers, or system level and admin access only provider groups' do
           within '.groups-table' do
-            expect(page).to have_no_content('LARC Admin Group Test group for provider LARC')
-            expect(page).to have_no_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
+            expect(page).to have_no_content('The super group for provider LARC')
+            expect(page).to have_no_content('The super group for provider NSIDC_ECS')
 
             expect(page).to have_no_content('Administrators CMR Administrators CMR 2')
             expect(page).to have_no_content('Administrators_2 The group of users that manages the CMR. CMR')
@@ -188,16 +183,27 @@ describe 'Groups list page', js: true, reset_provider: true do
 
   context 'when logging in as an admin user with some of the providers' do
     before do
+      @token = 'jwt_access_token'
       login_admin(providers: %w[MMT_1 MMT_2])
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
+
     end
 
     context 'when visiting the groups index page' do
       before do
-        visit groups_path
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @token = 'jwt_access_token'
+          visit groups_path
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
+
+
+        end
       end
 
       it 'displays only the groups from the current provider by default' do
-        expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
+        expect(page).to have_content('Local admin group for provider MMT_2')
       end
 
       context 'when choosing to display groups from all Available Providers' do
@@ -220,10 +226,14 @@ describe 'Groups list page', js: true, reset_provider: true do
 
         context 'when choosing to display System Groups then applying the filters' do
           before do
-            within '.groups-filters' do
-              check 'Show System Groups?'
-
-              click_on 'Apply Filters'
+            VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_2_vcr", record: :none) do
+              within '.groups-filters' do
+                @token = 'jwt_access_token'
+                allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+                allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
+                check 'Show System Groups?'
+                click_on 'Apply Filters'
+              end
             end
           end
 
@@ -241,17 +251,10 @@ describe 'Groups list page', js: true, reset_provider: true do
           it 'displays the provider and system level groups' do
             within '.groups-table' do
               # Provider level groups
-              expect(page).to have_content('LARC Admin Group Test group for provider LARC')
-              expect(page).to have_content('MMT_1 Admin Group Test group for provider MMT_1')
-              expect(page).to have_content('MMT_2 Admin Group Test group for provider MMT_2')
-              expect(page).to have_content('NSIDC_ECS Admin Group Test group for provider NSIDC_ECS')
+              expect(page).to have_content('The super group for provider PODAAC')
 
               # Provider group with only admin users
-              expect(page).to have_content('SEDAC Admin Group Test group for provider SEDAC')
-
-              # System level groups
-              expect(page).to have_content('Administrators SYS CMR')
-              expect(page).to have_content('Administrators_2 SYS The group of users that manages the CMR. CMR')
+              expect(page).to have_content('Test_System_Permissions_Group_47 SYS')
             end
           end
         end

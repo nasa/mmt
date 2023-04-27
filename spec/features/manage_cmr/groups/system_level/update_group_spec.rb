@@ -1,29 +1,35 @@
 describe 'Updating System Level Groups', js: true do
   context 'when editing a system level group as an admin' do
-    before :all do
-      @group_name = random_group_name
-      @group_description = random_group_description
-
-      @group = create_group(
-        name: @group_name,
-        description: @group_description,
-        provider_id: nil, # System Level groups do not have a provider_id
-        admin: true,
-        members: %w(rarxd5taqea qhw5mjoxgs2vjptmvzco q6ddmkhivmuhk)
-      )
+    before do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+        @group_name = "8b1394ff7be2a459c055"
+        @group_description = "Id suscipit enim sint"
+      
+        @group = create_group(
+          name: @group_name,
+          description: @group_description,
+          provider_id: nil, # System Level groups do not have a provider_id
+          admin: true,
+          members: %w(rarxd5taqea qhw5mjoxgs2vjptmvzco q6ddmkhivmuhk)
+        )
+      end
     end
 
     after :all do
       # System level groups need to be cleaned up to avoid attempting to create
       # a group with the same name in another test (Random names don't seem to be reliable)
-      delete_group(concept_id: @group['concept_id'], admin: true)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+        delete_group(concept_id: @group['group_id'], admin: true)
+      end
     end
 
     before do
       login_admin
-
-      VCR.use_cassette('urs/multiple_users', record: :none) do
-        visit edit_group_path(@group['concept_id'])
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr", record: :none) do
+        visit edit_group_path(@group['group_id'])
       end
     end
 
@@ -38,7 +44,7 @@ describe 'Updating System Level Groups', js: true do
       expect(page).to have_field('Description', with: @group_description)
     end
 
-    it 'has the approprate fields disabled' do
+    it 'has the appropriate fields disabled' do
       expect(page).to have_field('Name', readonly: true)
       expect(page).to have_checked_field('System Level Group?', readonly: true)
     end
@@ -50,7 +56,8 @@ describe 'Updating System Level Groups', js: true do
         fill_in 'Description', with: new_group_description
 
         within '.group-form' do
-          VCR.use_cassette('urs/multiple_users', record: :none) do
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_system_level_vcr1", record: :none) do
             click_on 'Submit'
           end
         end

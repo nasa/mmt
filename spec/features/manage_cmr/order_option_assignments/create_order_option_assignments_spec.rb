@@ -242,7 +242,7 @@ describe 'Viewing and Creating Order Option Assignments', js: true do
       select 'AIRX3STD-8102-1.4', from: 'Service'
       select 'AST14DMO.3 Order', from: 'Option Definition'
 
-      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_success_vcr", record: :new_episodes) do
+      VCR.use_cassette("order_option_assignments/#{File.basename(__FILE__, '.rb')}_success_vcr", record: :none) do
         click_on 'Submit'
       end
     end

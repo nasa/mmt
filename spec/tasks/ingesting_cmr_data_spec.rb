@@ -14,7 +14,7 @@ describe 'Using rake tasks to ingest data into CMR for manual testing', reset_pr
 
     it 'creates a record with one service association and four tool associations' do
       # include_granule_counts gets us the association list, which is... weird.
-      response = cmr_client.get_collections(provider_id: 'MMT_2', include_granule_counts: true)
+      response = cmr_client.get_collections({provider_id: 'MMT_2', include_granule_counts: true}, 'access_token')
       associations = response.body['items'][0]['meta']['associations']
       expect(associations['services'].count).to eq(1)
       expect(associations['tools'].count).to eq(4)

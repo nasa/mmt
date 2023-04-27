@@ -1,17 +1,24 @@
 describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true do
   before do
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end
 
   context 'when the user has permissions for Non-NASA Draft Approver' do
     before :all do
-      @non_nasa_draft_approvers_group = create_group(name: 'Non-NASA Draft Approvers Group', members: ['testuser'], provider_id: 'MMT_2')
-      @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_approvers_group['concept_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
+      @token = 'jwt_access_token'
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        @non_nasa_draft_approvers_group = create_group(name: 'Non_NASA_Draft_Approvers_Group'+uuid(), members: ['testuser'], provider_id: 'MMT_2')
+        @non_nasa_permissions = add_permissions_to_group(@non_nasa_draft_approvers_group['group_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2', @token)
+      end
     end
 
     after :all do
       remove_group_permissions(@non_nasa_permissions['concept_id'])
-      delete_group(concept_id: @non_nasa_draft_approvers_group['concept_id'])
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        delete_group(concept_id: @non_nasa_draft_approvers_group['group_id'], admin: true)
+      end
     end
 
     before do

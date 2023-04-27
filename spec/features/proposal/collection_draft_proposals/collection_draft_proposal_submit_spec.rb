@@ -1,22 +1,39 @@
 # Running reset provider in order to verify approvers get emails when proposals are submitted
 describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true do
   before do
-    real_login(method: 'urs')
+    @token = 'jwt_access_token'
+    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+    allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+    VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+      real_login(method: 'urs')
+    end
   end
 
   context 'when submitting a validated proposal' do
     before do
-      set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
-      visit collection_draft_proposal_path(@collection_draft_proposal)
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        set_as_proposal_mode_mmt(with_draft_user_acl: true)
+        @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
+        visit collection_draft_proposal_path(@collection_draft_proposal)
+      end
     end
 
     context 'when user goes back in browser to edit a submitted proposal' do
       before do
-        VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
-          click_on 'Descriptive Keywords'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+            click_on 'Descriptive Keywords'
+          end
         end
-
 
         # remove keyword recommendations
         click_on 'Expand All'
@@ -27,13 +44,24 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         end
 
         within '.nav-top' do
-          VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
-            click_on 'Done'
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            VCR.use_cassette('gkr/initial_keyword_recommendations', record: :none) do
+              click_on 'Done'
+            end
           end
         end
-
-        click_on 'Submit for Review'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Submit for Review'
+          click_on 'Yes'
+        end
 
         # for some reason this is needed twice to actually go back
         page.driver.go_back
@@ -46,7 +74,13 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         click_on 'Add Keyword'
 
         within '.nav-top' do
-          click_on 'Done'
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            click_on 'Done'
+          end
         end
       end
 
@@ -58,14 +92,26 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when the submit proposal button is clicked' do
       before do
-        click_on 'Submit for Review'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Submit for Review'
+        end
       end
 
       context 'when clicking yes to submit a proposal' do
         before do
-          mock_urs_get_users(count: 2)
-          @email_count = ActionMailer::Base.deliveries.count
-          click_on 'Yes'
+          @token = 'jwt_access_token'
+          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+          allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+          allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+          VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+            mock_urs_get_users(count: 2)
+            @email_count = ActionMailer::Base.deliveries.count
+            click_on 'Yes'
+          end
         end
 
         it 'submits a proposal' do
@@ -88,10 +134,16 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
         context 'when trying to send emails' do
           context 'when no acl for that provider exists' do
             before do
-              set_as_proposal_mode_mmt(with_draft_user_acl: true)
-              mock_urs_get_users(count: 2)
-              @email_count = ActionMailer::Base.deliveries.count
-              click_on 'Yes'
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+              allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+                set_as_proposal_mode_mmt(with_draft_user_acl: true)
+                mock_urs_get_users(count: 2)
+                @email_count = ActionMailer::Base.deliveries.count
+                click_on 'Yes'
+              end
             end
             # In this case, the provider exists, but CMR should not have an ACL
             it 'does not send e-mails to approvers' do
@@ -102,20 +154,31 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
           context 'when no groups have the create acl' do
             before do
-              @group = create_group(name: 'Approver Email Fail Test Group', members: ['testuser'])
-              # This is the wrong permission with one member in the right group
-              # This tests that the correct permission is being checked.
-              @permission = add_permissions_to_group(@group['concept_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
-              set_as_proposal_mode_mmt(with_draft_user_acl: true)
-              mock_urs_get_users(count: 2)
-              @email_count = ActionMailer::Base.deliveries.count
-              click_on 'Yes'
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+              allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_fail", record: :none) do
+                @group = create_group(name: 'Approver_Email_Fail_Test_Group_011', members: ['testuser'])
+                # This is the wrong permission with one member in the right group
+                # This tests that the correct permission is being checked.
+                @permission = add_permissions_to_group(@group['group_id'], 'delete', 'NON_NASA_DRAFT_APPROVER', 'MMT_2', @token)
+                set_as_proposal_mode_mmt(with_draft_user_acl: true)
+                mock_urs_get_users(count: 2)
+                @email_count = ActionMailer::Base.deliveries.count
+                click_on 'Yes'
+              end
             end
 
             after do
               set_as_mmt_proper
-              remove_group_permissions(@permission['concept_id'])
-              delete_group(concept_id: @group['concept_id'], admin: true)
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+              allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_fail", record: :none) do
+                remove_group_permissions(@permission['concept_id'], @token)
+                delete_group(concept_id: @group['group_id'], admin: true)
+              end
             end
 
             it 'does not send e-mails to approvers' do
@@ -126,18 +189,29 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
           context 'when successfully sending emails' do
             before do
-              @group = create_group(name: 'Approver Email Success Test Group', members: ['testuser'])
-              @permission = add_permissions_to_group(@group['concept_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2')
-              set_as_proposal_mode_mmt(with_draft_user_acl: true)
-              mock_urs_get_users(count: 2)
-              @email_count = ActionMailer::Base.deliveries.count
-              click_on 'Yes'
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+              allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+              allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_success", record: :none) do
+                @group = create_group(name: 'Approver_Email_Success_Test_Group_011', members: ['hvtranho', 'admin', 'adminuser'])
+                @permission = add_permissions_to_group(@group['group_id'], 'create', 'NON_NASA_DRAFT_APPROVER', 'MMT_2', @token)
+                set_as_proposal_mode_mmt(with_draft_user_acl: true)
+                mock_urs_get_users(count: 2)
+                @email_count = ActionMailer::Base.deliveries.count
+                click_on 'Yes'
+              end
             end
 
             after do
               set_as_mmt_proper
-              remove_group_permissions(@permission['concept_id'])
-              delete_group(concept_id: @group['concept_id'], admin: true)
+              @token = 'jwt_access_token'
+              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+              allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+              VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_success", record: :none) do
+                remove_group_permissions(@permission['concept_id'], @token)
+                delete_group(concept_id: @group['group_id'], admin: true)
+              end
             end
 
             it 'sends emails' do
@@ -163,11 +237,17 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when the collection is valid on page load, but not when the user tries to submit it' do
       before do
-        @collection_draft_proposal.draft['Version'] = ''
-        @collection_draft_proposal.save
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          @collection_draft_proposal.draft['Version'] = ''
+          @collection_draft_proposal.save
 
-        click_on 'Submit'
-        click_on 'Yes'
+          click_on 'Submit'
+          click_on 'Yes'
+        end
       end
 
       it 'displays an error message' do
@@ -177,11 +257,17 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when the submission fails' do
       before do
-        # After loading the page, manipulate the state of the proposal so that
-        # submit will fail in order to execute the else code in the controller.
-        mock_publish(@collection_draft_proposal)
-        click_on 'Submit for Review'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # After loading the page, manipulate the state of the proposal so that
+          # submit will fail in order to execute the else code in the controller.
+          mock_publish(@collection_draft_proposal)
+          click_on 'Submit for Review'
+          click_on 'Yes'
+        end
       end
 
       it 'provides an error message' do
@@ -195,10 +281,16 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
   context 'when submitting an incomplete proposal' do
     before do
-      set_as_proposal_mode_mmt(with_required_acl: true)
-      @collection_draft_proposal = create(:empty_collection_draft_proposal)
-      visit collection_draft_proposal_path(@collection_draft_proposal)
-      click_on 'Submit for Review'
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        set_as_proposal_mode_mmt(with_required_acl: true)
+        @collection_draft_proposal = create(:empty_collection_draft_proposal_native_id)
+        visit collection_draft_proposal_path(@collection_draft_proposal)
+        click_on 'Submit for Review'
+      end
     end
 
     it 'cannot be submitted' do
@@ -208,10 +300,16 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
   context 'when viewing a submitted proposal as a user' do
     before do
-      set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
-      mock_submit(@collection_draft_proposal)
-      visit collection_draft_proposal_path(@collection_draft_proposal)
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        set_as_proposal_mode_mmt(with_draft_user_acl: true)
+        @collection_draft_proposal = create(:full_collection_draft_proposal, user: get_user)
+        mock_submit(@collection_draft_proposal)
+        visit collection_draft_proposal_path(@collection_draft_proposal)
+      end
     end
 
     it 'has a rescind button and cannot be deleted' do
@@ -231,8 +329,14 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     end
 
     it 'can be rescinded' do
-      click_on 'Cancel Proposal Submission'
-      click_on 'Yes'
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        click_on 'Cancel Proposal Submission'
+        click_on 'Yes'
+      end
       expect(page).to have_link('Submit for Review')
       within '#proposal-status-display' do
         expect(page).to have_content('In Work')
@@ -241,11 +345,17 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when rescinding fails' do
       before do
-        # After loading the page, manipulate the state of the proposal so that
-        # rescind will fail in order to execute the else code.
-        mock_publish(@collection_draft_proposal)
-        click_on 'Cancel Proposal Submission'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          # After loading the page, manipulate the state of the proposal so that
+          # rescind will fail in order to execute the else code.
+          mock_publish(@collection_draft_proposal)
+          click_on 'Cancel Proposal Submission'
+          click_on 'Yes'
+        end
       end
 
       it 'provides the correct error message' do
@@ -259,17 +369,29 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
   context 'when looking at a delete metadata request' do
     before do
-      set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_request_type: 'delete', user: get_user)
-      mock_submit(@collection_draft_proposal)
-      visit collection_draft_proposal_path(@collection_draft_proposal)
-      @short_name = @collection_draft_proposal.draft['ShortName']
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        set_as_proposal_mode_mmt(with_draft_user_acl: true)
+        @collection_draft_proposal = create(:full_collection_draft_proposal, proposal_request_type: 'delete', user: get_user)
+        mock_submit(@collection_draft_proposal)
+        visit collection_draft_proposal_path(@collection_draft_proposal)
+        @short_name = @collection_draft_proposal.draft['ShortName']
+      end
     end
 
     context 'when rescinding a delete metadata request' do
       before do
-        click_on 'Cancel Delete Request'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          click_on 'Cancel Delete Request'
+          click_on 'Yes'
+        end
       end
 
       it 'can be rescinded and deleted' do
@@ -282,9 +404,15 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when failing to delete a metadata request' do
       before do
-        mock_publish(@collection_draft_proposal)
-        click_on 'Cancel Delete Request'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          mock_publish(@collection_draft_proposal)
+          click_on 'Cancel Delete Request'
+          click_on 'Yes'
+        end
       end
 
       it 'generates the correct error message' do
@@ -296,20 +424,32 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
   context 'when viewing a record that has been submitted, but has no status_history' do
     before do
-      # Testing bad data, do not change this to use the mock methods.
-      set_as_proposal_mode_mmt(with_draft_user_acl: true)
-      @collection_draft_proposal = create(:empty_collection_draft_proposal, user: get_user)
-      @collection_draft_proposal.proposal_status = 'submitted'
-      @collection_draft_proposal.save
+      @token = 'jwt_access_token'
+      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+      allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+      allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+      VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+        # Testing bad data, do not change this to use the mock methods.
+        set_as_proposal_mode_mmt(with_draft_user_acl: true)
+        @collection_draft_proposal = create(:empty_collection_draft_proposal_native_id, user: get_user)
+        @collection_draft_proposal.proposal_status = 'submitted'
+        @collection_draft_proposal.save
+      end
     end
 
     # This test exists to verify that remove_status_history correctly
     # handles empty status_history.
     context 'when clicking the rescind button' do
       before do
-        visit collection_draft_proposal_path(@collection_draft_proposal)
-        click_on 'Cancel Proposal Submission'
-        click_on 'Yes'
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit collection_draft_proposal_path(@collection_draft_proposal)
+          click_on 'Cancel Proposal Submission'
+          click_on 'Yes'
+        end
       end
 
       it 'can be rescinded' do
@@ -319,7 +459,13 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     context 'when viewing the progress page' do
       before do
-        visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+        @token = 'jwt_access_token'
+        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+        allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
+        allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
+        VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
+          visit progress_collection_draft_proposal_path(@collection_draft_proposal)
+        end
       end
 
       it 'can go to the progress page' do

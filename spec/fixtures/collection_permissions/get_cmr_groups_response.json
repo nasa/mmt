@@ -6,21 +6,21 @@
     "name" : "Group 1",
     "description" : "desc gp 1",
     "revision_id" : 1,
-    "concept_id" : "AG1200000069-MMT_2",
+    "group_id" : "AG1200000069-MMT_2",
     "provider_id" : "MMT_2"
   }, {
     "member_count" : 8,
     "name" : "Group 2",
     "description" : "desc gp 2",
     "revision_id" : 1,
-    "concept_id" : "AG1200000070-MMT_2",
+    "group_id" : "AG1200000070-MMT_2",
     "provider_id" : "MMT_2"
   }, {
     "member_count" : 4,
     "name" : "Group 3",
     "description" : "desc gp 3",
     "revision_id" : 1,
-    "concept_id" : "AG1200000071-MMT_2",
+    "group_id" : "AG1200000071-MMT_2",
     "provider_id" : "MMT_2"
   } ]
 }

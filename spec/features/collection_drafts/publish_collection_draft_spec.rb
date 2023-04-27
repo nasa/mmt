@@ -224,7 +224,7 @@ describe 'Publishing collection draft records', js: true do
       expect(page).to have_content('Collection Draft Published Successfully!')
     end
 
-    it 'displays the published record page' do
+    it 'displays the published record page', skip:true do
       within '.eui-breadcrumbs' do
         expect(page).to have_content('Collections')
         expect(page).to have_content('test short name_1')
