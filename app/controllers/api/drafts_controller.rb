@@ -9,7 +9,7 @@ class Api::DraftsController < BaseDraftsController
   skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
 
   def index
-    provider_id = request.headers["Provider"] || params[:provider]
+    provider_id = request.headers["Provider"]
     resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
     response.set_header('MMT_Hits', resources.count)
     render json: resources, status: 200
