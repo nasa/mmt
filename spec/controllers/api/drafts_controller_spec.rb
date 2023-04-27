@@ -23,7 +23,7 @@ describe Api::DraftsController do
     @tool_draft = create(:larc_empty_tool_draft, user: create(:user))
     get :index, params: { draft_type: "ToolDraft" }
     array = JSON.parse(response.body)
-    assert_equal(response.headers['MMT_Hits'], 3)
+    assert_equal(response.headers['MMT_Hits'], "3")
     assert_equal(3, array.count)
 
     # Check to see how many LARC tool drafts, should only be 1
@@ -31,7 +31,7 @@ describe Api::DraftsController do
     request.headers.merge!({ 'Provider' => 'LARC' })
     get :index, params: { draft_type: "ToolDraft" }
     array = JSON.parse(response.body)
-    assert_equal(response.headers['MMT_Hits'], 1)
+    assert_equal(response.headers['MMT_Hits'], "1")
     assert_equal(1, array.count)
   end
 
