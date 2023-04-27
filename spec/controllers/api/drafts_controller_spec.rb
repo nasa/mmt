@@ -9,6 +9,32 @@ describe Api::DraftsController do
     @test_user2 = create(:user2) # belong to LARC
   end
 
+  it 'shows a list of tool drafts for given the provider' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+
+    # Fetch all the MMT_2 tool drafts, should be 3 of them.
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    get :index, params: { draft_type: "ToolDraft" }
+    array = JSON.parse(response.body)
+    assert_equal(3, array.count)
+
+    # Load a LARC tool_draft and expect the query to still be 3 for MMT_2
+    @tool_draft = create(:larc_empty_tool_draft, user: create(:user))
+    get :index, params: { draft_type: "ToolDraft" }
+    array = JSON.parse(response.body)
+    assert_equal(response.headers['MMT_Hits'], 3)
+    assert_equal(3, array.count)
+
+    # Check to see how many LARC tool drafts, should only be 1
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'LARC' })
+    get :index, params: { draft_type: "ToolDraft" }
+    array = JSON.parse(response.body)
+    assert_equal(response.headers['MMT_Hits'], 1)
+    assert_equal(1, array.count)
+  end
+
   it 'shows draft tool record for mmt proper' do
     # The draft is created by a MMT_2 user
     # The user requesting the document does have MMT_2 in their provider list.
