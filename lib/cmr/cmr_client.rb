@@ -330,7 +330,7 @@ module Cmr
       send_to_validation(url, metadata, headers)
     end
 
-    def ingest_variable(metadata:, provider_id:, native_id:, collection_concept_id:, token:, headers_override: nil)
+    def ingest_variable(metadata:, provider_id: nil, native_id:, collection_concept_id:, token:, headers_override: nil)
       # if native_id is not url friendly or encoded, it will throw an error so we check and prevent that
       # https://cmr.sit.earthdata.nasa.gov/ingest/collections/C1200000005-PROV1/1/variables/sampleVariableNativeId33 -d \
 
