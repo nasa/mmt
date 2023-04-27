@@ -2,11 +2,17 @@ class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
 
   protect_from_forgery with: :null_session
-  before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish, :destroy]
+  before_action :proposal_approver_permissions, except: [:index, :create, :show, :update, :publish, :destroy]
   before_action :set_resource, only: [:show, :update, :publish, :destroy]
-  before_action :validate_token, only: [:create, :show, :update, :publish, :destroy]
-  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish, :destroy]
-  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish, :destroy]
+  before_action :validate_token, only: [:index, :create, :show, :update, :publish, :destroy]
+  skip_before_action :ensure_user_is_logged_in, only: [:index, :create, :show, :update, :publish, :destroy]
+  skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
+
+  def index
+    provider_id = request.headers["Provider"] || params[:provider]
+    resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
+    render json: resources, status: 200
+  end
 
   def create
     provider_id = request.headers["Provider"]

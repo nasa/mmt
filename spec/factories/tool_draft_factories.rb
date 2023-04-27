@@ -9,6 +9,16 @@ FactoryBot.define do
     entry_title { nil }
   end
 
+  factory :larc_empty_tool_draft, class: ToolDraft do
+    provider_id { 'LARC' }
+    draft_type { 'ToolDraft' }
+
+    draft { {} }
+
+    short_name { nil }
+    entry_title { nil }
+  end
+
   factory :invalid_tool_draft, class: ToolDraft do
     transient do
       draft_short_name { nil }
