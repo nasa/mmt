@@ -29,13 +29,10 @@ module ProviderHoldings
   def set_provider_holdings(provider_id, token = nil)
     @collections = []
 
-    echo_provider_holdings_response = cmr_client.get_echo_provider_holdings(provider_id)
+    @provider = {}
+    @provider['provider_id'] = provider_id
 
-    return if echo_provider_holdings_response.error?
-
-    @provider = echo_provider_holdings_response.body.fetch('provider', {})
-
-    provider_holdings_response = cmr_client.get_provider_holdings(false, @provider['provider_id'], token)
+    provider_holdings_response = cmr_client.get_provider_holdings(false, provider_id, token)
 
     return if provider_holdings_response.error?
 

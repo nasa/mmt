@@ -15,6 +15,6 @@ class ProviderHoldingsController < ManageCmrController
   def show
     set_provider_holdings(params[:id], token)
 
-    add_breadcrumb "#{@provider['provider_id']} Holdings", provider_holding_path(@provider['provider_id'])
+    add_breadcrumb "#{@provider['provider_id']} Holdings", provider_holdings_path(@provider['provider_id'])
   end
 end
