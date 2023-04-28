@@ -112,7 +112,7 @@ describe Api::DraftsController do
 
   it 'retrieve a draft record' do
     # The draft is created by testuser and Provider is MMT_2
-    # The testeruser2 updating the draft does not have MMT_2 in their available provider list, only 'LARC'
+    # The testeruser retrieving the draft
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
