@@ -111,8 +111,7 @@ describe Api::DraftsController do
   end
 
   it 'can not create a draft if the user does not belong to the provider list.' do
-    # The draft is created by a MMT_2 user
-    # The testuser2 updating the document does not have MMT_2 in their available provider list, only 'LARC'
+    # The testuser2 creating a draft does not  belong to their available provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     jsonContent = { "json": {
       "Name": "a name",
