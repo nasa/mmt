@@ -118,7 +118,9 @@ describe Api::DraftsController do
       "LongName": "a long name",
       "Version": "10.0"
     }}.to_json
-    post :create, body: jsonContent, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    post :create, body: jsonContent, params: { draft_type: "ToolDraft" }
     assert_equal(response.status, 401)
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')
