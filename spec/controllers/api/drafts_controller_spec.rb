@@ -23,7 +23,7 @@ describe Api::DraftsController do
     @tool_draft = create(:larc_empty_tool_draft, user: create(:user))
     get :index, params: { draft_type: "ToolDraft" }
     array = JSON.parse(response.body)
-    assert_equal(response.headers['MMT_Hits'], 3)
+    assert_equal(response.headers['MMT_Hits'], "3")
     assert_equal(3, array.count)
 
     # Check to see how many LARC tool drafts, should only be 1
@@ -31,9 +31,21 @@ describe Api::DraftsController do
     request.headers.merge!({ 'Provider' => 'LARC' })
     get :index, params: { draft_type: "ToolDraft" }
     array = JSON.parse(response.body)
-    assert_equal(response.headers['MMT_Hits'], 1)
+    assert_equal(response.headers['MMT_Hits'], "1")
     assert_equal(1, array.count)
   end
+
+  it 'shows unauthorized if the user cannot access that provider.' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+
+    # Try getting a list of tool drafts from a provider I don't have access to.
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'PODAAC' })
+    get :index, params: { draft_type: "ToolDraft" }
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
 
   it 'shows draft tool record for mmt proper' do
     # The draft is created by a MMT_2 user
