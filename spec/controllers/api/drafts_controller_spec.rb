@@ -91,6 +91,76 @@ describe Api::DraftsController do
     assert_equal(parsed_body['error'], 'unauthorized')
   end
 
+  it 'can not update a draft if the user does not belong to the provider list.' do
+    # The draft is created by a MMT_2 user
+    # The testuser2 updating the document does not have MMT_2 in their available provider list, only 'LARC'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    jsonContent = { "json": {
+      "Name": "a name",
+      "LongName": "a long name",
+      "Version": "10.0"
+    }}.to_json
+    put :update, body: jsonContent, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    assert_equal(response.status, 401)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
+  it 'create a draft record.' do
+    # The draft is created by testuser and Provider is MMT_2
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    jsonContent = { "json": {
+      "Name": "a new draft",
+      "LongName": "long name",
+      "Version": "10.0"
+    }}.to_json
+    request.headers.merge!({ 'User' => 'testuser' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    post :create, body: jsonContent, params: { draft_type: "ToolDraft" }
+    assert_equal(response.status, 200)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['draft']['Name'], 'a new draft')
+  end
+
+  it 'can not create a draft if the user does not belong to the provider list.' do
+    # The testuser2 creating a draft does not  belong to their available provider list, only 'LARC'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    jsonContent = { "json": {
+      "Name": "a name",
+      "LongName": "a long name",
+      "Version": "10.0"
+    }}.to_json
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    post :create, body: jsonContent, params: { draft_type: "ToolDraft" }
+    assert_equal(response.status, 401)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
+  it 'retrieve a draft record' do
+    # The draft is created by testuser and Provider is MMT_2
+    # The testeruser retrieving the draft
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    parsed_body = JSON.parse(response.body)
+    if !parsed_body.is_a?(Hash)
+      parsed_body = JSON.parse(parsed_body)
+    end
+    response_draft = parsed_body['draft']
+    draft_json = @tool_draft.draft
+    assert_equal(response_draft['a new draft'], draft_json['a new draft'])
+  end
+
+  it 'retrieve a draft with error if a user does not belong to a provider list.' do
+    # The draft is created by testuser and Provider is MMT_2
+    # testeruser2 requesting the document does not have MMT_2 in their provider list, only 'LARC'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
   it 'create draft record with correct request headers and send update' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     jsonContent = { "json": {
@@ -116,6 +186,7 @@ describe Api::DraftsController do
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['draft']['Name'], 'a name updated')
   end
+
   it 'create draft record with incorrect request headers' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     jsonContent = { "json": {
