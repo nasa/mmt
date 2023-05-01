@@ -91,6 +91,15 @@ describe Api::DraftsController do
     assert_equal(parsed_body['error'], 'unauthorized')
   end
 
+  it 'delete a non-existing draft' do
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser' })
+    request.headers.merge!({ 'Provider' => 'LARC' })
+    delete :destroy, params: { id: 9999, draft_type: "ToolDraft" }
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], "Couldn't find ToolDraft with 'id'=9999")
+  end
+
   it 'can not update a draft if the user does not belong to the provider list.' do
     # The draft is created by a MMT_2 user
     # The testuser2 updating the document does not have MMT_2 in their available provider list, only 'LARC'
