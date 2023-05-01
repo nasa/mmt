@@ -8,6 +8,15 @@ class Api::DraftsController < BaseDraftsController
   skip_before_action :ensure_user_is_logged_in, only: [:index, :create, :show, :update, :publish, :destroy]
   skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
 
+  def set_resource(resource = nil)
+    begin
+      resource ||= resource_class.find(params[:id])
+      instance_variable_set("@#{resource_name}", resource)
+    rescue ActiveRecord::RecordNotFound
+      render json: JSON.generate({'error': "Couldn't find #{resource_name} with 'id'=#{params[:id]}"}), status: 404
+    end
+  end
+
   def index
     provider_id = request.headers["Provider"]
     resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
