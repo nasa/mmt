@@ -61,6 +61,7 @@ class Api::DraftsController < BaseDraftsController
     json_params = JSON.parse(request.body.read())
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
+
     if get_resource.save
       ingested_response = {}
       if (params[:draft_type] == 'ToolDraft')
@@ -70,26 +71,28 @@ class Api::DraftsController < BaseDraftsController
       end
       if ingested_response.success?
         # get information for publication email notification before draft is deleted
-        Rails.logger.info("Audit Log: #{resource_name.capitalize} Draft #{get_resource.entry_title} was published by #{current_user.urs_uid} in provider: #{current_user.provider_id}")
+        Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{current_user.urs_uid} for provider: #{current_user.provider_id}")
         short_name = get_resource.draft['short_name']
-
         # Delete draft
         get_resource.destroy
 
         concept_id = ingested_response.body['concept-id']
         revision_id = ingested_response.body['revision-id']
 
-        # instantiate and deliver notification email
-        # DraftMailer.send("#{params[:draft_type].underscore}_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
-        redirect_to send('variable_path', concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.draft.#{plural_resource_name.underscore}.create.flash.success") }
+        begin
+          # instantiate and deliver notification email
+          DraftMailer.send("#{params[:draft_type].underscore}_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
+        rescue => e
+          Rails.logger.error "Error trying to send email in #{self.class} Error: #{e}"
+        end
+
+        result = ingested_response.body
+        render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
+
       else
-        # Log error message
         Rails.logger.error("Ingest #{resource_name.capitalize} Metadata Error: #{ingested_response.clean_inspect}")
         Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
-
-        @ingest_errors = generate_ingest_errors(ingested_response)
-        flash[:error] = ingested_response.error_message(i18n: I18n.t("controllers.draft.#{plural_resource_name.underscore}.create.flash.error"), force_i18n_preface: true)
-        redirect_to send("variable_draft_path", get_resource.draft)
+        render json: draft_json_result(errors: ingested_response.errors), status: 500
       end
     else
       errors_list = generate_model_error
@@ -186,16 +189,4 @@ class Api::DraftsController < BaseDraftsController
   end
   helper_method :resource_name
 
-  def lower_resource_name
-    resource_name.downcase
-  end
-  helper_method :lower_resource_name
-
-  def plural_resource_name
-    resource_name.pluralize
-  end
-
-  def plural_lower_resource_name
-    lower_resource_name.pluralize
-  end
 end
