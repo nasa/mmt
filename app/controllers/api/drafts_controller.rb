@@ -28,11 +28,13 @@ class Api::DraftsController < BaseDraftsController
 
   def update
     begin
+      puts("BBBBBBBBB get_resource.id:#{get_resource.id}")
       provider_id = request.headers["Provider"]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
       json_params = JSON.parse(request.body.read())
       json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
       json_params_to_resource(json_params: json_params)
+      puts("@@@@@@@@@@@@@@@@@@@@@@@ json_params:#{json_params.inspect}")
       get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
@@ -166,7 +168,12 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def json_params_to_resource(json_params: {})
-    get_resource.draft = json_params['json']
+    puts("@@@@ json_params['json']:#{json_params['json']}")
+    json_params['json'].delete('AdditionalIdentifiers')
+    json_params['json'].delete('IndexRanges')
+    compacted = json_params['json'].compact_blank
+    puts("@@@@ compacted:#{compacted}")
+    get_resource.draft = compacted
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
 
