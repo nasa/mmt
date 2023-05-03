@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://cmr.sit.earthdata.nasa.gov/ordering/api
+    body:
+      encoding: UTF-8
+      string: '{"variables":{"id":"order_guid"},"query":"query Order ($id: String!)
+        {\n                          order (id: $id) {\n                            id\n                            clientIdentity\n                            collectionConceptId\n                            notificationLevel\n                            providerId\n                            providerTrackingId\n                            state\n                            closedDate\n                            submittedAt\n                            createdAt\n                            updatedAt\n                            orderItems
+        {\n                              id\n                              granuleConceptId\n                              granuleUr\n                              producerGranuleId\n                            }\n                            user
+        {\n                              id\n                              ursId\n                            }\n                            contact
+        {\n                              id\n                              email\n                              firstName\n                              lastName\n                              userDomain\n                              userRegion\n                            }\n                          }\n                        }"}'
+    headers:
+      User-Agent:
+      - Faraday v1.10.3
+      Content-Type:
+      - application/json
+      Client-Id:
+      - MMT
+      Echo-ClientId:
+      - MMT
+      Authorization:
+      - access_token
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '867'
+      connection:
+      - keep-alive
+      date:
+      - Wed, 03 May 2023 18:06:17 GMT
+      access-control-allow-credentials:
+      - 'true'
+      x-amzn-trace-id:
+      - Root=1-6452a295-0635519c3a6d89e701494aeb;Sampled=0;lineage=e1dd6c58:0
+      x-amz-apigw-id:
+      - EW5XcF1KoAMF35Q=
+      x-amzn-remapped-content-length:
+      - '867'
+      access-control-allow-headers:
+      - Accept, Authorization, Client-Id, Content-Type, X-Request-Id
+      access-control-allow-origin:
+      - "*"
+      server:
+      - ServerTokens ProductOnly
+      x-request-id:
+      - jk5-MPaVAI5TCdrdn4kXRBIz3JYd_hTADGVOdXB4NgVtz4K29M3C_A==
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+      strict-transport-security:
+      - max-age=31536000
+      x-amzn-requestid:
+      - 2f88466f-d388-4cc9-9517-5a165476e6e9
+      x-cache:
+      - Error from cloudfront
+      via:
+      - 1.1 e0559a822309b4036bf1911ebfc409ec.cloudfront.net (CloudFront)
+      x-amz-cf-pop:
+      - SFO5-C1
+      x-amz-cf-id:
+      - jk5-MPaVAI5TCdrdn4kXRBIz3JYd_hTADGVOdXB4NgVtz4K29M3C_A==
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"message":"Not authorized to perform [read] on system_object [ORDER_AND_ORDER_ITEMS]",
+      "locations":[{"line":2,"column":27}],"path":["order"],"extensions":{"code":"FORBIDDEN",
+      "stacktrace":["GraphQLError: Not authorized to perform [read] on system_object [ORDER_AND_ORDER_ITEMS]","    
+      at sn (/var/task/src/graphql/handler.js:1:82172)","    at Rule.e (/var/task/src/graphql/handler.js:1:104458)","    
+      at e.next (<anonymous>)","    at St (/var/task/src/graphql/handler.js:1:104206)","    
+      at o (/var/task/src/graphql/handler.js:1:104643)","    
+      at processTicksAndRejections (node:internal/process/task_queues:96:5)"]}}],"data":{"order":null}}
+      '
+  recorded_at: Wed, 03 May 2023 18:06:17 GMT
+recorded_with: VCR 6.1.0
