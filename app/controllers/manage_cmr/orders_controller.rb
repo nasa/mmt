@@ -89,7 +89,8 @@ class OrdersController < ManageCmrController
     if response.errors
       Rails.logger.error("#{request.uuid} - OrdersController#search_order - Search Order Error: #{response.clean_inspect}")
       err_message = "#{response.error_message}.  Please refer to the ID: #{request.uuid} when contacting #{view_context.mail_to(Rails.configuration.support_email, 'Earthdata Support')}"
-      redirect_to orders_path, flash: err_message
+      flash[:error] = err_message
+      @orders = []
       return
     end
     if single_order_search
