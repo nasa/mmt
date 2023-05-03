@@ -23,6 +23,21 @@ describe 'Searching Orders', js: true do
       end
     end
 
+    context 'when searching by order guid no permission' do
+      before do
+        fill_in 'Order GUID', with: 'order_guid'
+
+        VCR.use_cassette("orders/#{File.basename(__FILE__, '.rb')}_search_by_guid_no_permission_vcr", record: :none) do
+          within '#order-by-guid-form' do
+            click_on 'Submit'
+          end
+        end
+      end
+      it 'displays error message' do
+        expect(page).to have_content('Not authorized')
+      end
+    end
+
     context 'when searching by order guid' do
       before do
         fill_in 'Order GUID', with: 'order_guid'
