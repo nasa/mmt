@@ -12,11 +12,6 @@ class BaseDraftsController < DraftsController
   end
 
   def show
-    puts("@@@@@@@@@@ @json_form.invalid_keys(ignore_required_fields: false).any?:#{@json_form.invalid_keys(ignore_required_fields: false).any?}")
-    puts("######### resource_name:#{resource_name}")
-    puts("######### get_resource.collection_concept_id.blank?:#{get_resource.collection_concept_id.blank?}")
-    puts("@@@@@@@ get_resource.id:#{get_resource.id}")
-    puts("$$$$$$$$$ @json_form:#{@json_form.inspect}")
     if params[:not_authorized_request_params]
       @not_authorized_request = params[:not_authorized_request_params]
     else

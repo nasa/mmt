@@ -28,13 +28,11 @@ class Api::DraftsController < BaseDraftsController
 
   def update
     begin
-      puts("BBBBBBBBB get_resource.id:#{get_resource.id}")
       provider_id = request.headers["Provider"]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
       json_params = JSON.parse(request.body.read())
       json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
       json_params_to_resource(json_params: json_params)
-      puts("@@@@@@@@@@@@@@@@@@@@@@@ json_params:#{json_params.inspect}")
       get_resource.save
       Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
       render json: draft_json_result, status: 200
@@ -167,13 +165,29 @@ class Api::DraftsController < BaseDraftsController
     render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401 unless authorized
   end
 
+  def remove_empty(hash_to_clean)
+    hash_to_clean.compact_blank
+    hash_to_clean.each do |key, value|
+      if value.kind_of?(Array)
+        all_empty = true
+        value.each do |sub_value|
+          unless sub_value.blank?
+            all_empty = false
+            break
+          end
+        end
+        hash_to_clean.delete(key) if all_empty
+      end
+      if value.kind_of?(Hash)
+        remove_empty(value)
+      end
+    end
+    hash_to_clean
+  end
+
   def json_params_to_resource(json_params: {})
-    puts("@@@@ json_params['json']:#{json_params['json']}")
-    json_params['json'].delete('AdditionalIdentifiers')
-    json_params['json'].delete('IndexRanges')
-    compacted = json_params['json'].compact_blank
-    puts("@@@@ compacted:#{compacted}")
-    get_resource.draft = compacted
+    json_params['json'] = remove_empty(json_params['json']).compact_blank
+    get_resource.draft = json_params['json']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
 
