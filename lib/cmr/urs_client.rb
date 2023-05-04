@@ -142,8 +142,14 @@ module Cmr
       Cmr::Response.new(Faraday::Response.new(status: response.status, body: []))
     end
 
-    def get_groups_for_provider_list(providers)
-      groups = get_groups_for_providers(providers)
+    def get_all_groups
+      response = get('/api/user_groups/search',
+                     {
+                       'name' => ''
+                     },
+                     'Authorization' => "Bearer #{get_client_token}")
+      return [] if response.error?
+      groups = response.body
       groups.uniq { |group| group['group_id'] }
     end
 
@@ -153,22 +159,6 @@ module Cmr
       groups = []
       ids.each { |user_id| groups += get_groups_for_user_id(user_id) }
       groups.uniq { |group| group['name'] }
-    end
-
-    def get_groups_for_providers(provider_ids)
-      response = get('/api/user_groups/search',
-                     {
-                       'name' => ''
-                     },
-                     'Authorization' => "Bearer #{get_client_token}")
-      return [] if response.error?
-
-      # if provider_ids? is nil, filter out groups without tags
-      response.body.select! do |x|
-        tag = x['tag'] || ''
-        provider_ids.blank? ? tag != '' : provider_ids.include?(tag)
-      end
-      response.body
     end
 
     def get_groups_for_user_id(user_id)
@@ -198,14 +188,12 @@ module Cmr
     def get_edl_groups(options, include_member_counts=true)
       providers = options['provider']
 
-      if options['show_system_groups'] == true
-        providers = [] if providers.nil?
-      end
-      providers = Array.wrap(providers)
+      show_system_groups = options['show_system_groups'] || false
 
-      # If no user filter, just do a provider level search.
+      # provider search
       if options['member'].blank?
-        provider_groups = get_groups_for_provider_list(providers)
+        provider_groups = get_all_groups()
+        filter_by_provider(provider_groups, providers, show_system_groups)
         status = provider_groups.empty? ? 400 : 200
         results = reformat_search_results(provider_groups)
         update_member_counts(results["items"], options[:page_num], options[:page_size])
@@ -215,12 +203,10 @@ module Cmr
       # Search by list of users, then filter that list by provider.
       users = options['member'] || []
       user_groups = get_groups_for_user_list(Array.wrap(users))
+      filter_by_provider(user_groups, providers, show_system_groups)
       status = user_groups.empty? ? 400 : 200
       results = reformat_search_results(user_groups)
       update_member_counts(results["items"], options[:page_num], options[:page_size]) unless !include_member_counts
-      results['items'].select! do |x|
-        providers.nil? ? x['provider_id'] : providers.include?(x['provider_id'])
-      end
       results['hits'] = results['items'].length
       Cmr::Response.new(Faraday::Response.new(status: status, body: results))
     end
@@ -325,6 +311,27 @@ module Cmr
       response = get_edl_group_members(group_id)
       return response.body.length if response.success?
       0
+    end
+
+    private
+
+    def filter_by_provider(groups, providers, show_system_groups)
+      if providers.nil?
+        groups.select! do |x|
+          tag = x['tag']
+          unless tag.blank?
+            show_system_groups ? true : x['tag'] != 'CMR'
+          end
+        end
+      else
+        providers << 'CMR' if show_system_groups
+        groups.select! do |x|
+          tag = x['tag']
+          unless tag.blank?
+            providers.include?(tag)
+          end
+        end
+      end
     end
   end
 end
