@@ -186,7 +186,7 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def json_params_to_resource(json_params: {})
-    json_params['json'] = remove_empty(json_params['json'])
+    json_params['json'] = remove_empty(json_params['json']) unless (json_params.blank? or json_params['json'].blank?)
     get_resource.draft = json_params['json']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
