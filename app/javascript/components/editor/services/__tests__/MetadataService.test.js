@@ -137,8 +137,8 @@ describe('Testing MetadataService', () => {
   test('fetch tool draft', async () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
     metadataService.fetchDraft(1).then((draft) => {
-      expect(draft.json.Name).toEqual('a name')
-      expect(draft.json.LongName).toEqual('a long name')
+      expect(draft.draft.Name).toEqual('a name')
+      expect(draft.draft.LongName).toEqual('a long name')
       expect(draft.apiId).toEqual(50)
     })
     metadataService.fetchDraft(101).then((draft) => {
@@ -151,10 +151,10 @@ describe('Testing MetadataService', () => {
   test('fetch variable draft', async () => {
     const metadataService = new MetadataService('test_token', 'variable_drafts', 'test_user', 'provider')
     metadataService.fetchDraft(1).then((draft) => {
-      expect(draft.json.Name).toEqual('a name')
-      expect(draft.json.LongName).toEqual('a long name')
-      expect(draft.json.Definition).toEqual('Def')
-      expect(draft.json.StandardName).toEqual('Web Portal')
+      expect(draft.draft.Name).toEqual('a name')
+      expect(draft.draft.LongName).toEqual('a long name')
+      expect(draft.draft.Definition).toEqual('Def')
+      expect(draft.draft.StandardName).toEqual('Web Portal')
       expect(draft.apiId).toEqual(50)
     })
   })
@@ -162,7 +162,7 @@ describe('Testing MetadataService', () => {
   test('save draft', async () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
     const draft = new Draft()
-    draft.json = { Name: 'Test Record' }
+    draft.draft = { Name: 'Test Record' }
     metadataService.saveDraft(draft).then((result) => {
       expect(result.apiId).toEqual(12)
     })
@@ -173,7 +173,7 @@ describe('Testing MetadataService', () => {
     const draft = new Draft()
     draft.apiId = 55
     draft.apiUserId = 10
-    draft.json = { Name: 'Test Record' }
+    draft.draft = { Name: 'Test Record' }
     metadataService.updateDraft(draft).then((result) => {
       expect(result.apiId).toEqual(55)
     })
@@ -190,7 +190,7 @@ describe('Testing MetadataService', () => {
     const draft = new Draft()
     draft.apiId = 55
     draft.apiUserId = 10
-    draft.json = { Name: 'Test Record' }
+    draft.draft = { Name: 'Test Record' }
     metadataService.publishDraft(draft).then((result) => {
       expect(result.apiId).toEqual(55)
     })

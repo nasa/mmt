@@ -68,7 +68,7 @@ describe('Detailed Progress View', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.draft.json.LongName).toEqual('a long name #1')
+    expect(editor.draft.draft.LongName).toEqual('a long name #1')
     expect(screen.queryByTestId('detailed-progress-view--progress-section__tool-information_error')).toBeTruthy()
     expect(screen.queryByTestId('detailed-progress-view--progress-section__related-ur-ls_error')).toBeTruthy()
     expect(screen.queryByTestId('detailed-progress-view--progress-section__compatibility-and-usability_pass')).toBeTruthy()

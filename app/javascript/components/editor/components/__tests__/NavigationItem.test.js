@@ -40,7 +40,7 @@ describe('Navigation Item Component', () => {
 
   it('shows red for section with errors', async () => {
     const model = new UmmToolsModel()
-    model.draft.json = { LongName: 'x' }
+    model.draft.draft = { LongName: 'x' }
     const editor = new MetadataEditor(model)
     const { container } = render(
       <Router location={history.location} navigator={history}>
@@ -55,7 +55,7 @@ describe('Navigation Item Component', () => {
 
   it('shows green for section with no issues', async () => {
     const model = new UmmToolsModel()
-    model.draft.json = {
+    model.draft.draft = {
       URL: {
         URLContentType: 'content type',
         Type: 'type',
