@@ -106,6 +106,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     authorization_header = request.headers['Authorization']
+    user_id = request.headers['User']
 
     if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
@@ -137,7 +138,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
-    if urs_uid.nil?
+    if urs_uid.nil? or urs_uid != user_id
       render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
       return
     end
@@ -160,7 +161,7 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def json_params_to_resource(json_params: {})
-    get_resource.draft = json_params['json']
+    get_resource.draft = json_params['draft']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
 

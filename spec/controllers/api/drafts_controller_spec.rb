@@ -13,7 +13,7 @@ describe Api::DraftsController do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
 
     # Fetch all the MMT_2 tool drafts, should be 3 of them.
-    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_2' })
     get :index, params: { draft_type: "ToolDraft" }
     array = JSON.parse(response.body)
@@ -26,6 +26,7 @@ describe Api::DraftsController do
     assert_equal(response.headers['MMT_Hits'], "3")
     assert_equal(3, array.count)
 
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     # Check to see how many LARC tool drafts, should only be 1
     request.headers.merge!({ 'User' => 'testuser2' })
     request.headers.merge!({ 'Provider' => 'LARC' })
@@ -51,6 +52,7 @@ describe Api::DraftsController do
     # The draft is created by a MMT_2 user
     # The user requesting the document does have MMT_2 in their provider list.
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser' })
     get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
     if !parsed_body.is_a?(Hash)
@@ -65,6 +67,8 @@ describe Api::DraftsController do
     # The draft is created by a MMT_2 user
     # The user requesting the document does not have MMT_2 in their provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
     get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')
@@ -104,7 +108,26 @@ describe Api::DraftsController do
     # The draft is created by a MMT_2 user
     # The testuser2 updating the document does not have MMT_2 in their available provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "json": {
+    request.headers.merge!({ 'User' => 'testuser2' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    jsonContent = { "draft": {
+      "Name": "a name",
+      "LongName": "a long name",
+      "Version": "10.0"
+    }}.to_json
+    put :update, body: jsonContent, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
+    assert_equal(response.status, 401)
+    parsed_body = JSON.parse(response.body)
+    assert_equal(parsed_body['error'], 'unauthorized')
+  end
+
+  it 'can not update a draft if the user is not the user the token says they are.' do
+    # The draft is created by a MMT_2 user
+    # The testuser2 updating the document does not have MMT_2 in their available provider list, only 'LARC'
+    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser' })
+    request.headers.merge!({ 'Provider' => 'MMT_2' })
+    jsonContent = { "draft": {
       "Name": "a name",
       "LongName": "a long name",
       "Version": "10.0"
@@ -118,7 +141,7 @@ describe Api::DraftsController do
   it 'create a draft record.' do
     # The draft is created by testuser and Provider is MMT_2
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "json": {
+    jsonContent = { "draft": {
       "Name": "a new draft",
       "LongName": "long name",
       "Version": "10.0"
@@ -134,7 +157,7 @@ describe Api::DraftsController do
   it 'can not create a draft if the user does not belong to the provider list.' do
     # The testuser2 creating a draft does not  belong to their available provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "json": {
+    jsonContent = { "draft": {
       "Name": "a name",
       "LongName": "a long name",
       "Version": "10.0"
@@ -151,6 +174,7 @@ describe Api::DraftsController do
     # The draft is created by testuser and Provider is MMT_2
     # The testeruser retrieving the draft
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser' })
     get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
     if !parsed_body.is_a?(Hash)
@@ -165,6 +189,7 @@ describe Api::DraftsController do
     # The draft is created by testuser and Provider is MMT_2
     # testeruser2 requesting the document does not have MMT_2 in their provider list, only 'LARC'
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser2"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+    request.headers.merge!({ 'User' => 'testuser2' })
     get :show, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')
@@ -172,7 +197,7 @@ describe Api::DraftsController do
 
   it 'create draft record with correct request headers and send update' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "json": {
+    jsonContent = { "draft": {
       "Name": "a name",
       "LongName": "a long name",
       "Version": "10.0"
@@ -183,7 +208,7 @@ describe Api::DraftsController do
     assert_equal(response.status, 200)
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['draft']['Name'], 'a name')
-    jsonContent = { "json": {
+    jsonContent = { "draft": {
       "Name": "a name updated",
       "LongName": "a long name",
       "Version": "10.0"
@@ -198,7 +223,7 @@ describe Api::DraftsController do
 
   it 'create draft record with incorrect request headers' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "json": {
+    jsonContent = { "draft": {
       "Name": "a name",
       "LongName": "a long name",
       "Version": "10.0"
@@ -211,7 +236,7 @@ describe Api::DraftsController do
 
   it 'can publish a tool record with errors' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = {"json": @empty_tool_draft.draft}.to_json
+    jsonContent = {"draft": @empty_tool_draft.draft}.to_json
     request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_1' })
     post :publish, body: jsonContent, params: { id: @empty_tool_draft.id, draft_type: "ToolDraft" }
@@ -231,7 +256,7 @@ describe Api::DraftsController do
 
   it 'can publish a tool record with success' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    tool_draft_json = {"json": @tool_draft.draft}.to_json
+    tool_draft_json = {"draft": @tool_draft.draft}.to_json
     request.headers.merge!({ 'User' => 'testuser' })
     request.headers.merge!({ 'Provider' => 'MMT_1' })
     post :publish, body: tool_draft_json, params: { id: @tool_draft.id, draft_type: "ToolDraft" }
