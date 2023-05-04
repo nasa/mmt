@@ -158,7 +158,7 @@ export class MetadataService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   convertToDraft(data: any): Draft {
     const draft = new Draft()
-    draft.json = data.draft
+    draft.draft = data.draft
     draft.apiId = data.id
     draft.apiUserId = data.user_id
     draft.conceptId = data.concept_id

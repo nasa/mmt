@@ -37,11 +37,11 @@ export default class UmmModel implements FormModel {
   }
 
   get fullData() {
-    return this.draft.json
+    return this.draft.draft
   }
 
   set fullData(newValue: object) {
-    this.draft.json = newValue
+    this.draft.draft = newValue
   }
 
   getFormData() {
@@ -49,8 +49,8 @@ export default class UmmModel implements FormModel {
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]
     const { properties } = config
     properties.forEach((property: string) => {
-      if (this.draft.json[property]) {
-        formData[property] = this.draft.json[property]
+      if (this.draft.draft[property]) {
+        formData[property] = this.draft.draft[property]
       }
     })
 
@@ -61,12 +61,12 @@ export default class UmmModel implements FormModel {
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]
     const { properties } = config
     properties.forEach((property: string) => {
-      this.draft.json[property] = value[property]
+      this.draft.draft[property] = value[property]
     })
     // line below is required otherwise we get some strange json schema errors where it
     // does not recognize string, as it probably has a mobx wrapper?   toJS() basically
     // converts it back to a normal object so type checking (such as string?) works.
-    this.draft.json = JSON.parse(JSON.stringify(toJS(this.draft.json)))
+    this.draft.draft = JSON.parse(JSON.stringify(toJS(this.draft.draft)))
   }
 
   getFormSchema(): { [key: string]: object } {

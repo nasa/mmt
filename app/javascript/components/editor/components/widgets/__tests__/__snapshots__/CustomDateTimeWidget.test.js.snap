@@ -3621,7 +3621,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   <div
                     class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                   >
-                    March 2023
+                    May 2023
                   </div>
                   <div
                     class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -4749,7 +4749,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   </div>
                 </div>
                 <div
-                  aria-label="month  2023-03"
+                  aria-label="month  2023-05"
                   class="react-datepicker__month"
                   role="listbox"
                 >
@@ -4758,37 +4758,17 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, February 26th, 2023"
+                      aria-label="Choose Sunday, April 30th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
-                      26
+                      30
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, February 27th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      27
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Tuesday, February 28th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      28
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Wednesday, March 1st, 2023"
+                      aria-label="Choose Monday, May 1st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--001"
                       role="option"
@@ -4798,7 +4778,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 2nd, 2023"
+                      aria-label="Choose Tuesday, May 2nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--002"
                       role="option"
@@ -4808,7 +4788,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 3rd, 2023"
+                      aria-label="Choose Wednesday, May 3rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--003"
                       role="option"
@@ -4817,24 +4797,21 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       3
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 4th, 2023"
+                      aria-label="Choose Thursday, May 4th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       4
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 5th, 2023"
+                      aria-label="Choose Friday, May 5th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--005"
                       role="option"
                       tabindex="-1"
                     >
@@ -4842,19 +4819,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 6th, 2023"
+                      aria-label="Choose Saturday, May 6th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--006"
+                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       6
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 7th, 2023"
+                      aria-label="Choose Sunday, May 7th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007"
+                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -4862,7 +4843,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 8th, 2023"
+                      aria-label="Choose Monday, May 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008"
                       role="option"
@@ -4872,7 +4853,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 9th, 2023"
+                      aria-label="Choose Tuesday, May 9th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--009"
                       role="option"
@@ -4882,7 +4863,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 10th, 2023"
+                      aria-label="Choose Wednesday, May 10th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--010"
                       role="option"
@@ -4892,23 +4873,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 11th, 2023"
+                      aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--011"
                       role="option"
                       tabindex="-1"
                     >
                       11
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 12th, 2023"
+                      aria-label="Choose Friday, May 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--012"
                       role="option"
                       tabindex="-1"
                     >
@@ -4916,19 +4893,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 13th, 2023"
+                      aria-label="Choose Saturday, May 13th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--013"
+                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       13
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 14th, 2023"
+                      aria-label="Choose Sunday, May 14th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--014"
+                      class="react-datepicker__day react-datepicker__day--014 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -4936,7 +4917,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 15th, 2023"
+                      aria-label="Choose Monday, May 15th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--015"
                       role="option"
@@ -4946,7 +4927,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 16th, 2023"
+                      aria-label="Choose Tuesday, May 16th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--016"
                       role="option"
@@ -4956,7 +4937,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 17th, 2023"
+                      aria-label="Choose Wednesday, May 17th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--017"
                       role="option"
@@ -4966,23 +4947,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 18th, 2023"
+                      aria-label="Choose Thursday, May 18th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--018"
                       role="option"
                       tabindex="-1"
                     >
                       18
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 19th, 2023"
+                      aria-label="Choose Friday, May 19th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--019"
                       role="option"
                       tabindex="-1"
                     >
@@ -4990,19 +4967,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 20th, 2023"
+                      aria-label="Choose Saturday, May 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       20
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 21st, 2023"
+                      aria-label="Choose Sunday, May 21st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--021"
+                      class="react-datepicker__day react-datepicker__day--021 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -5010,7 +4991,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 22nd, 2023"
+                      aria-label="Choose Monday, May 22nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--022"
                       role="option"
@@ -5020,7 +5001,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 23rd, 2023"
+                      aria-label="Choose Tuesday, May 23rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--023"
                       role="option"
@@ -5030,7 +5011,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 24th, 2023"
+                      aria-label="Choose Wednesday, May 24th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--024"
                       role="option"
@@ -5040,23 +5021,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 25th, 2023"
+                      aria-label="Choose Thursday, May 25th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--025 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--025"
                       role="option"
                       tabindex="-1"
                     >
                       25
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 26th, 2023"
+                      aria-label="Choose Friday, May 26th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--026"
                       role="option"
                       tabindex="-1"
                     >
@@ -5064,19 +5041,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 27th, 2023"
+                      aria-label="Choose Saturday, May 27th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027"
+                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       27
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 28th, 2023"
+                      aria-label="Choose Sunday, May 28th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028"
+                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -5084,7 +5065,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 29th, 2023"
+                      aria-label="Choose Monday, May 29th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--029"
                       role="option"
@@ -5094,7 +5075,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 30th, 2023"
+                      aria-label="Choose Tuesday, May 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030"
                       role="option"
@@ -5103,35 +5084,30 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       30
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 31st, 2023"
+                      aria-label="Choose Wednesday, May 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--031"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       31
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, April 1st, 2023"
+                      aria-label="Choose Thursday, June 1st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       1
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, April 2nd, 2023"
+                      aria-label="Choose Friday, June 2nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -5139,19 +5115,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, April 3rd, 2023"
+                      aria-label="Choose Saturday, June 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       3
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, April 4th, 2023"
+                      aria-label="Choose Sunday, June 4th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -5159,7 +5139,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, April 5th, 2023"
+                      aria-label="Choose Monday, June 5th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
                       role="option"
@@ -5169,7 +5149,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, April 6th, 2023"
+                      aria-label="Choose Tuesday, June 6th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
                       role="option"
@@ -5179,7 +5159,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, April 7th, 2023"
+                      aria-label="Choose Wednesday, June 7th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
                       role="option"
@@ -5189,13 +5169,33 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, April 8th, 2023"
+                      aria-label="Choose Thursday, June 8th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       8
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Friday, June 9th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      9
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Saturday, June 10th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      10
                     </div>
                   </div>
                 </div>
@@ -5311,7 +5311,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   <div
                     class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                   >
-                    March 2023
+                    May 2023
                   </div>
                   <div
                     class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -6439,7 +6439,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   </div>
                 </div>
                 <div
-                  aria-label="month  2023-03"
+                  aria-label="month  2023-05"
                   class="react-datepicker__month"
                   role="listbox"
                 >
@@ -6448,37 +6448,17 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, February 26th, 2023"
+                      aria-label="Choose Sunday, April 30th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
-                      26
+                      30
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, February 27th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      27
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Tuesday, February 28th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      28
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Wednesday, March 1st, 2023"
+                      aria-label="Choose Monday, May 1st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--001"
                       role="option"
@@ -6488,7 +6468,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 2nd, 2023"
+                      aria-label="Choose Tuesday, May 2nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--002"
                       role="option"
@@ -6498,7 +6478,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 3rd, 2023"
+                      aria-label="Choose Wednesday, May 3rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--003"
                       role="option"
@@ -6507,24 +6487,21 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       3
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 4th, 2023"
+                      aria-label="Choose Thursday, May 4th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       4
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 5th, 2023"
+                      aria-label="Choose Friday, May 5th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--005"
                       role="option"
                       tabindex="-1"
                     >
@@ -6532,19 +6509,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 6th, 2023"
+                      aria-label="Choose Saturday, May 6th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--006"
+                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       6
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 7th, 2023"
+                      aria-label="Choose Sunday, May 7th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007"
+                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -6552,7 +6533,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 8th, 2023"
+                      aria-label="Choose Monday, May 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008"
                       role="option"
@@ -6562,7 +6543,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 9th, 2023"
+                      aria-label="Choose Tuesday, May 9th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--009"
                       role="option"
@@ -6572,7 +6553,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 10th, 2023"
+                      aria-label="Choose Wednesday, May 10th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--010"
                       role="option"
@@ -6582,23 +6563,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 11th, 2023"
+                      aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--011"
                       role="option"
                       tabindex="-1"
                     >
                       11
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 12th, 2023"
+                      aria-label="Choose Friday, May 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--012"
                       role="option"
                       tabindex="-1"
                     >
@@ -6606,19 +6583,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 13th, 2023"
+                      aria-label="Choose Saturday, May 13th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--013"
+                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       13
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 14th, 2023"
+                      aria-label="Choose Sunday, May 14th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--014"
+                      class="react-datepicker__day react-datepicker__day--014 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -6626,7 +6607,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 15th, 2023"
+                      aria-label="Choose Monday, May 15th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--015"
                       role="option"
@@ -6636,7 +6617,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 16th, 2023"
+                      aria-label="Choose Tuesday, May 16th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--016"
                       role="option"
@@ -6646,7 +6627,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 17th, 2023"
+                      aria-label="Choose Wednesday, May 17th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--017"
                       role="option"
@@ -6656,23 +6637,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 18th, 2023"
+                      aria-label="Choose Thursday, May 18th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--018"
                       role="option"
                       tabindex="-1"
                     >
                       18
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 19th, 2023"
+                      aria-label="Choose Friday, May 19th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--019"
                       role="option"
                       tabindex="-1"
                     >
@@ -6680,19 +6657,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 20th, 2023"
+                      aria-label="Choose Saturday, May 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       20
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 21st, 2023"
+                      aria-label="Choose Sunday, May 21st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--021"
+                      class="react-datepicker__day react-datepicker__day--021 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -6700,7 +6681,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 22nd, 2023"
+                      aria-label="Choose Monday, May 22nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--022"
                       role="option"
@@ -6710,7 +6691,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 23rd, 2023"
+                      aria-label="Choose Tuesday, May 23rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--023"
                       role="option"
@@ -6720,7 +6701,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 24th, 2023"
+                      aria-label="Choose Wednesday, May 24th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--024"
                       role="option"
@@ -6730,23 +6711,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, March 25th, 2023"
+                      aria-label="Choose Thursday, May 25th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--025 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--025"
                       role="option"
                       tabindex="-1"
                     >
                       25
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, March 26th, 2023"
+                      aria-label="Choose Friday, May 26th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--026"
                       role="option"
                       tabindex="-1"
                     >
@@ -6754,19 +6731,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, March 27th, 2023"
+                      aria-label="Choose Saturday, May 27th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027"
+                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       27
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, March 28th, 2023"
+                      aria-label="Choose Sunday, May 28th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028"
+                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
@@ -6774,7 +6755,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, March 29th, 2023"
+                      aria-label="Choose Monday, May 29th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--029"
                       role="option"
@@ -6784,7 +6765,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, March 30th, 2023"
+                      aria-label="Choose Tuesday, May 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030"
                       role="option"
@@ -6793,35 +6774,30 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       30
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Friday, March 31st, 2023"
+                      aria-label="Choose Wednesday, May 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--031"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       31
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, April 1st, 2023"
+                      aria-label="Choose Thursday, June 1st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       1
                     </div>
-                  </div>
-                  <div
-                    class="react-datepicker__week"
-                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, April 2nd, 2023"
+                      aria-label="Choose Friday, June 2nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -6829,19 +6805,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, April 3rd, 2023"
+                      aria-label="Choose Saturday, June 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       3
                     </div>
+                  </div>
+                  <div
+                    class="react-datepicker__week"
+                  >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, April 4th, 2023"
+                      aria-label="Choose Sunday, June 4th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -6849,7 +6829,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, April 5th, 2023"
+                      aria-label="Choose Monday, June 5th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
                       role="option"
@@ -6859,7 +6839,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, April 6th, 2023"
+                      aria-label="Choose Tuesday, June 6th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
                       role="option"
@@ -6869,7 +6849,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, April 7th, 2023"
+                      aria-label="Choose Wednesday, June 7th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
                       role="option"
@@ -6879,13 +6859,33 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Saturday, April 8th, 2023"
+                      aria-label="Choose Thursday, June 8th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       8
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Friday, June 9th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      9
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Saturday, June 10th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      10
                     </div>
                   </div>
                 </div>
