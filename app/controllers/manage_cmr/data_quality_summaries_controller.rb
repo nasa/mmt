@@ -91,9 +91,11 @@ class DataQualitySummariesController < ManageCmrController
       flash[:error] = response.error_message
       render :new
     else
-      flash[:success] = 'Data Quality Summary successfully created'
       summary = get_data_quality_summary(concept_id: response.body.fetch('concept-id', ''), count: 3)
-      redirect_to data_quality_summaries_path and return if summary.blank?
+      if summary.blank?
+        flash[:success] = 'Data Quality Summary successfully created but not yet available, please try again in a few minutes.'
+        redirect_to data_quality_summaries_path and return
+      end
 
       redirect_to data_quality_summary_path(response.body.fetch('concept-id', '')), flash: { success: 'Data Quality Summary successfully created' }
     end
