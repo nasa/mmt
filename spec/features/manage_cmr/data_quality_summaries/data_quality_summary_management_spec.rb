@@ -28,6 +28,7 @@ describe 'Viewing Data Quality Summaries', js: true do
       end
     end
     it 'displays data quality summaries' do
+      expect(page).to have_content('Data Quality Summary successfully created but not yet available, please try again in a few minutes.')
       expect(page).to have_content('MMT_2 Data Quality Summaries')
     end
   end
