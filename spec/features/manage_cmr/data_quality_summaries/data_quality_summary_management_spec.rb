@@ -15,6 +15,23 @@ describe 'Viewing Data Quality Summaries', js: true do
     end
   end
 
+  context 'when creating a data quality summary which is not available after creation' do
+    before do
+      login
+      visit manage_cmr_path
+      click_on 'Create a Summary'
+      fill_in 'Name', with: 'DQS #01'
+      page.execute_script("$('#summary').val('<p>Maecenas faucibus mollis interdum.</p>')")
+      allow_any_instance_of(DataQualitySummariesController).to receive(:get_native_id).and_return('a_native_id')
+      VCR.use_cassette("data_quality_summaries/#{File.basename(__FILE__, '.rb')}_not_available_vcr", record: :none) do
+        click_on 'Submit'
+      end
+    end
+    it 'displays data quality summaries' do
+      expect(page).to have_content('MMT_2 Data Quality Summaries')
+    end
+  end
+
   context 'when creating a data quality summary' do
     before do
       login
