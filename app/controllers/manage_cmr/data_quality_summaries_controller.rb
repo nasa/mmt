@@ -91,6 +91,10 @@ class DataQualitySummariesController < ManageCmrController
       flash[:error] = response.error_message
       render :new
     else
+      flash[:success] = 'Data Quality Summary successfully created'
+      summary = get_data_quality_summary(concept_id: response.body.fetch('concept-id', ''), count: 3)
+      redirect_to data_quality_summaries_path and return if summary.blank?
+
       redirect_to data_quality_summary_path(response.body.fetch('concept-id', '')), flash: { success: 'Data Quality Summary successfully created' }
     end
   end
@@ -250,13 +254,23 @@ class DataQualitySummariesController < ManageCmrController
   end
 
   def set_data_quality_summary
-    response = cmr_client.get_data_quality_summaries(concept_id: params[:id], provider_id: current_user.provider_id, token: token)
-    if response.success?
-      @summary = response.body.fetch('items', []).first unless response.body.fetch('items', []).empty?
-    else
-      Rails.logger.error("#{request.uuid} - DataQualitySummariesController#set_data_quality_summary - Retrieving Data Quality Summary Error: #{response.clean_inspect}")
-      flash[:error] = response.error_message
+    @summary = get_data_quality_summary(concept_id: params[:id], count: 3)
+  end
+
+  def get_data_quality_summary(concept_id:, count: 1)
+    start = Time.new
+    count.times do |i|
+      response = cmr_client.get_data_quality_summaries(concept_id: concept_id, provider_id: current_user.provider_id, token: token)
+      if (response.success? && response.body.fetch('hits', 0) > 0) || response.error?
+        summary = response.body.fetch('items', []).first unless response.body.fetch('items', []).empty?
+        return summary
+      end
+      # Wait for CMR indexing
+      sleep 1
     end
+    duration = Time.new - start
+    Rails.logger.error("#{request.uuid} - DataQualitySummariesController#get_data_quality_summary - Tried #{count} times to fetch new Order Option. Duration: #{duration} seconds")
+    return {}
   end
 
   def get_native_id
