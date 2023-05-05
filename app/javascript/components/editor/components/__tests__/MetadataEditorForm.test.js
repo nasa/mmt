@@ -91,7 +91,7 @@ describe('UMM Tools Form', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.draft.json.LongName).toEqual('a long name #1')
+    expect(editor.draft.draft.LongName).toEqual('a long name #1')
     expect(container).toMatchSnapshot()
   })
 
@@ -108,7 +108,7 @@ describe('UMM Tools Form', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.draft.json.LongName).toEqual('a long name #new')
+    expect(editor.draft.draft.LongName).toEqual('a long name #new')
     expect(container).toMatchSnapshot()
   })
 

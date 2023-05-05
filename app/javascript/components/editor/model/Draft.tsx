@@ -3,7 +3,7 @@ import { makeObservable, observable } from 'mobx'
 
 export default class Draft {
   key: Date
-  json: any
+  draft: any
   apiId: number
   apiUserId: number
   conceptId: string
@@ -13,7 +13,7 @@ export default class Draft {
 
   constructor() {
     this.key = new Date()
-    this.json = {}
+    this.draft = {}
     this.apiId = -1
     this.apiUserId = -1
     this.conceptId = null
@@ -21,7 +21,7 @@ export default class Draft {
     this.associatedCollectionId = null
     this.errors = {}
     makeObservable(this, {
-      json: observable, apiId: observable, apiUserId: observable, conceptId: observable, revisionId: observable, associatedCollectionId: observable, errors: observable
+      draft: observable, apiId: observable, apiUserId: observable, conceptId: observable, revisionId: observable, associatedCollectionId: observable, errors: observable
     })
   }
 }

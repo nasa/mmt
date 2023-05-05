@@ -2,11 +2,27 @@ class Api::DraftsController < BaseDraftsController
   include ManageMetadataHelper
 
   protect_from_forgery with: :null_session
-  before_action :proposal_approver_permissions, except: [:create, :show, :update, :publish, :destroy]
+  before_action :proposal_approver_permissions, except: [:index, :create, :show, :update, :publish, :destroy]
   before_action :set_resource, only: [:show, :update, :publish, :destroy]
-  before_action :validate_token, only: [:create, :show, :update, :publish, :destroy]
-  skip_before_action :ensure_user_is_logged_in, only: [:create, :show, :update, :publish, :destroy]
-  skip_before_action :add_top_level_breadcrumbs, only: [:create, :show, :update, :publish, :destroy]
+  before_action :validate_token, only: [:index, :create, :show, :update, :publish, :destroy]
+  skip_before_action :ensure_user_is_logged_in, only: [:index, :create, :show, :update, :publish, :destroy]
+  skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
+
+  def set_resource(resource = nil)
+    begin
+      resource ||= resource_class.find(params[:id])
+      instance_variable_set("@#{resource_name}", resource)
+    rescue ActiveRecord::RecordNotFound
+      render json: JSON.generate({'error': "Couldn't find #{resource_name} with 'id'=#{params[:id]}"}), status: 404
+    end
+  end
+
+  def index
+    provider_id = request.headers["Provider"]
+    resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
+    response.set_header('MMT_Hits', "#{resources.count}")
+    render json: resources, status: 200
+  end
 
   def create
     provider_id = request.headers["Provider"]
@@ -112,6 +128,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     authorization_header = request.headers['Authorization']
+    user_id = request.headers['User']
 
     if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
@@ -143,7 +160,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
-    if urs_uid.nil?
+    if urs_uid.nil? or urs_uid != user_id
       render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
       return
     end
@@ -186,8 +203,8 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def json_params_to_resource(json_params: {})
-    json_params['json'] = remove_empty(json_params['json']) unless (json_params.blank? or json_params['json'].blank?)
-    get_resource.draft = json_params['json']
+    json_params['draft'] = remove_empty(json_params['draft']) unless (json_params.blank? or json_params['draft'].blank?)
+    get_resource.draft = json_params['draft']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
 
