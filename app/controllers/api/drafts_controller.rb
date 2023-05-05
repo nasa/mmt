@@ -80,9 +80,9 @@ class Api::DraftsController < BaseDraftsController
 
     if get_resource.save
       ingested_response = {}
-      if (params[:draft_type] == 'ToolDraft')
+      if params[:draft_type] == 'ToolDraft'
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-      elsif (params[:draft_type] == 'VariableDraft')
+      elsif params[:draft_type] == 'VariableDraft'
         ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token )
       end
       if ingested_response.success?
@@ -160,7 +160,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
-    if urs_uid.nil? or urs_uid != user_id
+    if urs_uid.nil? || (urs_uid != user_id)
       render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
       return
     end
@@ -203,7 +203,10 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def json_params_to_resource(json_params: {})
-    json_params['draft'] = remove_empty(json_params['draft']) unless (json_params.blank? or json_params['draft'].blank?)
+    if json_params['draft'].blank?
+      json_params['draft'] = {}
+    end
+    json_params['draft'] = remove_empty(json_params['draft']) unless json_params.blank? || json_params['draft'].blank?
     get_resource.draft = json_params['draft']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
