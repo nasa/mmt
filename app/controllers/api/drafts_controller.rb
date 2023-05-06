@@ -87,7 +87,7 @@ class Api::DraftsController < BaseDraftsController
       end
       if ingested_response.success?
         # get information for publication email notification before draft is deleted
-        Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{current_user.urs_uid} for provider: #{current_user.provider_id}")
+        Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{user.urs_uid} for provider: #{user.provider_id}")
         short_name = get_resource.draft['short_name']
         # Delete draft
         get_resource.destroy
@@ -107,7 +107,7 @@ class Api::DraftsController < BaseDraftsController
 
       else
         Rails.logger.error("Ingest #{resource_name.capitalize} Metadata Error: #{ingested_response.clean_inspect}")
-        Rails.logger.info("User #{current_user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{current_user.provider_id} but encountered an error.")
+        Rails.logger.info("User #{user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{user.provider_id} but encountered an error.")
         render json: draft_json_result(errors: ingested_response.errors), status: 500
       end
     else
