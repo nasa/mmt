@@ -34,7 +34,9 @@ export class MetadataService {
         Accept: 'application/json',
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
-        'X-Request-Id': uuid()
+        'X-Request-Id': uuid(),
+        Provider: this.providerId,
+        User: this.userId
       }
     }
     const response = await fetch(url, requestOptions)
@@ -48,9 +50,10 @@ export class MetadataService {
 
   async saveDraft(draft: Draft): Promise<Draft> {
     const url = `/api/drafts/?draft_type=${this.draftType}`
+    const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(draft),
+      body: JSON.stringify(draftClone),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,
@@ -96,9 +99,10 @@ export class MetadataService {
 
   async updateDraft(draft: Draft): Promise<Draft> {
     const url = `/api/drafts/${draft.apiId}?draft_type=${this.draftType}`
+    const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'PUT',
-      body: JSON.stringify(draft),
+      body: JSON.stringify(draftClone),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,

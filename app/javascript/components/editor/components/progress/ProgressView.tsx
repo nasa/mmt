@@ -145,7 +145,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
           </button>
           &nbsp;&nbsp;
           {status && (
-            <Alert className="alert" key={status} variant="warning">
+            <Alert key={status} variant="warning">
               {status}
             </Alert>
           )}
