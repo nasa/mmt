@@ -5,8 +5,6 @@ describe Api::DraftsController do
     @request.headers['Authorization'] = 'Bearer access-token'
     @empty_tool_draft = create(:empty_tool_draft, user: create(:user, :multiple_providers))
     @tool_draft = create(:full_tool_draft, user: create(:user, :multiple_providers))
-    @variable_draft = create(:full_variable_draft, user: create(:user, :multiple_providers))
-    @collection_ingest_response1, _concept_response1 = publish_collection_draft(entry_title: 'MODIS-I Water Traveler')
     @tool_draft_to_delete = create(:full_tool_draft, user: create(:user, :multiple_providers))
     @test_user2 = create(:user2) # belong to LARC
   end
@@ -267,15 +265,40 @@ describe Api::DraftsController do
     expect(result.dig("concept_id")).not_to be(nil)
     expect(result.dig("revision_id")).not_to be(nil)
   end
-  it 'can publish a variable record with success' do
-    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    variable_draft_json = {"json": @variable_draft.draft, "associatedCollectionId": @collection_ingest_response1['concept-id']}.to_json
-    request.headers.merge!({ 'User' => 'testuser' })
-    request.headers.merge!({ 'Provider' => 'MMT_1' })
-    post :publish, body: variable_draft_json, params: { id: @variable_draft.id, draft_type: 'VariableDraft'}
-    result = response.parsed_body
-    assert_equal(response.status, 200)
-    expect(result.dig("concept_id")).not_to be(nil)
-    expect(result.dig("revision_id")).not_to be(nil)
+
+  context 'ingest variable draft' do
+    before do
+      @variable_draft = create(:full_variable_draft, user: create(:user, :multiple_providers))
+      @collection_ingest_response, _concept_response = publish_collection_draft
+    end
+    it 'can publish a variable record with success' do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+      variable_draft_json = {"draft": @variable_draft.draft, "associatedCollectionId": @collection_ingest_response['concept-id']}.to_json
+      request.headers.merge!({ 'User' => 'testuser' })
+      request.headers.merge!({ 'Provider' => 'MMT_1' })
+      post :publish, body: variable_draft_json, params: { id: @variable_draft.id, draft_type: 'VariableDraft'}
+      result = response.parsed_body
+      assert_equal(response.status, 200)
+      expect(result.dig("concept_id")).not_to be(nil)
+      expect(result.dig("revision_id")).not_to be(nil)
+    end
+    it 'can publish a variable record with empty elements successfully' do
+      allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
+      variable_draft = {
+        'AdditionalIdentifiers'=>[{}],
+        'IndexRanges'=>{'LatRange'=>[nil, nil], 'LonRange'=>[nil, nil]},
+        'Name'=> 'a name',
+        'LongName'=> 'a long name',
+        'Definition'=> 'a definition'
+      }
+      variable_draft_json = {"draft": variable_draft, "associatedCollectionId": @collection_ingest_response['concept-id']}.to_json
+      request.headers.merge!({ 'User' => 'testuser' })
+      request.headers.merge!({ 'Provider' => 'MMT_1' })
+      post :publish, body: variable_draft_json, params: { id: @variable_draft.id, draft_type: 'VariableDraft'}
+      result = response.parsed_body
+      assert_equal(response.status, 200)
+      expect(result.dig("concept_id")).not_to be(nil)
+      expect(result.dig("revision_id")).not_to be(nil)
+    end
   end
 end
