@@ -21,7 +21,13 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
     response.set_header('MMT_Hits', "#{resources.count}")
-    render json: resources, status: 200
+    array = []
+    resources.to_a.each do |item|
+      map = item.as_json
+      map.delete("draft")
+      array << map
+    end
+    render json: array, status: 200
   end
 
   def create
@@ -84,7 +90,7 @@ class Api::DraftsController < BaseDraftsController
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
       elsif params[:draft_type] == 'VariableDraft'
         render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
-        
+
         ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
       end
       if ingested_response.success?
