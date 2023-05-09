@@ -83,7 +83,9 @@ class Api::DraftsController < BaseDraftsController
       if params[:draft_type] == 'ToolDraft'
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
       elsif params[:draft_type] == 'VariableDraft'
-        ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token )
+        render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
+        
+        ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
       end
       if ingested_response.success?
         # get information for publication email notification before draft is deleted
