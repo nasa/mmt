@@ -15,15 +15,15 @@ import { removeEmpty } from '../utils/json_utils'
 import ReactJsonSchemaForm from './ReactJsonSchemaForm'
 import './NavigationView.css'
 
-type ProgressViewProps = {
+type NavigationViewProps = {
   router?: RouterType
   editor: MetadataEditor
 }
-type ProgressViewState = {
+type NavigationViewState = {
   saving: boolean
 }
-class ProgressView extends React.Component<ProgressViewProps, ProgressViewState> {
-  constructor(props: ProgressViewProps) {
+class NavigationView extends React.Component<NavigationViewProps, NavigationViewState> {
+  constructor(props: NavigationViewProps) {
     super(props)
     this.state = {
       saving: false
@@ -223,4 +223,4 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
     )
   }
 }
-export default withRouter(observer(ProgressView))
+export default withRouter(observer(NavigationView))
