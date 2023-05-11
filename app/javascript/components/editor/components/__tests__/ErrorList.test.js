@@ -9,6 +9,8 @@ import MetadataEditor from '../../MetadataEditor'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditorForm from '../MetadataEditorForm'
 
+global.scroll = jest.fn()
+
 describe('Error List test', () => {
   it('testing valid field onClick', async () => {
     HTMLElement.prototype.scrollIntoView = jest.fn()
@@ -54,7 +56,7 @@ describe('Error List test', () => {
       const clickRelatedURLs = screen.queryByTestId('navigationitem--listgroup.item__related-ur-ls')
       fireEvent.click(await clickRelatedURLs)
 
-      const addNewField = screen.queryByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
+      const addNewField = screen.queryByTestId('custom-array-template-add-btn')
       fireEvent.click(await addNewField)
 
       const inputElement = screen.queryByTestId('custom-text-area-widget__description--text-area-input')
@@ -64,6 +66,39 @@ describe('Error List test', () => {
       screen.queryAllByTestId('error-list-item__url-content-type')[0].click()
     })
 
+    expect(container).toMatchSnapshot()
+  })
+
+  it('shows a gray circle for each error when a user first visits the section', async () => {
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+    const { container } = render(
+      <BrowserRouter>
+        <MetadataEditorForm editor={editor} />
+      </BrowserRouter>
+    )
+    expect(screen.getByTestId('error-list-item__name--info')).toBeInTheDocument()
+    expect(container).toMatchSnapshot()
+  })
+
+  it('shows a red circle for each error when a user visits, moves off, then back to the section', async () => {
+    const model = new UmmToolsModel()
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+    const editor = new MetadataEditor(model)
+    const { container } = render(
+      <BrowserRouter>
+        <MetadataEditorForm editor={editor} />
+      </BrowserRouter>
+    )
+
+    const nameField = screen.queryByTestId('custom-text-widget__name--text-input')
+
+    await waitFor(async () => {
+      fireEvent.focus(await nameField)
+      fireEvent.blur(await nameField)
+    })
+    expect(screen.getByTestId('error-list-item__name--error')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 })

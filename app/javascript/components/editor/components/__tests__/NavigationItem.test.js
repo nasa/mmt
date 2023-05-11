@@ -15,6 +15,8 @@ const model = new UmmToolsModel()
 const editor = new MetadataEditor(model)
 const history = createMemoryHistory()
 
+global.scroll = jest.fn()
+
 describe('Navigation Item Component', () => {
   it('renders a navigation item', async () => {
     const section = model.formSections[0]
@@ -38,9 +40,9 @@ describe('Navigation Item Component', () => {
     expect(container).toMatchSnapshot()
   })
 
-  it('shows red for section with errors', async () => {
+  it('shows red progress circle since section has been started and has errors', async () => {
     const model = new UmmToolsModel()
-    model.draft.draft = { LongName: 'x' }
+    model.draft.draft = { LongName: 'mock long name' }
     const editor = new MetadataEditor(model)
     const { container } = render(
       <Router location={history.location} navigator={history}>
@@ -53,7 +55,7 @@ describe('Navigation Item Component', () => {
     expect(container).toMatchSnapshot()
   })
 
-  it('shows green for section with no issues', async () => {
+  it('shows green progress circle since section with no issues', async () => {
     const model = new UmmToolsModel()
     model.draft.draft = {
       URL: {
@@ -106,8 +108,10 @@ describe('Navigation Item Component', () => {
     )
     const toolInformation = screen.getByTestId('navigationitem--listgroup.item__tool-information')
     const spy = jest.spyOn(MetadataEditor.prototype, 'navigateTo')
+
     await waitFor(async () => {
       userEvent.click(toolInformation)
+      expect(global.scroll).toHaveBeenCalledWith(0, 0)
       expect(spy).toHaveBeenCalledTimes(1)
     })
     expect(container).toMatchSnapshot()

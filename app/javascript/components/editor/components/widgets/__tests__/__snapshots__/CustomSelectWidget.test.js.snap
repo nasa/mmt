@@ -673,6 +673,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                       <div
                         class="row row-children"
                       >
+                         
                         <div
                           class="col-md-12"
                         >
@@ -821,6 +822,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -834,6 +836,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="field-left-border col-md-12"
                                     >
@@ -869,6 +872,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           <div
                                             class="row row-children"
                                           >
+                                             
                                             <div
                                               class="col-md-12"
                                             >
@@ -982,6 +986,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           <div
                                             class="row row-children"
                                           >
+                                             
                                             <div
                                               class="col-md-12"
                                             >
@@ -1022,6 +1027,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           <div
                                             class="row row-children"
                                           >
+                                             
                                             <div
                                               class="col-md-12"
                                             >
@@ -1071,6 +1077,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           <div
                                             class="row row-children"
                                           >
+                                             
                                             <div
                                               class="col-md-12"
                                             >
@@ -1087,7 +1094,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                     <div
                                                       class="title"
                                                     >
-                                                      Response Content Type
+                                                      ResponseContentType
                                                     </div>
                                                     <p>
                                                       The supported MIME type(s) of the response from the HTTP API.
@@ -1135,47 +1142,49 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                             </span>
                                                           </button>
                                                         </div>
+                                                      </div>
+                                                      <div
+                                                        class="custom-array-template-element"
+                                                      />
+                                                      <div
+                                                        class="mb-2  d-flex align-items-center row"
+                                                      >
                                                         <div
-                                                          class="mb-2  d-flex align-items-center row"
+                                                          class="array-item col-lg-12 col-12"
+                                                          data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="array-item col-lg-12 col-12"
-                                                            data-testid="custom-array-element"
+                                                            class="form-group field field-string"
                                                           >
                                                             <div
-                                                              class="form-group field field-string"
+                                                              class="widget-header"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
-                                                              <div
-                                                                class="widget-header"
-                                                                data-testid="custom-text-widget__response-content-type-0--text-header"
-                                                              >
-                                                                <span>
-                                                                  Response Content Type
-                                                                  <i
-                                                                    class="eui-icon eui-required-o required-icon"
-                                                                  />
-                                                                </span>
-                                                              </div>
-                                                              <input
-                                                                class="custom-text-widget-input"
-                                                                data-testid="custom-text-widget__response-content-type-0--text-input"
-                                                                id="PotentialAction_Target_ResponseContentType_0"
-                                                                name="Response Content Type"
-                                                                type="text"
-                                                                value="response content type"
-                                                              />
-                                                              <span
-                                                                class="widget-description"
-                                                                data-testid="custom-text-widget--description-field__response-content-type-0"
-                                                              />
+                                                              <span>
+                                                                Response Content Type
+                                                                <i
+                                                                  class="eui-icon eui-required-o required-icon"
+                                                                />
+                                                              </span>
                                                             </div>
+                                                            <input
+                                                              class="custom-text-widget-input"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
+                                                              id="PotentialAction_Target_ResponseContentType_0"
+                                                              name="Response Content Type"
+                                                              type="text"
+                                                              value="response content type"
+                                                            />
+                                                            <span
+                                                              class="widget-description"
+                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
+                                                            />
                                                           </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                     <div
                                                       class="custom-array-template-add-btn add-header"
-                                                      data-testid="custom-array-template-add-btn"
                                                     >
                                                       <button
                                                         class="btn"
@@ -1193,7 +1202,11 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                         <span
                                                           class="add-label"
                                                         >
-                                                          Add another
+                                                          <span
+                                                            data-testid="custom-array-template-add-another-btn"
+                                                          >
+                                                            Add another
+                                                          </span>
                                                            
                                                           Response Content Type
                                                         </span>
@@ -1207,6 +1220,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           <div
                                             class="row row-children"
                                           >
+                                             
                                             <div
                                               class="col-md-12"
                                             >
@@ -1223,7 +1237,10 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                     <div
                                                       class="title"
                                                     >
-                                                      HTTP Method
+                                                      HttpMethod
+                                                      <i
+                                                        class="eui-icon eui-required-o required-icon"
+                                                      />
                                                     </div>
                                                     <p>
                                                       The accepted HTTP methods for this API.
@@ -1271,121 +1288,124 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                             </span>
                                                           </button>
                                                         </div>
+                                                      </div>
+                                                      <div
+                                                        class="custom-array-template-element"
+                                                      />
+                                                      <div
+                                                        class="mb-2  d-flex align-items-center row"
+                                                      >
                                                         <div
-                                                          class="mb-2  d-flex align-items-center row"
+                                                          class="array-item col-lg-12 col-12"
+                                                          data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="array-item col-lg-12 col-12"
-                                                            data-testid="custom-array-element"
+                                                            class="form-group field field-string"
                                                           >
                                                             <div
-                                                              class="form-group field field-string"
+                                                              class="custom-select-widget"
+                                                              data-testid="custom-select-widget__http-method-0"
                                                             >
+                                                              <div>
+                                                                <span>
+                                                                  HTTP Method
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                               <div
-                                                                class="custom-select-widget"
-                                                                data-testid="custom-select-widget__http-method-0"
+                                                                class="widget-description"
+                                                                data-testid="custom-select-widget__http-method-0--description"
                                                               >
-                                                                <div>
-                                                                  <span>
-                                                                    HTTP Method
-                                                                    <i
-                                                                      class="eui-icon eui-required-o required-icon"
-                                                                    />
-                                                                  </span>
-                                                                </div>
+                                                                <span>
+                                                                  An HTTP method that specifies the appropriate HTTP method for a request to an HTTP Entrypoint. Values are capitalized strings as used in HTTP.
+                                                                </span>
+                                                              </div>
+                                                              <div
+                                                                data-testid="custom-select-widget__http-method-0--selector"
+                                                              >
                                                                 <div
-                                                                  class="widget-description"
-                                                                  data-testid="custom-select-widget__http-method-0--description"
+                                                                  class=" css-b62m3t-container"
+                                                                  id="PotentialAction_Target_HttpMethod_0"
                                                                 >
-                                                                  <span>
-                                                                    An HTTP method that specifies the appropriate HTTP method for a request to an HTTP Entrypoint. Values are capitalized strings as used in HTTP.
-                                                                  </span>
-                                                                </div>
-                                                                <div
-                                                                  data-testid="custom-select-widget__http-method-0--selector"
-                                                                >
-                                                                  <div
-                                                                    class=" css-b62m3t-container"
-                                                                    id="PotentialAction_Target_HttpMethod_0"
+                                                                  <span
+                                                                    class="css-1f43avz-a11yText-A11yText"
+                                                                    id="react-select-24-live-region"
                                                                   >
                                                                     <span
-                                                                      class="css-1f43avz-a11yText-A11yText"
-                                                                      id="react-select-24-live-region"
+                                                                      id="aria-selection"
                                                                     >
-                                                                      <span
-                                                                        id="aria-selection"
-                                                                      >
-                                                                        option GET, selected.
-                                                                      </span>
-                                                                      <span
-                                                                        id="aria-context"
-                                                                      >
-                                                                          Select is focused ,type to refine list, press Down to open the menu, 
-                                                                      </span>
+                                                                      option GET, selected.
                                                                     </span>
                                                                     <span
-                                                                      aria-atomic="false"
-                                                                      aria-live="polite"
-                                                                      aria-relevant="additions text"
-                                                                      class="css-1f43avz-a11yText-A11yText"
-                                                                    />
+                                                                      id="aria-context"
+                                                                    >
+                                                                        Select is focused ,type to refine list, press Down to open the menu, 
+                                                                    </span>
+                                                                  </span>
+                                                                  <span
+                                                                    aria-atomic="false"
+                                                                    aria-live="polite"
+                                                                    aria-relevant="additions text"
+                                                                    class="css-1f43avz-a11yText-A11yText"
+                                                                  />
+                                                                  <div
+                                                                    class=" css-t3ipsp-control"
+                                                                  >
                                                                     <div
-                                                                      class=" css-t3ipsp-control"
+                                                                      class=" css-1fdsijx-ValueContainer"
                                                                     >
                                                                       <div
-                                                                        class=" css-1fdsijx-ValueContainer"
+                                                                        class=" css-1dimb5e-singleValue"
                                                                       >
-                                                                        <div
-                                                                          class=" css-1dimb5e-singleValue"
-                                                                        >
-                                                                          GET
-                                                                        </div>
-                                                                        <div
-                                                                          class=" css-qbdosj-Input"
-                                                                          data-value=""
-                                                                        >
-                                                                          <input
-                                                                            aria-autocomplete="list"
-                                                                            aria-describedby="react-select-24-live-region"
-                                                                            aria-expanded="false"
-                                                                            aria-haspopup="true"
-                                                                            autocapitalize="none"
-                                                                            autocomplete="off"
-                                                                            autocorrect="off"
-                                                                            class=""
-                                                                            id="react-select-24-input"
-                                                                            role="combobox"
-                                                                            spellcheck="false"
-                                                                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                                            tabindex="0"
-                                                                            type="text"
-                                                                            value=""
-                                                                          />
-                                                                        </div>
+                                                                        GET
                                                                       </div>
                                                                       <div
-                                                                        class=" css-1hb7zxy-IndicatorsContainer"
+                                                                        class=" css-qbdosj-Input"
+                                                                        data-value=""
                                                                       >
-                                                                        <span
-                                                                          class=" css-1u9des2-indicatorSeparator"
+                                                                        <input
+                                                                          aria-autocomplete="list"
+                                                                          aria-describedby="react-select-24-live-region"
+                                                                          aria-expanded="false"
+                                                                          aria-haspopup="true"
+                                                                          autocapitalize="none"
+                                                                          autocomplete="off"
+                                                                          autocorrect="off"
+                                                                          class=""
+                                                                          id="react-select-24-input"
+                                                                          role="combobox"
+                                                                          spellcheck="false"
+                                                                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                                          tabindex="0"
+                                                                          type="text"
+                                                                          value=""
                                                                         />
-                                                                        <div
+                                                                      </div>
+                                                                    </div>
+                                                                    <div
+                                                                      class=" css-1hb7zxy-IndicatorsContainer"
+                                                                    >
+                                                                      <span
+                                                                        class=" css-1u9des2-indicatorSeparator"
+                                                                      />
+                                                                      <div
+                                                                        aria-hidden="true"
+                                                                        class=" css-15lsz6c-indicatorContainer"
+                                                                      >
+                                                                        <svg
                                                                           aria-hidden="true"
-                                                                          class=" css-15lsz6c-indicatorContainer"
+                                                                          class="css-tj5bde-Svg"
+                                                                          focusable="false"
+                                                                          height="20"
+                                                                          viewBox="0 0 20 20"
+                                                                          width="20"
                                                                         >
-                                                                          <svg
-                                                                            aria-hidden="true"
-                                                                            class="css-tj5bde-Svg"
-                                                                            focusable="false"
-                                                                            height="20"
-                                                                            viewBox="0 0 20 20"
-                                                                            width="20"
-                                                                          >
-                                                                            <path
-                                                                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                                            />
-                                                                          </svg>
-                                                                        </div>
+                                                                          <path
+                                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                          />
+                                                                        </svg>
                                                                       </div>
                                                                     </div>
                                                                   </div>
@@ -1398,7 +1418,6 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                     </div>
                                                     <div
                                                       class="custom-array-template-add-btn add-header"
-                                                      data-testid="custom-array-template-add-btn"
                                                     >
                                                       <button
                                                         class="btn"
@@ -1416,7 +1435,11 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                         <span
                                                           class="add-label"
                                                         >
-                                                          Add another
+                                                          <span
+                                                            data-testid="custom-array-template-add-another-btn"
+                                                          >
+                                                            Add another
+                                                          </span>
                                                            
                                                           HTTP Method
                                                         </span>
@@ -1438,6 +1461,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -1454,7 +1478,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                     <div
                                       class="title"
                                     >
-                                      Query Input
+                                      QueryInput
                                     </div>
                                     <p>
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
@@ -1502,161 +1526,168 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                             </span>
                                           </button>
                                         </div>
+                                      </div>
+                                      <div
+                                        class="custom-array-template-element"
+                                      />
+                                      <div
+                                        class="mb-2  d-flex align-items-center row"
+                                      >
                                         <div
-                                          class="mb-2  d-flex align-items-center row"
+                                          class="array-item col-lg-12 col-12"
+                                          data-testid="custom-array-element"
                                         >
                                           <div
-                                            class="array-item col-lg-12 col-12"
-                                            data-testid="custom-array-element"
+                                            class="form-group field field-object"
                                           >
                                             <div
-                                              class="form-group field field-object"
+                                              class="row row-children"
                                             >
+                                               
                                               <div
-                                                class="row row-children"
+                                                class="col-md-12"
                                               >
+                                                 
                                                 <div
-                                                  class="col-md-12"
+                                                  class="row row-children"
                                                 >
                                                    
                                                   <div
-                                                    class="row row-children"
+                                                    class="col-md-12"
                                                   >
-                                                    <div
-                                                      class="col-md-12"
+                                                     
+                                                    <span
+                                                      data-testid="layout-grid-field__schema-field--value-type"
                                                     >
-                                                       
-                                                      <span
-                                                        data-testid="layout-grid-field__schema-field--value-type"
+                                                      <div
+                                                        class="form-group field field-string"
                                                       >
                                                         <div
-                                                          class="form-group field field-string"
+                                                          class="widget-header"
+                                                          data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <div
-                                                            class="widget-header"
-                                                            data-testid="custom-text-widget__value-type--text-header"
-                                                          >
-                                                            <span>
-                                                              Value Type
-                                                              <i
-                                                                class="eui-icon eui-required-o required-icon"
-                                                              />
-                                                            </span>
-                                                          </div>
-                                                          <input
-                                                            class="custom-text-widget-input"
-                                                            data-testid="custom-text-widget__value-type--text-input"
-                                                            id="PotentialAction_QueryInput_0_ValueType"
-                                                            name="Value Type"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                          <span
-                                                            class="widget-description"
-                                                            data-testid="custom-text-widget--description-field__value-type"
-                                                          />
+                                                          <span>
+                                                            Value Type
+                                                            <i
+                                                              class="eui-icon eui-required-o required-icon"
+                                                            />
+                                                          </span>
                                                         </div>
-                                                      </span>
-                                                    </div>
+                                                        <input
+                                                          class="custom-text-widget-input"
+                                                          data-testid="custom-text-widget__value-type--text-input"
+                                                          id="PotentialAction_QueryInput_0_ValueType"
+                                                          name="Value Type"
+                                                          type="text"
+                                                          value=""
+                                                        />
+                                                        <span
+                                                          class="widget-description"
+                                                          data-testid="custom-text-widget--description-field__value-type"
+                                                        />
+                                                      </div>
+                                                    </span>
                                                   </div>
+                                                </div>
+                                                <div
+                                                  class="row row-children"
+                                                >
+                                                   
                                                   <div
-                                                    class="row row-children"
+                                                    class="col-md-12"
                                                   >
-                                                    <div
-                                                      class="col-md-12"
+                                                     
+                                                    <span
+                                                      data-testid="layout-grid-field__schema-field--value-name"
                                                     >
-                                                       
-                                                      <span
-                                                        data-testid="layout-grid-field__schema-field--value-name"
+                                                      <div
+                                                        class="form-group field field-string"
                                                       >
                                                         <div
-                                                          class="form-group field field-string"
+                                                          class="widget-header"
+                                                          data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <div
-                                                            class="widget-header"
-                                                            data-testid="custom-text-widget__value-name--text-header"
-                                                          >
-                                                            <span>
-                                                              Value Name
-                                                              <i
-                                                                class="eui-icon eui-required-o required-icon"
-                                                              />
-                                                            </span>
-                                                          </div>
-                                                          <input
-                                                            class="custom-text-widget-input"
-                                                            data-testid="custom-text-widget__value-name--text-input"
-                                                            id="PotentialAction_QueryInput_0_ValueName"
-                                                            name="Value Name"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                          <span
-                                                            class="widget-description"
-                                                            data-testid="custom-text-widget--description-field__value-name"
-                                                          />
+                                                          <span>
+                                                            Value Name
+                                                            <i
+                                                              class="eui-icon eui-required-o required-icon"
+                                                            />
+                                                          </span>
                                                         </div>
-                                                      </span>
-                                                    </div>
+                                                        <input
+                                                          class="custom-text-widget-input"
+                                                          data-testid="custom-text-widget__value-name--text-input"
+                                                          id="PotentialAction_QueryInput_0_ValueName"
+                                                          name="Value Name"
+                                                          type="text"
+                                                          value=""
+                                                        />
+                                                        <span
+                                                          class="widget-description"
+                                                          data-testid="custom-text-widget--description-field__value-name"
+                                                        />
+                                                      </div>
+                                                    </span>
                                                   </div>
+                                                </div>
+                                                <div
+                                                  class="row row-children"
+                                                >
+                                                   
                                                   <div
-                                                    class="row row-children"
+                                                    class="col-md-12"
                                                   >
-                                                    <div
-                                                      class="col-md-12"
+                                                     
+                                                    <span
+                                                      data-testid="layout-grid-field__schema-field--value-required"
                                                     >
-                                                       
-                                                      <span
-                                                        data-testid="layout-grid-field__schema-field--value-required"
+                                                      <div
+                                                        class="form-group field field-boolean"
                                                       >
                                                         <div
-                                                          class="form-group field field-boolean"
+                                                          class="mb-0 form-group"
                                                         >
                                                           <div
-                                                            class="mb-0 form-group"
+                                                            class="form-check"
                                                           >
-                                                            <div
-                                                              class="form-check"
+                                                            <input
+                                                              aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
+                                                              class="form-check-input"
+                                                              id="PotentialAction_QueryInput_0_ValueRequired-0"
+                                                              name="PotentialAction_QueryInput_0_ValueRequired"
+                                                              type="radio"
+                                                              value="0"
+                                                            />
+                                                            <label
+                                                              class="form-check-label"
+                                                              for="PotentialAction_QueryInput_0_ValueRequired-0"
+                                                              title=""
                                                             >
-                                                              <input
-                                                                aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
-                                                                class="form-check-input"
-                                                                id="PotentialAction_QueryInput_0_ValueRequired-0"
-                                                                name="PotentialAction_QueryInput_0_ValueRequired"
-                                                                type="radio"
-                                                                value="0"
-                                                              />
-                                                              <label
-                                                                class="form-check-label"
-                                                                for="PotentialAction_QueryInput_0_ValueRequired-0"
-                                                                title=""
-                                                              >
-                                                                Yes
-                                                              </label>
-                                                            </div>
-                                                            <div
-                                                              class="form-check"
+                                                              Yes
+                                                            </label>
+                                                          </div>
+                                                          <div
+                                                            class="form-check"
+                                                          >
+                                                            <input
+                                                              aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
+                                                              class="form-check-input"
+                                                              id="PotentialAction_QueryInput_0_ValueRequired-1"
+                                                              name="PotentialAction_QueryInput_0_ValueRequired"
+                                                              type="radio"
+                                                              value="1"
+                                                            />
+                                                            <label
+                                                              class="form-check-label"
+                                                              for="PotentialAction_QueryInput_0_ValueRequired-1"
+                                                              title=""
                                                             >
-                                                              <input
-                                                                aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
-                                                                class="form-check-input"
-                                                                id="PotentialAction_QueryInput_0_ValueRequired-1"
-                                                                name="PotentialAction_QueryInput_0_ValueRequired"
-                                                                type="radio"
-                                                                value="1"
-                                                              />
-                                                              <label
-                                                                class="form-check-label"
-                                                                for="PotentialAction_QueryInput_0_ValueRequired-1"
-                                                                title=""
-                                                              >
-                                                                No
-                                                              </label>
-                                                            </div>
+                                                              No
+                                                            </label>
                                                           </div>
                                                         </div>
-                                                      </span>
-                                                    </div>
+                                                      </div>
+                                                    </span>
                                                   </div>
                                                 </div>
                                               </div>
@@ -1667,7 +1698,6 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                     </div>
                                     <div
                                       class="custom-array-template-add-btn add-header"
-                                      data-testid="custom-array-template-add-btn"
                                     >
                                       <button
                                         class="btn"
@@ -1685,7 +1715,11 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                         <span
                                           class="add-label"
                                         >
-                                          Add another
+                                          <span
+                                            data-testid="custom-array-template-add-another-btn"
+                                          >
+                                            Add another
+                                          </span>
                                            
                                           Query Input
                                         </span>
@@ -4533,6 +4567,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -4540,6 +4575,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4588,6 +4624,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4634,6 +4671,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4680,6 +4718,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4724,6 +4763,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4852,6 +4892,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4911,6 +4952,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4958,6 +5000,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -5001,6 +5044,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -5014,6 +5058,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -5044,6 +5089,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -5088,6 +5134,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -5200,6 +5247,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -5313,6 +5361,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -5423,6 +5472,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -5553,10 +5603,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__name"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Name'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__name--info"
+                          />
+                          Must have required property 'Name'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -5564,10 +5619,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__long-name"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Long Name'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__long-name--info"
+                          />
+                          Must have required property 'Long Name'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -5575,10 +5635,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__type"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Type'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__type--info"
+                          />
+                          Must have required property 'Type'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -5586,10 +5651,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__version"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Version'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__version--info"
+                          />
+                          Must have required property 'Version'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -5597,10 +5667,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -5608,10 +5683,15 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>

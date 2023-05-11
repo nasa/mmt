@@ -57,6 +57,10 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     onChange(value)
   }
   onHandleBlur() {
+    const { id, registry } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
+    editor.addToVisitedFields(id)
     this.setState({ showDescription: false })
   }
 
@@ -116,7 +120,9 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
           maxLength={maxLength}
           onFocus={this.onHandleFocus}
           onChange={this.onHandleChange}
-          onBlur={this.onHandleBlur}
+          onBlur={
+            this.onHandleBlur
+          }
         />
         <span className="widget-description" data-testid={`custom-text-widget--description-field__${kebabCase(label)}`}>
           {

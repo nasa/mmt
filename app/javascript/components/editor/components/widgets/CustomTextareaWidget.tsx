@@ -58,6 +58,10 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     onChange(value)
   }
   onHandleBlur() {
+    const { id, registry } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
+    editor.addToVisitedFields(id)
     this.setState({ showDescription: false })
   }
 

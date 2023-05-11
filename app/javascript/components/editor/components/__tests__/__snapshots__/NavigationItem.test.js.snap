@@ -36,10 +36,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__name"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Name'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__name--info"
+                />
+                Must have required property 'Name'
+              </div>
             </li>
           </div>
           <div
@@ -47,10 +52,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__long-name"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Long Name'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__long-name--info"
+                />
+                Must have required property 'Long Name'
+              </div>
             </li>
           </div>
           <div
@@ -58,10 +68,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__type"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Type'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__type--info"
+                />
+                Must have required property 'Type'
+              </div>
             </li>
           </div>
           <div
@@ -69,10 +84,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__version"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Version'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__version--info"
+                />
+                Must have required property 'Version'
+              </div>
             </li>
           </div>
           <div
@@ -80,10 +100,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__description"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Description'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__description--info"
+                />
+                Must have required property 'Description'
+              </div>
             </li>
           </div>
           <div
@@ -91,10 +116,15 @@ exports[`Navigation Item Component clicking on a item triggers navigate to 1`] =
             data-testid="error-list-item__url"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'URL'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__url--info"
+                />
+                Must have required property 'URL'
+              </div>
             </li>
           </div>
         </ul>
@@ -140,10 +170,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__name"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Name'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__name--info"
+                />
+                Must have required property 'Name'
+              </div>
             </li>
           </div>
           <div
@@ -151,10 +186,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__long-name"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Long Name'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__long-name--info"
+                />
+                Must have required property 'Long Name'
+              </div>
             </li>
           </div>
           <div
@@ -162,10 +202,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__type"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Type'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__type--info"
+                />
+                Must have required property 'Type'
+              </div>
             </li>
           </div>
           <div
@@ -173,10 +218,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__version"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Version'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__version--info"
+                />
+                Must have required property 'Version'
+              </div>
             </li>
           </div>
           <div
@@ -184,10 +234,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__description"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'Description'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__description--info"
+                />
+                Must have required property 'Description'
+              </div>
             </li>
           </div>
           <div
@@ -195,10 +250,15 @@ exports[`Navigation Item Component hovers over 1`] = `
             data-testid="error-list-item__url"
           >
             <li>
-              <i
-                class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-              />
-              Must have required property 'URL'
+              <div
+                style="display: flex;"
+              >
+                <i
+                  class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                  data-testid="error-list-item__url--info"
+                />
+                Must have required property 'URL'
+              </div>
             </li>
           </div>
         </ul>
@@ -242,7 +302,7 @@ exports[`Navigation Item Component renders a navigation item 1`] = `
 </div>
 `;
 
-exports[`Navigation Item Component shows green for section with no issues 1`] = `
+exports[`Navigation Item Component shows green progress circle since section with no issues 1`] = `
 <div>
   <div>
     <div
@@ -2781,7 +2841,7 @@ exports[`Navigation Item Component shows green for section with no issues 1`] = 
 </div>
 `;
 
-exports[`Navigation Item Component shows red for section with errors 1`] = `
+exports[`Navigation Item Component shows red progress circle since section has been started and has errors 1`] = `
 <div>
   <div>
     <div
@@ -2854,10 +2914,15 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               data-testid="error-list-item__name"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Name'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__name--info"
+                  />
+                  Must have required property 'Name'
+                </div>
               </li>
             </div>
             <div
@@ -2865,10 +2930,15 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               data-testid="error-list-item__type"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Type'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__type--info"
+                  />
+                  Must have required property 'Type'
+                </div>
               </li>
             </div>
             <div
@@ -2876,10 +2946,15 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               data-testid="error-list-item__version"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Version'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__version--info"
+                  />
+                  Must have required property 'Version'
+                </div>
               </li>
             </div>
             <div
@@ -2887,10 +2962,15 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               data-testid="error-list-item__description"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Description'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__description--info"
+                  />
+                  Must have required property 'Description'
+                </div>
               </li>
             </div>
             <div
@@ -2898,10 +2978,15 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
               data-testid="error-list-item__url"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'URL'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__url--info"
+                  />
+                  Must have required property 'URL'
+                </div>
               </li>
             </div>
           </ul>
@@ -3169,7 +3254,7 @@ exports[`Navigation Item Component shows red for section with errors 1`] = `
                 placeholder=""
                 required=""
                 type="text"
-                value="x"
+                value="mock long name"
               />
             </div>
             <div
@@ -5537,10 +5622,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__name"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Name'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__name--info"
+                  />
+                  Must have required property 'Name'
+                </div>
               </li>
             </div>
             <div
@@ -5548,10 +5638,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__long-name"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Long Name'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__long-name--info"
+                  />
+                  Must have required property 'Long Name'
+                </div>
               </li>
             </div>
             <div
@@ -5559,10 +5654,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__type"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Type'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__type--info"
+                  />
+                  Must have required property 'Type'
+                </div>
               </li>
             </div>
             <div
@@ -5570,10 +5670,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__version"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Version'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__version--info"
+                  />
+                  Must have required property 'Version'
+                </div>
               </li>
             </div>
             <div
@@ -5581,10 +5686,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__description"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Description'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__description--info"
+                  />
+                  Must have required property 'Description'
+                </div>
               </li>
             </div>
             <div
@@ -5592,10 +5702,15 @@ exports[`Navigation Item Component shows required error 1`] = `
               data-testid="error-list-item__url"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'URL'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__url--info"
+                  />
+                  Must have required property 'URL'
+                </div>
               </li>
             </div>
           </ul>

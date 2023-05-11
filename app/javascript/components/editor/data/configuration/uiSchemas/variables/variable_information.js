@@ -170,6 +170,7 @@ const variableInformationUiSchema = {
     'ui:layout_grid': {
       'ui:group': 'Index Ranges',
       'ui:group-description': true,
+      'ui:group-single-panel': true,
       'ui:row': [
         {
           'ui:col': {
@@ -193,6 +194,7 @@ const variableInformationUiSchema = {
     },
     LatRange: {
       'ui:title': 'Lat Range',
+      'ui:canAdd': false,
       items: {
         'ui:type': 'number',
         'ui:title': 'Lat Range'
@@ -200,6 +202,7 @@ const variableInformationUiSchema = {
     },
     LonRange: {
       'ui:title': 'Lon Range',
+      'ui:canAdd': false,
       items: {
         'ui:type': 'number',
         'ui:title': 'Lon Range'

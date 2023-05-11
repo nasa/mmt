@@ -321,11 +321,11 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       formData = [],
       onChange,
       schema,
-      uiSchema
+      uiSchema,
+      required
     } = this.props
     const { description } = schema
     const title = uiSchema['ui:title']
-
     // checks if the Draft is empty, if yes then, removes the empty object
     if (JSON.stringify(formData[0]) === '{}') {
       formData.splice(0)
@@ -348,6 +348,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
           <div className="title-header">
             <span className="keyword-picker-title">
               {title}
+              {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
             </span>
             <hr className="border-0 bg-secondary title-hr" />
             {description}

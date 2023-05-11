@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  makeObservable, observable, computed, toJS
+  makeObservable, observable, computed, toJS, action
 } from 'mobx'
 import { MetadataService } from '../services/MetadataService'
 import Draft from './Draft'
@@ -14,6 +14,7 @@ export default class UmmModel implements FormModel {
   json: object
   fullSchema: any
   currentSection: FormSection
+  visitedFields: string[]
   service: MetadataService
 
   constructor(schema: any) {
@@ -24,6 +25,7 @@ export default class UmmModel implements FormModel {
     this.fullSchema = schema
     const first = this.formSections[0]
     this.currentSection = first
+    this.visitedFields = []
 
     makeObservable(this, {
       draft: observable,
@@ -32,7 +34,9 @@ export default class UmmModel implements FormModel {
       formErrors: observable,
       publishErrors: observable,
       currentSection: observable,
-      uiSchema: computed
+      visitedFields: observable,
+      uiSchema: computed,
+      addToVisitedFields: action
     })
   }
 
@@ -86,6 +90,9 @@ export default class UmmModel implements FormModel {
     formSchema.definitions = this.fullSchema.definitions
     formSchema.required = this.fullSchema.required
     return formSchema
+  }
+  addToVisitedFields(id: string) {
+    if (!this.visitedFields.includes(id)) { this.visitedFields.push(id) }
   }
 
   /* istanbul ignore next */

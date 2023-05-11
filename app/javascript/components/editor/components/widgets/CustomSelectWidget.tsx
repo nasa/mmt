@@ -59,7 +59,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
       this.setState({ loading: true }, () => {
         service.fetchCmrKeywords(name).then((keywords) => {
           const paths = parseCmrResponse(keywords, controlName)
-          const enums = paths.map((path:string[]) => (path[0]))
+          const enums = paths.map((path: string[]) => (path[0]))
           schema.enum = enums
           this.setState({ loading: false })
         })
@@ -83,6 +83,10 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     onChange(value)
   }
   onHandleBlur() {
+    const { registry, id } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
+    editor.addToVisitedFields(id)
     this.setState({ setFocus: false })
   }
 

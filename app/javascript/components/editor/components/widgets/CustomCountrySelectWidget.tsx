@@ -26,7 +26,7 @@ type CustomCountrySelectWidgetState = {
 }
 
 class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidgetProps, CustomCountrySelectWidgetState> {
-  constructor(props:CustomCountrySelectWidgetProps) {
+  constructor(props: CustomCountrySelectWidgetProps) {
     super(props)
     const { value } = props
     let list = countryList().getData()
@@ -39,15 +39,15 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
     this.onHandleChange = this.onHandleChange.bind(this)
   }
 
-  onHandleChange(val:SelectOptions) {
+  onHandleChange(val: SelectOptions) {
     this.selectCountry(val)
   }
 
-  getSelectOption(list:SelectOptions[], value:string) {
-    return list.filter((item:SelectOptions) => (item.value === value))[0]
+  getSelectOption(list: SelectOptions[], value: string) {
+    return list.filter((item: SelectOptions) => (item.value === value))[0]
   }
 
-  remove(list:SelectOptions[], value:string) {
+  remove(list: SelectOptions[], value: string) {
     return list.filter((item) => (item.value !== value))
   }
 

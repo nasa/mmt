@@ -71,9 +71,10 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     this.setState({ isOpen: true, setFocus: true })
   }
   onHandleBlur() {
-    const { registry } = this.props
+    const { id, registry } = this.props
     const { formContext } = registry
     const { editor } = formContext
+    editor.addToVisitedFields(id)
     editor.setFocusField('')
     this.setState({ isOpen: false, setFocus: false })
   }

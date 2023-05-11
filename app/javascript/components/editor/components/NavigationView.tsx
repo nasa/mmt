@@ -125,6 +125,7 @@ class ProgressView extends React.Component<ProgressViewProps, ProgressViewState>
             <Button
               onClick={() => {
                 this.saveDraft(true)
+                window.scroll(0, 0)
               }}
               variant="success"
             >

@@ -880,6 +880,9 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                           class="title"
                         >
                           Organizations
+                          <i
+                            class="eui-icon eui-required-o required-icon"
+                          />
                         </div>
                         <p>
                           The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.
@@ -927,227 +930,49 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                 </span>
                               </button>
                             </div>
+                          </div>
+                          <div
+                            class="custom-array-template-element"
+                          />
+                          <div
+                            class="mb-2  d-flex align-items-center row"
+                          >
                             <div
-                              class="mb-2  d-flex align-items-center row"
+                              class="array-item col-lg-12 col-12"
+                              data-testid="custom-array-element"
                             >
                               <div
-                                class="array-item col-lg-12 col-12"
-                                data-testid="custom-array-element"
+                                class="form-group field field-object"
                               >
                                 <div
-                                  class="form-group field field-object"
+                                  class="row row-children"
                                 >
+                                   
                                   <div
-                                    class="row row-children"
+                                    class="col-md-12"
                                   >
+                                     
                                     <div
-                                      class="col-md-12"
+                                      class="row row-children"
                                     >
                                        
                                       <div
-                                        class="row row-children"
+                                        class="col-md-12"
                                       >
-                                        <div
-                                          class="col-md-12"
+                                         
+                                        <span
+                                          data-testid="layout-grid-field__schema-field--roles"
                                         >
-                                           
-                                          <span
-                                            data-testid="layout-grid-field__schema-field--roles"
-                                          >
-                                            <div
-                                              class="form-group field field-array"
-                                            >
-                                              <div
-                                                class="custom-multi-select-widget"
-                                                data-testid="custom-multi-select-widget__roles"
-                                              >
-                                                <div>
-                                                  <span>
-                                                    Roles
-                                                    <i
-                                                      class="eui-icon eui-required-o required-icon"
-                                                    />
-                                                  </span>
-                                                </div>
-                                                <div
-                                                  class="widget-description"
-                                                  data-testid="custom-select-widget__roles--description"
-                                                >
-                                                  <span>
-                                                    This is the roles of the organization.
-                                                  </span>
-                                                </div>
-                                                <div
-                                                  data-testid="custom-multi-select-widget__roles--selector"
-                                                >
-                                                  <div
-                                                    class=" css-b62m3t-container"
-                                                    id="Organizations_0_Roles"
-                                                  >
-                                                    <span
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                      id="react-select-13-live-region"
-                                                    >
-                                                      <span
-                                                        id="aria-selection"
-                                                      >
-                                                        option , selected.
-                                                      </span>
-                                                      <span
-                                                        id="aria-context"
-                                                      >
-                                                        option SERVICE PROVIDER focused, 1 of 5. 5 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
-                                                      </span>
-                                                    </span>
-                                                    <span
-                                                      aria-atomic="false"
-                                                      aria-live="polite"
-                                                      aria-relevant="additions text"
-                                                      class="css-1f43avz-a11yText-A11yText"
-                                                    />
-                                                    <div
-                                                      class=" css-t3ipsp-control"
-                                                    >
-                                                      <div
-                                                        class=" css-1fdsijx-ValueContainer"
-                                                      >
-                                                        <div
-                                                          class=" css-1jqq78o-placeholder"
-                                                          id="react-select-13-placeholder"
-                                                        >
-                                                          Select Roles
-                                                        </div>
-                                                        <div
-                                                          class=" css-qbdosj-Input"
-                                                          data-value=""
-                                                        >
-                                                          <input
-                                                            aria-autocomplete="list"
-                                                            aria-controls="react-select-13-listbox"
-                                                            aria-describedby="react-select-13-placeholder"
-                                                            aria-expanded="true"
-                                                            aria-haspopup="true"
-                                                            aria-owns="react-select-13-listbox"
-                                                            autocapitalize="none"
-                                                            autocomplete="off"
-                                                            autocorrect="off"
-                                                            class=""
-                                                            id="react-select-13-input"
-                                                            role="combobox"
-                                                            spellcheck="false"
-                                                            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                            tabindex="0"
-                                                            type="text"
-                                                            value=""
-                                                          />
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class=" css-1hb7zxy-IndicatorsContainer"
-                                                      >
-                                                        <span
-                                                          class=" css-1u9des2-indicatorSeparator"
-                                                        />
-                                                        <div
-                                                          aria-hidden="true"
-                                                          class=" css-15lsz6c-indicatorContainer"
-                                                        >
-                                                          <svg
-                                                            aria-hidden="true"
-                                                            class="css-tj5bde-Svg"
-                                                            focusable="false"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            width="20"
-                                                          >
-                                                            <path
-                                                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                                                            />
-                                                          </svg>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                    <div
-                                                      class=" css-1nmdiq5-menu"
-                                                      id="react-select-13-listbox"
-                                                    >
-                                                      <div
-                                                        class=" css-1n6sfyn-MenuList"
-                                                      >
-                                                        <div
-                                                          aria-disabled="false"
-                                                          class=" css-d7l1ni-option"
-                                                          id="react-select-13-option-0"
-                                                          tabindex="-1"
-                                                        >
-                                                          SERVICE PROVIDER
-                                                        </div>
-                                                        <div
-                                                          aria-disabled="false"
-                                                          class=" css-10wo9uf-option"
-                                                          id="react-select-13-option-1"
-                                                          tabindex="-1"
-                                                        >
-                                                          DEVELOPER
-                                                        </div>
-                                                        <div
-                                                          aria-disabled="false"
-                                                          class=" css-10wo9uf-option"
-                                                          id="react-select-13-option-2"
-                                                          tabindex="-1"
-                                                        >
-                                                          PUBLISHER
-                                                        </div>
-                                                        <div
-                                                          aria-disabled="false"
-                                                          class=" css-10wo9uf-option"
-                                                          id="react-select-13-option-3"
-                                                          tabindex="-1"
-                                                        >
-                                                          AUTHOR
-                                                        </div>
-                                                        <div
-                                                          aria-disabled="false"
-                                                          class=" css-10wo9uf-option"
-                                                          id="react-select-13-option-4"
-                                                          tabindex="-1"
-                                                        >
-                                                          ORIGINATOR
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                    <div>
-                                                      <input
-                                                        name="Select-Roles"
-                                                        type="hidden"
-                                                        value=""
-                                                      />
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="row row-children"
-                                      >
-                                        <div
-                                          class="col-md-12"
-                                        >
-                                           
                                           <div
-                                            class="form-group field field-string"
-                                            data-testid="layout-grid-field__custom-select-widget--short-name"
+                                            class="form-group field field-array"
                                           >
                                             <div
-                                              class="custom-select-widget"
-                                              data-testid="custom-select-widget__short-name"
+                                              class="custom-multi-select-widget"
+                                              data-testid="custom-multi-select-widget__roles"
                                             >
                                               <div>
                                                 <span>
-                                                  Short Name
+                                                  Roles
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -1155,21 +980,34 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                               </div>
                                               <div
                                                 class="widget-description"
-                                                data-testid="custom-select-widget__short-name--description"
+                                                data-testid="custom-select-widget__roles--description"
                                               >
-                                                <span />
+                                                <span>
+                                                  This is the roles of the organization.
+                                                </span>
                                               </div>
                                               <div
-                                                data-testid="custom-select-widget__short-name--selector"
+                                                data-testid="custom-multi-select-widget__roles--selector"
                                               >
                                                 <div
-                                                  class=" css-3iigni-container"
-                                                  id="Organizations_0_ShortName"
+                                                  class=" css-b62m3t-container"
+                                                  id="Organizations_0_Roles"
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-14-live-region"
-                                                  />
+                                                    id="react-select-13-live-region"
+                                                  >
+                                                    <span
+                                                      id="aria-selection"
+                                                    >
+                                                      option , selected.
+                                                    </span>
+                                                    <span
+                                                      id="aria-context"
+                                                    >
+                                                      option SERVICE PROVIDER focused, 1 of 5. 5 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+                                                    </span>
+                                                  </span>
                                                   <span
                                                     aria-atomic="false"
                                                     aria-live="polite"
@@ -1177,30 +1015,33 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                     class="css-1f43avz-a11yText-A11yText"
                                                   />
                                                   <div
-                                                    class=" css-16xfy0z-control"
+                                                    class=" css-t3ipsp-control"
                                                   >
                                                     <div
                                                       class=" css-1fdsijx-ValueContainer"
                                                     >
                                                       <div
-                                                        class=" css-olqui2-singleValue"
+                                                        class=" css-1jqq78o-placeholder"
+                                                        id="react-select-13-placeholder"
                                                       >
-                                                        AARHUS-HYDRO
+                                                        Select Roles
                                                       </div>
                                                       <div
-                                                        class=" css-1h01tm3-Input"
+                                                        class=" css-qbdosj-Input"
                                                         data-value=""
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-expanded="false"
+                                                          aria-controls="react-select-13-listbox"
+                                                          aria-describedby="react-select-13-placeholder"
+                                                          aria-expanded="true"
                                                           aria-haspopup="true"
+                                                          aria-owns="react-select-13-listbox"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          disabled=""
-                                                          id="react-select-14-input"
+                                                          id="react-select-13-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1213,26 +1054,12 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                     <div
                                                       class=" css-1hb7zxy-IndicatorsContainer"
                                                     >
-                                                      <div
-                                                        aria-hidden="true"
-                                                        class=" css-pogzpp-loadingIndicator"
-                                                      >
-                                                        <span
-                                                          class="css-1xtdfmb-LoadingDot"
-                                                        />
-                                                        <span
-                                                          class="css-zoievk-LoadingDot"
-                                                        />
-                                                        <span
-                                                          class="css-x748d8-LoadingDot"
-                                                        />
-                                                      </div>
                                                       <span
-                                                        class=" css-894a34-indicatorSeparator"
+                                                        class=" css-1u9des2-indicatorSeparator"
                                                       />
                                                       <div
                                                         aria-hidden="true"
-                                                        class=" css-1xc3v61-indicatorContainer"
+                                                        class=" css-15lsz6c-indicatorContainer"
                                                       >
                                                         <svg
                                                           aria-hidden="true"
@@ -1249,86 +1076,270 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                       </div>
                                                     </div>
                                                   </div>
+                                                  <div
+                                                    class=" css-1nmdiq5-menu"
+                                                    id="react-select-13-listbox"
+                                                  >
+                                                    <div
+                                                      class=" css-1n6sfyn-MenuList"
+                                                    >
+                                                      <div
+                                                        aria-disabled="false"
+                                                        class=" css-d7l1ni-option"
+                                                        id="react-select-13-option-0"
+                                                        tabindex="-1"
+                                                      >
+                                                        SERVICE PROVIDER
+                                                      </div>
+                                                      <div
+                                                        aria-disabled="false"
+                                                        class=" css-10wo9uf-option"
+                                                        id="react-select-13-option-1"
+                                                        tabindex="-1"
+                                                      >
+                                                        DEVELOPER
+                                                      </div>
+                                                      <div
+                                                        aria-disabled="false"
+                                                        class=" css-10wo9uf-option"
+                                                        id="react-select-13-option-2"
+                                                        tabindex="-1"
+                                                      >
+                                                        PUBLISHER
+                                                      </div>
+                                                      <div
+                                                        aria-disabled="false"
+                                                        class=" css-10wo9uf-option"
+                                                        id="react-select-13-option-3"
+                                                        tabindex="-1"
+                                                      >
+                                                        AUTHOR
+                                                      </div>
+                                                      <div
+                                                        aria-disabled="false"
+                                                        class=" css-10wo9uf-option"
+                                                        id="react-select-13-option-4"
+                                                        tabindex="-1"
+                                                      >
+                                                        ORIGINATOR
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div>
+                                                    <input
+                                                      name="Select-Roles"
+                                                      type="hidden"
+                                                      value=""
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="row row-children"
+                                    >
+                                       
+                                      <div
+                                        class="col-md-12"
+                                      >
+                                         
+                                        <div
+                                          class="form-group field field-string"
+                                          data-testid="layout-grid-field__custom-select-widget--short-name"
+                                        >
+                                          <div
+                                            class="custom-select-widget"
+                                            data-testid="custom-select-widget__short-name"
+                                          >
+                                            <div>
+                                              <span>
+                                                Short Name
+                                                <i
+                                                  class="eui-icon eui-required-o required-icon"
+                                                />
+                                              </span>
+                                            </div>
+                                            <div
+                                              class="widget-description"
+                                              data-testid="custom-select-widget__short-name--description"
+                                            >
+                                              <span />
+                                            </div>
+                                            <div
+                                              data-testid="custom-select-widget__short-name--selector"
+                                            >
+                                              <div
+                                                class=" css-3iigni-container"
+                                                id="Organizations_0_ShortName"
+                                              >
+                                                <span
+                                                  class="css-1f43avz-a11yText-A11yText"
+                                                  id="react-select-14-live-region"
+                                                />
+                                                <span
+                                                  aria-atomic="false"
+                                                  aria-live="polite"
+                                                  aria-relevant="additions text"
+                                                  class="css-1f43avz-a11yText-A11yText"
+                                                />
+                                                <div
+                                                  class=" css-16xfy0z-control"
+                                                >
+                                                  <div
+                                                    class=" css-1fdsijx-ValueContainer"
+                                                  >
+                                                    <div
+                                                      class=" css-olqui2-singleValue"
+                                                    >
+                                                      AARHUS-HYDRO
+                                                    </div>
+                                                    <div
+                                                      class=" css-1h01tm3-Input"
+                                                      data-value=""
+                                                    >
+                                                      <input
+                                                        aria-autocomplete="list"
+                                                        aria-expanded="false"
+                                                        aria-haspopup="true"
+                                                        autocapitalize="none"
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        class=""
+                                                        disabled=""
+                                                        id="react-select-14-input"
+                                                        role="combobox"
+                                                        spellcheck="false"
+                                                        style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                        tabindex="0"
+                                                        type="text"
+                                                        value=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                  <div
+                                                    class=" css-1hb7zxy-IndicatorsContainer"
+                                                  >
+                                                    <div
+                                                      aria-hidden="true"
+                                                      class=" css-pogzpp-loadingIndicator"
+                                                    >
+                                                      <span
+                                                        class="css-1xtdfmb-LoadingDot"
+                                                      />
+                                                      <span
+                                                        class="css-zoievk-LoadingDot"
+                                                      />
+                                                      <span
+                                                        class="css-x748d8-LoadingDot"
+                                                      />
+                                                    </div>
+                                                    <span
+                                                      class=" css-894a34-indicatorSeparator"
+                                                    />
+                                                    <div
+                                                      aria-hidden="true"
+                                                      class=" css-1xc3v61-indicatorContainer"
+                                                    >
+                                                      <svg
+                                                        aria-hidden="true"
+                                                        class="css-tj5bde-Svg"
+                                                        focusable="false"
+                                                        height="20"
+                                                        viewBox="0 0 20 20"
+                                                        width="20"
+                                                      >
+                                                        <path
+                                                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                        />
+                                                      </svg>
+                                                    </div>
+                                                  </div>
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
+                                    </div>
+                                    <div
+                                      class="row row-children"
+                                    >
+                                       
                                       <div
-                                        class="row row-children"
+                                        class="col-md-12"
                                       >
+                                         
                                         <div
-                                          class="col-md-12"
+                                          class="form-group field field-string"
+                                          data-testid="controlled-fields__custom-text-widget--long-name"
                                         >
-                                           
                                           <div
-                                            class="form-group field field-string"
-                                            data-testid="controlled-fields__custom-text-widget--long-name"
+                                            class="widget-header"
+                                            data-testid="custom-text-widget__long-name--text-header"
                                           >
-                                            <div
-                                              class="widget-header"
-                                              data-testid="custom-text-widget__long-name--text-header"
-                                            >
-                                              <span>
-                                                Long Name
-                                              </span>
-                                            </div>
-                                            <input
-                                              class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__long-name--text-input"
-                                              disabled=""
-                                              id="Organizations_0_LongName"
-                                              name="Long Name"
-                                              type="text"
-                                              value=""
-                                            />
-                                            <span
-                                              class="widget-description"
-                                              data-testid="custom-text-widget--description-field__long-name"
-                                            />
+                                            <span>
+                                              Long Name
+                                            </span>
                                           </div>
+                                          <input
+                                            class="custom-text-widget-input"
+                                            data-testid="custom-text-widget__long-name--text-input"
+                                            disabled=""
+                                            id="Organizations_0_LongName"
+                                            name="Long Name"
+                                            type="text"
+                                            value=""
+                                          />
+                                          <span
+                                            class="widget-description"
+                                            data-testid="custom-text-widget--description-field__long-name"
+                                          />
                                         </div>
                                       </div>
+                                    </div>
+                                    <div
+                                      class="row row-children"
+                                    >
+                                       
                                       <div
-                                        class="row row-children"
+                                        class="col-md-12"
                                       >
+                                         
                                         <div
-                                          class="col-md-12"
+                                          class="form-group field field-string"
+                                          data-testid="controlled-fields__custom-text-widget--url-value"
                                         >
-                                           
                                           <div
-                                            class="form-group field field-string"
-                                            data-testid="controlled-fields__custom-text-widget--url-value"
+                                            class="widget-header"
+                                            data-testid="custom-text-widget__url-value--text-header"
                                           >
-                                            <div
-                                              class="widget-header"
-                                              data-testid="custom-text-widget__url-value--text-header"
-                                            >
-                                              <span>
-                                                URL value
-                                              </span>
-                                              <span>
-                                                0
-                                                /
-                                                1024
-                                              </span>
-                                            </div>
-                                            <input
-                                              class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__url-value--text-input"
-                                              disabled=""
-                                              id="Organizations_0_URLValue"
-                                              maxlength="1024"
-                                              name="URL value"
-                                              type="text"
-                                              value=""
-                                            />
-                                            <span
-                                              class="widget-description"
-                                              data-testid="custom-text-widget--description-field__url-value"
-                                            />
+                                            <span>
+                                              URL value
+                                            </span>
+                                            <span>
+                                              0
+                                              /
+                                              1024
+                                            </span>
                                           </div>
+                                          <input
+                                            class="custom-text-widget-input"
+                                            data-testid="custom-text-widget__url-value--text-input"
+                                            disabled=""
+                                            id="Organizations_0_URLValue"
+                                            maxlength="1024"
+                                            name="URL value"
+                                            type="text"
+                                            value=""
+                                          />
+                                          <span
+                                            class="widget-description"
+                                            data-testid="custom-text-widget--description-field__url-value"
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -1340,7 +1351,6 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                         </div>
                         <div
                           class="custom-array-template-add-btn add-header"
-                          data-testid="custom-array-template-add-btn"
                         >
                           <button
                             class="btn"
@@ -1358,7 +1368,11 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                             <span
                               class="add-label"
                             >
-                              Add another
+                              <span
+                                data-testid="custom-array-template-add-another-btn"
+                              >
+                                Add another
+                              </span>
                                
                               Organization
                             </span>
@@ -1544,10 +1558,15 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                           data-testid="error-list-item__roles"
                         >
                           <li>
-                            <i
-                              class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                            />
-                            Must have required property 'Roles'
+                            <div
+                              style="display: flex;"
+                            >
+                              <i
+                                class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                                data-testid="error-list-item__roles--info"
+                              />
+                              Must have required property 'Roles'
+                            </div>
                           </li>
                         </div>
                       </ul>

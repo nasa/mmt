@@ -71,6 +71,7 @@ exports[`Navigation View Component cancels changes 1`] = `
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -78,6 +79,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -124,6 +126,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -170,6 +173,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -216,6 +220,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -260,6 +265,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -373,6 +379,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -432,6 +439,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -479,6 +487,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -522,6 +531,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -535,6 +545,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -565,6 +576,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -609,6 +621,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -721,6 +734,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -834,6 +848,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -944,6 +959,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -1074,10 +1090,15 @@ exports[`Navigation View Component cancels changes 1`] = `
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -1085,10 +1106,15 @@ exports[`Navigation View Component cancels changes 1`] = `
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -3762,6 +3788,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -3769,6 +3796,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -3815,6 +3843,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -3861,6 +3890,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -3907,6 +3937,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -3951,6 +3982,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4064,6 +4096,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4123,6 +4156,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4170,6 +4204,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4213,6 +4248,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -4226,6 +4262,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -4256,6 +4293,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -4300,6 +4338,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -4412,6 +4451,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -4525,6 +4565,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -4635,6 +4676,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -4765,10 +4807,15 @@ exports[`Navigation View Component error canceling changes 1`] = `
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -4776,10 +4823,15 @@ exports[`Navigation View Component error canceling changes 1`] = `
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -7455,10 +7507,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__name"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Name'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__name--info"
+                  />
+                  Must have required property 'Name'
+                </div>
               </li>
             </div>
             <div
@@ -7466,10 +7523,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__long-name"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Long Name'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__long-name--info"
+                  />
+                  Must have required property 'Long Name'
+                </div>
               </li>
             </div>
             <div
@@ -7477,10 +7539,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__type"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Type'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__type--info"
+                  />
+                  Must have required property 'Type'
+                </div>
               </li>
             </div>
             <div
@@ -7488,10 +7555,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__version"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Version'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__version--info"
+                  />
+                  Must have required property 'Version'
+                </div>
               </li>
             </div>
             <div
@@ -7499,10 +7571,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__description"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Description'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__description--info"
+                  />
+                  Must have required property 'Description'
+                </div>
               </li>
             </div>
             <div
@@ -7510,10 +7587,15 @@ exports[`Navigation View Component renders the navigation view 1`] = `
               data-testid="error-list-item__url"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'URL'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__url--info"
+                  />
+                  Must have required property 'URL'
+                </div>
               </li>
             </div>
           </ul>
@@ -12715,6 +12797,7 @@ exports[`Navigation View Component saves and previews 1`] = `
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -12722,6 +12805,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -12768,6 +12852,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -12814,6 +12899,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -12860,6 +12946,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -12904,6 +12991,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -13017,6 +13105,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -13076,6 +13165,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -13123,6 +13213,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -13166,6 +13257,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -13179,6 +13271,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -13209,6 +13302,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -13253,6 +13347,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -13365,6 +13460,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -13478,6 +13574,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -13588,6 +13685,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -13765,10 +13863,15 @@ exports[`Navigation View Component saves and previews 1`] = `
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -13776,10 +13879,15 @@ exports[`Navigation View Component saves and previews 1`] = `
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -16448,6 +16556,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -16455,6 +16564,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16501,6 +16611,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16547,6 +16658,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16593,6 +16705,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16637,6 +16750,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16750,6 +16864,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16809,6 +16924,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16856,6 +16972,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16899,6 +17016,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -16912,6 +17030,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -16942,6 +17061,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -16986,6 +17106,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -17098,6 +17219,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -17211,6 +17333,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -17321,6 +17444,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -17498,10 +17622,15 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -17509,10 +17638,15 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -20186,6 +20320,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -20193,6 +20328,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20239,6 +20375,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20285,6 +20422,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20331,6 +20469,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20375,6 +20514,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20488,6 +20628,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20547,6 +20688,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20594,6 +20736,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20637,6 +20780,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -20650,6 +20794,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -20680,6 +20825,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -20724,6 +20870,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -20836,6 +20983,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -20949,6 +21097,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -21059,6 +21208,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -21236,10 +21386,15 @@ exports[`Navigation View Component saves but receives error 1`] = `
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -21247,10 +21402,15 @@ exports[`Navigation View Component saves but receives error 1`] = `
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>
@@ -23973,10 +24133,15 @@ exports[`Navigation View Component saves draft 1`] = `
               data-testid="error-list-item__description"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'Description'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__description--info"
+                  />
+                  Must have required property 'Description'
+                </div>
               </li>
             </div>
             <div
@@ -23984,10 +24149,15 @@ exports[`Navigation View Component saves draft 1`] = `
               data-testid="error-list-item__url"
             >
               <li>
-                <i
-                  class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                />
-                Must have required property 'URL'
+                <div
+                  style="display: flex;"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                    data-testid="error-list-item__url--info"
+                  />
+                  Must have required property 'URL'
+                </div>
               </li>
             </div>
           </ul>
