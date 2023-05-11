@@ -100,6 +100,11 @@ class ErrorList extends React.Component<ErrorListProps> {
     return error.charAt(0).toUpperCase() + error.slice(1)
   }
   createId(errorProperty: string) {
+    const split = errorProperty.split('.')
+    const parent = split[1]
+    if (errorProperty.startsWith(`.${parent}.${parent}`)) {
+      errorProperty = errorProperty.replace(`.${parent}.${parent}`, parent)
+    }
     if (errorProperty.startsWith('.')) {
       errorProperty = errorProperty.substring(1)
     }

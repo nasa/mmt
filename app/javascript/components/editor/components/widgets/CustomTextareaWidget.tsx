@@ -58,16 +58,24 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     onChange(value)
   }
   onHandleBlur() {
-    const { id, registry } = this.props
+    const { registry } = this.props
     const { formContext } = registry
     const { editor } = formContext
-    editor.addToVisitedFields(id)
+    editor.addToVisitedFields(this.identifier)
     this.setState({ showDescription: false })
+  }
+
+  get identifier() {
+    let { id } = this.props
+    if (id.startsWith('_')) {
+      id = id.slice(1)
+    }
+    return id
   }
 
   render() {
     const {
-      label, schema, required, options = {}, id, uiSchema = {}, registry
+      label, schema, required, options = {}, uiSchema = {}, registry
     } = this.props
     const { title = label } = options
     const { formContext } = registry
@@ -77,6 +85,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     const { value, charsUsed, showDescription } = this.state
     const { focusField } = editor
     let shouldFocus = false
+    const id = this.identifier
 
     if (focusField === id) {
       shouldFocus = true

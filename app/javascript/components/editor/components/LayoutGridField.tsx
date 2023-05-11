@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -433,8 +434,10 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       keys.forEach((key) => {
         if (key === '$id') {
           childIdSchema[key] = childIdSchema[key].replace('root', parentName)
+          childIdSchema[key] = this.removeRedundantParentName(parentName, childIdSchema[key])
         } else {
           childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
+          childIdSchema[key].$id = this.removeRedundantParentName(parentName, childIdSchema[key].$id)
         }
       })
     } else {
@@ -538,6 +541,15 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     )
   }
 
+  // This helper function is needed because in MMT the are id's are different then in react.
+  private removeRedundantParentName(parentName: string, id: string) {
+    if (id.startsWith(`${parentName}_${parentName}`)) {
+      // eslint-disable-next-line no-param-reassign
+      id = id.replace(`${parentName}_${parentName}`, parentName)
+    }
+    return id
+  }
+
   renderField(layoutGridSchema: LayoutGridSchemaProps) {
     const {
       uiSchema,
@@ -574,8 +586,10 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       keys.forEach((key) => {
         if (key === '$id') {
           childIdSchema[key] = childIdSchema[key].replace('root', parentName)
+          childIdSchema[key] = this.removeRedundantParentName(parentName, childIdSchema[key])
         } else {
           childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
+          childIdSchema[key].$id = this.removeRedundantParentName(parentName, childIdSchema[key].$id)
         }
       })
     } else {

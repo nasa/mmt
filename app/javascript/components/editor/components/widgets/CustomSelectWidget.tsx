@@ -83,18 +83,26 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     onChange(value)
   }
   onHandleBlur() {
-    const { registry, id } = this.props
+    const { registry } = this.props
     const { formContext } = registry
     const { editor } = formContext
-    editor.addToVisitedFields(id)
+    editor.addToVisitedFields(this.identifier)
     this.setState({ setFocus: false })
+  }
+
+  get identifier() {
+    let { id } = this.props
+    if (id.startsWith('_')) {
+      id = id.slice(1)
+    }
+    return id
   }
 
   render() {
     const selectOptions: SelectOptions[] = []
     const { setFocus, loading } = this.state
     const {
-      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled, id
+      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled
     } = this.props
     let {
       placeholder
@@ -107,6 +115,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const { title = label, enumOptions } = options
     const { editor } = formContext
     const listOfEnums = schema.enum ? schema.enum : []
+    const id = this.identifier
 
     if (listOfEnums.length === 0 && retrievedSchema.enum) {
       retrievedSchema.enum.forEach((currentEnum: string) => {

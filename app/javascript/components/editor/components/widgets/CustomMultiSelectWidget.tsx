@@ -71,10 +71,10 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     this.setState({ isOpen: true, setFocus: true })
   }
   onHandleBlur() {
-    const { id, registry } = this.props
+    const { registry } = this.props
     const { formContext } = registry
     const { editor } = formContext
-    editor.addToVisitedFields(id)
+    editor.addToVisitedFields(this.identifier)
     editor.setFocusField('')
     this.setState({ isOpen: false, setFocus: false })
   }
@@ -87,7 +87,13 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     const { onChange } = this.state
     onChange(result)
   }
-
+  get identifier() {
+    let { id } = this.props
+    if (id.startsWith('_')) {
+      id = id.slice(1)
+    }
+    return id
+  }
   render() {
     const {
       multiValue, filterOptions, setFocus, isOpen
@@ -95,11 +101,12 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     const {
       label, options, required, schema, registry
     } = this.props
-    const { id } = this.props
+
     const { title = label } = options
     const { formContext } = registry
     const { editor } = formContext
     let shouldFocus = false
+    const id = this.identifier
 
     if (editor.focusField === id) {
       shouldFocus = true
