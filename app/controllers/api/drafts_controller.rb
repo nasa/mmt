@@ -21,7 +21,13 @@ class Api::DraftsController < BaseDraftsController
     provider_id = request.headers["Provider"]
     resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
     response.set_header('MMT_Hits', "#{resources.count}")
-    render json: resources, status: 200
+    array = []
+    resources.to_a.each do |item|
+      map = item.as_json
+      map.delete("draft")
+      array << map
+    end
+    render json: array, status: 200
   end
 
   def create
@@ -77,16 +83,40 @@ class Api::DraftsController < BaseDraftsController
     json_params = JSON.parse(request.body.read())
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
+
     if get_resource.save
-      if (params[:draft_type] == 'ToolDraft')
+      ingested_response = {}
+      if params[:draft_type] == 'ToolDraft'
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-        if ingested_response.success?
-          Rails.logger.info("Audit Log: #{user.urs_uid} successfully created #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
-          result = ingested_response.body
-          render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
-        else
-          render json: draft_json_result(errors: ingested_response.errors), status: 500
+      elsif params[:draft_type] == 'VariableDraft'
+        render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
+
+        ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
+      end
+      if ingested_response.success?
+        # get information for publication email notification before draft is deleted
+        Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{user.urs_uid} for provider: #{user.provider_id}")
+        short_name = get_resource.draft['short_name']
+        # Delete draft
+        get_resource.destroy
+
+        concept_id = ingested_response.body['concept-id']
+        revision_id = ingested_response.body['revision-id']
+
+        begin
+          # instantiate and deliver notification email
+          DraftMailer.send("#{params[:draft_type].underscore}_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
+        rescue => e
+          Rails.logger.error "Error trying to send email in #{self.class} Error: #{e}"
         end
+
+        result = ingested_response.body
+        render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
+
+      else
+        Rails.logger.error("Ingest #{resource_name.capitalize} Metadata Error: #{ingested_response.clean_inspect}")
+        Rails.logger.info("User #{user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{user.provider_id} but encountered an error.")
+        render json: draft_json_result(errors: ingested_response.errors), status: 500
       end
     else
       errors_list = generate_model_error
@@ -138,7 +168,7 @@ class Api::DraftsController < BaseDraftsController
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
-    if urs_uid.nil? or urs_uid != user_id
+    if urs_uid.nil? || (urs_uid != user_id)
       render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
       return
     end
@@ -160,7 +190,31 @@ class Api::DraftsController < BaseDraftsController
     render json: JSON.pretty_generate({"error": 'unauthorized'}), status: 401 unless authorized
   end
 
+  def remove_empty(hash_to_clean)
+    hash_to_clean.compact_blank
+    hash_to_clean.each do |key, value|
+      if value.kind_of?(Array)
+        all_empty = true
+        value.each do |sub_value|
+          unless sub_value.blank?
+            all_empty = false
+            break
+          end
+        end
+        hash_to_clean.delete(key) if all_empty
+      end
+      if value.kind_of?(Hash)
+        remove_empty(value)
+      end
+    end
+    hash_to_clean.compact_blank
+  end
+
   def json_params_to_resource(json_params: {})
+    if json_params['draft'].blank?
+      json_params['draft'] = {}
+    end
+    json_params['draft'] = remove_empty(json_params['draft']) unless json_params.blank? || json_params['draft'].blank?
     get_resource.draft = json_params['draft']
     get_resource.collection_concept_id = json_params['associatedCollectionId']
   end
@@ -183,4 +237,5 @@ class Api::DraftsController < BaseDraftsController
       @resource_name ||= params[:draft_type]
   end
   helper_method :resource_name
+
 end
