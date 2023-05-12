@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/static-property-placement */
-/* eslint-disable react/jsx-no-useless-fragment */
 import { ArrayFieldTemplateProps } from '@rjsf/utils'
 import { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
@@ -40,7 +38,87 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     this.titleScrollRef = React.createRef()
   }
 
-  parseTitle(title:string) {
+  createTitle() {
+    const { uiSchema } = this.props
+    let { title } = this.props
+    const uiTitle = uiSchema['ui:title']
+    if (uiTitle) {
+      title = uiTitle
+    }
+    let itemTitle = null
+    if (uiSchema.items) {
+      itemTitle = uiSchema.items['ui:title'] ?? title
+    }
+    return itemTitle
+  }
+
+  headerWithRemove(element: Element, index: number, items: any) {
+    const itemTitle = this.createTitle()
+    return (
+      <div className="custom-array-template-remove-btn">
+        <div className="remove-header">
+          <h6 className="remove-title">
+            <b>{this.parseTitle(itemTitle)}</b>
+            <span className="element-index-title">
+              {items.length > 0 && `(${index + 1} of ${items.length})`}
+            </span>
+          </h6>
+          <button
+            data-testid={`custom-array-template__remove-button--${kebabCase(itemTitle)}`}
+            className="btn"
+            onClick={element.onDropIndexClick(element.index)}
+            type="button"
+          >
+            <span className="remove-button">
+              <i className="fa-solid fa-circle-minus fa-lg" />
+            </span>
+            {' '}
+            <span className="remove-label">
+              {' '}
+              Remove
+            </span>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  headerWithAdd(items: any) {
+    const { registry, onAddClick } = this.props
+    const { formContext } = registry
+    const { editor } = formContext
+    const itemTitle = this.createTitle()
+    return (
+      <div className="custom-array-template-add-btn add-header">
+        <button
+          data-testid={`custom-array-template__add-button--${kebabCase(itemTitle)}`}
+          className="btn"
+          type="button"
+          onClick={(e) => {
+            onAddClick(e)
+            editor.setArrayAutoScroll(items.length)
+            setTimeout(() => {
+              editor.setArrayAutoScroll(-1)
+            }, 400)
+          }}
+        >
+          <span className="add-button">
+            <i className="fa-solid fa-circle-plus fa-lg" />
+          </span>
+          {' '}
+          <span className="add-label">
+            {items.length === 0 ? (
+              <span data-testid="custom-array-template-add-btn">Add</span>
+            ) : <span data-testid="custom-array-template-add-another-btn">Add another</span>}
+            {' '}
+            {this.parseTitle(itemTitle)}
+          </span>
+        </button>
+      </div>
+    )
+  }
+
+  parseTitle(title: string) {
     if (title == null) {
       return title
     }
@@ -52,42 +130,43 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     return title
   }
 
+  itemBody(element: Element) {
+    return (
+      <Row className="mb-2  d-flex align-items-center">
+        <Col xs="12" lg="12" key={element.key} className={element.className} data-testid="custom-array-element">
+          {element.children}
+        </Col>
+      </Row>
+    )
+  }
   render() {
     const {
-      items, canAdd, onAddClick, schema, uiSchema, registry
+      items, schema, uiSchema, registry, required, title
     } = this.props
-    let { title } = this.props
+    let { canAdd } = this.props
     const { formContext } = registry
     const { editor } = formContext
-    const uiTitle = uiSchema['ui:title']
     const uiClassName = uiSchema['ui:className'] ?? 'title'
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
+
+    if (uiSchema['ui:canAdd'] === false) {
+      canAdd = false
+    }
+
     if (editor?.arrayFieldAutoScroll !== -1) {
-      if (editor.focusField === title) {
-        setTimeout(() => {
-          this.titleScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-        }, 200)
-      }
       if (editor?.arrayFieldAutoScroll || editor.focusField === title) {
         setTimeout(() => {
           this.scrollRef[editor.arrayFieldAutoScroll]?.current?.scrollIntoView({ behavior: 'smooth' })
         }, 200)
       }
     }
-
-    if (uiTitle) {
-      title = uiTitle
-    }
-    let itemTitle = null
-    if (uiSchema.items) {
-      itemTitle = uiSchema.items['ui:title'] ?? title
-    }
     return (
       <div data-testid="custom-array-template" ref={this.titleScrollRef}>
         <div className={uiClassName}>
           {title}
+          {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
         </div>
         <p>
           {schema.description}
@@ -95,100 +174,21 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
         <br />
 
         {items && items.map((element: Element, index: number) => (
-
           <div
             key={element.key}
             className={`${element.className} element`}
             ref={this.scrollRef[index]}
           >
-            <div className="custom-array-template-remove-btn">
-              <div className="remove-header">
-                <h6 className="remove-title">
-                  <b>{this.parseTitle(itemTitle)}</b>
-                  <span className="element-index-title">
-                    {items.length > 0 && `(${index + 1} of ${items.length})`}
-                  </span>
-                </h6>
-                <button
-                  data-testid={`custom-array-template__remove-button--${kebabCase(title)}`}
-                  className="btn"
-                  onClick={element.onDropIndexClick(element.index)}
-                  type="button"
-                >
-                  <span className="remove-button">
-                    <i className="fa-solid fa-circle-minus fa-lg" />
-                  </span>
-                  {' '}
-                  <span className="remove-label">
-                    {' '}
-                    Remove
-                  </span>
-                </button>
-
-              </div>
-              <Row className="mb-2  d-flex align-items-center">
-
-                <Col xs="12" lg="12" key={element.key} className={element.className} data-testid="custom-array-element">
-                  {element.children}
-                </Col>
-              </Row>
-            </div>
+            {canAdd ? (
+              this.headerWithRemove(element, index, items)
+            ) : (null)}
+            <div className="custom-array-template-element" />
+            {this.itemBody(element)}
           </div>
         ))}
-        {(items.length === 0 && canAdd) && (
-        <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
-          <button
-            data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
-            className="btn"
-            type="button"
-            onClick={(e) => {
-              onAddClick(e)
-              editor.setArrayAutoScroll(items.length)
-              setTimeout(() => {
-                editor.setArrayAutoScroll(-1)
-              }, 400)
-            }}
-          >
-            <span className="add-button">
-              <i className="fa-solid fa-circle-plus fa-lg" />
-            </span>
-            {' '}
-            <span className="add-label">
-              Add
-              {' '}
-              {this.parseTitle(itemTitle)}
-            </span>
-          </button>
-        </div>
-        )}
-        {
-          (items.length > 0 && canAdd) && (
-            <div className="custom-array-template-add-btn add-header" data-testid="custom-array-template-add-btn">
-              <button
-                data-testid={`custom-array-template__add-button--${kebabCase(title)}`}
-                className="btn"
-                type="button"
-                onClick={(e) => {
-                  onAddClick(e)
-                  editor.setArrayAutoScroll(items.length)
-                  setTimeout(() => {
-                    editor.setArrayAutoScroll(-1)
-                  }, 400)
-                }}
-              >
-                <span className="add-button">
-                  <i className="fa-solid fa-circle-plus fa-lg" />
-                </span>
-                {' '}
-                <span className="add-label">
-                  Add another
-                  {' '}
-                  {this.parseTitle(itemTitle)}
-                </span>
-              </button>
-            </div>
-          )
-        }
+        {canAdd ? (
+          this.headerWithAdd(items)
+        ) : null}
       </div>
     )
   }

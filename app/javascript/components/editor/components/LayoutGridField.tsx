@@ -1,3 +1,5 @@
+/* eslint-disable react/sort-comp */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -26,13 +28,15 @@ type ComponentProps = {
 
 interface LayoutGridSchemaProps extends FieldProps {
   [Key: string]: any
+  onChange: (value: any) => void,
 }
 
 /** Type used for the state of the `ObjectField` component */
 type LayoutGridSchemaState = {
   cmrResponse: CmrResponseType;
   values: any;
-  loading: boolean
+  loading: boolean;
+  showSinglePanel: boolean
 };
 
 /**
@@ -50,7 +54,8 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     this.state = {
       cmrResponse: {} as CmrResponseType,
       values: {},
-      loading: false
+      loading: false,
+      showSinglePanel: false
     }
   }
 
@@ -233,12 +238,12 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
           }
           const childField = name.substring(pos + 1)
           subform.forEach((obj) => {
-          // eslint-disable-next-line no-param-reassign
+            // eslint-disable-next-line no-param-reassign
             delete obj[childField]
           })
         }
       } else {
-      // eslint-disable-next-line no-param-reassign
+        // eslint-disable-next-line no-param-reassign
         delete form[name]
       }
     })
@@ -250,89 +255,125 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     return Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
   }
 
-  renderField(layoutGridSchema: LayoutGridSchemaProps) {
-    const {
-      uiSchema,
-      errorSchema,
-      idSchema,
-      disabled,
-      readonly,
-      onBlur,
-      onFocus,
-      formData = {},
-      registry
-    } = this.props
-    const { schema: s } = this.props
-    const { fields, schemaUtils } = registry
-    const { SchemaField } = fields
-    const schema = schemaUtils.retrieveSchema(s)
-    let name
-    let render
-    if (typeof layoutGridSchema === 'string') {
-      name = layoutGridSchema
-    } else {
-      name = layoutGridSchema.name
-      render = layoutGridSchema.render
-    }
-    let { name: parentName } = this.props
-    const pos = parentName.lastIndexOf('-')
-    if (pos > -1) {
-      parentName = parentName.substring(0, pos)
-    }
-
-    if (idSchema[name]) {
-      const childIdSchema = idSchema[name]
-      const keys = Object.keys(childIdSchema)
-      keys.forEach((key) => {
-        if (key === '$id') {
-          childIdSchema[key] = childIdSchema[key].replace('root', parentName)
-        } else {
-          childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
-        }
-      })
-    } else {
-      idSchema.$id = name
-    }
-
-    if (schema.properties[name] && !render) {
-      return (
-        <span data-testid={`layout-grid-field__schema-field--${kebabCase(name)}`}>
-          <SchemaField
-            key={JSON.stringify(name)}
-            name={name}
-            required={this.isRequired(name)}
-            schema={schema.properties[name] as any}
-            uiSchema={uiSchema[name]}
-            errorSchema={errorSchema[name]}
-            idSchema={idSchema[name] ? idSchema[name] : idSchema}
-            formData={formData[name]}
-            onChange={this.onPropertyChange(name)}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            registry={registry}
-            disabled={disabled}
-            readonly={readonly}
-            onKeyChange={this.onKeyChange(name)}
-          />
+  createGroupRemoveHeader() {
+    const { uiSchema, formData, onChange } = this.props
+    const title = uiSchema['ui:title']
+    return (
+      <button
+        type="button"
+        className="btn"
+        data-testid={`layout-grid-field__remove-single-panel--${kebabCase(title)}`}
+        style={{ marginBottom: '40px' }}
+        onClick={() => {
+          this.setState({ showSinglePanel: false })
+          Object.getOwnPropertyNames(formData).map((field) => (
+            delete formData[field]
+          ))
+          onChange(formData)
+        }}
+      >
+        <span className="remove-label">
+          <i className="fa-solid fa-circle-minus fa-lg" />
         </span>
-      )
-    }
-    let UIComponent: FunctionComponent<ComponentProps> = render
+        <span className="remove-label">
+          {' '}
+          Remove
+          {' '}
+          {title}
+        </span>
+      </button>
+    )
+  }
 
-    UIComponent = render
+  createGroupAddHeader() {
+    const { uiSchema } = this.props
+    const title = uiSchema['ui:title']
 
     return (
-      <span data-testid={`layout-grid-field__schema-field--${kebabCase(name)}`}>
-        <UIComponent
-          {...this.props}
-          name={name}
-          formData={formData}
-          errorSchema={errorSchema}
-          uiSchema={uiSchema}
-          schema={schema}
-          registry={registry}
-        />
-      </span>
+      <button
+        type="button"
+        className="btn"
+        data-testid={`layout-grid-field__add-single-panel--${kebabCase(title)}`}
+        onClick={() => {
+          this.setState({ showSinglePanel: true })
+        }}
+      >
+        <span className="add-button">
+          <i className="fa-solid fa-circle-plus fa-lg" />
+        </span>
+        <span className="add-label">
+          {' '}
+          Add
+          {' '}
+          {title}
+        </span>
+      </button>
+    )
+  }
+  renderCol(layoutGridSchema: LayoutGridSchemaProps) {
+    const { children, controlName, ...colProps } = layoutGridSchema['ui:col']
+
+    const group = layoutGridSchema['ui:group']
+    const groupDescription = layoutGridSchema['ui:group-description']
+    if (group) {
+      const {
+        registry, idSchema
+      } = this.props
+      const { fields, formContext } = registry
+      const { editor } = formContext
+      const { TitleField } = fields
+      const { required, schema } = this.props
+      const { description = '' } = schema
+      const title = group && typeof group === 'string' ? group : null
+      if (idSchema.$id === editor.focusField) {
+        setTimeout(() => {
+          /* istanbul ignore next */
+          this.executeScroll()
+        })
+      }
+      return (
+        <Col {...colProps} key={JSON.stringify(colProps)}>
+          <fieldset
+            ref={this.scrollRef}
+            className="rjsf-layout-grid-group"
+          >
+            <span data-testid={`layout-grid-field__col-title-field--${kebabCase(title)}`}>
+              {title ? (
+                <TitleField
+                  name={title}
+                  title={title}
+                  required={required}
+                  onBlur={undefined}
+                  onFocus={undefined}
+                  options={undefined}
+                  idSchema={undefined}
+                  id={uniqueId()}
+                  onChange={undefined}
+                  schema={undefined}
+                  readonly={false}
+                  disabled={false}
+                  registry={registry}
+                />
+              ) : null}
+            </span>
+            {groupDescription ? (
+              <div className="group-description">
+                {description}
+              </div>
+            ) : null}
+            <div className="col-children">
+              {this.renderChildren(children, controlName)}
+            </div>
+          </fieldset>
+        </Col>
+      )
+    }
+
+    return (
+      <Col {...colProps}>
+        {' '}
+        {this.renderChildren(children, controlName)}
+      </Col>
     )
   }
 
@@ -393,8 +434,10 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       keys.forEach((key) => {
         if (key === '$id') {
           childIdSchema[key] = childIdSchema[key].replace('root', parentName)
+          childIdSchema[key] = this.removeRedundantParentName(parentName, childIdSchema[key])
         } else {
           childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
+          childIdSchema[key].$id = this.removeRedundantParentName(parentName, childIdSchema[key].$id)
         }
       })
     } else {
@@ -498,70 +541,100 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     )
   }
 
-  renderCol(layoutGridSchema: LayoutGridSchemaProps) {
-    const { children, controlName, ...colProps } = layoutGridSchema['ui:col']
+  // This helper function is needed because in MMT the are id's are different then in react.
+  private removeRedundantParentName(parentName: string, id: string) {
+    if (id.startsWith(`${parentName}_${parentName}`)) {
+      // eslint-disable-next-line no-param-reassign
+      id = id.replace(`${parentName}_${parentName}`, parentName)
+    }
+    return id
+  }
 
-    const group = layoutGridSchema['ui:group']
-    const groupDescription = layoutGridSchema['ui:group-description']
-    if (group) {
-      const {
-        registry, idSchema
-      } = this.props
-      const { fields, formContext } = registry
-      const { editor } = formContext
-      const { TitleField } = fields
-      const { required, schema } = this.props
-      const { description = '' } = schema
-      const title = group && typeof group === 'string' ? group : null
-      if (idSchema.$id === editor.focusField) {
-        setTimeout(() => {
-          /* istanbul ignore next */
-          this.executeScroll()
-        })
-      }
-      return (
-        <Col {...colProps} key={JSON.stringify(colProps)}>
-          <fieldset
-            ref={this.scrollRef}
-            className="rjsf-layout-grid-group"
-          >
-            <span data-testid={`layout-grid-field__col-title-field--${kebabCase(title)}`}>
-              {title ? (
-                <TitleField
-                  name={title}
-                  title={title}
-                  required={required}
-                  onBlur={undefined}
-                  onFocus={undefined}
-                  options={undefined}
-                  idSchema={undefined}
-                  id={uniqueId()}
-                  onChange={undefined}
-                  schema={undefined}
-                  readonly={false}
-                  disabled={false}
-                  registry={registry}
-                />
-              ) : null}
-            </span>
-            {groupDescription ? (
-              <div className="group-description">
-                {description}
-              </div>
-            ) : null}
-            <div className="col-children">
-              {this.renderChildren(children, controlName)}
-            </div>
-          </fieldset>
-        </Col>
-      )
+  renderField(layoutGridSchema: LayoutGridSchemaProps) {
+    const {
+      uiSchema,
+      errorSchema,
+      idSchema,
+      disabled,
+      readonly,
+      onBlur,
+      onFocus,
+      formData = {},
+      registry
+    } = this.props
+    const { schema: s } = this.props
+    const { fields, schemaUtils } = registry
+    const { SchemaField } = fields
+    const schema = schemaUtils.retrieveSchema(s)
+    let name
+    let render
+    if (typeof layoutGridSchema === 'string') {
+      name = layoutGridSchema
+    } else {
+      name = layoutGridSchema.name
+      render = layoutGridSchema.render
+    }
+    let { name: parentName } = this.props
+    const pos = parentName.lastIndexOf('-')
+    if (pos > -1) {
+      parentName = parentName.substring(0, pos)
     }
 
+    if (idSchema[name]) {
+      const childIdSchema = idSchema[name]
+      const keys = Object.keys(childIdSchema)
+      keys.forEach((key) => {
+        if (key === '$id') {
+          childIdSchema[key] = childIdSchema[key].replace('root', parentName)
+          childIdSchema[key] = this.removeRedundantParentName(parentName, childIdSchema[key])
+        } else {
+          childIdSchema[key].$id = childIdSchema[key].$id.replace('root', parentName)
+          childIdSchema[key].$id = this.removeRedundantParentName(parentName, childIdSchema[key].$id)
+        }
+      })
+    } else {
+      idSchema.$id = name
+    }
+
+    if (schema.properties[name] && !render) {
+      return (
+        <span data-testid={`layout-grid-field__schema-field--${kebabCase(name)}`}>
+          <SchemaField
+            key={JSON.stringify(name)}
+            name={name}
+            required={this.isRequired(name)}
+            schema={schema.properties[name] as any}
+            uiSchema={uiSchema[name]}
+            errorSchema={errorSchema[name]}
+            idSchema={idSchema[name] ? idSchema[name] : idSchema}
+            formData={formData[name]}
+            onChange={this.onPropertyChange(name)}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            registry={registry}
+            disabled={disabled}
+            readonly={readonly}
+            onKeyChange={this.onKeyChange(name)}
+          />
+        </span>
+      )
+    }
+    let UIComponent: FunctionComponent<ComponentProps> = render
+
+    UIComponent = render
+
     return (
-      <Col {...colProps}>
-        {' '}
-        {this.renderChildren(children, controlName)}
-      </Col>
+      <span data-testid={`layout-grid-field__schema-field--${kebabCase(name)}`}>
+        <UIComponent
+          {...this.props}
+          name={name}
+          formData={formData}
+          errorSchema={errorSchema}
+          uiSchema={uiSchema}
+          schema={schema}
+          registry={registry}
+        />
+      </span>
     )
   }
 
@@ -570,15 +643,17 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const group = layoutGridSchema['ui:group']
     const groupDescription = layoutGridSchema['ui:group-description']
     const groupClassName = layoutGridSchema['ui:group-className']
+    const groupSinglePanel = layoutGridSchema['ui:group-single-panel']
 
     if (group) {
-      const { registry } = this.props
+      const { registry, formData } = this.props
       const { fields, formContext } = registry
       const { TitleField } = fields
       const { required, schema } = this.props
       const { description = '' } = schema
-
+      const { showSinglePanel } = this.state
       const title = group && typeof group === 'string' ? group : null
+
       return (
         <div className="row-fieldset">
           <fieldset
@@ -610,19 +685,42 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                 {description}
               </div>
             ) : null}
-            <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
+            {/* groupSinglePanel behaves like a accordian, where if the groupSinglePanel is set to true in uiSchema, it will show a "Show *title*" button */}
+            {groupSinglePanel ? (
+              <div data-testid={`layout-grid-field-add-btn--${kebabCase(title)}`}>
+                {!showSinglePanel && Object.values(formData).every((field: any) => (
+                  field.includes(null)))
+                  ? (
+                    this.createGroupAddHeader()
+                  )
+                  // if the user has clicked showSinglePanelField, this is will show the remove button.
+                  : (
+                    <div className="row" key={JSON.stringify(rows)}>
+                      {this.createGroupRemoveHeader()}
+                      {this.renderChildren(rows)}
+                    </div>
+                  )}
+              </div>
+            ) : <div className="row" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>}
           </fieldset>
         </div>
       )
     }
-    return <div className="row row-children" key={JSON.stringify(rows)}>{this.renderChildren(rows)}</div>
+    return (
+      <div
+        className="row row-children"
+        key={JSON.stringify(rows)}
+      >
+        {' '}
+        {this.renderChildren(rows)}
+      </div>
+    )
   }
 
   renderChildren(childrenLayoutGridSchema: LayoutGridSchemaProps, controlName: string = undefined) {
     const { registry, schema: s } = this.props
     const { schemaUtils } = registry
     const schema = schemaUtils.retrieveSchema(s)
-
     return childrenLayoutGridSchema.map((layoutGridSchema: LayoutGridSchemaProps) => (
       <LayoutGridField
         {...this.props}

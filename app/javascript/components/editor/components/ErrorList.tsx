@@ -99,20 +99,21 @@ class ErrorList extends React.Component<ErrorListProps> {
     })
     return error.charAt(0).toUpperCase() + error.slice(1)
   }
-
+  createId(errorProperty: string) {
+    const split = errorProperty.split('.')
+    const parent = split[1]
+    if (errorProperty.startsWith(`.${parent}.${parent}`)) {
+      errorProperty = errorProperty.replace(`.${parent}.${parent}`, parent)
+    }
+    if (errorProperty.startsWith('.')) {
+      errorProperty = errorProperty.substring(1)
+    }
+    return errorProperty.replace(/\./g, '_')
+  }
   navigateToField(error: string) {
     const { editor } = this.props
-    editor.setFocusField('')
-    if (error.startsWith('.')) {
-      error = error.substring(1)
-    }
-    // setTimeout(() => {
-    //   editor.setFocusField('')
-    //   setTimeout(() => {
-    //     editor.setFocusField(error.replace(/\./g, '_'))
-    //   })
-    // })
-    editor.setFocusField(error.replace(/\./g, '_'))
+
+    editor.setFocusField(this.createId(error))
   }
   displayArrayIndex(error: string, length: number) {
     const getError = /([A-Z])\w+/
@@ -151,12 +152,12 @@ class ErrorList extends React.Component<ErrorListProps> {
     if (node === null) {
       return
     }
+    const { section, editor } = this.props
     const { errorProperty = '', path: fullPath = '' } = node
     let { message = '' } = node
     delete node.errorProperty
     delete node.path
     delete node.message
-
     const pos = errorProperty.lastIndexOf('.')
     let field = errorProperty
     if (pos > -1) {
@@ -166,6 +167,7 @@ class ErrorList extends React.Component<ErrorListProps> {
       message = `'${field}' ${message}`
     }
 
+    const id = this.createId(errorProperty)
     const keys = Object.keys(node)
     const r = []
     keys.forEach((key: string) => {
@@ -199,8 +201,11 @@ class ErrorList extends React.Component<ErrorListProps> {
         <div className="error-list-item" onClick={() => { this.navigateToField(errorProperty) }} key={key} data-testid={`error-list-item__${kebabCase(key)}`}>
           {key !== 'root' ? (
             <li>
-              <i className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle" />
-              {this.displayErrors(message)}
+              <div style={{ display: 'flex' }}>
+                {editor.hasVisitedFields(id) ? <i key={key} data-testid={`error-list-item__${kebabCase(key)}--error`} className="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle progess-circle" />
+                  : <i data-testid={`error-list-item__${kebabCase(key)}--info`} className="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle" />}
+                {this.displayErrors(message)}
+              </div>
             </li>
           ) : <span className="error-list-header" />}
         </div>

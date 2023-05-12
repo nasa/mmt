@@ -34,7 +34,7 @@ type MetadataEditorFormProps = {
 };
 
 class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never> {
-  constructor(props:MetadataEditorFormProps) {
+  constructor(props: MetadataEditorFormProps) {
     super(props)
     this.onHandleChange = this.onHandleChange.bind(this)
   }
@@ -108,7 +108,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
     }
   }
 
-  onHandleChange(e:IChangeEvent) {
+  onHandleChange(e: IChangeEvent) {
     const { editor } = this.props
     editor.formData = e.formData
     editor.formErrors = e.errors

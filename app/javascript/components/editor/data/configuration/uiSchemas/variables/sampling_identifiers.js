@@ -34,7 +34,7 @@ const SamplingIdentifiersUiSchema = {
         'ui:widget': 'textarea'
       },
       MeasurementConditions: {
-        'ui:title': 'Mesurement Conditions',
+        'ui:title': 'Measurement Conditions',
         'ui:widget': 'textarea'
       },
       ReportingConditions: {

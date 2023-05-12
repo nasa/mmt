@@ -42,7 +42,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 </h6>
                 <button
                   class="btn"
-                  data-testid="custom-array-template__remove-button--custom-array-field-test"
+                  data-testid="custom-array-template__remove-button--"
                   type="button"
                 >
                   <span
@@ -61,119 +61,122 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                   </span>
                 </button>
               </div>
+            </div>
+            <div
+              class="custom-array-template-element"
+            />
+            <div
+              class="mb-2  d-flex align-items-center row"
+            >
               <div
-                class="mb-2  d-flex align-items-center row"
+                class="array-item col-lg-12 col-12"
+                data-testid="custom-array-element"
               >
                 <div
-                  class="array-item col-lg-12 col-12"
-                  data-testid="custom-array-element"
+                  class="form-group field field-undefined"
                 >
                   <div
-                    class="form-group field field-undefined"
+                    class="form-group"
                   >
                     <div
-                      class="form-group"
+                      class="p-0 container-fluid"
                     >
                       <div
-                        class="p-0 container-fluid"
+                        class="row"
+                        style="margin-bottom: 10px;"
                       >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-string"
                           >
-                             
                             <div
-                              class="form-group field field-string"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  First Name
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  type="text"
-                                  value=""
-                                />
-                              </div>
+                                First Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-string"
                           >
-                             
                             <div
-                              class="form-group field field-string"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  Last Name
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  type="text"
-                                  value=""
-                                />
-                              </div>
+                                Last Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-integer"
                           >
-                             
                             <div
-                              class="form-group field field-integer"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  Age
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  step="1"
-                                  type="number"
-                                  value=""
-                                />
-                              </div>
+                                Age
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                step="1"
+                                type="number"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
@@ -205,7 +208,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 </h6>
                 <button
                   class="btn"
-                  data-testid="custom-array-template__remove-button--custom-array-field-test"
+                  data-testid="custom-array-template__remove-button--"
                   type="button"
                 >
                   <span
@@ -224,119 +227,122 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                   </span>
                 </button>
               </div>
+            </div>
+            <div
+              class="custom-array-template-element"
+            />
+            <div
+              class="mb-2  d-flex align-items-center row"
+            >
               <div
-                class="mb-2  d-flex align-items-center row"
+                class="array-item col-lg-12 col-12"
+                data-testid="custom-array-element"
               >
                 <div
-                  class="array-item col-lg-12 col-12"
-                  data-testid="custom-array-element"
+                  class="form-group field field-undefined"
                 >
                   <div
-                    class="form-group field field-undefined"
+                    class="form-group"
                   >
                     <div
-                      class="form-group"
+                      class="p-0 container-fluid"
                     >
                       <div
-                        class="p-0 container-fluid"
+                        class="row"
+                        style="margin-bottom: 10px;"
                       >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-string"
                           >
-                             
                             <div
-                              class="form-group field field-string"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  First Name
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  type="text"
-                                  value=""
-                                />
-                              </div>
+                                First Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-string"
                           >
-                             
                             <div
-                              class="form-group field field-string"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  Last Name
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  type="text"
-                                  value=""
-                                />
-                              </div>
+                                Last Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
                         <div
-                          class="row"
-                          style="margin-bottom: 10px;"
+                          class="col-12"
                         >
+                           
                           <div
-                            class="col-12"
+                            class="form-group field field-integer"
                           >
-                             
                             <div
-                              class="form-group field field-integer"
+                              class="form-group"
                             >
-                              <div
-                                class="form-group"
+                              <label
+                                class="form-label"
+                                for="root"
                               >
-                                <label
-                                  class="form-label"
-                                  for="root"
-                                >
-                                  Age
-                                </label>
-                                <input
-                                  aria-describedby="root__error root__description root__help"
-                                  class="form-control"
-                                  id="root"
-                                  name="root"
-                                  placeholder=""
-                                  step="1"
-                                  type="number"
-                                  value=""
-                                />
-                              </div>
+                                Age
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                step="1"
+                                type="number"
+                                value=""
+                              />
                             </div>
                           </div>
                         </div>
@@ -349,11 +355,10 @@ exports[`Custom Array Template renders the custom array template and adds an arr
           </div>
           <div
             class="custom-array-template-add-btn add-header"
-            data-testid="custom-array-template-add-btn"
           >
             <button
               class="btn"
-              data-testid="custom-array-template__add-button--custom-array-field-test"
+              data-testid="custom-array-template__add-button--"
               type="button"
             >
               <span
@@ -367,7 +372,11 @@ exports[`Custom Array Template renders the custom array template and adds an arr
               <span
                 class="add-label"
               >
-                Add another
+                <span
+                  data-testid="custom-array-template-add-another-btn"
+                >
+                  Add another
+                </span>
                  
               </span>
             </button>
@@ -409,12 +418,343 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
           <p />
           <br />
           <div
+            class="array-item element"
+          >
+            <div
+              class="custom-array-template-remove-btn"
+            >
+              <div
+                class="remove-header"
+              >
+                <h6
+                  class="remove-title"
+                >
+                  <b />
+                  <span
+                    class="element-index-title"
+                  >
+                    (1 of 2)
+                  </span>
+                </h6>
+                <button
+                  class="btn"
+                  data-testid="custom-array-template__remove-button--"
+                  type="button"
+                >
+                  <span
+                    class="remove-button"
+                  >
+                    <i
+                      class="fa-solid fa-circle-minus fa-lg"
+                    />
+                  </span>
+                   
+                  <span
+                    class="remove-label"
+                  >
+                     
+                    Remove
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="custom-array-template-element"
+            />
+            <div
+              class="mb-2  d-flex align-items-center row"
+            >
+              <div
+                class="array-item col-lg-12 col-12"
+                data-testid="custom-array-element"
+              >
+                <div
+                  class="form-group field field-undefined"
+                >
+                  <div
+                    class="form-group"
+                  >
+                    <div
+                      class="p-0 container-fluid"
+                    >
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-string"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                First Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-string"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                Last Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-integer"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                Age
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                step="1"
+                                type="number"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="array-item element"
+          >
+            <div
+              class="custom-array-template-remove-btn"
+            >
+              <div
+                class="remove-header"
+              >
+                <h6
+                  class="remove-title"
+                >
+                  <b />
+                  <span
+                    class="element-index-title"
+                  >
+                    (2 of 2)
+                  </span>
+                </h6>
+                <button
+                  class="btn"
+                  data-testid="custom-array-template__remove-button--"
+                  type="button"
+                >
+                  <span
+                    class="remove-button"
+                  >
+                    <i
+                      class="fa-solid fa-circle-minus fa-lg"
+                    />
+                  </span>
+                   
+                  <span
+                    class="remove-label"
+                  >
+                     
+                    Remove
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="custom-array-template-element"
+            />
+            <div
+              class="mb-2  d-flex align-items-center row"
+            >
+              <div
+                class="array-item col-lg-12 col-12"
+                data-testid="custom-array-element"
+              >
+                <div
+                  class="form-group field field-undefined"
+                >
+                  <div
+                    class="form-group"
+                  >
+                    <div
+                      class="p-0 container-fluid"
+                    >
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-string"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                First Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-string"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                Last Name
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="margin-bottom: 10px;"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                           
+                          <div
+                            class="form-group field field-integer"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <label
+                                class="form-label"
+                                for="root"
+                              >
+                                Age
+                              </label>
+                              <input
+                                aria-describedby="root__error root__description root__help"
+                                class="form-control"
+                                id="root"
+                                name="root"
+                                placeholder=""
+                                step="1"
+                                type="number"
+                                value=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             class="custom-array-template-add-btn add-header"
-            data-testid="custom-array-template-add-btn"
           >
             <button
               class="btn"
-              data-testid="custom-array-template__add-button--custom-array-field-test"
+              data-testid="custom-array-template__add-button--"
               type="button"
             >
               <span
@@ -428,7 +768,11 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
               <span
                 class="add-label"
               >
-                Add
+                <span
+                  data-testid="custom-array-template-add-another-btn"
+                >
+                  Add another
+                </span>
                  
               </span>
             </button>

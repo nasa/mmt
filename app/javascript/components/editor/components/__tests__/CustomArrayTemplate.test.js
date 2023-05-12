@@ -1,6 +1,8 @@
 import Form from '@rjsf/bootstrap-4'
 import React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import {
+  render, fireEvent, screen, waitFor
+} from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import validator from '@rjsf/validator-ajv8'
 import UmmToolsModel from '../../model/UmmToolsModel'
@@ -33,7 +35,7 @@ const schema = {
 const templates = {
   ArrayFieldTemplate: CustomArrayFieldTemplate
 }
-
+jest.useFakeTimers()
 describe('Custom Array Template', () => {
   it('renders the custom array template and adds an array', async () => {
     const { getByTestId, container } = render(
@@ -41,20 +43,29 @@ describe('Custom Array Template', () => {
         <Form validator={validator} schema={schema} templates={templates} formContext={{ editor }} />
       </BrowserRouter>
     )
+    const mockSetTimeout = jest.fn()
+    const addNewField = getByTestId('custom-array-template-add-btn')
+    HTMLElement.prototype.scrollIntoView = jest.fn()
 
-    const addNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
-
-    fireEvent.click(await addNewField)
+    await waitFor(async () => {
+      fireEvent.click(await addNewField)
+    })
 
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('First Name')
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Last Name')
     expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Age')
 
-    const addAnotherNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
-    fireEvent.click(await addAnotherNewField)
+    const addAnotherNewField = getByTestId('custom-array-template-add-another-btn')
+    await waitFor(async () => {
+      fireEvent.click(await addAnotherNewField)
+    })
 
+    jest.runAllTimers(mockSetTimeout)
+
+    expect(HTMLElement.prototype.scrollIntoView).toBeCalledTimes(2)
     const removeButtons = container.getElementsByClassName('custom-array-template-remove-btn')
     expect(removeButtons).toHaveLength(2)
+    jest.runAllTimers(mockSetTimeout)
 
     expect(container).toMatchSnapshot()
   })
@@ -64,16 +75,18 @@ describe('Custom Array Template', () => {
         <Form validator={validator} schema={schema} templates={templates} formContext={{ editor }} />
       </BrowserRouter>
     )
-    const addNewField = getByTestId('custom-array-template-add-btn').querySelector('button[type="button"]')
+    const addNewField = getByTestId('custom-array-template-add-btn')
+    await waitFor(async () => {
+      fireEvent.click(await addNewField)
+      expect(screen.getByTestId('custom-array-element')).toHaveTextContent('First Name')
+      expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Last Name')
+      expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Age')
 
-    fireEvent.click(await addNewField)
-    expect(screen.getByTestId('custom-array-element')).toHaveTextContent('First Name')
-    expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Last Name')
-    expect(screen.getByTestId('custom-array-element')).toHaveTextContent('Age')
+      const removeField = getByTestId('custom-array-template')
 
-    const removeField = getByTestId('custom-array-template').querySelector('button[type="button"]')
+      fireEvent.click(await removeField)
+    })
 
-    fireEvent.click(await removeField)
     expect(container).toMatchSnapshot()
   })
 })

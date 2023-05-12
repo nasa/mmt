@@ -144,6 +144,12 @@ export default class MetadataEditor {
   get arrayFieldAutoScroll() {
     return this.formProps.arrayFieldAutoScroll
   }
+
+  hasVisitedFields(id: string) {
+    const fields = this.model.visitedFields
+    return fields.includes(id)
+  }
+
   // Intents
   navigateTo(section: FormSection) {
     this.model.currentSection = section
@@ -173,6 +179,9 @@ export default class MetadataEditor {
     }
     const nextSection = this.formSections[index + 1]
     this.navigateToDisplayName(nextSection.displayName)
+  }
+  addToVisitedFields(sectionName: string) {
+    this.model.addToVisitedFields(sectionName)
   }
   // Service
 

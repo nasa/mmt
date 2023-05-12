@@ -125,6 +125,7 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
             <Button
               onClick={() => {
                 this.saveDraft(true)
+                window.scroll(0, 0)
               }}
               variant="success"
             >

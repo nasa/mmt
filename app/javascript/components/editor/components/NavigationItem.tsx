@@ -100,6 +100,7 @@ class NavigationItem extends React.Component<NavigationItemProps, NavigationView
             editor.setFocusField('')
             editor.setArrayAutoScroll(null)
             editor.navigateTo(section)
+            window.scroll(0, 0)
             navigate(`/${editor.documentType}/${id}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           }}
         >

@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  fireEvent,
   render, screen, waitFor
 } from '@testing-library/react'
 import Form from '@rjsf/bootstrap-4'
@@ -9,6 +10,7 @@ import LayoutGridField from '../LayoutGridField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate'
 import MetadataEditor from '../../MetadataEditor'
 import UmmToolsModel from '../../model/UmmToolsModel'
+import UmmVarModel from '../../model/UmmVarModel'
 import MetadataEditorForm from '../MetadataEditorForm'
 
 const schema = {
@@ -296,6 +298,33 @@ describe('Layout Grid Field Component', () => {
     await waitFor(async () => {
       screen.queryByTestId('custom-array-template__add-button--contact-groups').click()
     })
+    expect(container).toMatchSnapshot()
+  })
+
+  test('testing custom groupArray field', async () => {
+    const varModel = new UmmVarModel()
+    const editor = new MetadataEditor(varModel)
+    const { container } = render(
+      <MemoryRouter initialEntries={['/variable_drafts/1/edit/Variable_Information']}>
+        <Routes>
+          <Route path="/variable_drafts/:id/edit/:sectionName" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    const addFieldBtn = screen.queryByTestId('layout-grid-field__add-single-panel--index-ranges')
+
+    expect(addFieldBtn).toHaveTextContent('Add Index Ranges')
+
+    fireEvent.click(await addFieldBtn)
+
+    expect(container).toHaveTextContent('LatRange')
+
+    const removeFieldBtn = screen.queryByTestId('layout-grid-field__remove-single-panel--index-ranges')
+
+    fireEvent.click(await removeFieldBtn)
+
+    expect(addFieldBtn).toHaveTextContent('Add Index Ranges')
+
     expect(container).toMatchSnapshot()
   })
 })

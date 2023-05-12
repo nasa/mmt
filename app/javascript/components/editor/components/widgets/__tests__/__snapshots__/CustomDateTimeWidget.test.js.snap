@@ -4872,12 +4872,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       10
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011"
+                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       11
                     </div>
@@ -6562,12 +6563,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       10
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011"
+                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       11
                     </div>
@@ -6952,6 +6954,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
               <div
                 class="row row-children"
               >
+                 
                 <div
                   class="col-md-12"
                 >
@@ -6959,6 +6962,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -7005,6 +7009,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -7051,6 +7056,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -7097,6 +7103,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -7141,6 +7148,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -7256,6 +7264,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -9033,6 +9042,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -9080,6 +9090,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -9123,6 +9134,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                   <div
                     class="row row-children"
                   >
+                     
                     <div
                       class="col-md-12"
                     >
@@ -9136,6 +9148,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                           <div
                             class="row row-children"
                           >
+                             
                             <div
                               class="col-md-12"
                             >
@@ -9166,6 +9179,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -9210,6 +9224,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -9322,6 +9337,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -9435,6 +9451,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -9545,6 +9562,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                   <div
                                     class="row row-children"
                                   >
+                                     
                                     <div
                                       class="col-md-12"
                                     >
@@ -9675,10 +9693,15 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                       data-testid="error-list-item__long-name"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Long Name'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__long-name--info"
+                          />
+                          Must have required property 'Long Name'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -9686,10 +9709,15 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                       data-testid="error-list-item__type"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Type'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__type--info"
+                          />
+                          Must have required property 'Type'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -9697,10 +9725,15 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                       data-testid="error-list-item__version"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Version'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__version--info"
+                          />
+                          Must have required property 'Version'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -9708,10 +9741,15 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                       data-testid="error-list-item__description"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'Description'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__description--info"
+                          />
+                          Must have required property 'Description'
+                        </div>
                       </li>
                     </div>
                     <div
@@ -9719,10 +9757,15 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                       data-testid="error-list-item__url"
                     >
                       <li>
-                        <i
-                          class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
-                        />
-                        Must have required property 'URL'
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__url--info"
+                          />
+                          Must have required property 'URL'
+                        </div>
                       </li>
                     </div>
                   </ul>

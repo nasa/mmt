@@ -14,6 +14,8 @@ import MetadataEditorForm from '../MetadataEditorForm'
 
 global.fetch = require('jest-fetch-mock')
 
+global.scroll = jest.fn()
+
 // Window.location doesn't work in jest, so we need to mock its value.
 global.window = Object.create(window)
 const url = 'http://dummy.com'

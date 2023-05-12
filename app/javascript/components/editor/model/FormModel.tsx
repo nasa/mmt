@@ -5,6 +5,8 @@ export default interface FormModel {
   documentType: string;
   documentTypeForDisplay: string;
   currentSection: FormSection;
+  visitedFields: string [],
+  addToVisitedFields(displayName: string),
   fullData: any;
   draft: Draft;
   fullSchema: any;
