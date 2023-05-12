@@ -56,9 +56,13 @@ class BasePublishedRecordController < ManageMetadataController
       concept_id = ingested_response.body['concept-id']
       revision_id = ingested_response.body['revision-id']
 
-      # instantiate and deliver notification email
-      DraftMailer.send("#{resource_name}_draft_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
-
+      begin
+        # instantiate and deliver notification email
+        DraftMailer.send("#{resource_name}_draft_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
+      rescue => e
+        Rails.logger.error "Error trying to send email in #{self.class} Error: #{e}"
+        flash[:error] = "Couldn't send confirmation email"
+      end
       redirect_to send("#{resource_name}_path", concept_id, revision_id: revision_id), flash: { success: I18n.t("controllers.#{plural_resource_name}.create.flash.success") }
     else
       # Log error message
