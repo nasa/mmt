@@ -38,15 +38,15 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_firstName"
+                        for="firstName"
                       >
                         First name
                       </label>
                       <input
-                        aria-describedby="_firstName__error _firstName__description _firstName__help"
+                        aria-describedby="firstName__error firstName__description firstName__help"
                         class="form-control"
-                        id="_firstName"
-                        name="_firstName"
+                        id="firstName"
+                        name="firstName"
                         placeholder=""
                         type="text"
                         value=""
@@ -70,15 +70,15 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_lastName"
+                        for="lastName"
                       >
                         Last name
                       </label>
                       <input
-                        aria-describedby="_lastName__error _lastName__description _lastName__help"
+                        aria-describedby="lastName__error lastName__description lastName__help"
                         class="form-control"
-                        id="_lastName"
-                        name="_lastName"
+                        id="lastName"
+                        name="lastName"
                         placeholder=""
                         type="text"
                         value=""
@@ -107,15 +107,15 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_password"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        aria-describedby="_password__error _password__description _password__help"
+                        aria-describedby="password__error password__description password__help"
                         class="form-control"
-                        id="_password"
-                        name="_password"
+                        id="password"
+                        name="password"
                         placeholder=""
                         type="text"
                         value=""
@@ -139,15 +139,15 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_age"
+                        for="age"
                       >
                         Age
                       </label>
                       <input
-                        aria-describedby="_age__error _age__description _age__help"
+                        aria-describedby="age__error age__description age__help"
                         class="form-control"
-                        id="_age"
-                        name="_age"
+                        id="age"
+                        name="age"
                         placeholder=""
                         step="1"
                         type="number"
@@ -177,15 +177,15 @@ exports[`Layout Grid Field Component renders a basic form 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_bio"
+                        for="bio"
                       >
                         Bio
                       </label>
                       <input
-                        aria-describedby="_bio__error _bio__description _bio__help"
+                        aria-describedby="bio__error bio__description bio__help"
                         class="form-control"
-                        id="_bio"
-                        name="_bio"
+                        id="bio"
+                        name="bio"
                         placeholder=""
                         type="text"
                         value=""
@@ -244,15 +244,15 @@ exports[`Layout Grid Field Component renders a custom field 1`] = `
               >
                 <label
                   class="form-label"
-                  for="_age"
+                  for="age"
                 >
                   Age
                 </label>
                 <input
-                  aria-describedby="_age__error _age__description _age__help"
+                  aria-describedby="age__error age__description age__help"
                   class="form-control"
-                  id="_age"
-                  name="_age"
+                  id="age"
+                  name="age"
                   placeholder=""
                   step="1"
                   type="number"
@@ -326,15 +326,15 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
                     >
                       <label
                         class="form-label"
-                        for="_bio"
+                        for="bio"
                       >
                         Bio
                       </label>
                       <input
-                        aria-describedby="_bio__error _bio__description _bio__help"
+                        aria-describedby="bio__error bio__description bio__help"
                         class="form-control"
-                        id="_bio"
-                        name="_bio"
+                        id="bio"
+                        name="bio"
                         placeholder=""
                         type="text"
                         value=""
@@ -398,15 +398,15 @@ exports[`Layout Grid Field Component renders a group column title which undefine
                     >
                       <label
                         class="form-label"
-                        for="_bio"
+                        for="bio"
                       >
                         Bio
                       </label>
                       <input
-                        aria-describedby="_bio__error _bio__description _bio__help"
+                        aria-describedby="bio__error bio__description bio__help"
                         class="form-control"
-                        id="_bio"
-                        name="_bio"
+                        id="bio"
+                        name="bio"
                         placeholder=""
                         type="text"
                         value=""
@@ -490,15 +490,15 @@ exports[`Layout Grid Field Component renders a group row title 1`] = `
                         >
                           <label
                             class="form-label"
-                            for="_firstName"
+                            for="firstName"
                           >
                             First name
                           </label>
                           <input
-                            aria-describedby="_firstName__error _firstName__description _firstName__help"
+                            aria-describedby="firstName__error firstName__description firstName__help"
                             class="form-control"
-                            id="_firstName"
-                            name="_firstName"
+                            id="firstName"
+                            name="firstName"
                             placeholder=""
                             type="text"
                             value=""
@@ -522,15 +522,15 @@ exports[`Layout Grid Field Component renders a group row title 1`] = `
                         >
                           <label
                             class="form-label"
-                            for="_lastName"
+                            for="lastName"
                           >
                             Last name
                           </label>
                           <input
-                            aria-describedby="_lastName__error _lastName__description _lastName__help"
+                            aria-describedby="lastName__error lastName__description lastName__help"
                             class="form-control"
-                            id="_lastName"
-                            name="_lastName"
+                            id="lastName"
+                            name="lastName"
                             placeholder=""
                             type="text"
                             value=""
@@ -604,15 +604,15 @@ exports[`Layout Grid Field Component renders a group row title which is undefine
                         >
                           <label
                             class="form-label"
-                            for="_firstName"
+                            for="firstName"
                           >
                             First name
                           </label>
                           <input
-                            aria-describedby="_firstName__error _firstName__description _firstName__help"
+                            aria-describedby="firstName__error firstName__description firstName__help"
                             class="form-control"
-                            id="_firstName"
-                            name="_firstName"
+                            id="firstName"
+                            name="firstName"
                             placeholder=""
                             type="text"
                             value=""
@@ -636,15 +636,15 @@ exports[`Layout Grid Field Component renders a group row title which is undefine
                         >
                           <label
                             class="form-label"
-                            for="_lastName"
+                            for="lastName"
                           >
                             Last name
                           </label>
                           <input
-                            aria-describedby="_lastName__error _lastName__description _lastName__help"
+                            aria-describedby="lastName__error lastName__description lastName__help"
                             class="form-control"
-                            id="_lastName"
-                            name="_lastName"
+                            id="lastName"
+                            name="lastName"
                             placeholder=""
                             type="text"
                             value=""

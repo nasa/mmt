@@ -25,6 +25,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -200,6 +201,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -378,6 +380,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -556,6 +559,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -729,6 +733,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"

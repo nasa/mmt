@@ -653,7 +653,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -989,7 +989,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -4370,7 +4370,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -4706,7 +4706,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -13379,7 +13379,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -13715,7 +13715,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -17138,7 +17138,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -17474,7 +17474,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -20902,7 +20902,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -21238,7 +21238,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"

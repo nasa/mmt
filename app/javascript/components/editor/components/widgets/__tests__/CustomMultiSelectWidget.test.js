@@ -29,6 +29,7 @@ describe('Custom Multi Select Widget Component', () => {
         formContext: { editor }
       },
       options: {},
+      id: 'mock_id',
       onChange: {},
       value: ['Web', 'Portal']
     }
@@ -50,6 +51,7 @@ describe('Custom Multi Select Widget Component', () => {
       options: {
         title: ''
       },
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, {}),
         formContext: { editor }
@@ -71,6 +73,7 @@ describe('Custom Multi Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
@@ -97,6 +100,7 @@ describe('Custom Multi Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
@@ -130,6 +134,7 @@ describe('Custom Multi Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }

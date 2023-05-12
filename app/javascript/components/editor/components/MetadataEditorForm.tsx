@@ -92,6 +92,26 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         editor.loading = false
       })
     }
+
+    /** Javascript to prevent wheel motion and up/down arrow from
+     * when input type=number for any form elements.
+     */
+    document.addEventListener('wheel', () => {
+      const element = document.activeElement as HTMLInputElement
+      if (element.type === 'number') {
+        element.blur()
+      }
+    })
+    document.addEventListener('keydown', (event) => {
+      const element = document.activeElement as HTMLInputElement
+      if (element.type === 'number') {
+        if (event.key === 'ArrowDown'
+            || event.key === 'ArrowUp'
+            || (!/[0-9\\.e\\-]/.test(event.key))) {
+          event.preventDefault()
+        }
+      }
+    })
   }
 
   componentDidUpdate(prevProps: Readonly<MetadataEditorFormProps>): void {

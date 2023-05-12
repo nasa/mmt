@@ -23,6 +23,7 @@ describe('Custom Text Area Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: true,
       schema: {
         maxLength: 10
@@ -49,6 +50,7 @@ describe('Custom Text Area Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'mock_id',
       schema: {
         maxLength: 10
       },
@@ -75,6 +77,7 @@ describe('Custom Text Area Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: false,
       schema: {
         maxLength: 10
@@ -111,7 +114,7 @@ describe('Custom Text Area Widget Component', () => {
         maxLength: 10
       },
       onChange: mockedOnChange,
-      id: ''
+      id: 'my_title'
     }
     const { getByTestId, container } = render(
       <BrowserRouter>
@@ -139,6 +142,7 @@ describe('Custom Text Area Widget Component', () => {
         formContext: { editor }
       },
       required: false,
+      id: 'my_title',
       schema: {
         maxLength: 20
       },

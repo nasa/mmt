@@ -4861,34 +4861,33 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       9
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Wednesday, May 10th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--010"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       10
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--011"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       11
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, May 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012"
+                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       12
                     </div>
@@ -6552,34 +6551,33 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       9
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Wednesday, May 10th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--010"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       10
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, May 11th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--011 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--011"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       11
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, May 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012"
+                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       12
                     </div>
@@ -9256,7 +9254,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -9592,7 +9590,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
