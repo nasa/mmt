@@ -24,6 +24,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: true,
       schema: {
         maxLength: 10
@@ -51,6 +52,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'mock_id',
       schema: {
         maxLength: 10
       },
@@ -79,6 +81,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: true,
       schema: {
         maxLength: 10
@@ -106,6 +109,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: true,
       schema: {
         maxLength: 10
@@ -135,6 +139,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: false,
       schema: {
         maxLength: 20
@@ -174,6 +179,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: false,
       schema: {
         maxLength: 20
@@ -212,6 +218,7 @@ describe('Custom Text Widget Component', () => {
       registry: {
         formContext: { editor }
       },
+      id: 'my_title',
       required: false,
       schema: {
         maxLength: 20

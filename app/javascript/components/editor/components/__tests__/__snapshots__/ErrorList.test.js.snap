@@ -633,7 +633,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -969,7 +969,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -4409,7 +4409,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -4745,7 +4745,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -12025,7 +12025,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -12361,7 +12361,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -15803,7 +15803,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -16139,7 +16139,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"

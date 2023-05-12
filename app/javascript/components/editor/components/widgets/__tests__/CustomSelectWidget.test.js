@@ -43,6 +43,7 @@ describe('Var Keywords test with keywords from CMR', () => {
       label: 'Mime Type',
       required: true,
       schema: {},
+      id: 'mime_type',
       registry: {
         schemaUtils: createSchemaUtils(validator, {}),
         formContext: { editor }
@@ -87,6 +88,7 @@ describe('Var Keywords test with keywords from CMR', () => {
       label: 'Mime Type',
       required: true,
       schema: {},
+      id: 'mime_type',
       registry: {
         schemaUtils: createSchemaUtils(validator, {}),
         formContext: { editor }
@@ -117,6 +119,7 @@ describe('Custom Select Widget Component', () => {
     const props = {
       label: 'MyTestDataLabel',
       required: false,
+      id: 'mock_id',
       schema: {},
       registry: { schemaUtils: createSchemaUtils(validator, {}), formContext: { editor } },
       onChange: {},
@@ -146,6 +149,7 @@ describe('Custom Select Widget Component', () => {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
       },
+      id: 'mock_id',
       options: {
         title: ''
       },
@@ -174,6 +178,7 @@ describe('Custom Select Widget Component', () => {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
       },
+      id: 'mock_title',
       options: {
         title: 'My Test Data Label'
       },
@@ -198,6 +203,7 @@ describe('Custom Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
@@ -223,6 +229,7 @@ describe('Custom Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }
@@ -273,6 +280,7 @@ describe('Custom Select Widget Component', () => {
       label: 'MyTestDataLabel',
       required: true,
       schema,
+      id: 'mock_id',
       registry: {
         schemaUtils: createSchemaUtils(validator, schema),
         formContext: { editor }

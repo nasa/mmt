@@ -22,6 +22,7 @@ exports[`Custom Select Widget Component renders the custom select widget when no
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -117,6 +118,7 @@ exports[`Custom Select Widget Component renders the custom select widget when no
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -219,6 +221,7 @@ exports[`Custom Select Widget Component renders the custom select widget when re
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_title"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -321,6 +324,7 @@ exports[`Custom Select Widget Component renders the custom select widget when re
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -423,6 +427,7 @@ exports[`Custom Select Widget Component select box works with items enums as wel
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -523,6 +528,7 @@ exports[`Custom Select Widget Component should call onChange when the first opti
     >
       <div
         class=" css-b62m3t-container"
+        id="mock_id"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -5166,7 +5172,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URL_URLContentType"
+                                              id="URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -5502,7 +5508,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URL_URLValue"
+                                            id="URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -8329,6 +8335,7 @@ exports[`Var Keywords test with keywords from CMR fetches CMR keywords and updat
     >
       <div
         class=" css-b62m3t-container"
+        id="mime_type"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
@@ -8738,6 +8745,7 @@ exports[`Var Keywords test with keywords from CMR testing for error retrieving C
     >
       <div
         class=" css-b62m3t-container"
+        id="mime_type"
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
