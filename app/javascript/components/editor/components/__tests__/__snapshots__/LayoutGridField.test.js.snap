@@ -738,7 +738,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                         <div
                           class="title"
                         >
-                          ContactGroups
+                          Contact Groups
                         </div>
                         <p>
                           Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted.
@@ -896,7 +896,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-23-live-region"
+                                                    id="react-select-26-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -912,7 +912,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-23-placeholder"
+                                                        id="react-select-26-placeholder"
                                                       >
                                                         Select Roles
                                                       </div>
@@ -922,14 +922,14 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-23-placeholder"
+                                                          aria-describedby="react-select-26-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          id="react-select-23-input"
+                                                          id="react-select-26-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1130,7 +1130,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           <div
                                                             class="title"
                                                           >
-                                                            ContactMechanisms
+                                                            Contact Mechanism
                                                           </div>
                                                           <p>
                                                             Mechanisms of contacting.
@@ -1190,7 +1190,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           <div
                                                             class="title"
                                                           >
-                                                            Addresses
+                                                            Address
                                                           </div>
                                                           <p>
                                                             Contact addresses.
@@ -1292,7 +1292,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                         <div
                           class="title"
                         >
-                          ContactPersons
+                          Contact Persons
                         </div>
                         <p>
                           This is the contact persons of the downloadable tool or web user interface.
@@ -4602,7 +4602,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     <div
                                                       class="title"
                                                     >
-                                                      ResponseContentType
+                                                      Response Content Type
                                                     </div>
                                                     <p>
                                                       The supported MIME type(s) of the response from the HTTP API.
@@ -4745,7 +4745,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     <div
                                                       class="title"
                                                     >
-                                                      HttpMethod
+                                                      HTTP Method
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -4972,7 +4972,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                     <div
                                       class="title"
                                     >
-                                      QueryInput
+                                      Query Input
                                     </div>
                                     <p>
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
@@ -8141,7 +8141,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                           >
                                             <span
                                               class="css-1f43avz-a11yText-A11yText"
-                                              id="react-select-16-live-region"
+                                              id="react-select-19-live-region"
                                             />
                                             <span
                                               aria-atomic="false"
@@ -8172,7 +8172,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     autocomplete="off"
                                                     autocorrect="off"
                                                     class=""
-                                                    id="react-select-16-input"
+                                                    id="react-select-19-input"
                                                     role="combobox"
                                                     spellcheck="false"
                                                     style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -8307,7 +8307,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                       >
                                                         <span
                                                           class="css-1f43avz-a11yText-A11yText"
-                                                          id="react-select-17-live-region"
+                                                          id="react-select-20-live-region"
                                                         />
                                                         <span
                                                           aria-atomic="false"
@@ -8323,7 +8323,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           >
                                                             <div
                                                               class=" css-1jqq78o-placeholder"
-                                                              id="react-select-17-placeholder"
+                                                              id="react-select-20-placeholder"
                                                             >
                                                               Select Type
                                                             </div>
@@ -8333,14 +8333,14 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                             >
                                                               <input
                                                                 aria-autocomplete="list"
-                                                                aria-describedby="react-select-17-placeholder"
+                                                                aria-describedby="react-select-20-placeholder"
                                                                 aria-expanded="false"
                                                                 aria-haspopup="true"
                                                                 autocapitalize="none"
                                                                 autocomplete="off"
                                                                 autocorrect="off"
                                                                 class=""
-                                                                id="react-select-17-input"
+                                                                id="react-select-20-input"
                                                                 role="combobox"
                                                                 spellcheck="false"
                                                                 style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -8489,7 +8489,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     <div
                                                       class="title"
                                                     >
-                                                      ResponseContentType
+                                                      Response Content Type
                                                     </div>
                                                     <p>
                                                       The supported MIME type(s) of the response from the HTTP API.
@@ -8632,7 +8632,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     <div
                                                       class="title"
                                                     >
-                                                      HttpMethod
+                                                      HTTP Method
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -8726,19 +8726,8 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                                 >
                                                                   <span
                                                                     class="css-1f43avz-a11yText-A11yText"
-                                                                    id="react-select-18-live-region"
-                                                                  >
-                                                                    <span
-                                                                      id="aria-selection"
-                                                                    >
-                                                                      option , selected.
-                                                                    </span>
-                                                                    <span
-                                                                      id="aria-context"
-                                                                    >
-                                                                        Select is focused ,type to refine list, press Down to open the menu, 
-                                                                    </span>
-                                                                  </span>
+                                                                    id="react-select-21-live-region"
+                                                                  />
                                                                   <span
                                                                     aria-atomic="false"
                                                                     aria-live="polite"
@@ -8746,14 +8735,14 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                                     class="css-1f43avz-a11yText-A11yText"
                                                                   />
                                                                   <div
-                                                                    class=" css-t3ipsp-control"
+                                                                    class=" css-13cymwt-control"
                                                                   >
                                                                     <div
                                                                       class=" css-1fdsijx-ValueContainer"
                                                                     >
                                                                       <div
                                                                         class=" css-1jqq78o-placeholder"
-                                                                        id="react-select-18-placeholder"
+                                                                        id="react-select-21-placeholder"
                                                                       >
                                                                         Select HTTP Method
                                                                       </div>
@@ -8763,14 +8752,14 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                                       >
                                                                         <input
                                                                           aria-autocomplete="list"
-                                                                          aria-describedby="react-select-18-placeholder"
+                                                                          aria-describedby="react-select-21-placeholder"
                                                                           aria-expanded="false"
                                                                           aria-haspopup="true"
                                                                           autocapitalize="none"
                                                                           autocomplete="off"
                                                                           autocorrect="off"
                                                                           class=""
-                                                                          id="react-select-18-input"
+                                                                          id="react-select-21-input"
                                                                           role="combobox"
                                                                           spellcheck="false"
                                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -8788,7 +8777,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                                       />
                                                                       <div
                                                                         aria-hidden="true"
-                                                                        class=" css-15lsz6c-indicatorContainer"
+                                                                        class=" css-1xc3v61-indicatorContainer"
                                                                       >
                                                                         <svg
                                                                           aria-hidden="true"
@@ -8874,7 +8863,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                     <div
                                       class="title"
                                     >
-                                      QueryInput
+                                      Query Input
                                     </div>
                                     <p>
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
@@ -12193,7 +12182,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             <div
                               class="title"
                             >
-                              AdditionalIdentifiers
+                              Additional Identifiers
                             </div>
                             <p>
                               Any additional identifiers of a variable.
@@ -12433,7 +12422,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                               >
                                 <span
                                   class="css-1f43avz-a11yText-A11yText"
-                                  id="react-select-24-live-region"
+                                  id="react-select-27-live-region"
                                 />
                                 <span
                                   aria-atomic="false"
@@ -12449,7 +12438,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                   >
                                     <div
                                       class=" css-1jqq78o-placeholder"
-                                      id="react-select-24-placeholder"
+                                      id="react-select-27-placeholder"
                                     >
                                       Select Variable Type
                                     </div>
@@ -12459,14 +12448,14 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                     >
                                       <input
                                         aria-autocomplete="list"
-                                        aria-describedby="react-select-24-placeholder"
+                                        aria-describedby="react-select-27-placeholder"
                                         aria-expanded="false"
                                         aria-haspopup="true"
                                         autocapitalize="none"
                                         autocomplete="off"
                                         autocorrect="off"
                                         class=""
-                                        id="react-select-24-input"
+                                        id="react-select-27-input"
                                         role="combobox"
                                         spellcheck="false"
                                         style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -12541,7 +12530,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                               >
                                 <span
                                   class="css-1f43avz-a11yText-A11yText"
-                                  id="react-select-25-live-region"
+                                  id="react-select-28-live-region"
                                 />
                                 <span
                                   aria-atomic="false"
@@ -12557,7 +12546,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                   >
                                     <div
                                       class=" css-1jqq78o-placeholder"
-                                      id="react-select-25-placeholder"
+                                      id="react-select-28-placeholder"
                                     >
                                       Select Variable Sub Type
                                     </div>
@@ -12567,14 +12556,14 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                     >
                                       <input
                                         aria-autocomplete="list"
-                                        aria-describedby="react-select-25-placeholder"
+                                        aria-describedby="react-select-28-placeholder"
                                         aria-expanded="false"
                                         aria-haspopup="true"
                                         autocapitalize="none"
                                         autocomplete="off"
                                         autocorrect="off"
                                         class=""
-                                        id="react-select-25-input"
+                                        id="react-select-28-input"
                                         role="combobox"
                                         spellcheck="false"
                                         style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -12693,7 +12682,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                               >
                                 <span
                                   class="css-1f43avz-a11yText-A11yText"
-                                  id="react-select-26-live-region"
+                                  id="react-select-29-live-region"
                                 />
                                 <span
                                   aria-atomic="false"
@@ -12709,7 +12698,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                   >
                                     <div
                                       class=" css-1jqq78o-placeholder"
-                                      id="react-select-26-placeholder"
+                                      id="react-select-29-placeholder"
                                     >
                                       Select Data Type
                                     </div>
@@ -12719,14 +12708,14 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                     >
                                       <input
                                         aria-autocomplete="list"
-                                        aria-describedby="react-select-26-placeholder"
+                                        aria-describedby="react-select-29-placeholder"
                                         aria-expanded="false"
                                         aria-haspopup="true"
                                         autocapitalize="none"
                                         autocomplete="off"
                                         autocorrect="off"
                                         class=""
-                                        id="react-select-26-input"
+                                        id="react-select-29-input"
                                         role="combobox"
                                         spellcheck="false"
                                         style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -12859,7 +12848,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             <div
                               class="title"
                             >
-                              ValidRanges
+                              Valid Ranges
                             </div>
                             <p>
                               Valid ranges of variable data values.

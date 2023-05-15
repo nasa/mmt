@@ -61,6 +61,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     const { formContext } = registry
     const { editor } = formContext
     editor.addToVisitedFields(this.identifier)
+    editor.setFocusField(null)
     this.setState({ showDescription: false })
   }
 

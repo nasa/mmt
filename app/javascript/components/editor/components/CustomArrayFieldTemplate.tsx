@@ -44,6 +44,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     const uiTitle = uiSchema['ui:title']
     if (uiTitle) {
       title = uiTitle
+      return title
     }
     let itemTitle = null
     if (uiSchema.items) {
@@ -165,7 +166,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     return (
       <div data-testid="custom-array-template" ref={this.titleScrollRef}>
         <div className={uiClassName}>
-          {title}
+          {this.createTitle()}
           {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
         </div>
         <p>
