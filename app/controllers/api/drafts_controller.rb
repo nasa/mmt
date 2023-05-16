@@ -18,7 +18,7 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def index
-    provider_id = request.headers["Provider"]
+    provider_id = params[:provider]
     resources = resource_class.where(provider_id: provider_id).order('updated_at DESC')
     response.set_header('MMT_Hits', "#{resources.count}")
     array = []
@@ -31,7 +31,7 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def create
-    provider_id = request.headers["Provider"]
+    provider_id = params[:provider]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     set_resource(resource_class.new(provider_id: provider_id, user: user, draft: {}))
 
@@ -50,7 +50,7 @@ class Api::DraftsController < BaseDraftsController
 
   def update
     begin
-      provider_id = request.headers["Provider"]
+      provider_id = params[:provider]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
       json_params = JSON.parse(request.body.read())
       json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
@@ -66,7 +66,7 @@ class Api::DraftsController < BaseDraftsController
 
   def destroy
     begin
-      provider_id = request.headers["Provider"]
+      provider_id = params[:provider]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
       get_resource.destroy
       Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
@@ -78,7 +78,7 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def publish
-    provider_id = request.headers["Provider"]
+    provider_id = params[:provider]
     user = User.find_or_create_by(urs_uid: request.headers["User"])
     json_params = JSON.parse(request.body.read())
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
@@ -86,9 +86,9 @@ class Api::DraftsController < BaseDraftsController
 
     if get_resource.save
       ingested_response = {}
-      if params[:draft_type] == 'ToolDraft'
+      if params[:draft_type] == 'tool_drafts'
         ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-      elsif params[:draft_type] == 'VariableDraft'
+      elsif params[:draft_type] == 'variable_drafts'
         render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
 
         ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
@@ -180,8 +180,7 @@ class Api::DraftsController < BaseDraftsController
 
       unless token_user.nil?
         # For drafts, users have access to any drafts in their provider list
-        # Verify the user has permissions for this provider
-        provider_id = request.headers["Provider"]
+        provider_id = params[:provider]
         provider_id = get_resource.provider_id unless get_resource.nil?
         authorized = true if token_user.available_providers.include? provider_id
       end
@@ -234,7 +233,18 @@ class Api::DraftsController < BaseDraftsController
   # The singular name for the resource class based on the draft_type
   # @return [String]
   def resource_name
-      @resource_name ||= params[:draft_type]
+    type = params[:draft_type]
+    case type
+    when 'collection_drafts'
+      draft_type = 'CollectionDraft'
+    when 'tool_drafts'
+      draft_type = 'ToolDraft'
+    when 'variable_drafts'
+      draft_type = 'VariableDraft'
+    when 'service_drafts'
+      draft_type = 'ServiceDraft'
+    end
+    @resource_name ||= draft_type
   end
   helper_method :resource_name
 
