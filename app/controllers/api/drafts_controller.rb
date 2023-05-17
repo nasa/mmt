@@ -68,9 +68,10 @@ class Api::DraftsController < BaseDraftsController
     begin
       provider_id = params[:provider]
       user = User.find_or_create_by(urs_uid: request.headers["User"])
+      draft = draft_json_result
       get_resource.destroy
       Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
-      render json: JSON.generate({'result': 'Draft deleted'}), status: 200
+      render json: draft, status: 200
     rescue  => e
       Rails.logger.info("Audit Log: #{user.urs_uid} could not delete #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
       render json: JSON.generate({'error': "Could not delete draft: #{e.message}"}), status: 500

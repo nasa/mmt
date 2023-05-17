@@ -75,8 +75,7 @@ describe Api::DraftsController do
     request.headers.merge!({ 'User' => 'testuser' })
     delete :destroy, params: { id: @tool_draft_to_delete.id, draft_type: "tool_drafts", provider: 'MMT_2'  }
     assert_equal(response.status, 200)
-    parsed_body = JSON.parse(response.body)
-    assert_equal(parsed_body['result'], 'Draft deleted')
+    assert_equal(response.parsed_body["id"], @tool_draft_to_delete.id)
   end
 
   it 'can not delete if the user does not belong to the provider list.' do
