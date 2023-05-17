@@ -4427,7 +4427,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     <div
                                                       class="title"
                                                     >
-                                                      Response Content Type
+                                                      ResponseContentType
                                                     </div>
                                                     <p>
                                                       The supported MIME type(s) of the response from the HTTP API.
@@ -4570,7 +4570,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     <div
                                                       class="title"
                                                     >
-                                                      HTTP Method
+                                                      HttpMethod
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -4797,7 +4797,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                     <div
                                       class="title"
                                     >
-                                      Query Input
+                                      QueryInput
                                     </div>
                                     <p>
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
@@ -8323,7 +8323,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     <div
                                                       class="title"
                                                     >
-                                                      Response Content Type
+                                                      ResponseContentType
                                                     </div>
                                                     <p>
                                                       The supported MIME type(s) of the response from the HTTP API.
@@ -8466,7 +8466,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     <div
                                                       class="title"
                                                     >
-                                                      HTTP Method
+                                                      HttpMethod
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -8693,7 +8693,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                     <div
                                       class="title"
                                     >
-                                      Query Input
+                                      QueryInput
                                     </div>
                                     <p>
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action

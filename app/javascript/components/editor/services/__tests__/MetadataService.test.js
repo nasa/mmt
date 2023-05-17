@@ -4,7 +4,7 @@ import { MetadataService } from '../MetadataService'
 describe('Testing MetadataService', () => {
   async function mockFetch(url) {
     switch (url) {
-      case '/api/drafts/1?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts/1': {
         return {
           ok: true,
           status: 200,
@@ -17,7 +17,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/1?draft_type=VariableDraft': {
+      case '/api/providers/provider/variable_drafts/1': {
         return {
           ok: true,
           status: 200,
@@ -30,7 +30,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/55/publish?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts/55/publish': {
         return {
           ok: true,
           status: 200,
@@ -43,7 +43,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/101?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts/101': {
         return {
           ok: false,
           status: 404,
@@ -52,7 +52,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/55?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts/55': {
         return {
           ok: true,
           status: 200,
@@ -61,7 +61,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/200?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts/200': {
         return {
           ok: false,
           status: 404,
@@ -70,7 +70,7 @@ describe('Testing MetadataService', () => {
           })
         }
       }
-      case '/api/drafts/?draft_type=ToolDraft': {
+      case '/api/providers/provider/tool_drafts': {
         return {
           ok: true,
           status: 200,

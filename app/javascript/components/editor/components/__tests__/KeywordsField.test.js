@@ -91,7 +91,7 @@ describe('Tool Keywords test with keywords from CMR', () => {
     }
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
       ok: false,
-      status: 200,
+      status: 500,
       json: () => (
         EarthScienceServicesKeywords
       )

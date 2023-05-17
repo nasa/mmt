@@ -17,17 +17,11 @@ export class MetadataService {
   }
 
   get draftType() {
-    if (this.docType === 'tool_drafts') {
-      return 'ToolDraft'
-    }
-    if (this.docType === 'variable_drafts') {
-      return 'VariableDraft'
-    }
     return this.docType
   }
 
   async fetchDraft(id: number): Promise<Draft> {
-    const url = `/api/drafts/${id}?draft_type=${this.draftType}`
+    const url = `/api/providers/${this.providerId}/${this.draftType}/${id}`
     const requestOptions = {
       method: 'GET',
       headers: {
@@ -35,7 +29,6 @@ export class MetadataService {
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
-        Provider: this.providerId,
         User: this.userId
       }
     }
@@ -49,7 +42,7 @@ export class MetadataService {
   }
 
   async saveDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/?draft_type=${this.draftType}`
+    const url = `/api/providers/${this.providerId}/${this.draftType}`
     const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
@@ -59,7 +52,6 @@ export class MetadataService {
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
-        Provider: this.providerId,
         User: this.userId
       }
     }
@@ -73,7 +65,7 @@ export class MetadataService {
   }
 
   async publishDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/${draft.apiId}/publish?draft_type=${this.draftType}`
+    const url = `/api/providers/${this.providerId}/${this.draftType}/${draft.apiId}/publish`
     const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'POST',
@@ -83,7 +75,6 @@ export class MetadataService {
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
-        Provider: this.providerId,
         User: this.userId
       }
     }
@@ -98,7 +89,7 @@ export class MetadataService {
   }
 
   async updateDraft(draft: Draft): Promise<Draft> {
-    const url = `/api/drafts/${draft.apiId}?draft_type=${this.draftType}`
+    const url = `/api/providers/${this.providerId}/${this.draftType}/${draft.apiId}`
     const draftClone = removeEmpty(cloneDeep(draft))
     const requestOptions = {
       method: 'PUT',
@@ -108,7 +99,6 @@ export class MetadataService {
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
-        Provider: this.providerId,
         User: this.userId
       }
     }
