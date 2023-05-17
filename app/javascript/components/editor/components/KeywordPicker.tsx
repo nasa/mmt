@@ -82,8 +82,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
           this.initializeKeywords(paths)
           this.setState({ loading: false })
         })
-          .catch((error) => {
-            console.log('error=', error)
+          .catch(() => {
             editor.status = new Status('warning', 'Error retrieving keywords.')
           })
       })

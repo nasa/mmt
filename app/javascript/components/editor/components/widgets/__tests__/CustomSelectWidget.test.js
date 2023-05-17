@@ -24,6 +24,8 @@ global.fetch = require('jest-fetch-mock')
 describe('Var Keywords test with keywords from CMR', () => {
   const metadataService = new MetadataService('test_token', 'test_drafts', 'test_user', 'provider')
 
+  beforeAll(() => jest.setTimeout(20))
+
   it('fetches CMR keywords and updates', async () => {
     const model = new UmmVarModel()
     const editor = new MetadataEditor(model)
@@ -317,6 +319,7 @@ describe('Custom Select Widget Component', () => {
   it('testing autofocus for a custom select widget', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
+
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container } = render(

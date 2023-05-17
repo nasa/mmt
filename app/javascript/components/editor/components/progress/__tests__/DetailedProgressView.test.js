@@ -15,7 +15,7 @@ global.fetch = require('jest-fetch-mock')
 
 async function mockFetch(url) {
   switch (url) {
-    case '/api/drafts/1?draft_type=ToolDraft': {
+    case '/api/providers/MMT_1/tool_drafts/1': {
       return {
         ok: true,
         status: 200,
