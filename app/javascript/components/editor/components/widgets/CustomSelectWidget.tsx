@@ -87,6 +87,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const { formContext } = registry
     const { editor } = formContext
     editor.addToVisitedFields(this.identifier)
+    editor.setFocusField(null)
     this.setState({ setFocus: false })
   }
 

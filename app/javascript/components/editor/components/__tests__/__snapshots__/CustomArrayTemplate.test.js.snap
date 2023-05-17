@@ -16,9 +16,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
         >
           <div
             class="title"
-          >
-            CustomArrayFieldTest
-          </div>
+          />
           <p />
           <br />
           <div
@@ -412,9 +410,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
         >
           <div
             class="title"
-          >
-            CustomArrayFieldTest
-          </div>
+          />
           <p />
           <br />
           <div

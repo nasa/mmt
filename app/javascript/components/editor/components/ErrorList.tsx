@@ -198,7 +198,14 @@ class ErrorList extends React.Component<ErrorListProps> {
       )
     } else {
       rows.push(
-        <div className="error-list-item" onClick={() => { this.navigateToField(errorProperty) }} key={key} data-testid={`error-list-item__${kebabCase(key)}`}>
+        <div
+          className="error-list-item"
+          onClick={() => {
+            this.navigateToField(errorProperty)
+          }}
+          key={key}
+          data-testid={`error-list-item__${kebabCase(key)}`}
+        >
           {key !== 'root' ? (
             <li>
               <div style={{ display: 'flex' }}>
