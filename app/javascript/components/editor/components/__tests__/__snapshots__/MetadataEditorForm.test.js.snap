@@ -15744,7 +15744,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                           class="rjsf-layout-grid-group"
                         >
                           <span
-                            data-testid="layout-grid-field__row-title-field--use-constraints"
+                            data-testid="layout-grid-field__row-title-field--constraints"
                           >
                             <div>
                               <div
@@ -15753,7 +15753,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                 <span
                                   class="custom-title"
                                 >
-                                  UseConstraints
+                                  Constraints
                                 </span>
                               </div>
                             </div>
