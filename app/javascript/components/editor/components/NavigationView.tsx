@@ -151,6 +151,7 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
 
               <Dropdown.Item onClick={() => {
                 this.saveDraft(true)
+                window.scroll(0, 0)
               }}
               >
                 <span data-testid="navigationview--save-and-continue-button">
