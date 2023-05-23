@@ -46,7 +46,7 @@ const compatibilityAndUsabilityUiSchema = {
                     md: 12,
                     children: [
                       {
-                        'ui:group': 'UseConstraints',
+                        'ui:group': 'Constraints',
                         'ui:group-description': false,
                         'ui:row': [
 
