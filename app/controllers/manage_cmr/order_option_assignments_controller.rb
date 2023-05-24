@@ -152,14 +152,13 @@ class OrderOptionAssignmentsController < ManageCmrController
       unless associated_services.empty?
         associated_services.each do |service|
           order_option_concept_id = service.fetch('data', {}).fetch('order_option', '')
-          next if order_option_concept_id.blank?
-
           service_concept_id = service.fetch('concept-id', '')
           service_def = get_service_def(service_concept_id)
-          order_option = get_order_option_def(order_option_concept_id)
+          order_option = {}
+          order_option = get_order_option_def(order_option_concept_id) unless order_option_concept_id.blank?
           order_option['service_concept_id'] = service_concept_id
           order_option['service_name'] = service_def.fetch('umm', {}).fetch('Name', '')
-          order_options << order_option unless order_option.empty?
+          order_options << order_option
         end
       end
       if !order_options.empty?
