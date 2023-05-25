@@ -214,7 +214,7 @@ describe Api::DraftsController do
       "LongName": "a long name",
       "Version": "10.0"
     }}.to_json
-    post :create, body: jsonContent, params: { draft_type: "tool_drafts" }
+    post :create, body: jsonContent, params: { draft_type: "tool_drafts", provider: 'LARC' }
     assert_equal(response.status, 401)
     parsed_body = JSON.parse(response.body)
     assert_equal(parsed_body['error'], 'unauthorized')

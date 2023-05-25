@@ -154,7 +154,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api , constraints: { format: 'json' } do
-    resource :drafts, :controller => "drafts", only: [:create]
+    get '/cmr_keywords/:id' => 'cmr_keywords#show'
+    get '/kms_keywords/:id' => 'kms_keywords#show'
     get '/providers/:provider/:draft_type' => 'drafts#index'
     post '/providers/:provider/:draft_type' => 'drafts#create'
     get '/:draft_type/:id' => 'drafts#show'
@@ -162,8 +163,6 @@ Rails.application.routes.draw do
     put '/providers/:provider/:draft_type/:id' => 'drafts#update'
     delete '/providers/:provider/:draft_type/:id' => 'drafts#destroy'
     post '/providers/:provider/:draft_type/:id/publish' => 'drafts#publish'
-    get '/cmr_keywords/:id' => 'cmr_keywords#show'
-    get '/kms_keywords/:id' => 'kms_keywords#show'
   end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
