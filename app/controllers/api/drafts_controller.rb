@@ -132,7 +132,7 @@ class Api::DraftsController < BaseDraftsController
 
   def validate_token
     if Rails.env.development?
-      @token = 'token'
+      @token = 'ABC-1'
       return
     end
 
