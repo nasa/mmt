@@ -71,6 +71,8 @@ module Mmt
 
     config.middleware.insert_after Rails::Rack::Logger, MiddlewareHealthcheck
 
+    config.cmr_startup_timeout = !ENV['cmr_startup_timeout'].blank? ? ENV['cmr_startup_timeout'] : 900
+
     # Launchpad Session Cookie name
     config.launchpad_cookie_name = 'SBXSESSION'
     config.launchpad_cookie_name = 'SMSESSION' if ENV['launchpad_production'] == 'true'
