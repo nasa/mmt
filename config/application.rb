@@ -71,6 +71,7 @@ module Mmt
 
     config.middleware.insert_after Rails::Rack::Logger, MiddlewareHealthcheck
 
+    # Default timeout waiting for local CMR to be ready is 15 minutes
     config.cmr_startup_timeout = !ENV['cmr_startup_timeout'].blank? ? ENV['cmr_startup_timeout'] : 900
 
     # Launchpad Session Cookie name
