@@ -83,5 +83,30 @@
       <% end %>
       <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
-  </div>
+    <% if resource_name === 'variable_draft' %>
+      <div class="preview-content grid-row content">
+        <% if @preview.sidebars.blank? %>
+          <!-- No sidebar -->
+          <section class="umm-preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
+        <% else %>
+          <!-- With sidebar -->
+          <section class="preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
+
+          <aside class="umm-preview-sidebar">
+            <% @preview.sidebars.each do |sidebar| %>
+              <%= sidebar.render_sidebar %>
+            <% end %>
+          </aside>
+        <% end %>
+      </div>
+    </div>
+      <% end %>
 <% end %>
