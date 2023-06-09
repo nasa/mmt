@@ -46,3 +46,11 @@ th{
   white-space: normal;
   word-wrap: normal;
 }
+
+#metadata-preview .justify-content-around{
+  justify-content: space-between !important;
+}
+
+#metadata-preview .nav-link{
+  padding: 5px;
+}

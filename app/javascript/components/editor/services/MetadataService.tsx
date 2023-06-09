@@ -111,6 +111,30 @@ export class MetadataService {
     return Promise.reject(new Error(`Error code: ${response.status}`))
   }
 
+  async deleteDraft(draft: Draft): Promise<Draft> {
+    const url = `/api/providers/${this.providerId}/${this.draftType}/${draft.apiId}`
+    const requestOptions = {
+      method: 'DELETE',
+      body: JSON.stringify(draft),
+      headers: {
+        Accept: 'application/json',
+        Authorization: `${this.token}`,
+        'Client-Id': 'mmt-react-ui',
+        'X-Request-Id': uuid(),
+        User: this.userId
+      }
+    }
+    const response = await fetch(url, requestOptions)
+    if (response.ok) {
+      const data = await response.json()
+      const draft = this.convertToDraft(data)
+      draft.draft = {}
+      draft.apiId = -1
+      return draft
+    }
+    return Promise.reject(new Error(`Error code: ${response.status}`))
+  }
+
   async fetchKmsKeywords(id: string): Promise<object> {
     const url = `/api/kms_keywords/${id}`
     const requestOptions = {

@@ -115,6 +115,19 @@ describe('Testing MetadataService', () => {
           })
         }
       }
+      case '/api/providers/provider/tool_drafts/55/delete': {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            draft: {
+              Name: 'a name', LongName: 'a long name', Definition: 'Def', StandardName: 'Web Portal'
+            },
+            id: 55,
+            user_id: 9
+          })
+        }
+      }
       default: {
         console.log(`Unhandled request: ${url}`)
         return undefined
@@ -185,6 +198,16 @@ describe('Testing MetadataService', () => {
     })
   })
 
+  test('delete draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.apiId = 55
+    draft.apiUserId = 10
+    draft.draft = { Name: 'Test Record' }
+    metadataService.deleteDraft(draft).then((result) => {
+      expect(result.apiId).toEqual(-1)
+    })
+  })
   test('publish draft', async () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
     const draft = new Draft()

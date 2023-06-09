@@ -78,8 +78,9 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
 
   saveDraftAndPreview() {
     const {
-      editor
+      editor, router
     } = this.props
+    const { navigate } = router
     const {
       draft
     } = editor
@@ -87,13 +88,7 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
       editor.saveDraft(draft).then((draft) => {
         editor.draft = draft
         this.setState({ saving: false })
-        // this will be needed to redirect to the preview page which is rendered by rails
-        setTimeout(() => {
-          window.location.href = `/${editor.documentType}/${draft.apiId}`
-        }, 50)
-        // } else {
-        // navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
-        // }
+        navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
         this.setState({ saving: false })

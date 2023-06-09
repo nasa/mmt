@@ -200,6 +200,10 @@ export default class MetadataEditor {
     return this.service.publishDraft(draft)
   }
 
+  async deleteDraft(draft: Draft): Promise<Draft> {
+    return this.service.deleteDraft(draft)
+  }
+
   async fetchKmsKeywords(keywordScheme: string): Promise<object> {
     return this.service.fetchKmsKeywords(keywordScheme)
   }
