@@ -34,7 +34,6 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
             data-testid="detailed-progress-view-delete-draft-btn"
           >
             Delete Draft
-            <div />
           </span>
         </div>
       </div>
@@ -3795,7 +3794,6 @@ exports[`Detailed Progress View show error when publishing incomplete draft 1`] 
             data-testid="detailed-progress-view-delete-draft-btn"
           >
             Delete Draft
-            <div />
           </span>
         </div>
       </div>
@@ -7534,7 +7532,6 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
             data-testid="detailed-progress-view-delete-draft-btn"
           >
             Delete Draft
-            <div />
           </span>
         </div>
       </div>

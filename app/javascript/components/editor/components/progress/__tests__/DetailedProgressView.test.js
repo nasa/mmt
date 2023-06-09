@@ -167,7 +167,7 @@ describe('Detailed Progress View', () => {
       <MemoryRouter initialEntries={['/tool_drafts/2']}>
         <Routes>
           <Route path="/tool_drafts/:id" element={<DetailedProgressView editor={editor} />} />
-          <Route path="/tool_drafts/draftDeleted" element={<DeleteDraftView editor={editor} />} />
+          <Route path="/tool_drafts/draftDeletedView" element={<DeleteDraftView editor={editor} />} />
           <Route path="/tool_drafts/new" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
@@ -186,7 +186,6 @@ describe('Detailed Progress View', () => {
 
     expect(screen.getByText('Draft Deleted')).toBeInTheDocument()
 
-    // const createNewDaft = screen.queryByTestId('create-new-draft')
     await act(async () => {
       fireEvent.click(screen.queryByTestId('create-new-draft'))
     })

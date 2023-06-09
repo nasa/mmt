@@ -24,7 +24,7 @@ class App extends React.Component<AppProps, never> {
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName/:index`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/new`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
-          <Route path={`/${editor.model.documentType}/draftDeleted`} element={<DeleteDraftView editor={editor} {...this.props} />} />
+          <Route path={`/${editor.model.documentType}/draftDeletedView`} element={<DeleteDraftView editor={editor} {...this.props} />} />
           <Route path="/" element={<MetadataEditorForm editor={editor} {...this.props} />} />
         </Routes>
       </BrowserRouter>

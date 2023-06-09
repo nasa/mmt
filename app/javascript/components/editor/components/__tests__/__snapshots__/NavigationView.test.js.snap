@@ -12782,7 +12782,6 @@ exports[`Navigation View Component saves and previews 1`] = `
             data-testid="detailed-progress-view-delete-draft-btn"
           >
             Delete Draft
-            <div />
           </span>
         </div>
       </div>

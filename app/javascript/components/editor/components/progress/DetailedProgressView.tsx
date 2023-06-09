@@ -32,8 +32,6 @@ type DetailedProgressViewState = {
 }
 
 class DetailedProgressView extends React.Component<DetailedProgressViewProps, DetailedProgressViewState> {
-  // eslint-disable-next-line react/static-property-placement
-  modalRef: React.RefObject<HTMLDivElement>
   constructor(props: DetailedProgressViewProps) {
     super(props)
     this.state = { status: null, loading: false, showModal: false }
@@ -153,20 +151,6 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       })
     }
   }
-  deleteModal() {
-    console.log('in deletle modal')
-    return (
-      <Modal id="delete-modal" show>
-        <Modal.Body>
-          Are you sure you want to delete this Draft?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button data-testid="delete-modal-no-button" variant="secondary" onClickCapture={() => { this.setState({ showModal: false }) }}>No</Button>
-          <Button data-testid="delete-modal-yes-button" variant="primary" onClickCapture={() => { this.deleteDraft() }}>Yes</Button>
-        </Modal.Footer>
-      </Modal>
-    )
-  }
 
   deleteDraft() {
     const { editor, router } = this.props
@@ -176,7 +160,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       editor.deleteDraft(draft).then((draft) => {
         editor.draft = draft
         editor.status = new Status('success', 'Draft Deleted')
-        navigate(`/${editor.documentType}/draftDeleted`, { replace: false })
+        navigate(`/${editor.documentType}/draftDeletedView`, { replace: false })
       }).catch(() => {
         editor.status = new Status('warning', 'error deleting draft!')
       })
@@ -199,6 +183,20 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         this.setState({ loading: false })
       })
     })
+  }
+
+  renderDeleteModal() {
+    return (
+      <Modal id="delete-modal" show>
+        <Modal.Body>
+          Are you sure you want to delete this Draft?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button data-testid="delete-modal-no-button" variant="secondary" onClickCapture={() => { this.setState({ showModal: false }) }}>No</Button>
+          <Button data-testid="delete-modal-yes-button" variant="primary" onClickCapture={() => { this.deleteDraft() }}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
+    )
   }
 
   render() {
@@ -281,11 +279,9 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
               >
 
                 Delete Draft
-                <div ref={this.modalRef}>
-                  {showModal && (
-                    this.deleteModal()
-                  )}
-                </div>
+                {showModal && (
+                  this.renderDeleteModal()
+                )}
               </span>
             </Col>
           </Row>

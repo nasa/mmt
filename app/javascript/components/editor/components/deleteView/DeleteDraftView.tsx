@@ -7,16 +7,17 @@ type DeleteDraftViewProps = {
   router: RouterType
   editor: MetadataEditor
 }
-class DeleteDraftView extends React.Component<DeleteDraftViewProps, any> {
+class DeleteDraftView extends React.Component<DeleteDraftViewProps, never> {
   render() {
     const { editor, router } = this.props
+    const { status } = editor
     const { navigate } = router
 
     return (
       <div style={{ margin: 'auto', width: '60%', padding: '10px' }}>
-        {editor.status && (
-          <Alert key={editor.status.type} variant={editor.status.type} onClose={() => { editor.status = null }} dismissible>
-            {editor.status.message}
+        {status && (
+          <Alert key={status.type} variant={status.type} onClose={() => { editor.status = null }} dismissible>
+            {status.message}
           </Alert>
         )}
         <Button
