@@ -21,6 +21,7 @@ class VariableDraftsController < BaseDraftsController
 
   def new
       super and return if params[:associated_collection_id].blank?
+
       @associated_collection_id = params[:associated_collection_id].strip
       current_collection_response = cmr_client.get_collections_by_post({ concept_id: @associated_collection_id }, token)
 

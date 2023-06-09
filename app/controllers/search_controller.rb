@@ -38,10 +38,6 @@ class SearchController < ManageMetadataController
     query['keyword'] = query['keyword'].strip.gsub(/\s+/, '* ')
     query['keyword'] += '*' unless query['keyword'].last == '*'
 
-    if Rails.env.development?
-      token = 'ABC-1'
-    end
-
     search_response =
       case @record_type
       when 'collections'

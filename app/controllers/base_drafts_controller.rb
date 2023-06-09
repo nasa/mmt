@@ -246,9 +246,7 @@ class BaseDraftsController < DraftsController
 
   def get_published_record_by_provider_and_native_id(provider:, native_id:)
     search_query = { 'native_id' => native_id, 'provider' => provider }
-    if Rails.env.development?
-      token = 'ABC-1'
-    end
+
     search_response = cmr_client.send("get_#{plural_published_resource_name}", search_query, token)
 
     if search_response.success?
