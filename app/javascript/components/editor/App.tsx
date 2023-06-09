@@ -5,6 +5,7 @@ import { observer } from 'mobx-react'
 import MetadataEditor from './MetadataEditor'
 import DetailedProgressView from './components/progress/DetailedProgressView'
 import MetadataEditorForm from './components/MetadataEditorForm'
+import DeleteDraftView from './components/deleteView/DeleteDraftView'
 
 type AppProps = {
   editor: MetadataEditor;
@@ -23,6 +24,7 @@ class App extends React.Component<AppProps, never> {
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName/:fieldName/:index`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
           <Route path={`/${editor.model.documentType}/new`} element={<MetadataEditorForm editor={editor} {...this.props} />} />
+          <Route path={`/${editor.model.documentType}/draftDeleted`} element={<DeleteDraftView editor={editor} {...this.props} />} />
           <Route path="/" element={<MetadataEditorForm editor={editor} {...this.props} />} />
         </Routes>
       </BrowserRouter>
