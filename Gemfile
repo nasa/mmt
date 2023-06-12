@@ -18,6 +18,9 @@ gem 'sprockets', '~> 3.7.0'
 gem 'bourbon'
 gem 'sassc-rails'
 
+# Use timeout when waiting for CMR to be ready
+gem 'timeout'
+
 # Use Autoprefixer for prefixing styles
 gem 'autoprefixer-rails'
 
