@@ -162,7 +162,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       editor.deleteDraft(draft).then((draft) => {
         editor.draft = draft
         editor.status = new Status('success', 'Draft Deleted')
-        navigate(`/${editor.documentType}/draftDeletedView`, { replace: false })
+        navigate(`/${editor.documentType}/deleteDraftView`, { replace: false })
       }).catch(() => {
         editor.status = new Status('warning', 'error deleting draft!')
       })

@@ -167,7 +167,7 @@ describe('Detailed Progress View', () => {
       <MemoryRouter initialEntries={['/tool_drafts/2']}>
         <Routes>
           <Route path="/tool_drafts/:id" element={<DetailedProgressView editor={editor} />} />
-          <Route path="/tool_drafts/draftDeletedView" element={<DeleteDraftView editor={editor} />} />
+          <Route path="/tool_drafts/deleteDraftView" element={<DeleteDraftView editor={editor} />} />
           <Route path="/tool_drafts/new" element={<MetadataEditorForm editor={editor} />} />
         </Routes>
       </MemoryRouter>
