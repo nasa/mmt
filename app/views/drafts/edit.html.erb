@@ -10,14 +10,12 @@
   <% if (resource_name == 'tool_draft' or resource_name == 'variable_draft') and Rails.configuration.react_forms_enabled %>
     <div id="react-editor-form">
       <div class="grid-row row-content">
-        <di>
           <% if resource_name == 'tool_draft' %>
             <%= react_component("editor/UmmToolsForm", {heading: "Update Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
           <% end %>
           <% if resource_name == 'variable_draft' %>
             <%= react_component("editor/UmmVarForm", {heading: "Update Variable Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
           <% end %>
-        </di>
       </div>
     </div>
   <% else %>

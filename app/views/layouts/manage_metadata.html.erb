@@ -31,7 +31,7 @@
         conceptType,
         conceptUrlTemplate: '/{conceptType}/{conceptId}',
         token: "<%= @preview_token %>",
-        graphQlHost: 'http://localhost:6005/dev/api'
+        graphQlHost: "<%= Rails.configuration.graphql_server%>"
       }
       MetadataPreview.init(config, element)
     }
