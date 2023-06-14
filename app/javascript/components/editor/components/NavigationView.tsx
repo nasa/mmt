@@ -88,7 +88,11 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
       editor.saveDraft(draft).then((draft) => {
         editor.draft = draft
         this.setState({ saving: false })
-        navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
+        if (editor.documentType === 'variable_drafts') {
+          window.location.href = `/${editor.documentType}/${draft.apiId}`
+        } else {
+          navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
+        }
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
         this.setState({ saving: false })
