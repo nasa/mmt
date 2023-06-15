@@ -41,15 +41,15 @@ ENV JAVA_HOME /etc/alternatives/jre
 
 # Install Ruby from source
 WORKDIR /
-RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
- && tar -xzf ruby-2.7.2.tar.gz \
- && rm ruby-2.7.2.tar.gz \
- && cd /ruby-2.7.2 \
+RUN curl -OL https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.6.tar.gz \
+ && tar -xzf ruby-3.0.6.tar.gz \
+ && rm ruby-3.0.6.tar.gz \
+ && cd /ruby-3.0.6 \
  && ./configure --disable-install-doc \
  && make -j $(nproc) \
  && make install \
  && cd / \
- && rm -fr ruby-2.7.2
+ && rm -fr ruby-3.0.6
 
 ENV PATH /usr/pgsql-11/bin:$PATH
 RUN gem install bundler 
@@ -60,6 +60,6 @@ RUN yum install -y postgresql11-devel
 USER bamboo
 WORKDIR /build
 ENV HOME /home/bamboo
-ENV PATH /home/bamboo/.gem/ruby/2.7.2/bin:/opt/google/chrome/:$PATH
+ENV PATH /home/bamboo/.gem/ruby/3.0.6/bin:/opt/google/chrome/:$PATH
 RUN gem install rspec --version=3.9 --user-install
 USER root
