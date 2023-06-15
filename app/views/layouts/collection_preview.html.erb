@@ -15,8 +15,22 @@
 
   <%= render partial: 'shared/assets' %>
   <%= render partial: 'shared/google_tag_manager_head' %>
+
   <script defer src="<%= Rails.configuration.metadata_preview_js_url %>"></script>
   <link href="<%= Rails.configuration.metadata_preview_css_url %>" rel="stylesheet" type="text/css">
+
+  <script>
+    function metadataPreview(conceptId, conceptType, element){
+      const config = {
+        conceptId,
+        conceptType,
+        conceptUrlTemplate: '/{conceptType}/{conceptId}',
+        token: "<%= @preview_token %>",
+        graphQlHost: "<%= Rails.configuration.graphql_server%>"
+      }
+      MetadataPreview.init(config, element)
+    }
+  </script>
 
 </head>
 

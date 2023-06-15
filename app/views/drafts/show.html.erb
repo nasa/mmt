@@ -29,28 +29,31 @@
 <% else %>
   <div class="grid-row row-content">
     <section class="action">
-      <% if @json_form.invalid_keys(ignore_required_fields: false).any? || (resource_name == 'variable_draft' && get_resource.collection_concept_id.blank?) %>
-        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
-        <div id="invalid-draft-modal" class="eui-modal-content">
-          <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators
-            on the draft preview page to address incomplete or invalid fields.</p>
+      <% if resource_name === 'service_draft' || !Rails.configuration.react_forms_enabled %>
+        <% if @json_form.invalid_keys(ignore_required_fields: false).any? || (resource_name == 'variable_draft' && get_resource.collection_concept_id.blank?) %>
+          <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
+          <div id="invalid-draft-modal" class="eui-modal-content">
+            <p>This <%= published_resource_name %> draft is not ready to be published. Please use the progress indicators
+              on the draft preview page to address incomplete or invalid fields.</p>
+            <p>
+              <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+            </p>
+          </div>
+        <% else %>
+          <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
+        <% end %>
+
+        <%= link_to I18n.t("helpers.#{resource_name}.delete", model: resource_name.titleize), "#delete-draft-modal", class: 'display-modal' %>
+        <div id="delete-draft-modal" class="eui-modal-content">
+          <a><% resource_name %></a>
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to delete this <%= resource_name %>?</p>
           <p>
-            <a href="javascript:void(0)" class="eui-btn modal-close">Ok</a>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', send("#{resource_name}_path", get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
           </p>
         </div>
-      <% else %>
-        <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), send("#{plural_published_resource_name}_path", id: get_resource), method: :post, class: 'eui-btn--blue spinner' %>
       <% end %>
-
-      <%= link_to I18n.t("helpers.#{resource_name}.delete", model: resource_name.titleize), "#delete-draft-modal", class: 'display-modal' %>
-      <div id="delete-draft-modal" class="eui-modal-content">
-        <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-        <p>Are you sure you want to delete this <%= resource_name.titleize %>?</p>
-        <p>
-          <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-          <%= link_to 'Yes', send("#{resource_name}_path", get_resource), method: :delete, class: 'eui-btn--blue spinner' %>
-        </p>
-      </div>
     </section>
 
     <% if @ingest_errors && !@ingest_errors.empty? %>
@@ -86,12 +89,14 @@
         </div>
       <% end %>
       <section id="react-editor-form" class="metadata">
-        <% if resource_name == 'tool_draft' %>
-          <%= react_component("editor/UmmToolsForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
-        <% end %>
-        <% if resource_name == 'variable_draft' %>
-          <%= react_component("editor/UmmVarForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
-        <% end %>
+        <div style="margin-left: -125px">
+          <% if resource_name == 'tool_draft' %>
+            <%= react_component("editor/UmmToolsForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
+          <% end %>
+          <% if resource_name == 'variable_draft' %>
+            <%= react_component("editor/UmmVarForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
+          <% end %>
+          </div>
       </section>
     <% else %>
       <% if resource_name == 'variable_draft' %>
@@ -99,28 +104,31 @@
       <% end %>
       <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
-    <div class="preview-content grid-row content">
-      <% if @preview.sidebars.blank? %>
-        <!-- No sidebar -->
-        <section class="umm-preview">
-          <% @preview.forms.each do |form| %>
-            <%= form.render %>
-          <% end %>
-        </section>
-      <% else %>
-        <!-- With sidebar -->
-        <section class="preview">
-          <% @preview.forms.each do |form| %>
-            <%= form.render %>
-          <% end %>
-        </section>
 
-        <aside class="umm-preview-sidebar">
-          <% @preview.sidebars.each do |sidebar| %>
-            <%= sidebar.render_sidebar %>
-          <% end %>
-        </aside>
-      <% end %>
+    <% if (resource_name === 'variable_draft' || resource_name === 'service_draft') || !(Rails.configuration.react_forms_enabled) %>
+      <div class="preview-content grid-row content">
+        <% if @preview.sidebars.blank? %>
+          <!-- No sidebar -->
+          <section class="umm-preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
+        <% else %>
+          <!-- With sidebar -->
+          <section class="preview">
+            <% @preview.forms.each do |form| %>
+              <%= form.render %>
+            <% end %>
+          </section>
+
+          <aside class="umm-preview-sidebar">
+            <% @preview.sidebars.each do |sidebar| %>
+              <%= sidebar.render_sidebar %>
+            <% end %>
+          </aside>
+        <% end %>
+      </div>
     </div>
-  </div>
+      <% end %>
 <% end %>

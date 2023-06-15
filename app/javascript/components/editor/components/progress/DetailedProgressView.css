@@ -25,3 +25,9 @@
 .form {
     display: hidden;
 }
+
+.delete-draft {
+    margin-left: 25px;
+    cursor: pointer;
+    color: #2276ac;
+}

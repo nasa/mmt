@@ -88,6 +88,7 @@ describe('Navigation View Component', () => {
   })
 
   beforeAll(() => jest.spyOn(window, 'fetch'))
+  Window.prototype.metadataPreview = jest.fn()
 
   test('renders the navigation view', async () => {
     const model = new UmmToolsModel()
@@ -166,11 +167,7 @@ describe('Navigation View Component', () => {
     await act(async () => {
       saveAndPreviewButton.click()
     })
-    // Need to skip this test temorary because we are redirecting to the detailed progress view
-    // in order to render the MMT tool preview along with the details progress view.
-    // The redirect does not work properly in the test.
-    // Once we build a new preview this test can be included again.
-    // expect(screen.getByText('Metadata Fields')).toBeInTheDocument()
+    expect(screen.getByText('Metadata Fields')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 
