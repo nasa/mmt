@@ -25,12 +25,12 @@
   <link href="<%= Rails.configuration.metadata_preview_css_url %>" rel="stylesheet" type="text/css">
 
   <script>
-    function metadataPreview(conceptId, conceptType, element){
+    function metadataPreview(conceptId, conceptType, token, element){
       const config = {
         conceptId,
         conceptType,
         conceptUrlTemplate: '/{conceptType}/{conceptId}',
-        token: "<%= @preview_token %>",
+        token,
         graphQlHost: "<%= Rails.configuration.graphql_server%>"
       }
       MetadataPreview.init(config, element)

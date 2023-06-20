@@ -39,6 +39,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   componentDidMount() {
     const { router, editor } = this.props
     const { params } = router
+    const { service } = editor
     const { id } = params
 
     this.setState({ status: null }, () => {
@@ -51,7 +52,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       })
     })
     if (this.conceptType() === 'toolDraft') {
-      window.metadataPreview(id, this.conceptType(), document.getElementById('metadata-preview'))
+      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
     }
   }
 
