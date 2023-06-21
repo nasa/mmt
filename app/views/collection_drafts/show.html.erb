@@ -120,7 +120,7 @@
       </div>
       <script>
         document.addEventListener("DOMContentLoaded", function() {
-          window.metadataPreview('<%= get_resource.id %>', 'collectionDraft', document.getElementById('metadata-preview') )
+          window.metadataPreview('<%= get_resource.id %>', 'collectionDraft', '<%= @preview_token %>', document.getElementById('metadata-preview') )
         })
       </script>
     <% end %>
