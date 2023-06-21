@@ -1297,7 +1297,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             id="Organizations_0_LongName"
                                             name="Long Name"
                                             type="text"
-                                            value=""
+                                            value="Hydrogeophysics Group, Aarhus University "
                                           />
                                           <span
                                             class="widget-description"
