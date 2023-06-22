@@ -27,7 +27,7 @@ module Cmr
       @clients = clients
     end
 
-    def method_missing(method_name, *arguments, &block)
+    ruby2_keywords def method_missing(method_name, *arguments, &block)
       client = @clients.find {|c| c.respond_to?(method_name)}
       if client
         client.send(method_name, *arguments, &block)
