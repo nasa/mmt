@@ -83,7 +83,7 @@ module Cmr
       provider_id = group['provider_id'] || ''
       response = post(
         '/api/user_groups',
-        "name=#{name}&description=#{URI.encode(description)}&tag=#{provider_id}",
+        "name=#{name}&description=#{CGI.escape(description)}&tag=#{provider_id}",
         'Authorization' => "Bearer #{get_client_token}"
       )
       if response.success?
@@ -217,7 +217,7 @@ module Cmr
 
       response = post(
         "/api/user_groups/#{group_id}/update",
-        "&description=#{URI.encode(new_description)}",
+        "&description=#{CGI.escape(new_description)}",
         'Authorization' => "Bearer #{get_client_token}"
       )
 
