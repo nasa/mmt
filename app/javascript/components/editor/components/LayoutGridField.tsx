@@ -19,7 +19,9 @@ import { MetadataService } from '../services/MetadataService'
 import Status from '../model/Status'
 import { CmrResponseType, createResponseFromKeywords, getKeywords } from '../utils/cmr_keywords'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
-import { removeEmpty, createPath, convertToDottedNotation } from '../utils/json_utils'
+import {
+  removeEmpty, createPath, convertToDottedNotation
+} from '../utils/json_utils'
 import CustomTextWidget from './widgets/CustomTextWidget'
 
 type ComponentProps = {
@@ -451,9 +453,6 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     let value = existingValue ?? enumValue
 
     const { length: enumsLength } = enums
-    if (!this.isRequired(name)) {
-      enums.unshift(null)
-    }
 
     const widget = fieldUiSchema != null ? fieldUiSchema['ui:widget'] : null
     if (widget === CustomTextWidget) {
@@ -498,6 +497,10 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
           />
         </div>
       )
+    }
+
+    if (!this.isRequired(name)) {
+      enums.unshift(null)
     }
 
     let placeholder = `Select ${title}`

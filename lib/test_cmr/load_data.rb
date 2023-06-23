@@ -7,6 +7,7 @@
 #   insert metadata into local CMR
 
 require 'multi_xml'
+require 'timeout'
 
 module Cmr
   class Local
@@ -57,14 +58,19 @@ module Cmr
 
     def wait_for_cmr
       cmr_up = false
-      until cmr_up
-        begin
-          cmr_up = yield
-        rescue Faraday::ConnectionFailed
-          puts 'CMR is still starting, please wait...'
-          sleep 5
+      Timeout::timeout(Rails.configuration.cmr_startup_timeout.to_i) do
+        until cmr_up
+          begin
+            cmr_up = yield
+          rescue Faraday::ConnectionFailed
+            puts 'CMR is still starting, please wait...'
+            sleep 5
+          end
         end
       end
+    rescue Timeout::Error => e
+      puts('Got timeout waiting for CMR, existing task!')
+      exit(1)
     end
 
     def provider_template(provider_id)
