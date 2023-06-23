@@ -59,8 +59,8 @@ module Cmr
 
     def request(method, url, params, body, headers)
       Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_s(:log_time)}"
-
-      faraday_response = connection.send(method, url, params) do |req|
+      params = {} if params.nil?
+      faraday_response = connection.send(method, url, **params) do |req|
         unless self.class == UrsClient || self.class == LaunchpadClient
           req.headers['Content-Type'] = 'application/json' unless method == :get
           req.headers['Client-Id'] = CLIENT_ID
