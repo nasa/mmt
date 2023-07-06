@@ -286,8 +286,11 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                 data-testid="detailed-progress-view-delete-draft-btn"
                 onClick={() => { this.setState({ showModal: true }) }}
               >
-
-                Delete Draft
+                Delete
+                {' '}
+                {_.startCase(editor.documentType.split('_').at(0))}
+                {' '}
+                Draft
                 {showModal && (
                   this.renderDeleteModal()
                 )}
