@@ -25,6 +25,7 @@ import KeywordsField from './KeywordPicker'
 import CustomTitleFieldTemplate from './CustomTitleFieldTemplate'
 import Status from '../model/Status'
 import CustomFieldTemplate from './CustomFieldTemplate'
+import CustomRadioWidget from './widgets/CustomRadioWidget'
 import './MetadataEditorForm.css'
 
 type MetadataEditorFormProps = {
@@ -151,7 +152,8 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       TextareaWidget: CustomTextareaWidget,
       SelectWidget: CustomSelectWidget,
       DateTimeWidget: CustomDateTimeWidget,
-      CountrySelectWiget: CustomCountrySelectWidget
+      CountrySelectWiget: CustomCountrySelectWidget,
+      RadioWidget: CustomRadioWidget
     }
     const templates = {
       ArrayFieldTemplate: CustomArrayFieldTemplate,

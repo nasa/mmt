@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomRadiowidget renders the component with initial values 1`] = `
+<div>
+  <div
+    class="custom-radio-widget"
+    data-testid="custom-radio-widget"
+  >
+    <div
+      data-testid="custom-radio-widget--value-required"
+    >
+      Title
+    </div>
+    <input
+      checked=""
+      data-testid="custom-radio-widget--true"
+      type="radio"
+    />
+    <label>
+      True
+    </label>
+    <br />
+    <input
+      data-testid="custom-radio-widget--false"
+      type="radio"
+    />
+    <label>
+      False
+    </label>
+  </div>
+</div>
+`;
+
+exports[`CustomRadiowidget should call the onChange function with false when "False" radio button is clicked 1`] = `
+<div>
+  <div
+    class="custom-radio-widget"
+    data-testid="custom-radio-widget"
+  >
+    <div
+      data-testid="custom-radio-widget--value-required"
+    />
+    <input
+      checked=""
+      data-testid="custom-radio-widget--true"
+      type="radio"
+    />
+    <label>
+      True
+    </label>
+    <br />
+    <input
+      data-testid="custom-radio-widget--false"
+      type="radio"
+    />
+    <label>
+      False
+    </label>
+  </div>
+</div>
+`;
+
+exports[`CustomRadiowidget should call the onChange function with true when "True" radio button is clicked 1`] = `
+<div>
+  <div
+    class="custom-radio-widget"
+    data-testid="custom-radio-widget"
+  >
+    <div
+      data-testid="custom-radio-widget--value-required"
+    />
+    <input
+      data-testid="custom-radio-widget--true"
+      type="radio"
+    />
+    <label>
+      True
+    </label>
+    <br />
+    <input
+      checked=""
+      data-testid="custom-radio-widget--false"
+      type="radio"
+    />
+    <label>
+      False
+    </label>
+  </div>
+</div>
+`;
