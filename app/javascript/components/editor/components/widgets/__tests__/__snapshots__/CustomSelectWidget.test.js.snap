@@ -1604,6 +1604,44 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                   >
                                                      
                                                     <span
+                                                      data-testid="layout-grid-field__schema-field--description"
+                                                    >
+                                                      <div
+                                                        class="form-group field field-string"
+                                                      >
+                                                        <div
+                                                          class="widget-header"
+                                                          data-testid="custom-text-widget__description--text-header"
+                                                        >
+                                                          <span>
+                                                            Description
+                                                          </span>
+                                                        </div>
+                                                        <input
+                                                          class="custom-text-widget-input"
+                                                          data-testid="custom-text-widget__description--text-input"
+                                                          id="PotentialAction_QueryInput_0_Description"
+                                                          name="Description"
+                                                          type="text"
+                                                          value=""
+                                                        />
+                                                        <span
+                                                          class="widget-description"
+                                                          data-testid="custom-text-widget--description-field__description"
+                                                        />
+                                                      </div>
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class="row row-children"
+                                                >
+                                                   
+                                                  <div
+                                                    class="col-md-12"
+                                                  >
+                                                     
+                                                    <span
                                                       data-testid="layout-grid-field__schema-field--value-name"
                                                     >
                                                       <div
@@ -1651,46 +1689,35 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                         class="form-group field field-boolean"
                                                       >
                                                         <div
-                                                          class="mb-0 form-group"
+                                                          class="custom-radio-widget"
+                                                          data-testid="custom-radio-widget"
                                                         >
                                                           <div
-                                                            class="form-check"
+                                                            data-testid="custom-radio-widget--value-required"
                                                           >
-                                                            <input
-                                                              aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
-                                                              class="form-check-input"
-                                                              id="PotentialAction_QueryInput_0_ValueRequired-0"
-                                                              name="PotentialAction_QueryInput_0_ValueRequired"
-                                                              type="radio"
-                                                              value="0"
-                                                            />
-                                                            <label
-                                                              class="form-check-label"
-                                                              for="PotentialAction_QueryInput_0_ValueRequired-0"
-                                                              title=""
-                                                            >
-                                                              Yes
-                                                            </label>
+                                                            Value Required
                                                           </div>
-                                                          <div
-                                                            class="form-check"
+                                                          <input
+                                                            data-testid="custom-radio-widget--true"
+                                                            id="PotentialAction_QueryInput_0_ValueRequired"
+                                                            type="radio"
+                                                          />
+                                                          <label
+                                                            for="PotentialAction_QueryInput_0_ValueRequired"
                                                           >
-                                                            <input
-                                                              aria-describedby="PotentialAction_QueryInput_0_ValueRequired__error PotentialAction_QueryInput_0_ValueRequired__description PotentialAction_QueryInput_0_ValueRequired__help"
-                                                              class="form-check-input"
-                                                              id="PotentialAction_QueryInput_0_ValueRequired-1"
-                                                              name="PotentialAction_QueryInput_0_ValueRequired"
-                                                              type="radio"
-                                                              value="1"
-                                                            />
-                                                            <label
-                                                              class="form-check-label"
-                                                              for="PotentialAction_QueryInput_0_ValueRequired-1"
-                                                              title=""
-                                                            >
-                                                              No
-                                                            </label>
-                                                          </div>
+                                                            True
+                                                          </label>
+                                                          <br />
+                                                          <input
+                                                            data-testid="custom-radio-widget--false"
+                                                            id="PotentialAction_QueryInput_0_ValueRequired"
+                                                            type="radio"
+                                                          />
+                                                          <label
+                                                            for="PotentialAction_QueryInput_0_ValueRequired"
+                                                          >
+                                                            False
+                                                          </label>
                                                         </div>
                                                       </div>
                                                     </span>

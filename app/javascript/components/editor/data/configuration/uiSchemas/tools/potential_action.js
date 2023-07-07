@@ -1,5 +1,6 @@
 import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
 import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
+import CustomRadioWidget from '../../../../components/widgets/CustomRadioWidget'
 
 const potentialActionUiSchema = {
   PotentialAction: {
@@ -117,6 +118,11 @@ const potentialActionUiSchema = {
                   },
                   {
                     'ui:row': [
+                      { 'ui:col': { md: 12, children: ['Description'] } }
+                    ]
+                  },
+                  {
+                    'ui:row': [
                       { 'ui:col': { md: 12, children: ['ValueName'] } }
                     ]
                   },
@@ -140,7 +146,8 @@ const potentialActionUiSchema = {
         },
         ValueRequired: {
           'ui:title': 'Value Required',
-          'ui:widget': 'radio'
+          'ui:widget': CustomRadioWidget
+
         }
       }
     }
