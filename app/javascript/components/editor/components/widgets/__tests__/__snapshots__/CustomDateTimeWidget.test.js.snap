@@ -4881,13 +4881,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       8
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, June 9th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--009"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       9
                     </div>
@@ -5000,12 +4999,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       19
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, June 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       20
                     </div>
@@ -6571,13 +6571,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       8
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Friday, June 9th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--009"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       9
                     </div>
@@ -6690,12 +6689,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       19
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, June 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       20
                     </div>

@@ -3,7 +3,11 @@
 import compactDeep from 'compact-object-deep'
 
 export function removeEmpty(obj: object) {
-  return compactDeep(obj)
+  // The compactDeep function takes a second argument allowing the caller to override what should be considered a empty value, so in this case, if the "type" of the value is boolean, we are telling it NOT to consider it an empty value, otherwise false would be considered empty with the default implementation."
+  return compactDeep(obj, (val) => {
+    if (typeof val === 'boolean') { return val }
+    return undefined
+  })
 }
 
 // https://thewebdev.info/2022/01/19/how-to-recursively-remove-null-values-from-javascript-object/
