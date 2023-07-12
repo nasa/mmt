@@ -1,23 +1,20 @@
-#This image provides the ability to run Ruby/RSpec tests against a Clojure app.
-# To build:
-# sudo docker build --rm --force-rm --tag=$(basename $(pwd)) .
-
-FROM centos:centos7
-
+FROM centos:centos8
 USER root
-# Get java, epel, whatnot
-RUN yum install -y epel-release centos-release-scl-rh llvm-toolset-7-clang \
- && yum --enablerepo=updates clean metadata \
- && yum install -y bzip2 \
-    		   chromedriver \
-                   cmake \
-                  https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm \
-		  https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
-                   git \
-                   gcc \
-                   gcc-c++ \
-                   ImageMagick \
-		   java-11-openjdk-headless.x86_64 \
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN yum install -y epel-release
+#RUN yum install -y centos-release-scl-rh
+#RUN yum install -y llvm-toolset-7-clang
+#&& yum --enablerepo=updates clean metadata \
+RUN yum install -y bzip2
+RUN yum install -y cmake
+RUN yum install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+RUN yum install -y chromedriver
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+RUN yum install -y git gcc gcc-c++
+RUN yum install -y ImageMagick 
+RUN yum install -y java-11-openjdk-headless.x86_64 \
                    liberation-fonts \
                    libffi-devel \
                    libicu-devel \
@@ -29,13 +26,12 @@ RUN yum install -y epel-release centos-release-scl-rh llvm-toolset-7-clang \
                    tar \
                    which \
                    xorg-x11-server-Xvfb \
-                   docker \
- && yum clean all
-# && freshclam
-
-RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+                   docker
+RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+RUN yum install -y gcc-c++ make
 RUN yum install -y nodejs && yum clean all
-RUN npm install --global yarn
+RUN yum install -y yarn
 
 ENV JAVA_HOME /etc/alternatives/jre
 
@@ -51,15 +47,19 @@ RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
  && cd / \
  && rm -fr ruby-2.7.2
 
+RUN dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+RUN dnf -y module -y disable postgresql
+RUN dnf clean all
 ENV PATH /usr/pgsql-11/bin:$PATH
 RUN gem install bundler 
 RUN groupadd -g 500 bamboo
 RUN useradd --gid bamboo --create-home --uid 500 bamboo
-RUN yum install -y postgresql11-devel
+RUN dnf install -y perl
+RUN dnf --enablerepo=powertools install perl-IPC-Run -y
+RUN dnf install -y postgresql11-devel
 
 USER bamboo
 WORKDIR /build
 ENV HOME /home/bamboo
 ENV PATH /home/bamboo/.gem/ruby/2.7.2/bin:/opt/google/chrome/:$PATH
 RUN gem install rspec --version=3.9 --user-install
-USER root

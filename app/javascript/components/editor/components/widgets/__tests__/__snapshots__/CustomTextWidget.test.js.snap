@@ -270,7 +270,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -774,7 +774,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
+                                                              data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span>
                                                                 Response Content Type
@@ -785,7 +785,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
+                                                              data-testid="custom-text-widget__response-content-type--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -793,7 +793,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
+                                                              data-testid="custom-text-widget--description-field__response-content-type"
                                                             />
                                                           </div>
                                                         </div>
@@ -920,7 +920,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           >
                                                             <div
                                                               class="custom-select-widget"
-                                                              data-testid="custom-select-widget__http-method-0"
+                                                              data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
                                                                 <span>
@@ -932,12 +932,12 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                               </div>
                                                               <div
                                                                 class="widget-description"
-                                                                data-testid="custom-select-widget__http-method-0--description"
+                                                                data-testid="custom-select-widget__http-method--description"
                                                               >
                                                                 <span />
                                                               </div>
                                                               <div
-                                                                data-testid="custom-select-widget__http-method-0--selector"
+                                                                data-testid="custom-select-widget__http-method--selector"
                                                               >
                                                                 <div
                                                                   class=" css-b62m3t-container"
@@ -4003,7 +4003,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -4191,7 +4191,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -4543,7 +4543,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -4718,7 +4718,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -4735,13 +4735,13 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -7875,7 +7875,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -7964,7 +7964,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -8468,7 +8468,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
+                                                              data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span>
                                                                 Response Content Type
@@ -8479,7 +8479,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
+                                                              data-testid="custom-text-widget__response-content-type--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -8487,7 +8487,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
+                                                              data-testid="custom-text-widget--description-field__response-content-type"
                                                             />
                                                           </div>
                                                         </div>
@@ -8614,7 +8614,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           >
                                                             <div
                                                               class="custom-select-widget"
-                                                              data-testid="custom-select-widget__http-method-0"
+                                                              data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
                                                                 <span>
@@ -8626,12 +8626,12 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                               </div>
                                                               <div
                                                                 class="widget-description"
-                                                                data-testid="custom-select-widget__http-method-0--description"
+                                                                data-testid="custom-select-widget__http-method--description"
                                                               >
                                                                 <span />
                                                               </div>
                                                               <div
-                                                                data-testid="custom-select-widget__http-method-0--selector"
+                                                                data-testid="custom-select-widget__http-method--selector"
                                                               >
                                                                 <div
                                                                   class=" css-b62m3t-container"
@@ -11697,7 +11697,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit

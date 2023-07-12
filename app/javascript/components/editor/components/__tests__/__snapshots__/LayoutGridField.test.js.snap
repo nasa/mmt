@@ -716,7 +716,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -824,7 +824,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                           >
                                             <div
                                               class="widget-header"
-                                              data-testid="custom-text-widget__group-name--text-header"
+                                              data-testid="custom-text-widget__contact-group-name--text-header"
                                             >
                                               <span>
                                                 Contact Group Name
@@ -840,7 +840,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                             </div>
                                             <input
                                               class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__group-name--text-input"
+                                              data-testid="custom-text-widget__contact-group-name--text-input"
                                               id="ContactGroups_0_GroupName"
                                               maxlength="255"
                                               name="Contact Group Name"
@@ -849,7 +849,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                             />
                                             <span
                                               class="widget-description"
-                                              data-testid="custom-text-widget--description-field__group-name"
+                                              data-testid="custom-text-widget--description-field__contact-group-name"
                                             />
                                           </div>
                                         </span>
@@ -4004,7 +4004,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -4162,7 +4162,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -4666,7 +4666,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
+                                                              data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span>
                                                                 Response Content Type
@@ -4677,7 +4677,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
+                                                              data-testid="custom-text-widget__response-content-type--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -4685,7 +4685,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
+                                                              data-testid="custom-text-widget--description-field__response-content-type"
                                                             />
                                                           </div>
                                                         </div>
@@ -4812,7 +4812,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           >
                                                             <div
                                                               class="custom-select-widget"
-                                                              data-testid="custom-select-widget__http-method-0"
+                                                              data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
                                                                 <span>
@@ -4824,12 +4824,12 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                               </div>
                                                               <div
                                                                 class="widget-description"
-                                                                data-testid="custom-select-widget__http-method-0--description"
+                                                                data-testid="custom-select-widget__http-method--description"
                                                               >
                                                                 <span />
                                                               </div>
                                                               <div
-                                                                data-testid="custom-select-widget__http-method-0--selector"
+                                                                data-testid="custom-select-widget__http-method--selector"
                                                               >
                                                                 <div
                                                                   class=" css-b62m3t-container"
@@ -7890,7 +7890,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -8078,7 +8078,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -8580,7 +8580,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
+                                                              data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span>
                                                                 Response Content Type
@@ -8591,7 +8591,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
+                                                              data-testid="custom-text-widget__response-content-type--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -8599,7 +8599,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
+                                                              data-testid="custom-text-widget--description-field__response-content-type"
                                                             />
                                                           </div>
                                                         </div>
@@ -8726,7 +8726,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           >
                                                             <div
                                                               class="custom-select-widget"
-                                                              data-testid="custom-select-widget__http-method-0"
+                                                              data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
                                                                 <span>
@@ -8738,14 +8738,14 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                               </div>
                                                               <div
                                                                 class="widget-description"
-                                                                data-testid="custom-select-widget__http-method-0--description"
+                                                                data-testid="custom-select-widget__http-method--description"
                                                               >
                                                                 <span>
                                                                   An HTTP method that specifies the appropriate HTTP method for a request to an HTTP Entrypoint. Values are capitalized strings as used in HTTP.
                                                                 </span>
                                                               </div>
                                                               <div
-                                                                data-testid="custom-select-widget__http-method-0--selector"
+                                                                data-testid="custom-select-widget__http-method--selector"
                                                               >
                                                                 <div
                                                                   class=" css-b62m3t-container"
@@ -11867,7 +11867,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -12025,7 +12025,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -15487,7 +15487,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
