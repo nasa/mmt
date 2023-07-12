@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-param-reassign */
 import {
   Alert,
-  Col, Container, Row
+  Button,
+  Col, Container, Modal, Row
 } from 'react-bootstrap'
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,23 +19,27 @@ import { ProgressCircleType } from './ProgressCircleType'
 import { createPath, prefixProperty, removeEmpty } from '../../utils/json_utils'
 import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
 import './DetailedProgressView.css'
+import Status from '../../model/Status'
 
 type DetailedProgressViewProps = {
   router: RouterType
   editor: MetadataEditor
 }
 type DetailedProgressViewState = {
-  status: string
+  status: string,
+  loading: boolean,
+  showModal: boolean
 }
 
 class DetailedProgressView extends React.Component<DetailedProgressViewProps, DetailedProgressViewState> {
   constructor(props: DetailedProgressViewProps) {
     super(props)
-    this.state = { status: null }
+    this.state = { status: null, loading: false, showModal: false }
   }
   componentDidMount() {
     const { router, editor } = this.props
     const { params } = router
+    const { service } = editor
     const { id } = params
 
     this.setState({ status: null }, () => {
@@ -45,6 +51,18 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         this.setState({ status: `Error retrieving draft! ${error.message}` })
       })
     })
+    if (this.conceptType() === 'toolDraft') {
+      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
+    }
+  }
+
+  conceptType() {
+    const { editor } = this.props
+    let conceptType = ''
+    if (editor.service.draftType === 'tool_drafts') {
+      conceptType = 'toolDraft'
+    }
+    return conceptType
   }
 
   isRequired(name: string) {
@@ -137,6 +155,53 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     }
   }
 
+  deleteDraft() {
+    const { editor, router } = this.props
+    const { navigate } = router
+    const { draft } = editor
+    this.setState({ loading: true }, () => {
+      editor.deleteDraft(draft).then((draft) => {
+        editor.draft = draft
+        editor.status = new Status('success', 'Draft Deleted')
+        navigate(`/${editor.documentType}/deleteDraftView`, { replace: false })
+      }).catch(() => {
+        editor.status = new Status('warning', 'error deleting draft!')
+      })
+    })
+  }
+
+  publishDraft() {
+    const { editor } = this.props
+    const { draft } = editor
+
+    this.setState({ loading: true }, () => {
+      editor.publishDraft(draft).then((draft) => {
+        editor.draft = draft
+        editor.status = new Status('success', `Draft Published ${draft.conceptId}/${draft.revisionId}`)
+        editor.publishErrors = null
+        this.setState({ loading: false })
+      }).catch((errors) => {
+        editor.publishErrors = errors
+        editor.status = new Status('warning', 'error publishing draft!')
+        this.setState({ loading: false })
+      })
+    })
+  }
+
+  renderDeleteModal() {
+    return (
+      <Modal id="delete-modal" show>
+        <Modal.Body>
+          Are you sure you want to delete this Draft?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button data-testid="delete-modal-no-button" variant="secondary" onClickCapture={() => { this.setState({ showModal: false }) }}>No</Button>
+          <Button data-testid="delete-modal-yes-button" variant="primary" onClickCapture={() => { this.deleteDraft() }}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
+
   render() {
     const {
       editor
@@ -153,7 +218,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     draftJson = removeEmpty(draftJson)
 
     const {
-      status
+      status, loading, showModal
     } = this.state
 
     const sectionList = formSections.map((section: FormSection) => {
@@ -180,48 +245,96 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     }
 
     return (
-      <Container fluid>
-        <Row noGutters>
-          <Col md={12}>
+      <div id="react-editor-form-containter">
+        <Container id="metadata-form">
+          <Row>
+            <Col sm={12}>
+              {editor.status && (
+                <Alert key={editor.status.type} variant={editor.status.type} onClose={() => { editor.status = null }} dismissible>
+                  {editor.status.message}
+                </Alert>
+              )}
+              {editor.publishErrors && editor.publishErrors.length > 0 && (
+                <Alert key={JSON.stringify(editor.status.message)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
+                  <h5>Error Publishing Draft</h5>
+                  {editor.publishErrors.map((error) => (<div>{error}</div>))}
+                </Alert>
+              )}
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <Button
+                data-testid="detailed-progress-view-publish-draft-btn"
+                onClick={() => {
+                  this.publishDraft()
+                }}
+              >
+                Publish Draft
+              </Button>
+              {loading && (
+                <div className="spinner-border spinner" role="status" />
+              )}
+              <span
+                className="delete-draft"
+                data-testid="detailed-progress-view-delete-draft-btn"
+                onClick={() => { this.setState({ showModal: true }) }}
+              >
+
+                Delete Draft
+                {showModal && (
+                  this.renderDeleteModal()
+                )}
+              </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <Row>
+                <Col md={12}>
+                  {status && (
+                    <Alert key={status} variant="warning">
+                      {status}
+                    </Alert>
+                  )}
+                </Col>
+              </Row>
+              <Row className="header">
+                <Col md={12} className="header-col">
+                  Metadata Fields
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className="box">
+                    {sectionList}
+                  </div>
+                  <div className="form">
+                    <ReactJsonSchemaForm
+                      validator={validator}
+                      schema={fullSchema}
+                      formData={draftJson}
+                      transformErrors={(errors: RJSFValidationError[]) => {
+                        const errorList = errors
+                        if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errorList)) {
+                          editor.fullErrors = errorList
+                        }
+                        return errors
+                      }}
+                      liveValidate
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </Col>
             <Row>
               <Col md={12}>
-                {status && (
-                  <Alert key={status} variant="warning">
-                    {status}
-                  </Alert>
-                )}
+                <div id="metadata-preview" />
               </Col>
             </Row>
-            <Row className="header">
-              <Col md={12} className="header-col">
-                Metadata Fields
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <div className="box">
-                  {sectionList}
-                </div>
-                <div className="form">
-                  <ReactJsonSchemaForm
-                    validator={validator}
-                    schema={fullSchema}
-                    formData={draftJson}
-                    transformErrors={(errors: RJSFValidationError[]) => {
-                      const errorList = errors
-                      if (JSON.stringify(editor.fullErrors) !== JSON.stringify(errorList)) {
-                        editor.fullErrors = errorList
-                      }
-                      return errors
-                    }}
-                    liveValidate
-                  />
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }

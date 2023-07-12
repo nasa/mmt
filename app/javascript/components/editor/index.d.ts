@@ -10,6 +10,10 @@ interface FormError extends RJSFValidationError {
   message?: string;
 }
 
+interface Window {
+  metadataPreview: (id: string, conceptType: string, token: string, element: Element) => void;
+}
+
 interface HTMLTextAreaElement extends HTMLElement { focus(): boolean | undefined; }
 interface HTMLInputElement extends HTMLElement { focus(): boolean | undefined }
 interface HTMLSelectElement extends HTMLElement { focus(): boolean | undefined }
