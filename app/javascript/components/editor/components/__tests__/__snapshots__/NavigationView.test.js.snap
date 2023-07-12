@@ -66,7 +66,7 @@ exports[`Navigation View Component cancels changes 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="form-group field field-undefined"
             >
               <div
                 class="row row-children"
@@ -414,7 +414,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container "
+                                  class="react-datepicker__input-container"
                                 >
                                   <span
                                     aria-live="polite"
@@ -589,7 +589,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__url-description--text-area-header"
+                                            data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -606,13 +606,13 @@ exports[`Navigation View Component cancels changes 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__url-description--text-area-input"
+                                            data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__url-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
@@ -3619,7 +3619,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info "
+                    class="btn btn-info undefined"
                     type="submit"
                   >
                     Submit
@@ -3783,7 +3783,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="form-group field field-undefined"
             >
               <div
                 class="row row-children"
@@ -4131,7 +4131,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container "
+                                  class="react-datepicker__input-container"
                                 >
                                   <span
                                     aria-live="polite"
@@ -4306,7 +4306,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__url-description--text-area-header"
+                                            data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -4323,13 +4323,13 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__url-description--text-area-input"
+                                            data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__url-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
@@ -7336,7 +7336,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info "
+                    class="btn btn-info undefined"
                     type="submit"
                   >
                     Submit
@@ -10163,7 +10163,7 @@ exports[`Navigation View Component renders the navigation view 1`] = `
         </div>
         <div>
           <button
-            class="btn btn-info "
+            class="btn btn-info undefined"
             type="submit"
           >
             Submit
@@ -12736,7 +12736,7 @@ exports[`Navigation View Component saves and continues to next 1`] = `
         </div>
         <div>
           <button
-            class="btn btn-info "
+            class="btn btn-info undefined"
             type="submit"
           >
             Submit
@@ -15849,7 +15849,7 @@ exports[`Navigation View Component saves and previews 1`] = `
                   </div>
                   <div>
                     <button
-                      class="btn btn-info "
+                      class="btn btn-info undefined"
                       type="submit"
                     >
                       Submit
@@ -15943,7 +15943,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="form-group field field-undefined"
             >
               <div
                 class="row row-children"
@@ -16291,7 +16291,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container "
+                                  class="react-datepicker__input-container"
                                 >
                                   <span
                                     aria-live="polite"
@@ -16466,7 +16466,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__url-description--text-area-header"
+                                            data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -16483,13 +16483,13 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__url-description--text-area-input"
+                                            data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__url-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
@@ -19543,7 +19543,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info "
+                    class="btn btn-info undefined"
                     type="submit"
                   >
                     Submit
@@ -19707,7 +19707,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="form-group field field-undefined"
             >
               <div
                 class="row row-children"
@@ -20055,7 +20055,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container "
+                                  class="react-datepicker__input-container"
                                 >
                                   <span
                                     aria-live="polite"
@@ -20230,7 +20230,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__url-description--text-area-header"
+                                            data-testid="custom-text-area-widget__description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -20247,13 +20247,13 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__url-description--text-area-input"
+                                            data-testid="custom-text-area-widget__description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__url-description"
+                                            data-testid="custom-text-area-widget--description-field__description"
                                           />
                                         </div>
                                       </span>
@@ -23307,7 +23307,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info "
+                    class="btn btn-info undefined"
                     type="submit"
                   >
                     Submit
@@ -26049,7 +26049,7 @@ exports[`Navigation View Component saves draft 1`] = `
         </div>
         <div>
           <button
-            class="btn btn-info "
+            class="btn btn-info undefined"
             type="submit"
           >
             Submit

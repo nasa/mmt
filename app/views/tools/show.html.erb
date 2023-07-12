@@ -39,7 +39,17 @@
     </section>
 
     <div class="grid-row content">
-      <%= render partial: 'shared/schema_preview' %>
+      <% if Rails.configuration.react_forms_enabled %>
+        <div id="metadata-preview">
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            window.metadataPreview('<%= @concept_id %>', 'tools', '<%= token %>', document.getElementById('metadata-preview') )
+          })
+        </script>
+      <% else %>
+        <%= render partial: 'shared/schema_preview' %>
+      <% end %>
     </div>
   </div>
 <% end %>
