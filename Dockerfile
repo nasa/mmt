@@ -1,20 +1,22 @@
 FROM centos:centos8
 USER root
+
+# Setup mirror list
 RUN cd /etc/yum.repos.d/
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+# Install base packages
 RUN yum install -y epel-release
-#RUN yum install -y centos-release-scl-rh
-#RUN yum install -y llvm-toolset-7-clang
-#&& yum --enablerepo=updates clean metadata \
-RUN yum install -y bzip2
-RUN yum install -y cmake
-RUN yum install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-RUN yum install -y chromedriver
-RUN yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-RUN yum install -y git gcc gcc-c++
-RUN yum install -y ImageMagick 
-RUN yum install -y java-11-openjdk-headless.x86_64 \
+RUN yum clean metadata
+RUN yum install -y bzip2 \
+                   cmake \
+                   https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm \
+                   chromedriver \
+                   https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
+                   git gcc gcc-c++ \
+                   ImageMagick \
+                   java-11-openjdk-headless.x86_64 \
                    liberation-fonts \
                    libffi-devel \
                    libicu-devel \
@@ -47,17 +49,19 @@ RUN curl -OL https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz \
  && cd / \
  && rm -fr ruby-2.7.2
 
+# Install PostgreSQL
 RUN dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 RUN dnf -y module -y disable postgresql
 RUN dnf clean all
 ENV PATH /usr/pgsql-11/bin:$PATH
-RUN gem install bundler 
+RUN gem install bundler
 RUN groupadd -g 500 bamboo
 RUN useradd --gid bamboo --create-home --uid 500 bamboo
-RUN dnf install -y perl
+#RUN dnf install -y perl
 RUN dnf --enablerepo=powertools install perl-IPC-Run -y
 RUN dnf install -y postgresql11-devel
 
+# Setup bamboo
 USER bamboo
 WORKDIR /build
 ENV HOME /home/bamboo
