@@ -39,13 +39,22 @@
     </section>
 
     <div class="grid-row content">
-      <%= render partial: 'shared/schema_preview', locals: { with_sidebar: true } %>
-
-      <aside class="umm-preview-sidebar">
-        <% @preview.sidebars.each do |sidebar| %>
-          <%= sidebar.render_sidebar %>
-        <% end %>
-      </aside>
+      <% if Rails.configuration.react_forms_enabled %>
+        <div id="metadata-preview">
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            window.metadataPreview('<%= @concept_id %>', 'variables', '<%= token %>', document.getElementById('metadata-preview'))
+          })
+        </script>
+        <% else %>
+          <%= render partial: 'shared/schema_preview', locals: { with_sidebar: true } %>
+          <aside class="umm-preview-sidebar">
+            <% @preview.sidebars.each do |sidebar| %>
+              <%= sidebar.render_sidebar %>
+            <% end %>
+          </aside>
+      <% end %>
     </div>
   </div>
 <% end %>

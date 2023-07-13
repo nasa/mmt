@@ -12771,17 +12771,25 @@ exports[`Navigation View Component saves and previews 1`] = `
           class="col-md-12"
         >
           <button
-            class="btn btn-primary"
+            class="eui-btn--blue display-modal btn btn-primary"
             data-testid="detailed-progress-view-publish-draft-btn"
             type="button"
           >
-            Publish Draft
+            Publish
+             
+            Tool
+             
+            Draft
           </button>
           <span
             class="delete-draft"
             data-testid="detailed-progress-view-delete-draft-btn"
           >
-            Delete Draft
+            Delete
+             
+            Tool
+             
+            Draft
           </span>
         </div>
       </div>
