@@ -29,6 +29,8 @@ RUN yum install -y bzip2 \
                    which \
                    xorg-x11-server-Xvfb \
                    docker
+
+# Setup Node v18 and Yarn
 RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 RUN curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
 RUN yum install -y gcc-c++ make
@@ -57,7 +59,6 @@ ENV PATH /usr/pgsql-11/bin:$PATH
 RUN gem install bundler
 RUN groupadd -g 500 bamboo
 RUN useradd --gid bamboo --create-home --uid 500 bamboo
-#RUN dnf install -y perl
 RUN dnf --enablerepo=powertools install perl-IPC-Run -y
 RUN dnf install -y postgresql11-devel
 
