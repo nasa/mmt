@@ -1,7 +1,7 @@
 # Config options: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
 AllCops:
-  TargetRubyVersion: 2.7.2
+  TargetRubyVersion: 3.0.6
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
