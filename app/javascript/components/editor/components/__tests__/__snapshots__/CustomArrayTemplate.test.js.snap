@@ -71,7 +71,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 data-testid="custom-array-element"
               >
                 <div
-                  class="form-group field field-undefined"
+                  class="form-group field field-object"
                 >
                   <div
                     class="form-group"
@@ -95,15 +95,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_firstName"
                               >
                                 First Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_firstName__error root_0_firstName__description root_0_firstName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_firstName"
+                                name="root_0_firstName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -128,15 +128,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_lastName"
                               >
                                 Last Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_lastName__error root_0_lastName__description root_0_lastName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_lastName"
+                                name="root_0_lastName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -161,15 +161,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_age"
                               >
                                 Age
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_age__error root_0_age__description root_0_age__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_age"
+                                name="root_0_age"
                                 placeholder=""
                                 step="1"
                                 type="number"
@@ -237,7 +237,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 data-testid="custom-array-element"
               >
                 <div
-                  class="form-group field field-undefined"
+                  class="form-group field field-object"
                 >
                   <div
                     class="form-group"
@@ -261,15 +261,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_firstName"
                               >
                                 First Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_firstName__error root_1_firstName__description root_1_firstName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_firstName"
+                                name="root_1_firstName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -294,15 +294,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_lastName"
                               >
                                 Last Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_lastName__error root_1_lastName__description root_1_lastName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_lastName"
+                                name="root_1_lastName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -327,15 +327,15 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_age"
                               >
                                 Age
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_age__error root_1_age__description root_1_age__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_age"
+                                name="root_1_age"
                                 placeholder=""
                                 step="1"
                                 type="number"
@@ -465,7 +465,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                 data-testid="custom-array-element"
               >
                 <div
-                  class="form-group field field-undefined"
+                  class="form-group field field-object"
                 >
                   <div
                     class="form-group"
@@ -489,15 +489,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_firstName"
                               >
                                 First Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_firstName__error root_0_firstName__description root_0_firstName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_firstName"
+                                name="root_0_firstName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -522,15 +522,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_lastName"
                               >
                                 Last Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_lastName__error root_0_lastName__description root_0_lastName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_lastName"
+                                name="root_0_lastName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -555,15 +555,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_0_age"
                               >
                                 Age
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_0_age__error root_0_age__description root_0_age__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_0_age"
+                                name="root_0_age"
                                 placeholder=""
                                 step="1"
                                 type="number"
@@ -631,7 +631,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                 data-testid="custom-array-element"
               >
                 <div
-                  class="form-group field field-undefined"
+                  class="form-group field field-object"
                 >
                   <div
                     class="form-group"
@@ -655,15 +655,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_firstName"
                               >
                                 First Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_firstName__error root_1_firstName__description root_1_firstName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_firstName"
+                                name="root_1_firstName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -688,15 +688,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_lastName"
                               >
                                 Last Name
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_lastName__error root_1_lastName__description root_1_lastName__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_lastName"
+                                name="root_1_lastName"
                                 placeholder=""
                                 type="text"
                                 value=""
@@ -721,15 +721,15 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                             >
                               <label
                                 class="form-label"
-                                for="root"
+                                for="root_1_age"
                               >
                                 Age
                               </label>
                               <input
-                                aria-describedby="root__error root__description root__help"
+                                aria-describedby="root_1_age__error root_1_age__description root_1_age__help"
                                 class="form-control"
-                                id="root"
-                                name="root"
+                                id="root_1_age"
+                                name="root_1_age"
                                 placeholder=""
                                 step="1"
                                 type="number"

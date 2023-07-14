@@ -862,7 +862,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -4082,7 +4082,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
