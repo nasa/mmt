@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.7.2"
+ruby "3.0.6"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
