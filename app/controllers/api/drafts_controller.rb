@@ -32,7 +32,7 @@ class Api::DraftsController < BaseDraftsController
 
   def create
     provider_id = params[:provider]
-    user = User.find_or_create_by(urs_uid: request.headers["User"])
+    user = User.find_or_create_by(urs_uid: @urs_uid)
     set_resource(resource_class.new(provider_id: provider_id, user: user, draft: {}))
 
     json_params = JSON.parse(request.body.read())
@@ -51,7 +51,7 @@ class Api::DraftsController < BaseDraftsController
   def update
     begin
       provider_id = params[:provider]
-      user = User.find_or_create_by(urs_uid: request.headers["User"])
+      user = User.find_or_create_by(urs_uid: @urs_uid)
       json_params = JSON.parse(request.body.read())
       json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
       json_params_to_resource(json_params: json_params)
@@ -67,7 +67,7 @@ class Api::DraftsController < BaseDraftsController
   def destroy
     begin
       provider_id = params[:provider]
-      user = User.find_or_create_by(urs_uid: request.headers["User"])
+      user = User.find_or_create_by(urs_uid: @urs_uid)
       draft = draft_json_result
       get_resource.destroy
       Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
@@ -80,7 +80,7 @@ class Api::DraftsController < BaseDraftsController
 
   def publish
     provider_id = params[:provider]
-    user = User.find_or_create_by(urs_uid: request.headers["User"])
+    user = User.find_or_create_by(urs_uid: @urs_uid)
     json_params = JSON.parse(request.body.read())
     json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
     json_params_to_resource(json_params: json_params)
@@ -133,11 +133,11 @@ class Api::DraftsController < BaseDraftsController
   def validate_token
     if Rails.env.development?
       @token = 'ABC-1'
+      @urs_uid = request.headers["User"]
       return
     end
 
     authorization_header = request.headers['Authorization']
-    user_id = request.headers['User']
 
     if authorization_header.nil?
       render json: JSON.pretty_generate({'error': 'unauthorized'}), status: 401
@@ -169,10 +169,11 @@ class Api::DraftsController < BaseDraftsController
     end
 
     # If we don't have a urs_uid, exit out with unauthorized
-    if urs_uid.nil? || (urs_uid != user_id)
+    if urs_uid.nil?
       render json: JSON.pretty_generate({ "error": 'unauthorized' }), status: 401
       return
     end
+    @urs_uid = urs_uid
 
     authorized = false
 
