@@ -173,12 +173,16 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   publishDraft() {
     const { editor } = this.props
     const { draft } = editor
-
+    const { model } = editor
     this.setState({ loading: true }, () => {
       editor.publishDraft(draft).then((draft) => {
+        const urlOrigin = window.location.origin
         editor.draft = draft
         editor.status = new Status('success', `Draft Published ${draft.conceptId}/${draft.revisionId}`)
         editor.publishErrors = null
+        if (model.shouldRedirectAfterPublish) {
+          window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${draft.conceptId}`
+        }
         this.setState({ loading: false })
       }).catch((errors) => {
         editor.publishErrors = errors
@@ -265,12 +269,17 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
           <Row>
             <Col md={12}>
               <Button
+                className="eui-btn--blue display-modal"
                 data-testid="detailed-progress-view-publish-draft-btn"
                 onClick={() => {
                   this.publishDraft()
                 }}
               >
-                Publish Draft
+                Publish
+                {' '}
+                {_.startCase(editor.documentType.split('_').at(0))}
+                {' '}
+                Draft
               </Button>
               {loading && (
                 <div className="spinner-border spinner" role="status" />
@@ -280,8 +289,11 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
                 data-testid="detailed-progress-view-delete-draft-btn"
                 onClick={() => { this.setState({ showModal: true }) }}
               >
-
-                Delete Draft
+                Delete
+                {' '}
+                {_.startCase(editor.documentType.split('_').at(0))}
+                {' '}
+                Draft
                 {showModal && (
                   this.renderDeleteModal()
                 )}

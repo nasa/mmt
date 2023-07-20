@@ -56,13 +56,18 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
     const {
       draft
     } = editor
+    const { model } = editor
     this.setState({ saving: true }, () => {
       editor.saveDraft(draft).then((draft) => {
         editor.draft = draft
         editor.publishDraft(draft).then((draft) => {
+          const urlOrigin = window.location.origin
           editor.draft = draft
           editor.status = new Status('success', `Draft Published! ${draft.conceptId}/${draft.revisionId}`)
           editor.publishErrors = null
+          if (model.shouldRedirectAfterPublish) {
+            window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${draft.conceptId}`
+          }
           this.setState({ saving: false })
         }).catch((errors) => {
           editor.status = null

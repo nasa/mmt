@@ -5,7 +5,7 @@ export default interface FormModel {
   documentType: string;
   documentTypeForDisplay: string;
   currentSection: FormSection;
-  visitedFields: string [],
+  visitedFields: string[],
   addToVisitedFields(displayName: string),
   fullData: any;
   draft: Draft;
@@ -20,4 +20,5 @@ export default interface FormModel {
   getFormData();
   setFormData(value: { [key: string]: object })
   migratedSectionName(sectionName: string): string;
+  shouldRedirectAfterPublish: boolean;
 }
