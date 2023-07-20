@@ -16,6 +16,7 @@ export default class UmmModel implements FormModel {
   currentSection: FormSection
   visitedFields: string[]
   service: MetadataService
+  shouldRedirectAfterPublish: boolean
 
   constructor(schema: any) {
     this.draft = new Draft()
@@ -26,6 +27,7 @@ export default class UmmModel implements FormModel {
     const first = this.formSections[0]
     this.currentSection = first
     this.visitedFields = []
+    this.shouldRedirectAfterPublish = true
 
     makeObservable(this, {
       draft: observable,

@@ -11,10 +11,11 @@ export default class MetadataEditor {
   model: FormModel
   service: MetadataService
   formProps: FormProperties
-  constructor(model: FormModel, token = 'token', user = 'user', provider = 'MMT_1') {
+  constructor(model: FormModel, token = 'token', user = 'user', provider = 'MMT_1', shouldRedirectAfterPublish = true) {
     this.model = model
     this.service = new MetadataService(token, model.documentType, user, provider)
     this.formProps = new FormProperties()
+    this.model.shouldRedirectAfterPublish = shouldRedirectAfterPublish
     makeObservable(this, {
       model: observable,
       navigateTo: action,
