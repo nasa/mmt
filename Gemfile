@@ -41,6 +41,7 @@ gem 'sdoc', '2.3.1', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'
+gem 'webrick', '~> 1.7'
 
 gem 'faraday'
 gem 'faraday_middleware'

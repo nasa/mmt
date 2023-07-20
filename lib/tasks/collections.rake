@@ -43,7 +43,7 @@ namespace :collections do
           native_id = obj.fetch('meta', {}).fetch('native-id', index)
 
           ingest_connection = Faraday.new(url: 'http://localhost:3002')
-          response = ingest_connection.put(URI.encode("providers/#{args.provider}/collections/collection/#{native_id}")) do |req|
+          response = ingest_connection.put(CGI.escape("providers/#{args.provider}/collections/collection/#{native_id}")) do |req|
             # Pull the format from the collection since we're asking for the native representation
             # req.headers['Content-Type'] = "#{obj.fetch('meta', {}).fetch('format', nil)};version=1.6"
             req.headers['Content-Type'] = collection_details.attributes['format']

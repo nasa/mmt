@@ -66,7 +66,7 @@ module Echo
       @services = services
     end
 
-    def method_missing(method_name, *arguments, &block)
+    ruby2_keywords def method_missing(method_name, *arguments, &block)
       service = @services.find { |c| c.respond_to?(method_name) }
       if service
         service.send(method_name, *arguments, &block)
