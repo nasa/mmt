@@ -13,7 +13,7 @@ Bucket_Level0,Bucket_Level1,Bucket_Level2,Bucket_Level3,Short_Name,Long_Name,Dat
 ACADEMIC,GERMANY,,,DE/DLR,German Aerospace Center (DLR),http://www.dlr.de,2f9d7c12-c02d-41fb-a168-4d91794187f7
 ACADEMIC,,,,AKITA-UMINING-C,Mining College, Akita University,,6c500872-49e3-499b-8d53-dc8de90745ca
 ACADEMIC,GERMANY,,,,,,d780c4ea-4b39-4fda-a0d3-4f5bee42530d"
-      expect(connection).to receive(:get).with(providers_search_url, {}).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: kmsResponse, response_headers: {})))
+      expect(connection).to receive(:get).with(providers_search_url).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: kmsResponse, response_headers: {})))
       response = kms_client.get_kms_keywords('providers')
       expectedResult = {"headers"=>["Short_Name", "Long_Name", "Data_Center_URL", "UUID"], "keywords"=>[["DE/DLR", "German Aerospace Center (DLR)", "http://www.dlr.de", "2f9d7c12-c02d-41fb-a168-4d91794187f7"], ["AKITA-UMINING-C", "Mining College", " Akita University", nil, "6c500872-49e3-499b-8d53-dc8de90745ca"], [nil, nil, nil, "d780c4ea-4b39-4fda-a0d3-4f5bee42530d"]]}
       expect(response).to eq(expectedResult)
@@ -27,7 +27,7 @@ URLContentType,Type,Subtype,UUID
 CollectionURL,DATA SET LANDING PAGE,,8826912b-c89e-4810-b446-39b98b5d937c
 CollectionURL,EXTENDED METADATA,DMR++ MISSING DATA,4cc17021-b9cc-4b3f-a4f1-f05f7c1aeb2d
 CollectionURL,EXTENDED METADATA,DMR++,f02b0c6a-7fd9-473d-a1cb-a6482e8daa61"
-      expect(connection).to receive(:get).with(rucontenttype_search_url, {}).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: kmsResponse, response_headers: {})))
+      expect(connection).to receive(:get).with(rucontenttype_search_url).and_return(Cmr::Response.new(Faraday::Response.new(status: 200, body: kmsResponse, response_headers: {})))
       response = kms_client.get_kms_keywords('rucontenttype')
       expectedResult = {"headers"=>["URLContentType","Type","Subtype","UUID"], "keywords"=>[["CollectionURL","DATA SET LANDING PAGE",nil,"8826912b-c89e-4810-b446-39b98b5d937c"],["CollectionURL","EXTENDED METADATA","DMR++ MISSING DATA","4cc17021-b9cc-4b3f-a4f1-f05f7c1aeb2d"],["CollectionURL","EXTENDED METADATA","DMR++","f02b0c6a-7fd9-473d-a1cb-a6482e8daa61"]]}
       expect(response).to eq(expectedResult)

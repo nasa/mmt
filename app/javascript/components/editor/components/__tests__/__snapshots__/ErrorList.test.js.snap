@@ -44,7 +44,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -394,7 +394,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -569,7 +569,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -586,13 +586,13 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -3731,7 +3731,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -3820,7 +3820,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -4170,7 +4170,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -4345,7 +4345,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -4362,13 +4362,13 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -7507,7 +7507,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -7596,7 +7596,7 @@ exports[`Error List test testing array field 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="p-0 container-fluid"
@@ -11323,7 +11323,7 @@ exports[`Error List test testing array field 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -11436,7 +11436,7 @@ exports[`Error List test testing for controlled Field 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -11786,7 +11786,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -11961,7 +11961,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -11978,13 +11978,13 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -15123,7 +15123,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
@@ -15212,7 +15212,7 @@ exports[`Error List test testing valid field onClick 1`] = `
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="form-group field field-object"
             >
               <div
                 class="row row-children"
@@ -15564,7 +15564,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -15739,7 +15739,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
@@ -15756,13 +15756,13 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -18896,7 +18896,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit
