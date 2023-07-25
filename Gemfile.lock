@@ -19,7 +19,7 @@ GEM
     aasm (5.5.0)
       concurrent-ruby (~> 1.0)
     actioncable (6.1.7.3)
-      actionpack (= 6.1.7.3)
+      actionpack (= 6.1.7.4)
       activesupport (= 6.1.7.3)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
