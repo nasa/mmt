@@ -12,15 +12,19 @@ interface UmmVarFormProps {
   token: string,
   user: string,
   provider: string
+  shouldRedirectAfterPublish: boolean
+
 }
 class UmmVarForm extends React.Component<UmmVarFormProps, never> {
   model: UmmVarModel
   editor: MetadataEditor
-  constructor(props:UmmVarFormProps) {
+  constructor(props: UmmVarFormProps) {
     super(props)
-    const { token, user, provider } = this.props
+    const {
+      token, user, provider, shouldRedirectAfterPublish
+    } = this.props
     this.model = new UmmVarModel()
-    this.editor = new MetadataEditor(this.model, token, user, provider)
+    this.editor = new MetadataEditor(this.model, token, user, provider, shouldRedirectAfterPublish)
   }
 
   render() {
