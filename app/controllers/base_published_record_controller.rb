@@ -42,14 +42,11 @@ class BasePublishedRecordController < ManageMetadataController
   # def publish_variable def publish_service def publish_tool
   def create
     draft = draft_resource_class.find(params[:id])
-
+    user_token = token
     if Rails.env.development?
-      @token = 'ABC-1'
-    else
-      @token = token
+      user_token = 'ABC-1'
     end
-
-    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, collection_concept_id: draft.collection_concept_id, token: @token)
+    ingested_response = cmr_client.send("ingest_#{resource_name}", metadata: draft.draft.to_json, provider_id: draft.provider_id, native_id: draft.native_id, collection_concept_id: draft.collection_concept_id, token: user_token)
 
     if ingested_response.success?
       # get information for publication email notification before draft is deleted
