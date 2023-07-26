@@ -1,16 +1,8 @@
 <div class="grid-row row-content">
   <section>
     <h2>Editing <%= @order_option.fetch('name', nil) %></h2>
-
-    <% if Rails.configuration.use_legacy_order_service %>
-      <%= form_tag(order_option_path(@order_option_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
-        <%= render partial: 'legacy_form', locals: { new_form: false } %>
-      <% end %>
-    <% else %>
-      <%= form_tag(order_option_path(@order_option_concept_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
-        <%= render partial: 'form', locals: { new_form: false } %>
-      <% end %>
+    <%= form_tag(order_option_path(@order_option_concept_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
+      <%= render partial: 'form', locals: { new_form: false } %>
     <% end %>
-
   </section>
 </div>
