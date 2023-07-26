@@ -378,16 +378,8 @@
           "maxLength": 80
         },
         "Size": {
-          "oneOf": [{
-            "description": "The size of the dimension of the variable represented in the data field. For example, '1200'.",
-            "title": "Enter the dimension size.",
-            "type": "number"
-          }, {
-            "description": "A value to designate that the dimension size of a variable in each granule is not uniform, but that it varies across granules.",
-            "title": "Dimension size varies.",
-            "type": "string",
-            "enum": ["Varies"]
-          }]
+          "description": "The size of the dimension of the variable represented in the data field. For example, '1200'.",
+          "type": "number"
         },
         "Type": {
           "description": "The type of the dimension of the variable represented in the data field. For example, if the dimension has a special meaning, i.e., a latitude, longitude, pressure, height (or depth) or time, then the type should be set to either 'LATITUDE_DIMENSION', 'LONGITUDE_DIMENSION', 'PRESSURE_DIMENSION', 'HEIGHT_DIMENSION', 'DEPTH_DIMENSION' or 'TIME_DIMENSION', otherwise it should be set to 'OTHER'.",
