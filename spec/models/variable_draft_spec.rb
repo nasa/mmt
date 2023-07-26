@@ -44,9 +44,9 @@ describe VariableDraft do
   it 'sets the MetadataSpecification after the variable draft has been saved' do
     variable_draft = create(:empty_variable_draft)
     metadata_specification = variable_draft.draft['MetadataSpecification']
-    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1')
+    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0')
     expect(metadata_specification['Name']).to eq('UMM-Var')
-    expect(metadata_specification['Version']).to eq('1.8.1')
+    expect(metadata_specification['Version']).to eq('1.9.0')
   end
 
   # create_from_variable method
@@ -69,7 +69,7 @@ describe VariableDraft do
   end
 
   it '"create_from_variable" saves the draft' do
-    variable = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-Var', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/variable/v1.8.1', 'Version' => '1.8.1' } }
+    variable = { 'Name' => 'Test Name', 'LongName' => 'test long name', 'MetadataSpecification' => { 'Name' => 'UMM-Var', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0', 'Version' => '1.9.0' } }
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_native_id'
     variable_draft = VariableDraft.create_from_variable(variable, user, native_id, nil)
