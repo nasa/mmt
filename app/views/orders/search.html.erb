@@ -1,49 +1,45 @@
-<% if Rails.configuration.use_legacy_order_service %>
-  <%= render partial: "legacy_search" %>
-<% else %>
-  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
-  <div class="grid-row row-content">
-    <section>
-      <h2><%= current_user.provider_id %> Orders</h2>
-      <table class="orders-table" id="order-tracking-search-results">
-        <thead>
+<div class="grid-row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Orders</h2>
+    <table class="orders-table" id="order-tracking-search-results">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Created</th>
+          <th>Submitted</th>
+          <th>Updated</th>
+          <th>Contact</th>
+          <th>View Order (by GUID)</th>
+          <th>Tracking ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @orders.empty? %>
           <tr>
-            <th>State</th>
-            <th>Created</th>
-            <th>Submitted</th>
-            <th>Updated</th>
-            <th>Contact</th>
-            <th>View Order (by GUID)</th>
-            <th>Tracking ID</th>
+            <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
           </tr>
-        </thead>
-        <tbody>
-          <% if @orders.empty? %>
+        <% else %>
+          <% @orders.each_with_index do |order| %>
             <tr>
-              <td colspan="8">No <%= current_user.provider_id %> orders found.</td>
+              <td><%= order.fetch('state', '') %></td>
+              <td><%= safe_date_output order.fetch('createdAt', ''), 'Not Created' %></td>
+              <td><%= safe_date_output order.fetch('submittedAt', ''), 'Not Submited' %></td>
+              <td><%= safe_date_output order.fetch('updatedAt', ''), 'Not Updated' %></td>
+              <% contact = order.fetch('contact', {}) %>
+              <% name_to_label = contact.fetch('email', '') %>
+              <% first_name = contact.fetch('firstName', '') %>
+              <% last_name = contact.fetch('lastName', '') %>
+              <% unless first_name.blank? && last_name.blank? %>
+                <% name_to_label = first_name.concat(' ').concat(last_name) %>
+              <% end %>
+              <td><%= mail_to order.fetch('contact', {}).fetch('email', ''), name_to_label %></td>
+              <td><%= link_to order.fetch('id'), order_path(order.fetch('id')) %></td>
+              <td><%= order.fetch('providerTrackingId', '') %></td>
             </tr>
-          <% else %>
-            <% @orders.each_with_index do |order| %>
-              <tr>
-                <td><%= order.fetch('state', '') %></td>
-                <td><%= safe_date_output order.fetch('createdAt', ''), 'Not Created' %></td>
-                <td><%= safe_date_output order.fetch('submittedAt', ''), 'Not Submited' %></td>
-                <td><%= safe_date_output order.fetch('updatedAt', ''), 'Not Updated' %></td>
-                <% contact = order.fetch('contact', {}) %>
-                <% name_to_label = contact.fetch('email', '') %>
-                <% first_name = contact.fetch('firstName', '') %>
-                <% last_name = contact.fetch('lastName', '') %>
-                <% unless first_name.blank? && last_name.blank? %>
-                  <% name_to_label = first_name.concat(' ').concat(last_name) %>
-                <% end %>
-                <td><%= mail_to order.fetch('contact', {}).fetch('email', ''), name_to_label %></td>
-                <td><%= link_to order.fetch('id'), order_path(order.fetch('id')) %></td>
-                <td><%= order.fetch('providerTrackingId', '') %></td>
-              </tr>
-            <% end %>
           <% end %>
-        </tbody>
-      </table>
-    </section>
-  </div>
-<% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</div>
+
