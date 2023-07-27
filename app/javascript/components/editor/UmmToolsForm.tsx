@@ -11,16 +11,20 @@ interface UmmToolsFormProps {
   heading: string,
   token: string,
   user: string,
-  provider: string
+  provider: string,
+  shouldRedirectAfterPublish: boolean
 }
 class UmmToolsForm extends React.Component<UmmToolsFormProps, never> {
   model: UmmToolsModel
   editor: MetadataEditor
-  constructor(props:UmmToolsFormProps) {
+  constructor(props: UmmToolsFormProps) {
     super(props)
-    const { token, user, provider } = this.props
+    const {
+      token, user, provider, shouldRedirectAfterPublish
+    } = this.props
+
     this.model = new UmmToolsModel()
-    this.editor = new MetadataEditor(this.model, token, user, provider)
+    this.editor = new MetadataEditor(this.model, token, user, provider, shouldRedirectAfterPublish)
   }
 
   render() {

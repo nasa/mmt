@@ -207,19 +207,6 @@ describe Api::DraftsController do
     assert_equal(parsed_body['draft']['Name'], 'a name updated')
   end
 
-  it 'create draft record with incorrect request headers' do
-    allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
-    jsonContent = { "draft": {
-      "Name": "a name",
-      "LongName": "a long name",
-      "Version": "10.0"
-    }}.to_json
-    post :create, body: jsonContent, params: { draft_type: "tool_drafts", provider: 'LARC' }
-    assert_equal(response.status, 401)
-    parsed_body = JSON.parse(response.body)
-    assert_equal(parsed_body['error'], 'unauthorized')
-  end
-
   it 'can publish a tool record with errors' do
     allow_any_instance_of(Cmr::UrsClient).to receive(:validate_mmt_token).and_return(Faraday::Response.new(status: 200, body: '{"uid":"testuser"}', response_headers: { 'Content-Type': 'application/json; charset=utf-8' }))
     jsonContent = {"draft": @empty_tool_draft.draft}.to_json

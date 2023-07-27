@@ -16,16 +16,6 @@ global.fetch = require('jest-fetch-mock')
 
 global.scroll = jest.fn()
 
-// Window.location doesn't work in jest, so we need to mock its value.
-global.window = Object.create(window)
-const url = 'http://dummy.com'
-Object.defineProperty(window, 'location', {
-  value: {
-    href: url
-  },
-  writable: true
-})
-
 async function mockFetch(url) {
   switch (url) {
     case '/api/providers/MMT_1/tool_drafts': {

@@ -52,7 +52,7 @@ const compatibilityAndUsabilityUiSchema = {
 
                           { 'ui:col': { md: 12, children: ['AccessConstraints'] } },
                           {
-                            'ui:col': { className: 'field-left-border-padded', md: 12, children: ['UseConstraints'] }
+                            'ui:col': { md: 12, children: ['UseConstraints'] }
                           }
                         ]
                       }
@@ -195,7 +195,6 @@ const compatibilityAndUsabilityUiSchema = {
   },
   AccessConstraints: {
     'ui:title': 'Access Constraints',
-    'ui:className': 'mediumTitle',
     'ui:widget': 'textarea'
   }
 

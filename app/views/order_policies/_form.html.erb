@@ -1,91 +1,86 @@
-<% if Rails.configuration.use_legacy_order_service %>
-  <%= render partial: "legacy_form" %>
-<% else %>
-  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
-  <fieldset>
-    <h3>Retry Information</h3>
-    <div class="grid-row">
-      <div class="grid-col-6">
-        <%= label_tag 'retry_attempts', 'Retry Attempts', class: 'eui-required-o' %>
-        <%= text_field_tag('retry_attempts', @policy.fetch('retryAttempts', ''), class: 'full-width') %>
-        <p class="form-description">Number of times that CMR will try to connect to the provider if the transmission fails.</p>
-      </div>
-      <div class="grid-col-6">
-        <%= label_tag 'retry_wait_time', 'Retry Wait Time', class: 'eui-required-o' %>
-        <%= text_field_tag('retry_wait_time', @policy.fetch('retryWaitTime', ''), class: 'full-width') %>
-        <p class="form-description">Amount of time (in seconds) that CMR will wait before trying to connect.</p>
-      </div>
+<fieldset>
+  <h3>Retry Information</h3>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <%= label_tag 'retry_attempts', 'Retry Attempts', class: 'eui-required-o' %>
+      <%= text_field_tag('retry_attempts', @policy.fetch('retryAttempts', ''), class: 'full-width') %>
+      <p class="form-description">Number of times that CMR will try to connect to the provider if the transmission fails.</p>
     </div>
-  </fieldset>
-
-  <fieldset>
-    <h3>Status Update Notifications</h3>
-    <div class="grid-row checkbox-group">
-      <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch('overrideNotifyEnabled', false)) %>
-        Always send status updates</label>
+    <div class="grid-col-6">
+      <%= label_tag 'retry_wait_time', 'Retry Wait Time', class: 'eui-required-o' %>
+      <%= text_field_tag('retry_wait_time', @policy.fetch('retryWaitTime', ''), class: 'full-width') %>
+      <p class="form-description">Amount of time (in seconds) that CMR will wait before trying to connect.</p>
     </div>
-  </fieldset>
+  </div>
+</fieldset>
 
-  <fieldset>
-    <h3>Routing Location</h3>
-    <div class="grid-row">
-      <%= label_tag 'end_point', 'End Point', class: 'eui-required-o' %>
-      <%= text_field_tag('end_point', @policy.fetch('endpoint', ''), class: 'full-width required') %>
+<fieldset>
+  <h3>Status Update Notifications</h3>
+  <div class="grid-row checkbox-group">
+    <label><%= check_box_tag('override_notification_enabled', 1, @policy.fetch('overrideNotifyEnabled', false)) %>
+      Always send status updates</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <h3>Routing Location</h3>
+  <div class="grid-row">
+    <%= label_tag 'end_point', 'End Point', class: 'eui-required-o' %>
+    <%= text_field_tag('end_point', @policy.fetch('endpoint', ''), class: 'full-width required') %>
+  </div>
+  <div class="grid-row">
+    <%= label_tag 'ordering_suspended_until_date', 'Suspend Ordering Until' %>
+    <%= text_field_tag('ordering_suspended_until_date', nil,  class: 'full-width datetimepicker', data: { 'date-default-date': @policy.fetch('orderingSuspendedUntilDate', ''), 'date-view-date': @policy.fetch('orderingSuspendedUntilDate', Time.now.utc.beginning_of_day.iso8601) }) %>
+  </div>
+</fieldset>
+
+<fieldset>
+  <h3>Order Catalog Items</h3>
+
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <%= label_tag 'max_items_per_order', 'Maximum Items Per Order' %>
+      <%= text_field_tag('max_items_per_order', @policy.fetch('maxItemsPerOrder', ''), class: 'full-width') %>
+      <p class="form-description">The maximum number of items that a user can have in a single order. This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
     </div>
-    <div class="grid-row">
-      <%= label_tag 'ordering_suspended_until_date', 'Suspend Ordering Until' %>
-      <%= text_field_tag('ordering_suspended_until_date', nil,  class: 'full-width datetimepicker', data: { 'date-default-date': @policy.fetch('orderingSuspendedUntilDate', ''), 'date-view-date': @policy.fetch('orderingSuspendedUntilDate', Time.now.utc.beginning_of_day.iso8601) }) %>
-    </div>
-  </fieldset>
+  </div>
+</fieldset>
 
-  <fieldset>
-    <h3>Order Catalog Items</h3>
-
-    <div class="grid-row">
-      <div class="grid-col-6">
-        <%= label_tag 'max_items_per_order', 'Maximum Items Per Order' %>
-        <%= text_field_tag('max_items_per_order', @policy.fetch('maxItemsPerOrder', ''), class: 'full-width') %>
-        <p class="form-description">The maximum number of items that a user can have in a single order. This value is the total quantity of items. If left blank, there is no maximum enforced.</p>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <h3>SSL Policy</h3>
-    <div class="grid-row">
-      <%= label_tag 'ssl_policy[ssl_certificate]', 'Certificate' %>
-      <% sslCertificate = '' %>
+<fieldset>
+  <h3>SSL Policy</h3>
+  <div class="grid-row">
+    <%= label_tag 'ssl_policy[ssl_certificate]', 'Certificate' %>
+    <% sslCertificate = '' %>
+    <% unless @policy.empty? %>
+      <% sslCertificate = @policy.fetch('sslPolicy', {}).fetch('sslCertificate') %>
+    <% end %>
+    <%= text_area_tag('ssl_policy[ssl_certificate]', sslCertificate || '', rows: 5, class: 'full-width') %>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <% sslEnabled = false %>
       <% unless @policy.empty? %>
-        <% sslCertificate = @policy.fetch('sslPolicy', {}).fetch('sslCertificate') %>
+        <% sslEnabled = @policy.fetch('sslPolicy', {}).fetch('sslEnabled') %>
       <% end %>
-      <%= text_area_tag('ssl_policy[ssl_certificate]', sslCertificate || '', rows: 5, class: 'full-width') %>
+      <label><%= check_box_tag('ssl_policy[ssl_enabled]', 1, sslEnabled || false) %>
+        SSL Enabled</label>
     </div>
-    <div class="grid-row">
-      <div class="grid-col-6">
-        <% sslEnabled = false %>
-        <% unless @policy.empty? %>
-          <% sslEnabled = @policy.fetch('sslPolicy', {}).fetch('sslEnabled') %>
-        <% end %>
-        <label><%= check_box_tag('ssl_policy[ssl_enabled]', 1, sslEnabled || false) %>
-          SSL Enabled</label>
-      </div>
-      <div class="grid-col-6 align-r">
-        <% unless @policy.fetch('sslPolicy', {}).empty? %>
-          <em class="form-description">Last Updated on <%= echo_formatted_date(@policy.fetch('sslPolicy', {}).fetch('updatedAt', '')) %></em>
-        <% end %>
-      </div>
+    <div class="grid-col-6 align-r">
+      <% unless @policy.fetch('sslPolicy', {}).empty? %>
+        <em class="form-description">Last Updated on <%= echo_formatted_date(@policy.fetch('sslPolicy', {}).fetch('updatedAt', '')) %></em>
+      <% end %>
     </div>
-  </fieldset>
+  </div>
+</fieldset>
 
-  <fieldset>
-    <%= label_tag 'properties', 'Custom Properties' %>
-    <div class="grid-row">
-      <%= text_area_tag('properties', @policy.fetch('referenceProps', ''), rows: 5, class: 'full-width') %>
-    </div>
-  </fieldset>
+<fieldset>
+  <%= label_tag 'properties', 'Custom Properties' %>
+  <div class="grid-row">
+    <%= text_area_tag('properties', @policy.fetch('referenceProps', ''), rows: 5, class: 'full-width') %>
+  </div>
+</fieldset>
 
-  <fieldset>
-    <%= submit_tag('Submit', class: 'eui-btn--blue') %>
-    <%= link_to 'Cancel', :back, class: 'eui-btn' %>
-  </fieldset>
-<% end %>
+<fieldset>
+  <%= submit_tag('Submit', class: 'eui-btn--blue') %>
+  <%= link_to 'Cancel', :back, class: 'eui-btn' %>
+</fieldset>

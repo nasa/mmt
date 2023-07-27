@@ -1,83 +1,78 @@
-<% if Rails.configuration.use_legacy_order_service %>
-  <%= render partial: "legacy_index" %>
-<% else %>
-  <!-- THIS PAGE IS NOT USING LEGACY ORDER SERVICE -->
-  <div class="grid-row row-content">
-    <section>
-      <h2><%= current_user.provider_id %> Order Policies</h2>
-      <% if @policy.empty? %>
-        <%= link_to 'Create Order Policies', new_order_policies_path, class: 'eui-btn--blue space-bot' %>
-      <% else %>
-        <article class="order-policy">
-          <div class="row-content flex-row--sb">
-            <!-- RETRY INFORMATION -->
-            <div class="content-box">
-              <h3>Retry Information</h3>
-              <p><span class="inline-label">Retry Attempts:</span> <%= @policy.fetch('retryAttempts') %></p>
-              <p><span class="inline-label">Retry Wait Time:</span> <%= @policy.fetch('retryWaitTime') %></p>
-            </div>
-
-            <!-- ROUTING LOCATION -->
-            <div class="content-box">
-              <h3>Routing Location</h3>
-              <p><span class="inline-label">End Point:</span> <span id="order-policy-endpoint"><%= @policy.fetch('endpoint')%></span></p>
-              <p><span class="inline-label">Suspend Ordering Until:</span>
-                <% if @policy.fetch('orderingSuspendedUntilDate') != nil %>
-                  <%= echo_formatted_date(@policy.fetch('orderingSuspendedUntilDate')) %>
-                <% else %>
-                  Ordering Not Suspended
-                <% end %>
-              </p>
-            </div>
-
-            <!-- TRANSACTIONS SUPPORTED -->
-            <div class="content-box">
-              <h3>Status Update Notifications</h3>
-              <p><span class="inline-label">Always Send Status Updates:</span> <%= @policy.fetch('overrideNotifyEnabled', false) ? "Yes" : "No" %></p>
-            </div>
+<div class="grid-row row-content">
+  <section>
+    <h2><%= current_user.provider_id %> Order Policies</h2>
+    <% if @policy.empty? %>
+      <%= link_to 'Create Order Policies', new_order_policies_path, class: 'eui-btn--blue space-bot' %>
+    <% else %>
+      <article class="order-policy">
+        <div class="row-content flex-row--sb">
+          <!-- RETRY INFORMATION -->
+          <div class="content-box">
+            <h3>Retry Information</h3>
+            <p><span class="inline-label">Retry Attempts:</span> <%= @policy.fetch('retryAttempts') %></p>
+            <p><span class="inline-label">Retry Wait Time:</span> <%= @policy.fetch('retryWaitTime') %></p>
           </div>
 
-          <h3>Order Catalog Items</h3>
-          <% maxItems = @policy.fetch('maxItemsPerOrder') != nil ? @policy.fetch('maxItemsPerOrder') : 'No Maximum' %>
-          <p><span class="inline-label">Maximum Items Per Order:</span> <%= maxItems %></p>
+          <!-- ROUTING LOCATION -->
+          <div class="content-box">
+            <h3>Routing Location</h3>
+            <p><span class="inline-label">End Point:</span> <span id="order-policy-endpoint"><%= @policy.fetch('endpoint')%></span></p>
+            <p><span class="inline-label">Suspend Ordering Until:</span>
+              <% if @policy.fetch('orderingSuspendedUntilDate') != nil %>
+                <%= echo_formatted_date(@policy.fetch('orderingSuspendedUntilDate')) %>
+              <% else %>
+                Ordering Not Suspended
+              <% end %>
+            </p>
+          </div>
 
-          <h3>SSL Policy</h3>
+          <!-- TRANSACTIONS SUPPORTED -->
+          <div class="content-box">
+            <h3>Status Update Notifications</h3>
+            <p><span class="inline-label">Always Send Status Updates:</span> <%= @policy.fetch('overrideNotifyEnabled', false) ? "Yes" : "No" %></p>
+          </div>
+        </div>
+
+        <h3>Order Catalog Items</h3>
+        <% maxItems = @policy.fetch('maxItemsPerOrder') != nil ? @policy.fetch('maxItemsPerOrder') : 'No Maximum' %>
+        <p><span class="inline-label">Maximum Items Per Order:</span> <%= maxItems %></p>
+
+        <h3>SSL Policy</h3>
+        <p>
+          <span class="inline-label">Status:</span>
+          <%= @policy.fetch('sslPolicy', {}).fetch('sslEnabled') ? 'Enabled' : 'Disabled' %></p>
+        <p>
+          <span class="inline-label">Last Updated:</span>
+          <%= echo_formatted_date(@policy.fetch('sslPolicy', {}).fetch('updatedAt')) %>
+        </p>
+
+        <h3>Custom Properties</h3>
+        <% if @policy.fetch('referenceProps') != nil  %>
+          <pre><%= @policy.fetch('referenceProps') %></pre>
+        <% else %>
+          <p>This order policy contains no custom properties</p>
+        <% end %>
+        <%= link_to 'Edit', edit_order_policies_path, class: 'eui-btn' %>
+        <%= link_to 'Test Endpoint Connection', '#test-endpoint-modal', id: 'test-endpoint-connection', class: 'eui-btn display-modal' %>
+        <div id="test-endpoint-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p id="modal-message"></p>
           <p>
-            <span class="inline-label">Status:</span>
-            <%= @policy.fetch('sslPolicy', {}).fetch('sslEnabled') ? 'Enabled' : 'Disabled' %></p>
-          <p>
-            <span class="inline-label">Last Updated:</span>
-            <%= echo_formatted_date(@policy.fetch('sslPolicy', {}).fetch('updatedAt')) %>
+            <a href="javascript:void(0)" class="eui-btn--blue modal-close" id="test-endpoint-dialog-button">Cancel</a>
           </p>
+        </div>
 
-          <h3>Custom Properties</h3>
-          <% if @policy.fetch('referenceProps') != nil  %>
-            <pre><%= @policy.fetch('referenceProps') %></pre>
-          <% else %>
-            <p>This order policy contains no custom properties</p>
-          <% end %>
-          <%= link_to 'Edit', edit_order_policies_path, class: 'eui-btn' %>
-          <%= link_to 'Test Endpoint Connection', '#test-endpoint-modal', id: 'test-endpoint-connection', class: 'eui-btn display-modal' %>
-          <div id="test-endpoint-modal" class="eui-modal-content">
-            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p id="modal-message"></p>
-            <p>
-              <a href="javascript:void(0)" class="eui-btn--blue modal-close" id="test-endpoint-dialog-button">Cancel</a>
-            </p>
-          </div>
+        <%= link_to 'Delete', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
+        <div id="delete-summary-modal" class="eui-modal-content">
+          <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
+          <p>Are you sure you want to delete the order policies for <%= current_user.provider_id %>?</p>
+          <p>
+            <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
+            <%= link_to 'Yes', order_policies_path, method: :delete, class: 'eui-btn--blue spinner' %>
+          </p>
+        </div>
 
-          <%= link_to 'Delete', "#delete-summary-modal", class: 'display-modal eui-btn eui-btn--red' %>
-          <div id="delete-summary-modal" class="eui-modal-content">
-            <a href="#" class="modal-close float-r"><i class="fa fa-times"></i><span class="is-invisible">Close</span></a>
-            <p>Are you sure you want to delete the order policies for <%= current_user.provider_id %>?</p>
-            <p>
-              <a href="javascript:void(0)" class="eui-btn modal-close">No</a>
-              <%= link_to 'Yes', order_policies_path, method: :delete, class: 'eui-btn--blue spinner' %>
-            </p>
-          </div>
-
-        </article>
-      <% end %>
-    </section>
-  </div>
-<% end %>
+      </article>
+    <% end %>
+  </section>
+</div>

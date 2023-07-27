@@ -1,7 +1,6 @@
 import React from 'react'
-import Form from '@rjsf/bootstrap-4'
 import {
-  render, fireEvent, screen, waitFor, within
+  render, fireEvent, screen, waitFor
 } from '@testing-library/react'
 import {
   BrowserRouter,
@@ -18,13 +17,13 @@ import MetadataEditorForm from '../../MetadataEditorForm'
 import mimeTypeKeywords from '../../../data/test/mime_type_keywords'
 import { MetadataService } from '../../../services/MetadataService'
 import UmmToolsModel from '../../../model/UmmToolsModel'
+import Draft from '../../../model/Draft'
 
 global.fetch = require('jest-fetch-mock')
 
+// jest.useFakeTimers()
 describe('Var Keywords test with keywords from CMR', () => {
   const metadataService = new MetadataService('test_token', 'test_drafts', 'test_user', 'provider')
-
-  beforeAll(() => jest.setTimeout(20))
 
   it('fetches CMR keywords and updates', async () => {
     const model = new UmmVarModel()
@@ -320,6 +319,12 @@ describe('Custom Select Widget Component', () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
 
+    const draft = new Draft()
+    draft.id = 2
+    draft.apiId = 2
+    draft.draft = { Name: 'Test Record' }
+    jest.spyOn(MetadataService.prototype, 'fetchDraft').mockResolvedValue(draft)
+
     HTMLElement.prototype.scrollIntoView = jest.fn()
 
     const { container } = render(
@@ -329,14 +334,16 @@ describe('Custom Select Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
+
     await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
 
     const clickTextField = screen.queryAllByTestId('error-list-item__type')
 
     await act(async () => {
       fireEvent.click(clickTextField[0])
-      userEvent.tab()
+      fireEvent.blur(await clickTextField[0]) // mimic user tabbing and moving away with mouse
     })
+
     expect(container).toMatchSnapshot()
   })
 
@@ -358,6 +365,13 @@ describe('Custom Select Widget Component', () => {
         Type: 'SearchAction'
       }
     }
+
+    const draft = new Draft()
+    draft.id = 2
+    draft.apiId = 2
+    draft.draft = { Name: 'Test Record' }
+    jest.spyOn(MetadataService.prototype, 'fetchDraft').mockResolvedValue(draft)
+
     const editor = new MetadataEditor(model)
     editor.setFocusField('PotentialAction_Target_HttpMethod')
     HTMLElement.prototype.scrollIntoView = jest.fn()
@@ -368,6 +382,9 @@ describe('Custom Select Widget Component', () => {
         </Routes>
       </MemoryRouter>
     )
+
+    await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
+
     await waitFor(async () => {
       expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
     })

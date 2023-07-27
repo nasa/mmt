@@ -2829,7 +2829,7 @@ exports[`Navigation Item Component shows green progress circle since section wit
         </div>
         <div>
           <button
-            class="btn btn-info undefined"
+            class="btn btn-info "
             type="submit"
           >
             Submit
@@ -5537,7 +5537,7 @@ exports[`Navigation Item Component shows red progress circle since section has b
         </div>
         <div>
           <button
-            class="btn btn-info undefined"
+            class="btn btn-info "
             type="submit"
           >
             Submit
@@ -8278,7 +8278,7 @@ exports[`Navigation Item Component shows required error 1`] = `
         </div>
         <div>
           <button
-            class="btn btn-info undefined"
+            class="btn btn-info "
             type="submit"
           >
             Submit

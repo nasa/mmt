@@ -174,12 +174,16 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   publishDraft() {
     const { editor } = this.props
     const { draft } = editor
-
+    const { model } = editor
     this.setState({ loading: true }, () => {
       editor.publishDraft(draft).then((draft) => {
+        const urlOrigin = window.location.origin
         editor.draft = draft
         editor.status = new Status('success', `Draft Published ${draft.conceptId}/${draft.revisionId}`)
         editor.publishErrors = null
+        if (model.shouldRedirectAfterPublish) {
+          window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${draft.conceptId}`
+        }
         this.setState({ loading: false })
       }).catch((errors) => {
         editor.publishErrors = errors

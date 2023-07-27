@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.7.2"
+ruby "3.0.6"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
@@ -41,6 +41,7 @@ gem 'sdoc', '2.3.1', group: :doc
 
 # Use Unicorn as the app server
 gem 'unicorn'
+gem 'webrick', '~> 1.7'
 
 gem 'faraday'
 gem 'faraday_middleware'

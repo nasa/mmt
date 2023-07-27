@@ -59,18 +59,32 @@ module Cmr
 
     def request(method, url, params, body, headers)
       Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_s(:log_time)}"
+      if params.nil?
+        faraday_response = connection.send(method, url) do |req|
+          unless self.class == UrsClient || self.class == LaunchpadClient
+            req.headers['Content-Type'] = 'application/json' unless method == :get
+            req.headers['Client-Id'] = CLIENT_ID
+            req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
+          end
 
-      faraday_response = connection.send(method, url, params) do |req|
-        unless self.class == UrsClient || self.class == LaunchpadClient
-          req.headers['Content-Type'] = 'application/json' unless method == :get
-          req.headers['Client-Id'] = CLIENT_ID
-          req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
+          headers.each do |header, value|
+            req.headers[header] = value
+          end
+          req.body = body unless body.blank?
         end
+      else
+        faraday_response = connection.send(method, url, **params) do |req|
+          unless self.class == UrsClient || self.class == LaunchpadClient
+            req.headers['Content-Type'] = 'application/json' unless method == :get
+            req.headers['Client-Id'] = CLIENT_ID
+            req.headers['Echo-ClientId'] = CLIENT_ID unless self.class == CmrClient
+          end
 
-        headers.each do |header, value|
-          req.headers[header] = value
+          headers.each do |header, value|
+            req.headers[header] = value
+          end
+          req.body = body unless body.blank?
         end
-        req.body = body unless body.blank?
       end
 
       client_response = Cmr::Response.new(faraday_response)
