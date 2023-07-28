@@ -841,7 +841,8 @@ $(document).ready ->
 
               if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(minValue)
                 ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", titlingIdentifier ,'nonAlphaNumeric']
-
+              else
+                ['MilitryFieldGridField']
             # Checks if Maximum Coordiate is a string and not Military Grid Reference System, if yes,
             # shows an error
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/.test id
@@ -852,7 +853,8 @@ $(document).ready ->
 
               if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(maxValue)
                 ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", titlingIdentifier, 'nonAlphaNumeric']
-
+              else
+                ['MilitryFieldGridField']
           # The other errors which are likely to occur here are required errors
           # (which means we shouldn't be here because it is blank), and format
           # errors. We don't need to tell the user about this error if they are
