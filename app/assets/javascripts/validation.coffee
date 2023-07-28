@@ -247,7 +247,8 @@ $(document).ready ->
       # These two rules are business logic not captured in the schema, but are
       # enforced in the CMR.
       when 'startAfterEnd' then "#{field} must be earlier than the #{error.pairedField}"
-      when 'minGreaterThanMax' then "#{field} must be smaller than the #{error.pairedField}"
+      when 'nonAlphaNumeric' then "#{error.field} is not an alpha numeric field."
+      when 'minGreaterThanMax' then "#{field} must be smaller than the #{error.field}"
       when 'invalidValueDataType' then "Value [#{error.value}] is not a valid value for type [#{error.dataType}]."
 
   getFieldType = (element) ->
@@ -354,7 +355,7 @@ $(document).ready ->
         return
 
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
-
+#    console.log('error path', error.dataPath)
     path = for p in error.dataPath.replace(/^\//, '').split('/')
       p = p.replace(/(\w)(\d)$/, '$1_$2')
       humps.decamelize(p)
@@ -755,6 +756,7 @@ $(document).ready ->
     errors = validatePicklistValues(errors)
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
+    validateAplhaNumericValue(errors)
     validateAdditionalAttributeValueField(errors)
     validatePotentialActionUrlTemplate(json, errors)
 
@@ -818,6 +820,52 @@ $(document).ready ->
     else
       return false
 
+  # These errors for Tiling Identification System errors are not caputed in
+  # the schema. Only Military Grid Reference System coordinates can be
+  # alpha numeric values.
+  validateAplhaNumericValue = (errors) ->
+    parent = $('#tiling-identification-system')
+    if parent.length > 0
+      # finds all the input fileds in tiling-identification-system
+      parent.find('input').each ->
+        if !$.isNumeric($(this).val()) && $(this).val() != ""
+          id = $(this).attr('id')
+          [dataPath, field, keyword] = switch
+            # Checks if minimum Coordiate is a string and not Military Grid Reference System, if yes,
+            # shows an error
+            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
+              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
+
+              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
+              minValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_minimum_value").val()
+
+              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(minValue)
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", titlingIdentifier ,'nonAlphaNumeric']
+
+            # Checks if Maximum Coordiate is a string and not Military Grid Reference System, if yes,
+            # shows an error
+            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/.test id
+              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/
+
+              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
+              maxValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_maximum_value").val()
+
+              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(maxValue)
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", titlingIdentifier, 'nonAlphaNumeric']
+
+          # The other errors which are likely to occur here are required errors
+          # (which means we shouldn't be here because it is blank), and format
+          # errors. We don't need to tell the user about this error if they are
+          # not entering data in the right format (e.g. NaN or NaDate)
+          unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
+            error =
+              keyword: keyword
+              dataPath: dataPath
+              schemaPath: '' # necessary to not throw errors in getErrorDetails
+              params: {}
+              field: field
+            errors.push(error)
+
   # These errors are not captured in the schema, they are business logic being
   # enforced in the CMR. Since we cannot publish records with these conditions,
   # we should provide that feedback to the user.
@@ -834,7 +882,7 @@ $(document).ready ->
           id = $(this).attr('id')
           # Populate the dataPath, pairedField, and keyword from the specific
           # case we are in.
-          [dataPath, pairedField, keyword] = switch
+          [dataPath, field, keyword] = switch
             when /draft_temporal_extents_(\d*)_range_date_times_(\d*)_beginning_date_time/.test id
               [_, index1, index2] = id.match /temporal_extents_(\d*)_range_date_times_(\d*)_beginning_date_time/
               ["/TemporalExtents/#{index1}/RangeDateTimes/#{index2}/BeginningDateTime", 'Ending Date Time', 'startAfterEnd']
@@ -845,9 +893,6 @@ $(document).ready ->
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
               titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
 
-              # Since 'Military Grid Reference System' is now an alpha-numeric field there is no need to check if the
-              # value for min is lower then max. Therefore, if tiling_identification_system_name is Military Grid Reference System
-              # do no check else check if the MIN value is less then MAX value
               if titlingIdentifier != 'Military Grid Reference System'
                 ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
               else
@@ -863,7 +908,7 @@ $(document).ready ->
               dataPath: dataPath
               schemaPath: '' # necessary to not throw errors in getErrorDetails
               params: {}
-              pairedField: pairedField
+              field: field
 
             errors.push(error)
 
