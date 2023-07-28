@@ -247,7 +247,7 @@ $(document).ready ->
       # These two rules are business logic not captured in the schema, but are
       # enforced in the CMR.
       when 'startAfterEnd' then "#{field} must be earlier than the #{error.pairedField}"
-      when 'nonAlphaNumeric' then "#{error.field} is not an alpha numeric field."
+      when 'nonAlphaNumeric' then "Should not be an alpha numeric field"
       when 'minGreaterThanMax' then "#{field} must be smaller than the #{error.field}"
       when 'invalidValueDataType' then "Value [#{error.value}] is not a valid value for type [#{error.dataType}]."
 
@@ -830,7 +830,7 @@ $(document).ready ->
       parent.find('input').each ->
         if !$.isNumeric($(this).val()) && $(this).val() != ""
           id = $(this).attr('id')
-          [dataPath, field, keyword] = switch
+          [dataPath, keyword] = switch
             # Checks if minimum Coordiate is a string and not Military Grid Reference System, if yes,
             # shows an error
             when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
@@ -840,7 +840,7 @@ $(document).ready ->
               minValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_minimum_value").val()
 
               if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(minValue)
-                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", titlingIdentifier ,'nonAlphaNumeric']
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue",'nonAlphaNumeric']
               else
                 ['MilitryFieldGridField']
             # Checks if Maximum Coordiate is a string and not Military Grid Reference System, if yes,
@@ -852,7 +852,7 @@ $(document).ready ->
               maxValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_maximum_value").val()
 
               if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(maxValue)
-                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", titlingIdentifier, 'nonAlphaNumeric']
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", 'nonAlphaNumeric']
               else
                 ['MilitryFieldGridField']
           # The other errors which are likely to occur here are required errors
@@ -865,7 +865,6 @@ $(document).ready ->
               dataPath: dataPath
               schemaPath: '' # necessary to not throw errors in getErrorDetails
               params: {}
-              field: field
             errors.push(error)
 
   # These errors are not captured in the schema, they are business logic being
