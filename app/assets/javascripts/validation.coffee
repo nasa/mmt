@@ -355,7 +355,6 @@ $(document).ready ->
         return
 
     error.dataPath += "/#{error.params.missingProperty}" if error.params.missingProperty?
-#    console.log('error path', error.dataPath)
     path = for p in error.dataPath.replace(/^\//, '').split('/')
       p = p.replace(/(\w)(\d)$/, '$1_$2')
       humps.decamelize(p)
@@ -823,49 +822,49 @@ $(document).ready ->
   # These errors for Tiling Identification System errors are not caputed in
   # the schema. Only Military Grid Reference System coordinates can be
   # alpha numeric values.
-#  validateAplhaNumericValue = (errors) ->
-#    parent = $('#tiling-identification-system')
-#    if parent.length > 0
-#      # finds all the input fileds in tiling-identification-system
-#      parent.find('input').each ->
-#        if $(this).val() != ""
-#          id = $(this).attr('id')
-#          [dataPath, keyword] = switch
-#            # Checks if minimum Coordiate is a string and not Military Grid Reference System, if yes,
-#            # shows an error
-#            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
-#              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
-#
-#              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
-#              minValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_minimum_value").val()
-#
-#              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(minValue)
-#                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue",'nonAlphaNumeric']
-#              else
-#                ['MilitryFieldGridField']
-#            # Checks if Maximum Coordiate is a string and not Military Grid Reference System, if yes,
-#            # shows an error
-#            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/.test id
-#              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/
-#
-#              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
-#              maxValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_maximum_value").val()
-#
-#              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(maxValue)
-#                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", 'nonAlphaNumeric']
-#              else
-#                ['MilitryFieldGridField']
-#          # The other errors which are likely to occur here are required errors
-#          # (which means we shouldn't be here because it is blank), and format
-#          # errors. We don't need to tell the user about this error if they are
-#          # not entering data in the right format (e.g. NaN or NaDate)
-#          unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
-#            error =
-#              keyword: keyword
-#              dataPath: dataPath
-#              schemaPath: '' # necessary to not throw errors in getErrorDetails
-#              params: {}
-#            errors.push(error)
+  validateAplhaNumericValue = (errors) ->
+    parent = $('#tiling-identification-system')
+    if parent.length > 0
+      # finds all the input fileds in tiling-identification-system
+      parent.find('input').each ->
+        if $(this).val() != ""
+          id = $(this).attr('id')
+          [dataPath, keyword] = switch
+            # Checks if minimum Coordiate is a string and not Military Grid Reference System, if yes,
+            # shows an error
+            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/.test id
+              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
+
+              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
+              minValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_minimum_value").val()
+
+              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(minValue)
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue",'nonAlphaNumeric']
+              else
+                ['MilitryFieldGridField']
+            # Checks if Maximum Coordiate is a string and not Military Grid Reference System, if yes,
+            # shows an error
+            when /draft_tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/.test id
+              [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_maximum_value/
+
+              titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
+              maxValue = $("#draft_tiling_identification_systems_"+index+"_coordinate_"+coordinate+"_maximum_value").val()
+
+              if titlingIdentifier != 'Military Grid Reference System' && !$.isNumeric(maxValue)
+                ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MaximumValue", 'nonAlphaNumeric']
+              else
+                ['MilitryFieldGridField']
+          # The other errors which are likely to occur here are required errors
+          # (which means we shouldn't be here because it is blank), and format
+          # errors. We don't need to tell the user about this error if they are
+          # not entering data in the right format (e.g. NaN or NaDate)
+          unless errors.filter( (error) -> error.dataPath == dataPath).length > 0
+            error =
+              keyword: keyword
+              dataPath: dataPath
+              schemaPath: '' # necessary to not throw errors in getErrorDetails
+              params: {}
+            errors.push(error)
 
   # These errors are not captured in the schema, they are business logic being
   # enforced in the CMR. Since we cannot publish records with these conditions,
@@ -894,6 +893,9 @@ $(document).ready ->
               [_, index, coordinate] = id.match /tiling_identification_systems_(\d*)_coordinate_(\d*)_minimum_value/
               titlingIdentifier = $("#draft_tiling_identification_systems_"+index+"_tiling_identification_system_name").val()
 
+              # Since 'Military Grid Reference System' is now an alpha-numeric field there is no need to check if the
+              # value for min is lower then max. Therefore, if tiling_identification_system_name is Military Grid Reference System
+              # do no check else check if the MIN value is less then MAX value
               if titlingIdentifier != 'Military Grid Reference System'
                 ["/TilingIdentificationSystems/#{index}/Coordinate#{coordinate}/MinimumValue", 'Maximum Value', 'minGreaterThanMax']
               else
