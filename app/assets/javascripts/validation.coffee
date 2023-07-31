@@ -755,7 +755,7 @@ $(document).ready ->
     errors = validatePicklistValues(errors)
     template_error = validateTemplateName(errors)
     validatePairedFields(errors)
-#    validateAplhaNumericValue(errors)
+    validateAplhaNumericValue(errors)
     validateAdditionalAttributeValueField(errors)
     validatePotentialActionUrlTemplate(json, errors)
 
