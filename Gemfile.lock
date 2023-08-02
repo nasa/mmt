@@ -427,7 +427,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
-  actionpack (~> 6.0)
+  actionpack (~> 6.1)
   activerecord-import
   activerecord-session_store
   autoprefixer-rails
@@ -464,7 +464,7 @@ DEPENDENCIES
   pg (< 1.3)
   pundit
   rack_session_access
-  rails (~> 6.0)
+  rails (~> 6.1)
   rails-controller-testing
   react-rails (= 2.6)
   rspec-rails
