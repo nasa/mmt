@@ -9,7 +9,9 @@ exports[`Custom Date Time Widget Component makes sure the correct date is render
     <div
       class="custom-date-time-widget-label"
     >
-      <span>
+      <span
+        class="metadata-editor-field-label"
+      >
         Date
       </span>
     </div>
@@ -26,7 +28,7 @@ exports[`Custom Date Time Widget Component makes sure the correct date is render
         class="react-datepicker-wrapper"
       >
         <div
-          class="react-datepicker__input-container"
+          class="react-datepicker__input-container "
         >
           <span
             aria-live="polite"
@@ -1771,7 +1773,9 @@ exports[`Custom Date Time Widget Component makes sure the onChange is working wi
     <div
       class="custom-date-time-widget-label"
     >
-      <span>
+      <span
+        class="metadata-editor-field-label"
+      >
         Date
       </span>
     </div>
@@ -1788,7 +1792,7 @@ exports[`Custom Date Time Widget Component makes sure the onChange is working wi
         class="react-datepicker-wrapper"
       >
         <div
-          class="react-datepicker__input-container"
+          class="react-datepicker__input-container "
         >
           <span
             aria-live="polite"
@@ -1827,7 +1831,9 @@ exports[`Custom Date Time Widget Component makes sure the onChange is working wi
                 aria-live="polite"
                 class="react-datepicker__aria-live"
                 role="alert"
-              />
+              >
+                July 2022
+              </span>
               <button
                 aria-label="Previous Month"
                 class="react-datepicker__navigation react-datepicker__navigation--previous"
@@ -3533,8 +3539,10 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
     <div
       class="custom-date-time-widget-label"
     >
-      <span>
-        my test data label
+      <span
+        class="metadata-editor-field-label"
+      >
+        My Test Data Label
       </span>
     </div>
     <div
@@ -3550,7 +3558,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
         class="react-datepicker-wrapper"
       >
         <div
-          class="react-datepicker__input-container"
+          class="react-datepicker__input-container "
         >
           <span
             aria-live="polite"
@@ -3621,7 +3629,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   <div
                     class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                   >
-                    June 2023
+                    August 2023
                   </div>
                   <div
                     class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -4749,7 +4757,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   </div>
                 </div>
                 <div
-                  aria-label="month  2023-05"
+                  aria-label="month  2023-08"
                   class="react-datepicker__month"
                   role="listbox"
                 >
@@ -4758,7 +4766,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, April 30th, 2023"
+                      aria-label="Choose Sunday, July 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
@@ -4768,17 +4776,28 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 1st, 2023"
+                      aria-label="Choose Monday, July 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001"
+                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
+                    >
+                      31
+                    </div>
+                    <div
+                      aria-current="date"
+                      aria-disabled="false"
+                      aria-label="Choose Tuesday, August 1st, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      role="option"
+                      tabindex="0"
                     >
                       1
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 2nd, 2023"
+                      aria-label="Choose Wednesday, August 2nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--002"
                       role="option"
@@ -4788,7 +4807,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 3rd, 2023"
+                      aria-label="Choose Thursday, August 3rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--003"
                       role="option"
@@ -4798,7 +4817,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 4th, 2023"
+                      aria-label="Choose Friday, August 4th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--004"
                       role="option"
@@ -4808,23 +4827,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 5th, 2023"
+                      aria-label="Choose Saturday, August 5th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--005"
+                      class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       5
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 6th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      6
                     </div>
                   </div>
                   <div
@@ -4832,9 +4841,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 7th, 2023"
+                      aria-label="Choose Sunday, August 6th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      6
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 7th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--007"
                       role="option"
                       tabindex="-1"
                     >
@@ -4842,7 +4861,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 8th, 2023"
+                      aria-label="Choose Tuesday, August 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008"
                       role="option"
@@ -4852,7 +4871,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 9th, 2023"
+                      aria-label="Choose Wednesday, August 9th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--009"
                       role="option"
@@ -4862,7 +4881,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 10th, 2023"
+                      aria-label="Choose Thursday, August 10th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--010"
                       role="option"
@@ -4872,7 +4891,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 11th, 2023"
+                      aria-label="Choose Friday, August 11th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--011"
                       role="option"
@@ -4882,23 +4901,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 12th, 2023"
+                      aria-label="Choose Saturday, August 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012"
+                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       12
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 13th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      13
                     </div>
                   </div>
                   <div
@@ -4906,9 +4915,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 14th, 2023"
+                      aria-label="Choose Sunday, August 13th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--014 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      13
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 14th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--014"
                       role="option"
                       tabindex="-1"
                     >
@@ -4916,7 +4935,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 15th, 2023"
+                      aria-label="Choose Tuesday, August 15th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--015"
                       role="option"
@@ -4926,7 +4945,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 16th, 2023"
+                      aria-label="Choose Wednesday, August 16th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--016"
                       role="option"
@@ -4936,7 +4955,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 17th, 2023"
+                      aria-label="Choose Thursday, August 17th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--017"
                       role="option"
@@ -4946,7 +4965,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 18th, 2023"
+                      aria-label="Choose Friday, August 18th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--018"
                       role="option"
@@ -4956,23 +4975,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 19th, 2023"
+                      aria-label="Choose Saturday, August 19th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--019"
+                      class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       19
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 20th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      20
                     </div>
                   </div>
                   <div
@@ -4980,28 +4989,37 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 21st, 2023"
+                      aria-label="Choose Sunday, August 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--021 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      20
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 21st, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--021"
                       role="option"
                       tabindex="-1"
                     >
                       21
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 22nd, 2023"
+                      aria-label="Choose Tuesday, August 22nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--022 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--022"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       22
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 23rd, 2023"
+                      aria-label="Choose Wednesday, August 23rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--023"
                       role="option"
@@ -5011,7 +5029,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 24th, 2023"
+                      aria-label="Choose Thursday, August 24th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--024"
                       role="option"
@@ -5021,7 +5039,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 25th, 2023"
+                      aria-label="Choose Friday, August 25th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--025"
                       role="option"
@@ -5031,23 +5049,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 26th, 2023"
+                      aria-label="Choose Saturday, August 26th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026"
+                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       26
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 27th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      27
                     </div>
                   </div>
                   <div
@@ -5055,9 +5063,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 28th, 2023"
+                      aria-label="Choose Sunday, August 27th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      27
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 28th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--028"
                       role="option"
                       tabindex="-1"
                     >
@@ -5065,7 +5083,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 29th, 2023"
+                      aria-label="Choose Tuesday, August 29th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--029"
                       role="option"
@@ -5075,7 +5093,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 30th, 2023"
+                      aria-label="Choose Wednesday, August 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030"
                       role="option"
@@ -5085,7 +5103,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 31st, 2023"
+                      aria-label="Choose Thursday, August 31st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--031"
                       role="option"
@@ -5095,7 +5113,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, June 1st, 2023"
+                      aria-label="Choose Friday, September 1st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
                       role="option"
@@ -5105,23 +5123,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, June 2nd, 2023"
+                      aria-label="Choose Saturday, September 2nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       2
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, June 3rd, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      3
                     </div>
                   </div>
                   <div
@@ -5129,9 +5137,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, June 4th, 2023"
+                      aria-label="Choose Sunday, September 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      3
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, September 4th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -5139,7 +5157,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, June 5th, 2023"
+                      aria-label="Choose Tuesday, September 5th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
                       role="option"
@@ -5149,7 +5167,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, June 6th, 2023"
+                      aria-label="Choose Wednesday, September 6th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
                       role="option"
@@ -5159,7 +5177,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, June 7th, 2023"
+                      aria-label="Choose Thursday, September 7th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
                       role="option"
@@ -5169,7 +5187,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, June 8th, 2023"
+                      aria-label="Choose Friday, September 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
                       role="option"
@@ -5179,23 +5197,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, June 9th, 2023"
+                      aria-label="Choose Saturday, September 9th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       9
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, June 10th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      10
                     </div>
                   </div>
                 </div>
@@ -5222,8 +5230,10 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
     <div
       class="custom-date-time-widget-label"
     >
-      <span>
-        my test data label
+      <span
+        class="metadata-editor-field-label"
+      >
+        My Test Data Label
         *
       </span>
     </div>
@@ -5240,7 +5250,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
         class="react-datepicker-wrapper"
       >
         <div
-          class="react-datepicker__input-container"
+          class="react-datepicker__input-container "
         >
           <span
             aria-live="polite"
@@ -5311,7 +5321,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   <div
                     class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                   >
-                    May 2023
+                    August 2023
                   </div>
                   <div
                     class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -6439,7 +6449,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   </div>
                 </div>
                 <div
-                  aria-label="month  2023-05"
+                  aria-label="month  2023-08"
                   class="react-datepicker__month"
                   role="listbox"
                 >
@@ -6448,7 +6458,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, April 30th, 2023"
+                      aria-label="Choose Sunday, July 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
@@ -6458,17 +6468,28 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 1st, 2023"
+                      aria-label="Choose Monday, July 31st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001"
+                      class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
+                    >
+                      31
+                    </div>
+                    <div
+                      aria-current="date"
+                      aria-disabled="false"
+                      aria-label="Choose Tuesday, August 1st, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      role="option"
+                      tabindex="0"
                     >
                       1
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 2nd, 2023"
+                      aria-label="Choose Wednesday, August 2nd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--002"
                       role="option"
@@ -6478,7 +6499,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 3rd, 2023"
+                      aria-label="Choose Thursday, August 3rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--003"
                       role="option"
@@ -6488,7 +6509,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 4th, 2023"
+                      aria-label="Choose Friday, August 4th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--004"
                       role="option"
@@ -6498,23 +6519,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 5th, 2023"
+                      aria-label="Choose Saturday, August 5th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--005"
+                      class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       5
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 6th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      6
                     </div>
                   </div>
                   <div
@@ -6522,9 +6533,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 7th, 2023"
+                      aria-label="Choose Sunday, August 6th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      6
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 7th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--007"
                       role="option"
                       tabindex="-1"
                     >
@@ -6532,7 +6553,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 8th, 2023"
+                      aria-label="Choose Tuesday, August 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008"
                       role="option"
@@ -6542,7 +6563,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 9th, 2023"
+                      aria-label="Choose Wednesday, August 9th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--009"
                       role="option"
@@ -6552,7 +6573,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 10th, 2023"
+                      aria-label="Choose Thursday, August 10th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--010"
                       role="option"
@@ -6562,7 +6583,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 11th, 2023"
+                      aria-label="Choose Friday, August 11th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--011"
                       role="option"
@@ -6572,23 +6593,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 12th, 2023"
+                      aria-label="Choose Saturday, August 12th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--012"
+                      class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       12
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 13th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      13
                     </div>
                   </div>
                   <div
@@ -6596,9 +6607,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 14th, 2023"
+                      aria-label="Choose Sunday, August 13th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--014 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      13
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 14th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--014"
                       role="option"
                       tabindex="-1"
                     >
@@ -6606,7 +6627,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 15th, 2023"
+                      aria-label="Choose Tuesday, August 15th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--015"
                       role="option"
@@ -6616,7 +6637,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 16th, 2023"
+                      aria-label="Choose Wednesday, August 16th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--016"
                       role="option"
@@ -6626,7 +6647,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 17th, 2023"
+                      aria-label="Choose Thursday, August 17th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--017"
                       role="option"
@@ -6636,7 +6657,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 18th, 2023"
+                      aria-label="Choose Friday, August 18th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--018"
                       role="option"
@@ -6646,23 +6667,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 19th, 2023"
+                      aria-label="Choose Saturday, August 19th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--019"
+                      class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       19
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 20th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      20
                     </div>
                   </div>
                   <div
@@ -6670,28 +6681,37 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 21st, 2023"
+                      aria-label="Choose Sunday, August 20th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--021 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      20
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 21st, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--021"
                       role="option"
                       tabindex="-1"
                     >
                       21
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 22nd, 2023"
+                      aria-label="Choose Tuesday, August 22nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--022 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--022"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       22
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 23rd, 2023"
+                      aria-label="Choose Wednesday, August 23rd, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--023"
                       role="option"
@@ -6701,7 +6721,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 24th, 2023"
+                      aria-label="Choose Thursday, August 24th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--024"
                       role="option"
@@ -6711,7 +6731,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, May 25th, 2023"
+                      aria-label="Choose Friday, August 25th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--025"
                       role="option"
@@ -6721,23 +6741,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, May 26th, 2023"
+                      aria-label="Choose Saturday, August 26th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--026"
+                      class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
                       role="option"
                       tabindex="-1"
                     >
                       26
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, May 27th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      27
                     </div>
                   </div>
                   <div
@@ -6745,9 +6755,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, May 28th, 2023"
+                      aria-label="Choose Sunday, August 27th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--weekend"
+                      class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      27
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, August 28th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--028"
                       role="option"
                       tabindex="-1"
                     >
@@ -6755,7 +6775,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, May 29th, 2023"
+                      aria-label="Choose Tuesday, August 29th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--029"
                       role="option"
@@ -6765,7 +6785,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, May 30th, 2023"
+                      aria-label="Choose Wednesday, August 30th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--030"
                       role="option"
@@ -6775,7 +6795,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, May 31st, 2023"
+                      aria-label="Choose Thursday, August 31st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--031"
                       role="option"
@@ -6785,7 +6805,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, June 1st, 2023"
+                      aria-label="Choose Friday, September 1st, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
                       role="option"
@@ -6795,23 +6815,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, June 2nd, 2023"
+                      aria-label="Choose Saturday, September 2nd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       2
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, June 3rd, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      3
                     </div>
                   </div>
                   <div
@@ -6819,9 +6829,19 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                   >
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Sunday, June 4th, 2023"
+                      aria-label="Choose Sunday, September 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                      role="option"
+                      tabindex="-1"
+                    >
+                      3
+                    </div>
+                    <div
+                      aria-disabled="false"
+                      aria-label="Choose Monday, September 4th, 2023"
+                      aria-selected="false"
+                      class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
@@ -6829,7 +6849,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Monday, June 5th, 2023"
+                      aria-label="Choose Tuesday, September 5th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
                       role="option"
@@ -6839,7 +6859,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Tuesday, June 6th, 2023"
+                      aria-label="Choose Wednesday, September 6th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
                       role="option"
@@ -6849,7 +6869,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Wednesday, June 7th, 2023"
+                      aria-label="Choose Thursday, September 7th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
                       role="option"
@@ -6859,7 +6879,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Thursday, June 8th, 2023"
+                      aria-label="Choose Friday, September 8th, 2023"
                       aria-selected="false"
                       class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
                       role="option"
@@ -6869,23 +6889,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                     <div
                       aria-disabled="false"
-                      aria-label="Choose Friday, June 9th, 2023"
+                      aria-label="Choose Saturday, September 9th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--outside-month"
+                      class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend react-datepicker__day--outside-month"
                       role="option"
                       tabindex="-1"
                     >
                       9
-                    </div>
-                    <div
-                      aria-disabled="false"
-                      aria-label="Choose Saturday, June 10th, 2023"
-                      aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                      role="option"
-                      tabindex="-1"
-                    >
-                      10
                     </div>
                   </div>
                 </div>
@@ -6947,7 +6957,8 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
             class="rjsf"
           >
             <div
-              class="form-group field field-undefined"
+              class="metadata-editor-field form-group field field-object"
+              data-testid="custom-field-template"
             >
               <div
                 class="row row-children"
@@ -6969,13 +6980,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--name"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__name--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Name
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -7016,13 +7030,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--long-name"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__long-name--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Long Name
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -7063,13 +7080,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--version"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__version--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Version
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -7110,7 +7130,8 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--version-description"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
@@ -7118,7 +7139,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                           >
                             <span>
                               <span
-                                class=""
+                                class="metadata-editor-field-label  "
                               >
                                 Version Description
                               </span>
@@ -7155,14 +7176,17 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--type"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="custom-select-widget"
                             data-testid="custom-select-widget__type"
                           >
                             <div>
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Type
                                 <i
                                   class="eui-icon eui-required-o required-icon"
@@ -7271,7 +7295,8 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--last-updated-date"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="custom-date-time-widget"
@@ -7280,7 +7305,9 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                             <div
                               class="custom-date-time-widget-label"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Last Updated Date
                               </span>
                             </div>
@@ -7299,7 +7326,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                 class="react-datepicker-wrapper"
                               >
                                 <div
-                                  class="react-datepicker__input-container"
+                                  class="react-datepicker__input-container "
                                 >
                                   <span
                                     aria-live="polite"
@@ -9049,7 +9076,8 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--description"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
@@ -9057,7 +9085,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                           >
                             <span>
                               <span
-                                class=""
+                                class="metadata-editor-field-label  "
                               >
                                 Description
                               </span>
@@ -9097,13 +9125,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--doi"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__doi--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               DOI
                             </span>
                             <span>
@@ -9141,7 +9172,8 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                         data-testid="layout-grid-field__schema-field--url"
                       >
                         <div
-                          class="form-group field field-object"
+                          class="metadata-editor-field form-group field field-object"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="row row-children"
@@ -9161,11 +9193,13 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                       class="custom-title-header"
                                     >
                                       <span
-                                        class="custom-title"
+                                        class="custom-title-field-heading undefined"
+                                        data-testid="custom-title-field--heading"
                                       >
                                         URL
                                         <i
                                           class="eui-icon eui-required-o required-icon"
+                                          data-testid="custom-title-field--required"
                                         />
                                       </span>
                                     </div>
@@ -9186,15 +9220,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                         data-testid="layout-grid-field__schema-field--description"
                                       >
                                         <div
-                                          class="form-group field field-string"
+                                          class="metadata-editor-field form-group field field-string"
+                                          data-testid="custom-field-template"
                                         >
                                           <div
                                             class="widget-header"
-                                            data-testid="custom-text-area-widget__description--text-area-header"
+                                            data-testid="custom-text-area-widget__url-description--text-area-header"
                                           >
                                             <span>
                                               <span
-                                                class=""
+                                                class="metadata-editor-field-label  "
                                               >
                                                 URL Description
                                               </span>
@@ -9207,13 +9242,13 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           </div>
                                           <textarea
                                             class="custom-textarea-widget-input"
-                                            data-testid="custom-text-area-widget__description--text-area-input"
+                                            data-testid="custom-text-area-widget__url-description--text-area-input"
                                             maxlength="4000"
                                             name="URL Description"
                                           />
                                           <span
                                             class="widget-description"
-                                            data-testid="custom-text-area-widget--description-field__description"
+                                            data-testid="custom-text-area-widget--description-field__url-description"
                                           />
                                         </div>
                                       </span>
@@ -9236,7 +9271,9 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           data-testid="custom-select-widget__url-content-type"
                                         >
                                           <div>
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
@@ -9254,7 +9291,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URLContentType"
+                                              id="URL_URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -9349,8 +9386,10 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           data-testid="custom-select-widget__type"
                                         >
                                           <div>
-                                            <span>
-                                               Type
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -9463,7 +9502,9 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           data-testid="custom-select-widget__subtype"
                                         >
                                           <div>
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               Subtype
                                             </span>
                                           </div>
@@ -9569,13 +9610,16 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                         data-testid="layout-grid-field__schema-field--url-value"
                                       >
                                         <div
-                                          class="form-group field field-string"
+                                          class="metadata-editor-field form-group field field-string"
+                                          data-testid="custom-field-template"
                                         >
                                           <div
                                             class="widget-header"
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
@@ -9590,7 +9634,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URLValue"
+                                            id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -12331,7 +12375,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                 </div>
                 <div>
                   <button
-                    class="btn btn-info undefined"
+                    class="btn btn-info "
                     type="submit"
                   >
                     Submit

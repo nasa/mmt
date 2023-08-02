@@ -51,9 +51,8 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         this.setState({ status: `Error retrieving draft! ${error.message}` })
       })
     })
-    if (this.conceptType() === 'toolDraft') {
-      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
-    }
+
+    window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
   }
 
   conceptType() {
@@ -61,6 +60,8 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     let conceptType = ''
     if (editor.service.draftType === 'tool_drafts') {
       conceptType = 'toolDraft'
+    } else if (editor.service.draftType === 'variable_drafts') {
+      conceptType = 'variableDraft'
     }
     return conceptType
   }

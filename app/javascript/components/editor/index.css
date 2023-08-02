@@ -1,0 +1,40 @@
+.metadata-editor-field {
+    /* background-color: yellow */
+}
+
+/** used for normal headings */
+.custom-title-field-heading {
+    /* background-color: blue; */
+    font-size: 1.5rem;
+    font-weight: 400;
+    
+}
+
+/** used for headings in arrays */
+.custom-title-field-template-heading {
+    /* background-color: yellow; */
+    font-size: 1.5rem;
+    font-weight: 400;
+    
+}
+
+.metadata-editor-array-field {
+    /* background-color: purple */
+}
+
+.metadata-editor-array-field-title {
+    /* background-color: red; */
+}
+
+.metadata-editor-index-label {
+    /* background-color: cyan */
+}
+
+.metadata-editor-field-description {
+    /* background-color: orange */
+}
+
+.metadata-editor-field-label {
+    /* background-color: pink; */
+    font-size: 1rem;
+}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import Select from 'react-select'
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
@@ -102,7 +102,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       label, options, required, schema, registry
     } = this.props
 
-    const { title = label } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
     let shouldFocus = false
@@ -117,12 +117,12 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     return (
       <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`} ref={this.multiSelectScrollRef}>
         <div>
-          <span>
+          <span className="metadata-editor-field-label">
             {title}
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
-        <div className="widget-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+        <div className="metadata-editor-field-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
           <span>
             {setFocus ? schema.description : ''}
           </span>

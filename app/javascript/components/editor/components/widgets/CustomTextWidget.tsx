@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
 import './Widget.css'
@@ -78,7 +78,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     const {
       label = '', schema, required, disabled, options = {}, registry, uiSchema
     } = this.props
-    const { title = label } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
     const { maxLength, description } = schema
@@ -104,7 +104,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
       <>
         <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`} ref={this.inputScrollRef}>
           {title && (
-            <span>
+            <span className="metadata-editor-field-label">
               {title}
               {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
             </span>

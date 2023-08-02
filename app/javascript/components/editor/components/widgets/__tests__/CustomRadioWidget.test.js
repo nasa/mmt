@@ -7,12 +7,14 @@ describe('CustomRadiowidget', () => {
     const props = {
       value: true,
       onChange: jest.fn(),
-      uiSchema: { 'ui:title': 'Title' }
+      options: {
+        title: 'Title'
+      }
     }
     const { container } = render(<CustomRadioWidget {...props} />)
-    const labelElement = screen.getByTestId('custom-radio-widget--value-required')
-    const trueRadioButton = screen.getByTestId('custom-radio-widget--true')
-    const falseRadioButton = screen.getByTestId('custom-radio-widget--false')
+    const labelElement = screen.getByTestId('custom-radio-widget--label')
+    const trueRadioButton = screen.getByTestId('custom-radio-widget--value__true')
+    const falseRadioButton = screen.getByTestId('custom-radio-widget--value__false')
 
     expect(labelElement.textContent).toBe('Title')
     expect(trueRadioButton.checked).toBe(true)
@@ -28,7 +30,7 @@ describe('CustomRadiowidget', () => {
       uiSchema: null
     }
     const { container } = render(<CustomRadioWidget {...props} />)
-    const trueRadioButton = screen.getByTestId('custom-radio-widget--true')
+    const trueRadioButton = screen.getByTestId('custom-radio-widget--value__true')
 
     fireEvent.click(trueRadioButton)
     expect(props.onChange).toHaveBeenCalledWith(true)
@@ -43,7 +45,7 @@ describe('CustomRadiowidget', () => {
       uiSchema: null
     }
     const { container } = render(<CustomRadioWidget {...props} />)
-    const falseRadioButton = screen.getByTestId('custom-radio-widget--false')
+    const falseRadioButton = screen.getByTestId('custom-radio-widget--value__false')
 
     fireEvent.click(falseRadioButton)
     expect(props.onChange).toHaveBeenCalledWith(false)
