@@ -10,7 +10,7 @@ import descriptiveKeywordsUiSchema from '../data/configuration/uiSchemas/tools/d
 import potentialActionUiSchema from '../data/configuration/uiSchemas/tools/potential_action'
 import toolContactsUISchema from '../data/configuration/uiSchemas/tools/tool_contacts'
 import compatibilityAndUsabilityUiSchema from '../data/configuration/uiSchemas/tools/compatibility_and_usability'
-import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
+import CustomArrayFieldTemplate from '../components/templates/CustomArrayFieldTemplate'
 import schema from '../data/schemas/umm_tools_schema'
 
 export default class UmmToolsModel extends UmmModel {
@@ -34,6 +34,24 @@ export default class UmmToolsModel extends UmmModel {
     const base: UiSchema = {
       'ui:submitButtonOptions': { norender: true, submitText: 'Save' },
       'ui:ArrayFieldTemplate': CustomArrayFieldTemplate
+    }
+    if (this.currentSection.displayName === 'Related URLs') {
+      const uiSchema: any = relatedUrlsUiSchema
+      const urlUiSchema: any = uiSchema.RelatedURLs.items
+      urlUiSchema['ui:service'] = this.service
+
+      // Format
+      const formatUiSchema: any = uiSchema.RelatedURLs.items.Format
+      formatUiSchema['ui:service'] = this.service
+      formatUiSchema['ui:keyword_scheme'] = 'granule_data_format'
+      formatUiSchema['ui:keyword_scheme_column_names'] = ['short_name']
+
+      // Mime Type
+      const mimeTypeUiSchema: any = uiSchema.RelatedURLs.items.MimeType
+      mimeTypeUiSchema['ui:service'] = this.service
+      mimeTypeUiSchema['ui:keyword_scheme'] = 'mime_type'
+      mimeTypeUiSchema['ui:keyword_scheme_column_names'] = ['mime_type']
+      return { ...uiSchema, ...base }
     }
 
     if (this.currentSection.displayName === 'Tool Information') {
@@ -75,12 +93,6 @@ export default class UmmToolsModel extends UmmModel {
 
     if (this.currentSection.displayName === 'Potential Action') {
       const uiSchema: any = potentialActionUiSchema
-      return { ...uiSchema, ...base }
-    }
-    if (this.currentSection.displayName === 'Related URLs') {
-      const uiSchema: any = relatedUrlsUiSchema
-      const urlUiSchema: any = uiSchema.RelatedURLs.items
-      urlUiSchema['ui:service'] = this.service
       return { ...uiSchema, ...base }
     }
     if (this.currentSection.displayName === 'Compatibility And Usability') {

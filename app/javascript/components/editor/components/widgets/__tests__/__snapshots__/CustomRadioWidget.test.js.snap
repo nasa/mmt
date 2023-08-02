@@ -6,14 +6,17 @@ exports[`CustomRadiowidget renders the component with initial values 1`] = `
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      data-testid="custom-radio-widget--value-required"
-    >
-      Title
+    <div>
+      <span
+        class="metadata-editor-field-label"
+        data-testid="custom-radio-widget--label"
+      >
+        Title
+      </span>
     </div>
     <input
       checked=""
-      data-testid="custom-radio-widget--true"
+      data-testid="custom-radio-widget--value__true"
       type="radio"
     />
     <label>
@@ -21,7 +24,7 @@ exports[`CustomRadiowidget renders the component with initial values 1`] = `
     </label>
     <br />
     <input
-      data-testid="custom-radio-widget--false"
+      data-testid="custom-radio-widget--value__false"
       type="radio"
     />
     <label>
@@ -37,12 +40,15 @@ exports[`CustomRadiowidget should call the onChange function with false when "Fa
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      data-testid="custom-radio-widget--value-required"
-    />
+    <div>
+      <span
+        class="metadata-editor-field-label"
+        data-testid="custom-radio-widget--label"
+      />
+    </div>
     <input
       checked=""
-      data-testid="custom-radio-widget--true"
+      data-testid="custom-radio-widget--value__true"
       type="radio"
     />
     <label>
@@ -50,7 +56,7 @@ exports[`CustomRadiowidget should call the onChange function with false when "Fa
     </label>
     <br />
     <input
-      data-testid="custom-radio-widget--false"
+      data-testid="custom-radio-widget--value__false"
       type="radio"
     />
     <label>
@@ -66,11 +72,14 @@ exports[`CustomRadiowidget should call the onChange function with true when "Tru
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      data-testid="custom-radio-widget--value-required"
-    />
+    <div>
+      <span
+        class="metadata-editor-field-label"
+        data-testid="custom-radio-widget--label"
+      />
+    </div>
     <input
-      data-testid="custom-radio-widget--true"
+      data-testid="custom-radio-widget--value__true"
       type="radio"
     />
     <label>
@@ -79,7 +88,7 @@ exports[`CustomRadiowidget should call the onChange function with true when "Tru
     <br />
     <input
       checked=""
-      data-testid="custom-radio-widget--false"
+      data-testid="custom-radio-widget--value__false"
       type="radio"
     />
     <label>

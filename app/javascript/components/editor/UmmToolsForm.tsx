@@ -6,6 +6,7 @@ import UmmToolsModel from './model/UmmToolsModel'
 import MetadataEditor from './MetadataEditor'
 import '@fortawesome/fontawesome-free/css/all.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
 
 interface UmmToolsFormProps {
   heading: string,

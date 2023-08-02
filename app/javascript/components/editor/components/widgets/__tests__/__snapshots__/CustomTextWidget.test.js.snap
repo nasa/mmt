@@ -6,7 +6,9 @@ exports[`Custom Text Widget Component Make sure inputted text is shorter than ma
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
     </span>
     <span>
@@ -37,7 +39,9 @@ exports[`Custom Text Widget Component Type number input 1`] = `
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
     </span>
     <span>
@@ -68,7 +72,9 @@ exports[`Custom Text Widget Component renders the custom Text area widget value 
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
       <i
         class="eui-icon eui-required-o required-icon"
@@ -102,7 +108,9 @@ exports[`Custom Text Widget Component renders the custom Text area widget when r
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
       <i
         class="eui-icon eui-required-o required-icon"
@@ -136,7 +144,9 @@ exports[`Custom Text Widget Component renders the custom Text widget when requir
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
       <i
         class="eui-icon eui-required-o required-icon"
@@ -170,8 +180,10 @@ exports[`Custom Text Widget Component renders the custom text widget when not re
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
-      my test data label
+    <span
+      class="metadata-editor-field-label"
+    >
+      My Test Data Label
     </span>
     <span>
       0
@@ -184,7 +196,7 @@ exports[`Custom Text Widget Component renders the custom text widget when not re
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="mock_id"
     maxlength="10"
-    name="my test data label"
+    name="My Test Data Label"
     type="text"
     value=""
   />
@@ -201,7 +213,9 @@ exports[`Custom Text Widget Component should call onChange on a first character 
     class="widget-header"
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
-    <span>
+    <span
+      class="metadata-editor-field-label"
+    >
       my title
     </span>
     <span>
@@ -270,7 +284,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="metadata-editor-field form-group field field-object"
+              data-testid="custom-field-template"
             >
               <div
                 class="p-0 container-fluid"
@@ -284,7 +299,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                   >
                      
                     <div
-                      class="form-group field field-object"
+                      class="metadata-editor-field form-group field field-object"
+                      data-testid="custom-field-template"
                     >
                       <div
                         class="row row-children"
@@ -308,7 +324,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                     class="custom-title-header"
                                   >
                                     <span
-                                      class="custom-title"
+                                      class="custom-title-field-heading undefined"
+                                      data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
                                     </span>
@@ -316,7 +333,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                 </div>
                               </span>
                               <div
-                                class="group-description"
+                                class="metadata-editor-field-description group-description"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -331,14 +348,17 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                     data-testid="layout-grid-field__schema-field--type"
                                   >
                                     <div
-                                      class="form-group field field-string"
+                                      class="metadata-editor-field form-group field field-string"
+                                      data-testid="custom-field-template"
                                     >
                                       <div
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
                                         <div>
-                                          <span>
+                                          <span
+                                            class="metadata-editor-field-label"
+                                          >
                                             Type
                                             <i
                                               class="eui-icon eui-required-o required-icon"
@@ -447,7 +467,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                 data-testid="layout-grid-field__schema-field--target"
                               >
                                 <div
-                                  class="form-group field field-object"
+                                  class="metadata-editor-field form-group field field-object"
+                                  data-testid="custom-field-template"
                                 >
                                   <div
                                     class="row row-children"
@@ -467,18 +488,20 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                               class="custom-title-header"
                                             >
                                               <span
-                                                class="custom-title"
+                                                class="custom-title-field-heading undefined"
+                                                data-testid="custom-title-field--heading"
                                               >
                                                 Target
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
+                                                  data-testid="custom-title-field--required"
                                                 />
                                               </span>
                                             </div>
                                           </div>
                                         </span>
                                         <div
-                                          class="group-description"
+                                          class="metadata-editor-field-description group-description"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
@@ -497,14 +520,17 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                 data-testid="layout-grid-field__schema-field--type"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
                                                     <div>
-                                                      <span>
+                                                      <span
+                                                        class="metadata-editor-field-label"
+                                                      >
                                                         Type
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
@@ -611,7 +637,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                 data-testid="layout-grid-field__schema-field--description"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="widget-header"
@@ -619,7 +646,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <span>
                                                       <span
-                                                        class=""
+                                                        class="metadata-editor-field-label  "
                                                       >
                                                         Description
                                                       </span>
@@ -652,7 +679,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                 data-testid="layout-grid-field__schema-field--url-template"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="widget-header"
@@ -660,7 +688,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <span>
                                                       <span
-                                                        class=""
+                                                        class="metadata-editor-field-label  "
                                                       >
                                                         URL Template
                                                       </span>
@@ -702,17 +730,21 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                 data-testid="layout-grid-field__schema-field--response-content-type"
                                               >
                                                 <div
-                                                  class="form-group field field-array"
+                                                  class="metadata-editor-field form-group field field-array"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
+                                                    class="metadata-editor-array-field"
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="title"
+                                                      class="metadata-editor-array-field-title title"
                                                     >
                                                       Response Content Type
                                                     </div>
-                                                    <p>
+                                                    <p
+                                                      class="metadata-editor-field-description"
+                                                    >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
                                                     <br />
@@ -725,8 +757,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                         <div
                                                           class="remove-header"
                                                         >
-                                                          <h6
-                                                            class="remove-title"
+                                                          <div
+                                                            class="metadata-editor-index-label"
                                                           >
                                                             <b>
                                                               Response Content Type
@@ -736,7 +768,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             >
                                                               (1 of 1)
                                                             </span>
-                                                          </h6>
+                                                          </div>
                                                           <button
                                                             class="btn"
                                                             data-testid="custom-array-template__remove-button--response-content-type"
@@ -770,13 +802,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="form-group field field-string"
+                                                            class="metadata-editor-field form-group field field-string"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
-                                                              <span>
+                                                              <span
+                                                                class="metadata-editor-field-label"
+                                                              >
                                                                 Response Content Type
                                                                 <i
                                                                   class="eui-icon eui-required-o required-icon"
@@ -845,20 +880,24 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                 data-testid="layout-grid-field__schema-field--http-method"
                                               >
                                                 <div
-                                                  class="form-group field field-array"
+                                                  class="metadata-editor-field form-group field field-array"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
+                                                    class="metadata-editor-array-field"
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="title"
+                                                      class="metadata-editor-array-field-title title"
                                                     >
                                                       HTTP Method
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </div>
-                                                    <p>
+                                                    <p
+                                                      class="metadata-editor-field-description"
+                                                    >
                                                       The accepted HTTP methods for this API.
                                                     </p>
                                                     <br />
@@ -871,8 +910,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                         <div
                                                           class="remove-header"
                                                         >
-                                                          <h6
-                                                            class="remove-title"
+                                                          <div
+                                                            class="metadata-editor-index-label"
                                                           >
                                                             <b>
                                                               HTTP Method
@@ -882,7 +921,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             >
                                                               (1 of 1)
                                                             </span>
-                                                          </h6>
+                                                          </div>
                                                           <button
                                                             class="btn"
                                                             data-testid="custom-array-template__remove-button--http-method"
@@ -916,14 +955,17 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="form-group field field-string"
+                                                            class="metadata-editor-field form-group field field-string"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
-                                                                <span>
+                                                                <span
+                                                                  class="metadata-editor-field-label"
+                                                                >
                                                                   HTTP Method
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
@@ -1072,17 +1114,21 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                 data-testid="layout-grid-field__schema-field--query-input"
                               >
                                 <div
-                                  class="form-group field field-array"
+                                  class="metadata-editor-field form-group field field-array"
+                                  data-testid="custom-field-template"
                                 >
                                   <div
+                                    class="metadata-editor-array-field"
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="title"
+                                      class="metadata-editor-array-field-title title"
                                     >
                                       Query Input
                                     </div>
-                                    <p>
+                                    <p
+                                      class="metadata-editor-field-description"
+                                    >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
                                     <br />
@@ -1095,8 +1141,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                         <div
                                           class="remove-header"
                                         >
-                                          <h6
-                                            class="remove-title"
+                                          <div
+                                            class="metadata-editor-index-label"
                                           >
                                             <b>
                                               Query Input
@@ -1106,7 +1152,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                             >
                                               (1 of 1)
                                             </span>
-                                          </h6>
+                                          </div>
                                           <button
                                             class="btn"
                                             data-testid="custom-array-template__remove-button--query-input"
@@ -1140,7 +1186,8 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                           data-testid="custom-array-element"
                                         >
                                           <div
-                                            class="form-group field field-object"
+                                            class="metadata-editor-field form-group field field-object"
+                                            data-testid="custom-field-template"
                                           >
                                             <div
                                               class="row row-children"
@@ -1162,13 +1209,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                       data-testid="layout-grid-field__schema-field--value-type"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Value Type
                                                             <i
                                                               class="eui-icon eui-required-o required-icon"
@@ -1203,13 +1253,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                       data-testid="layout-grid-field__schema-field--description"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Description
                                                           </span>
                                                         </div>
@@ -1241,13 +1294,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                       data-testid="layout-grid-field__schema-field--value-name"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Value Name
                                                             <i
                                                               class="eui-icon eui-required-o required-icon"
@@ -1282,19 +1338,23 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                       data-testid="layout-grid-field__schema-field--value-required"
                                                     >
                                                       <div
-                                                        class="form-group field field-boolean"
+                                                        class="metadata-editor-field form-group field field-boolean"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div
-                                                            data-testid="custom-radio-widget--value-required"
-                                                          >
-                                                            Value Required
+                                                          <div>
+                                                            <span
+                                                              class="metadata-editor-field-label"
+                                                              data-testid="custom-radio-widget--label"
+                                                            >
+                                                              Value Required
+                                                            </span>
                                                           </div>
                                                           <input
-                                                            data-testid="custom-radio-widget--true"
+                                                            data-testid="custom-radio-widget--value__true"
                                                             id="PotentialAction_QueryInput_0_ValueRequired"
                                                             type="radio"
                                                           />
@@ -1305,7 +1365,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           </label>
                                                           <br />
                                                           <input
-                                                            data-testid="custom-radio-widget--false"
+                                                            data-testid="custom-radio-widget--value__false"
                                                             id="PotentialAction_QueryInput_0_ValueRequired"
                                                             type="radio"
                                                           />
@@ -4191,7 +4251,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="metadata-editor-field form-group field field-object"
+              data-testid="custom-field-template"
             >
               <div
                 class="row row-children"
@@ -4213,13 +4274,16 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--name"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__name--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Name
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -4262,13 +4326,16 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--long-name"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__long-name--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Long Name
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -4309,13 +4376,16 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--version"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__version--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               Version
                               <i
                                 class="eui-icon eui-required-o required-icon"
@@ -4356,7 +4426,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--version-description"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
@@ -4364,7 +4435,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                           >
                             <span>
                               <span
-                                class=""
+                                class="metadata-editor-field-label  "
                               >
                                 Version Description
                               </span>
@@ -4401,14 +4472,17 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--type"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="custom-select-widget"
                             data-testid="custom-select-widget__type"
                           >
                             <div>
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Type
                                 <i
                                   class="eui-icon eui-required-o required-icon"
@@ -4517,7 +4591,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--last-updated-date"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="custom-date-time-widget"
@@ -4526,7 +4601,9 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                             <div
                               class="custom-date-time-widget-label"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Last Updated Date
                               </span>
                             </div>
@@ -4577,7 +4654,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--description"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
@@ -4585,7 +4663,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                           >
                             <span>
                               <span
-                                class=""
+                                class="metadata-editor-field-label  "
                               >
                                 Description
                               </span>
@@ -4625,13 +4703,16 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--doi"
                       >
                         <div
-                          class="form-group field field-string"
+                          class="metadata-editor-field form-group field field-string"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="widget-header"
                             data-testid="custom-text-widget__doi--text-header"
                           >
-                            <span>
+                            <span
+                              class="metadata-editor-field-label"
+                            >
                               DOI
                             </span>
                             <span>
@@ -4669,7 +4750,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                         data-testid="layout-grid-field__schema-field--url"
                       >
                         <div
-                          class="form-group field field-object"
+                          class="metadata-editor-field form-group field field-object"
+                          data-testid="custom-field-template"
                         >
                           <div
                             class="row row-children"
@@ -4689,11 +4771,13 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                       class="custom-title-header"
                                     >
                                       <span
-                                        class="custom-title"
+                                        class="custom-title-field-heading undefined"
+                                        data-testid="custom-title-field--heading"
                                       >
                                         URL
                                         <i
                                           class="eui-icon eui-required-o required-icon"
+                                          data-testid="custom-title-field--required"
                                         />
                                       </span>
                                     </div>
@@ -4714,7 +4798,8 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                         data-testid="layout-grid-field__schema-field--description"
                                       >
                                         <div
-                                          class="form-group field field-string"
+                                          class="metadata-editor-field form-group field field-string"
+                                          data-testid="custom-field-template"
                                         >
                                           <div
                                             class="widget-header"
@@ -4722,7 +4807,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           >
                                             <span>
                                               <span
-                                                class=""
+                                                class="metadata-editor-field-label  "
                                               >
                                                 URL Description
                                               </span>
@@ -4764,7 +4849,9 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           data-testid="custom-select-widget__url-content-type"
                                         >
                                           <div>
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
@@ -4782,7 +4869,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           >
                                             <div
                                               class=" css-b62m3t-container"
-                                              id="URLContentType"
+                                              id="URL_URLContentType"
                                             >
                                               <span
                                                 class="css-1f43avz-a11yText-A11yText"
@@ -4877,8 +4964,10 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           data-testid="custom-select-widget__type"
                                         >
                                           <div>
-                                            <span>
-                                               Type
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4991,7 +5080,9 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           data-testid="custom-select-widget__subtype"
                                         >
                                           <div>
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               Subtype
                                             </span>
                                           </div>
@@ -5097,13 +5188,16 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                         data-testid="layout-grid-field__schema-field--url-value"
                                       >
                                         <div
-                                          class="form-group field field-string"
+                                          class="metadata-editor-field form-group field field-string"
+                                          data-testid="custom-field-template"
                                         >
                                           <div
                                             class="widget-header"
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               URL Value
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
@@ -5118,7 +5212,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           <input
                                             class="custom-text-widget-input"
                                             data-testid="custom-text-widget__url-value--text-input"
-                                            id="URLValue"
+                                            id="URL_URLValue"
                                             maxlength="1024"
                                             name="URL Value"
                                             type="text"
@@ -7964,7 +8058,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="metadata-editor-field form-group field field-object"
+              data-testid="custom-field-template"
             >
               <div
                 class="p-0 container-fluid"
@@ -7978,7 +8073,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                   >
                      
                     <div
-                      class="form-group field field-object"
+                      class="metadata-editor-field form-group field field-object"
+                      data-testid="custom-field-template"
                     >
                       <div
                         class="row row-children"
@@ -8002,7 +8098,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                     class="custom-title-header"
                                   >
                                     <span
-                                      class="custom-title"
+                                      class="custom-title-field-heading undefined"
+                                      data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
                                     </span>
@@ -8010,7 +8107,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                 </div>
                               </span>
                               <div
-                                class="group-description"
+                                class="metadata-editor-field-description group-description"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -8025,14 +8122,17 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                     data-testid="layout-grid-field__schema-field--type"
                                   >
                                     <div
-                                      class="form-group field field-string"
+                                      class="metadata-editor-field form-group field field-string"
+                                      data-testid="custom-field-template"
                                     >
                                       <div
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
                                         <div>
-                                          <span>
+                                          <span
+                                            class="metadata-editor-field-label"
+                                          >
                                             Type
                                             <i
                                               class="eui-icon eui-required-o required-icon"
@@ -8141,7 +8241,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                 data-testid="layout-grid-field__schema-field--target"
                               >
                                 <div
-                                  class="form-group field field-object"
+                                  class="metadata-editor-field form-group field field-object"
+                                  data-testid="custom-field-template"
                                 >
                                   <div
                                     class="row row-children"
@@ -8161,18 +8262,20 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                               class="custom-title-header"
                                             >
                                               <span
-                                                class="custom-title"
+                                                class="custom-title-field-heading undefined"
+                                                data-testid="custom-title-field--heading"
                                               >
                                                 Target
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
+                                                  data-testid="custom-title-field--required"
                                                 />
                                               </span>
                                             </div>
                                           </div>
                                         </span>
                                         <div
-                                          class="group-description"
+                                          class="metadata-editor-field-description group-description"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
@@ -8191,14 +8294,17 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                 data-testid="layout-grid-field__schema-field--type"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
                                                     <div>
-                                                      <span>
+                                                      <span
+                                                        class="metadata-editor-field-label"
+                                                      >
                                                         Type
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
@@ -8305,7 +8411,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                 data-testid="layout-grid-field__schema-field--description"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="widget-header"
@@ -8313,7 +8420,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <span>
                                                       <span
-                                                        class=""
+                                                        class="metadata-editor-field-label  "
                                                       >
                                                         Description
                                                       </span>
@@ -8346,7 +8453,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                 data-testid="layout-grid-field__schema-field--url-template"
                                               >
                                                 <div
-                                                  class="form-group field field-string"
+                                                  class="metadata-editor-field form-group field field-string"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
                                                     class="widget-header"
@@ -8354,7 +8462,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <span>
                                                       <span
-                                                        class=""
+                                                        class="metadata-editor-field-label  "
                                                       >
                                                         URL Template
                                                       </span>
@@ -8396,17 +8504,21 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                 data-testid="layout-grid-field__schema-field--response-content-type"
                                               >
                                                 <div
-                                                  class="form-group field field-array"
+                                                  class="metadata-editor-field form-group field field-array"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
+                                                    class="metadata-editor-array-field"
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="title"
+                                                      class="metadata-editor-array-field-title title"
                                                     >
                                                       Response Content Type
                                                     </div>
-                                                    <p>
+                                                    <p
+                                                      class="metadata-editor-field-description"
+                                                    >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
                                                     <br />
@@ -8419,8 +8531,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                         <div
                                                           class="remove-header"
                                                         >
-                                                          <h6
-                                                            class="remove-title"
+                                                          <div
+                                                            class="metadata-editor-index-label"
                                                           >
                                                             <b>
                                                               Response Content Type
@@ -8430,7 +8542,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             >
                                                               (1 of 1)
                                                             </span>
-                                                          </h6>
+                                                          </div>
                                                           <button
                                                             class="btn"
                                                             data-testid="custom-array-template__remove-button--response-content-type"
@@ -8464,13 +8576,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="form-group field field-string"
+                                                            class="metadata-editor-field form-group field field-string"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
-                                                              <span>
+                                                              <span
+                                                                class="metadata-editor-field-label"
+                                                              >
                                                                 Response Content Type
                                                                 <i
                                                                   class="eui-icon eui-required-o required-icon"
@@ -8539,20 +8654,24 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                 data-testid="layout-grid-field__schema-field--http-method"
                                               >
                                                 <div
-                                                  class="form-group field field-array"
+                                                  class="metadata-editor-field form-group field field-array"
+                                                  data-testid="custom-field-template"
                                                 >
                                                   <div
+                                                    class="metadata-editor-array-field"
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="title"
+                                                      class="metadata-editor-array-field-title title"
                                                     >
                                                       HTTP Method
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
                                                     </div>
-                                                    <p>
+                                                    <p
+                                                      class="metadata-editor-field-description"
+                                                    >
                                                       The accepted HTTP methods for this API.
                                                     </p>
                                                     <br />
@@ -8565,8 +8684,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                         <div
                                                           class="remove-header"
                                                         >
-                                                          <h6
-                                                            class="remove-title"
+                                                          <div
+                                                            class="metadata-editor-index-label"
                                                           >
                                                             <b>
                                                               HTTP Method
@@ -8576,7 +8695,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             >
                                                               (1 of 1)
                                                             </span>
-                                                          </h6>
+                                                          </div>
                                                           <button
                                                             class="btn"
                                                             data-testid="custom-array-template__remove-button--http-method"
@@ -8610,14 +8729,17 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           data-testid="custom-array-element"
                                                         >
                                                           <div
-                                                            class="form-group field field-string"
+                                                            class="metadata-editor-field form-group field field-string"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
                                                               <div>
-                                                                <span>
+                                                                <span
+                                                                  class="metadata-editor-field-label"
+                                                                >
                                                                   HTTP Method
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
@@ -8766,17 +8888,21 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                 data-testid="layout-grid-field__schema-field--query-input"
                               >
                                 <div
-                                  class="form-group field field-array"
+                                  class="metadata-editor-field form-group field field-array"
+                                  data-testid="custom-field-template"
                                 >
                                   <div
+                                    class="metadata-editor-array-field"
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="title"
+                                      class="metadata-editor-array-field-title title"
                                     >
                                       Query Input
                                     </div>
-                                    <p>
+                                    <p
+                                      class="metadata-editor-field-description"
+                                    >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
                                     <br />
@@ -8789,8 +8915,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                         <div
                                           class="remove-header"
                                         >
-                                          <h6
-                                            class="remove-title"
+                                          <div
+                                            class="metadata-editor-index-label"
                                           >
                                             <b>
                                               Query Input
@@ -8800,7 +8926,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                             >
                                               (1 of 1)
                                             </span>
-                                          </h6>
+                                          </div>
                                           <button
                                             class="btn"
                                             data-testid="custom-array-template__remove-button--query-input"
@@ -8834,7 +8960,8 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                           data-testid="custom-array-element"
                                         >
                                           <div
-                                            class="form-group field field-object"
+                                            class="metadata-editor-field form-group field field-object"
+                                            data-testid="custom-field-template"
                                           >
                                             <div
                                               class="row row-children"
@@ -8856,13 +8983,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                       data-testid="layout-grid-field__schema-field--value-type"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Value Type
                                                             <i
                                                               class="eui-icon eui-required-o required-icon"
@@ -8897,13 +9027,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                       data-testid="layout-grid-field__schema-field--description"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Description
                                                           </span>
                                                         </div>
@@ -8935,13 +9068,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                       data-testid="layout-grid-field__schema-field--value-name"
                                                     >
                                                       <div
-                                                        class="form-group field field-string"
+                                                        class="metadata-editor-field form-group field field-string"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span>
+                                                          <span
+                                                            class="metadata-editor-field-label"
+                                                          >
                                                             Value Name
                                                             <i
                                                               class="eui-icon eui-required-o required-icon"
@@ -8976,19 +9112,23 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                       data-testid="layout-grid-field__schema-field--value-required"
                                                     >
                                                       <div
-                                                        class="form-group field field-boolean"
+                                                        class="metadata-editor-field form-group field field-boolean"
+                                                        data-testid="custom-field-template"
                                                       >
                                                         <div
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div
-                                                            data-testid="custom-radio-widget--value-required"
-                                                          >
-                                                            Value Required
+                                                          <div>
+                                                            <span
+                                                              class="metadata-editor-field-label"
+                                                              data-testid="custom-radio-widget--label"
+                                                            >
+                                                              Value Required
+                                                            </span>
                                                           </div>
                                                           <input
-                                                            data-testid="custom-radio-widget--true"
+                                                            data-testid="custom-radio-widget--value__true"
                                                             id="PotentialAction_QueryInput_0_ValueRequired"
                                                             type="radio"
                                                           />
@@ -8999,7 +9139,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           </label>
                                                           <br />
                                                           <input
-                                                            data-testid="custom-radio-widget--false"
+                                                            data-testid="custom-radio-widget--value__false"
                                                             id="PotentialAction_QueryInput_0_ValueRequired"
                                                             type="radio"
                                                           />

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 import MetadataEditor from './MetadataEditor'
 import DetailedProgressView from './components/progress/DetailedProgressView'
 import MetadataEditorForm from './components/MetadataEditorForm'
-import DeleteDraftView from './components/deleteView/DeleteDraftView'
+import DeleteDraftView from './components/DeleteDraftView'
 
 type AppProps = {
   editor: MetadataEditor;

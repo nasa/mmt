@@ -1,5 +1,6 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-param-reassign */
+// eslint-disable-next-line max-classes-per-file
 import React from 'react'
 import { observer } from 'mobx-react'
 import {
@@ -12,21 +13,23 @@ import { IChangeEvent } from '@rjsf/core'
 import JSONView from './JSONView'
 import MetadataEditor from '../MetadataEditor'
 import CustomTextareaWidget from './widgets/CustomTextareaWidget'
-import LayoutGridField from './LayoutGridField'
+import LayoutGridField from './fields/LayoutGridField'
 import CustomDateTimeWidget from './widgets/CustomDateTimeWidget'
-import CustomArrayFieldTemplate from './CustomArrayFieldTemplate'
+import CustomArrayFieldTemplate from './templates/CustomArrayFieldTemplate'
+import CustomDescriptionFieldTemplate from './templates/CustomDescriptionFieldTemplate'
 import withRouter from './withRouter'
-import NavigationView from './NavigationView'
+import NavigationView from './navigation/NavigationView'
 import CustomSelectWidget from './widgets/CustomSelectWidget'
 import CustomCountrySelectWidget from './widgets/CustomCountrySelectWidget'
-import StreetAddressesField from './StreetAddresseField'
+import StreetAddressesField from './fields/StreetAddresseField'
 import CustomTextWidget from './widgets/CustomTextWidget'
-import KeywordsField from './KeywordPicker'
-import CustomTitleFieldTemplate from './CustomTitleFieldTemplate'
+import KeywordsField from './fields/KeywordPicker'
 import Status from '../model/Status'
-import CustomFieldTemplate from './CustomFieldTemplate'
+import CustomFieldTemplate from './templates/CustomFieldTemplate'
 import CustomRadioWidget from './widgets/CustomRadioWidget'
 import './MetadataEditorForm.css'
+import CustomTitleFieldTemplate from './templates/CustomTitleFieldTemplate'
+import CustomTitleField from './fields/CustomTitleField'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -145,7 +148,8 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       layout: LayoutGridField,
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
-      TitleField: CustomTitleFieldTemplate
+      TitleField: CustomTitleField,
+      AnyOfField: () => null
     }
     const widgets: RegistryWidgetsType = {
       TextWidget: CustomTextWidget,
@@ -153,11 +157,15 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       SelectWidget: CustomSelectWidget,
       DateTimeWidget: CustomDateTimeWidget,
       CountrySelectWiget: CustomCountrySelectWidget,
-      RadioWidget: CustomRadioWidget
+      RadioWidget: CustomRadioWidget,
+      CheckboxWidget: CustomRadioWidget
     }
     const templates = {
+      DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
       ArrayFieldTemplate: CustomArrayFieldTemplate,
-      FieldTemplate: CustomFieldTemplate
+      FieldTemplate: CustomFieldTemplate,
+      TitleFieldTemplate: CustomTitleFieldTemplate
+
     }
     const {
       formSchema: schema, formData, uiSchema, draft, publishErrors, status

@@ -23,17 +23,25 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
           class="col-md-12"
         >
           <button
-            class="btn btn-primary"
+            class="eui-btn--blue display-modal btn btn-primary"
             data-testid="detailed-progress-view-publish-draft-btn"
             type="button"
           >
-            Publish Draft
+            Publish
+             
+            Tool
+             
+            Draft
           </button>
           <span
             class="delete-draft"
             data-testid="detailed-progress-view-delete-draft-btn"
           >
-            Delete Draft
+            Delete
+             
+            Tool
+             
+            Draft
           </span>
         </div>
       </div>
@@ -3710,7 +3718,7 @@ exports[`Detailed Progress View renders tool draft 1 and tests section progress 
                   </div>
                   <div>
                     <button
-                      class="btn btn-info undefined"
+                      class="btn btn-info "
                       type="submit"
                     >
                       Submit
@@ -3783,17 +3791,25 @@ exports[`Detailed Progress View show error when publishing incomplete draft 1`] 
           class="col-md-12"
         >
           <button
-            class="btn btn-primary"
+            class="eui-btn--blue display-modal btn btn-primary"
             data-testid="detailed-progress-view-publish-draft-btn"
             type="button"
           >
-            Publish Draft
+            Publish
+             
+            Tool
+             
+            Draft
           </button>
           <span
             class="delete-draft"
             data-testid="detailed-progress-view-delete-draft-btn"
           >
-            Delete Draft
+            Delete
+             
+            Tool
+             
+            Draft
           </span>
         </div>
       </div>
@@ -7470,7 +7486,7 @@ exports[`Detailed Progress View show error when publishing incomplete draft 1`] 
                   </div>
                   <div>
                     <button
-                      class="btn btn-info undefined"
+                      class="btn btn-info "
                       type="submit"
                     >
                       Submit
@@ -7521,17 +7537,25 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
           class="col-md-12"
         >
           <button
-            class="btn btn-primary"
+            class="eui-btn--blue display-modal btn btn-primary"
             data-testid="detailed-progress-view-publish-draft-btn"
             type="button"
           >
-            Publish Draft
+            Publish
+             
+            Tool
+             
+            Draft
           </button>
           <span
             class="delete-draft"
             data-testid="detailed-progress-view-delete-draft-btn"
           >
-            Delete Draft
+            Delete
+             
+            Tool
+             
+            Draft
           </span>
         </div>
       </div>
@@ -10669,7 +10693,7 @@ exports[`Detailed Progress View shows error if draft not found 1`] = `
                   </div>
                   <div>
                     <button
-                      class="btn btn-info undefined"
+                      class="btn btn-info "
                       type="submit"
                     >
                       Submit
@@ -10767,7 +10791,8 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="metadata-editor-field form-group field field-object"
+                data-testid="custom-field-template"
               >
                 <div
                   class="row row-children"
@@ -10789,13 +10814,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--name"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
                               data-testid="custom-text-widget__name--text-header"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Name
                                 <i
                                   class="eui-icon eui-required-o required-icon"
@@ -10836,13 +10864,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--long-name"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
                               data-testid="custom-text-widget__long-name--text-header"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Long Name
                                 <i
                                   class="eui-icon eui-required-o required-icon"
@@ -10883,13 +10914,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--version"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
                               data-testid="custom-text-widget__version--text-header"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 Version
                                 <i
                                   class="eui-icon eui-required-o required-icon"
@@ -10930,7 +10964,8 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--version-description"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
@@ -10938,7 +10973,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                             >
                               <span>
                                 <span
-                                  class=""
+                                  class="metadata-editor-field-label  "
                                 >
                                   Version Description
                                 </span>
@@ -10975,14 +11010,17 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--type"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="custom-select-widget"
                               data-testid="custom-select-widget__type"
                             >
                               <div>
-                                <span>
+                                <span
+                                  class="metadata-editor-field-label"
+                                >
                                   Type
                                   <i
                                     class="eui-icon eui-required-o required-icon"
@@ -11091,7 +11129,8 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--last-updated-date"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="custom-date-time-widget"
@@ -11100,7 +11139,9 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               <div
                                 class="custom-date-time-widget-label"
                               >
-                                <span>
+                                <span
+                                  class="metadata-editor-field-label"
+                                >
                                   Last Updated Date
                                 </span>
                               </div>
@@ -11117,7 +11158,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="react-datepicker-wrapper"
                                 >
                                   <div
-                                    class="react-datepicker__input-container"
+                                    class="react-datepicker__input-container "
                                   >
                                     <span
                                       aria-live="polite"
@@ -11151,7 +11192,8 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--description"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
@@ -11159,7 +11201,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                             >
                               <span>
                                 <span
-                                  class=""
+                                  class="metadata-editor-field-label  "
                                 >
                                   Description
                                 </span>
@@ -11199,13 +11241,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--doi"
                         >
                           <div
-                            class="form-group field field-string"
+                            class="metadata-editor-field form-group field field-string"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="widget-header"
                               data-testid="custom-text-widget__doi--text-header"
                             >
-                              <span>
+                              <span
+                                class="metadata-editor-field-label"
+                              >
                                 DOI
                               </span>
                               <span>
@@ -11243,7 +11288,8 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                           data-testid="layout-grid-field__schema-field--url"
                         >
                           <div
-                            class="form-group field field-object"
+                            class="metadata-editor-field form-group field field-object"
+                            data-testid="custom-field-template"
                           >
                             <div
                               class="row row-children"
@@ -11263,11 +11309,13 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                         class="custom-title-header"
                                       >
                                         <span
-                                          class="custom-title"
+                                          class="custom-title-field-heading undefined"
+                                          data-testid="custom-title-field--heading"
                                         >
                                           URL
                                           <i
                                             class="eui-icon eui-required-o required-icon"
+                                            data-testid="custom-title-field--required"
                                           />
                                         </span>
                                       </div>
@@ -11288,15 +11336,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                           data-testid="layout-grid-field__schema-field--description"
                                         >
                                           <div
-                                            class="form-group field field-string"
+                                            class="metadata-editor-field form-group field field-string"
+                                            data-testid="custom-field-template"
                                           >
                                             <div
                                               class="widget-header"
-                                              data-testid="custom-text-area-widget__description--text-area-header"
+                                              data-testid="custom-text-area-widget__url-description--text-area-header"
                                             >
                                               <span>
                                                 <span
-                                                  class=""
+                                                  class="metadata-editor-field-label  "
                                                 >
                                                   URL Description
                                                 </span>
@@ -11309,13 +11358,13 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             </div>
                                             <textarea
                                               class="custom-textarea-widget-input"
-                                              data-testid="custom-text-area-widget__description--text-area-input"
+                                              data-testid="custom-text-area-widget__url-description--text-area-input"
                                               maxlength="4000"
                                               name="URL Description"
                                             />
                                             <span
                                               class="widget-description"
-                                              data-testid="custom-text-area-widget--description-field__description"
+                                              data-testid="custom-text-area-widget--description-field__url-description"
                                             />
                                           </div>
                                         </span>
@@ -11338,7 +11387,9 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             data-testid="custom-select-widget__url-content-type"
                                           >
                                             <div>
-                                              <span>
+                                              <span
+                                                class="metadata-editor-field-label"
+                                              >
                                                 URL Content Type
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
@@ -11356,7 +11407,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             >
                                               <div
                                                 class=" css-b62m3t-container"
-                                                id="URLContentType"
+                                                id="URL_URLContentType"
                                               >
                                                 <span
                                                   class="css-1f43avz-a11yText-A11yText"
@@ -11451,8 +11502,10 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             data-testid="custom-select-widget__type"
                                           >
                                             <div>
-                                              <span>
-                                                 Type
+                                              <span
+                                                class="metadata-editor-field-label"
+                                              >
+                                                Type
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
                                                 />
@@ -11565,7 +11618,9 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             data-testid="custom-select-widget__subtype"
                                           >
                                             <div>
-                                              <span>
+                                              <span
+                                                class="metadata-editor-field-label"
+                                              >
                                                 Subtype
                                               </span>
                                             </div>
@@ -11671,13 +11726,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                           data-testid="layout-grid-field__schema-field--url-value"
                                         >
                                           <div
-                                            class="form-group field field-string"
+                                            class="metadata-editor-field form-group field field-string"
+                                            data-testid="custom-field-template"
                                           >
                                             <div
                                               class="widget-header"
                                               data-testid="custom-text-widget__url-value--text-header"
                                             >
-                                              <span>
+                                              <span
+                                                class="metadata-editor-field-label"
+                                              >
                                                 URL Value
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
@@ -11692,7 +11750,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             <input
                                               class="custom-text-widget-input"
                                               data-testid="custom-text-widget__url-value--text-input"
-                                              id="URLValue"
+                                              id="URL_URLValue"
                                               maxlength="1024"
                                               name="URL Value"
                                               type="text"
@@ -14449,7 +14507,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                   </div>
                   <div>
                     <button
-                      class="btn btn-info undefined"
+                      class="btn btn-info "
                       type="submit"
                     >
                       Submit

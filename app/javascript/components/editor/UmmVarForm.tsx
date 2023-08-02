@@ -6,6 +6,7 @@ import MetadataEditor from './MetadataEditor'
 import '@fortawesome/fontawesome-free/css/all.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import UmmVarModel from './model/UmmVarModel'
+import './index.css'
 
 interface UmmVarFormProps {
   heading: string,

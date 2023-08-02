@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 /* eslint-disable react/require-default-props */
 import React from 'react'
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { WidgetProps } from '@rjsf/utils'
 import './Widget.css'
@@ -78,10 +78,11 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     const {
       label, schema, required, options = {}, uiSchema = {}, registry
     } = this.props
-    const { title = label } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
     const classNames = uiSchema['ui:classNames'] ?? ''
+    const titleClassName = uiSchema['ui:title-className'] ?? ''
     const { maxLength, description } = schema
     const { value, charsUsed, showDescription } = this.state
     const { focusField } = editor
@@ -99,7 +100,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       <>
         <div className="widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`} ref={this.textareaScrollRef}>
           <span>
-            <span className={classNames}>
+            <span className={`metadata-editor-field-label ${classNames} ${titleClassName}`}>
               {title}
             </span>
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}

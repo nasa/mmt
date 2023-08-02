@@ -7,7 +7,9 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
     <div>
-      <span>
+      <span
+        class="metadata-editor-field-label"
+      >
         My Test Data Label
         <i
           class="eui-icon eui-required-o required-icon"
@@ -15,7 +17,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
       </span>
     </div>
     <div
-      class="widget-description"
+      class="metadata-editor-field-description"
       data-testid="custom-select-widget__my-test-data-label--description"
     >
       <span />
@@ -186,12 +188,14 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
     <div>
-      <span>
-        MyTestDataLabel
+      <span
+        class="metadata-editor-field-label"
+      >
+        My Test Data Label
       </span>
     </div>
     <div
-      class="widget-description"
+      class="metadata-editor-field-description"
       data-testid="custom-select-widget__my-test-data-label--description"
     >
       <span />
@@ -362,15 +366,17 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
     <div>
-      <span>
-        MyTestDataLabel
+      <span
+        class="metadata-editor-field-label"
+      >
+        My Test Data Label
         <i
           class="eui-icon eui-required-o required-icon"
         />
       </span>
     </div>
     <div
-      class="widget-description"
+      class="metadata-editor-field-description"
       data-testid="custom-select-widget__my-test-data-label--description"
     >
       <span />
@@ -541,7 +547,9 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
     <div>
-      <span>
+      <span
+        class="metadata-editor-field-label"
+      >
         My Test Data Label
         <i
           class="eui-icon eui-required-o required-icon"
@@ -549,7 +557,7 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
       </span>
     </div>
     <div
-      class="widget-description"
+      class="metadata-editor-field-description"
       data-testid="custom-select-widget__my-test-data-label--description"
     >
       <span />
@@ -720,10 +728,12 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
     <div>
-      <span />
+      <span
+        class="metadata-editor-field-label"
+      />
     </div>
     <div
-      class="widget-description"
+      class="metadata-editor-field-description"
       data-testid="custom-select-widget__my-test-data-label--description"
     >
       <span />
@@ -862,7 +872,8 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
             class="rjsf"
           >
             <div
-              class="form-group field field-object"
+              class="metadata-editor-field form-group field field-object"
+              data-testid="custom-field-template"
             >
               <div
                 class="p-0 container-fluid"
@@ -876,20 +887,24 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                   >
                      
                     <div
-                      class="form-group field field-array"
+                      class="metadata-editor-field form-group field field-array"
+                      data-testid="custom-field-template"
                     >
                       <div
+                        class="metadata-editor-array-field"
                         data-testid="custom-array-template"
                       >
                         <div
-                          class="title"
+                          class="metadata-editor-array-field-title title"
                         >
                           Organizations
                           <i
                             class="eui-icon eui-required-o required-icon"
                           />
                         </div>
-                        <p>
+                        <p
+                          class="metadata-editor-field-description"
+                        >
                           The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.
                         </p>
                         <br />
@@ -902,8 +917,8 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                             <div
                               class="remove-header"
                             >
-                              <h6
-                                class="remove-title"
+                              <div
+                                class="metadata-editor-index-label"
                               >
                                 <b>
                                   Organization
@@ -913,7 +928,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                 >
                                   (1 of 1)
                                 </span>
-                              </h6>
+                              </div>
                               <button
                                 class="btn"
                                 data-testid="custom-array-template__remove-button--organizations"
@@ -947,7 +962,8 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                               data-testid="custom-array-element"
                             >
                               <div
-                                class="form-group field field-object"
+                                class="metadata-editor-field form-group field field-object"
+                                data-testid="custom-field-template"
                               >
                                 <div
                                   class="row row-children"
@@ -969,14 +985,17 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                           data-testid="layout-grid-field__schema-field--roles"
                                         >
                                           <div
-                                            class="form-group field field-array"
+                                            class="metadata-editor-field form-group field field-array"
+                                            data-testid="custom-field-template"
                                           >
                                             <div
                                               class="custom-multi-select-widget"
                                               data-testid="custom-multi-select-widget__roles"
                                             >
                                               <div>
-                                                <span>
+                                                <span
+                                                  class="metadata-editor-field-label"
+                                                >
                                                   Roles
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
@@ -984,7 +1003,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                 </span>
                                               </div>
                                               <div
-                                                class="widget-description"
+                                                class="metadata-editor-field-description"
                                                 data-testid="custom-select-widget__roles--description"
                                               >
                                                 <span>
@@ -1161,7 +1180,9 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             data-testid="custom-select-widget__short-name"
                                           >
                                             <div>
-                                              <span>
+                                              <span
+                                                class="metadata-editor-field-label"
+                                              >
                                                 Short Name
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
@@ -1286,7 +1307,9 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             class="widget-header"
                                             data-testid="custom-text-widget__long-name--text-header"
                                           >
-                                            <span>
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
                                               Long Name
                                             </span>
                                           </div>
@@ -1322,8 +1345,10 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             class="widget-header"
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
-                                            <span>
-                                              URL value
+                                            <span
+                                              class="metadata-editor-field-label"
+                                            >
+                                              URL Value
                                             </span>
                                             <span>
                                               0
@@ -1337,7 +1362,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             disabled=""
                                             id="Organizations_0_URLValue"
                                             maxlength="1024"
-                                            name="URL value"
+                                            name="URL Value"
                                             type="text"
                                             value=""
                                           />

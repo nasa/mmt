@@ -8,6 +8,7 @@ exports[`Custom Country Selector Widget Component can select option 1`] = `
   >
     <div>
       <span
+        class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         Country
@@ -107,6 +108,7 @@ exports[`Custom Country Selector Widget Component can select option 2`] = `
   >
     <div>
       <span
+        class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         Country
@@ -206,9 +208,10 @@ exports[`Custom Country Selector Widget Component renders the custom country sel
   >
     <div>
       <span
+        class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
-        MyTestDataLabel
+        My Test Data Label
       </span>
     </div>
     <div

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import Select from 'react-select'
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import { EnumOptionsType, RJSFSchema, WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
@@ -113,7 +113,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
 
     const { value } = this.props
-    const { title = label, enumOptions } = options
+    const { title = _.startCase(label.split(/-/)[0]), enumOptions } = options
     const { editor } = formContext
     const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
@@ -152,7 +152,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     return (
       <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`} ref={this.selectScrollRef}>
         <div>
-          <span>
+          <span className="metadata-editor-field-label">
             {title}
             {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>

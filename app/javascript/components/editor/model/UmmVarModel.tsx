@@ -3,7 +3,7 @@
 import { UiSchema } from '@rjsf/utils'
 import relatedUrlsUiSchema from '../data/configuration/uiSchemas/variables/related_urls'
 import UmmModel from './UmmModel'
-import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
+import CustomArrayFieldTemplate from '../components/templates/CustomArrayFieldTemplate'
 import varConfiguration from '../data/configuration/uiForms/varConfiguration'
 import schema from '../data/schemas/umm_var_schema'
 import scienceKeywordsUiSchema from '../data/configuration/uiSchemas/variables/science_keywords'

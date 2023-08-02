@@ -1,27 +1,32 @@
 import React from 'react'
 import { WidgetProps } from '@rjsf/utils'
 import './Widget.css'
+import _ from 'lodash'
 
 interface CustomRadioWidgetProps extends WidgetProps {
-  uiSchema: object,
   onChange: (value: boolean) => void,
 }
 class CustomRadioWidget extends React.Component<CustomRadioWidgetProps, never> {
   render() {
     const {
-      id, value, onChange, uiSchema
+      required, id, value, onChange, label = '', options = {}
     } = this.props
-    const valueRequired = uiSchema ? uiSchema['ui:title'] : null
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const componentId = 'custom-radio-widget'
     return (
       <div className="custom-radio-widget" data-testid={`${componentId}`}>
-        <div data-testid={`${componentId}--value-required`}>{valueRequired}</div>
+        <div>
+          <span data-testid={`${componentId}--label`} className="metadata-editor-field-label">
+            {title}
+            {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+          </span>
+        </div>
         <input
           type="radio"
           id={id}
           checked={value === true}
           onChange={() => onChange(true)}
-          data-testid={`${componentId}--true`}
+          data-testid={`${componentId}--value__true`}
         />
         <label htmlFor={id}>True</label>
         <br />
@@ -30,7 +35,7 @@ class CustomRadioWidget extends React.Component<CustomRadioWidgetProps, never> {
           id={id}
           checked={value === false}
           onChange={() => onChange(false)}
-          data-testid={`${componentId}--false`}
+          data-testid={`${componentId}--value__false`}
         />
         <label htmlFor={id}>False</label>
       </div>
