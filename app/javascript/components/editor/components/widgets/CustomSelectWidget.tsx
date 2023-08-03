@@ -113,7 +113,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
 
     const { value } = this.props
-    const { title = _.startCase(label.split(/-/)[0]), enumOptions } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { editor } = formContext
     const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
@@ -170,7 +170,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
             // @ts-ignore
-            options={selectOptions ?? enumOptions}
+            options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
