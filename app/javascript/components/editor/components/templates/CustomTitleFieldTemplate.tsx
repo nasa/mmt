@@ -1,13 +1,12 @@
 import { observer } from 'mobx-react'
 import React from 'react'
-import './CustomTitleFieldTemplate.css'
 import { FieldTemplateProps } from '@rjsf/utils'
 import _ from 'lodash'
 
 interface CustomTitleFieldTemplateProps extends FieldTemplateProps {
   title: string,
   required: boolean,
-  className: string
+  // className: string
 }
 
 class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateProps, never> {
@@ -22,7 +21,7 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
 
   render() {
     const {
-      title, required, registry, className
+      title, required, registry
     } = this.props
     const { formContext } = registry
     const { editor } = formContext
@@ -30,6 +29,7 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
     const { uiSchema = {} } = this.props
     const { options = {} } = uiSchema
     const { title: uiTitle } = options
+    const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
 
     let heading = title
     if (uiTitle) {
@@ -47,8 +47,8 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
 
     return (
       <div>
-        <div ref={this.scrollRef} className="custom-title-header">
-          <span data-testid="custom-title-field-template--heading" className={`custom-title-field-template-heading ${className}`}>
+        <div ref={this.scrollRef} className="h2-box">
+          <span data-testid="custom-title-field-template--heading" className={headerClassName}>
             {heading}
             {required ? <i data-testid="custom-title-field-template--required" className="eui-icon eui-required-o required-icon" /> : ''}
           </span>

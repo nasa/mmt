@@ -1,40 +1,56 @@
+.h1-box {
+    /* background-color: rgb(240, 240, 240); */
+    border-bottom: solid 2px rgb(240, 240, 240);
+    padding-bottom: 6px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+}
+
+.h1-title {
+    /* background-color: red; */
+    font-size: 1.75rem;
+    font-weight: 500;
+    /* padding-left: 10px; */
+}
+
+.h2-box {
+    /* background-color: black; */
+    /* border-bottom: solid 2px rgb(240, 240, 240); */
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.h2-title {
+    /* background-color: orange; */
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.h3-title {
+    /* background-color: yellow; */
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.description-box {
+    /* background-color: goldenrod; */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.required-icon {
+    color: green;
+    padding: 5px
+}
+
 .metadata-editor-field {
     /* background-color: yellow */
-}
-
-/** used for normal headings */
-.custom-title-field-heading {
-    /* background-color: blue; */
-    font-size: 1.5rem;
-    font-weight: 400;
-    
-}
-
-/** used for headings in arrays */
-.custom-title-field-template-heading {
-    /* background-color: yellow; */
-    font-size: 1.5rem;
-    font-weight: 400;
-    
 }
 
 .metadata-editor-array-field {
     /* background-color: purple */
 }
 
-.metadata-editor-array-field-title {
-    /* background-color: red; */
-}
-
-.metadata-editor-index-label {
-    /* background-color: cyan */
-}
-
-.metadata-editor-field-description {
-    /* background-color: orange */
-}
-
 .metadata-editor-field-label {
     /* background-color: pink; */
-    font-size: 1rem;
 }

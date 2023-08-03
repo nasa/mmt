@@ -58,10 +58,12 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     return (
       <div className="custom-array-template-remove-btn">
         <div className="remove-header">
-          <div className="metadata-editor-index-label">
-            <b>{this.parseTitle(itemTitle)}</b>
-            <span className="element-index-title">
-              {items.length > 0 && `(${index + 1} of ${items.length})`}
+          <div className="h3-title">
+            <span>
+              {this.parseTitle(itemTitle)}
+            </span>
+            <span>
+              {items.length > 0 && ` (${index + 1} of ${items.length})`}
             </span>
           </div>
           <button
@@ -147,7 +149,8 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     let { canAdd } = this.props
     const { formContext } = registry
     const { editor } = formContext
-    const uiClassName = uiSchema['ui:className'] ?? 'title'
+    const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
+    const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
@@ -165,14 +168,16 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     }
     return (
       <div className="metadata-editor-array-field" data-testid="custom-array-template" ref={this.titleScrollRef}>
-        <div className={`metadata-editor-array-field-title ${uiClassName}`}>
-          {this.createTitle()}
-          {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+        <div className={headerBoxClassName}>
+          <span className={headerClassName}>
+            {this.createTitle()}
+            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+          </span>
         </div>
-        <p className="metadata-editor-field-description">
+        <p className="description-box">
           {schema.description}
         </p>
-        <br />
+        {items && <br />}
 
         {items && items.map((element: Element, index: number) => (
           <div

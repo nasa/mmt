@@ -4,6 +4,8 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 const organizationUiSchema = {
   ServiceOrganizations: {
     'ui:title': 'Service Organizations',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -61,9 +63,8 @@ const organizationUiSchema = {
           'ui:row': [
             {
               'ui:group': 'Online Resource',
-              'ui:className': 'custom-title',
-              style: { fontSize: '1px' },
               'ui:group-description': true,
+              'ui:group-classname': 'h3-title',
               'ui:col': {
                 md: 12,
                 children: [

@@ -302,10 +302,10 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
               >
                 <div>
                   <div
-                    class="custom-title-header"
+                    class="h2-box"
                   >
                     <span
-                      class="custom-title-field-template-heading undefined"
+                      class="h2-title"
                       data-testid="custom-title-field-template--heading"
                     >
                       Biography
@@ -313,9 +313,7 @@ exports[`Layout Grid Field Component renders a group column title 1`] = `
                   </div>
                 </div>
               </span>
-              <div
-                class="col-children"
-              >
+              <div>
                 <span
                   data-testid="layout-grid-field__schema-field--bio"
                 >
@@ -385,9 +383,7 @@ exports[`Layout Grid Field Component renders a group column title which undefine
               <span
                 data-testid="layout-grid-field__col-title-field--"
               />
-              <div
-                class="col-children"
-              >
+              <div>
                 <span
                   data-testid="layout-grid-field__schema-field--bio"
                 >
@@ -463,10 +459,10 @@ exports[`Layout Grid Field Component renders a group row title 1`] = `
                 >
                   <div>
                     <div
-                      class="custom-title-header"
+                      class="h2-box"
                     >
                       <span
-                        class="custom-title-field-template-heading undefined"
+                        class="h2-title"
                         data-testid="custom-title-field-template--heading"
                       >
                         Full Name
@@ -741,12 +737,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                         data-testid="custom-array-template"
                       >
                         <div
-                          class="metadata-editor-array-field-title title"
+                          class="h2-box"
                         >
-                          Contact Groups
+                          <span
+                            class="h2-title"
+                          >
+                            Contact Groups
+                          </span>
                         </div>
                         <p
-                          class="metadata-editor-field-description"
+                          class="description-box"
                         >
                           Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted.
                         </p>
@@ -761,15 +761,13 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                               class="remove-header"
                             >
                               <div
-                                class="metadata-editor-index-label"
+                                class="h3-title"
                               >
-                                <b>
+                                <span>
                                   Contact Group
-                                </b>
-                                <span
-                                  class="element-index-title"
-                                >
-                                  (1 of 1)
+                                </span>
+                                <span>
+                                   (1 of 1)
                                 </span>
                               </div>
                               <button
@@ -836,7 +834,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                               data-testid="custom-text-widget__contact-group-name--text-header"
                                             >
                                               <span
-                                                class="metadata-editor-field-label"
+                                                class="metadata-editor-field-label null"
                                               >
                                                 Contact Group Name
                                                 <i
@@ -896,7 +894,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                 </span>
                                               </div>
                                               <div
-                                                class="metadata-editor-field-description"
+                                                class="description-box"
                                                 data-testid="custom-select-widget__roles--description"
                                               >
                                                 <span />
@@ -1026,10 +1024,10 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                     >
                                                       <div>
                                                         <div
-                                                          class="custom-title-header"
+                                                          class="h1-box"
                                                         >
                                                           <span
-                                                            class="custom-title-field-heading undefined"
+                                                            class="h1-title"
                                                             data-testid="custom-title-field--heading"
                                                           >
                                                             Contact Information
@@ -1038,7 +1036,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                       </div>
                                                     </span>
                                                     <div
-                                                      class="metadata-editor-field-description group-description"
+                                                      class="description-box"
                                                     >
                                                       This is the contact information of the downloadable tool or web user interface contact.
                                                     </div>
@@ -1061,7 +1059,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                               data-testid="custom-text-widget__service-hours--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Service Hours
                                                               </span>
@@ -1103,7 +1101,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                               data-testid="custom-text-widget__contact-instruction--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Contact Instruction
                                                               </span>
@@ -1152,12 +1150,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           data-testid="custom-array-template"
                                                         >
                                                           <div
-                                                            class="metadata-editor-array-field-title title"
+                                                            class="h2-box"
                                                           >
-                                                            Contact Mechanism
+                                                            <span
+                                                              class="h2-title"
+                                                            >
+                                                              Contact Mechanism
+                                                            </span>
                                                           </div>
                                                           <p
-                                                            class="metadata-editor-field-description"
+                                                            class="description-box"
                                                           >
                                                             Mechanisms of contacting.
                                                           </p>
@@ -1216,12 +1218,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           data-testid="custom-array-template"
                                                         >
                                                           <div
-                                                            class="metadata-editor-array-field-title title"
+                                                            class="h2-box"
                                                           >
-                                                            Address
+                                                            <span
+                                                              class="h2-title"
+                                                            >
+                                                              Address
+                                                            </span>
                                                           </div>
                                                           <p
-                                                            class="metadata-editor-field-description"
+                                                            class="description-box"
                                                           >
                                                             Contact addresses.
                                                           </p>
@@ -1322,12 +1328,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                         data-testid="custom-array-template"
                       >
                         <div
-                          class="metadata-editor-array-field-title title"
+                          class="h2-box"
                         >
-                          Contact Persons
+                          <span
+                            class="h2-title"
+                          >
+                            Contact Persons
+                          </span>
                         </div>
                         <p
-                          class="metadata-editor-field-description"
+                          class="description-box"
                         >
                           This is the contact persons of the downloadable tool or web user interface.
                         </p>
@@ -4233,10 +4243,10 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
@@ -4245,7 +4255,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -4397,10 +4407,10 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                         >
                                           <div>
                                             <div
-                                              class="custom-title-header"
+                                              class="h1-box"
                                             >
                                               <span
-                                                class="custom-title-field-heading undefined"
+                                                class="h1-title"
                                                 data-testid="custom-title-field--heading"
                                               >
                                                 Target
@@ -4413,13 +4423,11 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                           </div>
                                         </span>
                                         <div
-                                          class="metadata-editor-field-description group-description"
+                                          class="description-box"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
-                                        <div
-                                          class="col-children"
-                                        >
+                                        <div>
                                           <div
                                             class="row row-children"
                                           >
@@ -4558,7 +4566,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
@@ -4600,7 +4608,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
@@ -4650,12 +4658,16 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      Response Content Type
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        Response Content Type
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
@@ -4670,15 +4682,13 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               Response Content Type
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -4722,7 +4732,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Response Content Type
                                                                 <i
@@ -4800,15 +4810,19 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      HTTP Method
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        HTTP Method
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
@@ -4823,15 +4837,13 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               HTTP Method
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -5034,12 +5046,16 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="metadata-editor-array-field-title title"
+                                      class="h2-box"
                                     >
-                                      Query Input
+                                      <span
+                                        class="h2-title"
+                                      >
+                                        Query Input
+                                      </span>
                                     </div>
                                     <p
-                                      class="metadata-editor-field-description"
+                                      class="description-box"
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
@@ -5054,15 +5070,13 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                           class="remove-header"
                                         >
                                           <div
-                                            class="metadata-editor-index-label"
+                                            class="h3-title"
                                           >
-                                            <b>
+                                            <span>
                                               Query Input
-                                            </b>
-                                            <span
-                                              class="element-index-title"
-                                            >
-                                              (1 of 1)
+                                            </span>
+                                            <span>
+                                               (1 of 1)
                                             </span>
                                           </div>
                                           <button
@@ -5129,7 +5143,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Type
                                                             <i
@@ -5173,7 +5187,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Description
                                                           </span>
@@ -5214,7 +5228,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Name
                                                             <i
@@ -8195,10 +8209,10 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
@@ -8207,7 +8221,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -8359,10 +8373,10 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                         >
                                           <div>
                                             <div
-                                              class="custom-title-header"
+                                              class="h1-box"
                                             >
                                               <span
-                                                class="custom-title-field-heading undefined"
+                                                class="h1-title"
                                                 data-testid="custom-title-field--heading"
                                               >
                                                 Target
@@ -8375,13 +8389,11 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                           </div>
                                         </span>
                                         <div
-                                          class="metadata-editor-field-description group-description"
+                                          class="description-box"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
-                                        <div
-                                          class="col-children"
-                                        >
+                                        <div>
                                           <div
                                             class="row row-children"
                                           >
@@ -8522,7 +8534,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
@@ -8562,7 +8574,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
@@ -8610,12 +8622,16 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      Response Content Type
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        Response Content Type
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
@@ -8630,15 +8646,13 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               Response Content Type
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -8682,7 +8696,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Response Content Type
                                                                 <i
@@ -8760,15 +8774,19 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      HTTP Method
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        HTTP Method
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
@@ -8783,15 +8801,13 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               HTTP Method
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -8998,12 +9014,16 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="metadata-editor-array-field-title title"
+                                      class="h2-box"
                                     >
-                                      Query Input
+                                      <span
+                                        class="h2-title"
+                                      >
+                                        Query Input
+                                      </span>
                                     </div>
                                     <p
-                                      class="metadata-editor-field-description"
+                                      class="description-box"
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
@@ -9018,15 +9038,13 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                           class="remove-header"
                                         >
                                           <div
-                                            class="metadata-editor-index-label"
+                                            class="h3-title"
                                           >
-                                            <b>
+                                            <span>
                                               Query Input
-                                            </b>
-                                            <span
-                                              class="element-index-title"
-                                            >
-                                              (1 of 1)
+                                            </span>
+                                            <span>
+                                               (1 of 1)
                                             </span>
                                           </div>
                                           <button
@@ -9093,7 +9111,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Type
                                                             <i
@@ -9137,7 +9155,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Description
                                                           </span>
@@ -9178,7 +9196,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Name
                                                             <i
@@ -12184,23 +12202,23 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                               class="rjsf-layout-grid-group"
                             >
                               <span
-                                data-testid="layout-grid-field__row-title-field--options"
+                                data-testid="layout-grid-field__row-title-field--service-options"
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
-                                      Options
+                                      Service Options
                                     </span>
                                   </div>
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element contains important information about the Unique Resource Locator for the service.
                               </div>
@@ -12208,7 +12226,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                 class="row"
                               >
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -12229,10 +12247,10 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                           >
                                             <div>
                                               <div
-                                                class="custom-title-header"
+                                                class="h1-box"
                                               >
                                                 <span
-                                                  class="custom-title-field-heading undefined"
+                                                  class="h2-title"
                                                   data-testid="custom-title-field--heading"
                                                 >
                                                   Subset
@@ -12241,7 +12259,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                             </div>
                                           </span>
                                           <div
-                                            class="metadata-editor-field-description group-description"
+                                            class="description-box"
                                           >
                                             This element is used to identify the set of supported subsetting capabilities, Spatial, Temporal, and Variable.
                                           </div>
@@ -12311,7 +12329,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                   </span>
                                 </div>
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -12326,12 +12344,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         data-testid="custom-array-template"
                                       >
                                         <div
-                                          class="metadata-editor-array-field-title title"
+                                          class="h2-box"
                                         >
-                                          Variable Aggregation Supported Methods
+                                          <span
+                                            class="h2-title"
+                                          >
+                                            Variable Aggregation Supported Methods
+                                          </span>
                                         </div>
                                         <p
-                                          class="metadata-editor-field-description"
+                                          class="description-box"
                                         >
                                           This element is used to identify the list of supported methods of variable aggregation.
                                         </p>
@@ -12346,15 +12368,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               class="remove-header"
                                             >
                                               <div
-                                                class="metadata-editor-index-label"
+                                                class="h3-title"
                                               >
-                                                <b>
+                                                <span>
                                                   Variable Aggregation Supported Method
-                                                </b>
-                                                <span
-                                                  class="element-index-title"
-                                                >
-                                                  (1 of 1)
+                                                </span>
+                                                <span>
+                                                   (1 of 1)
                                                 </span>
                                               </div>
                                               <button
@@ -12531,7 +12551,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                   </span>
                                 </div>
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -12546,12 +12566,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         data-testid="custom-array-template"
                                       >
                                         <div
-                                          class="metadata-editor-array-field-title title"
+                                          class="h2-box"
                                         >
-                                          Supported Input Projections
+                                          <span
+                                            class="h2-title"
+                                          >
+                                            Supported Input Projections
+                                          </span>
                                         </div>
                                         <p
-                                          class="metadata-editor-field-description"
+                                          class="description-box"
                                         >
                                           This element is used to identify the list of supported input projections types.
                                         </p>
@@ -12566,15 +12590,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               class="remove-header"
                                             >
                                               <div
-                                                class="metadata-editor-index-label"
+                                                class="h3-title"
                                               >
-                                                <b>
+                                                <span>
                                                   Supported Input Projection
-                                                </b>
-                                                <span
-                                                  class="element-index-title"
-                                                >
-                                                  (1 of 1)
+                                                </span>
+                                                <span>
+                                                   (1 of 1)
                                                 </span>
                                               </div>
                                               <button
@@ -12615,10 +12637,10 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               >
                                                 <div>
                                                   <div
-                                                    class="custom-title-header"
+                                                    class="h2-box"
                                                   >
                                                     <span
-                                                      class="custom-title-field-template-heading undefined"
+                                                      class="h3-title"
                                                       data-testid="custom-title-field-template--heading"
                                                     >
                                                       Supported Input Projection
@@ -12630,7 +12652,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   </div>
                                                 </div>
                                                 <div
-                                                  class="metadata-editor-field-description"
+                                                  class="description-box"
                                                   data-testid="custom-description-field-template--description"
                                                   id="ServiceOptions_SupportedInputProjections_0__description"
                                                 >
@@ -12768,7 +12790,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-latitude-of-center--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Latitude Of Center
                                                           </span>
@@ -12805,7 +12827,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-longitude-of-center--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Longitude Of Center
                                                           </span>
@@ -12842,7 +12864,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-false-easting--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection False Easting
                                                           </span>
@@ -12879,7 +12901,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-false-northing--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection False Northing
                                                           </span>
@@ -12916,7 +12938,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-authority--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Authority
                                                           </span>
@@ -13199,7 +13221,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                   </span>
                                 </div>
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -13214,12 +13236,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         data-testid="custom-array-template"
                                       >
                                         <div
-                                          class="metadata-editor-array-field-title title"
+                                          class="h2-box"
                                         >
-                                          Supported Output Projections
+                                          <span
+                                            class="h2-title"
+                                          >
+                                            Supported Output Projections
+                                          </span>
                                         </div>
                                         <p
-                                          class="metadata-editor-field-description"
+                                          class="description-box"
                                         >
                                           This element is used to identify the list of supported output projections types.
                                         </p>
@@ -13234,15 +13260,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               class="remove-header"
                                             >
                                               <div
-                                                class="metadata-editor-index-label"
+                                                class="h3-title"
                                               >
-                                                <b>
+                                                <span>
                                                   Supported Output Projection
-                                                </b>
-                                                <span
-                                                  class="element-index-title"
-                                                >
-                                                  (1 of 1)
+                                                </span>
+                                                <span>
+                                                   (1 of 1)
                                                 </span>
                                               </div>
                                               <button
@@ -13283,13 +13307,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               >
                                                 <div>
                                                   <div
-                                                    class="custom-title-header"
+                                                    class="h2-box"
                                                   >
                                                     <span
-                                                      class="custom-title-field-template-heading undefined"
+                                                      class="h3-title"
                                                       data-testid="custom-title-field-template--heading"
                                                     >
-                                                      Supported Output Projections
+                                                      Supported Output Projection
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                         data-testid="custom-title-field-template--required"
@@ -13298,7 +13322,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   </div>
                                                 </div>
                                                 <div
-                                                  class="metadata-editor-field-description"
+                                                  class="description-box"
                                                   data-testid="custom-description-field-template--description"
                                                   id="ServiceOptions_SupportedOutputProjections_0__description"
                                                 >
@@ -13436,7 +13460,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-latitude-of-center--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Latitude Of Center
                                                           </span>
@@ -13473,7 +13497,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-longitude-of-center--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Longitude Of Center
                                                           </span>
@@ -13510,7 +13534,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-false-easting--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection False Easting
                                                           </span>
@@ -13547,7 +13571,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-false-northing--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection False Northing
                                                           </span>
@@ -13584,7 +13608,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           data-testid="custom-text-widget__projection-authority--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Projection Authority
                                                           </span>
@@ -13867,7 +13891,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                   </span>
                                 </div>
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -13882,12 +13906,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         data-testid="custom-array-template"
                                       >
                                         <div
-                                          class="metadata-editor-array-field-title title"
+                                          class="h2-box"
                                         >
-                                          Interpolation Types
+                                          <span
+                                            class="h2-title"
+                                          >
+                                            Interpolation Types
+                                          </span>
                                         </div>
                                         <p
-                                          class="metadata-editor-field-description"
+                                          class="description-box"
                                         >
                                           This element is used to identify the list of supported interpolation types.
                                         </p>
@@ -13902,15 +13930,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               class="remove-header"
                                             >
                                               <div
-                                                class="metadata-editor-index-label"
+                                                class="h3-title"
                                               >
-                                                <b>
+                                                <span>
                                                   Interpolation Type
-                                                </b>
-                                                <span
-                                                  class="element-index-title"
-                                                >
-                                                  (1 of 1)
+                                                </span>
+                                                <span>
+                                                   (1 of 1)
                                                 </span>
                                               </div>
                                               <button
@@ -14087,7 +14113,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                   </span>
                                 </div>
                                 <div
-                                  class="field-left-border col-md-12"
+                                  class="col-md-12"
                                 >
                                    
                                   <span
@@ -14102,12 +14128,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         data-testid="custom-array-template"
                                       >
                                         <div
-                                          class="metadata-editor-array-field-title title"
+                                          class="h2-box"
                                         >
-                                          Supported Reformattings
+                                          <span
+                                            class="h2-title"
+                                          >
+                                            Supported Reformattings
+                                          </span>
                                         </div>
                                         <p
-                                          class="metadata-editor-field-description"
+                                          class="description-box"
                                         >
                                           The project element describes the list of format name combinations which explicitly state which re-formatting options are available. These are entered as pairs of values, e.g. if NetCDF-3 -&gt; NetCDF-4 is a valid supported reformatting, these two values would be entered as a pair.
                                         </p>
@@ -14122,15 +14152,13 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               class="remove-header"
                                             >
                                               <div
-                                                class="metadata-editor-index-label"
+                                                class="h3-title"
                                               >
-                                                <b>
+                                                <span>
                                                   Supported Reformatting
-                                                </b>
-                                                <span
-                                                  class="element-index-title"
-                                                >
-                                                  (1 of 1)
+                                                </span>
+                                                <span>
+                                                   (1 of 1)
                                                 </span>
                                               </div>
                                               <button
@@ -14169,328 +14197,316 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                 class="metadata-editor-field form-group field field-object"
                                                 data-testid="custom-field-template"
                                               >
-                                                <div>
-                                                  <div
-                                                    class="custom-title-header"
-                                                  >
-                                                    <span
-                                                      class="custom-title-field-template-heading undefined"
-                                                      data-testid="custom-title-field-template--heading"
-                                                    >
-                                                      Supported Reformattings
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                        data-testid="custom-title-field-template--required"
-                                                      />
-                                                    </span>
-                                                  </div>
-                                                </div>
                                                 <div
-                                                  class="metadata-editor-field-description"
-                                                  data-testid="custom-description-field-template--description"
-                                                  id="ServiceOptions_SupportedReformattings_0__description"
+                                                  class="row row-children"
                                                 >
-                                                  This object describes the supported reformatting pairs, e.g. NetCDF4 -&gt; [COG]. For every input there is 1 or more outputs.
-                                                </div>
-                                                <div
-                                                  class="p-0 container-fluid"
-                                                >
+                                                   
                                                   <div
-                                                    class="row"
-                                                    style="margin-bottom: 10px;"
+                                                    class="col-md-12"
                                                   >
+                                                     
                                                     <div
-                                                      class="col-12"
+                                                      class="row row-children"
                                                     >
                                                        
                                                       <div
-                                                        class="metadata-editor-field form-group field field-string"
-                                                        data-testid="custom-field-template"
+                                                        class="col-md-12"
                                                       >
-                                                        <div
-                                                          class="custom-select-widget"
-                                                          data-testid="custom-select-widget__supported-input-format"
+                                                         
+                                                        <span
+                                                          data-testid="layout-grid-field__schema-field--supported-input-format"
                                                         >
-                                                          <div>
-                                                            <span
-                                                              class="metadata-editor-field-label"
-                                                            >
-                                                              Supported Input Format
-                                                              <i
-                                                                class="eui-icon eui-required-o required-icon"
-                                                              />
-                                                            </span>
-                                                          </div>
                                                           <div
-                                                            class="widget-description"
-                                                            data-testid="custom-select-widget__supported-input-format--description"
-                                                          >
-                                                            <span />
-                                                          </div>
-                                                          <div
-                                                            data-testid="custom-select-widget__supported-input-format--selector"
+                                                            class="metadata-editor-field form-group field field-string"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
-                                                              class=" css-b62m3t-container"
-                                                              id="ServiceOptions_SupportedReformattings_0_SupportedInputFormat"
+                                                              class="custom-select-widget"
+                                                              data-testid="custom-select-widget__supported-input-format"
                                                             >
-                                                              <span
-                                                                class="css-1f43avz-a11yText-A11yText"
-                                                                id="react-select-39-live-region"
-                                                              />
-                                                              <span
-                                                                aria-atomic="false"
-                                                                aria-live="polite"
-                                                                aria-relevant="additions text"
-                                                                class="css-1f43avz-a11yText-A11yText"
-                                                              />
+                                                              <div>
+                                                                <span
+                                                                  class="metadata-editor-field-label"
+                                                                >
+                                                                  Supported Input Format
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                               <div
-                                                                class=" css-13cymwt-control"
+                                                                class="widget-description"
+                                                                data-testid="custom-select-widget__supported-input-format--description"
+                                                              >
+                                                                <span />
+                                                              </div>
+                                                              <div
+                                                                data-testid="custom-select-widget__supported-input-format--selector"
                                                               >
                                                                 <div
-                                                                  class=" css-1fdsijx-ValueContainer"
-                                                                >
-                                                                  <div
-                                                                    class=" css-1jqq78o-placeholder"
-                                                                    id="react-select-39-placeholder"
-                                                                  >
-                                                                    Select Supported Input Format
-                                                                  </div>
-                                                                  <div
-                                                                    class=" css-qbdosj-Input"
-                                                                    data-value=""
-                                                                  >
-                                                                    <input
-                                                                      aria-autocomplete="list"
-                                                                      aria-describedby="react-select-39-placeholder"
-                                                                      aria-expanded="false"
-                                                                      aria-haspopup="true"
-                                                                      autocapitalize="none"
-                                                                      autocomplete="off"
-                                                                      autocorrect="off"
-                                                                      class=""
-                                                                      id="react-select-39-input"
-                                                                      role="combobox"
-                                                                      spellcheck="false"
-                                                                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                                      tabindex="0"
-                                                                      type="text"
-                                                                      value=""
-                                                                    />
-                                                                  </div>
-                                                                </div>
-                                                                <div
-                                                                  class=" css-1hb7zxy-IndicatorsContainer"
+                                                                  class=" css-b62m3t-container"
+                                                                  id="ServiceOptions_SupportedReformattings_0_SupportedInputFormat"
                                                                 >
                                                                   <span
-                                                                    class=" css-1u9des2-indicatorSeparator"
+                                                                    class="css-1f43avz-a11yText-A11yText"
+                                                                    id="react-select-39-live-region"
+                                                                  />
+                                                                  <span
+                                                                    aria-atomic="false"
+                                                                    aria-live="polite"
+                                                                    aria-relevant="additions text"
+                                                                    class="css-1f43avz-a11yText-A11yText"
                                                                   />
                                                                   <div
-                                                                    aria-hidden="true"
-                                                                    class=" css-1xc3v61-indicatorContainer"
+                                                                    class=" css-13cymwt-control"
                                                                   >
-                                                                    <svg
-                                                                      aria-hidden="true"
-                                                                      class="css-tj5bde-Svg"
-                                                                      focusable="false"
-                                                                      height="20"
-                                                                      viewBox="0 0 20 20"
-                                                                      width="20"
+                                                                    <div
+                                                                      class=" css-1fdsijx-ValueContainer"
                                                                     >
-                                                                      <path
-                                                                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                      <div
+                                                                        class=" css-1jqq78o-placeholder"
+                                                                        id="react-select-39-placeholder"
+                                                                      >
+                                                                        Select Supported Input Format
+                                                                      </div>
+                                                                      <div
+                                                                        class=" css-qbdosj-Input"
+                                                                        data-value=""
+                                                                      >
+                                                                        <input
+                                                                          aria-autocomplete="list"
+                                                                          aria-describedby="react-select-39-placeholder"
+                                                                          aria-expanded="false"
+                                                                          aria-haspopup="true"
+                                                                          autocapitalize="none"
+                                                                          autocomplete="off"
+                                                                          autocorrect="off"
+                                                                          class=""
+                                                                          id="react-select-39-input"
+                                                                          role="combobox"
+                                                                          spellcheck="false"
+                                                                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                                          tabindex="0"
+                                                                          type="text"
+                                                                          value=""
+                                                                        />
+                                                                      </div>
+                                                                    </div>
+                                                                    <div
+                                                                      class=" css-1hb7zxy-IndicatorsContainer"
+                                                                    >
+                                                                      <span
+                                                                        class=" css-1u9des2-indicatorSeparator"
                                                                       />
-                                                                    </svg>
+                                                                      <div
+                                                                        aria-hidden="true"
+                                                                        class=" css-1xc3v61-indicatorContainer"
+                                                                      >
+                                                                        <svg
+                                                                          aria-hidden="true"
+                                                                          class="css-tj5bde-Svg"
+                                                                          focusable="false"
+                                                                          height="20"
+                                                                          viewBox="0 0 20 20"
+                                                                          width="20"
+                                                                        >
+                                                                          <path
+                                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                          />
+                                                                        </svg>
+                                                                      </div>
+                                                                    </div>
                                                                   </div>
                                                                 </div>
                                                               </div>
                                                             </div>
                                                           </div>
-                                                        </div>
+                                                        </span>
                                                       </div>
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    class="row"
-                                                    style="margin-bottom: 10px;"
-                                                  >
-                                                    <div
-                                                      class="col-12"
-                                                    >
-                                                       
                                                       <div
-                                                        class="metadata-editor-field form-group field field-array"
-                                                        data-testid="custom-field-template"
+                                                        class="col-md-12"
                                                       >
-                                                        <div
-                                                          class="metadata-editor-array-field"
-                                                          data-testid="custom-array-template"
+                                                         
+                                                        <span
+                                                          data-testid="layout-grid-field__schema-field--supported-output-formats"
                                                         >
                                                           <div
-                                                            class="metadata-editor-array-field-title title"
-                                                          >
-                                                            Supported Output Formats
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </div>
-                                                          <p
-                                                            class="metadata-editor-field-description"
-                                                          >
-                                                            This element is used to identify the name of all supported output formats for the provided input format.
-                                                          </p>
-                                                          <br />
-                                                          <div
-                                                            class="array-item element"
+                                                            class="metadata-editor-field form-group field field-array"
+                                                            data-testid="custom-field-template"
                                                           >
                                                             <div
-                                                              class="custom-array-template-remove-btn"
+                                                              class="metadata-editor-array-field"
+                                                              data-testid="custom-array-template"
                                                             >
                                                               <div
-                                                                class="remove-header"
+                                                                class="h2-box"
                                                               >
-                                                                <div
-                                                                  class="metadata-editor-index-label"
+                                                                <span
+                                                                  class="h3-title"
                                                                 >
-                                                                  <b>
-                                                                    Supported Output Format
-                                                                  </b>
-                                                                  <span
-                                                                    class="element-index-title"
-                                                                  >
-                                                                    (1 of 1)
-                                                                  </span>
-                                                                </div>
-                                                                <button
-                                                                  class="btn"
-                                                                  data-testid="custom-array-template__remove-button--supported-output-formats"
-                                                                  type="button"
-                                                                >
-                                                                  <span
-                                                                    class="remove-button"
-                                                                  >
-                                                                    <i
-                                                                      class="fa-solid fa-circle-minus fa-lg"
-                                                                    />
-                                                                  </span>
-                                                                   
-                                                                  <span
-                                                                    class="remove-label"
-                                                                  >
-                                                                     
-                                                                    Remove
-                                                                  </span>
-                                                                </button>
+                                                                  Supported Output Formats
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
                                                               </div>
-                                                            </div>
-                                                            <div
-                                                              class="custom-array-template-element"
-                                                            />
-                                                            <div
-                                                              class="mb-2  d-flex align-items-center row"
-                                                            >
+                                                              <p
+                                                                class="description-box"
+                                                              >
+                                                                This element is used to identify the name of all supported output formats for the provided input format.
+                                                              </p>
+                                                              <br />
                                                               <div
-                                                                class="array-item col-lg-12 col-12"
-                                                                data-testid="custom-array-element"
+                                                                class="array-item element"
                                                               >
                                                                 <div
-                                                                  class="metadata-editor-field form-group field field-string"
-                                                                  data-testid="custom-field-template"
+                                                                  class="custom-array-template-remove-btn"
                                                                 >
                                                                   <div
-                                                                    class="custom-select-widget"
-                                                                    data-testid="custom-select-widget__supported-output-formats-0"
+                                                                    class="remove-header"
                                                                   >
-                                                                    <div>
-                                                                      <span
-                                                                        class="metadata-editor-field-label"
-                                                                      >
-                                                                        Supported Output Formats
-                                                                        <i
-                                                                          class="eui-icon eui-required-o required-icon"
-                                                                        />
+                                                                    <div
+                                                                      class="h3-title"
+                                                                    >
+                                                                      <span>
+                                                                        Supported Output Format
+                                                                      </span>
+                                                                      <span>
+                                                                         (1 of 1)
                                                                       </span>
                                                                     </div>
-                                                                    <div
-                                                                      class="widget-description"
-                                                                      data-testid="custom-select-widget__supported-output-formats-0--description"
+                                                                    <button
+                                                                      class="btn"
+                                                                      data-testid="custom-array-template__remove-button--supported-output-formats"
+                                                                      type="button"
                                                                     >
-                                                                      <span />
-                                                                    </div>
+                                                                      <span
+                                                                        class="remove-button"
+                                                                      >
+                                                                        <i
+                                                                          class="fa-solid fa-circle-minus fa-lg"
+                                                                        />
+                                                                      </span>
+                                                                       
+                                                                      <span
+                                                                        class="remove-label"
+                                                                      >
+                                                                         
+                                                                        Remove
+                                                                      </span>
+                                                                    </button>
+                                                                  </div>
+                                                                </div>
+                                                                <div
+                                                                  class="custom-array-template-element"
+                                                                />
+                                                                <div
+                                                                  class="mb-2  d-flex align-items-center row"
+                                                                >
+                                                                  <div
+                                                                    class="array-item col-lg-12 col-12"
+                                                                    data-testid="custom-array-element"
+                                                                  >
                                                                     <div
-                                                                      data-testid="custom-select-widget__supported-output-formats-0--selector"
+                                                                      class="metadata-editor-field form-group field field-string"
+                                                                      data-testid="custom-field-template"
                                                                     >
                                                                       <div
-                                                                        class=" css-b62m3t-container"
-                                                                        id="ServiceOptions_SupportedReformattings_0_SupportedOutputFormats_0"
+                                                                        class="custom-select-widget"
+                                                                        data-testid="custom-select-widget__supported-output-formats-0"
                                                                       >
-                                                                        <span
-                                                                          class="css-1f43avz-a11yText-A11yText"
-                                                                          id="react-select-40-live-region"
-                                                                        />
-                                                                        <span
-                                                                          aria-atomic="false"
-                                                                          aria-live="polite"
-                                                                          aria-relevant="additions text"
-                                                                          class="css-1f43avz-a11yText-A11yText"
-                                                                        />
+                                                                        <div>
+                                                                          <span
+                                                                            class="metadata-editor-field-label"
+                                                                          >
+                                                                            Supported Output Formats
+                                                                            <i
+                                                                              class="eui-icon eui-required-o required-icon"
+                                                                            />
+                                                                          </span>
+                                                                        </div>
                                                                         <div
-                                                                          class=" css-13cymwt-control"
+                                                                          class="widget-description"
+                                                                          data-testid="custom-select-widget__supported-output-formats-0--description"
+                                                                        >
+                                                                          <span />
+                                                                        </div>
+                                                                        <div
+                                                                          data-testid="custom-select-widget__supported-output-formats-0--selector"
                                                                         >
                                                                           <div
-                                                                            class=" css-1fdsijx-ValueContainer"
-                                                                          >
-                                                                            <div
-                                                                              class=" css-1jqq78o-placeholder"
-                                                                              id="react-select-40-placeholder"
-                                                                            >
-                                                                              Select Supported Output Formats
-                                                                            </div>
-                                                                            <div
-                                                                              class=" css-qbdosj-Input"
-                                                                              data-value=""
-                                                                            >
-                                                                              <input
-                                                                                aria-autocomplete="list"
-                                                                                aria-describedby="react-select-40-placeholder"
-                                                                                aria-expanded="false"
-                                                                                aria-haspopup="true"
-                                                                                autocapitalize="none"
-                                                                                autocomplete="off"
-                                                                                autocorrect="off"
-                                                                                class=""
-                                                                                id="react-select-40-input"
-                                                                                role="combobox"
-                                                                                spellcheck="false"
-                                                                                style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
-                                                                                tabindex="0"
-                                                                                type="text"
-                                                                                value=""
-                                                                              />
-                                                                            </div>
-                                                                          </div>
-                                                                          <div
-                                                                            class=" css-1hb7zxy-IndicatorsContainer"
+                                                                            class=" css-b62m3t-container"
+                                                                            id="ServiceOptions_SupportedReformattings_0_SupportedOutputFormats_0"
                                                                           >
                                                                             <span
-                                                                              class=" css-1u9des2-indicatorSeparator"
+                                                                              class="css-1f43avz-a11yText-A11yText"
+                                                                              id="react-select-40-live-region"
+                                                                            />
+                                                                            <span
+                                                                              aria-atomic="false"
+                                                                              aria-live="polite"
+                                                                              aria-relevant="additions text"
+                                                                              class="css-1f43avz-a11yText-A11yText"
                                                                             />
                                                                             <div
-                                                                              aria-hidden="true"
-                                                                              class=" css-1xc3v61-indicatorContainer"
+                                                                              class=" css-13cymwt-control"
                                                                             >
-                                                                              <svg
-                                                                                aria-hidden="true"
-                                                                                class="css-tj5bde-Svg"
-                                                                                focusable="false"
-                                                                                height="20"
-                                                                                viewBox="0 0 20 20"
-                                                                                width="20"
+                                                                              <div
+                                                                                class=" css-1fdsijx-ValueContainer"
                                                                               >
-                                                                                <path
-                                                                                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                                <div
+                                                                                  class=" css-1jqq78o-placeholder"
+                                                                                  id="react-select-40-placeholder"
+                                                                                >
+                                                                                  Select Supported Output Formats
+                                                                                </div>
+                                                                                <div
+                                                                                  class=" css-qbdosj-Input"
+                                                                                  data-value=""
+                                                                                >
+                                                                                  <input
+                                                                                    aria-autocomplete="list"
+                                                                                    aria-describedby="react-select-40-placeholder"
+                                                                                    aria-expanded="false"
+                                                                                    aria-haspopup="true"
+                                                                                    autocapitalize="none"
+                                                                                    autocomplete="off"
+                                                                                    autocorrect="off"
+                                                                                    class=""
+                                                                                    id="react-select-40-input"
+                                                                                    role="combobox"
+                                                                                    spellcheck="false"
+                                                                                    style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                                                                    tabindex="0"
+                                                                                    type="text"
+                                                                                    value=""
+                                                                                  />
+                                                                                </div>
+                                                                              </div>
+                                                                              <div
+                                                                                class=" css-1hb7zxy-IndicatorsContainer"
+                                                                              >
+                                                                                <span
+                                                                                  class=" css-1u9des2-indicatorSeparator"
                                                                                 />
-                                                                              </svg>
+                                                                                <div
+                                                                                  aria-hidden="true"
+                                                                                  class=" css-1xc3v61-indicatorContainer"
+                                                                                >
+                                                                                  <svg
+                                                                                    aria-hidden="true"
+                                                                                    class="css-tj5bde-Svg"
+                                                                                    focusable="false"
+                                                                                    height="20"
+                                                                                    viewBox="0 0 20 20"
+                                                                                    width="20"
+                                                                                  >
+                                                                                    <path
+                                                                                      d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                                                                    />
+                                                                                  </svg>
+                                                                                </div>
+                                                                              </div>
                                                                             </div>
                                                                           </div>
                                                                         </div>
@@ -14499,38 +14515,38 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                                   </div>
                                                                 </div>
                                                               </div>
+                                                              <div
+                                                                class="custom-array-template-add-btn add-header"
+                                                              >
+                                                                <button
+                                                                  class="btn"
+                                                                  data-testid="custom-array-template__add-button--supported-output-formats"
+                                                                  type="button"
+                                                                >
+                                                                  <span
+                                                                    class="add-button"
+                                                                  >
+                                                                    <i
+                                                                      class="fa-solid fa-circle-plus fa-lg"
+                                                                    />
+                                                                  </span>
+                                                                   
+                                                                  <span
+                                                                    class="add-label"
+                                                                  >
+                                                                    <span
+                                                                      data-testid="custom-array-template-add-another-btn"
+                                                                    >
+                                                                      Add another
+                                                                    </span>
+                                                                     
+                                                                    Supported Output Format
+                                                                  </span>
+                                                                </button>
+                                                              </div>
                                                             </div>
                                                           </div>
-                                                          <div
-                                                            class="custom-array-template-add-btn add-header"
-                                                          >
-                                                            <button
-                                                              class="btn"
-                                                              data-testid="custom-array-template__add-button--supported-output-formats"
-                                                              type="button"
-                                                            >
-                                                              <span
-                                                                class="add-button"
-                                                              >
-                                                                <i
-                                                                  class="fa-solid fa-circle-plus fa-lg"
-                                                                />
-                                                              </span>
-                                                               
-                                                              <span
-                                                                class="add-label"
-                                                              >
-                                                                <span
-                                                                  data-testid="custom-array-template-add-another-btn"
-                                                                >
-                                                                  Add another
-                                                                </span>
-                                                                 
-                                                                Supported Output Format
-                                                              </span>
-                                                            </button>
-                                                          </div>
-                                                        </div>
+                                                        </span>
                                                       </div>
                                                     </div>
                                                   </div>
@@ -24599,7 +24615,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -24644,7 +24660,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__standard-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Standard Name
                             </span>
@@ -24691,7 +24707,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -24742,7 +24758,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Definition
                               </span>
@@ -24790,12 +24806,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-array-template"
                           >
                             <div
-                              class="metadata-editor-array-field-title title"
+                              class="h2-box"
                             >
-                              Additional Identifiers
+                              <span
+                                class="h2-title"
+                              >
+                                Additional Identifiers
+                              </span>
                             </div>
                             <p
-                              class="metadata-editor-field-description"
+                              class="description-box"
                             >
                               Any additional identifiers of a variable.
                             </p>
@@ -24810,15 +24830,13 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                   class="remove-header"
                                 >
                                   <div
-                                    class="metadata-editor-index-label"
+                                    class="h3-title"
                                   >
-                                    <b>
+                                    <span>
                                       Additional Identifier
-                                    </b>
-                                    <span
-                                      class="element-index-title"
-                                    >
-                                      (1 of 1)
+                                    </span>
+                                    <span>
+                                       (1 of 1)
                                     </span>
                                   </div>
                                   <button
@@ -24885,7 +24903,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                                   data-testid="custom-text-widget__identifier--text-header"
                                                 >
                                                   <span
-                                                    class="metadata-editor-field-label"
+                                                    class="metadata-editor-field-label null"
                                                   >
                                                     Identifier
                                                     <i
@@ -24936,7 +24954,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                                 >
                                                   <span>
                                                     <span
-                                                      class="metadata-editor-field-label  "
+                                                      class="metadata-editor-field-label null"
                                                     >
                                                       Description
                                                     </span>
@@ -25248,7 +25266,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__units--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Units
                             </span>
@@ -25406,7 +25424,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__scale--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Scale
                             </span>
@@ -25442,7 +25460,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-text-widget__offset--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Offset
                             </span>
@@ -25483,12 +25501,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             data-testid="custom-array-template"
                           >
                             <div
-                              class="metadata-editor-array-field-title title"
+                              class="h2-box"
                             >
-                              Valid Ranges
+                              <span
+                                class="h2-title"
+                              >
+                                Valid Ranges
+                              </span>
                             </div>
                             <p
-                              class="metadata-editor-field-description"
+                              class="description-box"
                             >
                               Valid ranges of variable data values.
                             </p>
@@ -25553,10 +25575,10 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
                                       Index Ranges
@@ -25565,7 +25587,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element describes the x and y dimension ranges for this variable. Typically these values are 2 latitude and longitude ranges, but they don't necessarily have to be.
                               </div>

@@ -110,8 +110,8 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       const element = document.activeElement as HTMLInputElement
       if (element.type === 'number') {
         if (event.key === 'ArrowDown'
-            || event.key === 'ArrowUp'
-            || (!/[0-9\\.e\\-]/.test(event.key))) {
+          || event.key === 'ArrowUp'
+          || (!/[0-9\\.e\\-]/.test(event.key))) {
           event.preventDefault()
         }
       }
@@ -165,7 +165,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       ArrayFieldTemplate: CustomArrayFieldTemplate,
       FieldTemplate: CustomFieldTemplate,
       TitleFieldTemplate: CustomTitleFieldTemplate
-
     }
     const {
       formSchema: schema, formData, uiSchema, draft, publishErrors, status

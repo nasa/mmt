@@ -6,7 +6,7 @@ export default class CustomFieldTemplate extends React.Component<DescriptionFiel
   render() {
     const { description, id } = this.props
     return (
-      <div data-testid="custom-description-field-template--description" id={id} className="metadata-editor-field-description">
+      <div data-testid="custom-description-field-template--description" id={id} className="description-box">
         {description}
       </div>
     )

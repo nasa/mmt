@@ -9,7 +9,6 @@ const serviceConstraintsUiSchema = {
           children: [
             {
               'ui:row': [
-
                 { 'ui:col': { md: 12, children: ['AccessConstraints'] } },
                 { 'ui:col': { md: 12, children: ['UseConstraints'] } }
               ]
@@ -33,7 +32,7 @@ const serviceConstraintsUiSchema = {
   AccessConstraints: {
     'ui:title': 'Access Constraints',
     'ui:widget': 'textarea',
-    'ui:title-className': 'mediumTitle'
+    'ui:header-classname': 'h2-title'
   }
 }
 export default serviceConstraintsUiSchema

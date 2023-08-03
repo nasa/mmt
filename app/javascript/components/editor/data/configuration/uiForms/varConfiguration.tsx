@@ -44,10 +44,6 @@ const varConfiguration: FormSection[] = [
   {
     displayName: 'Related URLs',
     properties: ['RelatedURLs']
-  },
-  {
-    displayName: 'Instance Information',
-    properties: ['InstanceInformation']
   }
 ]
 export default varConfiguration

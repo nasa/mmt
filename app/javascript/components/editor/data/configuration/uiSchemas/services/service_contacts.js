@@ -4,6 +4,25 @@ import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiS
 import CustomCountrySelectWidget from '../../../../components/widgets/CustomCountrySelectWidget'
 
 const serviceContactsUiSchema = {
+  'ui:field': 'layout',
+  'ui:layout_grid': {
+    'ui:row': [
+      {
+        'ui:group': 'Service Contacts',
+        'ui:col': {
+          md: 12,
+          children: [
+            {
+              'ui:row': [
+                { 'ui:col': { md: 12, children: ['ContactGroups'] } },
+                { 'ui:col': { md: 12, children: ['ContactPersons'] } }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
   ContactGroups: {
     'ui:title': 'Contact Groups',
     items: {
@@ -16,23 +35,9 @@ const serviceContactsUiSchema = {
               children: [
                 {
                   'ui:row': [
-                    { 'ui:col': { md: 12, children: ['GroupName'] } }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    { 'ui:col': { md: 12, children: ['Roles'] } }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        className: 'field-left-border field-bottom-border',
-                        md: 12,
-                        children: ['ContactInformation']
-                      }
-                    }
+                    { 'ui:col': { md: 12, children: ['GroupName'] } },
+                    { 'ui:col': { md: 12, children: ['Roles'] } },
+                    { 'ui:col': { md: 12, children: ['ContactInformation'] } }
                   ]
                 }
               ]
@@ -40,13 +45,12 @@ const serviceContactsUiSchema = {
           }
         ]
       },
-      Roles: {
-        'ui:group': 'ContactGroups',
-        'ui:widget': CustomMultiSelectWidget
-      },
       GroupName: {
-        'ui:title': 'Contact Group Name',
+        'ui:title': 'Group Name',
         'ui:widget': CustomTextWidget
+      },
+      Roles: {
+        'ui:widget': CustomMultiSelectWidget
       },
       ContactInformation: {
         'ui:field': 'layout',
@@ -59,6 +63,7 @@ const serviceContactsUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
+                    'ui:group-classname': 'h3-title',
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -92,6 +97,7 @@ const serviceContactsUiSchema = {
         },
         ContactMechanisms: {
           'ui:title': 'Contact Mechanism',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -117,7 +123,9 @@ const serviceContactsUiSchema = {
           }
         },
         Addresses: {
-          'ui:title': 'Address',
+          // Has to stay as "Address" otherwise the array title reads as "Addresse" since the parsed title simply removes an s.
+          'ui:title': 'Contact Address',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -134,6 +142,7 @@ const serviceContactsUiSchema = {
                       },
                       {
                         'ui:group': 'Street Addresses',
+                        'ui:group-classname': 'h3-title',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
@@ -166,6 +175,7 @@ const serviceContactsUiSchema = {
         },
         OnlineResources: {
           'ui:title': 'Online Resources',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -274,6 +284,7 @@ const serviceContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
+                    'ui:group-classname': 'h3-title',
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -309,6 +320,7 @@ const serviceContactsUiSchema = {
         },
         ContactMechanisms: {
           'ui:title': 'Contact Mechanism',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -334,7 +346,8 @@ const serviceContactsUiSchema = {
           }
         },
         Addresses: {
-          'ui:title': 'Address',
+          'ui:title': 'Contact Address',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -345,6 +358,7 @@ const serviceContactsUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
+                        'ui:group-classname': 'h3-title',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
@@ -382,6 +396,7 @@ const serviceContactsUiSchema = {
         },
         OnlineResources: {
           'ui:title': 'Online Resources',
+          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -437,4 +452,5 @@ const serviceContactsUiSchema = {
     }
   }
 }
+
 export default serviceContactsUiSchema

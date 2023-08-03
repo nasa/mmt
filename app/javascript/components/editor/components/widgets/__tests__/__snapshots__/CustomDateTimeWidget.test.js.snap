@@ -4785,13 +4785,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       31
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, August 1st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--001"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       1
                     </div>
@@ -4806,12 +4805,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       2
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, August 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       3
                     </div>
@@ -6477,13 +6477,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       31
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, August 1st, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--001"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       1
                     </div>
@@ -6498,12 +6497,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       2
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Thursday, August 3rd, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--003"
+                      class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       3
                     </div>
@@ -6988,7 +6988,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -7038,7 +7038,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -7088,7 +7088,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -7139,7 +7139,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -9085,7 +9085,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -9133,7 +9133,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -9190,10 +9190,10 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -9205,9 +9205,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -9229,7 +9227,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -9618,7 +9616,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i

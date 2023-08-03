@@ -97,7 +97,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -147,7 +147,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -197,7 +197,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -248,7 +248,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -474,7 +474,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -522,7 +522,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -579,10 +579,10 @@ exports[`Navigation View Component cancels changes 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -594,9 +594,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -618,7 +616,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -1007,7 +1005,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -3848,7 +3846,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -3898,7 +3896,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -3948,7 +3946,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -3999,7 +3997,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -4225,7 +4223,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -4273,7 +4271,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -4330,10 +4328,10 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -4345,9 +4343,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -4369,7 +4365,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -4758,7 +4754,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -16050,7 +16046,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -16100,7 +16096,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -16150,7 +16146,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -16201,7 +16197,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -16427,7 +16423,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -16475,7 +16471,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -16532,10 +16528,10 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -16547,9 +16543,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -16571,7 +16565,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -16960,7 +16954,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -19848,7 +19842,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -19898,7 +19892,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -19948,7 +19942,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -19999,7 +19993,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -20225,7 +20219,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -20273,7 +20267,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -20330,10 +20324,10 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -20345,9 +20339,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -20369,7 +20361,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -20758,7 +20750,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i

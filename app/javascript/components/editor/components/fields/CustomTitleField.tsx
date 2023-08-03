@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react'
 import React from 'react'
-import './CustomTitleField.css'
 import { FieldProps } from '@rjsf/utils'
 import _ from 'lodash'
 
@@ -25,7 +24,7 @@ class CustomTitleField extends React.Component<CustomTitleFieldProps, never> {
 
   render() {
     const {
-      title, required, registry, className
+      title, required, registry, className = 'h1-title'
     } = this.props
     const { formContext } = registry
     const { editor } = formContext
@@ -50,8 +49,8 @@ class CustomTitleField extends React.Component<CustomTitleFieldProps, never> {
 
     return (
       <div>
-        <div ref={this.scrollRef} className="custom-title-header">
-          <span data-testid="custom-title-field--heading" className={`custom-title-field-heading ${className}`}>
+        <div ref={this.scrollRef} className="h1-box">
+          <span data-testid="custom-title-field--heading" className={`${className}`}>
             {heading}
             {required ? <i data-testid="custom-title-field--required" className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
