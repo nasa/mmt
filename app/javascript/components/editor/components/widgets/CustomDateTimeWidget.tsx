@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import DatePicker from 'react-datepicker'
@@ -92,7 +92,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
     const {
       required, label, onChange, value, options, id, schema, registry
     } = this.props
-    const { title = label } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
 
@@ -107,7 +107,7 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
     return (
       <div className="custom-date-time-widget" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
         <div className="custom-date-time-widget-label">
-          <span>
+          <span className="metadata-editor-field-label">
             {title}
             {required ? '*' : ''}
           </span>

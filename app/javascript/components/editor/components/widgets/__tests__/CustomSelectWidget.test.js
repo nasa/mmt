@@ -216,7 +216,7 @@ describe('Custom Select Widget Component', () => {
         <CustomSelectWidget {...props} />
       </BrowserRouter>
     )
-    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel')
+    expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(container).toMatchSnapshot()
   })
   it('should call onChange when the first option is selected then second option', async () => {

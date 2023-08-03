@@ -1,5 +1,5 @@
 import { WidgetProps } from '@rjsf/utils'
-import { kebabCase } from 'lodash'
+import _, { kebabCase } from 'lodash'
 import React from 'react'
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
@@ -61,14 +61,14 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
     const {
       label, options, required, id
     } = this.props
-    const { title = label } = options
+    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { country, filterOptions } = this.state
 
     return (
 
       <div className="country-select-widget" data-testid={`country-select-widget__${kebabCase(label)}`}>
         <div>
-          <span data-testid={`country-select-widget__${kebabCase(label)}--title`}>
+          <span className="metadata-editor-field-label" data-testid={`country-select-widget__${kebabCase(label)}--title`}>
             {title}
             {required ? '*' : ''}
           </span>

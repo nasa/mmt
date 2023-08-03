@@ -3,7 +3,7 @@
 import { UiSchema } from '@rjsf/utils'
 import relatedUrlsUiSchema from '../data/configuration/uiSchemas/variables/related_urls'
 import UmmModel from './UmmModel'
-import CustomArrayFieldTemplate from '../components/CustomArrayFieldTemplate'
+import CustomArrayFieldTemplate from '../components/templates/CustomArrayFieldTemplate'
 import varConfiguration from '../data/configuration/uiForms/varConfiguration'
 import schema from '../data/schemas/umm_var_schema'
 import scienceKeywordsUiSchema from '../data/configuration/uiSchemas/variables/science_keywords'
@@ -13,6 +13,7 @@ import fillValuesUiSchema from '../data/configuration/uiSchemas/variables/fill_v
 import SamplingIdentifiersUiSchema from '../data/configuration/uiSchemas/variables/sampling_identifiers'
 import measurementIdentifiersUiSchema from '../data/configuration/uiSchemas/variables/measurement_identifiers'
 import SetsUiSchema from '../data/configuration/uiSchemas/variables/sets'
+import instanceInformation from '../data/configuration/uiSchemas/variables/instance_information'
 
 export default class UmmVarModel extends UmmModel {
   constructor() {
@@ -93,6 +94,17 @@ export default class UmmVarModel extends UmmModel {
     }
     if (this.currentSection.displayName === 'Sets') {
       const uiSchema: any = SetsUiSchema
+      return { ...uiSchema, ...base }
+    }
+    if (this.currentSection.displayName === 'Instance Information') {
+      const uiSchema: any = instanceInformation
+
+      // Retrieves Format enums from KMS
+      const formatUiSchema: any = uiSchema.InstanceInformation.Format
+      formatUiSchema['ui:service'] = this.service
+      formatUiSchema['ui:keyword_schema'] = 'granule_data_format'
+      formatUiSchema['ui:keyword_scheme_column_names'] = ['short_name']
+
       return { ...uiSchema, ...base }
     }
     return { ...base }

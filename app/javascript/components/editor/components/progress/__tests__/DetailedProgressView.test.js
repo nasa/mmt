@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 
 import { act } from 'react-dom/test-utils'
-import DeleteDraftView from '../../deleteView/DeleteDraftView'
+import DeleteDraftView from '../../DeleteDraftView'
 import DetailedProgressView from '../DetailedProgressView'
 
 import MetadataEditor from '../../../MetadataEditor'

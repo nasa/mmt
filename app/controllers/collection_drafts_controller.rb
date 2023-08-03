@@ -605,6 +605,16 @@ class CollectionDraftsController < BaseDraftsController
         coordinate1_max = system.fetch('Coordinate1', {}).fetch('MaximumValue', nil)
         coordinate2_min = system.fetch('Coordinate2', {}).fetch('MinimumValue', nil)
         coordinate2_max = system.fetch('Coordinate2', {}).fetch('MaximumValue', nil)
+        #
+        if !is_number?(coordinate1_min) || !is_number?(coordinate1_max)
+          error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate1/Should not be an alpha numeric field"
+          error << error
+        end
+
+        if !is_number?(coordinate2_min) || !is_number?(coordinate2_max)
+          error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate2/Should not be an alpha numeric field"
+          error << error
+        end
 
         if coordinate1_min && coordinate1_max && coordinate1_min > coordinate1_max
           error = "The property '#/TilingIdentificationSystems/#{index}/Coordinate1/MinimumValue' is larger than MaximumValue"

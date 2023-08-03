@@ -86,7 +86,7 @@ describe('Custom Multi Select Widget Component', () => {
 
     const { container } = render(<CustomMultiSelectWidget {...props} />)
 
-    expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('MyTestDataLabel')
+    expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Web')
     expect(screen.getByTestId('custom-multi-select-widget__my-test-data-label--selector')).toHaveTextContent('Portal')
     expect(container).toMatchSnapshot()

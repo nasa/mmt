@@ -271,7 +271,7 @@ const toolContactsUiSchema = {
           }
         },
         Addresses: {
-          'ui:title': 'Addresss',
+          'ui:title': 'Address',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {

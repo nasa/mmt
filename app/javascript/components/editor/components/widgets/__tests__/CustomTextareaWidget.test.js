@@ -62,7 +62,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my test area data label')
+    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('My Test Area Data Label')
     expect(container).toMatchSnapshot()
   })
 

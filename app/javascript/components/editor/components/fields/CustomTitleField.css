@@ -1,0 +1,12 @@
+.custom-title-header {
+    border-bottom: solid 2px rgb(240, 240, 240);
+    padding-bottom: 6px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.required-icon {
+    color: green;
+    padding: 5px
+}
+
