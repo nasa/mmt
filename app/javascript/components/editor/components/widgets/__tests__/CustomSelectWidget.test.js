@@ -165,6 +165,7 @@ describe('Custom Select Widget Component', () => {
     expect(screen.getByTestId('custom-select-widget__my-test-data-label--selector')).not.toHaveTextContent('Web Portal')
     expect(container).toMatchSnapshot()
   })
+
   it('renders the custom select widget when required field', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
@@ -219,6 +220,7 @@ describe('Custom Select Widget Component', () => {
     expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(container).toMatchSnapshot()
   })
+
   it('should call onChange when the first option is selected then second option', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
@@ -388,6 +390,74 @@ describe('Custom Select Widget Component', () => {
     await waitFor(async () => {
       expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
     })
+    expect(container).toMatchSnapshot()
+  })
+
+  it('deselect box works with items enums', async () => {
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+    const selectedValues = []
+    const mockedOnChange = jest.fn((value) => {
+      // If the value is not already in the selectedValues array, add it
+      if (!selectedValues.includes(value)) {
+        selectedValues.push(value)
+      } else {
+        // Otherwise, remove it from the selectedValues array
+        const index = selectedValues.indexOf(value)
+        if (index !== -1) {
+          selectedValues.splice(index, 1)
+        }
+      }
+    })
+
+    const schema = {
+      items: {
+        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      }
+    }
+    const props = {
+      label: 'MyTestDataLabel',
+      required: true,
+      schema,
+      id: 'mock_id',
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
+      },
+      options: {
+        title: 'My Test Data Label'
+      },
+      onChange: mockedOnChange
+    }
+    const { container, getByText, queryByTestId } = render(
+      <BrowserRouter>
+        <CustomSelectWidget {...props} />
+      </BrowserRouter>
+    )
+
+    const mySelectComponent = queryByTestId('custom-select-widget__my-test-data-label--selector')
+
+    expect(mySelectComponent).toBeDefined()
+    expect(mySelectComponent).not.toBeNull()
+    expect(mockedOnChange).toHaveBeenCalledTimes(0)
+
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('Option1'))
+    expect(mockedOnChange).toHaveBeenCalledWith('Option1')
+    expect(selectedValues).toEqual(['Option1'])
+
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('Option3'))
+    expect(mockedOnChange).toHaveBeenCalledWith('Option3')
+    expect(selectedValues).toEqual(['Option1', 'Option3'])
+
+    // Deselect 'Option1'
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('Option1'))
+    expect(mockedOnChange).toHaveBeenCalledWith('Option1')
+    expect(selectedValues).toEqual(['Option3'])
+
+    expect(mockedOnChange).toHaveBeenCalledTimes(3)
     expect(container).toMatchSnapshot()
   })
 })

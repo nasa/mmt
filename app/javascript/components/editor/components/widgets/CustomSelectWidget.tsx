@@ -149,6 +149,14 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
       placeholder = `Select ${title}`
     }
 
+    if (enumOptions && enumOptions.length > 0) {
+      enumOptions.forEach((option: EnumOptionsType<RJSFSchema>) => {
+        if (option.value && option.label) {
+          selectOptions.push({ value: option.value, label: option.label })
+        }
+      })
+    }
+
     return (
       <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`} ref={this.selectScrollRef}>
         <div>
@@ -170,7 +178,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
             // @ts-ignore
-            options={selectOptions ?? enumOptions}
+            options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
