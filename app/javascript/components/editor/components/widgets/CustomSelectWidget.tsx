@@ -170,7 +170,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
             // @ts-ignore
-            options={enumOptions ?? selectOptions}
+            options={selectOptions ?? enumOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
