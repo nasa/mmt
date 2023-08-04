@@ -16,7 +16,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 1
       </span>
@@ -48,7 +48,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 2
       </span>
@@ -80,7 +80,7 @@ exports[`StreetAddressFieldTest basic test 1`] = `
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 3
       </span>
@@ -123,7 +123,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 1
       </span>
@@ -155,7 +155,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 2
       </span>
@@ -187,7 +187,7 @@ exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 3
       </span>
@@ -230,7 +230,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 1
       </span>
@@ -262,7 +262,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 2
       </span>
@@ -294,7 +294,7 @@ exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 3
       </span>
@@ -337,7 +337,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-1--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 1
       </span>
@@ -369,7 +369,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-2--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 2
       </span>
@@ -401,7 +401,7 @@ exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
       data-testid="custom-text-widget__address-line-3--text-header"
     >
       <span
-        class="metadata-editor-field-label"
+        class="metadata-editor-field-label null"
       >
         Address Line 3
       </span>

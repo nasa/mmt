@@ -16,21 +16,29 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
-            />
+            >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
+            </div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 104px; padding: 15px;"
@@ -174,21 +182,28 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
             >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
               <li>
                 EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; DESKTOP GEOGRAPHIC INFORMATION SYSTEMS
                 <a
@@ -343,21 +358,28 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
             >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
               <li>
                 EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
                 <a
@@ -505,21 +527,28 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
             >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
               <li>
                 EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
                 <a
@@ -705,21 +734,29 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
-            />
+            >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
+            </div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 104px; padding: 15px;"
@@ -863,21 +900,28 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
             >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
               <li>
                 EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; MOBILE GEOGRAPHIC INFORMATION SYSTEMS
                 <a
@@ -1032,21 +1076,28 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               >
                 Tool Keyword
               </span>
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
             >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
               <li>
                 EARTH SCIENCE SERVICES &gt; DATA MANAGEMENT/DATA HANDLING &gt; CATALOGING &gt; 
                 <a
@@ -1185,19 +1236,27 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               />
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
-            />
+            >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
+            </div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: -10px; padding: 15px;"
@@ -1311,19 +1370,27 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               />
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
-            />
+            >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
+            </div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: -48px; padding: 15px;"
@@ -1433,19 +1500,27 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
         >
           <div>
             <div
-              class="title-header"
+              class="h2-box"
             >
               <span
-                class="keyword-picker-title"
+                class="h2-title"
               />
-              <hr
-                class="border-0 bg-secondary title-hr"
+            </div>
+            <div>
+              <span
+                class="description-box"
               />
             </div>
             <div
               class="added-keywords"
               data-testid="added-tool-keywords"
-            />
+            >
+              <span
+                class="h3-title"
+              >
+                Added Keywords:
+              </span>
+            </div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: -10px; padding: 15px;"

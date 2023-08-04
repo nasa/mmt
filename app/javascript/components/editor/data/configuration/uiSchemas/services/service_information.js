@@ -3,6 +3,7 @@ const serviceInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Service Information',
         'ui:col': {
           md: 12,
           children: [
@@ -65,38 +66,16 @@ const serviceInformationUiSchema = {
     'ui:widget': 'textarea'
   },
   URL: {
-    'ui:root': 'URL',
     'ui:title': 'URL',
-    'ui:field': 'layout',
-    'ui:layout_grid': {
-      'ui:row': [
-        {
-          'ui:group': 'URL',
-          'ui:col': {
-            children: [
-              {
-                'ui:row': [
-                  { 'ui:col': { md: 12, children: ['Description'] } }
-                ]
-              },
-              {
-                'ui:row': [
-                  { 'ui:col': { md: 12, children: ['URLValue'] } }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
+    'ui:header-classname': 'h2-title',
     Description: {
-      'ui:title': 'URL Description',
+      'ui:title': 'Description',
       'ui:widget': 'textarea'
     },
     URLValue: {
       'ui:title': 'URL Value'
     }
   }
-
 }
+
 export default serviceInformationUiSchema

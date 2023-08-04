@@ -12,7 +12,8 @@ interface UmmServicesFormProps {
   heading: string,
   token: string,
   user: string,
-  provider: string
+  provider: string,
+  shouldRedirectAfterPublish: boolean
 }
 
 class UmmServicesForm extends React.Component<UmmServicesFormProps, never> {
@@ -20,9 +21,11 @@ class UmmServicesForm extends React.Component<UmmServicesFormProps, never> {
   editor: MetadataEditor
   constructor(props: UmmServicesFormProps) {
     super(props)
-    const { token, user, provider } = this.props
+    const {
+      token, user, provider, shouldRedirectAfterPublish
+    } = this.props
     this.model = new UmmServicesModel()
-    this.editor = new MetadataEditor(this.model, token, user, provider)
+    this.editor = new MetadataEditor(this.model, token, user, provider, shouldRedirectAfterPublish)
   }
 
   render() {

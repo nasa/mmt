@@ -122,7 +122,7 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
-        <div className="metadata-editor-field-description" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+        <div className="description-box" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
           <span>
             {setFocus ? schema.description : ''}
           </span>

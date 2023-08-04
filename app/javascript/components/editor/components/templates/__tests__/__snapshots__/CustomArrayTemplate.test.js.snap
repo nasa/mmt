@@ -16,12 +16,16 @@ exports[`Custom Array Template renders the custom array template and adds an arr
           data-testid="custom-array-template"
         >
           <div
-            class="metadata-editor-array-field-title title"
+            class="h2-box"
           >
-            Custom Array Field Test
+            <span
+              class="h2-title"
+            >
+              Custom Array Field Test
+            </span>
           </div>
           <p
-            class="metadata-editor-field-description"
+            class="description-box"
           />
           <br />
           <div
@@ -34,15 +38,13 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 class="remove-header"
               >
                 <div
-                  class="metadata-editor-index-label"
+                  class="h3-title"
                 >
-                  <b>
+                  <span>
                     Custom Array Field Test
-                  </b>
-                  <span
-                    class="element-index-title"
-                  >
-                    (1 of 2)
+                  </span>
+                  <span>
+                     (1 of 2)
                   </span>
                 </div>
                 <button
@@ -202,15 +204,13 @@ exports[`Custom Array Template renders the custom array template and adds an arr
                 class="remove-header"
               >
                 <div
-                  class="metadata-editor-index-label"
+                  class="h3-title"
                 >
-                  <b>
+                  <span>
                     Custom Array Field Test
-                  </b>
-                  <span
-                    class="element-index-title"
-                  >
-                    (2 of 2)
+                  </span>
+                  <span>
+                     (2 of 2)
                   </span>
                 </div>
                 <button
@@ -420,12 +420,16 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
           data-testid="custom-array-template"
         >
           <div
-            class="metadata-editor-array-field-title title"
+            class="h2-box"
           >
-            Custom Array Field Test
+            <span
+              class="h2-title"
+            >
+              Custom Array Field Test
+            </span>
           </div>
           <p
-            class="metadata-editor-field-description"
+            class="description-box"
           />
           <br />
           <div
@@ -438,15 +442,13 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                 class="remove-header"
               >
                 <div
-                  class="metadata-editor-index-label"
+                  class="h3-title"
                 >
-                  <b>
+                  <span>
                     Custom Array Field Test
-                  </b>
-                  <span
-                    class="element-index-title"
-                  >
-                    (1 of 2)
+                  </span>
+                  <span>
+                     (1 of 2)
                   </span>
                 </div>
                 <button
@@ -606,15 +608,13 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
                 class="remove-header"
               >
                 <div
-                  class="metadata-editor-index-label"
+                  class="h3-title"
                 >
-                  <b>
+                  <span>
                     Custom Array Field Test
-                  </b>
-                  <span
-                    class="element-index-title"
-                  >
-                    (2 of 2)
+                  </span>
+                  <span>
+                     (2 of 2)
                   </span>
                 </div>
                 <button

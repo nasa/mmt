@@ -1,32 +1,9 @@
-.title {
-  font-size: 22px;
-  font-weight: 550;
-
-  border-bottom: solid 2px rgb(240, 240, 240);
-  padding-bottom: 14px;
-  padding-top: 14px
-}
-
-.small-bold-title {
-  font-size: 1rem;
-  font-weight: 550;
-
-  border-bottom: solid 2px rgb(240, 240, 240);
-  padding-bottom: 14px;
-  padding-top: 14px
-}
-
 .element {
   border-left: solid 6px rgb(240, 240, 240);
   border-bottom: solid 2px rgb(240, 240, 240);
-  margin-bottom: 25px;
+  margin-bottom: 40px;
   padding-left: 10px;
-}
-
-.element-index-title {
-  color: gray;
-  margin-left: 5px;
-  padding-top: 20px
+  /* background-color: rgb(240, 240, 240); */
 }
 
 .remove-header {
@@ -34,8 +11,6 @@
   align-items: center;
   justify-content: space-between;
   margin-right: -12px;
-  border-bottom: solid 2px rgb(240, 240, 240);
-  margin-bottom: 10px;
   padding-bottom: 10px
 }
 
@@ -58,7 +33,7 @@
 
 .add-button {
   color: rgb(31, 107, 162);
-  margin-left: -12px
+  margin-left: -12px;
 }
 
 .add-label {

@@ -7,7 +7,7 @@ exports[`Custom Text Widget Component Make sure inputted text is shorter than ma
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
     </span>
@@ -40,7 +40,7 @@ exports[`Custom Text Widget Component Type number input 1`] = `
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
     </span>
@@ -73,7 +73,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget value 
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
       <i
@@ -109,7 +109,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget when r
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
       <i
@@ -145,7 +145,7 @@ exports[`Custom Text Widget Component renders the custom Text widget when requir
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
       <i
@@ -181,7 +181,7 @@ exports[`Custom Text Widget Component renders the custom text widget when not re
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       My Test Data Label
     </span>
@@ -214,7 +214,7 @@ exports[`Custom Text Widget Component should call onChange on a first character 
     data-testid="custom-text-widget__my-test-data-label--text-header"
   >
     <span
-      class="metadata-editor-field-label"
+      class="metadata-editor-field-label null"
     >
       my title
     </span>
@@ -321,10 +321,10 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
@@ -333,7 +333,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -485,10 +485,10 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                         >
                                           <div>
                                             <div
-                                              class="custom-title-header"
+                                              class="h1-box"
                                             >
                                               <span
-                                                class="custom-title-field-heading undefined"
+                                                class="h1-title"
                                                 data-testid="custom-title-field--heading"
                                               >
                                                 Target
@@ -501,13 +501,11 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                           </div>
                                         </span>
                                         <div
-                                          class="metadata-editor-field-description group-description"
+                                          class="description-box"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
-                                        <div
-                                          class="col-children"
-                                        >
+                                        <div>
                                           <div
                                             class="row row-children"
                                           >
@@ -646,7 +644,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
@@ -688,7 +686,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
@@ -738,12 +736,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      Response Content Type
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        Response Content Type
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
@@ -758,15 +760,13 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               Response Content Type
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -810,7 +810,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Response Content Type
                                                                 <i
@@ -888,15 +888,19 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      HTTP Method
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        HTTP Method
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
@@ -911,15 +915,13 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               HTTP Method
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -1122,12 +1124,16 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="metadata-editor-array-field-title title"
+                                      class="h2-box"
                                     >
-                                      Query Input
+                                      <span
+                                        class="h2-title"
+                                      >
+                                        Query Input
+                                      </span>
                                     </div>
                                     <p
-                                      class="metadata-editor-field-description"
+                                      class="description-box"
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
@@ -1142,15 +1148,13 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                           class="remove-header"
                                         >
                                           <div
-                                            class="metadata-editor-index-label"
+                                            class="h3-title"
                                           >
-                                            <b>
+                                            <span>
                                               Query Input
-                                            </b>
-                                            <span
-                                              class="element-index-title"
-                                            >
-                                              (1 of 1)
+                                            </span>
+                                            <span>
+                                               (1 of 1)
                                             </span>
                                           </div>
                                           <button
@@ -1217,7 +1221,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Type
                                                             <i
@@ -1261,7 +1265,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Description
                                                           </span>
@@ -1302,7 +1306,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Name
                                                             <i
@@ -4282,7 +4286,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -4334,7 +4338,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -4384,7 +4388,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -4435,7 +4439,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -4663,7 +4667,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -4711,7 +4715,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -4768,10 +4772,10 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -4783,9 +4787,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -4807,7 +4809,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -5196,7 +5198,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -8095,10 +8097,10 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                               >
                                 <div>
                                   <div
-                                    class="custom-title-header"
+                                    class="h1-box"
                                   >
                                     <span
-                                      class="custom-title-field-heading undefined"
+                                      class="h1-title"
                                       data-testid="custom-title-field--heading"
                                     >
                                       Potential Action
@@ -8107,7 +8109,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                 </div>
                               </span>
                               <div
-                                class="metadata-editor-field-description group-description"
+                                class="description-box"
                               >
                                 This element contains information about a smart handoff from one web user interface to another.
                               </div>
@@ -8259,10 +8261,10 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                         >
                                           <div>
                                             <div
-                                              class="custom-title-header"
+                                              class="h1-box"
                                             >
                                               <span
-                                                class="custom-title-field-heading undefined"
+                                                class="h1-title"
                                                 data-testid="custom-title-field--heading"
                                               >
                                                 Target
@@ -8275,13 +8277,11 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                           </div>
                                         </span>
                                         <div
-                                          class="metadata-editor-field-description group-description"
+                                          class="description-box"
                                         >
                                           The HTTP endpoint definition.
                                         </div>
-                                        <div
-                                          class="col-children"
-                                        >
+                                        <div>
                                           <div
                                             class="row row-children"
                                           >
@@ -8420,7 +8420,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
@@ -8462,7 +8462,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <span>
                                                       <span
-                                                        class="metadata-editor-field-label  "
+                                                        class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
@@ -8512,12 +8512,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      Response Content Type
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        Response Content Type
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
@@ -8532,15 +8536,13 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               Response Content Type
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -8584,7 +8586,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                               data-testid="custom-text-widget__response-content-type--text-header"
                                                             >
                                                               <span
-                                                                class="metadata-editor-field-label"
+                                                                class="metadata-editor-field-label null"
                                                               >
                                                                 Response Content Type
                                                                 <i
@@ -8662,15 +8664,19 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                     data-testid="custom-array-template"
                                                   >
                                                     <div
-                                                      class="metadata-editor-array-field-title title"
+                                                      class="h2-box"
                                                     >
-                                                      HTTP Method
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
+                                                      <span
+                                                        class="h2-title"
+                                                      >
+                                                        HTTP Method
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
                                                     </div>
                                                     <p
-                                                      class="metadata-editor-field-description"
+                                                      class="description-box"
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
@@ -8685,15 +8691,13 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           class="remove-header"
                                                         >
                                                           <div
-                                                            class="metadata-editor-index-label"
+                                                            class="h3-title"
                                                           >
-                                                            <b>
+                                                            <span>
                                                               HTTP Method
-                                                            </b>
-                                                            <span
-                                                              class="element-index-title"
-                                                            >
-                                                              (1 of 1)
+                                                            </span>
+                                                            <span>
+                                                               (1 of 1)
                                                             </span>
                                                           </div>
                                                           <button
@@ -8896,12 +8900,16 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                     data-testid="custom-array-template"
                                   >
                                     <div
-                                      class="metadata-editor-array-field-title title"
+                                      class="h2-box"
                                     >
-                                      Query Input
+                                      <span
+                                        class="h2-title"
+                                      >
+                                        Query Input
+                                      </span>
                                     </div>
                                     <p
-                                      class="metadata-editor-field-description"
+                                      class="description-box"
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
@@ -8916,15 +8924,13 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                           class="remove-header"
                                         >
                                           <div
-                                            class="metadata-editor-index-label"
+                                            class="h3-title"
                                           >
-                                            <b>
+                                            <span>
                                               Query Input
-                                            </b>
-                                            <span
-                                              class="element-index-title"
-                                            >
-                                              (1 of 1)
+                                            </span>
+                                            <span>
+                                               (1 of 1)
                                             </span>
                                           </div>
                                           <button
@@ -8991,7 +8997,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Type
                                                             <i
@@ -9035,7 +9041,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Description
                                                           </span>
@@ -9076,7 +9082,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
                                                           <span
-                                                            class="metadata-editor-field-label"
+                                                            class="metadata-editor-field-label null"
                                                           >
                                                             Value Name
                                                             <i

@@ -75,7 +75,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -125,7 +125,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -175,7 +175,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -226,7 +226,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -454,7 +454,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -502,7 +502,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -559,10 +559,10 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -574,9 +574,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -598,7 +596,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -987,7 +985,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -3885,7 +3883,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -3935,7 +3933,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -3985,7 +3983,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -4036,7 +4034,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -4264,7 +4262,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -4312,7 +4310,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -4369,10 +4367,10 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -4384,9 +4382,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -4408,7 +4404,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -4797,7 +4793,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -7687,12 +7683,16 @@ exports[`Error List test testing array field 1`] = `
                         data-testid="custom-array-template"
                       >
                         <div
-                          class="metadata-editor-array-field-title title"
+                          class="h2-box"
                         >
-                          Related URLs
+                          <span
+                            class="h2-title"
+                          >
+                            Related URLs
+                          </span>
                         </div>
                         <p
-                          class="metadata-editor-field-description"
+                          class="description-box"
                         >
                           A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.
                         </p>
@@ -7707,15 +7707,13 @@ exports[`Error List test testing array field 1`] = `
                               class="remove-header"
                             >
                               <div
-                                class="metadata-editor-index-label"
+                                class="h3-title"
                               >
-                                <b>
+                                <span>
                                   Related URL
-                                </b>
-                                <span
-                                  class="element-index-title"
-                                >
-                                  (1 of 1)
+                                </span>
+                                <span>
+                                   (1 of 1)
                                 </span>
                               </div>
                               <button
@@ -7783,7 +7781,7 @@ exports[`Error List test testing array field 1`] = `
                                             >
                                               <span>
                                                 <span
-                                                  class="metadata-editor-field-label  "
+                                                  class="metadata-editor-field-label null"
                                                 >
                                                   Description
                                                 </span>
@@ -8232,7 +8230,7 @@ exports[`Error List test testing array field 1`] = `
                                               data-testid="custom-text-widget__url--text-header"
                                             >
                                               <span
-                                                class="metadata-editor-field-label"
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL
                                                 <i
@@ -11723,7 +11721,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -11773,7 +11771,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -11823,7 +11821,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -11874,7 +11872,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -12102,7 +12100,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -12150,7 +12148,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -12207,10 +12205,10 @@ exports[`Error List test testing for controlled Field 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -12222,9 +12220,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -12246,7 +12242,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -12635,7 +12631,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i
@@ -15533,7 +15529,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-widget__name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Name
                               <i
@@ -15585,7 +15581,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-widget__long-name--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Long Name
                               <i
@@ -15635,7 +15631,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-widget__version--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               Version
                               <i
@@ -15686,7 +15682,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Version Description
                               </span>
@@ -15914,7 +15910,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                           >
                             <span>
                               <span
-                                class="metadata-editor-field-label  "
+                                class="metadata-editor-field-label null"
                               >
                                 Description
                               </span>
@@ -15962,7 +15958,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-text-widget__doi--text-header"
                           >
                             <span
-                              class="metadata-editor-field-label"
+                              class="metadata-editor-field-label null"
                             >
                               DOI
                             </span>
@@ -16019,10 +16015,10 @@ exports[`Error List test testing valid field onClick 1`] = `
                                 >
                                   <div>
                                     <div
-                                      class="custom-title-header"
+                                      class="h1-box"
                                     >
                                       <span
-                                        class="custom-title-field-heading undefined"
+                                        class="h1-title"
                                         data-testid="custom-title-field--heading"
                                       >
                                         URL
@@ -16034,9 +16030,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                     </div>
                                   </div>
                                 </span>
-                                <div
-                                  class="col-children"
-                                >
+                                <div>
                                   <div
                                     class="row row-children"
                                   >
@@ -16058,7 +16052,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                           >
                                             <span>
                                               <span
-                                                class="metadata-editor-field-label  "
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Description
                                               </span>
@@ -16447,7 +16441,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
                                             <span
-                                              class="metadata-editor-field-label"
+                                              class="metadata-editor-field-label null"
                                             >
                                               URL Value
                                               <i

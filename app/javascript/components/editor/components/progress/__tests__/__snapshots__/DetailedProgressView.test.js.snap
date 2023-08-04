@@ -10822,7 +10822,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               data-testid="custom-text-widget__name--text-header"
                             >
                               <span
-                                class="metadata-editor-field-label"
+                                class="metadata-editor-field-label null"
                               >
                                 Name
                                 <i
@@ -10872,7 +10872,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               data-testid="custom-text-widget__long-name--text-header"
                             >
                               <span
-                                class="metadata-editor-field-label"
+                                class="metadata-editor-field-label null"
                               >
                                 Long Name
                                 <i
@@ -10922,7 +10922,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               data-testid="custom-text-widget__version--text-header"
                             >
                               <span
-                                class="metadata-editor-field-label"
+                                class="metadata-editor-field-label null"
                               >
                                 Version
                                 <i
@@ -10973,7 +10973,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                             >
                               <span>
                                 <span
-                                  class="metadata-editor-field-label  "
+                                  class="metadata-editor-field-label null"
                                 >
                                   Version Description
                                 </span>
@@ -11201,7 +11201,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                             >
                               <span>
                                 <span
-                                  class="metadata-editor-field-label  "
+                                  class="metadata-editor-field-label null"
                                 >
                                   Description
                                 </span>
@@ -11249,7 +11249,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               data-testid="custom-text-widget__doi--text-header"
                             >
                               <span
-                                class="metadata-editor-field-label"
+                                class="metadata-editor-field-label null"
                               >
                                 DOI
                               </span>
@@ -11306,10 +11306,10 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   >
                                     <div>
                                       <div
-                                        class="custom-title-header"
+                                        class="h1-box"
                                       >
                                         <span
-                                          class="custom-title-field-heading undefined"
+                                          class="h1-title"
                                           data-testid="custom-title-field--heading"
                                         >
                                           URL
@@ -11321,9 +11321,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                       </div>
                                     </div>
                                   </span>
-                                  <div
-                                    class="col-children"
-                                  >
+                                  <div>
                                     <div
                                       class="row row-children"
                                     >
@@ -11345,7 +11343,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                             >
                                               <span>
                                                 <span
-                                                  class="metadata-editor-field-label  "
+                                                  class="metadata-editor-field-label null"
                                                 >
                                                   URL Description
                                                 </span>
@@ -11734,7 +11732,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                               data-testid="custom-text-widget__url-value--text-header"
                                             >
                                               <span
-                                                class="metadata-editor-field-label"
+                                                class="metadata-editor-field-label null"
                                               >
                                                 URL Value
                                                 <i

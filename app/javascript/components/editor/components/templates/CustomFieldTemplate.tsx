@@ -3,10 +3,10 @@ import { FieldTemplateProps } from '@rjsf/utils'
 import React from 'react'
 
 interface CustomFieldTemplateProps extends FieldTemplateProps {
-    classNames: string,
-    help: any,
-    errors: any,
-    children: any
+  classNames: string,
+  help: any,
+  errors: any,
+  children: any
 }
 
 /**

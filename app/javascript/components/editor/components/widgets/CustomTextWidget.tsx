@@ -86,6 +86,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     const { focusField } = editor
     const disabledFlag = disabled || false
     const fieldType = uiSchema ? uiSchema['ui:type'] : null
+    const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
     let shouldFocus = false
     const id = this.identifier
 
@@ -104,7 +105,7 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
       <>
         <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`} ref={this.inputScrollRef}>
           {title && (
-            <span className="metadata-editor-field-label">
+            <span className={`metadata-editor-field-label ${headerClassName}`}>
               {title}
               {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
             </span>

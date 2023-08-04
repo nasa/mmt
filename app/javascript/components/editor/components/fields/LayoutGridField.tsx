@@ -321,6 +321,8 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
 
     const group = layoutGridSchema['ui:group']
     const groupDescription = layoutGridSchema['ui:group-description']
+    const groupClassName = layoutGridSchema['ui:group-classname']
+
     if (group) {
       const {
         registry, idSchema
@@ -348,6 +350,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                 <TitleField
                   name={title}
                   title={title}
+                  className={groupClassName}
                   required={required}
                   onBlur={undefined}
                   onFocus={undefined}
@@ -363,11 +366,11 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
               ) : null}
             </span>
             {groupDescription ? (
-              <div className="metadata-editor-field-description group-description">
+              <div className="description-box">
                 {description}
               </div>
             ) : null}
-            <div className="col-children">
+            <div>
               {this.renderChildren(children, controlName)}
             </div>
           </fieldset>
@@ -606,13 +609,13 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
           // childIdSchema[key].$id = this.removeRedundantParentName(parentName, childIdSchema[key].$id)
           // childIdSchema[key].$id = childIdSchema[key].$id.replace('root_', parentName)
         }
-        // console.log('final id', childIdSchema)
       })
     } else {
       idSchema.$id = name
     }
 
     const { properties = {} } = schema
+
     if (properties[name] && !render) {
       return (
         <span data-testid={`layout-grid-field__schema-field--${kebabCase(name)}`}>
@@ -666,7 +669,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const group = layoutGridSchema['ui:group']
     const groupCheckbox = layoutGridSchema['ui:group-checkbox']
     const groupDescription = layoutGridSchema['ui:group-description']
-    const groupClassName = layoutGridSchema['ui:group-className']
+    const groupClassName = layoutGridSchema['ui:group-classname']
 
     if (group) {
       const { registry } = this.props
@@ -686,8 +689,8 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
               {title ? (
                 <TitleField
                   name={title}
-                  className={groupClassName}
                   title={title}
+                  className={groupClassName}
                   required={required}
                   formContext={formContext}
                   onBlur={undefined}
@@ -704,7 +707,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
               ) : null}
             </span>
             {groupDescription ? (
-              <div className="metadata-editor-field-description group-description">
+              <div className="description-box">
                 {description}
               </div>
             ) : null}

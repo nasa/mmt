@@ -81,8 +81,9 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
-    const classNames = uiSchema['ui:classNames'] ?? ''
-    const titleClassName = uiSchema['ui:title-className'] ?? ''
+    // const classNames = uiSchema['ui:classNames'] ?? ''
+    // const titleClassName = uiSchema['ui:title-className'] ?? ''
+    const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
     const { maxLength, description } = schema
     const { value, charsUsed, showDescription } = this.state
     const { focusField } = editor
@@ -100,7 +101,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
       <>
         <div className="widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`} ref={this.textareaScrollRef}>
           <span>
-            <span className={`metadata-editor-field-label ${classNames} ${titleClassName}`}>
+            <span className={`metadata-editor-field-label ${headerClassName}`}>
               {title}
             </span>
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}

@@ -8,15 +8,15 @@ const serviceOptionsUiSchema = {
             md: 12,
             children: [
               {
-                'ui:group': 'Options',
+                'ui:group': 'Service Options',
                 'ui:group-description': true,
                 'ui:row': [
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['Subset'] } },
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['VariableAggregationSupportedMethods'] } },
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['SupportedInputProjections'] } },
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['SupportedOutputProjections'] } },
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['InterpolationTypes'] } },
-                  { 'ui:col': { className: 'field-left-border', md: 12, children: ['SupportedReformattings'] } }
+                  { 'ui:col': { md: 12, children: ['Subset'] } },
+                  { 'ui:col': { md: 12, children: ['VariableAggregationSupportedMethods'] } },
+                  { 'ui:col': { md: 12, children: ['SupportedInputProjections'] } },
+                  { 'ui:col': { md: 12, children: ['SupportedOutputProjections'] } },
+                  { 'ui:col': { md: 12, children: ['InterpolationTypes'] } },
+                  { 'ui:col': { md: 12, children: ['SupportedReformattings'] } }
                 ]
               }
             ]
@@ -33,11 +33,41 @@ const serviceOptionsUiSchema = {
     SupportedInputProjections: {
       'ui:title': 'Supported Input Projections',
       items: {
-        'ui:title': 'Supported Input Projection'
+        'ui:title': 'Supported Input Projection',
+        'ui:header-classname': 'h3-title'
       }
     },
     SupportedOutputProjections: {
-      'ui:title': 'Supported Output Projections'
+      'ui:title': 'Supported Output Projections',
+      items: {
+        'ui:title': 'Supported Output Projection',
+        'ui:header-classname': 'h3-title'
+      }
+    },
+    SupportedReformattings: {
+      items: {
+        'ui:field': 'layout',
+        'ui:layout_grid': {
+          'ui:row': [
+            {
+              'ui:col': {
+                md: 12,
+                children: [
+                  {
+                    'ui:row': [
+                      { 'ui:col': { md: 12, children: ['SupportedInputFormat'] } },
+                      { 'ui:col': { md: 12, children: ['SupportedOutputFormats'] } }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        SupportedOutputFormats: {
+          'ui:header-classname': 'h3-title'
+        }
+      }
     },
     Subset: {
       'ui:title': 'Subset',
@@ -45,6 +75,7 @@ const serviceOptionsUiSchema = {
       'ui:layout_grid': {
         'ui:group': 'Subset',
         'ui:group-description': true,
+        'ui:group-classname': 'h2-title',
         'ui:row': [
           {
             'ui:col': {
