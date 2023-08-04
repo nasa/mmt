@@ -8,6 +8,8 @@
 
 require 'multi_xml'
 require 'timeout'
+require 'erb'
+include ERB::Util
 
 module Cmr
   class Local
