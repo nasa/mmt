@@ -8,6 +8,8 @@
 
 require 'multi_xml'
 require 'timeout'
+require 'erb'
+include ERB::Util
 
 module Cmr
   class Local
@@ -625,7 +627,7 @@ module Cmr
           response = connection.put do |req|
             if data['collection_uri'].include? 'EDF_DEV06'
               # collection with not url friendly native id
-              encoded_bad_native_id = CGI.escape('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
+              encoded_bad_native_id = url_encode('AMSR-E/Aqua & 5-Day, L3 Global Snow Water Equivalent EASE-Grids V001')
               req.url("http://localhost:3002/providers/LARC/collections/#{encoded_bad_native_id}")
             elsif data['collection_uri'].include? 'NSIDC_ECS'
               req.url("http://localhost:3002/providers/NSIDC_ECS/collections/collection#{index}")
