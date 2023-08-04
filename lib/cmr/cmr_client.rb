@@ -729,7 +729,7 @@ module Cmr
     end
 
     def encode_if_needed(url_fragment)
-      valid_uri?(url_fragment) ? url_fragment : CGI.escape(url_fragment)
+      valid_uri?(url_fragment) ? url_fragment : url_encode(url_fragment)
     end
   end
 end
