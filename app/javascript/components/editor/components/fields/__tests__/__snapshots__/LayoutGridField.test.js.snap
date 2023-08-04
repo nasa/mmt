@@ -25882,6 +25882,25 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
               </button>
             </div>
             <div
+              class="navigation-item navigation-item-no-focus"
+              data-testid="navigationitem--instance-information"
+            >
+              <button
+                class="navigation-item navigation-item-no-focus list-group-item list-group-item-action"
+                data-testid="navigationitem--listgroup.item__instance-information"
+              >
+                <span
+                  class="section"
+                >
+                  <i
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+                  />
+                   
+                  Instance Information
+                </span>
+              </button>
+            </div>
+            <div
               class="form"
             >
               <form
@@ -27946,6 +27965,370 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                       </fieldset>
                     </div>
                     <div
+                      class="form-group field field-object"
+                    >
+                      <fieldset
+                        id="root_InstanceInformation"
+                      >
+                        <legend
+                          id="root_InstanceInformation__title"
+                        >
+                          InstanceInformation
+                        </legend>
+                        <p
+                          class="field-description"
+                          id="root_InstanceInformation__description"
+                        >
+                          Describes a store (zarr) where a variable has been separated from its original data files and saved as its own entity.
+                        </p>
+                        <div
+                          class="form-group field field-string"
+                        >
+                          <label
+                            class="control-label"
+                            for="root_InstanceInformation_URL"
+                          >
+                            URL
+                            <span
+                              class="required"
+                            >
+                              *
+                            </span>
+                          </label>
+                          <p
+                            class="field-description"
+                            id="root_InstanceInformation_URL__description"
+                          >
+                            The internet location of the variable instance store.
+                          </p>
+                          <input
+                            aria-describedby="root_InstanceInformation_URL__error root_InstanceInformation_URL__description root_InstanceInformation_URL__help"
+                            class="form-control"
+                            id="root_InstanceInformation_URL"
+                            label="URL"
+                            name="root_InstanceInformation_URL"
+                            placeholder=""
+                            required=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                        <div
+                          class="form-group field field-string"
+                        >
+                          <label
+                            class="control-label"
+                            for="root_InstanceInformation_Format"
+                          >
+                            Format
+                            <span
+                              class="required"
+                            >
+                              *
+                            </span>
+                          </label>
+                          <p
+                            class="field-description"
+                            id="root_InstanceInformation_Format__description"
+                          >
+                            Describes the format of the URL's data content so that users and applications know how to read and use the content. At this point in time, an industry standard mime-type does not exist, so a mime-type element will not be included. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat?gtm_scheme=DataFormat
+                          </p>
+                          <input
+                            aria-describedby="root_InstanceInformation_Format__error root_InstanceInformation_Format__description root_InstanceInformation_Format__help"
+                            class="form-control"
+                            id="root_InstanceInformation_Format"
+                            label="Format"
+                            name="root_InstanceInformation_Format"
+                            placeholder=""
+                            required=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                        <div
+                          class="form-group field field-string"
+                        >
+                          <label
+                            class="control-label"
+                            for="root_InstanceInformation_Description"
+                          >
+                            Description
+                          </label>
+                          <p
+                            class="field-description"
+                            id="root_InstanceInformation_Description__description"
+                          >
+                            Brief description of the store or any other useful information about the store.
+                          </p>
+                          <input
+                            aria-describedby="root_InstanceInformation_Description__error root_InstanceInformation_Description__description root_InstanceInformation_Description__help"
+                            class="form-control"
+                            id="root_InstanceInformation_Description"
+                            label="Description"
+                            name="root_InstanceInformation_Description"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                        <div
+                          class="form-group field field-object"
+                        >
+                          <fieldset
+                            id="root_InstanceInformation_DirectDistributionInformation"
+                          >
+                            <legend
+                              id="root_InstanceInformation_DirectDistributionInformation__title"
+                            >
+                              DirectDistributionInformation
+                            </legend>
+                            <p
+                              class="field-description"
+                              id="root_InstanceInformation_DirectDistributionInformation__description"
+                            >
+                              This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region.
+                            </p>
+                            <div
+                              class="form-group field field-string"
+                            >
+                              <label
+                                class="control-label"
+                                for="root_InstanceInformation_DirectDistributionInformation_Region"
+                              >
+                                Region
+                                <span
+                                  class="required"
+                                >
+                                  *
+                                </span>
+                              </label>
+                              <p
+                                class="field-description"
+                                id="root_InstanceInformation_DirectDistributionInformation_Region__description"
+                              >
+                                Defines the possible values for the Amazon Web Service US Regions where the data product resides.
+                              </p>
+                              <select
+                                aria-describedby="root_InstanceInformation_DirectDistributionInformation_Region__error root_InstanceInformation_DirectDistributionInformation_Region__description root_InstanceInformation_DirectDistributionInformation_Region__help"
+                                class="form-control"
+                                id="root_InstanceInformation_DirectDistributionInformation_Region"
+                                name="root_InstanceInformation_DirectDistributionInformation_Region"
+                                required=""
+                              >
+                                <option
+                                  value=""
+                                />
+                                <option
+                                  value="0"
+                                >
+                                  us-east-1
+                                </option>
+                                <option
+                                  value="1"
+                                >
+                                  us-east-2
+                                </option>
+                                <option
+                                  value="2"
+                                >
+                                  us-west-1
+                                </option>
+                                <option
+                                  value="3"
+                                >
+                                  us-west-2
+                                </option>
+                              </select>
+                            </div>
+                            <div
+                              class="form-group field field-array"
+                            >
+                              <fieldset
+                                class="field field-array field-array-of-string"
+                                id="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames"
+                              >
+                                <legend
+                                  id="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames__title"
+                                >
+                                  S3BucketAndObjectPrefixNames
+                                </legend>
+                                <p
+                                  class="field-description"
+                                  id="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames__description"
+                                >
+                                  Defines the possible values for the Amazon Web Service US S3 bucket and/or object prefix names.
+                                </p>
+                                <div
+                                  class="row array-item-list"
+                                >
+                                  <div
+                                    class="array-item"
+                                  >
+                                    <div
+                                      class="col-xs-9"
+                                    >
+                                      <div
+                                        class="form-group field field-string"
+                                      >
+                                        <label
+                                          class="control-label"
+                                          for="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0"
+                                        >
+                                          S3BucketAndObjectPrefixNames-0
+                                          <span
+                                            class="required"
+                                          >
+                                            *
+                                          </span>
+                                        </label>
+                                        <input
+                                          aria-describedby="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0__error root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0__description root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0__help"
+                                          class="form-control"
+                                          id="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0"
+                                          label="S3BucketAndObjectPrefixNames-0"
+                                          name="root_InstanceInformation_DirectDistributionInformation_S3BucketAndObjectPrefixNames_0"
+                                          placeholder=""
+                                          required=""
+                                          type="text"
+                                          value=""
+                                        />
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="col-xs-3 array-item-toolbox"
+                                    >
+                                      <div
+                                        class="btn-group"
+                                        style="display: flex; justify-content: space-around;"
+                                      >
+                                        <button
+                                          class="btn btn-danger array-item-remove"
+                                          style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
+                                          title="Remove"
+                                          type="button"
+                                        >
+                                          <i
+                                            class="glyphicon glyphicon-remove"
+                                          />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="row"
+                                >
+                                  <p
+                                    class="col-xs-3 col-xs-offset-9 text-right array-item-add"
+                                  >
+                                    <button
+                                      class="btn btn-info btn-add col-xs-12"
+                                      title="Add"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="glyphicon glyphicon-plus"
+                                      />
+                                    </button>
+                                  </p>
+                                </div>
+                              </fieldset>
+                            </div>
+                            <div
+                              class="form-group field field-string"
+                            >
+                              <label
+                                class="control-label"
+                                for="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint"
+                              >
+                                S3CredentialsAPIEndpoint
+                                <span
+                                  class="required"
+                                >
+                                  *
+                                </span>
+                              </label>
+                              <p
+                                class="field-description"
+                                id="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint__description"
+                              >
+                                Defines the URL where the credentials are stored.
+                              </p>
+                              <input
+                                aria-describedby="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint__error root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint__description root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint__help"
+                                class="form-control"
+                                id="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint"
+                                label="S3CredentialsAPIEndpoint"
+                                name="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIEndpoint"
+                                placeholder=""
+                                required=""
+                                type="url"
+                                value=""
+                              />
+                            </div>
+                            <div
+                              class="form-group field field-string"
+                            >
+                              <label
+                                class="control-label"
+                                for="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL"
+                              >
+                                S3CredentialsAPIDocumentationURL
+                                <span
+                                  class="required"
+                                >
+                                  *
+                                </span>
+                              </label>
+                              <p
+                                class="field-description"
+                                id="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL__description"
+                              >
+                                Defines the URL where the credential documentation are stored.
+                              </p>
+                              <input
+                                aria-describedby="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL__error root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL__description root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL__help"
+                                class="form-control"
+                                id="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL"
+                                label="S3CredentialsAPIDocumentationURL"
+                                name="root_InstanceInformation_DirectDistributionInformation_S3CredentialsAPIDocumentationURL"
+                                placeholder=""
+                                required=""
+                                type="url"
+                                value=""
+                              />
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div
+                          class="form-group field field-string"
+                        >
+                          <label
+                            class="control-label"
+                            for="root_InstanceInformation_ChunkingInformation"
+                          >
+                            ChunkingInformation
+                          </label>
+                          <p
+                            class="field-description"
+                            id="root_InstanceInformation_ChunkingInformation__description"
+                          >
+                            Description of the chunking strategy for the store. Chunking information such as the chunk sizes should be documented.
+                          </p>
+                          <input
+                            aria-describedby="root_InstanceInformation_ChunkingInformation__error root_InstanceInformation_ChunkingInformation__description root_InstanceInformation_ChunkingInformation__help"
+                            class="form-control"
+                            id="root_InstanceInformation_ChunkingInformation"
+                            label="ChunkingInformation"
+                            name="root_InstanceInformation_ChunkingInformation"
+                            placeholder=""
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div
                       class="form-group field field-object field-error has-error has-danger"
                     >
                       <fieldset
@@ -28000,7 +28383,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             <option
                               value="0"
                             >
-                              https://cdn.earthdata.nasa.gov/umm/variable/v1.8.2
+                              https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0
                             </option>
                           </select>
                         </div>
@@ -28074,7 +28457,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             <option
                               value="0"
                             >
-                              1.8.2
+                              1.9.0
                             </option>
                           </select>
                         </div>
