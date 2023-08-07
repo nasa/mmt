@@ -5,7 +5,7 @@ import React from 'react'
 import Select from 'react-select'
 import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
-import { EnumOptionsType, RJSFSchema, WidgetProps } from '@rjsf/utils'
+import { WidgetProps } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
 import './Widget.css'
 import { parseCmrResponse } from '../../utils/cmr_keywords'
@@ -13,10 +13,6 @@ import Status from '../../model/Status'
 
 interface CustomSelectWidgetProps extends WidgetProps {
   label: string,
-  options: {
-    title?: string,
-    enumOptions?: EnumOptionsType<RJSFSchema>[]
-  },
   value: string,
   placeholder: string,
   isLoading: boolean,
@@ -103,7 +99,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const selectOptions: SelectOptions[] = []
     const { setFocus, loading } = this.state
     const {
-      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled, uiSchema = {}
+      required, label, schema, registry, isLoading = loading, disabled, uiSchema = {}
     } = this.props
     let {
       placeholder
@@ -112,7 +108,6 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const { items = {} } = schema
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
     const { value } = this.props
-    const { enumOptions } = options
     const { editor } = formContext
     const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
@@ -175,7 +170,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
             // @ts-ignore
-            options={enumOptions ?? selectOptions}
+            options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}
