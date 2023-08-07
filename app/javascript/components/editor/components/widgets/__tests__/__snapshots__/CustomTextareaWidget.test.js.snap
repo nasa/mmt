@@ -10,7 +10,7 @@ exports[`Custom Text Area Widget Component Make sure inputted text is shorter th
       <span
         class="metadata-editor-field-label null"
       >
-        my title
+        My Test Area Data Label
       </span>
     </span>
     <span>
@@ -23,7 +23,7 @@ exports[`Custom Text Area Widget Component Make sure inputted text is shorter th
     class="custom-textarea-widget-input"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
-    name="my title"
+    name="My Test Area Data Label"
   >
     test@mail.
   </textarea>
@@ -79,7 +79,7 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
       <span
         class="metadata-editor-field-label null"
       >
-        my title
+        My Test Area Data Label
       </span>
       <i
         class="eui-icon eui-required-o required-icon"
@@ -95,7 +95,7 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
     class="custom-textarea-widget-input"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
-    name="my title"
+    name="My Test Area Data Label"
   />
   <span
     class="widget-description"
@@ -114,7 +114,7 @@ exports[`Custom Text Area Widget Component renders the custom text area widget w
       <span
         class="metadata-editor-field-label null"
       >
-        my title
+        My Test Area Data Label
       </span>
     </span>
     <span>
@@ -127,7 +127,7 @@ exports[`Custom Text Area Widget Component renders the custom text area widget w
     class="custom-textarea-widget-input"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
-    name="my title"
+    name="My Test Area Data Label"
   />
   <span
     class="widget-description"
@@ -146,7 +146,7 @@ exports[`Custom Text Area Widget Component should call onChange on a first chara
       <span
         class="metadata-editor-field-label null"
       >
-        my title
+        My Test Area Data Label
       </span>
     </span>
     <span>
@@ -159,7 +159,7 @@ exports[`Custom Text Area Widget Component should call onChange on a first chara
     class="custom-textarea-widget-input"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="20"
-    name="my title"
+    name="My Test Area Data Label"
   >
     test@mail.comabc1234
   </textarea>
@@ -813,7 +813,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -928,7 +928,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -1044,7 +1044,7 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div

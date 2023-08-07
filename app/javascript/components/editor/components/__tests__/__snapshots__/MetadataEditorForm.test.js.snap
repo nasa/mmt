@@ -639,7 +639,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -754,7 +754,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -870,7 +870,7 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -4390,7 +4390,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4505,7 +4505,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4621,7 +4621,7 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -8220,7 +8220,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -8335,7 +8335,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -8451,7 +8451,7 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -12026,7 +12026,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -12141,7 +12141,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -12257,7 +12257,7 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div

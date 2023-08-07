@@ -641,7 +641,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -756,7 +756,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -872,7 +872,7 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -4449,7 +4449,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4564,7 +4564,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4680,7 +4680,7 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -12287,7 +12287,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -12402,7 +12402,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -12518,7 +12518,7 @@ exports[`Error List test testing for controlled Field 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -16097,7 +16097,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -16212,7 +16212,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -16328,7 +16328,7 @@ exports[`Error List test testing valid field onClick 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div

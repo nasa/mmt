@@ -1,6 +1,6 @@
 const SamplingIdentifiersUiSchema = {
   SamplingIdentifiers: {
-    'ui:title': 'Sampling Identifiters',
+    'ui:title': 'Sampling Identifiers',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

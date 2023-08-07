@@ -8,9 +8,6 @@ import './Widget.css'
 
 interface CustomTextWidgetProps extends WidgetProps {
   label: string,
-  options: {
-    title?: string
-  },
   schema: {
     maxLength: number,
     description: string
@@ -76,9 +73,8 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
 
   render() {
     const {
-      label = '', schema, required, disabled, options = {}, registry, uiSchema
+      label = '', schema, required, disabled, registry, uiSchema = {}
     } = this.props
-    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
     const { maxLength, description } = schema
@@ -89,6 +85,12 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
     const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
     let shouldFocus = false
     const id = this.identifier
+
+    let title = _.startCase(label.split(/-/)[0])
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
 
     if (focusField === id) {
       shouldFocus = true

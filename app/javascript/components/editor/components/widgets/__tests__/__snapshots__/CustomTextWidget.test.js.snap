@@ -9,7 +9,7 @@ exports[`Custom Text Widget Component Make sure inputted text is shorter than ma
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
     </span>
     <span>
       20
@@ -22,7 +22,7 @@ exports[`Custom Text Widget Component Make sure inputted text is shorter than ma
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="20"
-    name="my title"
+    name="My Test Data Label"
     type="text"
     value="test@mail.com1234567"
   />
@@ -42,7 +42,7 @@ exports[`Custom Text Widget Component Type number input 1`] = `
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
     </span>
     <span>
       0
@@ -55,7 +55,7 @@ exports[`Custom Text Widget Component Type number input 1`] = `
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="20"
-    name="my title"
+    name="My Test Data Label"
     type="number"
     value="1234.56"
   />
@@ -75,7 +75,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget value 
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
       <i
         class="eui-icon eui-required-o required-icon"
       />
@@ -91,7 +91,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget value 
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="10"
-    name="my title"
+    name="My Test Data Label"
     type="text"
     value=""
   />
@@ -111,7 +111,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget when r
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
       <i
         class="eui-icon eui-required-o required-icon"
       />
@@ -127,7 +127,7 @@ exports[`Custom Text Widget Component renders the custom Text area widget when r
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="10"
-    name="my title"
+    name="My Test Data Label"
     type="text"
     value=""
   />
@@ -147,7 +147,7 @@ exports[`Custom Text Widget Component renders the custom Text widget when requir
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
       <i
         class="eui-icon eui-required-o required-icon"
       />
@@ -163,7 +163,7 @@ exports[`Custom Text Widget Component renders the custom Text widget when requir
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="10"
-    name="my title"
+    name="My Test Data Label"
     type="text"
     value=""
   />
@@ -216,7 +216,7 @@ exports[`Custom Text Widget Component should call onChange on a first character 
     <span
       class="metadata-editor-field-label null"
     >
-      my title
+      My Test Data Label
     </span>
     <span>
       16
@@ -229,7 +229,7 @@ exports[`Custom Text Widget Component should call onChange on a first character 
     data-testid="custom-text-widget__my-test-data-label--text-input"
     id="my_title"
     maxlength="20"
-    name="my title"
+    name="My Test Data Label"
     type="text"
     value="test@mail.comabc"
   />
@@ -4854,7 +4854,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4969,7 +4969,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -5085,7 +5085,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div

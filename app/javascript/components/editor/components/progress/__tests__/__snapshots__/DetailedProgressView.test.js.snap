@@ -11388,7 +11388,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                               <span
                                                 class="metadata-editor-field-label"
                                               >
-                                                URL Content Type
+                                                URL
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
                                                 />
@@ -11503,7 +11503,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                               <span
                                                 class="metadata-editor-field-label"
                                               >
-                                                Type
+                                                URL
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
                                                 />
@@ -11619,7 +11619,7 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                               <span
                                                 class="metadata-editor-field-label"
                                               >
-                                                Subtype
+                                                URL
                                               </span>
                                             </div>
                                             <div

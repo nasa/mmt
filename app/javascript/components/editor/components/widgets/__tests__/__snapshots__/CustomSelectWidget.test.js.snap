@@ -109,7 +109,9 @@ exports[`Custom Select Widget Component renders the custom select widget when no
     <div>
       <span
         class="metadata-editor-field-label"
-      />
+      >
+        My Test Data Label
+      </span>
     </div>
     <div
       class="widget-description"
@@ -144,7 +146,7 @@ exports[`Custom Select Widget Component renders the custom select widget when no
               class=" css-1jqq78o-placeholder"
               id="react-select-5-placeholder"
             >
-              Select 
+              Select My Test Data Label
             </div>
             <div
               class=" css-qbdosj-Input"
@@ -768,7 +770,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           >
                                             <span
                                               class="css-1f43avz-a11yText-A11yText"
-                                              id="react-select-25-live-region"
+                                              id="react-select-22-live-region"
                                             />
                                             <span
                                               aria-atomic="false"
@@ -783,10 +785,9 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                 class=" css-1fdsijx-ValueContainer"
                                               >
                                                 <div
-                                                  class=" css-1jqq78o-placeholder"
-                                                  id="react-select-25-placeholder"
+                                                  class=" css-1dimb5e-singleValue"
                                                 >
-                                                  Select Type
+                                                  SearchAction
                                                 </div>
                                                 <div
                                                   class=" css-qbdosj-Input"
@@ -794,14 +795,13 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                 >
                                                   <input
                                                     aria-autocomplete="list"
-                                                    aria-describedby="react-select-25-placeholder"
                                                     aria-expanded="false"
                                                     aria-haspopup="true"
                                                     autocapitalize="none"
                                                     autocomplete="off"
                                                     autocorrect="off"
                                                     class=""
-                                                    id="react-select-25-input"
+                                                    id="react-select-22-input"
                                                     role="combobox"
                                                     spellcheck="false"
                                                     style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -940,7 +940,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                       >
                                                         <span
                                                           class="css-1f43avz-a11yText-A11yText"
-                                                          id="react-select-26-live-region"
+                                                          id="react-select-23-live-region"
                                                         />
                                                         <span
                                                           aria-atomic="false"
@@ -955,10 +955,9 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                             class=" css-1fdsijx-ValueContainer"
                                                           >
                                                             <div
-                                                              class=" css-1jqq78o-placeholder"
-                                                              id="react-select-26-placeholder"
+                                                              class=" css-1dimb5e-singleValue"
                                                             >
-                                                              Select Type
+                                                              EntryPoint
                                                             </div>
                                                             <div
                                                               class=" css-qbdosj-Input"
@@ -966,14 +965,13 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                             >
                                                               <input
                                                                 aria-autocomplete="list"
-                                                                aria-describedby="react-select-26-placeholder"
                                                                 aria-expanded="false"
                                                                 aria-haspopup="true"
                                                                 autocapitalize="none"
                                                                 autocomplete="off"
                                                                 autocorrect="off"
                                                                 class=""
-                                                                id="react-select-26-input"
+                                                                id="react-select-23-input"
                                                                 role="combobox"
                                                                 spellcheck="false"
                                                                 style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1046,7 +1044,9 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                     class="custom-textarea-widget-input"
                                                     data-testid="custom-text-area-widget__description--text-area-input"
                                                     name="Description"
-                                                  />
+                                                  >
+                                                    target description
+                                                  </textarea>
                                                   <span
                                                     class="widget-description"
                                                     data-testid="custom-text-area-widget--description-field__description"
@@ -1085,7 +1085,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                       />
                                                     </span>
                                                     <span>
-                                                      0
+                                                      12
                                                       /
                                                       4094
                                                     </span>
@@ -1095,7 +1095,9 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                     data-testid="custom-text-area-widget__url-template--text-area-input"
                                                     maxlength="4094"
                                                     name="URL Template"
-                                                  />
+                                                  >
+                                                    url template
+                                                  </textarea>
                                                   <span
                                                     class="widget-description"
                                                     data-testid="custom-text-area-widget--description-field__url-template"
@@ -1212,7 +1214,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
-                                                              value=""
+                                                              value="response content type"
                                                             />
                                                             <span
                                                               class="widget-description"
@@ -1379,7 +1381,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                 >
                                                                   <span
                                                                     class="css-1f43avz-a11yText-A11yText"
-                                                                    id="react-select-27-live-region"
+                                                                    id="react-select-24-live-region"
                                                                   />
                                                                   <span
                                                                     aria-atomic="false"
@@ -1403,10 +1405,9 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                       class=" css-1fdsijx-ValueContainer"
                                                                     >
                                                                       <div
-                                                                        class=" css-1jqq78o-placeholder"
-                                                                        id="react-select-27-placeholder"
+                                                                        class=" css-1dimb5e-singleValue"
                                                                       >
-                                                                        Select HTTP Method
+                                                                        GET
                                                                       </div>
                                                                       <div
                                                                         class=" css-qbdosj-Input"
@@ -1414,14 +1415,13 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                       >
                                                                         <input
                                                                           aria-autocomplete="list"
-                                                                          aria-describedby="react-select-27-placeholder"
                                                                           aria-expanded="false"
                                                                           aria-haspopup="true"
                                                                           autocapitalize="none"
                                                                           autocomplete="off"
                                                                           autocorrect="off"
                                                                           class=""
-                                                                          id="react-select-27-input"
+                                                                          id="react-select-24-input"
                                                                           role="combobox"
                                                                           spellcheck="false"
                                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5164,7 +5164,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL Content Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -5279,7 +5279,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Type
+                                              URL
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -5395,7 +5395,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              Subtype
+                                              URL
                                             </span>
                                           </div>
                                           <div
@@ -8317,7 +8317,7 @@ exports[`Var Keywords test with keywords from CMR fetches CMR keywords and updat
       <span
         class="metadata-editor-field-label"
       >
-        My Test Data Label
+        Mime Type
         <i
           class="eui-icon eui-required-o required-icon"
         />
@@ -8356,7 +8356,7 @@ exports[`Var Keywords test with keywords from CMR fetches CMR keywords and updat
               class=" css-1jqq78o-placeholder"
               id="react-select-2-placeholder"
             >
-              Select My Test Data Label
+              Select Mime Type
             </div>
             <div
               class=" css-qbdosj-Input"
@@ -8729,7 +8729,7 @@ exports[`Var Keywords test with keywords from CMR testing for error retrieving C
       <span
         class="metadata-editor-field-label"
       >
-        My Test Data Label
+        Mime Type
         <i
           class="eui-icon eui-required-o required-icon"
         />
@@ -8768,7 +8768,7 @@ exports[`Var Keywords test with keywords from CMR testing for error retrieving C
               class=" css-1jqq78o-placeholder"
               id="react-select-3-placeholder"
             >
-              Select My Test Data Label
+              Select Mime Type
             </div>
             <div
               class=" css-qbdosj-Input"
