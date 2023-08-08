@@ -59,18 +59,10 @@ const toolInformationUiSchema = {
       }
     ]
   },
-  LongName: {
-    'ui:title': 'Long Name'
-  },
   VersionDescription: {
-    'ui:title': 'Version Description',
     'ui:widget': 'textarea'
   },
-  LastUpdatedDate: {
-    'ui:title': 'Last Updated Date'
-  },
   Description: {
-    'ui:title': 'Description',
     'ui:widget': 'textarea'
   },
   Type: {
@@ -78,7 +70,6 @@ const toolInformationUiSchema = {
   },
   URL: {
     'ui:root': 'URL',
-    'ui:title': 'URL',
     'ui:field': 'layout',
     'ui:controlled': {
       keywords: urltypes,

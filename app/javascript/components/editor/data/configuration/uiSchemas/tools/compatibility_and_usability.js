@@ -67,15 +67,12 @@ const compatibilityAndUsabilityUiSchema = {
     ]
   },
   SupportedInputFormats: {
-    'ui:title': 'Supported Input Formats',
     'ui:widget': CustomMultiSelectWidget
   },
   SupportedOutputFormats: {
-    'ui:title': 'Supported Output Formats',
     'ui:widget': CustomMultiSelectWidget
   },
   SupportedOperatingSystems: {
-    'ui:title': 'Supported Operating Systems',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -98,17 +95,10 @@ const compatibilityAndUsabilityUiSchema = {
             }
           }
         ]
-      },
-      OperatingSystemName: {
-        'ui:title': 'Operating System Name'
-      },
-      OperatingSystemVersion: {
-        'ui:title': 'Operating System Version'
       }
     }
   },
   SupportedBrowsers: {
-    'ui:title': 'Supported Browsers',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -131,17 +121,10 @@ const compatibilityAndUsabilityUiSchema = {
             }
           }
         ]
-      },
-      BrowserName: {
-        'ui:title': 'Browser Name'
-      },
-      BrowserVersion: {
-        'ui:title': 'Browser Version'
       }
     }
   },
   SupportedSoftwareLanguages: {
-    'ui:title': 'Supported Software Languages',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -164,18 +147,11 @@ const compatibilityAndUsabilityUiSchema = {
             }
           }
         ]
-      },
-      SoftwareLanguageName: {
-        'ui:title': 'Software Language Name'
-      },
-      SoftwareLanguageVersion: {
-        'ui:title': 'Software Language Version'
       }
     }
   },
   Quality: {
     QualityFlag: {
-      'ui:title': 'Quality Flag',
       'ui:widget': CustomSelectWidget
     },
     Lineage: {
@@ -183,20 +159,12 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   UseConstraints: {
-    'ui:title': 'Use Constraints',
-    LicenseURL: {
-      'ui:title': 'License URL'
-    },
     LicenseText: {
-      'ui:title': 'License Text',
       'ui:widget': 'textarea'
     }
-
   },
   AccessConstraints: {
-    'ui:title': 'Access Constraints',
     'ui:widget': 'textarea'
   }
-
 }
 export default compatibilityAndUsabilityUiSchema

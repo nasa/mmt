@@ -6,7 +6,6 @@ const instanceInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:header-classname': 'h2-title',
         'ui:col': {
           md: 12,
           children: [
@@ -78,8 +77,8 @@ const instanceInformationUiSchema = {
       },
       S3BucketAndObjectPrefixNames: {
         'ui:title': 'S3 Bucket and Object Prefix Name',
-        'ui:header-classname': 'h3-title',
         items: {
+          'ui:header-classname': 'h3-title',
           'ui:title': 'S3 Bucket and Object Prefix Name'
         }
       },
@@ -91,9 +90,6 @@ const instanceInformationUiSchema = {
         'ui:title': 'S3 Credentials API Documentation URL',
         'ui:widget': CustomTextWidget
       }
-    },
-    ChunkingInformation: {
-      'ui:title': 'Chunking Information'
     }
   }
 }

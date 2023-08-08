@@ -5,7 +5,6 @@ const measurementIdentifiersUiSchema = {
   MeasurementIdentifiers: {
     'ui:title': 'Measurement Identifiers',
     items: {
-      'ui:title': 'Measurement Identifier',
       'ui:field': 'layout',
       'ui:controlled': {
         name: 'measurement_name',
@@ -50,11 +49,9 @@ const measurementIdentifiersUiSchema = {
         ]
       },
       MeasurementContextMedium: {
-        'ui:title': 'Measurement Context Medium',
         'ui:widget': CustomSelectWidget
       },
       MeasurementContextMediumURI: {
-        'ui:title': 'Measurement Context Medium URI',
         'ui:widget': CustomTextWidget
       },
       MeasurementObject: {
@@ -62,11 +59,9 @@ const measurementIdentifiersUiSchema = {
         'ui:widget': CustomSelectWidget
       },
       MeasurementObjectURI: {
-        'ui:title': 'Measurement Object URI',
         'ui:widget': CustomTextWidget
       },
       MeasurementQuantities: {
-        'ui:title': 'Measurement Quantities',
         'ui:className': 'small-bold-title',
         items: {
           'ui:title': 'Measurement Quantity',
@@ -98,11 +93,9 @@ const measurementIdentifiersUiSchema = {
             ]
           },
           Value: {
-            'ui:title': 'Value',
             'ui:widget': CustomSelectWidget
           },
           MeasurementQuantityURI: {
-            'ui:title': 'Measurement Quantity URI',
             'ui:widget': CustomTextWidget
           }
         }
