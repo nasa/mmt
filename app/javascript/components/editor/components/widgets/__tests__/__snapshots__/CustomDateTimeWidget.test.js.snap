@@ -4849,23 +4849,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       6
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Monday, August 7th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--007"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       7
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, August 8th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--008"
+                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       8
                     </div>
@@ -6541,23 +6541,23 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                       6
                     </div>
                     <div
-                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Monday, August 7th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                      class="react-datepicker__day react-datepicker__day--007"
                       role="option"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       7
                     </div>
                     <div
+                      aria-current="date"
                       aria-disabled="false"
                       aria-label="Choose Tuesday, August 8th, 2023"
                       aria-selected="false"
-                      class="react-datepicker__day react-datepicker__day--008"
+                      class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                       role="option"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       8
                     </div>
@@ -9272,7 +9272,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -9387,7 +9387,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -9503,7 +9503,7 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div

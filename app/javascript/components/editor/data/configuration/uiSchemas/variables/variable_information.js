@@ -142,6 +142,7 @@ const variableInformationUiSchema = {
     }
   },
   IndexRanges: {
+    'ui:title': 'Index Ranges',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:group': 'Index Ranges',

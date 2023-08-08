@@ -807,7 +807,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type--text-header"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
                                                               <span
                                                                 class="metadata-editor-field-label null"
@@ -820,7 +820,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type--text-input"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -828,7 +828,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type"
+                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
                                                             />
                                                           </div>
                                                         </div>
@@ -4854,7 +4854,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4969,7 +4969,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -5085,7 +5085,7 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div
@@ -8583,7 +8583,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type--text-header"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
                                                               <span
                                                                 class="metadata-editor-field-label null"
@@ -8596,7 +8596,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type--text-input"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -8604,7 +8604,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type"
+                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
                                                             />
                                                           </div>
                                                         </div>

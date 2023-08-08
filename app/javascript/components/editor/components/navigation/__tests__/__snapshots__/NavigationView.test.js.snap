@@ -661,7 +661,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -776,7 +776,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -892,7 +892,7 @@ exports[`Navigation View Component cancels changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div
@@ -4410,7 +4410,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4525,7 +4525,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -4641,7 +4641,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div
@@ -16610,7 +16610,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -16725,7 +16725,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -16841,7 +16841,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div
@@ -20406,7 +20406,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              URL Content Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -20521,7 +20521,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Type
                                               <i
                                                 class="eui-icon eui-required-o required-icon"
                                               />
@@ -20637,7 +20637,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                             <span
                                               class="metadata-editor-field-label"
                                             >
-                                              URL
+                                              Subtype
                                             </span>
                                           </div>
                                           <div

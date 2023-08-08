@@ -69,7 +69,7 @@ describe('Metadata Editor', () => {
 
     it('returns the ui schema for tool information', async () => {
       expect(editor.currentSection.displayName).toEqual('Tool Information')
-      expect(editor.uiSchema.LongName['ui:title']).toEqual('Long Name')
+      expect(editor.uiSchema.URL.Description['ui:title']).toEqual('URL Description')
     })
 
     it('returns empty ui schema a unknown section', async () => {
