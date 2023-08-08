@@ -6,6 +6,7 @@ const toolInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Tool Information',
         'ui:col': {
           md: 12,
           children: [
@@ -59,18 +60,10 @@ const toolInformationUiSchema = {
       }
     ]
   },
-  LongName: {
-    'ui:title': 'Long Name'
-  },
   VersionDescription: {
-    'ui:title': 'Version Description',
     'ui:widget': 'textarea'
   },
-  LastUpdatedDate: {
-    'ui:title': 'Last Updated Date'
-  },
   Description: {
-    'ui:title': 'Description',
     'ui:widget': 'textarea'
   },
   Type: {
@@ -78,7 +71,6 @@ const toolInformationUiSchema = {
   },
   URL: {
     'ui:root': 'URL',
-    'ui:title': 'URL',
     'ui:field': 'layout',
     'ui:controlled': {
       keywords: urltypes,
@@ -92,6 +84,8 @@ const toolInformationUiSchema = {
       'ui:row': [
         {
           'ui:group': 'URL',
+          'ui:group-classname': 'h2-title',
+          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [

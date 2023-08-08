@@ -38,7 +38,6 @@ describe('CustomTitleFieldTest', () => {
 
     render(<CustomTitleField
       title="My Custom Title"
-      uiSchema={{ options: { title: 'My UI Title' } }}
       required
       registry={{
         formContext: {
@@ -48,7 +47,7 @@ describe('CustomTitleFieldTest', () => {
       className="MyTitle"
     />)
 
-    expect(screen.getByTestId('custom-title-field--heading')).toHaveTextContent('My UI Title')
+    expect(screen.getByTestId('custom-title-field--heading')).toHaveTextContent('My Custom Title')
     expect(screen.getByTestId('custom-title-field--required')).toBeTruthy()
   })
 

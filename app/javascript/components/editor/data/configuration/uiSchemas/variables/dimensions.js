@@ -19,7 +19,8 @@ const dimensionsUiSchema = {
     ]
   },
   Dimensions: {
-    'ui:title': 'Dimensions',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -35,9 +36,10 @@ const dimensionsUiSchema = {
                 },
                 {
                   'ui:group': 'Size',
-                  'ui:group-className': 'field-title',
+                  'ui:group-classname': 'h3-title',
+                  'ui:group-box-classname': 'h2-box',
                   'ui:row': [
-                    { 'ui:col': { md: 6, className: 'field-left-border-padded field-bottom-padded', children: ['Size'] } }
+                    { 'ui:col': { md: 6, children: ['Size'] } }
                   ]
                 },
                 {

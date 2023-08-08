@@ -9,10 +9,15 @@ interface CustomRadioWidgetProps extends WidgetProps {
 class CustomRadioWidget extends React.Component<CustomRadioWidgetProps, never> {
   render() {
     const {
-      required, id, value, onChange, label = '', options = {}
+      required, id, value, onChange, label = '', uiSchema = {}
     } = this.props
-    const { title = _.startCase(label.split(/-/)[0]) } = options
     const componentId = 'custom-radio-widget'
+    let title = _.startCase(label.split(/-/)[0])
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
+
     return (
       <div className="custom-radio-widget" data-testid={`${componentId}`}>
         <div>

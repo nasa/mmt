@@ -3,7 +3,6 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 
 const organizationUiSchema = {
   ServiceOrganizations: {
-    'ui:title': 'Service Organizations',
     'ui:header-classname': 'h1-title',
     'ui:header-box-classname': 'h1-box',
     items: {
@@ -54,9 +53,9 @@ const organizationUiSchema = {
           }
         ]
       },
+      Roles: { 'ui:widget': CustomMultiSelectWidget },
       ShortName: { 'ui:title': 'Short Name' },
-      LongName: { 'ui:title': 'Long Name', 'ui:widget': CustomTextWidget },
-      Roles: { 'ui:title': 'Roles', 'ui:widget': CustomMultiSelectWidget },
+      LongName: { 'ui:widget': CustomTextWidget },
       OnlineResource: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -99,9 +98,6 @@ const organizationUiSchema = {
               }
             }
           ]
-        },
-        ApplicationProfile: {
-          'ui:title': 'Application Profile'
         },
         Description: {
           'ui:widget': 'textarea'

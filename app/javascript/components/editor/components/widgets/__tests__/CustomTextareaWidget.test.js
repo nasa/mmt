@@ -17,9 +17,6 @@ describe('Custom Text Area Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test area data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -36,8 +33,7 @@ describe('Custom Text Area Widget Component', () => {
         <CustomTextareaWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('my title')
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('0/10')
+    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('My Test Area Data Label0/10')
     expect(container).toMatchSnapshot()
   })
 
@@ -71,9 +67,6 @@ describe('Custom Text Area Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test area data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -90,8 +83,7 @@ describe('Custom Text Area Widget Component', () => {
       </BrowserRouter>
     )
     await act(async () => null) // Popper update() - https://github.com/popperjs/react-popper/issues/350
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).not.toHaveTextContent('my title*')
-    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).toHaveTextContent('0/10')
+    expect(getByTestId('custom-text-area-widget__my-test-area-data-label--text-area-header')).not.toHaveTextContent('My Test Area Data Label 0/10')
     expect(container).toMatchSnapshot()
   })
 
@@ -103,9 +95,6 @@ describe('Custom Text Area Widget Component', () => {
 
     const props = {
       label: 'my test area data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -135,9 +124,6 @@ describe('Custom Text Area Widget Component', () => {
     const mockedOnChange = jest.fn()
     const props = {
       label: 'my test area data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },

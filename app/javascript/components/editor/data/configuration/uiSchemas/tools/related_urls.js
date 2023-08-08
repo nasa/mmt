@@ -3,6 +3,8 @@ import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidge
 const relatedUrlsUiSchema = {
   RelatedURLs: {
     'ui:title': 'Related URLs',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -62,9 +64,6 @@ const relatedUrlsUiSchema = {
       Description: {
         'ui:widget': 'textarea'
       },
-      URLContentType: {
-        'ui:title': 'URL Content Type'
-      },
       Format: {
         'ui:widget': CustomSelectWidget,
         'ui:controlled': {
@@ -73,7 +72,6 @@ const relatedUrlsUiSchema = {
         }
       },
       MimeType: {
-        'ui:title': 'Mime Type',
         'ui:widget': CustomSelectWidget,
         'ui:controlled': {
           name: 'mime-type',

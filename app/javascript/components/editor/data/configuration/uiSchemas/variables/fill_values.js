@@ -4,9 +4,10 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 
 const fillValuesUiSchema = {
   FillValues: {
-    'ui:title': 'Fill Values',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
-      'ui:title': 'Fill Value',
+      'ui:title': 'Fill Values',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [
@@ -32,11 +33,9 @@ const fillValuesUiSchema = {
         ]
       },
       Value: {
-        'ui:title': 'Value',
         'ui:widget': CustomTextWidget
       },
       Type: {
-        'ui:title': 'Type',
         'ui:widget': CustomSelectWidget
 
       },

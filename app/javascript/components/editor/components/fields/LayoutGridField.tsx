@@ -322,6 +322,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const group = layoutGridSchema['ui:group']
     const groupDescription = layoutGridSchema['ui:group-description']
     const groupClassName = layoutGridSchema['ui:group-classname']
+    const groupBoxClassName = layoutGridSchema['ui:group-box-classname']
 
     if (group) {
       const {
@@ -351,6 +352,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                   name={title}
                   title={title}
                   className={groupClassName}
+                  boxClassName={groupBoxClassName}
                   required={required}
                   onBlur={undefined}
                   onFocus={undefined}
@@ -670,6 +672,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     const groupCheckbox = layoutGridSchema['ui:group-checkbox']
     const groupDescription = layoutGridSchema['ui:group-description']
     const groupClassName = layoutGridSchema['ui:group-classname']
+    const groupBoxClassName = layoutGridSchema['ui:group-box-classname']
 
     if (group) {
       const { registry } = this.props
@@ -691,6 +694,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
                   name={title}
                   title={title}
                   className={groupClassName}
+                  boxClassName={groupBoxClassName}
                   required={required}
                   formContext={formContext}
                   onBlur={undefined}

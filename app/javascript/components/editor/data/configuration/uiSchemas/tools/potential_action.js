@@ -34,8 +34,7 @@ const potentialActionUiSchema = {
       ]
     },
     Type: {
-      'ui:widget': CustomSelectWidget,
-      'ui:title': 'Type'
+      'ui:widget': CustomSelectWidget
     },
     Target: {
       'ui:field': 'layout',
@@ -44,8 +43,9 @@ const potentialActionUiSchema = {
           {
             'ui:group': 'Target',
             'ui:group-description': true,
+            'ui:group-classname': 'h2-title',
+            'ui:group-box-classname': 'h2-box',
             'ui:col': {
-              className: 'field-left-border',
               md: 12,
               children: [
                 {
@@ -86,9 +86,7 @@ const potentialActionUiSchema = {
         'ui:widget': 'textarea'
       },
       ResponseContentType: {
-        'ui:title': 'Response Content Type',
         items: {
-          'ui:title': 'Response Content Type',
           'ui:widget': CustomTextWidget
         }
       },
@@ -99,10 +97,8 @@ const potentialActionUiSchema = {
           'ui:widget': CustomSelectWidget
         }
       }
-
     },
     QueryInput: {
-      'ui:title': 'Query Input',
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -137,17 +133,13 @@ const potentialActionUiSchema = {
           ]
         },
         ValueType: {
-          'ui:title': 'Value Type',
           'ui:widget': CustomTextWidget
         },
         ValueName: {
-          'ui:title': 'Value Name',
           'ui:widget': CustomTextWidget
         },
         ValueRequired: {
-          'ui:title': 'Value Required',
           'ui:widget': CustomRadioWidget
-
         }
       }
     }

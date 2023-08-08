@@ -24,23 +24,13 @@ const serviceOptionsUiSchema = {
         }
       ]
     },
-    VariableAggregationSupportedMethods: {
-      'ui:title': 'Variable Aggregation Supported Methods',
-      items: {
-        'ui:title': 'Variable Aggregation Supported Methods'
-      }
-    },
     SupportedInputProjections: {
-      'ui:title': 'Supported Input Projections',
       items: {
-        'ui:title': 'Supported Input Projection',
         'ui:header-classname': 'h3-title'
       }
     },
     SupportedOutputProjections: {
-      'ui:title': 'Supported Output Projections',
       items: {
-        'ui:title': 'Supported Output Projection',
         'ui:header-classname': 'h3-title'
       }
     },
@@ -70,12 +60,12 @@ const serviceOptionsUiSchema = {
       }
     },
     Subset: {
-      'ui:title': 'Subset',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:group': 'Subset',
         'ui:group-description': true,
         'ui:group-classname': 'h2-title',
+        'ui:group-box-classname': 'h2-box',
         'ui:row': [
           {
             'ui:col': {
@@ -106,7 +96,6 @@ const serviceOptionsUiSchema = {
         ]
       },
       SpatialSubset: {
-        'ui:title': 'Spatial Subset',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [

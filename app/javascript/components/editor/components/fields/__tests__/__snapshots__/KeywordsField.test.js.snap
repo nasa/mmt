@@ -14,7 +14,9 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -29,19 +31,17 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
-              >
-                Added Keywords:
-              </span>
-            </div>
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          />
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 104px; padding: 15px;"
+              style="margin-left: 150px;"
             >
               <ul
                 class="eui-item-path"
@@ -77,7 +77,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -102px;"
+                style="margin-top: -150px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -135,22 +135,22 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -180,7 +180,9 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -195,29 +197,28 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          >
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; DESKTOP GEOGRAPHIC INFORMATION SYSTEMS
+              <a
+                data-testid="tool-keyword__added-keyword--0"
               >
-                Added Keywords:
-              </span>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; DESKTOP GEOGRAPHIC INFORMATION SYSTEMS
-                <a
-                  data-testid="tool-keyword__added-keyword--0"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-            </div>
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+          </div>
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 104px; padding: 15px;"
+              style="margin-left: 150px;"
             >
               <ul
                 class="eui-item-path"
@@ -253,7 +254,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -102px;"
+                style="margin-top: -150px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -311,22 +312,22 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -356,7 +357,9 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -371,29 +374,28 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          >
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
+              <a
+                data-testid="tool-keyword__added-keyword--0"
               >
-                Added Keywords:
-              </span>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
-                <a
-                  data-testid="tool-keyword__added-keyword--0"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-            </div>
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+          </div>
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 66px; padding: 15px;"
+              style="margin-left: 100px;"
             >
               <ul
                 class="eui-item-path"
@@ -422,7 +424,7 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -64px;"
+                style="margin-top: -100px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -480,22 +482,22 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -525,7 +527,9 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -540,39 +544,38 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          >
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
+              <a
+                data-testid="tool-keyword__added-keyword--0"
               >
-                Added Keywords:
-              </span>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; CALIBRATION/VALIDATION &gt; 
-                <a
-                  data-testid="tool-keyword__added-keyword--0"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; MOBILE GEOGRAPHIC INFORMATION SYSTEMS
-                <a
-                  data-testid="tool-keyword__added-keyword--1"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-            </div>
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; MOBILE GEOGRAPHIC INFORMATION SYSTEMS
+              <a
+                data-testid="tool-keyword__added-keyword--1"
+              >
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+          </div>
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 104px; padding: 15px;"
+              style="margin-left: 150px;"
             >
               <ul
                 class="eui-item-path"
@@ -608,7 +611,7 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -102px;"
+                style="margin-top: -150px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -687,22 +690,22 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -732,7 +735,9 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -747,19 +752,17 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
-              >
-                Added Keywords:
-              </span>
-            </div>
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          />
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 104px; padding: 15px;"
+              style="margin-left: 150px;"
             >
               <ul
                 class="eui-item-path"
@@ -795,7 +798,7 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -102px;"
+                style="margin-top: -150px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -853,22 +856,22 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -898,7 +901,9 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -913,29 +918,28 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          >
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; MOBILE GEOGRAPHIC INFORMATION SYSTEMS
+              <a
+                data-testid="tool-keyword__added-keyword--0"
               >
-                Added Keywords:
-              </span>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA ANALYSIS AND VISUALIZATION &gt; GEOGRAPHIC INFORMATION SYSTEMS &gt; MOBILE GEOGRAPHIC INFORMATION SYSTEMS
-                <a
-                  data-testid="tool-keyword__added-keyword--0"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-            </div>
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+          </div>
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 104px; padding: 15px;"
+              style="margin-left: 150px;"
             >
               <ul
                 class="eui-item-path"
@@ -971,7 +975,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -102px;"
+                style="margin-top: -150px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1029,22 +1033,22 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -1074,7 +1078,9 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -1089,29 +1095,28 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          >
+            <li>
+              EARTH SCIENCE SERVICES &gt; DATA MANAGEMENT/DATA HANDLING &gt; CATALOGING &gt; 
+              <a
+                data-testid="tool-keyword__added-keyword--0"
               >
-                Added Keywords:
-              </span>
-              <li>
-                EARTH SCIENCE SERVICES &gt; DATA MANAGEMENT/DATA HANDLING &gt; CATALOGING &gt; 
-                <a
-                  data-testid="tool-keyword__added-keyword--0"
-                >
-                  <i
-                    class="fa fa-times-circle remove-button"
-                  />
-                </a>
-              </li>
-            </div>
+                <i
+                  class="fa fa-times-circle remove-button"
+                />
+              </a>
+            </li>
+          </div>
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: 66px; padding: 15px;"
+              style="margin-left: 100px;"
             >
               <ul
                 class="eui-item-path"
@@ -1140,7 +1145,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: -64px;"
+                style="margin-top: -100px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1189,22 +1194,22 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -1234,7 +1239,9 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -1247,19 +1254,17 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
-              >
-                Added Keywords:
-              </span>
-            </div>
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          />
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: -10px; padding: 15px;"
+              style="margin-left: 0px;"
             >
               <ul
                 class="eui-item-path"
@@ -1274,7 +1279,7 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: 12px;"
+                style="margin-top: 0px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1323,22 +1328,22 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -1368,7 +1373,9 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -1381,19 +1388,17 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
-              >
-                Added Keywords:
-              </span>
-            </div>
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          />
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: -48px; padding: 15px;"
+              style="margin-left: -50px;"
             >
               <ul
                 class="eui-item-path"
@@ -1453,22 +1458,22 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
                 <ul />
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
@@ -1498,7 +1503,9 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
         <div
           id="keyword-picker"
         >
-          <div>
+          <div
+            class="keyword-pretext"
+          >
             <div
               class="h2-box"
             >
@@ -1511,19 +1518,17 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
                 class="description-box"
               />
             </div>
-            <div
-              class="added-keywords"
-              data-testid="added-tool-keywords"
-            >
-              <span
-                class="h3-title"
-              >
-                Added Keywords:
-              </span>
-            </div>
+          </div>
+          <div
+            class="added-keywords"
+            data-testid="added-tool-keywords"
+          />
+          <div
+            class="keyword-widget"
+          >
             <div
               class="eui-nested-item-picker"
-              style="margin-left: -10px; padding: 15px;"
+              style="margin-left: 0px;"
             >
               <ul
                 class="eui-item-path"
@@ -1538,7 +1543,7 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
               </ul>
               <div
                 class="eui-item-list-pane"
-                style="margin-top: 12px;"
+                style="margin-top: 0px;"
               >
                 <div
                   data-testid="tool-keyword__search-keyword-field"
@@ -1587,22 +1592,22 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
                 </ul>
               </div>
             </div>
-            <button
-              class="eui-btn--blue add-science-keyword btn btn-primary"
-              data-testid="tool-keyword__add-keyword-btn"
-              disabled=""
-              type="button"
-            >
-              <span
-                class="add-button-icon"
-              >
-                <i
-                  class="fa-solid fa-circle-plus fa-sm"
-                />
-              </span>
-              Add Keyword
-            </button>
           </div>
+          <button
+            class="eui-btn--blue add-science-keyword btn btn-primary"
+            data-testid="tool-keyword__add-keyword-btn"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="add-button-icon"
+            >
+              <i
+                class="fa-solid fa-circle-plus fa-sm"
+              />
+            </span>
+            Add Keyword
+          </button>
         </div>
       </div>
     </div>
