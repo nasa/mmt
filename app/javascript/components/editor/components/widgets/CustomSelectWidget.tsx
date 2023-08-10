@@ -130,11 +130,6 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
       title = uiSchema['ui:title']
     }
 
-    if (listOfEnums.length === 0 && retrievedSchema.enum) {
-      retrievedSchema.enum.forEach((currentEnum: string) => {
-        listOfEnums.push(currentEnum)
-      })
-    }
     selectOptions.push({ value: null, label: '✓' })
 
     // Extracting ui:options from uiSchema
