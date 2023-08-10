@@ -120,14 +120,21 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const { items = {} } = schema
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
     const { value } = this.props
-    let title = _.startCase(label.split(/-/)[0])
     const { editor } = formContext
+    const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
+
+    let title = _.startCase(label.split(/-/)[0])
 
     if (uiSchema['ui:title']) {
       title = uiSchema['ui:title']
     }
 
+    if (listOfEnums.length === 0 && retrievedSchema.enum) {
+      retrievedSchema.enum.forEach((currentEnum: string) => {
+        listOfEnums.push(currentEnum)
+      })
+    }
     selectOptions.push({ value: null, label: '✓' })
 
     // Extracting ui:options from uiSchema
