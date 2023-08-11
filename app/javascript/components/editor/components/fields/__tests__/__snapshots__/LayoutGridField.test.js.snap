@@ -831,12 +831,12 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                           >
                                             <div
                                               class="widget-header"
-                                              data-testid="custom-text-widget__contact-group-name--text-header"
+                                              data-testid="custom-text-widget__group-name--text-header"
                                             >
                                               <span
                                                 class="metadata-editor-field-label null"
                                               >
-                                                Contact Group Name
+                                                Group Name
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
                                                 />
@@ -849,16 +849,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                             </div>
                                             <input
                                               class="custom-text-widget-input"
-                                              data-testid="custom-text-widget__contact-group-name--text-input"
+                                              data-testid="custom-text-widget__group-name--text-input"
                                               id="ContactGroups_0_GroupName"
                                               maxlength="255"
-                                              name="Contact Group Name"
+                                              name="Group Name"
                                               type="text"
                                               value=""
                                             />
                                             <span
                                               class="widget-description"
-                                              data-testid="custom-text-widget--description-field__contact-group-name"
+                                              data-testid="custom-text-widget--description-field__group-name"
                                             />
                                           </div>
                                         </span>
@@ -1155,7 +1155,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                             <span
                                                               class="h2-title"
                                                             >
-                                                              Contact Mechanism
+                                                              Contact Mechanisms
                                                             </span>
                                                           </div>
                                                           <p
@@ -1169,7 +1169,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           >
                                                             <button
                                                               class="btn"
-                                                              data-testid="custom-array-template__add-button--contact-mechanism"
+                                                              data-testid="custom-array-template__add-button--contact-mechanisms"
                                                               type="button"
                                                             >
                                                               <span
@@ -4729,7 +4729,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type--text-header"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
                                                               <span
                                                                 class="metadata-editor-field-label null"
@@ -4742,7 +4742,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type--text-input"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -4750,7 +4750,7 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type"
+                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
                                                             />
                                                           </div>
                                                         </div>
@@ -8693,7 +8693,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           >
                                                             <div
                                                               class="widget-header"
-                                                              data-testid="custom-text-widget__response-content-type--text-header"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
                                                               <span
                                                                 class="metadata-editor-field-label null"
@@ -8706,7 +8706,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
-                                                              data-testid="custom-text-widget__response-content-type--text-input"
+                                                              data-testid="custom-text-widget__response-content-type-0--text-input"
                                                               id="PotentialAction_Target_ResponseContentType_0"
                                                               name="Response Content Type"
                                                               type="text"
@@ -8714,7 +8714,7 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                             />
                                                             <span
                                                               class="widget-description"
-                                                              data-testid="custom-text-widget--description-field__response-content-type"
+                                                              data-testid="custom-text-widget--description-field__response-content-type-0"
                                                             />
                                                           </div>
                                                         </div>
@@ -12415,7 +12415,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               >
                                                 <div
                                                   class="custom-select-widget"
-                                                  data-testid="custom-select-widget__variable-aggregation-supported-methods"
+                                                  data-testid="custom-select-widget__variable-aggregation-supported-methods-0"
                                                 >
                                                   <div>
                                                     <span
@@ -12429,12 +12429,12 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   </div>
                                                   <div
                                                     class="widget-description"
-                                                    data-testid="custom-select-widget__variable-aggregation-supported-methods--description"
+                                                    data-testid="custom-select-widget__variable-aggregation-supported-methods-0--description"
                                                   >
                                                     <span />
                                                   </div>
                                                   <div
-                                                    data-testid="custom-select-widget__variable-aggregation-supported-methods--selector"
+                                                    data-testid="custom-select-widget__variable-aggregation-supported-methods-0--selector"
                                                   >
                                                     <div
                                                       class=" css-b62m3t-container"
@@ -12643,7 +12643,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                       class="h3-title"
                                                       data-testid="custom-title-field-template--heading"
                                                     >
-                                                      Supported Input Projection
+                                                      Supported Input Projections
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                         data-testid="custom-title-field-template--required"
@@ -13313,7 +13313,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                       class="h3-title"
                                                       data-testid="custom-title-field-template--heading"
                                                     >
-                                                      Supported Output Projection
+                                                      Supported Output Projections
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                         data-testid="custom-title-field-template--required"

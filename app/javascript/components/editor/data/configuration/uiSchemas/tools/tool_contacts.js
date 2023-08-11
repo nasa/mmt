@@ -5,7 +5,6 @@ import CustomCountrySelectWidget from '../../../../components/widgets/CustomCoun
 
 const toolContactsUiSchema = {
   ContactGroups: {
-    'ui:title': 'Contact Groups',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -45,7 +44,6 @@ const toolContactsUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       GroupName: {
-        'ui:title': 'Contact Group Name',
         'ui:widget': CustomTextWidget
       },
       ContactInformation: {
@@ -79,14 +77,7 @@ const toolContactsUiSchema = {
             }
           ]
         },
-        ServiceHours: {
-          'ui:title': 'Service Hours'
-        },
-        ContactInstruction: {
-          'ui:title': 'Contact Instruction'
-        },
         ContactMechanisms: {
-          'ui:title': 'Contact Mechanism',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -151,9 +142,6 @@ const toolContactsUiSchema = {
             StateProvince: {
               'ui:title': 'State / Province'
             },
-            PostalCode: {
-              'ui:title': 'Postal Code'
-            },
             Country: {
               'ui:widget': CustomCountrySelectWidget
             }
@@ -163,7 +151,6 @@ const toolContactsUiSchema = {
     }
   },
   ContactPersons: {
-    'ui:title': 'Contact Persons',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -197,15 +184,6 @@ const toolContactsUiSchema = {
       Roles: {
         'ui:widget': CustomMultiSelectWidget
       },
-      FirstName: {
-        'ui:title': 'First Name'
-      },
-      MiddleName: {
-        'ui:title': 'Middle Name'
-      },
-      LastName: {
-        'ui:title': 'Last Name'
-      },
       ContactInformation: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -237,15 +215,12 @@ const toolContactsUiSchema = {
           ]
         },
         ServiceHours: {
-          'ui:group': 'ContactPersons',
-          'ui:title': 'Service Hours'
+          'ui:group': 'ContactPersons'
         },
         ContactInstruction: {
-          'ui:group': 'ContactPersons',
-          'ui:title': 'Contact Instruction'
+          'ui:group': 'ContactPersons'
         },
         ContactMechanisms: {
-          'ui:title': 'Contact Mechanism',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -308,9 +283,6 @@ const toolContactsUiSchema = {
             },
             StateProvince: {
               'ui:title': 'State / Province'
-            },
-            PostalCode: {
-              'ui:title': 'Postal Code'
             },
             Country: {
               'ui:widget': CustomCountrySelectWidget

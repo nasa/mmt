@@ -730,7 +730,9 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     <div>
       <span
         class="metadata-editor-field-label"
-      />
+      >
+        My Test Data Label
+      </span>
     </div>
     <div
       class="description-box"
@@ -765,7 +767,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
               class=" css-1jqq78o-placeholder"
               id="react-select-3-placeholder"
             >
-              Select Values
+              Select My Test Data Label
             </div>
             <div
               class=" css-qbdosj-Input"

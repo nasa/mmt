@@ -19,7 +19,6 @@ const dimensionsUiSchema = {
     ]
   },
   Dimensions: {
-    'ui:title': 'Dimensions',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

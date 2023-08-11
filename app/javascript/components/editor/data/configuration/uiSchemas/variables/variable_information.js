@@ -68,17 +68,10 @@ const variableInformationUiSchema = {
   Offset: {
     'ui:type': 'number'
   },
-  StandardName: {
-    'ui:title': 'Standard Name'
-  },
-  LongName: {
-    'ui:title': 'Long Name'
-  },
   Definition: {
     'ui:widget': 'textarea'
   },
   AdditionalIdentifiers: {
-    'ui:title': 'Additional Identifiers',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -108,19 +101,15 @@ const variableInformationUiSchema = {
     }
   },
   VariableType: {
-    'ui:title': 'Variable Type',
     'ui:widget': CustomSelectWidget
   },
   VariableSubType: {
-    'ui:title': 'Variable Sub Type',
     'ui:widget': CustomSelectWidget
   },
   DataType: {
-    'ui:title': 'Data Type',
     'ui:widget': CustomSelectWidget
   },
   ValidRanges: {
-    'ui:title': 'Valid Ranges',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -149,18 +138,6 @@ const variableInformationUiSchema = {
             }
           }
         ]
-      },
-      CodeSystemIdentifierMeaning: {
-        'ui:title': 'Code System Identifier Meaning',
-        items: {
-          'ui:title': 'Code System Identifier Meaning'
-        }
-      },
-      CodeSystemIdentifierValue: {
-        'ui:title': 'Code System Identifier Value',
-        items: {
-          'ui:title': 'Code System Identifier Value'
-        }
       }
     }
   },
@@ -193,19 +170,15 @@ const variableInformationUiSchema = {
       ]
     },
     LatRange: {
-      'ui:title': 'Lat Range',
       'ui:canAdd': false,
       items: {
-        'ui:type': 'number',
-        'ui:title': 'Lat Range'
+        'ui:type': 'number'
       }
     },
     LonRange: {
-      'ui:title': 'Lon Range',
       'ui:canAdd': false,
       items: {
-        'ui:type': 'number',
-        'ui:title': 'Lon Range'
+        'ui:type': 'number'
       }
     }
   }

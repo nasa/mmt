@@ -58,6 +58,7 @@ const instanceInformationUiSchema = {
           {
             'ui:group': 'Direct Distribution Information',
             'ui:group-description': true,
+            'ui:group-classname': 'h2-title',
             'ui:col': {
               md: 12,
               children: [
@@ -77,6 +78,7 @@ const instanceInformationUiSchema = {
       S3BucketAndObjectPrefixNames: {
         'ui:title': 'S3 Bucket and Object Prefix Name',
         items: {
+          'ui:header-classname': 'h3-title',
           'ui:title': 'S3 Bucket and Object Prefix Name'
         }
       },
@@ -88,9 +90,6 @@ const instanceInformationUiSchema = {
         'ui:title': 'S3 Credentials API Documentation URL',
         'ui:widget': CustomTextWidget
       }
-    },
-    ChunkingInformation: {
-      'ui:title': 'Chucking Information'
     }
   }
 }

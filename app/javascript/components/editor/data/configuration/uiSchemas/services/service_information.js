@@ -52,28 +52,16 @@ const serviceInformationUiSchema = {
       }
     ]
   },
-  LongName: {
-    'ui:title': 'Long Name'
-  },
-  LastUpdatedDate: {
-    'ui:title': 'Last Updated Date'
-  },
   VersionDescription: {
-    'ui:title': 'Version Description',
     'ui:widget': 'textarea'
   },
   Description: {
     'ui:widget': 'textarea'
   },
   URL: {
-    'ui:title': 'URL',
     'ui:header-classname': 'h2-title',
     Description: {
-      'ui:title': 'Description',
       'ui:widget': 'textarea'
-    },
-    URLValue: {
-      'ui:title': 'URL Value'
     }
   }
 }

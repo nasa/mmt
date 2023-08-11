@@ -1,5 +1,4 @@
 const descriptiveKeywordsUiSchema = {
-
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -27,14 +26,8 @@ const descriptiveKeywordsUiSchema = {
     'ui:title': 'Tool Keyword',
     'ui:field': 'keywordPicker'
   },
-
   AncillaryKeywords: {
-    'ui:title': 'Ancillary Keywords',
-    'ui:default': '',
-    items: {
-      'ui:title': 'Ancillary Keyword'
-    }
+    'ui:default': ''
   }
-
 }
 export default descriptiveKeywordsUiSchema

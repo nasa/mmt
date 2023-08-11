@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  act,
   render, screen, waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -18,9 +17,6 @@ describe('Custom Text Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -38,7 +34,7 @@ describe('Custom Text Widget Component', () => {
     )
     const headerElement = getByTestId('custom-text-widget__my-test-data-label--text-header')
 
-    expect(headerElement).toHaveTextContent('my title')
+    expect(headerElement).toHaveTextContent('My Test Data Label0/10')
     expect(headerElement).toHaveTextContent('0/10')
     expect(container).toMatchSnapshot()
   })
@@ -75,9 +71,6 @@ describe('Custom Text Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -94,7 +87,7 @@ describe('Custom Text Widget Component', () => {
         <CustomTextWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('my title')
+    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('My Test Data Label0/10')
     expect(container).toMatchSnapshot()
   })
 
@@ -103,9 +96,6 @@ describe('Custom Text Widget Component', () => {
     const editor = new MetadataEditor(model)
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -123,7 +113,7 @@ describe('Custom Text Widget Component', () => {
         <CustomTextWidget {...props} />
       </BrowserRouter>
     )
-    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('my title')
+    expect(getByTestId('custom-text-widget__my-test-data-label--text-header')).toHaveTextContent('My Test Data Label0/10')
     expect(container).toMatchSnapshot()
   })
 
@@ -133,9 +123,6 @@ describe('Custom Text Widget Component', () => {
     const mockedOnChange = jest.fn()
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -173,9 +160,6 @@ describe('Custom Text Widget Component', () => {
     const mockedOnChange = jest.fn()
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },
@@ -212,9 +196,6 @@ describe('Custom Text Widget Component', () => {
     const mockedOnChange = jest.fn()
     const props = {
       label: 'my test data label',
-      options: {
-        title: 'my title'
-      },
       registry: {
         formContext: { editor }
       },

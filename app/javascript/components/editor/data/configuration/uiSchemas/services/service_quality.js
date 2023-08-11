@@ -17,7 +17,6 @@ const serviceQualityUiSchema = {
     ]
   },
   ServiceQuality: {
-    'ui:title': 'Service Qualtiy',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -44,12 +43,6 @@ const serviceQualityUiSchema = {
           }
         }
       ]
-    },
-    QualityFlag: {
-      'ui:title': 'Quality Flag'
-    },
-    Lineage: {
-      'ui:widget': 'textarea'
     }
   }
 }

@@ -55,10 +55,10 @@ const organizationUiSchema = {
       Description: {
         'ui:widget': 'textarea'
       },
+      Roles: { 'ui:widget': CustomMultiSelectWidget },
       ShortName: { 'ui:title': 'Short Name' },
-      LongName: { 'ui:title': 'Long Name', 'ui:widget': CustomTextWidget },
-      URLValue: { 'ui:title': 'URL value', 'ui:widget': CustomTextWidget },
-      Roles: { 'ui:title': 'Roles', 'ui:widget': CustomMultiSelectWidget }
+      LongName: { 'ui:widget': CustomTextWidget },
+      URLValue: { 'ui:widget': CustomTextWidget }
     }
   }
 }

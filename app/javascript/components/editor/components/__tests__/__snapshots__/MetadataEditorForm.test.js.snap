@@ -15296,7 +15296,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                     </div>
                                     <div>
                                       <input
-                                        name="Select-Supported Input Formats"
+                                        name="Select-SupportedInputFormats"
                                         type="hidden"
                                         value=""
                                       />
@@ -15414,7 +15414,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                     </div>
                                     <div>
                                       <input
-                                        name="Select-Supported Output Formats"
+                                        name="Select-SupportedOutputFormats"
                                         type="hidden"
                                         value=""
                                       />
