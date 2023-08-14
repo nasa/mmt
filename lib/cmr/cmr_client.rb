@@ -551,11 +551,11 @@ module Cmr
     def get_permissions(options, token)
       # Example: curl -i "http://localhost:3011/acls?provider=MMT_1&include_full_acl=true"
       url = if Rails.env.test? && token != nil && token.length < 50 && token != 'jwt_access_token'
-              'http://localhost:3011/acls'
+              'http://localhost:3011/acls/search'
             else
               '/access-control/acls'
             end
-      # options = {'provider' => provider_id, 'include_full_acl' => true}
+      # options = {'provider' => 'MMT_2', 'permitted_user' => 'dmistry'}
       get(url, options, token_header(token))
     end
 
