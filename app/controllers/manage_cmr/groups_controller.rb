@@ -260,7 +260,6 @@ class GroupsController < ManageCmrController
       'permitted_group' => @group_id,
       'identity_type' => 'catalog_item',
       'include_full_acl' => true,
-      'provider' => current_user.provider_id,
       page_num: 1,
       page_size: 50
     }

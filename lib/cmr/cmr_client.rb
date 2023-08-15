@@ -555,6 +555,7 @@ module Cmr
             else
               '/access-control/acls'
             end
+      # options = {'provider' => provider_id, 'include_full_acl' => true}
       get(url, options, token_header(token))
     end
 
