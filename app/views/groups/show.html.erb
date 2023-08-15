@@ -17,8 +17,7 @@
         <ul>
           <% @permissions.each do |permission| %>
             <li>
-              <%= link_to permission['name'], permission_path(permission['concept_id']) %>
-              (<%= permission['acl']['catalog_item_identity']['provider_id']%>)
+              <%= link_to permission['name'] + ' (' + permission['acl']['catalog_item_identity']['provider_id'] + ')', permission_path(permission['concept_id']) %>
             </li>
           <% end %>
         </ul>
