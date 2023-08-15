@@ -5,6 +5,8 @@ const variableInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Variable Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [
@@ -68,17 +70,10 @@ const variableInformationUiSchema = {
   Offset: {
     'ui:type': 'number'
   },
-  StandardName: {
-    'ui:title': 'Standard Name'
-  },
-  LongName: {
-    'ui:title': 'Long Name'
-  },
   Definition: {
     'ui:widget': 'textarea'
   },
   AdditionalIdentifiers: {
-    'ui:title': 'Additional Identifiers',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -108,19 +103,15 @@ const variableInformationUiSchema = {
     }
   },
   VariableType: {
-    'ui:title': 'Variable Type',
     'ui:widget': CustomSelectWidget
   },
   VariableSubType: {
-    'ui:title': 'Variable Sub Type',
     'ui:widget': CustomSelectWidget
   },
   DataType: {
-    'ui:title': 'Data Type',
     'ui:widget': CustomSelectWidget
   },
   ValidRanges: {
-    'ui:title': 'Valid Ranges',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -149,18 +140,6 @@ const variableInformationUiSchema = {
             }
           }
         ]
-      },
-      CodeSystemIdentifierMeaning: {
-        'ui:title': 'Code System Identifier Meaning',
-        items: {
-          'ui:title': 'Code System Identifier Meaning'
-        }
-      },
-      CodeSystemIdentifierValue: {
-        'ui:title': 'Code System Identifier Value',
-        items: {
-          'ui:title': 'Code System Identifier Value'
-        }
       }
     }
   },
@@ -169,13 +148,14 @@ const variableInformationUiSchema = {
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:group': 'Index Ranges',
+      'ui:group-classname': 'h2-title',
+      'ui:group-box-classname': 'h2-box',
       'ui:group-description': true,
       'ui:group-single-panel': true,
       'ui:row': [
         {
           'ui:col': {
             md: 12,
-            className: 'field-left-border',
             children: [
               {
                 'ui:row': [
@@ -193,19 +173,15 @@ const variableInformationUiSchema = {
       ]
     },
     LatRange: {
-      'ui:title': 'Lat Range',
       'ui:canAdd': false,
       items: {
-        'ui:type': 'number',
-        'ui:title': 'Lat Range'
+        'ui:type': 'number'
       }
     },
     LonRange: {
-      'ui:title': 'Lon Range',
       'ui:canAdd': false,
       items: {
-        'ui:type': 'number',
-        'ui:title': 'Lon Range'
+        'ui:type': 'number'
       }
     }
   }

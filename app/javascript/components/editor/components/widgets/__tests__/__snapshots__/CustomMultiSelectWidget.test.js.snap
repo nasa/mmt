@@ -730,7 +730,9 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     <div>
       <span
         class="metadata-editor-field-label"
-      />
+      >
+        My Test Data Label
+      </span>
     </div>
     <div
       class="description-box"
@@ -765,7 +767,7 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
               class=" css-1jqq78o-placeholder"
               id="react-select-3-placeholder"
             >
-              Select Values
+              Select My Test Data Label
             </div>
             <div
               class=" css-qbdosj-Input"
@@ -895,12 +897,12 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                         data-testid="custom-array-template"
                       >
                         <div
-                          class="h2-box"
+                          class="h1-box"
                         >
                           <span
-                            class="h2-title"
+                            class="h1-title"
                           >
-                            Organizations
+                            Tool Organizations
                             <i
                               class="eui-icon eui-required-o required-icon"
                             />
@@ -925,7 +927,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                 class="h3-title"
                               >
                                 <span>
-                                  Organization
+                                  Tool Organization
                                 </span>
                                 <span>
                                    (1 of 1)
@@ -933,7 +935,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                               </div>
                               <button
                                 class="btn"
-                                data-testid="custom-array-template__remove-button--organizations"
+                                data-testid="custom-array-template__remove-button--tool-organizations"
                                 type="button"
                               >
                                 <span
@@ -1386,7 +1388,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                         >
                           <button
                             class="btn"
-                            data-testid="custom-array-template__add-button--organizations"
+                            data-testid="custom-array-template__add-button--tool-organizations"
                             type="button"
                           >
                             <span
@@ -1406,7 +1408,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                 Add another
                               </span>
                                
-                              Organization
+                              Tool Organization
                             </span>
                           </button>
                         </div>

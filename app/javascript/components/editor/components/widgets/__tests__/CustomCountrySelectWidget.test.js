@@ -10,27 +10,39 @@ describe('Custom Country Selector Widget Component', () => {
     const props = {
       label: 'MyTestDataLabel',
       required: false,
-      options: {},
       onChange: {},
       value: 'TZ'
     }
     const { container } = render(<CustomCountrySelecttWidget {...props} />)
-    expect(screen.getByTestId('country-select-widget__my-test-data-label')).not.toHaveTextContent('My Test Data Label*')
+    expect(screen.getByTestId('country-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(screen.getByTestId('country-select-widget__my-test-data-label--selector')).toHaveTextContent('Tanzania, United Republic of')
     expect(container).toMatchSnapshot()
   })
+  it('renders the custon ui:title', async () => {
+    const props = {
+      label: 'MyTestDataLabel',
+      uiSchema: {
+        'ui:title': 'UiSchema Title'
+      },
+      required: false,
+      onChange: {}
+    }
+    const { container } = render(<CustomCountrySelecttWidget {...props} />)
+    expect(screen.getByTestId('country-select-widget__my-test-data-label')).not.toHaveTextContent('My Test Data Label*')
+    expect(screen.getByTestId('country-select-widget__my-test-data-label')).toHaveTextContent('UiSchema Title')
 
+    expect(container).toMatchSnapshot()
+  })
   it('can select option', async () => {
     const mockedOnChange = jest.fn()
     const props = {
       label: 'MyTestDataLabel',
       required: true,
-      options: { title: 'Country' },
       onChange: mockedOnChange,
       value: 'TZ'
     }
     const { container } = render(<CustomCountrySelecttWidget {...props} />)
-    expect(screen.getByTestId('country-select-widget__my-test-data-label--title')).toHaveTextContent('Country*')
+    expect(screen.getByTestId('country-select-widget__my-test-data-label--title')).toHaveTextContent('My Test Data Label*')
     expect(screen.getByTestId('country-select-widget__my-test-data-label--selector')).toHaveTextContent('Tanzania, United Republic of')
 
     expect(container).toMatchSnapshot()

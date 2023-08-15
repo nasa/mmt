@@ -7,9 +7,7 @@ describe('CustomRadiowidget', () => {
     const props = {
       value: true,
       onChange: jest.fn(),
-      options: {
-        title: 'Title'
-      }
+      label: 'Title'
     }
     const { container } = render(<CustomRadioWidget {...props} />)
     const labelElement = screen.getByTestId('custom-radio-widget--label')
@@ -27,7 +25,7 @@ describe('CustomRadiowidget', () => {
     const props = {
       value: false,
       onChange: jest.fn(),
-      uiSchema: null
+      uiSchema: {}
     }
     const { container } = render(<CustomRadioWidget {...props} />)
     const trueRadioButton = screen.getByTestId('custom-radio-widget--value__true')
@@ -42,7 +40,7 @@ describe('CustomRadiowidget', () => {
     const props = {
       value: true,
       onChange: jest.fn(),
-      uiSchema: null
+      uiSchema: {}
     }
     const { container } = render(<CustomRadioWidget {...props} />)
     const falseRadioButton = screen.getByTestId('custom-radio-widget--value__false')

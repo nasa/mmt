@@ -13,10 +13,6 @@ interface CustomTextAreaWidgetProps extends WidgetProps {
     description: string
   },
   required: boolean,
-  options: {
-    minHeight?: number,
-    title?: string,
-  },
   onChange: (value: string) => void,
   value: string,
   id: string,
@@ -76,19 +72,22 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
 
   render() {
     const {
-      label, schema, required, options = {}, uiSchema = {}, registry
+      label, schema, required, uiSchema = {}, registry
     } = this.props
-    const { title = _.startCase(label.split(/-/)[0]) } = options
     const { formContext } = registry
     const { editor } = formContext
-    // const classNames = uiSchema['ui:classNames'] ?? ''
-    // const titleClassName = uiSchema['ui:title-className'] ?? ''
     const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
     const { maxLength, description } = schema
     const { value, charsUsed, showDescription } = this.state
     const { focusField } = editor
-    let shouldFocus = false
     const id = this.identifier
+
+    let shouldFocus = false
+    let title = _.startCase(label.split(/-/)[0])
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
 
     if (focusField === id) {
       shouldFocus = true

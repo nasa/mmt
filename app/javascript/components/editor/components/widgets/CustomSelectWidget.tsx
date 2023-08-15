@@ -5,25 +5,33 @@ import React from 'react'
 import Select from 'react-select'
 import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
-import { EnumOptionsType, RJSFSchema, WidgetProps } from '@rjsf/utils'
+import {
+  UIOptionsType, UiSchema, WidgetProps
+} from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
 import './Widget.css'
 import { parseCmrResponse } from '../../utils/cmr_keywords'
 import Status from '../../model/Status'
+import { MetadataService } from '../../services/MetadataService'
+
+interface CustomUiSchema extends UiSchema {
+  'ui:options'?: UIOptionsType
+  'ui:service'?: MetadataService,
+  'ui:controlled'?: {
+    name: string,
+    controlName: string[]
+  } | Record<string, never>
+}
 
 interface CustomSelectWidgetProps extends WidgetProps {
   label: string,
-  options: {
-    title?: string,
-    enumOptions?: EnumOptionsType<RJSFSchema>[]
-  },
   value: string,
   placeholder: string,
   isLoading: boolean,
   required: boolean,
   onChange: (value: string) => void,
   disabled: boolean,
-  uiSchema?: any
+  uiSchema?: CustomUiSchema
 }
 
 type CustomSelectWidgetState = {
@@ -103,7 +111,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const selectOptions: SelectOptions[] = []
     const { setFocus, loading } = this.state
     const {
-      required, label, schema, options = { enumOptions: null }, registry, isLoading = loading, disabled
+      required, label, schema, registry, isLoading = loading, disabled, uiSchema = {}
     } = this.props
     let {
       placeholder
@@ -111,33 +119,45 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const { schemaUtils, formContext } = registry
     const { items = {} } = schema
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
-
     const { value } = this.props
-    const { title = _.startCase(label.split(/-/)[0]), enumOptions } = options
     const { editor } = formContext
-    const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
 
-    if (listOfEnums.length === 0 && retrievedSchema.enum) {
-      retrievedSchema.enum.forEach((currentEnum: string) => {
-        listOfEnums.push(currentEnum)
-      })
+    let title = _.startCase(label.split(/-/)[0])
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
     }
+
     selectOptions.push({ value: null, label: '✓' })
 
-    listOfEnums.forEach((currentEnum: string) => {
-      if (currentEnum) {
-        selectOptions.push({ value: currentEnum, label: currentEnum })
-      }
-    })
+    // Extracting ui:options from uiSchema
+    const uiOptions = uiSchema['ui:options'] || {}
+    const { enumOptions } = uiOptions
+
+    // Be able to override schema enums
+    if (enumOptions) {
+      (enumOptions as string[]).forEach((enumValue) => {
+        selectOptions.push({ value: enumValue, label: enumValue })
+      })
+    } else {
+      // Otherwise, just use the enums in the schema
+      const { enum: enums = retrievedSchema?.enum ?? [] } = schema
+      enums.forEach((currentEnum: string) => {
+        if (currentEnum) {
+          selectOptions.push({ value: currentEnum, label: currentEnum })
+        }
+      })
+    }
+
     const existingValue = value != null ? { value, label: value } : {}
     const { focusField } = editor
     let shouldFocus = false
 
-    if (editor?.focusField === id) {
+    if (focusField === id) {
       shouldFocus = true
-    } else if (editor.focusField && id.match(/^\w+_\d+$/)) {
-      if (id !== '' && id.startsWith(editor?.focusField)) {
+    } else if (focusField && id.match(/^\w+_\d+$/)) {
+      if (id !== '' && id.startsWith(focusField)) {
         shouldFocus = true
       }
     }
@@ -169,8 +189,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
             id={id}
             data-testid={`custom-select-widget__${kebabCase(label)}--select`}
             defaultValue={existingValue.value ? existingValue : null}
-            // @ts-ignore
-            options={enumOptions ?? selectOptions}
+            options={selectOptions}
             placeholder={placeholder}
             isLoading={isLoading}
             isDisabled={disabled}

@@ -37,8 +37,8 @@ type KeywordPickerState = {
 }
 
 export default class KeywordsField extends React.Component<KeywordPickerProps, KeywordPickerState> {
-  defaultMarginTop = 12
-  defaultMarginLeft = -10
+  defaultMarginTop = 0
+  defaultMarginLeft = 0
 
   constructor(props: KeywordPickerProps) {
     super(props)
@@ -339,8 +339,8 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
       }
     })
 
-    marginTop -= (38 * (selectedKeywords.length - 1))
-    marginLeft += (38 * (selectedKeywords.length - 1))
+    marginTop -= (50 * (selectedKeywords.length - 1))
+    marginLeft += (50 * (selectedKeywords.length - 1))
 
     return (
       <div id="keyword-picker">
@@ -356,25 +356,25 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
               {description}
             </span>
           </div>
+        </div>
+        <div className="added-keywords" data-testid="added-tool-keywords">
+          {
+            Object.values(formData).map((item: object, index: number) => (
+              <li key={JSON.stringify(Object.values(item))}>
+                {Object.values(item).join(' > ')}
+                <a
+                  onClick={() => this.setState(value.splice(index, 1), () => onChange(value))}
+                  data-testid={`tool-keyword__added-keyword--${index}`}
+                >
+                  <i className="fa fa-times-circle remove-button" />
+                </a>
+              </li>
+            ))
 
-          <div className="added-keywords" data-testid="added-tool-keywords">
-            <span className="h3-title">Added Keywords:</span>
-            {
-              Object.values(formData).map((item: object, index: number) => (
-                <li key={JSON.stringify(Object.values(item))}>
-                  {Object.values(item).join(' > ')}
-                  <a
-                    onClick={() => this.setState(value.splice(index, 1), () => onChange(value))}
-                    data-testid={`tool-keyword__added-keyword--${index}`}
-                  >
-                    <i className="fa fa-times-circle remove-button" />
-                  </a>
-                </li>
-              ))
-
-            }
-          </div>
-          <div className="eui-nested-item-picker" style={{ marginLeft, padding: '15px' }}>
+          }
+        </div>
+        <div>
+          <div className="eui-nested-item-picker" style={{ marginLeft }}>
             <ul className="eui-item-path">
               {
                 selectedKeywords.map((item: string) => (
@@ -389,7 +389,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
                 ))
               }
             </ul>
-
             <div className="eui-item-list-pane" style={{ marginTop }}>
               <div id="search-keywords" data-testid="tool-keyword__search-keyword-field">
                 <Typeahead
@@ -420,25 +419,25 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
               </ul>
             </div>
           </div>
-          <Button
-            className="eui-btn--blue add-science-keyword"
-            data-testid="tool-keyword__add-keyword-btn"
-            disabled={disableAddKeywordBtn}
-            onClick={() => {
-              const keywords = this.addKeywords(finalSelectedKeywords.splice(1))
-              if (keywords) {
-                value.push(keywords)
-              }
-              this.setState(value, () => onChange(value))
-              this.setState({ finalSelectedKeywords: [], finalSelectedValue: '', disableAddKeywordBtn: true })
-            }}
-          >
-            <span className="add-button-icon">
-              <i className="fa-solid fa-circle-plus fa-sm" />
-            </span>
-            Add Keyword
-          </Button>
         </div>
+        <Button
+          className="eui-btn--blue add-science-keyword"
+          data-testid="tool-keyword__add-keyword-btn"
+          disabled={disableAddKeywordBtn}
+          onClick={() => {
+            const keywords = this.addKeywords(finalSelectedKeywords.splice(1))
+            if (keywords) {
+              value.push(keywords)
+            }
+            this.setState(value, () => onChange(value))
+            this.setState({ finalSelectedKeywords: [], finalSelectedValue: '', disableAddKeywordBtn: true })
+          }}
+        >
+          <span className="add-button-icon">
+            <i className="fa-solid fa-circle-plus fa-sm" />
+          </span>
+          Add Keyword
+        </Button>
       </div>
     )
   }

@@ -20,9 +20,6 @@ interface props {
 }
 
 interface CustomDateTimeWidgetProps extends WidgetProps {
-  options: {
-    title?: string
-  }
   label: string,
   required: boolean,
   onChange: (value: string) => void,
@@ -58,12 +55,7 @@ const CustomWidget = ({
   function onHandleBlur() { /* istanbul ignore next */ setDescription(false) }
 
   return (
-    <>
-      <div className="custom-date-time-widget-description" data-testid="custom-date-time-widget--description">
-        <span>
-          {showDescription ? schema.description : ''}
-        </span>
-      </div>
+    <div className="custom-date-picker-component">
       <DatePicker
         id={id}
         autoFocus={autoFocus}
@@ -81,7 +73,12 @@ const CustomWidget = ({
         onChange={onHandleChange}
         onBlur={onHandleBlur}
       />
-    </>
+      <div className="description-box" data-testid="custom-date-time-widget--description">
+        <span>
+          {showDescription ? schema.description : ''}
+        </span>
+      </div>
+    </div>
 
   )
 }
@@ -90,11 +87,15 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
   // eslint-disable-next-line react/static-property-placement
   render() {
     const {
-      required, label, onChange, value, options, id, schema, registry
+      required, label, onChange, value, id, schema, registry, uiSchema = {}
     } = this.props
-    const { title = _.startCase(label.split(/-/)[0]) } = options
+    let title = _.startCase(label.split(/-/)[0])
     const { formContext } = registry
     const { editor } = formContext
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
 
     let focus = false
     if (editor?.focusField === id) {
@@ -105,11 +106,13 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
     }
 
     return (
-      <div className="custom-date-time-widget" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
-        <div className="custom-date-time-widget-label">
+      <div className="custom-date-time-widget">
+        <div className="field-label-box" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
           <span className="metadata-editor-field-label">
             {title}
-            {required ? '*' : ''}
+          </span>
+          <span>
+            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
         <div data-testid={`custom-date-time-widget__${kebabCase(label)}--input-field`}>

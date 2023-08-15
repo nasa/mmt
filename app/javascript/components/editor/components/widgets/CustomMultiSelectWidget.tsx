@@ -9,9 +9,6 @@ import './Widget.css'
 
 interface CustomMultiSelectWidgetProps extends WidgetProps {
   label: string,
-  options: {
-    title: string
-  }
   value: string[],
   required: boolean,
   onChange: (value: string[]) => void,
@@ -99,14 +96,18 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
       multiValue, filterOptions, setFocus, isOpen
     } = this.state
     const {
-      label, options, required, schema, registry
+      label, required, schema, registry, uiSchema = {}
     } = this.props
 
-    const { title = _.startCase(label.split(/-/)[0]) } = options
+    let title = _.startCase(label.split(/-/)[0])
     const { formContext } = registry
     const { editor } = formContext
     let shouldFocus = false
     const id = this.identifier
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
 
     if (editor.focusField === id) {
       shouldFocus = true

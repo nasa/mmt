@@ -7,9 +7,6 @@ import './Widget.css'
 
 interface CustomCountrySelectWidgetProps extends WidgetProps {
   label: string,
-  options: {
-    title: string
-  }
   value: string,
   required: boolean,
   onChange: (value: string) => void,
@@ -59,10 +56,14 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
 
   render() {
     const {
-      label, options, required, id
+      label, required, id, uiSchema = {}
     } = this.props
-    const { title = _.startCase(label.split(/-/)[0]) } = options
+    let title = _.startCase(label.split(/-/)[0])
     const { country, filterOptions } = this.state
+
+    if (uiSchema['ui:title']) {
+      title = uiSchema['ui:title']
+    }
 
     return (
 

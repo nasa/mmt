@@ -75,7 +75,6 @@ const relatedUrlsUiSchema = {
         }
       },
       MimeType: {
-        'ui:title': 'Mime Type',
         'ui:widget': CustomSelectWidget,
         'ui:controlled': {
           name: 'mime-type',

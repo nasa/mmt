@@ -1,6 +1,7 @@
 const SamplingIdentifiersUiSchema = {
   SamplingIdentifiers: {
-    'ui:title': 'Sampling Identifiters',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -30,15 +31,12 @@ const SamplingIdentifiersUiSchema = {
         ]
       },
       SamplingMethod: {
-        'ui:title': 'Sampling Method',
         'ui:widget': 'textarea'
       },
       MeasurementConditions: {
-        'ui:title': 'Measurement Conditions',
         'ui:widget': 'textarea'
       },
       ReportingConditions: {
-        'ui:title': 'Reporting Conditions',
         'ui:widget': 'textarea'
       }
 

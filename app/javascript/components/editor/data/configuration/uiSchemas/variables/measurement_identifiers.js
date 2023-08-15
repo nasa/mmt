@@ -4,8 +4,9 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 const measurementIdentifiersUiSchema = {
   MeasurementIdentifiers: {
     'ui:title': 'Measurement Identifiers',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
-      'ui:title': 'Measurement Identifier',
       'ui:field': 'layout',
       'ui:controlled': {
         name: 'measurement_name',
@@ -50,11 +51,9 @@ const measurementIdentifiersUiSchema = {
         ]
       },
       MeasurementContextMedium: {
-        'ui:title': 'Measurement Context Medium',
         'ui:widget': CustomSelectWidget
       },
       MeasurementContextMediumURI: {
-        'ui:title': 'Measurement Context Medium URI',
         'ui:widget': CustomTextWidget
       },
       MeasurementObject: {
@@ -62,12 +61,11 @@ const measurementIdentifiersUiSchema = {
         'ui:widget': CustomSelectWidget
       },
       MeasurementObjectURI: {
-        'ui:title': 'Measurement Object URI',
         'ui:widget': CustomTextWidget
       },
       MeasurementQuantities: {
-        'ui:title': 'Measurement Quantities',
-        'ui:className': 'small-bold-title',
+        'ui:title': 'Measurement Quantity',
+        'ui:header-classname': 'h3-title',
         items: {
           'ui:title': 'Measurement Quantity',
           'ui:field': 'layout',
@@ -98,11 +96,9 @@ const measurementIdentifiersUiSchema = {
             ]
           },
           Value: {
-            'ui:title': 'Value',
             'ui:widget': CustomSelectWidget
           },
           MeasurementQuantityURI: {
-            'ui:title': 'Measurement Quantity URI',
             'ui:widget': CustomTextWidget
           }
         }

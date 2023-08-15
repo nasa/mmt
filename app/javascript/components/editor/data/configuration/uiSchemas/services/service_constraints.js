@@ -19,18 +19,12 @@ const serviceConstraintsUiSchema = {
     ]
   },
   UseConstraints: {
-    'ui:title': 'Use Constraints',
-    LicenseURL: {
-      'ui:title': 'License URL'
-    },
     LicenseText: {
-      'ui:title': 'License Text',
       'ui:widget': 'textarea'
     }
 
   },
   AccessConstraints: {
-    'ui:title': 'Access Constraints',
     'ui:widget': 'textarea',
     'ui:header-classname': 'h2-title'
   }
