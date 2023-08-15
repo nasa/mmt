@@ -69,6 +69,10 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -3839,6 +3843,10 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -7690,6 +7698,10 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -11519,6 +11531,10 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -18962,9 +18978,7 @@ exports[`UMM Tools Form testing descriptive keywords 1`] = `
                               <div
                                 id="keyword-picker"
                               >
-                                <div
-                                  class="keyword-pretext"
-                                >
+                                <div>
                                   <div
                                     class="h2-box"
                                   >
@@ -18989,9 +19003,7 @@ exports[`UMM Tools Form testing descriptive keywords 1`] = `
                                   class="added-keywords"
                                   data-testid="added-tool-keywords"
                                 />
-                                <div
-                                  class="keyword-widget"
-                                >
+                                <div>
                                   <div
                                     class="eui-nested-item-picker"
                                     style="margin-left: 0px;"

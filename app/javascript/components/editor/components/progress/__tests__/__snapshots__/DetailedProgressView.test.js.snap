@@ -10816,6 +10816,10 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                               data-testid="custom-title-field--heading"
                             >
                               Tool Information
+                              <i
+                                class="eui-icon eui-required-o required-icon"
+                                data-testid="custom-title-field--required"
+                              />
                             </span>
                           </div>
                         </div>

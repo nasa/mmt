@@ -141,6 +141,7 @@ const toolContactsUiSchema = {
                       },
                       {
                         'ui:group': 'Street Addresses',
+                        'ui:group-classname': 'h3-title',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]

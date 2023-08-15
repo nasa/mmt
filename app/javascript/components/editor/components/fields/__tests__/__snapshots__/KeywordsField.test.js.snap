@@ -14,9 +14,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -36,9 +34,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSoecificTerm and 
             class="added-keywords"
             data-testid="added-tool-keywords"
           />
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 150px;"
@@ -180,9 +176,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -213,9 +207,7 @@ exports[`Tool Keywords Field Adding a science keyword with ToolSpecificTerm 1`] 
               </a>
             </li>
           </div>
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 150px;"
@@ -357,9 +349,7 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -390,9 +380,7 @@ exports[`Tool Keywords Field Adding a science keyword without ToolSpecificTerm 1
               </a>
             </li>
           </div>
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 100px;"
@@ -527,9 +515,7 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -570,9 +556,7 @@ exports[`Tool Keywords Field Search Keyword Test 1`] = `
               </a>
             </li>
           </div>
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 150px;"
@@ -735,9 +719,7 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -757,9 +739,7 @@ exports[`Tool Keywords Field Selecting Previous Section Test 1`] = `
             class="added-keywords"
             data-testid="added-tool-keywords"
           />
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 150px;"
@@ -901,9 +881,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -934,9 +912,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword with ToolSpecificTerm 
               </a>
             </li>
           </div>
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 150px;"
@@ -1078,9 +1054,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -1111,9 +1085,7 @@ exports[`Tool Keywords Field Test Adding the Same Keyword without ToolSpecificTe
               </a>
             </li>
           </div>
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 100px;"
@@ -1239,9 +1211,7 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -1259,9 +1229,7 @@ exports[`Tool Keywords test with keywords from CMR testing a valid set keywords 
             class="added-keywords"
             data-testid="added-tool-keywords"
           />
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 0px;"
@@ -1373,9 +1341,7 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -1393,9 +1359,7 @@ exports[`Tool Keywords test with keywords from CMR testing invalid set of keywor
             class="added-keywords"
             data-testid="added-tool-keywords"
           />
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: -50px;"
@@ -1503,9 +1467,7 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
         <div
           id="keyword-picker"
         >
-          <div
-            class="keyword-pretext"
-          >
+          <div>
             <div
               class="h2-box"
             >
@@ -1523,9 +1485,7 @@ exports[`Tool Keywords test with keywords from CMR testing vaid set of keywords 
             class="added-keywords"
             data-testid="added-tool-keywords"
           />
-          <div
-            class="keyword-widget"
-          >
+          <div>
             <div
               class="eui-nested-item-picker"
               style="margin-left: 0px;"

@@ -24628,7 +24628,7 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                     class="rjsf-layout-grid-group"
                   >
                     <span
-                      data-testid="layout-grid-field__col-title-field--tool-information"
+                      data-testid="layout-grid-field__col-title-field--variable-information"
                     >
                       <div>
                         <div
@@ -24638,7 +24638,11 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                             class="h1-title"
                             data-testid="custom-title-field--heading"
                           >
-                            Tool Information
+                            Variable Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>

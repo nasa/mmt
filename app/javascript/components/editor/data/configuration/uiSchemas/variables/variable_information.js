@@ -5,7 +5,8 @@ const variableInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Tool Information',
+        'ui:group': 'Variable Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [

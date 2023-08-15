@@ -91,6 +91,10 @@ exports[`Navigation View Component cancels changes 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -3861,6 +3865,10 @@ exports[`Navigation View Component error canceling changes 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -16082,6 +16090,10 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -19899,6 +19911,10 @@ exports[`Navigation View Component saves but receives error 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>

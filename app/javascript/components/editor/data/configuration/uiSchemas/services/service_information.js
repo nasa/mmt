@@ -4,6 +4,7 @@ const serviceInformationUiSchema = {
     'ui:row': [
       {
         'ui:group': 'Service Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [

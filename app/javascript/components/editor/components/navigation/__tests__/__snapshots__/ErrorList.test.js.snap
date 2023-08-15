@@ -69,6 +69,10 @@ exports[`Error List test shows a gray circle for each error when a user first vi
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -3898,6 +3902,10 @@ exports[`Error List test shows a red circle for each error when a user visits, m
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -11757,6 +11765,10 @@ exports[`Error List test testing for controlled Field 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>
@@ -15586,6 +15598,10 @@ exports[`Error List test testing valid field onClick 1`] = `
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>

@@ -7,7 +7,7 @@ interface CustomTitleFieldProps extends FieldProps {
   title: string,
   required: boolean,
   className: string
-  boxClassName: string
+  groupBoxClassName: string
 }
 
 /**
@@ -25,7 +25,7 @@ class CustomTitleField extends React.Component<CustomTitleFieldProps, never> {
 
   render() {
     const {
-      title, required, registry, className = 'h1-title', boxClassName = 'h1-box', uiSchema = {}
+      title, required, requiredUI, registry, className = 'h1-title', groupBoxClassName = 'h1-box', uiSchema = {}
     } = this.props
     const { formContext } = registry
     const { editor } = formContext
@@ -47,10 +47,10 @@ class CustomTitleField extends React.Component<CustomTitleFieldProps, never> {
 
     return (
       <div>
-        <div ref={this.scrollRef} className={boxClassName}>
+        <div ref={this.scrollRef} className={groupBoxClassName}>
           <span data-testid="custom-title-field--heading" className={`${className}`}>
             {heading}
-            {required ? <i data-testid="custom-title-field--required" className="eui-icon eui-required-o required-icon" /> : ''}
+            {required || requiredUI ? <i data-testid="custom-title-field--required" className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
       </div>

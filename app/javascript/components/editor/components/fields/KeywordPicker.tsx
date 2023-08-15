@@ -344,7 +344,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
 
     return (
       <div id="keyword-picker">
-        <div className="keyword-pretext">
+        <div>
           <div className="h2-box">
             <span className={headerClassName}>
               {title}
@@ -373,7 +373,7 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
 
           }
         </div>
-        <div className="keyword-widget">
+        <div>
           <div className="eui-nested-item-picker" style={{ marginLeft }}>
             <ul className="eui-item-path">
               {
@@ -389,7 +389,6 @@ export default class KeywordsField extends React.Component<KeywordPickerProps, K
                 ))
               }
             </ul>
-
             <div className="eui-item-list-pane" style={{ marginTop }}>
               <div id="search-keywords" data-testid="tool-keyword__search-keyword-field">
                 <Typeahead

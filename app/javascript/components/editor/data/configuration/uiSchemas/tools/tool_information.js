@@ -7,6 +7,7 @@ const toolInformationUiSchema = {
     'ui:row': [
       {
         'ui:group': 'Tool Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [

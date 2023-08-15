@@ -239,6 +239,10 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                             data-testid="custom-title-field--heading"
                           >
                             Tool Information
+                            <i
+                              class="eui-icon eui-required-o required-icon"
+                              data-testid="custom-title-field--required"
+                            />
                           </span>
                         </div>
                       </div>

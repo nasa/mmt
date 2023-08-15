@@ -165,6 +165,7 @@ describe('Custom Select Widget Component', () => {
     expect(screen.getByTestId('custom-select-widget__my-test-data-label--selector')).not.toHaveTextContent('Web Portal')
     expect(container).toMatchSnapshot()
   })
+
   it('renders the custom select widget when required field', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
@@ -219,6 +220,7 @@ describe('Custom Select Widget Component', () => {
     expect(screen.getByTestId('custom-select-widget__my-test-data-label')).toHaveTextContent('My Test Data Label')
     expect(container).toMatchSnapshot()
   })
+
   it('should call onChange when the first option is selected then second option', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
@@ -271,7 +273,11 @@ describe('Custom Select Widget Component', () => {
   it('select box works with items enums as well', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
-    const mockedOnChange = jest.fn()
+    const selectedValues = []
+    const mockedOnChange = jest.fn((value) => {
+      selectedValues.splice(0, selectedValues.length)
+      selectedValues.push(value)
+    })
     const schema = {
       items: {
         enum: ['Option1', 'Option2', 'Option3', 'Option4']
@@ -303,15 +309,22 @@ describe('Custom Select Widget Component', () => {
     expect(mySelectComponent).not.toBeNull()
     expect(mockedOnChange).toHaveBeenCalledTimes(0)
 
+    // Verify we have a checkmark and we can select it.
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('✓'))
+    expect(selectedValues).toEqual([null])
+
     fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
     fireEvent.click(await getByText('Option1'))
     expect(mockedOnChange).toHaveBeenCalledWith('Option1')
+    expect(selectedValues).toEqual(['Option1'])
 
     fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
     fireEvent.click(await getByText('Option3'))
     expect(mockedOnChange).toHaveBeenCalledWith('Option3')
+    expect(selectedValues).toEqual(['Option3'])
 
-    expect(mockedOnChange).toHaveBeenCalledTimes(2)
+    expect(mockedOnChange).toHaveBeenCalledTimes(3)
     expect(container).toMatchSnapshot()
   })
 
@@ -388,6 +401,69 @@ describe('Custom Select Widget Component', () => {
     await waitFor(async () => {
       expect(HTMLElement.prototype.scrollIntoView).toBeCalled()
     })
+    expect(container).toMatchSnapshot()
+  })
+
+  it('Select box works with enums from uiSchema', async () => {
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+    const selectedValues = []
+    const mockedOnChange = jest.fn((value) => {
+      selectedValues.splice(0, selectedValues.length)
+      selectedValues.push(value)
+    })
+
+    const schema = {
+      items: {
+        enum: ['Option1', 'Option2', 'Option3', 'Option4']
+      }
+    }
+    const props = {
+      label: 'MyTestDataLabel',
+      required: true,
+      schema,
+      id: 'mock_id',
+      registry: {
+        schemaUtils: createSchemaUtils(validator, schema),
+        formContext: { editor }
+      },
+      onChange: mockedOnChange,
+      uiSchema: {
+        'ui:options': {
+          enumOptions: ['Option1a', 'Option2a', 'Option3a', 'Option4a']
+        }
+      }
+    }
+    const { container, getByText, queryByTestId } = render(
+      <BrowserRouter>
+        <CustomSelectWidget {...props} />
+      </BrowserRouter>
+    )
+
+    const mySelectComponent = queryByTestId('custom-select-widget__my-test-data-label--selector')
+
+    expect(mySelectComponent).toBeDefined()
+    expect(mySelectComponent).not.toBeNull()
+    expect(mockedOnChange).toHaveBeenCalledTimes(0)
+
+    // Verify we have a checkmark and we can select it.
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('✓'))
+    expect(selectedValues).toEqual([null])
+
+    // Select 'Option1a'
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('Option1a'))
+    expect(mockedOnChange).toHaveBeenCalledWith('Option1a')
+    expect(selectedValues).toEqual(['Option1a'])
+
+    // Deselect 'Option1a' by selecting 'Option2a'
+    fireEvent.keyDown(mySelectComponent.firstChild, { key: 'ArrowDown' })
+    fireEvent.click(await getByText('Option2a'))
+    expect(mockedOnChange).toHaveBeenCalledWith('Option2a')
+    expect(selectedValues).toEqual(['Option2a'])
+
+    expect(mockedOnChange).toHaveBeenCalledTimes(3)
     expect(container).toMatchSnapshot()
   })
 })
