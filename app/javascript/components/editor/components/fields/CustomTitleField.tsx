@@ -34,6 +34,8 @@ class CustomTitleField extends React.Component<CustomTitleFieldProps, never> {
     let heading = title
     if (uiSchema['ui:title']) {
       heading = uiSchema['ui:title']
+    if (uiSchema['ui:title']) {
+      heading = uiSchema['ui:title']
     } else {
       const [firstPart] = title.split(/-/)
       heading = _.startCase(firstPart)

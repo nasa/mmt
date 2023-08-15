@@ -239,8 +239,10 @@ const toolContactsUiSchema = {
         },
         ServiceHours: {
           'ui:group': 'ContactPersons'
+          'ui:group': 'ContactPersons'
         },
         ContactInstruction: {
+          'ui:group': 'ContactPersons'
           'ui:group': 'ContactPersons'
         },
         ContactMechanisms: {
