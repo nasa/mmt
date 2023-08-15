@@ -31,7 +31,11 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
+<<<<<<< HEAD
           id="react-select-29-live-region"
+=======
+          id="react-select-28-live-region"
+>>>>>>> 31fedbbf10f4f5d60d497ca31a65944d59733a8a
         />
         <span
           aria-atomic="false"
@@ -62,7 +66,11 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
                 autocomplete="off"
                 autocorrect="off"
                 class=""
+<<<<<<< HEAD
                 id="react-select-29-input"
+=======
+                id="react-select-28-input"
+>>>>>>> 31fedbbf10f4f5d60d497ca31a65944d59733a8a
                 role="combobox"
                 spellcheck="false"
                 style="opacity: 0; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"

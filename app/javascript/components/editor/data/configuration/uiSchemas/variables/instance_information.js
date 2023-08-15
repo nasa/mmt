@@ -81,6 +81,7 @@ const instanceInformationUiSchema = {
       S3BucketAndObjectPrefixNames: {
         'ui:title': 'S3 Bucket and Object Prefix Name',
         items: {
+          'ui:header-classname': 'h3-title',
           'ui:title': 'S3 Bucket and Object Prefix Name'
         }
       },

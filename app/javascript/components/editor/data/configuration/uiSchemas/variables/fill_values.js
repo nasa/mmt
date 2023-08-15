@@ -8,6 +8,7 @@ const fillValuesUiSchema = {
     'ui:header-box-classname': 'h1-box',
     items: {
       'ui:title': 'Fill Values',
+      'ui:title': 'Fill Values',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [

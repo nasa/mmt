@@ -790,11 +790,54 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                       <div
                                         class="h3-title"
                                       >
+<<<<<<< HEAD
                                         <span>
                                           Contact Group
                                         </span>
                                         <span>
                                            (1 of 1)
+=======
+                                         
+                                        <span
+                                          data-testid="layout-grid-field__schema-field--group-name"
+                                        >
+                                          <div
+                                            class="metadata-editor-field form-group field field-string"
+                                            data-testid="custom-field-template"
+                                          >
+                                            <div
+                                              class="widget-header"
+                                              data-testid="custom-text-widget__group-name--text-header"
+                                            >
+                                              <span
+                                                class="metadata-editor-field-label null"
+                                              >
+                                                Group Name
+                                                <i
+                                                  class="eui-icon eui-required-o required-icon"
+                                                />
+                                              </span>
+                                              <span>
+                                                0
+                                                /
+                                                255
+                                              </span>
+                                            </div>
+                                            <input
+                                              class="custom-text-widget-input"
+                                              data-testid="custom-text-widget__group-name--text-input"
+                                              id="ContactGroups_0_GroupName"
+                                              maxlength="255"
+                                              name="Group Name"
+                                              type="text"
+                                              value=""
+                                            />
+                                            <span
+                                              class="widget-description"
+                                              data-testid="custom-text-widget--description-field__group-name"
+                                            />
+                                          </div>
+>>>>>>> 31fedbbf10f4f5d60d497ca31a65944d59733a8a
                                         </span>
                                       </div>
                                       <button
@@ -1049,6 +1092,7 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                             <span
                                                               data-testid="layout-grid-field__row-title-field--contact-information"
                                                             >
+<<<<<<< HEAD
                                                               <div>
                                                                 <div
                                                                   class="h1-box"
@@ -1222,6 +1266,9 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                                   </div>
                                                                 </div>
                                                               </div>
+=======
+                                                              Contact Mechanisms
+>>>>>>> 31fedbbf10f4f5d60d497ca31a65944d59733a8a
                                                             </span>
                                                           </div>
                                                         </div>
@@ -1232,9 +1279,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           <div
                                                             class="col-md-12"
                                                           >
+<<<<<<< HEAD
                                                              
                                                             <span
                                                               data-testid="layout-grid-field__schema-field--addresses"
+=======
+                                                            <button
+                                                              class="btn"
+                                                              data-testid="custom-array-template__add-button--contact-mechanisms"
+                                                              type="button"
+>>>>>>> 31fedbbf10f4f5d60d497ca31a65944d59733a8a
                                                             >
                                                               <div
                                                                 class="metadata-editor-field form-group field field-array"
