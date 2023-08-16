@@ -6,11 +6,15 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     class="custom-multi-select-widget"
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
       >
         My Test Data Label
+      </span>
+      <span>
         <i
           class="eui-icon eui-required-o required-icon"
         />
@@ -187,12 +191,15 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     class="custom-multi-select-widget"
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
       >
         My Test Data Label
       </span>
+      <span />
     </div>
     <div
       class="description-box"
@@ -365,11 +372,15 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     class="custom-multi-select-widget"
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
       >
         My Test Data Label
+      </span>
+      <span>
         <i
           class="eui-icon eui-required-o required-icon"
         />
@@ -546,11 +557,15 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
     class="custom-multi-select-widget"
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
       >
         My Test Data Label
+      </span>
+      <span>
         <i
           class="eui-icon eui-required-o required-icon"
         />
@@ -727,12 +742,15 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
     class="custom-multi-select-widget"
     data-testid="custom-multi-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
       >
         My Test Data Label
       </span>
+      <span />
     </div>
     <div
       class="description-box"
@@ -913,7 +931,6 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                         >
                           The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.
                         </p>
-                        <br />
                         <div
                           class="array-item element"
                         >
@@ -996,11 +1013,15 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                               class="custom-multi-select-widget"
                                               data-testid="custom-multi-select-widget__roles"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Roles
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -1183,11 +1204,15 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             class="custom-select-widget"
                                             data-testid="custom-select-widget__short-name"
                                           >
-                                            <div>
+                                            <div
+                                              class="field-label-box"
+                                            >
                                               <span
                                                 class="metadata-editor-field-label"
                                               >
                                                 Short Name
+                                              </span>
+                                              <span>
                                                 <i
                                                   class="eui-icon eui-required-o required-icon"
                                                 />
@@ -1311,11 +1336,16 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             class="widget-header"
                                             data-testid="custom-text-widget__long-name--text-header"
                                           >
-                                            <span
-                                              class="metadata-editor-field-label null"
+                                            <div
+                                              class="field-label-box"
                                             >
-                                              Long Name
-                                            </span>
+                                              <span
+                                                class="metadata-editor-field-label null"
+                                              >
+                                                Long Name
+                                              </span>
+                                              <span />
+                                            </div>
                                           </div>
                                           <input
                                             class="custom-text-widget-input"
@@ -1349,11 +1379,16 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                             class="widget-header"
                                             data-testid="custom-text-widget__url-value--text-header"
                                           >
-                                            <span
-                                              class="metadata-editor-field-label null"
+                                            <div
+                                              class="field-label-box"
                                             >
-                                              URL Value
-                                            </span>
+                                              <span
+                                                class="metadata-editor-field-label null"
+                                              >
+                                                URL Value
+                                              </span>
+                                              <span />
+                                            </div>
                                             <span>
                                               0
                                               /

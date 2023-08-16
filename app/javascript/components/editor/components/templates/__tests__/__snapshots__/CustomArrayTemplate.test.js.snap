@@ -27,7 +27,6 @@ exports[`Custom Array Template renders the custom array template and adds an arr
           <p
             class="description-box"
           />
-          <br />
           <div
             class="array-item element"
           >
@@ -431,7 +430,6 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
           <p
             class="description-box"
           />
-          <br />
           <div
             class="array-item element"
           >

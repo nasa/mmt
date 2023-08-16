@@ -97,14 +97,20 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   6
                                   /
@@ -147,14 +153,20 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   16
                                   /
@@ -197,14 +209,20 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__version--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Version
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Version
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   1
                                   /
@@ -247,21 +265,26 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__version-description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Version Description
                                   </span>
-                                </span>
-                                <span>
+                                  <span />
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__version-description--text-area-input"
                                 maxlength="1024"
                                 name="Version Description"
@@ -293,11 +316,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Type
+                                  </span>
+                                  <span>
                                     <i
                                       class="eui-icon eui-required-o required-icon"
                                     />
@@ -478,24 +505,30 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Description
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__description--text-area-input"
                                 maxlength="1024"
                                 name="Description"
@@ -527,11 +560,16 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__doi--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  DOI
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    DOI
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -600,6 +638,11 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                         </div>
                                       </div>
                                     </span>
+                                    <div
+                                      class="description-box"
+                                    >
+                                      The URL where you can directly access the web user interface or downloadable tool.
+                                    </div>
                                     <div>
                                       <div
                                         class="row row-children"
@@ -620,21 +663,26 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__url-description--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     URL Description
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__url-description--text-area-input"
                                                 maxlength="4000"
                                                 name="URL Description"
@@ -663,11 +711,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__url-content-type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   URL Content Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -778,11 +830,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -894,12 +950,15 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__subtype"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Subtype
                                                 </span>
+                                                <span />
                                               </div>
                                               <div
                                                 class="widget-description"
@@ -1010,14 +1069,20 @@ exports[`UMM Tools Form renders a new tool draft 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__url-value--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  URL Value
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    URL Value
+                                                  </span>
+                                                  <span>
+                                                    <i
+                                                      class="eui-icon eui-required-o required-icon"
+                                                    />
+                                                  </span>
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -3876,14 +3941,20 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -3926,14 +3997,20 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -3976,14 +4053,20 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__version--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Version
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Version
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -4026,21 +4109,26 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__version-description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Version Description
                                   </span>
-                                </span>
-                                <span>
+                                  <span />
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__version-description--text-area-input"
                                 maxlength="1024"
                                 name="Version Description"
@@ -4072,11 +4160,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Type
+                                  </span>
+                                  <span>
                                     <i
                                       class="eui-icon eui-required-o required-icon"
                                     />
@@ -4259,24 +4351,30 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Description
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__description--text-area-input"
                                 maxlength="1024"
                                 name="Description"
@@ -4308,11 +4406,16 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__doi--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  DOI
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    DOI
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -4381,6 +4484,11 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                         </div>
                                       </div>
                                     </span>
+                                    <div
+                                      class="description-box"
+                                    >
+                                      The URL where you can directly access the web user interface or downloadable tool.
+                                    </div>
                                     <div>
                                       <div
                                         class="row row-children"
@@ -4401,21 +4509,26 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__url-description--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     URL Description
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__url-description--text-area-input"
                                                 maxlength="4000"
                                                 name="URL Description"
@@ -4444,11 +4557,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__url-content-type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   URL Content Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -4559,11 +4676,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -4675,12 +4796,15 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__subtype"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Subtype
                                                 </span>
+                                                <span />
                                               </div>
                                               <div
                                                 class="widget-description"
@@ -4791,14 +4915,20 @@ exports[`UMM Tools Form renders a tool draft with error 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__url-value--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  URL Value
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    URL Value
+                                                  </span>
+                                                  <span>
+                                                    <i
+                                                      class="eui-icon eui-required-o required-icon"
+                                                    />
+                                                  </span>
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -7736,14 +7866,20 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -7786,14 +7922,20 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -7836,14 +7978,20 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__version--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Version
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Version
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -7886,21 +8034,26 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__version-description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Version Description
                                   </span>
-                                </span>
-                                <span>
+                                  <span />
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__version-description--text-area-input"
                                 maxlength="1024"
                                 name="Version Description"
@@ -7932,11 +8085,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Type
+                                  </span>
+                                  <span>
                                     <i
                                       class="eui-icon eui-required-o required-icon"
                                     />
@@ -8119,24 +8276,30 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Description
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__description--text-area-input"
                                 maxlength="1024"
                                 name="Description"
@@ -8168,11 +8331,16 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__doi--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  DOI
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    DOI
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -8241,6 +8409,11 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                         </div>
                                       </div>
                                     </span>
+                                    <div
+                                      class="description-box"
+                                    >
+                                      The URL where you can directly access the web user interface or downloadable tool.
+                                    </div>
                                     <div>
                                       <div
                                         class="row row-children"
@@ -8261,21 +8434,26 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__url-description--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     URL Description
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__url-description--text-area-input"
                                                 maxlength="4000"
                                                 name="URL Description"
@@ -8304,11 +8482,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__url-content-type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   URL Content Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -8419,11 +8601,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -8535,12 +8721,15 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__subtype"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Subtype
                                                 </span>
+                                                <span />
                                               </div>
                                               <div
                                                 class="widget-description"
@@ -8651,14 +8840,20 @@ exports[`UMM Tools Form renders new tool draft with error 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__url-value--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  URL Value
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    URL Value
+                                                  </span>
+                                                  <span>
+                                                    <i
+                                                      class="eui-icon eui-required-o required-icon"
+                                                    />
+                                                  </span>
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -11574,14 +11769,20 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   6
                                   /
@@ -11624,14 +11825,20 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   14
                                   /
@@ -11674,14 +11881,20 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__version--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Version
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Version
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   1
                                   /
@@ -11724,21 +11937,26 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__version-description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Version Description
                                   </span>
-                                </span>
-                                <span>
+                                  <span />
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__version-description--text-area-input"
                                 maxlength="1024"
                                 name="Version Description"
@@ -11770,11 +11988,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Type
+                                  </span>
+                                  <span>
                                     <i
                                       class="eui-icon eui-required-o required-icon"
                                     />
@@ -11955,24 +12177,30 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Description
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__description--text-area-input"
                                 maxlength="1024"
                                 name="Description"
@@ -12004,11 +12232,16 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__doi--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  DOI
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    DOI
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -12077,6 +12310,11 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                         </div>
                                       </div>
                                     </span>
+                                    <div
+                                      class="description-box"
+                                    >
+                                      The URL where you can directly access the web user interface or downloadable tool.
+                                    </div>
                                     <div>
                                       <div
                                         class="row row-children"
@@ -12097,21 +12335,26 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__url-description--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     URL Description
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__url-description--text-area-input"
                                                 maxlength="4000"
                                                 name="URL Description"
@@ -12140,11 +12383,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__url-content-type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   URL Content Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -12255,11 +12502,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -12371,12 +12622,15 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__subtype"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Subtype
                                                 </span>
+                                                <span />
                                               </div>
                                               <div
                                                 class="widget-description"
@@ -12487,14 +12741,20 @@ exports[`UMM Tools Form renders tool draft 1 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__url-value--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  URL Value
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    URL Value
+                                                  </span>
+                                                  <span>
+                                                    <i
+                                                      class="eui-icon eui-required-o required-icon"
+                                                    />
+                                                  </span>
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -15343,12 +15603,15 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                     class="custom-multi-select-widget"
                                     data-testid="custom-multi-select-widget__supported-input-formats"
                                   >
-                                    <div>
+                                    <div
+                                      class="field-label-box"
+                                    >
                                       <span
                                         class="metadata-editor-field-label"
                                       >
                                         Supported Input Formats
                                       </span>
+                                      <span />
                                     </div>
                                     <div
                                       class="description-box"
@@ -15461,12 +15724,15 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                     class="custom-multi-select-widget"
                                     data-testid="custom-multi-select-widget__supported-output-formats"
                                   >
-                                    <div>
+                                    <div
+                                      class="field-label-box"
+                                    >
                                       <span
                                         class="metadata-editor-field-label"
                                       >
                                         Supported Output Formats
                                       </span>
+                                      <span />
                                     </div>
                                     <div
                                       class="description-box"
@@ -15600,7 +15866,6 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                 >
                                   The operating system(s) and associated version supported by the downloadable tool.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >
@@ -15668,7 +15933,6 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                 >
                                   The browser(s) and associated version supported by the web user interface.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >
@@ -15736,7 +16000,6 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                 >
                                   The programming language(s) and associated version supported by the downloadable tool.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >
@@ -15832,11 +16095,15 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                                 class="custom-select-widget"
                                                 data-testid="custom-select-widget__quality-flag"
                                               >
-                                                <div>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label"
                                                   >
                                                     Quality Flag
+                                                  </span>
+                                                  <span>
                                                     <i
                                                       class="eui-icon eui-required-o required-icon"
                                                     />
@@ -15951,11 +16218,16 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__traceability--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  Traceability
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    Traceability
+                                                  </span>
+                                                  <span />
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -15998,21 +16270,26 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__lineage--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     Lineage
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__lineage--text-area-input"
                                                 maxlength="4000"
                                                 name="Lineage"
@@ -16081,21 +16358,26 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                         class="widget-header"
                                         data-testid="custom-text-area-widget__access-constraints--text-area-header"
                                       >
-                                        <span>
+                                        <div
+                                          class="field-label-box"
+                                        >
                                           <span
                                             class="metadata-editor-field-label h3-title"
                                           >
                                             Access Constraints
                                           </span>
-                                        </span>
-                                        <span>
+                                          <span />
+                                        </div>
+                                        <span
+                                          class="align-center"
+                                        >
                                           0
                                           /
                                           4000
                                         </span>
                                       </div>
                                       <textarea
-                                        class="custom-textarea-widget-input"
+                                        class="custom-textarea-widget-input custom-text-field-adjustment"
                                         data-testid="custom-text-area-widget__access-constraints--text-area-input"
                                         maxlength="4000"
                                         name="Access Constraints"
@@ -16123,7 +16405,7 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                           class="h2-box"
                                         >
                                           <span
-                                            class="h2-title"
+                                            class="h3-title"
                                             data-testid="custom-title-field-template--heading"
                                           >
                                             Use Constraints
@@ -16156,11 +16438,16 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__license-url--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  License URL
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    License URL
+                                                  </span>
+                                                  <span />
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -16199,21 +16486,26 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__license-text--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     License Text
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   20000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__license-text--text-area-input"
                                                 maxlength="20000"
                                                 name="License Text"
@@ -19144,7 +19436,6 @@ exports[`UMM Tools Form testing descriptive keywords 1`] = `
                                 >
                                   Words or phrases to further describe the downloadable tool or web user interface.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >

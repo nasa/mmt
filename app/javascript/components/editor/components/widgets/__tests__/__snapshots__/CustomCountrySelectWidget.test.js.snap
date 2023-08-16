@@ -6,12 +6,16 @@ exports[`Custom Country Selector Widget Component can select option 1`] = `
     class="country-select-widget"
     data-testid="country-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         My Test Data Label
+      </span>
+      <span>
         *
       </span>
     </div>
@@ -106,12 +110,16 @@ exports[`Custom Country Selector Widget Component can select option 2`] = `
     class="country-select-widget"
     data-testid="country-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         My Test Data Label
+      </span>
+      <span>
         *
       </span>
     </div>
@@ -206,13 +214,16 @@ exports[`Custom Country Selector Widget Component renders the custom country sel
     class="country-select-widget"
     data-testid="country-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         My Test Data Label
       </span>
+      <span />
     </div>
     <div
       data-testid="country-select-widget__my-test-data-label--selector"
@@ -305,13 +316,16 @@ exports[`Custom Country Selector Widget Component renders the custon ui:title 1`
     class="country-select-widget"
     data-testid="country-select-widget__my-test-data-label"
   >
-    <div>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label"
         data-testid="country-select-widget__my-test-data-label--title"
       >
         UiSchema Title
       </span>
+      <span />
     </div>
     <div
       data-testid="country-select-widget__my-test-data-label--selector"

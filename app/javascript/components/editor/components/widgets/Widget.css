@@ -11,11 +11,6 @@ textarea {
     justify-content: space-between;
 }
 
-.required-icon {
-    color: green;
-    padding: 5px
-}
-
 .widget-description {
     padding-left: 5px;
     font-style: italic;

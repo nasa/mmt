@@ -187,6 +187,7 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   UseConstraints: {
+    'ui:header-classname': 'h3-title',
     LicenseText: {
       'ui:widget': 'textarea'
     }

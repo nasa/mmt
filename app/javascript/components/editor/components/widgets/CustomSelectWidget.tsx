@@ -171,9 +171,11 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
 
     return (
       <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`} ref={this.selectScrollRef}>
-        <div>
+        <div className="field-label-box">
           <span className="metadata-editor-field-label">
             {title}
+          </span>
+          <span>
             {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>

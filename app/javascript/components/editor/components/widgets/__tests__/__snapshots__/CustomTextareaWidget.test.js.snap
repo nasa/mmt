@@ -6,21 +6,26 @@ exports[`Custom Text Area Widget Component Make sure inputted text is shorter th
     class="widget-header"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-header"
   >
-    <span>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label null"
       >
         My Test Area Data Label
       </span>
-    </span>
-    <span>
+      <span />
+    </div>
+    <span
+      class="align-center"
+    >
       10
       /
       10
     </span>
   </div>
   <textarea
-    class="custom-textarea-widget-input"
+    class="custom-textarea-widget-input custom-text-field-adjustment"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
     name="My Test Area Data Label"
@@ -40,24 +45,30 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
     class="widget-header"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-header"
   >
-    <span>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label null"
       >
         My Test Area Data Label
       </span>
-      <i
-        class="eui-icon eui-required-o required-icon"
-      />
-    </span>
-    <span>
+      <span>
+        <i
+          class="eui-icon eui-required-o required-icon"
+        />
+      </span>
+    </div>
+    <span
+      class="align-center"
+    >
       0
       /
       10
     </span>
   </div>
   <textarea
-    class="custom-textarea-widget-input"
+    class="custom-textarea-widget-input custom-text-field-adjustment"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
     name="My Test Area Data Label"
@@ -75,24 +86,30 @@ exports[`Custom Text Area Widget Component renders the custom Text area widget w
     class="widget-header"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-header"
   >
-    <span>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label null"
       >
         My Test Area Data Label
       </span>
-      <i
-        class="eui-icon eui-required-o required-icon"
-      />
-    </span>
-    <span>
+      <span>
+        <i
+          class="eui-icon eui-required-o required-icon"
+        />
+      </span>
+    </div>
+    <span
+      class="align-center"
+    >
       0
       /
       10
     </span>
   </div>
   <textarea
-    class="custom-textarea-widget-input"
+    class="custom-textarea-widget-input custom-text-field-adjustment"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
     name="My Test Area Data Label"
@@ -110,21 +127,26 @@ exports[`Custom Text Area Widget Component renders the custom text area widget w
     class="widget-header"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-header"
   >
-    <span>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label null"
       >
         My Test Area Data Label
       </span>
-    </span>
-    <span>
+      <span />
+    </div>
+    <span
+      class="align-center"
+    >
       0
       /
       10
     </span>
   </div>
   <textarea
-    class="custom-textarea-widget-input"
+    class="custom-textarea-widget-input custom-text-field-adjustment"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="10"
     name="My Test Area Data Label"
@@ -142,21 +164,26 @@ exports[`Custom Text Area Widget Component should call onChange on a first chara
     class="widget-header"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-header"
   >
-    <span>
+    <div
+      class="field-label-box"
+    >
       <span
         class="metadata-editor-field-label null"
       >
         My Test Area Data Label
       </span>
-    </span>
-    <span>
+      <span />
+    </div>
+    <span
+      class="align-center"
+    >
       20
       /
       20
     </span>
   </div>
   <textarea
-    class="custom-textarea-widget-input"
+    class="custom-textarea-widget-input custom-text-field-adjustment"
     data-testid="custom-text-area-widget__my-test-area-data-label--text-area-input"
     maxlength="20"
     name="My Test Area Data Label"
@@ -267,14 +294,20 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -317,14 +350,20 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -367,14 +406,20 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-widget__version--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Version
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Version
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -417,21 +462,26 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__version-description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Version Description
                                   </span>
-                                </span>
-                                <span>
+                                  <span />
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__version-description--text-area-input"
                                 maxlength="1024"
                                 name="Version Description"
@@ -463,11 +513,15 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Type
+                                  </span>
+                                  <span>
                                     <i
                                       class="eui-icon eui-required-o required-icon"
                                     />
@@ -650,24 +704,30 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__description--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Description
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   1024
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__description--text-area-input"
                                 maxlength="1024"
                                 name="Description"
@@ -701,11 +761,16 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                 class="widget-header"
                                 data-testid="custom-text-widget__doi--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  DOI
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    DOI
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -774,6 +839,11 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                         </div>
                                       </div>
                                     </span>
+                                    <div
+                                      class="description-box"
+                                    >
+                                      The URL where you can directly access the web user interface or downloadable tool.
+                                    </div>
                                     <div>
                                       <div
                                         class="row row-children"
@@ -794,21 +864,26 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                                 class="widget-header"
                                                 data-testid="custom-text-area-widget__url-description--text-area-header"
                                               >
-                                                <span>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label null"
                                                   >
                                                     URL Description
                                                   </span>
-                                                </span>
-                                                <span>
+                                                  <span />
+                                                </div>
+                                                <span
+                                                  class="align-center"
+                                                >
                                                   0
                                                   /
                                                   4000
                                                 </span>
                                               </div>
                                               <textarea
-                                                class="custom-textarea-widget-input"
+                                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                                 data-testid="custom-text-area-widget__url-description--text-area-input"
                                                 maxlength="4000"
                                                 name="URL Description"
@@ -837,11 +912,15 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__url-content-type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   URL Content Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -952,11 +1031,15 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__type"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Type
+                                                </span>
+                                                <span>
                                                   <i
                                                     class="eui-icon eui-required-o required-icon"
                                                   />
@@ -1068,12 +1151,15 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                               class="custom-select-widget"
                                               data-testid="custom-select-widget__subtype"
                                             >
-                                              <div>
+                                              <div
+                                                class="field-label-box"
+                                              >
                                                 <span
                                                   class="metadata-editor-field-label"
                                                 >
                                                   Subtype
                                                 </span>
+                                                <span />
                                               </div>
                                               <div
                                                 class="widget-description"
@@ -1184,14 +1270,20 @@ exports[`Custom Text Area Widget Component testing autofocus for a custom text w
                                                 class="widget-header"
                                                 data-testid="custom-text-widget__url-value--text-header"
                                               >
-                                                <span
-                                                  class="metadata-editor-field-label null"
+                                                <div
+                                                  class="field-label-box"
                                                 >
-                                                  URL Value
-                                                  <i
-                                                    class="eui-icon eui-required-o required-icon"
-                                                  />
-                                                </span>
+                                                  <span
+                                                    class="metadata-editor-field-label null"
+                                                  >
+                                                    URL Value
+                                                  </span>
+                                                  <span>
+                                                    <i
+                                                      class="eui-icon eui-required-o required-icon"
+                                                    />
+                                                  </span>
+                                                </div>
                                                 <span>
                                                   0
                                                   /
@@ -4120,11 +4212,15 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
-                                        <div>
+                                        <div
+                                          class="field-label-box"
+                                        >
                                           <span
                                             class="metadata-editor-field-label"
                                           >
                                             Type
+                                          </span>
+                                          <span>
                                             <i
                                               class="eui-icon eui-required-o required-icon"
                                             />
@@ -4290,11 +4386,15 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
-                                                    <div>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label"
                                                       >
                                                         Type
+                                                      </span>
+                                                      <span>
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
                                                         />
@@ -4407,16 +4507,19 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__description--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
-                                                    </span>
+                                                      <span />
+                                                    </div>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__description--text-area-input"
                                                     name="Description"
                                                   >
@@ -4449,24 +4552,30 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__url-template--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                    <span>
+                                                      <span>
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                    <span
+                                                      class="align-center"
+                                                    >
                                                       12
                                                       /
                                                       4094
                                                     </span>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__url-template--text-area-input"
                                                     maxlength="4094"
                                                     name="URL Template"
@@ -4514,7 +4623,6 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -4574,14 +4682,20 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
-                                                              <span
-                                                                class="metadata-editor-field-label null"
+                                                              <div
+                                                                class="field-label-box"
                                                               >
-                                                                Response Content Type
-                                                                <i
-                                                                  class="eui-icon eui-required-o required-icon"
-                                                                />
-                                                              </span>
+                                                                <span
+                                                                  class="metadata-editor-field-label null"
+                                                                >
+                                                                  Response Content Type
+                                                                </span>
+                                                                <span>
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
@@ -4669,7 +4783,6 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -4729,11 +4842,15 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
-                                                              <div>
+                                                              <div
+                                                                class="field-label-box"
+                                                              >
                                                                 <span
                                                                   class="metadata-editor-field-label"
                                                                 >
                                                                   HTTP Method
+                                                                </span>
+                                                                <span>
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
                                                                   />
@@ -4902,7 +5019,6 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
-                                    <br />
                                     <div
                                       class="array-item element"
                                     >
@@ -4985,14 +5101,20 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Type
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Type
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5029,11 +5151,16 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Description
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Description
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5070,14 +5197,20 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Name
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Name
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5114,13 +5247,16 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                               data-testid="custom-radio-widget--label"
                                                             >
                                                               Value Required
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <input
                                                             data-testid="custom-radio-widget--value__true"
@@ -8091,11 +8227,15 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
-                                        <div>
+                                        <div
+                                          class="field-label-box"
+                                        >
                                           <span
                                             class="metadata-editor-field-label"
                                           >
                                             Type
+                                          </span>
+                                          <span>
                                             <i
                                               class="eui-icon eui-required-o required-icon"
                                             />
@@ -8261,11 +8401,15 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
-                                                    <div>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label"
                                                       >
                                                         Type
+                                                      </span>
+                                                      <span>
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
                                                         />
@@ -8378,16 +8522,19 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__description--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
-                                                    </span>
+                                                      <span />
+                                                    </div>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__description--text-area-input"
                                                     name="Description"
                                                   >
@@ -8422,24 +8569,30 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__url-template--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                    <span>
+                                                      <span>
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                    <span
+                                                      class="align-center"
+                                                    >
                                                       12
                                                       /
                                                       4094
                                                     </span>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__url-template--text-area-input"
                                                     maxlength="4094"
                                                     name="URL Template"
@@ -8487,7 +8640,6 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -8547,14 +8699,20 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
-                                                              <span
-                                                                class="metadata-editor-field-label null"
+                                                              <div
+                                                                class="field-label-box"
                                                               >
-                                                                Response Content Type
-                                                                <i
-                                                                  class="eui-icon eui-required-o required-icon"
-                                                                />
-                                                              </span>
+                                                                <span
+                                                                  class="metadata-editor-field-label null"
+                                                                >
+                                                                  Response Content Type
+                                                                </span>
+                                                                <span>
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
@@ -8642,7 +8800,6 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -8702,11 +8859,15 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
-                                                              <div>
+                                                              <div
+                                                                class="field-label-box"
+                                                              >
                                                                 <span
                                                                   class="metadata-editor-field-label"
                                                                 >
                                                                   HTTP Method
+                                                                </span>
+                                                                <span>
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
                                                                   />
@@ -8875,7 +9036,6 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
-                                    <br />
                                     <div
                                       class="array-item element"
                                     >
@@ -8958,14 +9118,20 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Type
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Type
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9002,11 +9168,16 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Description
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Description
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9043,14 +9214,20 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Name
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Name
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9087,13 +9264,16 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                               data-testid="custom-radio-widget--label"
                                                             >
                                                               Value Required
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <input
                                                             data-testid="custom-radio-widget--value__true"

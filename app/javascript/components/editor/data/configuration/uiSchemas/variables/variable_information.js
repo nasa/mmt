@@ -140,6 +140,12 @@ const variableInformationUiSchema = {
             }
           }
         ]
+      },
+      CodeSystemIdentifierMeaning: {
+        'ui:header-classname': 'h3-title'
+      },
+      CodeSystemIdentifierValue: {
+        'ui:header-classname': 'h3-title'
       }
     }
   },

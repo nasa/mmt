@@ -15,6 +15,10 @@
   color: grey;
 }
 
+#LastUpdatedDate {
+  padding: 8px;
+}
+
 .custom-date-picker-component,
 .custom-date-picker-component>div.react-datepicker-wrapper,
 .custom-date-picker-component>div>div.react-datepicker__input-container,

@@ -777,7 +777,6 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                 >
                                   Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted.
                                 </p>
-                                <br />
                                 <div
                                   class="array-item element"
                                 >
@@ -860,14 +859,20 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                       class="widget-header"
                                                       data-testid="custom-text-widget__group-name--text-header"
                                                     >
-                                                      <span
-                                                        class="metadata-editor-field-label null"
+                                                      <div
+                                                        class="field-label-box"
                                                       >
-                                                        Group Name
-                                                        <i
-                                                          class="eui-icon eui-required-o required-icon"
-                                                        />
-                                                      </span>
+                                                        <span
+                                                          class="metadata-editor-field-label null"
+                                                        >
+                                                          Group Name
+                                                        </span>
+                                                        <span>
+                                                          <i
+                                                            class="eui-icon eui-required-o required-icon"
+                                                          />
+                                                        </span>
+                                                      </div>
                                                       <span>
                                                         0
                                                         /
@@ -910,11 +915,15 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                       class="custom-multi-select-widget"
                                                       data-testid="custom-multi-select-widget__roles"
                                                     >
-                                                      <div>
+                                                      <div
+                                                        class="field-label-box"
+                                                      >
                                                         <span
                                                           class="metadata-editor-field-label"
                                                         >
                                                           Roles
+                                                        </span>
+                                                        <span>
                                                           <i
                                                             class="eui-icon eui-required-o required-icon"
                                                           />
@@ -1085,11 +1094,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                                       class="widget-header"
                                                                       data-testid="custom-text-widget__service-hours--text-header"
                                                                     >
-                                                                      <span
-                                                                        class="metadata-editor-field-label null"
+                                                                      <div
+                                                                        class="field-label-box"
                                                                       >
-                                                                        Service Hours
-                                                                      </span>
+                                                                        <span
+                                                                          class="metadata-editor-field-label null"
+                                                                        >
+                                                                          Service Hours
+                                                                        </span>
+                                                                        <span />
+                                                                      </div>
                                                                       <span>
                                                                         0
                                                                         /
@@ -1127,11 +1141,16 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                                       class="widget-header"
                                                                       data-testid="custom-text-widget__contact-instruction--text-header"
                                                                     >
-                                                                      <span
-                                                                        class="metadata-editor-field-label null"
+                                                                      <div
+                                                                        class="field-label-box"
                                                                       >
-                                                                        Contact Instruction
-                                                                      </span>
+                                                                        <span
+                                                                          class="metadata-editor-field-label null"
+                                                                        >
+                                                                          Contact Instruction
+                                                                        </span>
+                                                                        <span />
+                                                                      </div>
                                                                       <span>
                                                                         0
                                                                         /
@@ -1190,7 +1209,6 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                                   >
                                                                     Mechanisms of contacting.
                                                                   </p>
-                                                                  <br />
                                                                   <div
                                                                     class="custom-array-template-add-btn add-header"
                                                                   >
@@ -1258,7 +1276,6 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                                   >
                                                                     Contact addresses.
                                                                   </p>
-                                                                  <br />
                                                                   <div
                                                                     class="custom-array-template-add-btn add-header"
                                                                   >
@@ -1367,7 +1384,6 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                 >
                                   This is the contact persons of the downloadable tool or web user interface.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >
@@ -4307,11 +4323,15 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
-                                        <div>
+                                        <div
+                                          class="field-label-box"
+                                        >
                                           <span
                                             class="metadata-editor-field-label"
                                           >
                                             Type
+                                          </span>
+                                          <span>
                                             <i
                                               class="eui-icon eui-required-o required-icon"
                                             />
@@ -4477,11 +4497,15 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
-                                                    <div>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label"
                                                       >
                                                         Type
+                                                      </span>
+                                                      <span>
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
                                                         />
@@ -4594,16 +4618,19 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__description--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
-                                                    </span>
+                                                      <span />
+                                                    </div>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__description--text-area-input"
                                                     name="Description"
                                                   >
@@ -4636,24 +4663,30 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__url-template--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                    <span>
+                                                      <span>
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                    <span
+                                                      class="align-center"
+                                                    >
                                                       12
                                                       /
                                                       4094
                                                     </span>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__url-template--text-area-input"
                                                     maxlength="4094"
                                                     name="URL Template"
@@ -4701,7 +4734,6 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -4761,14 +4793,20 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
-                                                              <span
-                                                                class="metadata-editor-field-label null"
+                                                              <div
+                                                                class="field-label-box"
                                                               >
-                                                                Response Content Type
-                                                                <i
-                                                                  class="eui-icon eui-required-o required-icon"
-                                                                />
-                                                              </span>
+                                                                <span
+                                                                  class="metadata-editor-field-label null"
+                                                                >
+                                                                  Response Content Type
+                                                                </span>
+                                                                <span>
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
@@ -4856,7 +4894,6 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -4916,11 +4953,15 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
-                                                              <div>
+                                                              <div
+                                                                class="field-label-box"
+                                                              >
                                                                 <span
                                                                   class="metadata-editor-field-label"
                                                                 >
                                                                   HTTP Method
+                                                                </span>
+                                                                <span>
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
                                                                   />
@@ -5089,7 +5130,6 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
-                                    <br />
                                     <div
                                       class="array-item element"
                                     >
@@ -5172,14 +5212,20 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Type
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Type
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5216,11 +5262,16 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Description
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Description
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5257,14 +5308,20 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Name
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Name
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -5301,13 +5358,16 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                               data-testid="custom-radio-widget--label"
                                                             >
                                                               Value Required
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <input
                                                             data-testid="custom-radio-widget--value__true"
@@ -8273,11 +8333,15 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                         class="custom-select-widget"
                                         data-testid="custom-select-widget__type"
                                       >
-                                        <div>
+                                        <div
+                                          class="field-label-box"
+                                        >
                                           <span
                                             class="metadata-editor-field-label"
                                           >
                                             Type
+                                          </span>
+                                          <span>
                                             <i
                                               class="eui-icon eui-required-o required-icon"
                                             />
@@ -8443,11 +8507,15 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     class="custom-select-widget"
                                                     data-testid="custom-select-widget__type"
                                                   >
-                                                    <div>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label"
                                                       >
                                                         Type
+                                                      </span>
+                                                      <span>
                                                         <i
                                                           class="eui-icon eui-required-o required-icon"
                                                         />
@@ -8562,16 +8630,19 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__description--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         Description
                                                       </span>
-                                                    </span>
+                                                      <span />
+                                                    </div>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__description--text-area-input"
                                                     name="Description"
                                                   />
@@ -8602,24 +8673,30 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     class="widget-header"
                                                     data-testid="custom-text-area-widget__url-template--text-area-header"
                                                   >
-                                                    <span>
+                                                    <div
+                                                      class="field-label-box"
+                                                    >
                                                       <span
                                                         class="metadata-editor-field-label null"
                                                       >
                                                         URL Template
                                                       </span>
-                                                      <i
-                                                        class="eui-icon eui-required-o required-icon"
-                                                      />
-                                                    </span>
-                                                    <span>
+                                                      <span>
+                                                        <i
+                                                          class="eui-icon eui-required-o required-icon"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                    <span
+                                                      class="align-center"
+                                                    >
                                                       0
                                                       /
                                                       4094
                                                     </span>
                                                   </div>
                                                   <textarea
-                                                    class="custom-textarea-widget-input"
+                                                    class="custom-textarea-widget-input custom-text-field-adjustment"
                                                     data-testid="custom-text-area-widget__url-template--text-area-input"
                                                     maxlength="4094"
                                                     name="URL Template"
@@ -8665,7 +8742,6 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     >
                                                       The supported MIME type(s) of the response from the HTTP API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -8725,14 +8801,20 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                               class="widget-header"
                                                               data-testid="custom-text-widget__response-content-type-0--text-header"
                                                             >
-                                                              <span
-                                                                class="metadata-editor-field-label null"
+                                                              <div
+                                                                class="field-label-box"
                                                               >
-                                                                Response Content Type
-                                                                <i
-                                                                  class="eui-icon eui-required-o required-icon"
-                                                                />
-                                                              </span>
+                                                                <span
+                                                                  class="metadata-editor-field-label null"
+                                                                >
+                                                                  Response Content Type
+                                                                </span>
+                                                                <span>
+                                                                  <i
+                                                                    class="eui-icon eui-required-o required-icon"
+                                                                  />
+                                                                </span>
+                                                              </div>
                                                             </div>
                                                             <input
                                                               class="custom-text-widget-input"
@@ -8820,7 +8902,6 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                     >
                                                       The accepted HTTP methods for this API.
                                                     </p>
-                                                    <br />
                                                     <div
                                                       class="array-item element"
                                                     >
@@ -8880,11 +8961,15 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__http-method"
                                                             >
-                                                              <div>
+                                                              <div
+                                                                class="field-label-box"
+                                                              >
                                                                 <span
                                                                   class="metadata-editor-field-label"
                                                                 >
                                                                   HTTP Method
+                                                                </span>
+                                                                <span>
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
                                                                   />
@@ -9057,7 +9142,6 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                     >
                                       A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action
                                     </p>
-                                    <br />
                                     <div
                                       class="array-item element"
                                     >
@@ -9140,14 +9224,20 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-type--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Type
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Type
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9184,11 +9274,16 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__description--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Description
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Description
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9225,14 +9320,20 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__value-name--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Value Name
-                                                            <i
-                                                              class="eui-icon eui-required-o required-icon"
-                                                            />
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Value Name
+                                                            </span>
+                                                            <span>
+                                                              <i
+                                                                class="eui-icon eui-required-o required-icon"
+                                                              />
+                                                            </span>
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -9269,13 +9370,16 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
                                                           class="custom-radio-widget"
                                                           data-testid="custom-radio-widget"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                               data-testid="custom-radio-widget--label"
                                                             >
                                                               Value Required
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <input
                                                             data-testid="custom-radio-widget--value__true"
@@ -12387,7 +12491,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         >
                                           This element is used to identify the list of supported methods of variable aggregation.
                                         </p>
-                                        <br />
                                         <div
                                           class="array-item element"
                                         >
@@ -12447,11 +12550,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   class="custom-select-widget"
                                                   data-testid="custom-select-widget__variable-aggregation-supported-methods-0"
                                                 >
-                                                  <div>
+                                                  <div
+                                                    class="field-label-box"
+                                                  >
                                                     <span
                                                       class="metadata-editor-field-label"
                                                     >
                                                       Variable Aggregation Supported Methods
+                                                    </span>
+                                                    <span>
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -12609,7 +12716,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         >
                                           This element is used to identify the list of supported input projections types.
                                         </p>
-                                        <br />
                                         <div
                                           class="array-item element"
                                         >
@@ -12707,12 +12813,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-name"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Name
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -12819,11 +12928,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-latitude-of-center--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Latitude Of Center
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Latitude Of Center
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -12856,11 +12970,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-longitude-of-center--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Longitude Of Center
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Longitude Of Center
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -12893,11 +13012,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-false-easting--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection False Easting
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection False Easting
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -12930,11 +13054,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-false-northing--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection False Northing
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection False Northing
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -12967,11 +13096,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-authority--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Authority
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Authority
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13004,12 +13138,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-unit"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Unit
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -13116,12 +13253,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-datum-name"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Datum Name
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -13279,7 +13419,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         >
                                           This element is used to identify the list of supported output projections types.
                                         </p>
-                                        <br />
                                         <div
                                           class="array-item element"
                                         >
@@ -13377,12 +13516,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-name"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Name
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -13489,11 +13631,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-latitude-of-center--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Latitude Of Center
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Latitude Of Center
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13526,11 +13673,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-longitude-of-center--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Longitude Of Center
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Longitude Of Center
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13563,11 +13715,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-false-easting--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection False Easting
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection False Easting
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13600,11 +13757,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-false-northing--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection False Northing
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection False Northing
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13637,11 +13799,16 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="widget-header"
                                                           data-testid="custom-text-widget__projection-authority--text-header"
                                                         >
-                                                          <span
-                                                            class="metadata-editor-field-label null"
+                                                          <div
+                                                            class="field-label-box"
                                                           >
-                                                            Projection Authority
-                                                          </span>
+                                                            <span
+                                                              class="metadata-editor-field-label null"
+                                                            >
+                                                              Projection Authority
+                                                            </span>
+                                                            <span />
+                                                          </div>
                                                         </div>
                                                         <input
                                                           class="custom-text-widget-input"
@@ -13674,12 +13841,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-unit"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Unit
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -13786,12 +13956,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                           class="custom-select-widget"
                                                           data-testid="custom-select-widget__projection-datum-name"
                                                         >
-                                                          <div>
+                                                          <div
+                                                            class="field-label-box"
+                                                          >
                                                             <span
                                                               class="metadata-editor-field-label"
                                                             >
                                                               Projection Datum Name
                                                             </span>
+                                                            <span />
                                                           </div>
                                                           <div
                                                             class="widget-description"
@@ -13949,7 +14122,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         >
                                           This element is used to identify the list of supported interpolation types.
                                         </p>
-                                        <br />
                                         <div
                                           class="array-item element"
                                         >
@@ -14009,11 +14181,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   class="custom-select-widget"
                                                   data-testid="custom-select-widget__interpolation-types-0"
                                                 >
-                                                  <div>
+                                                  <div
+                                                    class="field-label-box"
+                                                  >
                                                     <span
                                                       class="metadata-editor-field-label"
                                                     >
                                                       Interpolation Types
+                                                    </span>
+                                                    <span>
                                                       <i
                                                         class="eui-icon eui-required-o required-icon"
                                                       />
@@ -14171,7 +14347,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                         >
                                           The project element describes the list of format name combinations which explicitly state which re-formatting options are available. These are entered as pairs of values, e.g. if NetCDF-3 -&gt; NetCDF-4 is a valid supported reformatting, these two values would be entered as a pair.
                                         </p>
-                                        <br />
                                         <div
                                           class="array-item element"
                                         >
@@ -14254,11 +14429,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                               class="custom-select-widget"
                                                               data-testid="custom-select-widget__supported-input-format"
                                                             >
-                                                              <div>
+                                                              <div
+                                                                class="field-label-box"
+                                                              >
                                                                 <span
                                                                   class="metadata-editor-field-label"
                                                                 >
                                                                   Supported Input Format
+                                                                </span>
+                                                                <span>
                                                                   <i
                                                                     class="eui-icon eui-required-o required-icon"
                                                                   />
@@ -14385,7 +14564,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                               >
                                                                 This element is used to identify the name of all supported output formats for the provided input format.
                                                               </p>
-                                                              <br />
                                                               <div
                                                                 class="array-item element"
                                                               >
@@ -14445,11 +14623,15 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                                         class="custom-select-widget"
                                                                         data-testid="custom-select-widget__supported-output-formats-0"
                                                                       >
-                                                                        <div>
+                                                                        <div
+                                                                          class="field-label-box"
+                                                                        >
                                                                           <span
                                                                             class="metadata-editor-field-label"
                                                                           >
                                                                             Supported Output Formats
+                                                                          </span>
+                                                                          <span>
                                                                             <i
                                                                               class="eui-icon eui-required-o required-icon"
                                                                             />
@@ -24667,14 +24849,20 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -24712,11 +24900,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__standard-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Standard Name
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Standard Name
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -24759,14 +24952,20 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__long-name--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Long Name
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Long Name
+                                  </span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
                                 <span>
                                   0
                                   /
@@ -24809,24 +25008,30 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-area-widget__definition--text-area-header"
                               >
-                                <span>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label null"
                                   >
                                     Definition
                                   </span>
-                                  <i
-                                    class="eui-icon eui-required-o required-icon"
-                                  />
-                                </span>
-                                <span>
+                                  <span>
+                                    <i
+                                      class="eui-icon eui-required-o required-icon"
+                                    />
+                                  </span>
+                                </div>
+                                <span
+                                  class="align-center"
+                                >
                                   0
                                   /
                                   10000
                                 </span>
                               </div>
                               <textarea
-                                class="custom-textarea-widget-input"
+                                class="custom-textarea-widget-input custom-text-field-adjustment"
                                 data-testid="custom-text-area-widget__definition--text-area-input"
                                 maxlength="10000"
                                 name="Definition"
@@ -24872,7 +25077,6 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 >
                                   Any additional identifiers of a variable.
                                 </p>
-                                <br />
                                 <div
                                   class="array-item element"
                                 >
@@ -24955,14 +25159,20 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                                       class="widget-header"
                                                       data-testid="custom-text-widget__identifier--text-header"
                                                     >
-                                                      <span
-                                                        class="metadata-editor-field-label null"
+                                                      <div
+                                                        class="field-label-box"
                                                       >
-                                                        Identifier
-                                                        <i
-                                                          class="eui-icon eui-required-o required-icon"
-                                                        />
-                                                      </span>
+                                                        <span
+                                                          class="metadata-editor-field-label null"
+                                                        >
+                                                          Identifier
+                                                        </span>
+                                                        <span>
+                                                          <i
+                                                            class="eui-icon eui-required-o required-icon"
+                                                          />
+                                                        </span>
+                                                      </div>
                                                       <span>
                                                         0
                                                         /
@@ -25005,21 +25215,26 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                                       class="widget-header"
                                                       data-testid="custom-text-area-widget__description--text-area-header"
                                                     >
-                                                      <span>
+                                                      <div
+                                                        class="field-label-box"
+                                                      >
                                                         <span
                                                           class="metadata-editor-field-label null"
                                                         >
                                                           Description
                                                         </span>
-                                                      </span>
-                                                      <span>
+                                                        <span />
+                                                      </div>
+                                                      <span
+                                                        class="align-center"
+                                                      >
                                                         0
                                                         /
                                                         4000
                                                       </span>
                                                     </div>
                                                     <textarea
-                                                      class="custom-textarea-widget-input"
+                                                      class="custom-textarea-widget-input custom-text-field-adjustment"
                                                       data-testid="custom-text-area-widget__description--text-area-input"
                                                       maxlength="4000"
                                                       name="Description"
@@ -25091,12 +25306,15 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__variable-type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Variable Type
                                   </span>
+                                  <span />
                                 </div>
                                 <div
                                   class="widget-description"
@@ -25202,12 +25420,15 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__variable-sub-type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Variable Sub Type
                                   </span>
+                                  <span />
                                 </div>
                                 <div
                                   class="widget-description"
@@ -25318,11 +25539,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__units--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Units
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Units
+                                  </span>
+                                  <span />
+                                </div>
                                 <span>
                                   0
                                   /
@@ -25360,12 +25586,15 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="custom-select-widget"
                                 data-testid="custom-select-widget__data-type"
                               >
-                                <div>
+                                <div
+                                  class="field-label-box"
+                                >
                                   <span
                                     class="metadata-editor-field-label"
                                   >
                                     Data Type
                                   </span>
+                                  <span />
                                 </div>
                                 <div
                                   class="widget-description"
@@ -25476,11 +25705,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__scale--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Scale
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Scale
+                                  </span>
+                                  <span />
+                                </div>
                               </div>
                               <input
                                 class="custom-text-widget-input"
@@ -25512,11 +25746,16 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 class="widget-header"
                                 data-testid="custom-text-widget__offset--text-header"
                               >
-                                <span
-                                  class="metadata-editor-field-label null"
+                                <div
+                                  class="field-label-box"
                                 >
-                                  Offset
-                                </span>
+                                  <span
+                                    class="metadata-editor-field-label null"
+                                  >
+                                    Offset
+                                  </span>
+                                  <span />
+                                </div>
                               </div>
                               <input
                                 class="custom-text-widget-input"
@@ -25567,7 +25806,6 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
                                 >
                                   Valid ranges of variable data values.
                                 </p>
-                                <br />
                                 <div
                                   class="custom-array-template-add-btn add-header"
                                 >

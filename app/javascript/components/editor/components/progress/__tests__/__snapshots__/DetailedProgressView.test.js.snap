@@ -10844,14 +10844,20 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-widget__name--text-header"
                                 >
-                                  <span
-                                    class="metadata-editor-field-label null"
+                                  <div
+                                    class="field-label-box"
                                   >
-                                    Name
-                                    <i
-                                      class="eui-icon eui-required-o required-icon"
-                                    />
-                                  </span>
+                                    <span
+                                      class="metadata-editor-field-label null"
+                                    >
+                                      Name
+                                    </span>
+                                    <span>
+                                      <i
+                                        class="eui-icon eui-required-o required-icon"
+                                      />
+                                    </span>
+                                  </div>
                                   <span>
                                     0
                                     /
@@ -10894,14 +10900,20 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-widget__long-name--text-header"
                                 >
-                                  <span
-                                    class="metadata-editor-field-label null"
+                                  <div
+                                    class="field-label-box"
                                   >
-                                    Long Name
-                                    <i
-                                      class="eui-icon eui-required-o required-icon"
-                                    />
-                                  </span>
+                                    <span
+                                      class="metadata-editor-field-label null"
+                                    >
+                                      Long Name
+                                    </span>
+                                    <span>
+                                      <i
+                                        class="eui-icon eui-required-o required-icon"
+                                      />
+                                    </span>
+                                  </div>
                                   <span>
                                     0
                                     /
@@ -10944,14 +10956,20 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-widget__version--text-header"
                                 >
-                                  <span
-                                    class="metadata-editor-field-label null"
+                                  <div
+                                    class="field-label-box"
                                   >
-                                    Version
-                                    <i
-                                      class="eui-icon eui-required-o required-icon"
-                                    />
-                                  </span>
+                                    <span
+                                      class="metadata-editor-field-label null"
+                                    >
+                                      Version
+                                    </span>
+                                    <span>
+                                      <i
+                                        class="eui-icon eui-required-o required-icon"
+                                      />
+                                    </span>
+                                  </div>
                                   <span>
                                     0
                                     /
@@ -10994,21 +11012,26 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-area-widget__version-description--text-area-header"
                                 >
-                                  <span>
+                                  <div
+                                    class="field-label-box"
+                                  >
                                     <span
                                       class="metadata-editor-field-label null"
                                     >
                                       Version Description
                                     </span>
-                                  </span>
-                                  <span>
+                                    <span />
+                                  </div>
+                                  <span
+                                    class="align-center"
+                                  >
                                     0
                                     /
                                     1024
                                   </span>
                                 </div>
                                 <textarea
-                                  class="custom-textarea-widget-input"
+                                  class="custom-textarea-widget-input custom-text-field-adjustment"
                                   data-testid="custom-text-area-widget__version-description--text-area-input"
                                   maxlength="1024"
                                   name="Version Description"
@@ -11040,11 +11063,15 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="custom-select-widget"
                                   data-testid="custom-select-widget__type"
                                 >
-                                  <div>
+                                  <div
+                                    class="field-label-box"
+                                  >
                                     <span
                                       class="metadata-editor-field-label"
                                     >
                                       Type
+                                    </span>
+                                    <span>
                                       <i
                                         class="eui-icon eui-required-o required-icon"
                                       />
@@ -11227,24 +11254,30 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-area-widget__description--text-area-header"
                                 >
-                                  <span>
+                                  <div
+                                    class="field-label-box"
+                                  >
                                     <span
                                       class="metadata-editor-field-label null"
                                     >
                                       Description
                                     </span>
-                                    <i
-                                      class="eui-icon eui-required-o required-icon"
-                                    />
-                                  </span>
-                                  <span>
+                                    <span>
+                                      <i
+                                        class="eui-icon eui-required-o required-icon"
+                                      />
+                                    </span>
+                                  </div>
+                                  <span
+                                    class="align-center"
+                                  >
                                     0
                                     /
                                     1024
                                   </span>
                                 </div>
                                 <textarea
-                                  class="custom-textarea-widget-input"
+                                  class="custom-textarea-widget-input custom-text-field-adjustment"
                                   data-testid="custom-text-area-widget__description--text-area-input"
                                   maxlength="1024"
                                   name="Description"
@@ -11276,11 +11309,16 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                   class="widget-header"
                                   data-testid="custom-text-widget__doi--text-header"
                                 >
-                                  <span
-                                    class="metadata-editor-field-label null"
+                                  <div
+                                    class="field-label-box"
                                   >
-                                    DOI
-                                  </span>
+                                    <span
+                                      class="metadata-editor-field-label null"
+                                    >
+                                      DOI
+                                    </span>
+                                    <span />
+                                  </div>
                                   <span>
                                     0
                                     /
@@ -11349,6 +11387,11 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                           </div>
                                         </div>
                                       </span>
+                                      <div
+                                        class="description-box"
+                                      >
+                                        The URL where you can directly access the web user interface or downloadable tool.
+                                      </div>
                                       <div>
                                         <div
                                           class="row row-children"
@@ -11369,21 +11412,26 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                                   class="widget-header"
                                                   data-testid="custom-text-area-widget__url-description--text-area-header"
                                                 >
-                                                  <span>
+                                                  <div
+                                                    class="field-label-box"
+                                                  >
                                                     <span
                                                       class="metadata-editor-field-label null"
                                                     >
                                                       URL Description
                                                     </span>
-                                                  </span>
-                                                  <span>
+                                                    <span />
+                                                  </div>
+                                                  <span
+                                                    class="align-center"
+                                                  >
                                                     0
                                                     /
                                                     4000
                                                   </span>
                                                 </div>
                                                 <textarea
-                                                  class="custom-textarea-widget-input"
+                                                  class="custom-textarea-widget-input custom-text-field-adjustment"
                                                   data-testid="custom-text-area-widget__url-description--text-area-input"
                                                   maxlength="4000"
                                                   name="URL Description"
@@ -11412,11 +11460,15 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                                 class="custom-select-widget"
                                                 data-testid="custom-select-widget__url-content-type"
                                               >
-                                                <div>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label"
                                                   >
                                                     URL Content Type
+                                                  </span>
+                                                  <span>
                                                     <i
                                                       class="eui-icon eui-required-o required-icon"
                                                     />
@@ -11527,11 +11579,15 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                                 class="custom-select-widget"
                                                 data-testid="custom-select-widget__type"
                                               >
-                                                <div>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label"
                                                   >
                                                     Type
+                                                  </span>
+                                                  <span>
                                                     <i
                                                       class="eui-icon eui-required-o required-icon"
                                                     />
@@ -11643,12 +11699,15 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                                 class="custom-select-widget"
                                                 data-testid="custom-select-widget__subtype"
                                               >
-                                                <div>
+                                                <div
+                                                  class="field-label-box"
+                                                >
                                                   <span
                                                     class="metadata-editor-field-label"
                                                   >
                                                     Subtype
                                                   </span>
+                                                  <span />
                                                 </div>
                                                 <div
                                                   class="widget-description"
@@ -11759,14 +11818,20 @@ exports[`Detailed Progress View testing deleting a draft 1`] = `
                                                   class="widget-header"
                                                   data-testid="custom-text-widget__url-value--text-header"
                                                 >
-                                                  <span
-                                                    class="metadata-editor-field-label null"
+                                                  <div
+                                                    class="field-label-box"
                                                   >
-                                                    URL Value
-                                                    <i
-                                                      class="eui-icon eui-required-o required-icon"
-                                                    />
-                                                  </span>
+                                                    <span
+                                                      class="metadata-editor-field-label null"
+                                                    >
+                                                      URL Value
+                                                    </span>
+                                                    <span>
+                                                      <i
+                                                        class="eui-icon eui-required-o required-icon"
+                                                      />
+                                                    </span>
+                                                  </div>
                                                   <span>
                                                     0
                                                     /

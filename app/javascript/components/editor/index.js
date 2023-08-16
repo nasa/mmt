@@ -2,13 +2,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-// import UmmVarForm from './UmmVarForm'
+import UmmVarForm from './UmmVarForm'
 // import UmmToolsForm from './UmmToolsForm'
-import UmmServicesForm from './UmmServicesForm'
+// import UmmServicesForm from './UmmServicesForm'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <UmmServicesForm />
+  // <UmmServicesForm />
   // <UmmToolsForm shouldRedirectAfterPublish={false} />
-  // <UmmVarForm />
+  <UmmVarForm />
 )

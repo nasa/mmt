@@ -18,30 +18,23 @@
     border-bottom: solid 2px rgb(240, 240, 240);
     padding-bottom: 6px;
     margin-top: 8px;
+    margin-bottom: 15px;
 }
 
 .h2-box {
     /* background-color: black; */
-    margin-top: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 15px;
 }
 
 .description-box {
     /* background-color: goldenrod; */
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .field-label-box {
     /* background-color: purple; */
     padding-bottom: 6px;
 }
-
-.field-box {
-    /* background-color: blanchedalmond; */
-    margin-bottom: 20px;
-}
-
 
 /* HEADERS */
 .h1-title {
@@ -62,11 +55,21 @@
     font-weight: 400;
 }
 
-
 /* OTHER */
 .required-icon {
     color: green;
     padding-left: 5px;
 }
 
-/* test */
+.p-0.container-fluid>.row {
+    margin-bottom: -15px !important;
+    padding-bottom: 15px;
+}
+
+.custom-text-field-adjustment {
+    margin-bottom: -6px;
+}
+
+.align-center {
+    align-self: center;
+}

@@ -178,7 +178,6 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
         <p className="description-box">
           {schema.description}
         </p>
-        {items && <br />}
 
         {items && items.map((element: Element, index: number) => (
           <div

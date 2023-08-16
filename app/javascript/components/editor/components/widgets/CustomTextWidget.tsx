@@ -107,10 +107,14 @@ class CustomTextWidget extends React.Component<CustomTextWidgetProps, CustomText
       <>
         <div className="widget-header" data-testid={`custom-text-widget__${kebabCase(label)}--text-header`} ref={this.inputScrollRef}>
           {title && (
-            <span className={`metadata-editor-field-label ${headerClassName}`}>
-              {title}
-              {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
-            </span>
+            <div className="field-label-box">
+              <span className={`metadata-editor-field-label ${headerClassName}`}>
+                {title}
+              </span>
+              <span>
+                {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+              </span>
+            </div>
           )}
           {maxLength && (
             <span>

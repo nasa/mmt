@@ -142,6 +142,7 @@ const toolContactsUiSchema = {
                       {
                         'ui:group': 'Street Addresses',
                         'ui:group-classname': 'h3-title',
+                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
@@ -282,6 +283,8 @@ const toolContactsUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
+                        'ui:group-classname': 'h3-title',
+                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]

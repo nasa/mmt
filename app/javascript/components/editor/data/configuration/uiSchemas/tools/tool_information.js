@@ -85,6 +85,7 @@ const toolInformationUiSchema = {
       'ui:row': [
         {
           'ui:group': 'URL',
+          'ui:group-description': true,
           'ui:group-classname': 'h2-title',
           'ui:group-box-classname': 'h2-box',
           'ui:col': {
