@@ -64,6 +64,7 @@ const organizationUiSchema = {
               'ui:group': 'Online Resource',
               'ui:group-description': true,
               'ui:group-classname': 'h3-title',
+              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [

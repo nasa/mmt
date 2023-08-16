@@ -5,6 +5,8 @@ const variableInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Variable Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [
@@ -138,6 +140,12 @@ const variableInformationUiSchema = {
             }
           }
         ]
+      },
+      CodeSystemIdentifierMeaning: {
+        'ui:header-classname': 'h3-title'
+      },
+      CodeSystemIdentifierValue: {
+        'ui:header-classname': 'h3-title'
       }
     }
   },
@@ -146,13 +154,14 @@ const variableInformationUiSchema = {
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:group': 'Index Ranges',
+      'ui:group-classname': 'h2-title',
+      'ui:group-box-classname': 'h2-box',
       'ui:group-description': true,
       'ui:group-single-panel': true,
       'ui:row': [
         {
           'ui:col': {
             md: 12,
-            className: 'field-left-border',
             children: [
               {
                 'ui:row': [

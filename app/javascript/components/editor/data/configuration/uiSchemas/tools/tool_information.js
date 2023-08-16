@@ -6,6 +6,8 @@ const toolInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Tool Information',
+        'ui:required': true,
         'ui:col': {
           md: 12,
           children: [
@@ -83,6 +85,9 @@ const toolInformationUiSchema = {
       'ui:row': [
         {
           'ui:group': 'URL',
+          'ui:group-description': true,
+          'ui:group-classname': 'h2-title',
+          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [

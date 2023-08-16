@@ -64,6 +64,7 @@ const serviceContactsUiSchema = {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
                     'ui:group-classname': 'h3-title',
+                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -143,6 +144,7 @@ const serviceContactsUiSchema = {
                       {
                         'ui:group': 'Street Addresses',
                         'ui:group-classname': 'h3-title',
+                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]
@@ -285,6 +287,7 @@ const serviceContactsUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-classname': 'h3-title',
+                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       { 'ui:col': { md: 6, children: ['ServiceHours'] } },
                       { 'ui:col': { md: 6, children: ['ContactInstruction'] } }
@@ -359,6 +362,7 @@ const serviceContactsUiSchema = {
                       {
                         'ui:group': 'Street Addresses',
                         'ui:group-classname': 'h3-title',
+                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           { 'ui:col': { md: 12, children: ['StreetAddresses'] } }
                         ]

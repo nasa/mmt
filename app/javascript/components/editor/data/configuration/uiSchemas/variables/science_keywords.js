@@ -3,6 +3,7 @@ const scienceKeywordsUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
+        'ui:group': 'Science Keywords',
         'ui:col': {
           md: 12,
           children: [
@@ -17,7 +18,6 @@ const scienceKeywordsUiSchema = {
     ]
   },
   ScienceKeywords: {
-    'ui:title': 'Science Keywords',
     'ui:field': 'keywordPicker'
   }
 }
