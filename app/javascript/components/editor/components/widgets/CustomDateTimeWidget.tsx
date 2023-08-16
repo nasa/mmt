@@ -55,7 +55,12 @@ const CustomWidget = ({
   function onHandleBlur() { /* istanbul ignore next */ setDescription(false) }
 
   return (
-    <div className="custom-date-picker-component">
+    <>
+      <div className="custom-date-time-widget-description" data-testid="custom-date-time-widget--description">
+        <span>
+          {showDescription ? schema.description : ''}
+        </span>
+      </div>
       <DatePicker
         id={id}
         autoFocus={autoFocus}
@@ -73,12 +78,7 @@ const CustomWidget = ({
         onChange={onHandleChange}
         onBlur={onHandleBlur}
       />
-      <div className="description-box" data-testid="custom-date-time-widget--description">
-        <span>
-          {showDescription ? schema.description : ''}
-        </span>
-      </div>
-    </div>
+    </>
 
   )
 }
@@ -106,13 +106,11 @@ class CustomDateTimeWidget extends React.Component<CustomDateTimeWidgetProps, Cu
     }
 
     return (
-      <div className="custom-date-time-widget">
-        <div className="field-label-box" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
+      <div className="custom-date-time-widget" data-testid={`custom-date-time-widget__${kebabCase(label)}`}>
+        <div className="custom-date-time-widget-label">
           <span className="metadata-editor-field-label">
             {title}
-          </span>
-          <span>
-            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+            {required ? '*' : ''}
           </span>
         </div>
         <div data-testid={`custom-date-time-widget__${kebabCase(label)}--input-field`}>

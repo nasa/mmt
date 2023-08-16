@@ -42,7 +42,7 @@ describe('Custom Country Selector Widget Component', () => {
       value: 'TZ'
     }
     const { container } = render(<CustomCountrySelecttWidget {...props} />)
-    expect(screen.getByTestId('country-select-widget__my-test-data-label--title')).toHaveTextContent('My Test Data Label')
+    expect(screen.getByTestId('country-select-widget__my-test-data-label--title')).toHaveTextContent('My Test Data Label*')
     expect(screen.getByTestId('country-select-widget__my-test-data-label--selector')).toHaveTextContent('Tanzania, United Republic of')
 
     expect(container).toMatchSnapshot()

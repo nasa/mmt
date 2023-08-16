@@ -2,496 +2,428 @@
 
 exports[`StreetAddressFieldTest basic test 1`] = `
 <div>
-  <div>
+  <span
+    class="header-description"
+    data-testid="street-address-field__title"
+  >
+    The street address description
+  </span>
+  <div
+    class="address-line col-md-12"
+  >
+    <div
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-1--text-header"
+    >
+      <span
+        class="metadata-editor-field-label null"
+      >
+        Address Line 1
+      </span>
+      <span>
+        13
+        /
+        80
+      </span>
+    </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
+      maxlength="80"
+      name="Address Line 1"
+      type="text"
+      value="my first line"
+    />
     <span
-      class="description-box"
-      data-testid="street-address-field__title"
-    >
-      The street address description
-    </span>
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-1"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-2--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-1--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 1
-          </span>
-          <span />
-        </div>
-        <span>
-          13
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-1--text-input"
-        id="undefined_1"
-        maxlength="80"
-        name="Address Line 1"
-        type="text"
-        value="my first line"
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-1"
-      />
+        class="metadata-editor-field-label null"
+      >
+        Address Line 2
+      </span>
+      <span>
+        14
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
+      maxlength="80"
+      name="Address Line 2"
+      type="text"
+      value="my second line"
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-2"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-3--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-2--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 2
-          </span>
-          <span />
-        </div>
-        <span>
-          14
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-2--text-input"
-        id="undefined_2"
-        maxlength="80"
-        name="Address Line 2"
-        type="text"
-        value="my second line"
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-2"
-      />
-    </div>
-    <div
-      class="address-line col-md-12"
-    >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-3--text-header"
+        class="metadata-editor-field-label null"
       >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 3
-          </span>
-          <span />
-        </div>
-        <span>
-          13
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-3--text-input"
-        id="undefined_3"
-        maxlength="80"
-        name="Address Line 3"
-        type="text"
-        value="my third line"
-      />
-      <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-3"
-      />
+        Address Line 3
+      </span>
+      <span>
+        13
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
+      maxlength="80"
+      name="Address Line 3"
+      type="text"
+      value="my third line"
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-3"
+    />
   </div>
 </div>
 `;
 
 exports[`StreetAddressFieldTest basic test with empty form data array 1`] = `
 <div>
-  <div>
+  <span
+    class="header-description"
+    data-testid="street-address-field__title"
+  >
+    The street address description
+  </span>
+  <div
+    class="address-line col-md-12"
+  >
+    <div
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-1--text-header"
+    >
+      <span
+        class="metadata-editor-field-label null"
+      >
+        Address Line 1
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
+    </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
+      maxlength="80"
+      name="Address Line 1"
+      type="text"
+      value=""
+    />
     <span
-      class="description-box"
-      data-testid="street-address-field__title"
-    >
-      The street address description
-    </span>
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-1"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-2--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-1--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 1
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-1--text-input"
-        id="undefined_1"
-        maxlength="80"
-        name="Address Line 1"
-        type="text"
-        value=""
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-1"
-      />
+        class="metadata-editor-field-label null"
+      >
+        Address Line 2
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
+      maxlength="80"
+      name="Address Line 2"
+      type="text"
+      value=""
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-2"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-3--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-2--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 2
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-2--text-input"
-        id="undefined_2"
-        maxlength="80"
-        name="Address Line 2"
-        type="text"
-        value=""
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-2"
-      />
-    </div>
-    <div
-      class="address-line col-md-12"
-    >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-3--text-header"
+        class="metadata-editor-field-label null"
       >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 3
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-3--text-input"
-        id="undefined_3"
-        maxlength="80"
-        name="Address Line 3"
-        type="text"
-        value=""
-      />
-      <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-3"
-      />
+        Address Line 3
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
+      maxlength="80"
+      name="Address Line 3"
+      type="text"
+      value=""
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-3"
+    />
   </div>
 </div>
 `;
 
 exports[`StreetAddressFieldTest basic test with no form data array 1`] = `
 <div>
-  <div>
+  <span
+    class="header-description"
+    data-testid="street-address-field__title"
+  >
+    The street address description
+  </span>
+  <div
+    class="address-line col-md-12"
+  >
+    <div
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-1--text-header"
+    >
+      <span
+        class="metadata-editor-field-label null"
+      >
+        Address Line 1
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
+    </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
+      maxlength="80"
+      name="Address Line 1"
+      type="text"
+      value=""
+    />
     <span
-      class="description-box"
-      data-testid="street-address-field__title"
-    >
-      The street address description
-    </span>
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-1"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-2--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-1--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 1
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-1--text-input"
-        id="undefined_1"
-        maxlength="80"
-        name="Address Line 1"
-        type="text"
-        value=""
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-1"
-      />
+        class="metadata-editor-field-label null"
+      >
+        Address Line 2
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
+      maxlength="80"
+      name="Address Line 2"
+      type="text"
+      value=""
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-2"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-3--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-2--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 2
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-2--text-input"
-        id="undefined_2"
-        maxlength="80"
-        name="Address Line 2"
-        type="text"
-        value=""
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-2"
-      />
-    </div>
-    <div
-      class="address-line col-md-12"
-    >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-3--text-header"
+        class="metadata-editor-field-label null"
       >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 3
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-3--text-input"
-        id="undefined_3"
-        maxlength="80"
-        name="Address Line 3"
-        type="text"
-        value=""
-      />
-      <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-3"
-      />
+        Address Line 3
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
+      maxlength="80"
+      name="Address Line 3"
+      type="text"
+      value=""
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-3"
+    />
   </div>
 </div>
 `;
 
 exports[`StreetAddressFieldTest bubbles up changes. 1`] = `
 <div>
-  <div>
+  <span
+    class="header-description"
+    data-testid="street-address-field__title"
+  >
+    The street address description
+  </span>
+  <div
+    class="address-line col-md-12"
+  >
+    <div
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-1--text-header"
+    >
+      <span
+        class="metadata-editor-field-label null"
+      >
+        Address Line 1
+      </span>
+      <span>
+        10
+        /
+        80
+      </span>
+    </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-1--text-input"
+      id="undefined_1"
+      maxlength="80"
+      name="Address Line 1"
+      type="text"
+      value="Cloudy day"
+    />
     <span
-      class="description-box"
-      data-testid="street-address-field__title"
-    >
-      The street address description
-    </span>
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-1"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-2--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-1--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 1
-          </span>
-          <span />
-        </div>
-        <span>
-          10
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-1--text-input"
-        id="undefined_1"
-        maxlength="80"
-        name="Address Line 1"
-        type="text"
-        value="Cloudy day"
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-1"
-      />
+        class="metadata-editor-field-label null"
+      >
+        Address Line 2
+      </span>
+      <span>
+        0
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-2--text-input"
+      id="undefined_2"
+      maxlength="80"
+      name="Address Line 2"
+      type="text"
+      value=""
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-2"
+    />
+  </div>
+  <div
+    class="address-line col-md-12"
+  >
     <div
-      class="address-line col-md-12"
+      class="widget-header"
+      data-testid="custom-text-widget__address-line-3--text-header"
     >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-2--text-header"
-      >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 2
-          </span>
-          <span />
-        </div>
-        <span>
-          0
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-2--text-input"
-        id="undefined_2"
-        maxlength="80"
-        name="Address Line 2"
-        type="text"
-        value=""
-      />
       <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-2"
-      />
-    </div>
-    <div
-      class="address-line col-md-12"
-    >
-      <div
-        class="widget-header"
-        data-testid="custom-text-widget__address-line-3--text-header"
+        class="metadata-editor-field-label null"
       >
-        <div
-          class="field-label-box"
-        >
-          <span
-            class="metadata-editor-field-label null"
-          >
-            Address Line 3
-          </span>
-          <span />
-        </div>
-        <span>
-          9
-          /
-          80
-        </span>
-      </div>
-      <input
-        class="custom-text-widget-input"
-        data-testid="custom-text-widget__address-line-3--text-input"
-        id="undefined_3"
-        maxlength="80"
-        name="Address Line 3"
-        type="text"
-        value="Sunny day"
-      />
-      <span
-        class="widget-description"
-        data-testid="custom-text-widget--description-field__address-line-3"
-      />
+        Address Line 3
+      </span>
+      <span>
+        9
+        /
+        80
+      </span>
     </div>
+    <input
+      class="custom-text-widget-input"
+      data-testid="custom-text-widget__address-line-3--text-input"
+      id="undefined_3"
+      maxlength="80"
+      name="Address Line 3"
+      type="text"
+      value="Sunny day"
+    />
+    <span
+      class="widget-description"
+      data-testid="custom-text-widget--description-field__address-line-3"
+    />
   </div>
 </div>
 `;

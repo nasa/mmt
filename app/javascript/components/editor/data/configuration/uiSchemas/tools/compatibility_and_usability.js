@@ -6,17 +6,14 @@ const compatibilityAndUsabilityUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Compatability and Usability',
         'ui:col': {
           md: 12,
           children: [
             {
               'ui:group': 'Supported Formats',
-              'ui:group-classname': 'h2-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:row': [
-                { 'ui:col': { md: 10, children: ['SupportedInputFormats'] } },
-                { 'ui:col': { md: 10, children: ['SupportedOutputFormats'] } }
+                { 'ui:col': { className: 'field-left-border', md: 10, children: ['SupportedInputFormats'] } },
+                { 'ui:col': { className: 'field-left-border', md: 10, children: ['SupportedOutputFormats'] } }
               ]
             },
             {
@@ -35,24 +32,28 @@ const compatibilityAndUsabilityUiSchema = {
               ]
             },
             {
+              'ui:group': 'Quality',
               'ui:row': [
-                { 'ui:col': { md: 12, children: ['Quality'] } }
+                { 'ui:col': { className: 'field-left-border', md: 12, children: ['Quality'] } }
               ]
             },
             {
               'ui:row': [
                 {
+
                   'ui:col': {
+                    className: 'field-left-border',
                     md: 12,
                     children: [
                       {
                         'ui:group': 'Constraints',
-                        'ui:group-classname': 'h2-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:group-description': false,
                         'ui:row': [
+
                           { 'ui:col': { md: 12, children: ['AccessConstraints'] } },
-                          { 'ui:col': { md: 12, children: ['UseConstraints'] } }
+                          {
+                            'ui:col': { md: 12, children: ['UseConstraints'] }
+                          }
                         ]
                       }
                     ]
@@ -150,35 +151,6 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   Quality: {
-    'ui:field': 'layout',
-    'ui:layout_grid': {
-      'ui:row': [
-        {
-          'ui:group': 'Quality',
-          'ui:group-classname': 'h2-title',
-          'ui:group-box-classname': 'h2-box',
-          'ui:col': {
-            children: [
-              {
-                'ui:row': [
-                  { 'ui:col': { md: 12, children: ['QualityFlag'] } }
-                ]
-              },
-              {
-                'ui:row': [
-                  { 'ui:col': { md: 12, children: ['Traceability'] } }
-                ]
-              },
-              {
-                'ui:row': [
-                  { 'ui:col': { md: 12, children: ['Lineage'] } }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
     QualityFlag: {
       'ui:widget': CustomSelectWidget
     },
@@ -187,14 +159,12 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   UseConstraints: {
-    'ui:header-classname': 'h3-title',
     LicenseText: {
       'ui:widget': 'textarea'
     }
   },
   AccessConstraints: {
-    'ui:widget': 'textarea',
-    'ui:header-classname': 'h3-title'
+    'ui:widget': 'textarea'
   }
 }
 export default compatibilityAndUsabilityUiSchema

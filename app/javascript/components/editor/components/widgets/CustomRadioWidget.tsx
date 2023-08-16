@@ -20,11 +20,9 @@ class CustomRadioWidget extends React.Component<CustomRadioWidgetProps, never> {
 
     return (
       <div className="custom-radio-widget" data-testid={`${componentId}`}>
-        <div className="field-label-box">
+        <div>
           <span data-testid={`${componentId}--label`} className="metadata-editor-field-label">
             {title}
-          </span>
-          <span>
             {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>

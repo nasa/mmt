@@ -1,8 +1,8 @@
 .element {
   border-left: solid 6px rgb(240, 240, 240);
   border-bottom: solid 2px rgb(240, 240, 240);
-  margin-bottom: 15px;
-  padding-left: 15px;
+  margin-bottom: 40px;
+  padding-left: 10px;
   /* background-color: rgb(240, 240, 240); */
 }
 
@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: space-between;
   margin-right: -12px;
-  padding-bottom: 15px
+  padding-bottom: 10px
 }
 
 .remove-title {
@@ -28,7 +28,7 @@
 }
 
 .add-header {
-  margin-bottom: 15px;
+  margin-top: -30px
 }
 
 .add-button {

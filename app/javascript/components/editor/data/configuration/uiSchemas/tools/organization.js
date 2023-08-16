@@ -3,9 +3,6 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 
 const organizationUiSchema = {
   Organizations: {
-    'ui:title': 'Tool Organizations',
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {

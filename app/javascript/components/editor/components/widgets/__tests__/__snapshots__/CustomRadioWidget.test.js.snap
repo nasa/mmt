@@ -6,16 +6,13 @@ exports[`CustomRadiowidget renders the component with initial values 1`] = `
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      class="field-label-box"
-    >
+    <div>
       <span
         class="metadata-editor-field-label"
         data-testid="custom-radio-widget--label"
       >
         Title
       </span>
-      <span />
     </div>
     <input
       checked=""
@@ -43,14 +40,11 @@ exports[`CustomRadiowidget should call the onChange function with false when "Fa
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      class="field-label-box"
-    >
+    <div>
       <span
         class="metadata-editor-field-label"
         data-testid="custom-radio-widget--label"
       />
-      <span />
     </div>
     <input
       checked=""
@@ -78,14 +72,11 @@ exports[`CustomRadiowidget should call the onChange function with true when "Tru
     class="custom-radio-widget"
     data-testid="custom-radio-widget"
   >
-    <div
-      class="field-label-box"
-    >
+    <div>
       <span
         class="metadata-editor-field-label"
         data-testid="custom-radio-widget--label"
       />
-      <span />
     </div>
     <input
       data-testid="custom-radio-widget--value__true"

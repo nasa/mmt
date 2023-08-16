@@ -121,6 +121,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
     const { value } = this.props
     const { editor } = formContext
+    const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
 
     let title = _.startCase(label.split(/-/)[0])
@@ -171,11 +172,9 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
 
     return (
       <div className="custom-select-widget" data-testid={`custom-select-widget__${kebabCase(label)}`} ref={this.selectScrollRef}>
-        <div className="field-label-box">
+        <div>
           <span className="metadata-editor-field-label">
             {title}
-          </span>
-          <span>
             {required && title ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>

@@ -84,10 +84,8 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
     clonedSchema.description = ''
 
     return (
-      <div>
-        <span data-testid="street-address-field__title" className="description-box">
-          {headerDescription}
-        </span>
+      <>
+        <span data-testid="street-address-field__title" className="header-description">{headerDescription}</span>
         <Col md={12} className="address-line">
           <CustomTextWidget
             name="address_line_1"
@@ -139,7 +137,7 @@ export default class StreetAddressesField extends React.Component<StreetAddresse
             uiSchema={uiSchema}
           />
         </Col>
-      </div>
+      </>
     )
   }
 }

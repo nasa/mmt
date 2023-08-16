@@ -117,11 +117,9 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
     }
     return (
       <div className="custom-multi-select-widget" data-testid={`custom-multi-select-widget__${kebabCase(label)}`} ref={this.multiSelectScrollRef}>
-        <div className="field-label-box">
+        <div>
           <span className="metadata-editor-field-label">
             {title}
-          </span>
-          <span>
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>

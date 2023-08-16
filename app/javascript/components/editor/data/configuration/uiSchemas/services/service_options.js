@@ -65,7 +65,6 @@ const serviceOptionsUiSchema = {
         'ui:group': 'Subset',
         'ui:group-description': true,
         'ui:group-classname': 'h2-title',
-        'ui:group-box-classname': 'h2-box',
         'ui:row': [
           {
             'ui:col': {

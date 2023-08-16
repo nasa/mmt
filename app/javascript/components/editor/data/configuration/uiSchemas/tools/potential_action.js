@@ -43,9 +43,8 @@ const potentialActionUiSchema = {
           {
             'ui:group': 'Target',
             'ui:group-description': true,
-            'ui:group-classname': 'h2-title',
-            'ui:group-box-classname': 'h2-box',
             'ui:col': {
+              className: 'field-left-border',
               md: 12,
               children: [
                 {

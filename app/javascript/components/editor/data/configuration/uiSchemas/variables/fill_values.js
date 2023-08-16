@@ -4,8 +4,6 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 
 const fillValuesUiSchema = {
   FillValues: {
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:title': 'Fill Values',
       'ui:field': 'layout',

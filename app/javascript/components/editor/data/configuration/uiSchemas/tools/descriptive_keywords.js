@@ -3,7 +3,6 @@ const descriptiveKeywordsUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Descriptive Keywords',
         'ui:col': {
           md: 12,
           children: [

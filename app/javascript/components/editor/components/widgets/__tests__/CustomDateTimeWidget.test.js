@@ -49,7 +49,7 @@ describe('Custom Date Time Widget Component', () => {
     )
     await waitFor(async () => {
       const fieldElement = getByTestId('custom-date-time-widget__my-test-data-label')
-      expect(fieldElement).toHaveTextContent('My Test Data Label')
+      expect(fieldElement).toHaveTextContent('My Test Data Label*')
     })
 
     expect(container).toMatchSnapshot()
