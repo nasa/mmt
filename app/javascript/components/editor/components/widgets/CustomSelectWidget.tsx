@@ -121,7 +121,6 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const retrievedSchema = schemaUtils.retrieveSchema(items as JSONSchema7)
     const { value } = this.props
     const { editor } = formContext
-    const listOfEnums = schema.enum ? schema.enum : []
     const id = this.identifier
 
     let title = _.startCase(label.split(/-/)[0])

@@ -15,12 +15,9 @@
   color: grey;
 }
 
-.custom-date-time-widget-label {
-  margin-bottom: 5px;
-}
-
-.custom-date-time-widget-description {
-  padding-left: 5px;
-  font-style: italic;
-  font-size: .85rem
+.custom-date-picker-component,
+.custom-date-picker-component>div.react-datepicker-wrapper,
+.custom-date-picker-component>div>div.react-datepicker__input-container,
+.custom-date-picker-component>div>div.react-datepicker__input-container input {
+  width: 100%;
 }
