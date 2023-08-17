@@ -3764,76 +3764,90 @@ exports[`Navigation View Component cancels changes 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a name"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a name"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a long name #1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        LongName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a long name #1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Web Portal"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Web Portal"
+                      </span>
+                      
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -7608,76 +7622,90 @@ exports[`Navigation View Component error canceling changes 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a name"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a name"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a long name #1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        LongName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a long name #1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Web Portal"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Web Portal"
+                      </span>
+                      
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -19950,76 +19978,90 @@ exports[`Navigation View Component saves and previews with error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a name"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a name"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a long name #1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        LongName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a long name #1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Web Portal"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Web Portal"
+                      </span>
+                      
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -23841,76 +23883,90 @@ exports[`Navigation View Component saves but receives error 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a name"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a name"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "a long name #2"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        LongName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "a long name #2"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "2"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "2"
+                      </span>
+                      ,
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Web Portal"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Web Portal"
+                      </span>
+                      
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
