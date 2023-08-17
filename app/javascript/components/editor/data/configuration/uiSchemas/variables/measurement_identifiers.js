@@ -4,6 +4,8 @@ import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
 const measurementIdentifiersUiSchema = {
   MeasurementIdentifiers: {
     'ui:title': 'Measurement Identifiers',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -62,7 +64,8 @@ const measurementIdentifiersUiSchema = {
         'ui:widget': CustomTextWidget
       },
       MeasurementQuantities: {
-        'ui:className': 'small-bold-title',
+        'ui:title': 'Measurement Quantity',
+        'ui:header-classname': 'h3-title',
         items: {
           'ui:title': 'Measurement Quantity',
           'ui:field': 'layout',

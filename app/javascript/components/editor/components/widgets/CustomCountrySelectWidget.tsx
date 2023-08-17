@@ -68,9 +68,11 @@ class CustomCountrySelectWidget extends React.Component<CustomCountrySelectWidge
     return (
 
       <div className="country-select-widget" data-testid={`country-select-widget__${kebabCase(label)}`}>
-        <div>
+        <div className="field-label-box">
           <span className="metadata-editor-field-label" data-testid={`country-select-widget__${kebabCase(label)}--title`}>
             {title}
+          </span>
+          <span>
             {required ? '*' : ''}
           </span>
         </div>

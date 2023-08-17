@@ -99,14 +99,16 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
     return (
       <>
         <div className="widget-header" data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-header`} ref={this.textareaScrollRef}>
-          <span>
+          <div className="field-label-box">
             <span className={`metadata-editor-field-label ${headerClassName}`}>
               {title}
             </span>
-            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
-          </span>
-          {maxLength && (
             <span>
+              {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+            </span>
+          </div>
+          {maxLength && (
+            <span className="align-center">
               {charsUsed}
               /
               {maxLength}
@@ -117,7 +119,7 @@ class CustomTextareaWidget extends React.Component<CustomTextAreaWidgetProps, Cu
           autoFocus={shouldFocus}
           key={`${id}_${focusField}`}
           name={title}
-          className="custom-textarea-widget-input"
+          className="custom-textarea-widget-input custom-text-field-adjustment"
           data-testid={`custom-text-area-widget__${kebabCase(label)}--text-area-input`}
           maxLength={maxLength}
           value={value}

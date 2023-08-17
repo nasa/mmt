@@ -151,6 +151,7 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
     const { editor } = formContext
     const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
     const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
+    const requiredUI = uiSchema['ui:required']
     items.forEach(() => {
       this.scrollRef.push(React.createRef())
     })
@@ -171,13 +172,12 @@ class CustomArrayFieldTemplate extends React.Component<CustomArrayTemplateProps,
         <div className={headerBoxClassName}>
           <span className={headerClassName}>
             {this.createTitle()}
-            {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+            {required || requiredUI ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
         <p className="description-box">
           {schema.description}
         </p>
-        {items && <br />}
 
         {items && items.map((element: Element, index: number) => (
           <div

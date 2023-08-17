@@ -1,23 +1,46 @@
+/* FIELDS - currently just used for dev purposes */
+.metadata-editor-field {
+    /* background-color: yellow */
+}
+
+.metadata-editor-array-field {
+    /* background-color: purple */
+}
+
+.metadata-editor-field-label {
+    /* background-color: pink; */
+}
+
+
+/* BOXES */
 .h1-box {
-    /* background-color: rgb(240, 240, 240); */
+    /* background-color: red; */
     border-bottom: solid 2px rgb(240, 240, 240);
     padding-bottom: 6px;
     margin-top: 8px;
-    margin-bottom: 18px;
-}
-
-.h1-title {
-    /* background-color: red; */
-    font-size: 1.75rem;
-    font-weight: 500;
-    /* padding-left: 10px; */
+    margin-bottom: 15px;
 }
 
 .h2-box {
     /* background-color: black; */
-    /* border-bottom: solid 2px rgb(240, 240, 240); */
-    margin-top: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 15px;
+}
+
+.description-box {
+    /* background-color: goldenrod; */
+    margin-bottom: 15px;
+}
+
+.field-label-box {
+    /* background-color: purple; */
+    padding-bottom: 6px;
+}
+
+/* HEADERS */
+.h1-title {
+    /* background-color: red; */
+    font-size: 1.75rem;
+    font-weight: 500;
 }
 
 .h2-title {
@@ -32,25 +55,21 @@
     font-weight: 400;
 }
 
-.description-box {
-    /* background-color: goldenrod; */
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
+/* OTHER */
 .required-icon {
     color: green;
-    padding: 5px
+    padding-left: 5px;
 }
 
-.metadata-editor-field {
-    /* background-color: yellow */
+.p-0.container-fluid>.row {
+    margin-bottom: -15px !important;
+    padding-bottom: 15px;
 }
 
-.metadata-editor-array-field {
-    /* background-color: purple */
+.custom-text-field-adjustment {
+    margin-bottom: -6px;
 }
 
-.metadata-editor-field-label {
-    /* background-color: pink; */
+.align-center {
+    align-self: center;
 }

@@ -21,6 +21,8 @@ const instanceInformationUiSchema = {
   },
   InstanceInformation: {
     'ui:title': 'Instance Information',
+    'ui:header-classname': 'h1-title',
+    'ui:header-box-classname': 'h1-box',
     'ui:layout_grid': {
       'ui:row': [
         {
@@ -59,6 +61,7 @@ const instanceInformationUiSchema = {
             'ui:group': 'Direct Distribution Information',
             'ui:group-description': true,
             'ui:group-classname': 'h2-title',
+            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -78,7 +81,6 @@ const instanceInformationUiSchema = {
       S3BucketAndObjectPrefixNames: {
         'ui:title': 'S3 Bucket and Object Prefix Name',
         items: {
-          'ui:header-classname': 'h3-title',
           'ui:title': 'S3 Bucket and Object Prefix Name'
         }
       },
