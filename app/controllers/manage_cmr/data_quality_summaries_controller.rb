@@ -1,5 +1,4 @@
 class DataQualitySummariesController < ManageCmrController
-  include DataManagementHelper
 
   add_breadcrumb 'Data Quality Summaries', :data_quality_summaries_path
 
