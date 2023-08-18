@@ -1,0 +1,8 @@
+.active,
+.json-accordion-header:hover {
+  background-color: #ccc;
+}
+
+.json-accordion {
+  cursor: pointer;
+}

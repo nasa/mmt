@@ -4112,92 +4112,106 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    MetadataSpecification
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        MetadataSpecification
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    URL
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        URL
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "UMM-T"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "UMM-T"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1.1"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1.1"
+                      </span>
+                      
   },
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    PotentialAction
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        PotentialAction
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "SearchAction"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
   }
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -8092,122 +8106,136 @@ exports[`Layout Grid Field Component testing autofocus against URL 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    PotentialAction
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        PotentialAction
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Target
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        Target
+                      </span>
+                      ": {
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    ResponseContentType
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        ResponseContentType
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "response content type"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "response content type"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    HttpMethod
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        HttpMethod
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "GET"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "GET"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "EntryPoint"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "EntryPoint"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Description
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "target description"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Description
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "target description"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    UrlTemplate
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "url template"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        UrlTemplate
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "url template"
+                      </span>
+                      
     },
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "SearchAction"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
   }
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -12163,92 +12191,106 @@ exports[`Layout Grid Field Component testing autofocus to a group 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    MetadataSpecification
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        MetadataSpecification
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    URL
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        URL
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "UMM-T"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "UMM-T"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1.1"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1.1"
+                      </span>
+                      
   },
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    PotentialAction
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        PotentialAction
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "SearchAction"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
   }
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -24725,23 +24767,37 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -28790,23 +28846,37 @@ exports[`Layout Grid Field Component testing custom groupArray field 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
