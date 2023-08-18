@@ -4625,6 +4625,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -4782,6 +4783,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -5021,6 +5023,7 @@ exports[`Custom Text Area Widget Component testing autofocus with an illegal foc
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"
@@ -8656,6 +8659,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -8813,6 +8817,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -9052,6 +9057,7 @@ exports[`Custom Text Area Widget Component testing autofocus with good focus fie
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"
