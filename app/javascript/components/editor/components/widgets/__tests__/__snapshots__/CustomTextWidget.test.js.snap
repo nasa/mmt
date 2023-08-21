@@ -792,6 +792,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -949,6 +950,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -1188,6 +1190,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"
@@ -8735,6 +8738,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -8892,6 +8896,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -9131,6 +9136,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"

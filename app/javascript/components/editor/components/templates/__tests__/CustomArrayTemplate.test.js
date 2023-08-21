@@ -89,4 +89,32 @@ describe('Custom Array Template', () => {
 
     expect(container).toMatchSnapshot()
   })
+  it('does not render a header when hide-header is set to true', async () => {
+    const uiSchema = {
+      'ui:title': 'Custom Array Field Template',
+      'ui:hide-header': true,
+      'ui:field': 'layout_grid',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    { 'ui:col': { md: 6, children: ['firstName'] } },
+                    { 'ui:col': { md: 6, children: ['lastName'] } },
+                    { 'ui:col': { md: 6, children: ['age'] } }
+                  ]
+                }]
+            }
+          }
+        ]
+      }
+    }
+    const { container } = render(<Form validator={validator} schema={schema} uiSchema={uiSchema} templates={templates} formContext={{ editor }} />)
+    expect(screen.getByTestId('custom-array-element--heading')).not.toHaveTextContent('Custom Array Field Template')
+
+    expect(container).toMatchSnapshot()
+  })
 })
