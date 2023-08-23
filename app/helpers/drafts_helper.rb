@@ -196,6 +196,7 @@ module DraftsHelper
     ['image/jpeg'],
     ['image/png'],
     ['image/vnd.collada+xml'],
+    ['application/x-vnd.iso.19139-2+xml'],
     ['text/html'],
     ['text/plain'],
     ['Not provided']
