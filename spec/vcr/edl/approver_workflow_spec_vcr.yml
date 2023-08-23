@@ -21,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm_results+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm_results+json;version=1.17.3; charset=utf-8
       content-length:
       - '32'
       connection:
@@ -323,7 +323,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -513,7 +513,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.3
       Content-Type:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Client-Id:
       - MMT
       Accept:
@@ -574,7 +574,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -583,7 +583,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -621,7 +621,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -957,7 +957,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -966,7 +966,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -1004,7 +1004,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -1412,7 +1412,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -1421,7 +1421,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -1459,7 +1459,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -2083,7 +2083,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -2273,7 +2273,7 @@ http_interactions:
       User-Agent:
       - Faraday v1.10.3
       Content-Type:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Client-Id:
       - MMT
       Accept:
@@ -2334,7 +2334,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -2343,7 +2343,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -2381,7 +2381,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -2662,7 +2662,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -2671,7 +2671,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -2709,7 +2709,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -3062,7 +3062,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -3071,7 +3071,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -3109,7 +3109,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test

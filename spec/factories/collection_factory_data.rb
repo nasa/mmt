@@ -35,8 +35,8 @@ def all_required_fields
     },
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
-      'Version' => '1.17.2'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3',
+      'Version' => '1.17.3'
     },
     'TemporalExtents' => [{
       'PrecisionOfSeconds' => 1,
@@ -67,8 +67,8 @@ def collection_one
     }],
     'MetadataSpecification' => {
       'Name' => 'UMM-C',
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
-      'Version' => '1.17.2'
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3',
+      'Version' => '1.17.3'
     },
     'Platforms' => [{
       'Type'      => 'Jet',

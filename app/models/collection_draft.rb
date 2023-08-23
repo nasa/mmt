@@ -491,9 +491,9 @@ class CollectionDraft < Draft
 
   def set_metadata_specification
     metadata_specification = {
-      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+      'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3',
       'Name' => 'UMM-C',
-      'Version' => '1.17.2'
+      'Version' => '1.17.3'
     }
     if self.draft['MetadataSpecification'].nil?
       self.draft['MetadataSpecification'] = metadata_specification
