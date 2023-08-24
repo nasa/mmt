@@ -306,6 +306,20 @@ class CollectionDraft < Draft
               value['orbit_period'] = convert_to_number(orbit_period)
               object[key] = value
             end
+            if key == "tiling_identification_system_name"
+              if value != 'Military Grid Reference System'
+                coord1_min = object.dig('coordinate_1', 'minimum_value')
+                coord1_max = object.dig('coordinate_1', 'maximum_value')
+                coord2_min = object.dig('coordinate_2', 'minimum_value')
+                coord2_max = object.dig('coordinate_2', 'maximum_value')
+
+                object['coordinate_1']['minimum_value'] = convert_to_number(coord1_min) unless coord1_min.nil?
+                object['coordinate_1']['maximum_value'] = convert_to_number(coord1_max) unless coord1_max.nil?
+                object['coordinate_2']['minimum_value'] = convert_to_number(coord2_min) unless coord2_min.nil?
+                object['coordinate_2']['maximum_value'] = convert_to_number(coord2_max) unless coord2_max.nil?
+              end
+            end
+
             object[key] = convert_to_arrays(value)
           end
         end
