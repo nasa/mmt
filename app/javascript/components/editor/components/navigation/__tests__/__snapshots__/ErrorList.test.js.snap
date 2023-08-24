@@ -7902,6 +7902,7 @@ exports[`Error List test testing array field 1`] = `
                       >
                         <div
                           class="h1-box"
+                          data-testid="custom-array-element--heading"
                         >
                           <span
                             class="h1-title"

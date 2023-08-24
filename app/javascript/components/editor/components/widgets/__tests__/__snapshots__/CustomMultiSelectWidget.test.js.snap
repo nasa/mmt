@@ -916,6 +916,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                       >
                         <div
                           class="h1-box"
+                          data-testid="custom-array-element--heading"
                         >
                           <span
                             class="h1-title"

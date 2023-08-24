@@ -139,13 +139,38 @@ const serviceOptionsUiSchema = {
                       { 'ui:col': { md: 12, children: ['Shapefile'] } }
                     ]
                   }
-
                 ]
-
               }
             }
           ]
+        },
+        Point: {
+          'ui:hide-header': true
+        },
+        Circle: {
+          'ui:hide-header': true
+        },
+        Line: {
+          'ui:hide-header': true
+        },
+        BoundingBox: {
+          'ui:hide-header': true
+        },
+        Polygon: {
+          'ui:hide-header': true
+        },
+        Shapefile: {
+          'ui:hide-header': true,
+          items: {
+            'ui:header-classname': 'h3-title'
+          }
         }
+      },
+      TemporalSubset: {
+        'ui:hide-header': true
+      },
+      VariableSubset: {
+        'ui:hide-header': true
       }
     }
   }
