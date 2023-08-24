@@ -15,7 +15,7 @@ describe 'Searching published collections', js: true, reset_provider: true, skip
 
   before do
     @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     login
     visit manage_collections_path
   end

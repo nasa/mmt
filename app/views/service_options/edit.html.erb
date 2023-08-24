@@ -1,9 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2>Editing <%= @service_option.fetch('Name', nil) %></h2>
-
-    <%= form_tag(service_option_path(@service_option['Guid']), method: :put, id: 'service-option-form') do %>
-      <%= render partial: 'form', locals: { new_form: false } %>
-    <% end %>
-  </section>
-</div>

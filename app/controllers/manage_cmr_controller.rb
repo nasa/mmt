@@ -1,6 +1,5 @@
 # :nodoc:
 class ManageCmrController < ApplicationController
-  include EchoSoap
   include ChooserEndpoints
 
   before_action :check_if_system_acl_administrator, only: :show
@@ -11,7 +10,6 @@ class ManageCmrController < ApplicationController
   # These are json respones for ajax calls that user wouldnt get to without being logged in.
   skip_before_action :ensure_user_is_logged_in, only: [
     :provider_collections,
-    :service_implementations_with_datasets,
     :datasets_for_service_implementation
   ]
 
@@ -29,20 +27,6 @@ class ManageCmrController < ApplicationController
   end
 
   # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
-  def service_implementations_with_datasets
-    service_entries = get_service_implementations_with_datasets(params.permit(:name))
-
-    render json: {
-      'hits': service_entries.count,
-      'items': service_entries.map do |entry|
-        [entry['Guid'], entry['Name']]
-      end
-    }
-  rescue
-    render json: service_entries
-  end
-
-  # JSON representation of the get_service_implementations_with_datasets method for use with the Chooser
   def datasets_for_service_implementation
     collections = get_datasets_for_service_implementation(params.permit(:service_interface_guid, :page_size, :page_num, :short_name))
 
@@ -54,90 +38,6 @@ class ManageCmrController < ApplicationController
     render json: render_users_from_urs(
       search_urs(params[:search])
     )
-  end
-
-  def get_order_option_list(echo_provider_token, guids = nil)
-    if guids.nil? || guids.empty?
-      begin
-        guids_response = echo_client.get_order_options_names(echo_provider_token)
-
-      rescue => ex
-        flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.error", request: request.uuid)
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
-
-        return {'Result' => []}
-      else
-        guids = if guids_response.success?
-                  Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
-                else
-                  Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options Names Error: #{guids_response.clean_inspect}")
-                  flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid) if guids_response.timeout_error?
-                  []
-                end
-      end
-    end
-
-    order_options = []
-
-    while guids.length > 0
-      guids = Array.wrap(guids)
-      guids_chunk = guids.pop(50)
-      partial_order_option_response = echo_client.get_order_options(echo_provider_token, guids_chunk)
-
-      if partial_order_option_response.success?
-        partial_order_options = Array.wrap(partial_order_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
-        order_options.concat(partial_order_options)
-      else
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_order_option_list - Retrieve Order Options List Error: #{partial_order_option_response.clean_inspect}")
-        flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.timeout_error", request: request.uuid) if partial_order_option_response.timeout_error?
-        return {'Result' => []}
-      end
-    end
-
-    return {'Result' => order_options}
-  end
-
-  def get_service_option_list(echo_provider_token, guids = nil)
-    if guids.nil? || guids.empty?
-      begin
-        guids_response = echo_client.get_service_options_names(echo_provider_token)
-
-      rescue => ex
-        flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.error", request: request.uuid)
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Names Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
-
-        return {'Result' => []}
-
-      else
-        guids = if guids_response.success?
-                  Array.wrap(guids_response.parsed_body(parser: 'libxml').fetch('Item', [])).map { |option| option['Guid'] }
-                else
-                  Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Names Error: #{guids_response.clean_inspect}")
-                  flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid) if guids_response.timeout_error?
-                  []
-                end
-      end
-
-    end
-
-    service_options = []
-
-    while guids.length > 0
-      guids = Array.wrap(guids)
-      guids_chunk = guids.pop(50)
-      partial_service_option_response = echo_client.get_service_options(echo_provider_token, guids_chunk)
-
-      if partial_service_option_response.success?
-        partial_service_options = Array.wrap(partial_service_option_response.parsed_body(parser: 'libxml').fetch('Item', []))
-        service_options.concat(partial_service_options)
-      else
-        Rails.logger.error("#{request.uuid} - ManageCmrController#get_service_option_list - Retrieve Service Options Error: #{partial_service_option_response.clean_inspect}")
-        flash[:error] = I18n.t("controllers.manage_cmr.get_service_option_list.flash.timeout_error", request: request.uuid) if partial_service_option_response.timeout_error?
-        return {'Result' => []}
-      end
-    end
-
-    return {'Result' => service_options}
   end
 
   private
@@ -204,5 +104,40 @@ class ManageCmrController < ApplicationController
   def cleanup_request
     Rails.logger.info("Cleaning up #{request.uuid}")
     Rails.cache.delete("echo-client-#{request.uuid}")
+  end
+
+  # Get all of the collections for the current provider
+  def set_collections
+    # Initialize the collections array to provide to the view
+    @collections = []
+
+    # Default the params that we'll send to CMR
+    collection_params = {
+      provider_id: current_user.provider_id,
+      page_num: 1,
+      page_size: 50
+    }
+
+    # Retrieve the first page of collections
+    response = cmr_client.get_collections_by_post(collection_params, token)
+
+    # Request collections
+    until response.error? || response.body.fetch('items', []).empty?
+      # Add the retrieved collections to our array
+      @collections.concat(response.body['items'])
+
+      # Tests within this controller family mock the response of `get_collections`
+      # which means that the criteria set to break on will never be met and will
+      # result in an infinite loop
+      break if Rails.env.test?
+
+      # Increment the page number
+      collection_params[:page_num] += 1
+
+      # Request the next page
+      response = cmr_client.get_collections_by_post(collection_params, token)
+    end
+
+    @collections
   end
 end

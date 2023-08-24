@@ -43,33 +43,4 @@ module ServiceEntryHelper
       []
     end
   end
-
-  # Method to retrieve Service Interface tags for use with Service Implementations.
-  def service_interface_tags
-    tags_response = echo_client.get_tags_by_tag_group(echo_provider_token, 'SERVICE-INTERFACE')
-
-    if tags_response.success?
-      (tags_response.parsed_body['Item'] || []).sort_by { |option| option.fetch('Value', '').downcase }
-    else
-      Rails.logger.error "Error retrieving tags for tag group SERVICE-INTERFACE: #{tags_response.error_message}"
-
-      []
-    end
-  end
-
-  # There are no endpoints that currently exist to retreive virtual tag
-  # information. CMR-3793 has been created to preven the following method
-  def service_interface_tag(tag_guid)
-    # Loop through all service interface tags looking for the guid provided
-    service_interface_tags.each do |interface_tag|
-      return interface_tag if tag_guid == interface_tag['Guid']
-    end
-
-    nil
-  end
-
-  # Determine if the provided tag_guid exists
-  def service_interface_tag_exists(tag_guid)
-    !service_interface_tag(tag_guid).nil?
-  end
 end

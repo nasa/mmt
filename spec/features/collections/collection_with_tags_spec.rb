@@ -33,7 +33,7 @@ describe 'Collections with Tags', js: true do
     before do
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         login
       end
     end
