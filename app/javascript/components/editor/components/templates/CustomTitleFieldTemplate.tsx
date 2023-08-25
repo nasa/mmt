@@ -30,6 +30,7 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
     const { options = {} } = uiSchema
     const { title: uiTitle } = options
     const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
+    const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
     const requiredUI = uiSchema['ui:required']
     const hideHeader = uiSchema['ui:hide-header']
     let heading = title
@@ -47,7 +48,7 @@ class CustomTitleFieldTemplate extends React.Component<CustomTitleFieldTemplateP
     }
     return (
       <div>
-        <div ref={this.scrollRef} data-testid="custom-title-field-template--heading" className="h2-box">
+        <div ref={this.scrollRef} data-testid="custom-title-field-template--heading" className={headerBoxClassName}>
           {hideHeader ? null
             : (
               <span className={headerClassName}>
