@@ -1402,23 +1402,23 @@ def progressive_update_with_errors
       {
         'TilingIdentificationSystemName' => 'CALIPSO',
         'Coordinate1' => {
-          'MinimumValue' => '-100',
-          'MaximumValue' => '-50'
+          'MinimumValue' => -100,
+          'MaximumValue' => -50
         },
         'Coordinate2' => {
-          'MinimumValue' => '50',
-          'MaximumValue' => '100'
+          'MinimumValue' => 50,
+          'MaximumValue' => 100
         }
       },
       {
         'TilingIdentificationSystemName' => 'CALIPSO',
         'Coordinate1' => {
-          'MinimumValue' => '-100',
-          'MaximumValue' => '-50'
+          'MinimumValue' => -100,
+          'MaximumValue' => -50
         },
         'Coordinate2' => {
-          'MinimumValue' => '50',
-          'MaximumValue' => '100'
+          'MinimumValue' => 50,
+          'MaximumValue' => 100
         }
       }
     ],
