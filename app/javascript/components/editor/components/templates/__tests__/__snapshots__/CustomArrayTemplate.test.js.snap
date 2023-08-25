@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Custom Array Template does not render a header when hide-header is set to true 1`] = `
+<div>
+  <form
+    class="rjsf"
+  >
+    <div
+      class="form-group field field-array"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="metadata-editor-array-field"
+          data-testid="custom-array-template"
+        >
+          <div
+            class="h2-box"
+            data-testid="custom-array-element--heading"
+          />
+          <p
+            class="description-box"
+          />
+          <div
+            class="custom-array-template-add-btn add-header"
+          >
+            <button
+              class="btn"
+              data-testid="custom-array-template__add-button--custom-array-field-template"
+              type="button"
+            >
+              <span
+                class="add-button"
+              >
+                <i
+                  class="fa-solid fa-circle-plus fa-lg"
+                />
+              </span>
+               
+              <span
+                class="add-label"
+              >
+                <span
+                  data-testid="custom-array-template-add-btn"
+                >
+                  Add
+                </span>
+                 
+                Custom Array Field Template
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`Custom Array Template renders the custom array template and adds an array 1`] = `
 <div>
   <form
@@ -17,6 +83,7 @@ exports[`Custom Array Template renders the custom array template and adds an arr
         >
           <div
             class="h2-box"
+            data-testid="custom-array-element--heading"
           >
             <span
               class="h2-title"
@@ -420,6 +487,7 @@ exports[`Custom Array Template renders the custom array template. 1.) Adds a fie
         >
           <div
             class="h2-box"
+            data-testid="custom-array-element--heading"
           >
             <span
               class="h2-title"
