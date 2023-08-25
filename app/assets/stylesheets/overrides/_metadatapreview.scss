@@ -47,29 +47,16 @@ th{
   word-wrap: normal;
 }
 
-//This is being commented for now. After seeing how to UMM-T and UMM-V preview renders in SIT, this can be removed.
-//#metadata-preview .justify-content-around{
-//  justify-content: space-between !important;
-//}
-//
 #metadata-preview{
   padding-left: 0px;
+  padding-right: 0px;
+  max-width: 1000px;
 }
-//#metadata-preview .nav-link{
-//  padding: 5px;
-//}
-//
-//// Remove this after fixing potential action style fix
-//#metadata-preview div[data-testid = 'preview-tab--potential-action'] tr{
-//  border: solid white;
-//  height: 18px;
-//  line-height: 10px;
-//}
-//#metadata-preview div[data-testid = 'preview-tab--potential-action'] tr td:first-child{
-//  border: solid white;
-//  width: 20px;
-//  white-space: nowrap;
-//}
-//#metadata-preview div[data-testid = 'preview-tab--potential-action'] td{
-//  border: solid white;
-//}
+
+#metadata-preview > div > div > div > div.pr-n5.row > div > div > div.col-sm-3{
+  width: 500px;
+}
+
+#metadata-preview > div > div > div > div.pr-n5.row > div > div > div.col-sm-9{
+  width: 500px;
+}
