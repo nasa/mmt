@@ -792,6 +792,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -949,6 +950,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -1188,6 +1190,7 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"
@@ -4167,122 +4170,136 @@ exports[`Custom Text Widget Component testing autofocus against array section 1`
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    PotentialAction
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        PotentialAction
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Target
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        Target
+                      </span>
+                      ": {
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    ResponseContentType
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        ResponseContentType
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "response content type"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "response content type"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    HttpMethod
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        HttpMethod
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "GET"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "GET"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "EntryPoint"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "EntryPoint"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Description
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "target description"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Description
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "target description"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    UrlTemplate
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "url template"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        UrlTemplate
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "url template"
+                      </span>
+                      
     },
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "SearchAction"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
   }
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -8166,23 +8183,37 @@ exports[`Custom Text Widget Component testing autofocus for a custom text widget
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -8707,6 +8738,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -8864,6 +8896,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                                   >
                                                     <div
                                                       class="h2-box"
+                                                      data-testid="custom-array-element--heading"
                                                     >
                                                       <span
                                                         class="h2-title"
@@ -9103,6 +9136,7 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
                                   >
                                     <div
                                       class="h2-box"
+                                      data-testid="custom-array-element--heading"
                                     >
                                       <span
                                         class="h2-title"
@@ -12082,122 +12116,136 @@ exports[`Custom Text Widget Component testing autofocus with an illegal array se
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    PotentialAction
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        PotentialAction
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Target
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        Target
+                      </span>
+                      ": {
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    ResponseContentType
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        ResponseContentType
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "response content type"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "response content type"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    HttpMethod
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        HttpMethod
+                      </span>
+                      ": [
         
-                  <span
-                    class="__json-string__"
-                  >
-                    "GET"
-                  </span>
-                  
+                      <span
+                        class="__json-string__"
+                      >
+                        "GET"
+                      </span>
+                      
       ],
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "EntryPoint"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "EntryPoint"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Description
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "target description"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Description
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "target description"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    UrlTemplate
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "url template"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        UrlTemplate
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "url template"
+                      </span>
+                      
     },
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Type
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "SearchAction"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
   }
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

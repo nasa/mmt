@@ -916,6 +916,7 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                       >
                         <div
                           class="h1-box"
+                          data-testid="custom-array-element--heading"
                         >
                           <span
                             class="h1-title"
@@ -4164,107 +4165,121 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    MetadataSpecification
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        MetadataSpecification
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    URL
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        URL
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "UMM-T"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "UMM-T"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1.1"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1.1"
+                      </span>
+                      
   },
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Organizations
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        Organizations
+                      </span>
+                      ": [
     {
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    ShortName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "AARHUS-HYDRO"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        ShortName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "AARHUS-HYDRO"
+                      </span>
+                      ,
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    LongName
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Hydrogeophysics Group, Aarhus University "
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        LongName
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Hydrogeophysics Group, Aarhus University "
+                      </span>
+                      
     }
   ]
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -3876,23 +3876,37 @@ exports[`Error List test shows a gray circle for each error when a user first vi
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -7779,23 +7793,37 @@ exports[`Error List test shows a red circle for each error when a user visits, m
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -7874,6 +7902,7 @@ exports[`Error List test testing array field 1`] = `
                       >
                         <div
                           class="h1-box"
+                          data-testid="custom-array-element--heading"
                         >
                           <span
                             class="h1-title"
@@ -11812,47 +11841,61 @@ exports[`Error List test testing array field 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    RelatedURLs
-                  </span>
-                  ": [
+                      <span
+                        class="__json-key__"
+                      >
+                        RelatedURLs
+                      </span>
+                      ": [
     {
       "
-                  <span
-                    class="__json-key__"
-                  >
-                    Description
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "Cloudy day"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Description
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Cloudy day"
+                      </span>
+                      
     }
   ]
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -15739,23 +15782,37 @@ exports[`Error List test testing for controlled Field 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -19639,23 +19696,37 @@ exports[`Error List test testing valid field onClick 1`] = `
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {}
-                </pre>
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {}
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

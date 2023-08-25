@@ -52,6 +52,27 @@ describe('CustomTitleFieldTest', () => {
     expect(screen.getByTestId('custom-title-field-template--required')).toBeTruthy()
   })
 
+  it('does not render title when ui:hide-header is set to true', async () => {
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+
+    CustomTitleFieldTemplate.prototype.executeScroll = jest.fn()
+
+    render(<CustomTitleFieldTemplate
+      title="My Custom Title"
+      uiSchema={{ 'ui:hide-header': true, 'ui:required': true }}
+      required
+      registry={{
+        formContext: {
+          editor
+        }
+      }}
+      className="MyTitle"
+    />)
+
+    expect(screen.getByTestId('custom-title-field-template--heading')).toHaveTextContent('')
+  })
+
   it('can focus', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)

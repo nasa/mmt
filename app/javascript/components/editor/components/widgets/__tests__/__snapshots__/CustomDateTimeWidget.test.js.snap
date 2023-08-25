@@ -4951,13 +4951,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         15
                       </div>
                       <div
-                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Wednesday, August 16th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--016 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                        class="react-datepicker__day react-datepicker__day--016"
                         role="option"
-                        tabindex="0"
+                        tabindex="-1"
                       >
                         16
                       </div>
@@ -4972,12 +4971,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         17
                       </div>
                       <div
+                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Friday, August 18th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--018"
+                        class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                         role="option"
-                        tabindex="-1"
+                        tabindex="0"
                       >
                         18
                       </div>
@@ -6651,13 +6651,12 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         15
                       </div>
                       <div
-                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Wednesday, August 16th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--016 react-datepicker__day--keyboard-selected react-datepicker__day--today"
+                        class="react-datepicker__day react-datepicker__day--016"
                         role="option"
-                        tabindex="0"
+                        tabindex="-1"
                       >
                         16
                       </div>
@@ -6672,12 +6671,13 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         17
                       </div>
                       <div
+                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Friday, August 18th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--018"
+                        class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                         role="option"
-                        tabindex="-1"
+                        tabindex="0"
                       >
                         18
                       </div>
@@ -12509,84 +12509,98 @@ exports[`Custom Date Time Widget Component testing autofocus against multi selec
           class="col-sm-8"
         >
           <div
-            class="card"
+            class="json-accordion accordion"
           >
             <div
-              class="card-header"
+              class="card"
             >
-              JSON
-            </div>
-            <div
-              class="card-body"
-              id="json-text-field"
-            >
-              <div>
-                <pre
-                  class="__json-pretty__"
+              <div
+                class="json-accordion-header card-header"
+                data-testid="json-view__accordion-header"
+              >
+                JSON
+                <i
+                  class="fa fa-chevron-down"
+                  style="margin-left: 620px;"
+                />
+              </div>
+              <div
+                class="collapse show"
+              >
+                <div
+                  class="card-body"
+                  data-testid="json-view__full-data"
+                  id="json-text-field"
                 >
-                  {
+                  <div>
+                    <pre
+                      class="__json-pretty__"
+                    >
+                      {
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    MetadataSpecification
-                  </span>
-                  ": {
+                      <span
+                        class="__json-key__"
+                      >
+                        MetadataSpecification
+                      </span>
+                      ": {
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    URL
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        URL
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "https://cdn.earthdata.nasa.gov/umm/tool/v1.1"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "UMM-T"
-                  </span>
-                  ,
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "UMM-T"
+                      </span>
+                      ,
     "
-                  <span
-                    class="__json-key__"
-                  >
-                    Version
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "1.1"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Version
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "1.1"
+                      </span>
+                      
   },
   "
-                  <span
-                    class="__json-key__"
-                  >
-                    Name
-                  </span>
-                  ": 
-                  <span
-                    class="__json-string__"
-                  >
-                    "abc"
-                  </span>
-                  
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "abc"
+                      </span>
+                      
 }
-                </pre>
+                    </pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
