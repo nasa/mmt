@@ -19,6 +19,7 @@ describe 'When going through the whole collection proposal approver workflow', j
     login(real_login: true)
     allow_any_instance_of(PermissionChecking).to receive(:is_non_nasa_draft_approver?).and_return(true)
     mock_urs_get_users
+
   end
 
   context 'when loading the manage proposals page' do
