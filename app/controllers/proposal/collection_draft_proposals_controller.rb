@@ -92,7 +92,6 @@ module Proposal
         collection_validation_setup
         load_umm_c_schema
         @errors = validate_metadata
-        puts("********* errors=#{@errors}")
       else
         @first_stage = 'Submitted for Review'
         @first_information = get_resource.progress_message('submitted')
