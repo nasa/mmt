@@ -1,7 +1,7 @@
 describe 'Non-NASA Draft Approver Permissions for Draft MMT', reset_provider: true do
   before do
     @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     set_as_proposal_mode_mmt(with_draft_approver_acl: true)
   end
 

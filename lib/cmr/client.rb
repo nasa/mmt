@@ -11,7 +11,6 @@ module Cmr
       @config = service_config
       clients = []
       clients << CmrClient.new(@config['cmr_root'], urs_client_id)
-      clients << EchoClient.new(@config['echo_root'], urs_client_id)
       clients << UrsClient.new(@config['urs_root'], urs_client_id)
       clients << KmsClient.new(@config['kms_root'], urs_client_id)
       clients << GraphqlClient.new(@config['cmr_root'], urs_client_id)

@@ -84,35 +84,11 @@ describe 'Provider context', reset_provider: true, js:true do
         end
       end
 
-      # This is the exception case (see redirector.rb)
-      context 'when the user is on the provider order details page' do
-        before do
-          # The order guid belongs to NSIDC_ECS
-          login(provider: 'NSIDC_ECS', providers: %w(MMT_2 MMT_1 NSIDC_ECS))
-
-          VCR.use_cassette('echo_soap/order_processing_service/provider_orders/terminal_order', record: :none) do
-            visit provider_order_path(order_guid)
-          end
-
-          within '#user-info' do
-            click_on 'profile-link'
-            click_on 'Change Provider'
-          end
-
-          select 'MMT_1', from: 'select_provider'
-          wait_for_jQuery
-        end
-
-        it 'redirects to the orders index page when switching provider context' do
-          expect(page).to have_current_path(orders_path, ignore_query: true)
-        end
-      end
-
       context 'when the user is on the permissions creation page' do
         before do
 
           @token = 'jwt_access_token'
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('edl_client_token')
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
             visit permissions_path

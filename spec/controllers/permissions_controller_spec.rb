@@ -30,7 +30,7 @@ describe PermissionsController, reset_provider: true do
   describe 'GET #show' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       @group_name = 'Permissions_Controller_Test_Group_012'
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -76,7 +76,7 @@ describe PermissionsController, reset_provider: true do
     it 'renders the #show view' do
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         get :show, params: { id: @permission['concept_id'] }
@@ -88,7 +88,7 @@ describe PermissionsController, reset_provider: true do
     it 'sets the permission instance variable' do
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         get :show, params: { id: @permission['concept_id'] }

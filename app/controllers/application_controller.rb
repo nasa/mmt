@@ -80,15 +80,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :kms_client
 
-  # echo_client have request-specific state (namely timeout duration left for request), so need to serve
-  # these objects out per http request.
-  def echo_client
-    Rails.cache.fetch("echo-client-#{request.uuid}", expires_in: 300.seconds) do
-      Rails.logger.info("requesting echo-client, cache miss for request #{request.uuid}")
-      Echo::Client.client_for_environment(Rails.configuration.echo_env, Rails.configuration.services)
-    end
-  end
-
   helper_method :echo_client
 
   def setup_query
@@ -288,13 +279,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :token
 
-  def echo_provider_token
-    set_provider_context_token if session[:echo_provider_token].nil?
-
-    session[:echo_provider_token]
-  end
-  helper_method :echo_provider_token
-
   def redirect_after_login
     return_to = session.delete(:return_to)
 
@@ -368,30 +352,6 @@ class ApplicationController < ActionController::Base
     user[:name] = session[:name]
     user[:email] = session[:email_address]
     user
-  end
-
-  def set_provider_context_token
-    # If we are in development and the user is not on the VPN, this call will
-    # not be able to connect to legacy services in order to get this token
-    # this will also mean that legacy services actions using the token will fail
-    if Rails.env.development?
-      begin
-        response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id).parsed_body
-      rescue => e
-        Rails.logger.info "Preventing get_provider_context_token error in development because of not being on VPN. error: #{e.inspect}"
-
-        session[:echo_provider_token] = ''
-
-        flash[:error] = 'Because you are not on the VPN and in development, the attempt to set an echo_provider_token failed. You will be unable to perform Manage Cmr actions that require the token.<br/>If you need to perform any Manage Cmr actions in development you should log out, get on the VPN, and then log back in'
-        return
-      end
-    end
-    response = echo_client.get_provider_context_token(token, behalfOfProvider: current_user.provider_id)
-    if response.error?
-      return
-    end
-
-    session[:echo_provider_token] = response.parsed_body
   end
 
   # Custom error messaging for Pundit

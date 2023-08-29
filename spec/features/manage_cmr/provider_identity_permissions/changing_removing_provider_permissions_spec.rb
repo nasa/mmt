@@ -3,7 +3,7 @@ describe 'Changing or Removing Provider Identity Permissions', reset_provider: t
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
 
