@@ -1,7 +1,7 @@
 class UpdateTilingValues < ActiveRecord::Migration[6.1]
   def up
     metadata_specification = {
-      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2",
+      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3",
       'Name' => "UMM-C",
       'Version' => "1.17.3"
     }
@@ -42,7 +42,7 @@ class UpdateTilingValues < ActiveRecord::Migration[6.1]
 
   def down
     metadata_specification = {
-      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.0",
+      'URL' => "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2",
       'Name' => "UMM-C",
       'Version' => "1.17.2"
     }
