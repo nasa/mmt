@@ -53,8 +53,8 @@ describe 'Publishing collection draft records', js: true do
             find('.multiple-item-1').fill_in with: 'prefix-5'
             click_on 'Add another Prefix Name'
             find('.multiple-item-2').fill_in with: 'prefix-6'
-            fill_in 'S3 Credentials API Endpoint', with: 'linkage.com'
-            fill_in 'S3 Credentials API Documentation URL', with: 'aws.com'
+            fill_in 'S3 Credentials API Endpoint', with: 'http://linkage.com'
+            fill_in 'S3 Credentials API Documentation URL', with: 'http://aws.com'
           end
           within '.nav-top' do
             click_on 'Done'

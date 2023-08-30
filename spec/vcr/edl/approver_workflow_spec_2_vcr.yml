@@ -95,7 +95,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -104,7 +104,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -142,7 +142,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -308,8 +308,8 @@ http_interactions:
         Nadir","ScanDirection":"Cross Track"}],"NonGriddedRangeResolutions":[{"MinimumXDimension":3,"MinimumYDimension":4,"MaximumXDimension":5,"MaximumYDimension":6,"Unit":"Meters","ViewingAngleType":"At
         Nadir","ScanDirection":"Cross Track"}],"GriddedResolutions":[{"XDimension":7,"Unit":"Meters"},{"YDimension":8,"Unit":"Decimal
         Degrees"}],"GriddedRangeResolutions":[{"MinimumXDimension":9,"MaximumXDimension":10,"Unit":"Meters"}],"GenericResolutions":[{"XDimension":11,"Unit":"Decimal
-        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":"-50","MaximumValue":"50"},"Coordinate2":{"MinimumValue":"-30","MaximumValue":"30"}},{"TilingIdentificationSystemName":"MODIS
-        Tile EASE","Coordinate1":{"MinimumValue":"-25","MaximumValue":"25"},"Coordinate2":{"MinimumValue":"-15","MaximumValue":"15"}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
+        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},{"TilingIdentificationSystemName":"MODIS
+        Tile EASE","Coordinate1":{"MinimumValue":-25,"MaximumValue":25},"Coordinate2":{"MinimumValue":-15,"MaximumValue":15}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
         2","DistanceUnits":"Fathoms","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
         REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":"ATLANTIC OCEAN"}],"TemporalExtents":[{"PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
         1 Periodic Extent","StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-08-01T00:00:00Z","DurationUnit":"DAY","DurationValue":5,"PeriodCycleDurationUnit":"DAY","PeriodCycleDurationValue":1},{"Name":"test
@@ -495,7 +495,7 @@ http_interactions:
       Client-Id:
       - MMT
       Accept:
-      - application/vnd.nasa.cmr.umm+json; version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json; version=1.17.3; charset=utf-8
       Authorization:
       - jwt_access_token
   response:
@@ -504,7 +504,7 @@ http_interactions:
       message: OK
     headers:
       content-type:
-      - application/vnd.nasa.cmr.umm+json;version=1.17.2; charset=utf-8
+      - application/vnd.nasa.cmr.umm+json;version=1.17.3; charset=utf-8
       content-length:
       - '21883'
       connection:
@@ -542,7 +542,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Projects":[{"ShortName":"AA","LongName":"ARCATLAS","Campaigns":["test
         1a Campaign","test 1b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"},{"ShortName":"EUDASM","LongName":"European
-        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2","Version":"1.17.2"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
+        Digital Archive of Soil Maps","Campaigns":["test 2a Campaign","test 2b Campaign"],"StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-12-25T00:00:00Z"}],"MetadataSpecification":{"Name":"UMM-C","URL":"https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3","Version":"1.17.3"},"Platforms":[{"Type":"Jet","ShortName":"A340-600","LongName":"Airbus
         A340-600","Characteristics":[{"Name":"test 1 PC Name","Description":"test
         1 PC Description","Value":"test 1 PC Value","Unit":"test 1 PC Unit","DataType":"STRING"},{"Name":"test
         2 PC Name","Description":"test 2 PC Description","Value":"test 2 PC Value","Unit":"test
@@ -708,8 +708,8 @@ http_interactions:
         Nadir","ScanDirection":"Cross Track"}],"NonGriddedRangeResolutions":[{"MinimumXDimension":3,"MinimumYDimension":4,"MaximumXDimension":5,"MaximumYDimension":6,"Unit":"Meters","ViewingAngleType":"At
         Nadir","ScanDirection":"Cross Track"}],"GriddedResolutions":[{"XDimension":7,"Unit":"Meters"},{"YDimension":8,"Unit":"Decimal
         Degrees"}],"GriddedRangeResolutions":[{"MinimumXDimension":9,"MaximumXDimension":10,"Unit":"Meters"}],"GenericResolutions":[{"XDimension":11,"Unit":"Decimal
-        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":"-50","MaximumValue":"50"},"Coordinate2":{"MinimumValue":"-30","MaximumValue":"30"}},{"TilingIdentificationSystemName":"MODIS
-        Tile EASE","Coordinate1":{"MinimumValue":"-25","MaximumValue":"25"},"Coordinate2":{"MinimumValue":"-15","MaximumValue":"15"}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
+        Degrees"}]}}}},"TilingIdentificationSystems":[{"TilingIdentificationSystemName":"MISR","Coordinate1":{"MinimumValue":-50,"MaximumValue":50},"Coordinate2":{"MinimumValue":-30,"MaximumValue":30}},{"TilingIdentificationSystemName":"MODIS
+        Tile EASE","Coordinate1":{"MinimumValue":-25,"MaximumValue":25},"Coordinate2":{"MinimumValue":-15,"MaximumValue":15}}],"SpatialInformation":{"SpatialCoverageType":"VERTICAL","VerticalCoordinateSystem":{"AltitudeSystemDefinition":{"DatumName":"Datum","DistanceUnits":"HectoPascals","Resolutions":[1.0,2.0,3.0]},"DepthSystemDefinition":{"DatumName":"Datum
         2","DistanceUnits":"Fathoms","Resolutions":[12.0,22.0,32.0]}}},"LocationKeywords":[{"Category":"GEOGRAPHIC
         REGION","Type":"ARCTIC"},{"Category":"OCEAN","Type":"ATLANTIC OCEAN"}],"TemporalExtents":[{"PrecisionOfSeconds":1,"EndsAtPresentFlag":false,"SingleDateTimes":["2015-07-01T00:00:00Z","2015-12-25T00:00:00Z"]},{"PrecisionOfSeconds":10,"EndsAtPresentFlag":false,"RangeDateTimes":[{"BeginningDateTime":"2014-07-01T00:00:00Z","EndingDateTime":"2014-08-01T00:00:00Z"},{"BeginningDateTime":"2015-07-01T00:00:00Z","EndingDateTime":"2015-08-01T00:00:00Z"}]},{"PrecisionOfSeconds":30,"EndsAtPresentFlag":false,"PeriodicDateTimes":[{"Name":"test
         1 Periodic Extent","StartDate":"2015-07-01T00:00:00Z","EndDate":"2015-08-01T00:00:00Z","DurationUnit":"DAY","DurationValue":5,"PeriodCycleDurationUnit":"DAY","PeriodCycleDurationValue":1},{"Name":"test

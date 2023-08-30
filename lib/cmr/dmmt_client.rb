@@ -9,7 +9,6 @@ module Cmr
               '/approved_proposals'
             end
 
-
       headers = {
         'Content-Type' => 'application/json'
       }
