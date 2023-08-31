@@ -116,11 +116,11 @@
       <%= get_resource.draft.to_json  %>
       </div>
     <% else %>
-      <div id="metadata-preview">
+      <div id="collection-metadata-preview">
       </div>
       <script>
         document.addEventListener("DOMContentLoaded", function() {
-          window.metadataPreview('<%= get_resource.id %>', 'collectionDraft', '<%= @preview_token %>', document.getElementById('metadata-preview') )
+          window.metadataPreview('<%= get_resource.id %>', 'collectionDraft', '<%= @preview_token %>', document.getElementById('collection-metadata-preview') )
         })
       </script>
     <% end %>

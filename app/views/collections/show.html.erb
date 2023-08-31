@@ -176,11 +176,11 @@
           <%= @collection.to_json  %>
         </div>
       <% else %>
-        <div id="metadata-preview">
+        <div id="collection-metadata-preview">
         </div>
         <script>
           document.addEventListener("DOMContentLoaded", function() {
-            const element = document.getElementById('metadata-preview');
+            const element = document.getElementById('collection-metadata-preview');
             const config = {
               conceptId: '<%= @concept_id %>',
               conceptType: 'collection',
