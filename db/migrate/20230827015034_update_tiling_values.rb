@@ -83,12 +83,14 @@ class UpdateTilingValues < ActiveRecord::Migration[6.1]
   end
 
   def convert_to_number(string)
+    return string if string.is_a? Numeric
+
     unless string.empty?
       stripped_string = string.delete(',')
       begin
         number = Float(stripped_string)
       rescue
-        number = string
+        number = 0.0
       end
       number
     end
