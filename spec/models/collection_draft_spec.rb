@@ -45,7 +45,7 @@ describe CollectionDraft do
 
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('EntryTitle' => 'new title', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('EntryTitle' => 'new title', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
   it '`update_draft` deletes empty values' do
     collection_draft = create(:collection_draft, draft: { 'EntryTitle' => 'test title' })
@@ -54,7 +54,7 @@ describe CollectionDraft do
 
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('ShortName' => '12345', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('ShortName' => '12345', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
   it '`update_draft` converts number fields to numbers' do
     collection_draft = create(:collection_draft, draft: {})
@@ -62,7 +62,7 @@ describe CollectionDraft do
     user = create(:user)
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('Size' => 42.0, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('Size' => 42.0, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
   it '`update_draft` converts number fields with delimiters to numbers' do
     collection_draft = create(:collection_draft, draft: {})
@@ -71,7 +71,7 @@ describe CollectionDraft do
 
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('Size' => 9001.0, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('Size' => 9001.0, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
   it '`update_draft` converts integer fields to integers' do
     collection_draft = create(:collection_draft, draft: {})
@@ -80,7 +80,7 @@ describe CollectionDraft do
 
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('NumberOfInstruments' => 42, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('NumberOfInstruments' => 42, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
   it '`update_draft` converts boolean fields to boolean' do
     collection_draft = create(:collection_draft, draft: {})
@@ -88,7 +88,7 @@ describe CollectionDraft do
     user = create(:user)
     collection_draft.update_draft(params, user)
 
-    expect(collection_draft.draft).to eq('EndsAtPresentFlag' => false, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' })
+    expect(collection_draft.draft).to eq('EndsAtPresentFlag' => false, 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' })
   end
 
   # after_create sets native_id
@@ -105,9 +105,9 @@ describe CollectionDraft do
   it 'sets the MetadataSpecification after the collection draft has been saved' do
     collection_draft = create(:collection_draft)
     metadata_specification = collection_draft.draft['MetadataSpecification']
-    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2')
+    expect(metadata_specification['URL']).to eq('https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3')
     expect(metadata_specification['Name']).to eq('UMM-C')
-    expect(metadata_specification['Version']).to eq('1.17.2')
+    expect(metadata_specification['Version']).to eq('1.17.3')
   end
 
   it 'does not set the MetadataSpecification if the tool has not been saved' do
@@ -133,7 +133,7 @@ describe CollectionDraft do
     expect(collection_draft.user).to eq(user)
   end
   it '`create_from_collection` saves the draft' do
-    collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2', 'Version' => '1.17.2' }}
+    collection = { 'ShortName' => '12345', 'EntryTitle' => 'test title', 'MetadataSpecification' => { 'Name' => 'UMM-C', 'URL' => 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3', 'Version' => '1.17.3' }}
     user = User.create(urs_uid: 'testuser', provider_id: 'MMT_2')
     native_id = 'test_id'
     collection_draft = CollectionDraft.create_from_collection(collection, user, native_id)

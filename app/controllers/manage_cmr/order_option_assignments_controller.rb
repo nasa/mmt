@@ -140,7 +140,7 @@ class OrderOptionAssignmentsController < ManageCmrController
     order_options_response = cmr_client.get_order_options(provider_id: current_user.provider_id, token: token)
     if order_options_response.error?
       flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.error", request: request.uuid)
-      Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_options - Retrieve Order Options Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
+      Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_order_options - Retrieve Order Options Error, message=#{order_options_response.error_message}")
       return
     end
     order_option_list = Array.wrap(order_options_response.body.fetch('items', []))
@@ -161,7 +161,7 @@ class OrderOptionAssignmentsController < ManageCmrController
     services_response = cmr_client.get_services(options, token)
     if services_response.error?
       flash[:error] = I18n.t("controllers.manage_cmr.get_order_option_list.flash.error", request: request.uuid)
-      Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_services - Retrieve Services Error, message=#{ex.message}, stacktrace=#{ex.backtrace}")
+      Rails.logger.error("#{request.uuid} - OrderOptionAssignmentsController#get_services - Retrieve Services Error, message=#{services_response.error_message}")
       return
     end
     service_list = Array.wrap(services_response.body.fetch('items', []))

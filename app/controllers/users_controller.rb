@@ -51,8 +51,6 @@ class UsersController < ApplicationController
 
     current_user.update(provider_id: provider_id)
 
-    set_provider_context_token
-
     respond_to do |format|
       format.html { redirect_to get_redirect_route(request.referer) }
       format.json { render json: nil, status: :ok }

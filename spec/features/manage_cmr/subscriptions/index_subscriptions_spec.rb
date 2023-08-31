@@ -5,7 +5,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
   before do
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
@@ -25,7 +25,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
   before do
     login
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
   end
 
@@ -39,7 +39,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
           visit manage_cmr_path
         end
@@ -55,7 +55,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
           visit subscriptions_path
         end
@@ -143,7 +143,7 @@ describe 'Viewing a list of subscriptions', reset_provider: true, js:true do
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_4_vcr", record: :none) do
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         @subscriptions_group = create_group(name: 'Test_subscription_group331111111', members: ['testuser', 'ttle9', 'hvtranho'])
         @subscriptions_group_other_provider = create_group(provider_id: 'MMT_1')
@@ -192,7 +192,7 @@ describe 'Subscription index page', js:true do
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       @subscriptions_group = create_group(name: 'Test_subscription_group231', members: ['testuser', 'ttle9', 'hvtranho'])
 
@@ -227,7 +227,7 @@ describe 'when switching providers on the subscription index page', reset_provid
     before do
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       allow_any_instance_of(User).to receive(:urs_uid).and_return('ttle9')
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do

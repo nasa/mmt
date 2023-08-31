@@ -2,7 +2,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
   before do
     @token = 'jwt_access_token'
     @client_token = 'client_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -27,7 +27,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
   after do
     @token = 'jwt_access_token'
     @client_token = 'client_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -41,7 +41,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
     before do
       @token = 'jwt_access_token'
       @client_token = 'client_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -63,7 +63,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
   #   before do
   #     @token = 'jwt_access_token'
   #     @client_token = 'client_token'
-  #     allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+  #
   #     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
   #     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
   #     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -76,7 +76,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
     #     before do
     #       @token = 'jwt_access_token'
     #       @client_token = 'client_token'
-    #       allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+    #
     #       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return(@client_token)
     #       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     #       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do

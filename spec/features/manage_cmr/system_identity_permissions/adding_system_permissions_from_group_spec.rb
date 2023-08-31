@@ -104,7 +104,7 @@ describe 'Saving System Object Permissions from the system group show page', js:
 
             within '.system-permissions-form' do
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               click_on 'Submit'
             end
           end

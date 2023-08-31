@@ -3,7 +3,7 @@ describe 'Provider Identity Permissions pages and form' do
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
   end
 
@@ -95,7 +95,7 @@ describe 'Provider Identity Permissions pages and form' do
     context 'when visiting the provider identities form for the group' do
       before do
         VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_2_vcr", record: :none) do
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(ApplicationController).to receive(:user_has_system_permission_to).and_return(true)
           # visit edit_provider_identity_permission_path(@group['group_id'])
           visit provider_identity_permissions_path

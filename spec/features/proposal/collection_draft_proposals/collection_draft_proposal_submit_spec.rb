@@ -2,7 +2,6 @@
 describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, js: true do
   before do
     @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
     VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -13,7 +12,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when submitting a validated proposal' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -26,7 +24,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when user goes back in browser to edit a submitted proposal' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -45,7 +42,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
         within '.nav-top' do
           @token = 'jwt_access_token'
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -55,7 +51,6 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
           end
         end
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -75,7 +70,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
         within '.nav-top' do
           @token = 'jwt_access_token'
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -93,7 +88,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when the submit proposal button is clicked' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -104,7 +99,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
       context 'when clicking yes to submit a proposal' do
         before do
           @token = 'jwt_access_token'
-          allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
           allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
           allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
           VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -135,7 +130,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
           context 'when no acl for that provider exists' do
             before do
               @token = 'jwt_access_token'
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -155,7 +150,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
           context 'when no groups have the create acl' do
             before do
               @token = 'jwt_access_token'
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_fail", record: :none) do
@@ -173,7 +168,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             after do
               set_as_mmt_proper
               @token = 'jwt_access_token'
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_fail", record: :none) do
                 remove_group_permissions(@permission['concept_id'], @token)
@@ -190,7 +185,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
           context 'when successfully sending emails' do
             before do
               @token = 'jwt_access_token'
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_success", record: :none) do
@@ -206,7 +201,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
             after do
               set_as_mmt_proper
               @token = 'jwt_access_token'
-              allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
               allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
               VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr_success", record: :none) do
                 remove_group_permissions(@permission['concept_id'], @token)
@@ -238,7 +233,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when the collection is valid on page load, but not when the user tries to submit it' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -258,7 +253,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when the submission fails' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -282,7 +277,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when submitting an incomplete proposal' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -301,7 +296,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when viewing a submitted proposal as a user' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -330,7 +325,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
 
     it 'can be rescinded' do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -346,7 +341,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when rescinding fails' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -370,7 +365,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when looking at a delete metadata request' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -385,7 +380,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when rescinding a delete metadata request' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -405,7 +400,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when failing to delete a metadata request' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -425,7 +420,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
   context 'when viewing a record that has been submitted, but has no status_history' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -442,7 +437,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when clicking the rescind button' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
@@ -460,7 +455,7 @@ describe 'Collection Draft Proposal Submit and Rescind', reset_provider: true, j
     context 'when viewing the progress page' do
       before do
         @token = 'jwt_access_token'
-        allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
         VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do

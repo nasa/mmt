@@ -4,7 +4,7 @@ describe 'Proposal access in Draft MMT', reset_provider: true do
     visit manage_collection_proposals_path
 
     @token = 'jwt_access_token'
-    allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
     allow_any_instance_of(ManageMetadataController).to receive(:ensure_non_nasa_draft_permissions).and_return(true)
     allow_any_instance_of(PermissionChecking).to receive(:either_non_nasa_user_or_approver?).and_return(true)
   end

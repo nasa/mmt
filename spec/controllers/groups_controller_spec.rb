@@ -39,7 +39,7 @@ describe GroupsController, reset_provider: true do
   describe 'GET #show' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         group_response = create_group

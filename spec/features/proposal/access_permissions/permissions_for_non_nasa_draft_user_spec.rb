@@ -3,7 +3,7 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
   context 'when the user has permissions for Non-NASA Draft User' do
     before do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
       allow_any_instance_of(User).to receive(:urs_uid).and_return('admin')
@@ -16,7 +16,7 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
 
     after do
       @token = 'jwt_access_token'
-      allow_any_instance_of(ApplicationController).to receive(:echo_provider_token).and_return(@token)
+
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         set_as_mmt_proper
