@@ -7,7 +7,7 @@
 <% elsif @unconfirmed_version %>
   <%= render partial: 'drafts/shared/unconfirmed_version' %>
 <% else %>
-  <% if (resource_name == 'tool_draft' or resource_name == 'variable_draft' or resource_name == 'service_draft') and Rails.configuration.react_forms_enabled %>
+  <% if Rails.configuration.react_forms_enabled %>
     <div id="react-editor-form">
       <div class="grid-row row-content">
           <% if resource_name == 'tool_draft' %>

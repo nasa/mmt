@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="grid-row row-content">
-  <% if (resource_name == 'tool_draft' or resource_name == 'variable_draft' or resource_name == 'service_draft') and Rails.configuration.react_forms_enabled %>
+  <% if Rails.configuration.react_forms_enabled %>
     <section id="react-editor-form" class="metadata">
       <% if (resource_name == 'tool_draft') %>
         <%= react_component("editor/UmmToolsForm", {heading: "Create Tool Record", token: @react_token, user: @react_user, provider: @react_provider}) %>
