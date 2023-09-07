@@ -52,10 +52,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       })
     })
 
-    // only renders the preview if the conceptType is tool_draft and variable_draft. Once we implement service_draft, remove this check.
-    if (this.conceptType() !== '') {
-      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
-    }
+    window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
   }
 
   conceptType() {

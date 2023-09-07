@@ -30,6 +30,7 @@ import CustomRadioWidget from './widgets/CustomRadioWidget'
 import './MetadataEditorForm.css'
 import CustomTitleFieldTemplate from './templates/CustomTitleFieldTemplate'
 import CustomTitleField from './fields/CustomTitleField'
+import OneOfField from './fields/OneOfField'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -149,6 +150,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleField,
+      OneOfField,
       AnyOfField: () => null
     }
     const widgets: RegistryWidgetsType = {

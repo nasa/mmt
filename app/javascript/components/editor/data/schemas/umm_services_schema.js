@@ -146,6 +146,10 @@ const schema = {
           description: 'This element is used to identify the set of supported subsetting capabilities, Spatial, Temporal, and Variable.',
           $ref: '#/definitions/SubsetType'
         },
+        Aggregation: {
+          description: 'This element describes what kinds of aggregations the service allows. When services pull data files, this option allows the service to put the result data into as few files as possible.',
+          $ref: '#/definitions/AggregationType'
+        },
         VariableAggregationSupportedMethods: {
           description: 'This element is used to identify the list of supported methods of variable aggregation.',
           type: 'array',
@@ -380,6 +384,30 @@ const schema = {
         }
       },
       required: ['AllowMultipleValues']
+    },
+    AggregationType: {
+      type: 'object',
+      additionalProperties: false,
+      description: 'This element describes what kinds of aggregations the service allows. When services pull data files, this option allows the service to put the result data into as few files as possible.',
+      properties: {
+        Concatenate: {
+          description: 'The presence of this element describes that a service can concatenate data along a newly created dimension.',
+          $ref: '#/definitions/ConcatenateType'
+        }
+      },
+      oneOf: [{ required: ['Concatenate'] }]
+    },
+    ConcatenateType: {
+      type: 'object',
+      additionalProperties: false,
+      description: 'The presence of this element describes that a service can concatenate data along a newly created dimension.',
+      properties: {
+        ConcatenateDefault: {
+          description: 'This element describes whether the default behavior of the service is to concatenate.',
+          type: 'boolean'
+        }
+      },
+      required: ['ConcatenateDefault']
     },
     SupportedReformattingsPairType: {
       type: 'object',
@@ -1027,10 +1055,6 @@ const schema = {
           description: 'The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates',
           $ref: '#/definitions/DataResourceSpatialExtentType'
         },
-        DataResourceSpatialType: {
-          description: 'The spatial extent of the layer, feature type or coverage available from the service.',
-          $ref: '#/definitions/DataResourceSpatialTypeEnum'
-        },
         SpatialResolution: {
           description: 'The spatial resolution of the layer, feature type or coverage available from the service.',
           type: 'number'
@@ -1235,40 +1259,70 @@ const schema = {
     },
     DataResourceSpatialExtentType: {
       type: 'object',
-      properties: {
-        SpatialPoints: {
-          description: 'The spatial extent of the layer, feature type or coverage described by a point.',
-          type: 'array',
-          items: {
-            $ref: '#/definitions/CoordinatesType'
-          },
-          minItems: 1
+      description: 'The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates',
+      oneOf: [{
+        additionalProperties: false,
+        title: 'Points',
+        properties: {
+          SpatialPoints: {
+            description: 'The spatial extent of the layer, feature type or coverage described by a point.',
+            type: 'array',
+            items: {
+              $ref: '#/definitions/CoordinatesType'
+            },
+            minItems: 1
+          }
         },
-        SpatialLineStrings: {
-          description: 'The spatial extent of the layer, feature type or coverage described by a line string.',
-          type: 'array',
-          items: {
-            $ref: '#/definitions/LineStringType'
-          },
-          minItems: 1
+        required: ['SpatialPoints']
+      }, {
+        additionalProperties: false,
+        title: 'Line String',
+        properties: {
+          SpatialLineStrings: {
+            description: 'The spatial extent of the layer, feature type or coverage described by a line string.',
+            type: 'array',
+            items: {
+              $ref: '#/definitions/LineStringType'
+            },
+            minItems: 1
+          }
         },
-        SpatialBoundingBox: {
-          description: 'The spatial extent of the layer, feature type or coverage described by a bounding box.',
-          $ref: '#/definitions/SpatialBoundingBoxType'
+        required: ['SpatialLineStrings']
+      }, {
+        additionalProperties: false,
+        title: 'Bounding Box',
+        properties: {
+          SpatialBoundingBox: {
+            description: 'The spatial extent of the layer, feature type or coverage described by a bounding box.',
+            $ref: '#/definitions/SpatialBoundingBoxType'
+          }
         },
-        GeneralGrid: {
-          description: 'The spatial extent of the layer, feature type or coverage described by a general grid.',
-          $ref: '#/definitions/GeneralGridType'
+        required: ['SpatialBoundingBox']
+      }, {
+        additionalProperties: false,
+        title: 'General Grid',
+        properties: {
+          GeneralGrid: {
+            description: 'The spatial extent of the layer, feature type or coverage described by a general grid.',
+            $ref: '#/definitions/GeneralGridType'
+          }
         },
-        SpatialPolygons: {
-          description: 'The spatial extent of the layer, feature type or coverage described by a polygon.',
-          type: 'array',
-          items: {
-            $ref: '#/definitions/CoordinatesType'
-          },
-          minItems: 1
-        }
-      }
+        required: ['GeneralGrid']
+      }, {
+        additionalProperties: false,
+        title: 'Polygon',
+        properties: {
+          SpatialPolygons: {
+            description: 'The spatial extent of the layer, feature type or coverage described by a polygon.',
+            type: 'array',
+            items: {
+              $ref: '#/definitions/CoordinatesType'
+            },
+            minItems: 1
+          }
+        },
+        required: ['SpatialPolygons']
+      }]
     },
     DataResourceTemporalExtentType: {
       type: 'object',
@@ -1306,11 +1360,6 @@ const schema = {
         }
       }
     },
-    DataResourceSpatialTypeEnum: {
-      description: 'The spatial extent of the layer, feature type or coverage available from the service. These are coordinate pairs which describe either the point, line string, boundingbox, general grid, or polygon representing the spatial extent.',
-      type: 'string',
-      enum: ['SPATIAL_POINT', 'SPATIAL_LINE_STRING', 'BOUNDING_BOX', 'SPATIAL_POLYGON', 'GENERAL_GRID']
-    },
     CRSIdentifierTypeEnum: {
       description: 'The CRS Identifier of the spatial extent, expressed as a code.',
       type: 'string',
@@ -1339,7 +1388,7 @@ const schema = {
         URL: {
           description: 'The web address of the metadata schema used to validate the service record.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/service/v1.5.1']
+          enum: ['https://cdn.earthdata.nasa.gov/umm/service/v1.5.2']
         },
         Name: {
           description: 'The name of the metadata schema.',
@@ -1349,7 +1398,7 @@ const schema = {
         Version: {
           description: 'The version of the metadata schema.',
           type: 'string',
-          enum: ['1.5.1']
+          enum: ['1.5.2']
         }
       },
       required: ['URL', 'Name', 'Version']

@@ -125,11 +125,9 @@ class CustomMultiSelectWidget extends React.Component<CustomMultiSelectWidgetPro
             {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
           </span>
         </div>
-        <div className="description-box" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
-          <span>
-            {setFocus ? schema.description : ''}
-          </span>
-        </div>
+        <span className="description-box" data-testid={`custom-select-widget__${kebabCase(label)}--description`}>
+          {setFocus ? schema.description : ''}
+        </span>
         <div data-testid={`custom-multi-select-widget__${kebabCase(label)}--selector`}>
           <Select
             key={`${id}_${editor?.focusField}`}
