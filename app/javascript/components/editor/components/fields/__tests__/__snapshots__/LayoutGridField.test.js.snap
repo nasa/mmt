@@ -930,12 +930,10 @@ exports[`Layout Grid Field Component testing adding contact group 1`] = `
                                                           />
                                                         </span>
                                                       </div>
-                                                      <div
+                                                      <span
                                                         class="description-box"
                                                         data-testid="custom-select-widget__roles--description"
-                                                      >
-                                                        <span />
-                                                      </div>
+                                                      />
                                                       <div
                                                         data-testid="custom-multi-select-widget__roles--selector"
                                                       >
@@ -19538,7 +19536,160 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                     </p>
                                     <div
                                       class="row array-item-list"
-                                    />
+                                    >
+                                      <div
+                                        class="array-item"
+                                      >
+                                        <div
+                                          class="col-xs-9"
+                                        >
+                                          <div
+                                            class="form-group field field-object"
+                                          >
+                                            <fieldset
+                                              id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0"
+                                            >
+                                              <legend
+                                                id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0__title"
+                                              >
+                                                Shapefile-0
+                                                <span
+                                                  class="required"
+                                                >
+                                                  *
+                                                </span>
+                                              </legend>
+                                              <p
+                                                class="field-description"
+                                                id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0__description"
+                                              >
+                                                Additional information should be provided for this type of subsetter which includes the shapefile format, maximum number of points and the maximum file size in bytes.
+                                              </p>
+                                              <div
+                                                class="form-group field field-string"
+                                              >
+                                                <label
+                                                  class="control-label"
+                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
+                                                >
+                                                  Format
+                                                  <span
+                                                    class="required"
+                                                  >
+                                                    *
+                                                  </span>
+                                                </label>
+                                                <p
+                                                  class="field-description"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__description"
+                                                >
+                                                  This element is used to identify the file format used in the shapefile.
+                                                </p>
+                                                <select
+                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__help"
+                                                  class="form-control"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
+                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
+                                                  required=""
+                                                >
+                                                  <option
+                                                    value=""
+                                                  />
+                                                  <option
+                                                    value="0"
+                                                  >
+                                                    ESRI
+                                                  </option>
+                                                  <option
+                                                    value="1"
+                                                  >
+                                                    KML
+                                                  </option>
+                                                  <option
+                                                    value="2"
+                                                  >
+                                                    GeoJSON
+                                                  </option>
+                                                </select>
+                                              </div>
+                                              <div
+                                                class="form-group field field-number"
+                                              >
+                                                <label
+                                                  class="control-label"
+                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
+                                                >
+                                                  MaximumFileSizeInBytes
+                                                </label>
+                                                <p
+                                                  class="field-description"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__description"
+                                                >
+                                                  This element describes the maximum file size in bytes of the shapefile that can be sent to the service.
+                                                </p>
+                                                <input
+                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__help"
+                                                  class="form-control"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
+                                                  label="MaximumFileSizeInBytes"
+                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
+                                                  placeholder=""
+                                                  step="any"
+                                                  type="number"
+                                                  value=""
+                                                />
+                                              </div>
+                                              <div
+                                                class="form-group field field-number"
+                                              >
+                                                <label
+                                                  class="control-label"
+                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
+                                                >
+                                                  MaximumNumberOfPoints
+                                                </label>
+                                                <p
+                                                  class="field-description"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__description"
+                                                >
+                                                  This element describes the maximum number of points contained in the shapefile that can be sent to the service.
+                                                </p>
+                                                <input
+                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__help"
+                                                  class="form-control"
+                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
+                                                  label="MaximumNumberOfPoints"
+                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
+                                                  placeholder=""
+                                                  step="any"
+                                                  type="number"
+                                                  value=""
+                                                />
+                                              </div>
+                                            </fieldset>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="col-xs-3 array-item-toolbox"
+                                        >
+                                          <div
+                                            class="btn-group"
+                                            style="display: flex; justify-content: space-around;"
+                                          >
+                                            <button
+                                              class="btn btn-danger array-item-remove"
+                                              style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
+                                              title="Remove"
+                                              type="button"
+                                            >
+                                              <i
+                                                class="glyphicon glyphicon-remove"
+                                              />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <div
                                       class="row"
                                     >
@@ -19614,6 +19765,12 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                     >
                                       SpatialSubset
                                     </legend>
+                                    <p
+                                      class="field-description"
+                                      id="root_ServiceOptions_Subset_SpatialSubset__description"
+                                    >
+                                      This element describes what kind of spatial subsetting the service provides. The sub elements provide the details.
+                                    </p>
                                   </fieldset>
                                 </div>
                               </div>
@@ -19747,6 +19904,114 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                 >
                                   Subset
                                 </legend>
+                                <p
+                                  class="field-description"
+                                  id="root_ServiceOptions_Subset__description"
+                                >
+                                  This element is used to identify the set of supported subsetting capabilities, Spatial, Temporal, and Variable.
+                                </p>
+                              </fieldset>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="form-group field field-object"
+                        >
+                          <fieldset
+                            id="root_ServiceOptions_Aggregation"
+                          >
+                            <legend
+                              id="root_ServiceOptions_Aggregation__title"
+                            >
+                              Aggregation
+                            </legend>
+                            <p
+                              class="field-description"
+                              id="root_ServiceOptions_Aggregation__description"
+                            >
+                              This element describes what kinds of aggregations the service allows. When services pull data files, this option allows the service to put the result data into as few files as possible.
+                            </p>
+                            <div
+                              class="form-group field field-object"
+                            >
+                              <fieldset
+                                id="root_ServiceOptions_Aggregation_Concatenate"
+                              >
+                                <legend
+                                  id="root_ServiceOptions_Aggregation_Concatenate__title"
+                                >
+                                  Concatenate
+                                </legend>
+                                <p
+                                  class="field-description"
+                                  id="root_ServiceOptions_Aggregation_Concatenate__description"
+                                >
+                                  The presence of this element describes that a service can concatenate data along a newly created dimension.
+                                </p>
+                                <div
+                                  class="form-group field field-boolean"
+                                >
+                                  <div
+                                    class="checkbox "
+                                  >
+                                    <p
+                                      class="field-description"
+                                      id="root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault__description"
+                                    >
+                                      This element describes whether the default behavior of the service is to concatenate.
+                                    </p>
+                                    <label>
+                                      <input
+                                        aria-describedby="root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault__error root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault__description root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault__help"
+                                        id="root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault"
+                                        name="root_ServiceOptions_Aggregation_Concatenate_ConcatenateDefault"
+                                        type="checkbox"
+                                      />
+                                      <span>
+                                        ConcatenateDefault
+                                      </span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </fieldset>
+                            </div>
+                          </fieldset>
+                          <div
+                            class="panel panel-default panel-body"
+                          >
+                            <div
+                              class="form-group"
+                            >
+                              <select
+                                aria-describedby="root_ServiceOptions_Aggregation__oneof_select__error root_ServiceOptions_Aggregation__oneof_select__description root_ServiceOptions_Aggregation__oneof_select__help"
+                                class="form-control"
+                                id="root_ServiceOptions_Aggregation__oneof_select"
+                                name="root_ServiceOptions_Aggregation__oneof_select"
+                              >
+                                <option
+                                  value="0"
+                                >
+                                  Option 1
+                                </option>
+                              </select>
+                            </div>
+                            <div
+                              class="form-group field field-object"
+                            >
+                              <fieldset
+                                id="root_ServiceOptions_Aggregation"
+                              >
+                                <legend
+                                  id="root_ServiceOptions_Aggregation__title"
+                                >
+                                  Aggregation
+                                </legend>
+                                <p
+                                  class="field-description"
+                                  id="root_ServiceOptions_Aggregation__description"
+                                >
+                                  This element describes what kinds of aggregations the service allows. When services pull data files, this option allows the service to put the result data into as few files as possible.
+                                </p>
                               </fieldset>
                             </div>
                           </div>
@@ -22494,869 +22759,74 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                               >
                                                 The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates
                                               </p>
+                                            </fieldset>
+                                            <div
+                                              class="panel panel-default panel-body"
+                                            >
                                               <div
-                                                class="form-group field field-array"
+                                                class="form-group"
                                               >
-                                                <fieldset
-                                                  class="field field-array field-array-of-object"
-                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints"
+                                                <select
+                                                  aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__oneof_select__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__oneof_select__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__oneof_select__help"
+                                                  class="form-control"
+                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__oneof_select"
+                                                  name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__oneof_select"
                                                 >
-                                                  <legend
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints__title"
+                                                  <option
+                                                    value="0"
                                                   >
-                                                    SpatialPoints
-                                                  </legend>
-                                                  <p
-                                                    class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints__description"
+                                                    Points
+                                                  </option>
+                                                  <option
+                                                    value="1"
                                                   >
-                                                    The spatial extent of the layer, feature type or coverage described by a point.
-                                                  </p>
-                                                  <div
-                                                    class="row array-item-list"
+                                                    Line String
+                                                  </option>
+                                                  <option
+                                                    value="2"
                                                   >
-                                                    <div
-                                                      class="array-item"
-                                                    >
-                                                      <div
-                                                        class="col-xs-9"
-                                                      >
-                                                        <div
-                                                          class="form-group field field-object"
-                                                        >
-                                                          <fieldset
-                                                            id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0"
-                                                          >
-                                                            <legend
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0__title"
-                                                            >
-                                                              SpatialPoints-0
-                                                              <span
-                                                                class="required"
-                                                              >
-                                                                *
-                                                              </span>
-                                                            </legend>
-                                                            <p
-                                                              class="field-description"
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0__description"
-                                                            >
-                                                              The coordinates consist of a latitude and longitude.
-                                                            </p>
-                                                            <div
-                                                              class="form-group field field-number"
-                                                            >
-                                                              <label
-                                                                class="control-label"
-                                                                for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
-                                                              >
-                                                                Latitude
-                                                                <span
-                                                                  class="required"
-                                                                >
-                                                                  *
-                                                                </span>
-                                                              </label>
-                                                              <p
-                                                                class="field-description"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__description"
-                                                              >
-                                                                The latitude of the point.
-                                                              </p>
-                                                              <input
-                                                                aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__help"
-                                                                class="form-control"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
-                                                                label="Latitude"
-                                                                name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
-                                                                placeholder=""
-                                                                required=""
-                                                                step="any"
-                                                                type="number"
-                                                                value=""
-                                                              />
-                                                            </div>
-                                                            <div
-                                                              class="form-group field field-number"
-                                                            >
-                                                              <label
-                                                                class="control-label"
-                                                                for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
-                                                              >
-                                                                Longitude
-                                                                <span
-                                                                  class="required"
-                                                                >
-                                                                  *
-                                                                </span>
-                                                              </label>
-                                                              <p
-                                                                class="field-description"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__description"
-                                                              >
-                                                                The longitude of the point.
-                                                              </p>
-                                                              <input
-                                                                aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__help"
-                                                                class="form-control"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
-                                                                label="Longitude"
-                                                                name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
-                                                                placeholder=""
-                                                                required=""
-                                                                step="any"
-                                                                type="number"
-                                                                value=""
-                                                              />
-                                                            </div>
-                                                          </fieldset>
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class="col-xs-3 array-item-toolbox"
-                                                      >
-                                                        <div
-                                                          class="btn-group"
-                                                          style="display: flex; justify-content: space-around;"
-                                                        >
-                                                          <button
-                                                            class="btn btn-danger array-item-remove"
-                                                            style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
-                                                            title="Remove"
-                                                            type="button"
-                                                          >
-                                                            <i
-                                                              class="glyphicon glyphicon-remove"
-                                                            />
-                                                          </button>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    class="row"
+                                                    Bounding Box
+                                                  </option>
+                                                  <option
+                                                    value="3"
                                                   >
-                                                    <p
-                                                      class="col-xs-3 col-xs-offset-9 text-right array-item-add"
-                                                    >
-                                                      <button
-                                                        class="btn btn-info btn-add col-xs-12"
-                                                        title="Add"
-                                                        type="button"
-                                                      >
-                                                        <i
-                                                          class="glyphicon glyphicon-plus"
-                                                        />
-                                                      </button>
-                                                    </p>
-                                                  </div>
-                                                </fieldset>
-                                              </div>
-                                              <div
-                                                class="form-group field field-array"
-                                              >
-                                                <fieldset
-                                                  class="field field-array field-array-of-object"
-                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings"
-                                                >
-                                                  <legend
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings__title"
+                                                    General Grid
+                                                  </option>
+                                                  <option
+                                                    value="4"
                                                   >
-                                                    SpatialLineStrings
-                                                  </legend>
-                                                  <p
-                                                    class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings__description"
-                                                  >
-                                                    The spatial extent of the layer, feature type or coverage described by a line string.
-                                                  </p>
-                                                  <div
-                                                    class="row array-item-list"
-                                                  >
-                                                    <div
-                                                      class="array-item"
-                                                    >
-                                                      <div
-                                                        class="col-xs-9"
-                                                      >
-                                                        <div
-                                                          class="form-group field field-object"
-                                                        >
-                                                          <fieldset
-                                                            id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0"
-                                                          >
-                                                            <legend
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0__title"
-                                                            >
-                                                              SpatialLineStrings-0
-                                                              <span
-                                                                class="required"
-                                                              >
-                                                                *
-                                                              </span>
-                                                            </legend>
-                                                            <p
-                                                              class="field-description"
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0__description"
-                                                            >
-                                                              The line string consists of two points: a start point and an end ppint.
-                                                            </p>
-                                                            <div
-                                                              class="form-group field field-object"
-                                                            >
-                                                              <fieldset
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint"
-                                                              >
-                                                                <legend
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint__title"
-                                                                >
-                                                                  StartPoint
-                                                                  <span
-                                                                    class="required"
-                                                                  >
-                                                                    *
-                                                                  </span>
-                                                                </legend>
-                                                                <p
-                                                                  class="field-description"
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint__description"
-                                                                >
-                                                                  The start point of the line string.
-                                                                </p>
-                                                                <div
-                                                                  class="form-group field field-number"
-                                                                >
-                                                                  <label
-                                                                    class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude"
-                                                                  >
-                                                                    Latitude
-                                                                    <span
-                                                                      class="required"
-                                                                    >
-                                                                      *
-                                                                    </span>
-                                                                  </label>
-                                                                  <p
-                                                                    class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude__description"
-                                                                  >
-                                                                    The latitude of the point.
-                                                                  </p>
-                                                                  <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude__help"
-                                                                    class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude"
-                                                                    label="Latitude"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Latitude"
-                                                                    placeholder=""
-                                                                    required=""
-                                                                    step="any"
-                                                                    type="number"
-                                                                    value=""
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="form-group field field-number"
-                                                                >
-                                                                  <label
-                                                                    class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude"
-                                                                  >
-                                                                    Longitude
-                                                                    <span
-                                                                      class="required"
-                                                                    >
-                                                                      *
-                                                                    </span>
-                                                                  </label>
-                                                                  <p
-                                                                    class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude__description"
-                                                                  >
-                                                                    The longitude of the point.
-                                                                  </p>
-                                                                  <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude__help"
-                                                                    class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude"
-                                                                    label="Longitude"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_StartPoint_Longitude"
-                                                                    placeholder=""
-                                                                    required=""
-                                                                    step="any"
-                                                                    type="number"
-                                                                    value=""
-                                                                  />
-                                                                </div>
-                                                              </fieldset>
-                                                            </div>
-                                                            <div
-                                                              class="form-group field field-object"
-                                                            >
-                                                              <fieldset
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint"
-                                                              >
-                                                                <legend
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint__title"
-                                                                >
-                                                                  EndPoint
-                                                                  <span
-                                                                    class="required"
-                                                                  >
-                                                                    *
-                                                                  </span>
-                                                                </legend>
-                                                                <p
-                                                                  class="field-description"
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint__description"
-                                                                >
-                                                                  The end point of the line string.
-                                                                </p>
-                                                                <div
-                                                                  class="form-group field field-number"
-                                                                >
-                                                                  <label
-                                                                    class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude"
-                                                                  >
-                                                                    Latitude
-                                                                    <span
-                                                                      class="required"
-                                                                    >
-                                                                      *
-                                                                    </span>
-                                                                  </label>
-                                                                  <p
-                                                                    class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude__description"
-                                                                  >
-                                                                    The latitude of the point.
-                                                                  </p>
-                                                                  <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude__help"
-                                                                    class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude"
-                                                                    label="Latitude"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Latitude"
-                                                                    placeholder=""
-                                                                    required=""
-                                                                    step="any"
-                                                                    type="number"
-                                                                    value=""
-                                                                  />
-                                                                </div>
-                                                                <div
-                                                                  class="form-group field field-number"
-                                                                >
-                                                                  <label
-                                                                    class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude"
-                                                                  >
-                                                                    Longitude
-                                                                    <span
-                                                                      class="required"
-                                                                    >
-                                                                      *
-                                                                    </span>
-                                                                  </label>
-                                                                  <p
-                                                                    class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude__description"
-                                                                  >
-                                                                    The longitude of the point.
-                                                                  </p>
-                                                                  <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude__help"
-                                                                    class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude"
-                                                                    label="Longitude"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialLineStrings_0_EndPoint_Longitude"
-                                                                    placeholder=""
-                                                                    required=""
-                                                                    step="any"
-                                                                    type="number"
-                                                                    value=""
-                                                                  />
-                                                                </div>
-                                                              </fieldset>
-                                                            </div>
-                                                          </fieldset>
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class="col-xs-3 array-item-toolbox"
-                                                      >
-                                                        <div
-                                                          class="btn-group"
-                                                          style="display: flex; justify-content: space-around;"
-                                                        >
-                                                          <button
-                                                            class="btn btn-danger array-item-remove"
-                                                            style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
-                                                            title="Remove"
-                                                            type="button"
-                                                          >
-                                                            <i
-                                                              class="glyphicon glyphicon-remove"
-                                                            />
-                                                          </button>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    class="row"
-                                                  >
-                                                    <p
-                                                      class="col-xs-3 col-xs-offset-9 text-right array-item-add"
-                                                    >
-                                                      <button
-                                                        class="btn btn-info btn-add col-xs-12"
-                                                        title="Add"
-                                                        type="button"
-                                                      >
-                                                        <i
-                                                          class="glyphicon glyphicon-plus"
-                                                        />
-                                                      </button>
-                                                    </p>
-                                                  </div>
-                                                </fieldset>
+                                                    Polygon
+                                                  </option>
+                                                </select>
                                               </div>
                                               <div
                                                 class="form-group field field-object"
                                               >
                                                 <fieldset
-                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox"
+                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent"
                                                 >
                                                   <legend
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox__title"
+                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__title"
                                                   >
-                                                    SpatialBoundingBox
+                                                    Points
                                                   </legend>
                                                   <p
                                                     class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox__description"
+                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__description"
                                                   >
-                                                    The spatial extent of the layer, feature type or coverage described by a bounding box.
+                                                    The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates
                                                   </p>
-                                                  <div
-                                                    class="form-group field field-string"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier"
-                                                    >
-                                                      CRSIdentifier
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier__description"
-                                                    >
-                                                      The CRS identifier of the bounding box.
-                                                    </p>
-                                                    <select
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_CRSIdentifier"
-                                                      required=""
-                                                    >
-                                                      <option
-                                                        value=""
-                                                      />
-                                                      <option
-                                                        value="0"
-                                                      >
-                                                        EPSG:4326
-                                                      </option>
-                                                      <option
-                                                        value="1"
-                                                      >
-                                                        EPSG:3395
-                                                      </option>
-                                                      <option
-                                                        value="2"
-                                                      >
-                                                        EPSG:3785
-                                                      </option>
-                                                      <option
-                                                        value="3"
-                                                      >
-                                                        EPSG:9807
-                                                      </option>
-                                                      <option
-                                                        value="4"
-                                                      >
-                                                        EPSG:2000.63
-                                                      </option>
-                                                      <option
-                                                        value="5"
-                                                      >
-                                                        EPSG:2163
-                                                      </option>
-                                                      <option
-                                                        value="6"
-                                                      >
-                                                        EPSG:3408
-                                                      </option>
-                                                      <option
-                                                        value="7"
-                                                      >
-                                                        EPSG:3410
-                                                      </option>
-                                                      <option
-                                                        value="8"
-                                                      >
-                                                        EPSG:6931
-                                                      </option>
-                                                      <option
-                                                        value="9"
-                                                      >
-                                                        EPSG:6933
-                                                      </option>
-                                                      <option
-                                                        value="10"
-                                                      >
-                                                        EPSG:3411
-                                                      </option>
-                                                      <option
-                                                        value="11"
-                                                      >
-                                                        EPSG:9822
-                                                      </option>
-                                                      <option
-                                                        value="12"
-                                                      >
-                                                        EPSG:54003
-                                                      </option>
-                                                      <option
-                                                        value="13"
-                                                      >
-                                                        EPSG:54004
-                                                      </option>
-                                                      <option
-                                                        value="14"
-                                                      >
-                                                        EPSG:54008
-                                                      </option>
-                                                      <option
-                                                        value="15"
-                                                      >
-                                                        EPSG:54009
-                                                      </option>
-                                                      <option
-                                                        value="16"
-                                                      >
-                                                        EPSG:26917
-                                                      </option>
-                                                      <option
-                                                        value="17"
-                                                      >
-                                                        EPSG:900913
-                                                      </option>
-                                                      <option
-                                                        value="18"
-                                                      >
-                                                        Other
-                                                      </option>
-                                                    </select>
-                                                  </div>
-                                                  <div
-                                                    class="form-group field field-number"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate"
-                                                    >
-                                                      WestBoundingCoordinate
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate__description"
-                                                    >
-                                                      The west bounding coordinate of the bounding box.
-                                                    </p>
-                                                    <input
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate"
-                                                      label="WestBoundingCoordinate"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_WestBoundingCoordinate"
-                                                      placeholder=""
-                                                      required=""
-                                                      step="any"
-                                                      type="number"
-                                                      value=""
-                                                    />
-                                                  </div>
-                                                  <div
-                                                    class="form-group field field-number"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate"
-                                                    >
-                                                      SouthBoundingCoordinate
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate__description"
-                                                    >
-                                                      The south bounding coordinate of the bounding box.
-                                                    </p>
-                                                    <input
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate"
-                                                      label="SouthBoundingCoordinate"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_SouthBoundingCoordinate"
-                                                      placeholder=""
-                                                      required=""
-                                                      step="any"
-                                                      type="number"
-                                                      value=""
-                                                    />
-                                                  </div>
-                                                  <div
-                                                    class="form-group field field-number"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate"
-                                                    >
-                                                      EastBoundingCoordinate
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate__description"
-                                                    >
-                                                      The east bounding coordinate of the bounding box.
-                                                    </p>
-                                                    <input
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate"
-                                                      label="EastBoundingCoordinate"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_EastBoundingCoordinate"
-                                                      placeholder=""
-                                                      required=""
-                                                      step="any"
-                                                      type="number"
-                                                      value=""
-                                                    />
-                                                  </div>
-                                                  <div
-                                                    class="form-group field field-number"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate"
-                                                    >
-                                                      NorthBoundingCoordinate
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate__description"
-                                                    >
-                                                      The north bounding coordinate of the bounding box.
-                                                    </p>
-                                                    <input
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate"
-                                                      label="NorthBoundingCoordinate"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialBoundingBox_NorthBoundingCoordinate"
-                                                      placeholder=""
-                                                      required=""
-                                                      step="any"
-                                                      type="number"
-                                                      value=""
-                                                    />
-                                                  </div>
-                                                </fieldset>
-                                              </div>
-                                              <div
-                                                class="form-group field field-object"
-                                              >
-                                                <fieldset
-                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid"
-                                                >
-                                                  <legend
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid__title"
-                                                  >
-                                                    GeneralGrid
-                                                  </legend>
-                                                  <p
-                                                    class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid__description"
-                                                  >
-                                                    The spatial extent of the layer, feature type or coverage described by a general grid.
-                                                  </p>
-                                                  <div
-                                                    class="form-group field field-string"
-                                                  >
-                                                    <label
-                                                      class="control-label"
-                                                      for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier"
-                                                    >
-                                                      CRSIdentifier
-                                                      <span
-                                                        class="required"
-                                                      >
-                                                        *
-                                                      </span>
-                                                    </label>
-                                                    <p
-                                                      class="field-description"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier__description"
-                                                    >
-                                                      The CRS identifier (srsName) of the general grid.
-                                                    </p>
-                                                    <select
-                                                      aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier__help"
-                                                      class="form-control"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier"
-                                                      name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_CRSIdentifier"
-                                                      required=""
-                                                    >
-                                                      <option
-                                                        value=""
-                                                      />
-                                                      <option
-                                                        value="0"
-                                                      >
-                                                        EPSG:4326
-                                                      </option>
-                                                      <option
-                                                        value="1"
-                                                      >
-                                                        EPSG:3395
-                                                      </option>
-                                                      <option
-                                                        value="2"
-                                                      >
-                                                        EPSG:3785
-                                                      </option>
-                                                      <option
-                                                        value="3"
-                                                      >
-                                                        EPSG:9807
-                                                      </option>
-                                                      <option
-                                                        value="4"
-                                                      >
-                                                        EPSG:2000.63
-                                                      </option>
-                                                      <option
-                                                        value="5"
-                                                      >
-                                                        EPSG:2163
-                                                      </option>
-                                                      <option
-                                                        value="6"
-                                                      >
-                                                        EPSG:3408
-                                                      </option>
-                                                      <option
-                                                        value="7"
-                                                      >
-                                                        EPSG:3410
-                                                      </option>
-                                                      <option
-                                                        value="8"
-                                                      >
-                                                        EPSG:6931
-                                                      </option>
-                                                      <option
-                                                        value="9"
-                                                      >
-                                                        EPSG:6933
-                                                      </option>
-                                                      <option
-                                                        value="10"
-                                                      >
-                                                        EPSG:3411
-                                                      </option>
-                                                      <option
-                                                        value="11"
-                                                      >
-                                                        EPSG:9822
-                                                      </option>
-                                                      <option
-                                                        value="12"
-                                                      >
-                                                        EPSG:54003
-                                                      </option>
-                                                      <option
-                                                        value="13"
-                                                      >
-                                                        EPSG:54004
-                                                      </option>
-                                                      <option
-                                                        value="14"
-                                                      >
-                                                        EPSG:54008
-                                                      </option>
-                                                      <option
-                                                        value="15"
-                                                      >
-                                                        EPSG:54009
-                                                      </option>
-                                                      <option
-                                                        value="16"
-                                                      >
-                                                        EPSG:26917
-                                                      </option>
-                                                      <option
-                                                        value="17"
-                                                      >
-                                                        EPSG:900913
-                                                      </option>
-                                                      <option
-                                                        value="18"
-                                                      >
-                                                        Other
-                                                      </option>
-                                                    </select>
-                                                  </div>
                                                   <div
                                                     class="form-group field field-array"
                                                   >
                                                     <fieldset
                                                       class="field field-array field-array-of-object"
-                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis"
+                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints"
                                                     >
                                                       <legend
-                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis__title"
+                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints__title"
                                                       >
-                                                        Axis
+                                                        SpatialPoints
                                                         <span
                                                           class="required"
                                                         >
@@ -23365,9 +22835,9 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                       </legend>
                                                       <p
                                                         class="field-description"
-                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis__description"
+                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints__description"
                                                       >
-                                                        The grid axis identifiers, all distinct within a grid.
+                                                        The spatial extent of the layer, feature type or coverage described by a point.
                                                       </p>
                                                       <div
                                                         class="row array-item-list"
@@ -23382,12 +22852,12 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                               class="form-group field field-object"
                                                             >
                                                               <fieldset
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0"
+                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0"
                                                               >
                                                                 <legend
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0__title"
+                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0__title"
                                                                 >
-                                                                  Axis-0
+                                                                  SpatialPoints-0
                                                                   <span
                                                                     class="required"
                                                                   >
@@ -23396,18 +22866,18 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                                 </legend>
                                                                 <p
                                                                   class="field-description"
-                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0__description"
+                                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0__description"
                                                                 >
-                                                                  The axis consists of an extent and grid information.
+                                                                  The coordinates consist of a latitude and longitude.
                                                                 </p>
                                                                 <div
-                                                                  class="form-group field field-string"
+                                                                  class="form-group field field-number"
                                                                 >
                                                                   <label
                                                                     class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel"
+                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
                                                                   >
-                                                                    AxisLabel
+                                                                    Latitude
                                                                     <span
                                                                       class="required"
                                                                     >
@@ -23416,19 +22886,20 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                                   </label>
                                                                   <p
                                                                     class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel__description"
+                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__description"
                                                                   >
-                                                                    The axis label of the general grid.
+                                                                    The latitude of the point.
                                                                   </p>
                                                                   <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel__help"
+                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude__help"
                                                                     class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel"
-                                                                    label="AxisLabel"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_AxisLabel"
+                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
+                                                                    label="Latitude"
+                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Latitude"
                                                                     placeholder=""
                                                                     required=""
-                                                                    type="text"
+                                                                    step="any"
+                                                                    type="number"
                                                                     value=""
                                                                   />
                                                                 </div>
@@ -23437,175 +22908,33 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                                 >
                                                                   <label
                                                                     class="control-label"
-                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution"
+                                                                    for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
                                                                   >
-                                                                    GridResolution
+                                                                    Longitude
+                                                                    <span
+                                                                      class="required"
+                                                                    >
+                                                                      *
+                                                                    </span>
                                                                   </label>
                                                                   <p
                                                                     class="field-description"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution__description"
+                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__description"
                                                                   >
-                                                                    The resolution of the general grid.
+                                                                    The longitude of the point.
                                                                   </p>
                                                                   <input
-                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution__help"
+                                                                    aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude__help"
                                                                     class="form-control"
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution"
-                                                                    label="GridResolution"
-                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_GridResolution"
+                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
+                                                                    label="Longitude"
+                                                                    name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPoints_0_Longitude"
                                                                     placeholder=""
+                                                                    required=""
                                                                     step="any"
                                                                     type="number"
                                                                     value=""
                                                                   />
-                                                                </div>
-                                                                <div
-                                                                  class="form-group field field-object"
-                                                                >
-                                                                  <fieldset
-                                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent"
-                                                                  >
-                                                                    <legend
-                                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent__title"
-                                                                    >
-                                                                      Extent
-                                                                      <span
-                                                                        class="required"
-                                                                      >
-                                                                        *
-                                                                      </span>
-                                                                    </legend>
-                                                                    <p
-                                                                      class="field-description"
-                                                                      id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent__description"
-                                                                    >
-                                                                      The extent of the general grid.
-                                                                    </p>
-                                                                    <div
-                                                                      class="form-group field field-string"
-                                                                    >
-                                                                      <label
-                                                                        class="control-label"
-                                                                        for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel"
-                                                                      >
-                                                                        ExtentLabel
-                                                                      </label>
-                                                                      <p
-                                                                        class="field-description"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel__description"
-                                                                      >
-                                                                        The label of the extent.
-                                                                      </p>
-                                                                      <input
-                                                                        aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel__help"
-                                                                        class="form-control"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel"
-                                                                        label="ExtentLabel"
-                                                                        name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_ExtentLabel"
-                                                                        placeholder=""
-                                                                        type="text"
-                                                                        value=""
-                                                                      />
-                                                                    </div>
-                                                                    <div
-                                                                      class="form-group field field-number"
-                                                                    >
-                                                                      <label
-                                                                        class="control-label"
-                                                                        for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound"
-                                                                      >
-                                                                        LowerBound
-                                                                        <span
-                                                                          class="required"
-                                                                        >
-                                                                          *
-                                                                        </span>
-                                                                      </label>
-                                                                      <p
-                                                                        class="field-description"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound__description"
-                                                                      >
-                                                                        The lowest value along this grid axis.
-                                                                      </p>
-                                                                      <input
-                                                                        aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound__help"
-                                                                        class="form-control"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound"
-                                                                        label="LowerBound"
-                                                                        name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_LowerBound"
-                                                                        placeholder=""
-                                                                        required=""
-                                                                        step="any"
-                                                                        type="number"
-                                                                        value=""
-                                                                      />
-                                                                    </div>
-                                                                    <div
-                                                                      class="form-group field field-number"
-                                                                    >
-                                                                      <label
-                                                                        class="control-label"
-                                                                        for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound"
-                                                                      >
-                                                                        UpperBound
-                                                                        <span
-                                                                          class="required"
-                                                                        >
-                                                                          *
-                                                                        </span>
-                                                                      </label>
-                                                                      <p
-                                                                        class="field-description"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound__description"
-                                                                      >
-                                                                        The highest value along this grid axis.
-                                                                      </p>
-                                                                      <input
-                                                                        aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound__help"
-                                                                        class="form-control"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound"
-                                                                        label="UpperBound"
-                                                                        name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UpperBound"
-                                                                        placeholder=""
-                                                                        required=""
-                                                                        step="any"
-                                                                        type="number"
-                                                                        value=""
-                                                                      />
-                                                                    </div>
-                                                                    <div
-                                                                      class="form-group field field-string"
-                                                                    >
-                                                                      <label
-                                                                        class="control-label"
-                                                                        for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel"
-                                                                      >
-                                                                        UOMLabel
-                                                                        <span
-                                                                          class="required"
-                                                                        >
-                                                                          *
-                                                                        </span>
-                                                                      </label>
-                                                                      <p
-                                                                        class="field-description"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel__description"
-                                                                      >
-                                                                        The unit of measure in which values along this axis are expressed.
-                                                                      </p>
-                                                                      <input
-                                                                        aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel__help"
-                                                                        class="form-control"
-                                                                        id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel"
-                                                                        label="UOMLabel"
-                                                                        name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_GeneralGrid_Axis_0_Extent_UOMLabel"
-                                                                        placeholder=""
-                                                                        required=""
-                                                                        type="text"
-                                                                        value=""
-                                                                      />
-                                                                    </div>
-                                                                  </fieldset>
                                                                 </div>
                                                               </fieldset>
                                                             </div>
@@ -23652,216 +22981,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   </div>
                                                 </fieldset>
                                               </div>
-                                              <div
-                                                class="form-group field field-array"
-                                              >
-                                                <fieldset
-                                                  class="field field-array field-array-of-object"
-                                                  id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons"
-                                                >
-                                                  <legend
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons__title"
-                                                  >
-                                                    SpatialPolygons
-                                                  </legend>
-                                                  <p
-                                                    class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons__description"
-                                                  >
-                                                    The spatial extent of the layer, feature type or coverage described by a polygon.
-                                                  </p>
-                                                  <div
-                                                    class="row array-item-list"
-                                                  >
-                                                    <div
-                                                      class="array-item"
-                                                    >
-                                                      <div
-                                                        class="col-xs-9"
-                                                      >
-                                                        <div
-                                                          class="form-group field field-object"
-                                                        >
-                                                          <fieldset
-                                                            id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0"
-                                                          >
-                                                            <legend
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0__title"
-                                                            >
-                                                              SpatialPolygons-0
-                                                              <span
-                                                                class="required"
-                                                              >
-                                                                *
-                                                              </span>
-                                                            </legend>
-                                                            <p
-                                                              class="field-description"
-                                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0__description"
-                                                            >
-                                                              The coordinates consist of a latitude and longitude.
-                                                            </p>
-                                                            <div
-                                                              class="form-group field field-number"
-                                                            >
-                                                              <label
-                                                                class="control-label"
-                                                                for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude"
-                                                              >
-                                                                Latitude
-                                                                <span
-                                                                  class="required"
-                                                                >
-                                                                  *
-                                                                </span>
-                                                              </label>
-                                                              <p
-                                                                class="field-description"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude__description"
-                                                              >
-                                                                The latitude of the point.
-                                                              </p>
-                                                              <input
-                                                                aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude__help"
-                                                                class="form-control"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude"
-                                                                label="Latitude"
-                                                                name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Latitude"
-                                                                placeholder=""
-                                                                required=""
-                                                                step="any"
-                                                                type="number"
-                                                                value=""
-                                                              />
-                                                            </div>
-                                                            <div
-                                                              class="form-group field field-number"
-                                                            >
-                                                              <label
-                                                                class="control-label"
-                                                                for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude"
-                                                              >
-                                                                Longitude
-                                                                <span
-                                                                  class="required"
-                                                                >
-                                                                  *
-                                                                </span>
-                                                              </label>
-                                                              <p
-                                                                class="field-description"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude__description"
-                                                              >
-                                                                The longitude of the point.
-                                                              </p>
-                                                              <input
-                                                                aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude__help"
-                                                                class="form-control"
-                                                                id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude"
-                                                                label="Longitude"
-                                                                name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent_SpatialPolygons_0_Longitude"
-                                                                placeholder=""
-                                                                required=""
-                                                                step="any"
-                                                                type="number"
-                                                                value=""
-                                                              />
-                                                            </div>
-                                                          </fieldset>
-                                                        </div>
-                                                      </div>
-                                                      <div
-                                                        class="col-xs-3 array-item-toolbox"
-                                                      >
-                                                        <div
-                                                          class="btn-group"
-                                                          style="display: flex; justify-content: space-around;"
-                                                        >
-                                                          <button
-                                                            class="btn btn-danger array-item-remove"
-                                                            style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
-                                                            title="Remove"
-                                                            type="button"
-                                                          >
-                                                            <i
-                                                              class="glyphicon glyphicon-remove"
-                                                            />
-                                                          </button>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    class="row"
-                                                  >
-                                                    <p
-                                                      class="col-xs-3 col-xs-offset-9 text-right array-item-add"
-                                                    >
-                                                      <button
-                                                        class="btn btn-info btn-add col-xs-12"
-                                                        title="Add"
-                                                        type="button"
-                                                      >
-                                                        <i
-                                                          class="glyphicon glyphicon-plus"
-                                                        />
-                                                      </button>
-                                                    </p>
-                                                  </div>
-                                                </fieldset>
-                                              </div>
-                                            </fieldset>
-                                          </div>
-                                          <div
-                                            class="form-group field field-string"
-                                          >
-                                            <label
-                                              class="control-label"
-                                              for="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType"
-                                            >
-                                              DataResourceSpatialType
-                                            </label>
-                                            <p
-                                              class="field-description"
-                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType__description"
-                                            >
-                                              The spatial extent of the layer, feature type or coverage available from the service.
-                                            </p>
-                                            <select
-                                              aria-describedby="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType__error root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType__description root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType__help"
-                                              class="form-control"
-                                              id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType"
-                                              name="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialType"
-                                            >
-                                              <option
-                                                value=""
-                                              />
-                                              <option
-                                                value="0"
-                                              >
-                                                SPATIAL_POINT
-                                              </option>
-                                              <option
-                                                value="1"
-                                              >
-                                                SPATIAL_LINE_STRING
-                                              </option>
-                                              <option
-                                                value="2"
-                                              >
-                                                BOUNDING_BOX
-                                              </option>
-                                              <option
-                                                value="3"
-                                              >
-                                                SPATIAL_POLYGON
-                                              </option>
-                                              <option
-                                                value="4"
-                                              >
-                                                GENERAL_GRID
-                                              </option>
-                                            </select>
+                                            </div>
                                           </div>
                                           <div
                                             class="form-group field field-number"
@@ -24669,7 +23789,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                             <option
                               value="0"
                             >
-                              https://cdn.earthdata.nasa.gov/umm/service/v1.5.1
+                              https://cdn.earthdata.nasa.gov/umm/service/v1.5.2
                             </option>
                           </select>
                         </div>
@@ -24743,7 +23863,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                             <option
                               value="0"
                             >
-                              1.5.1
+                              1.5.2
                             </option>
                           </select>
                         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UiSchema } from '@rjsf/utils'
 import UmmModel from './UmmModel'
 import schema from '../data/schemas/umm_services_schema'
@@ -11,6 +12,7 @@ import relatedUrlsUiSchema from '../data/configuration/uiSchemas/services/relate
 import serviceOptionsUiSchema from '../data/configuration/uiSchemas/services/service_options'
 import serviceQualityUiSchema from '../data/configuration/uiSchemas/services/service_quality'
 import serviceOrganizationsUiSchema from '../data/configuration/uiSchemas/services/service_organizations'
+import operationMetadataUiSchema from '../data/configuration/uiSchemas/services/operation_metadata'
 
 export default class UmmServicesModel extends UmmModel {
   constructor() {
@@ -93,7 +95,10 @@ export default class UmmServicesModel extends UmmModel {
 
       return { ...uiSchema, ...base }
     }
-
+    if (this.currentSection.displayName === 'Operation Metadata') {
+      const uiSchema: any = operationMetadataUiSchema
+      return { ...uiSchema, ...base }
+    }
     if (this.currentSection.displayName === 'Service Quality') {
       const uiSchema: any = serviceQualityUiSchema
       return { ...uiSchema, ...base }
