@@ -93,7 +93,8 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
       editor.saveDraft(draft).then((draft) => {
         editor.draft = draft
         this.setState({ saving: false })
-        if (editor.documentType === 'variable_drafts') {
+        // Remove service_drafts check when the service preview is is MMT
+        if (editor.documentType === 'variable_drafts' || editor.documentType === 'service_drafts') {
           window.location.href = `/${editor.documentType}/${draft.apiId}`
         } else {
           navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
