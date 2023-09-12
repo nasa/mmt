@@ -15669,12 +15669,10 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                       </span>
                                       <span />
                                     </div>
-                                    <div
+                                    <span
                                       class="description-box"
                                       data-testid="custom-select-widget__supported-input-formats--description"
-                                    >
-                                      <span />
-                                    </div>
+                                    />
                                     <div
                                       data-testid="custom-multi-select-widget__supported-input-formats--selector"
                                     >
@@ -15790,12 +15788,10 @@ exports[`UMM Tools Form testing compatibility and usability 1`] = `
                                       </span>
                                       <span />
                                     </div>
-                                    <div
+                                    <span
                                       class="description-box"
                                       data-testid="custom-select-widget__supported-output-formats--description"
-                                    >
-                                      <span />
-                                    </div>
+                                    />
                                     <div
                                       data-testid="custom-multi-select-widget__supported-output-formats--selector"
                                     >

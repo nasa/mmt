@@ -29,7 +29,8 @@
 <% else %>
   <div class="grid-row row-content">
     <section class="action">
-      <% if resource_name === 'service_draft' || !Rails.configuration.react_forms_enabled %>
+      <!-- If the react form are not enabled, this if block will render the Publish button and Delete button from Rails-->
+      <% if !Rails.configuration.react_forms_enabled %>
         <% if @json_form.invalid_keys(ignore_required_fields: false).any? || (resource_name == 'variable_draft' && get_resource.collection_concept_id.blank?) %>
           <%= link_to I18n.t("helpers.#{resource_name}.publish", model: resource_name.titleize), '#invalid-draft-modal', class: 'eui-btn--blue display-modal' %>
           <div id="invalid-draft-modal" class="eui-modal-content">
@@ -82,7 +83,7 @@
       </section>
     <% end %>
 
-    <% if Rails.configuration.react_forms_enabled and (resource_name == 'tool_draft' or resource_name == 'variable_draft') %>
+    <% if Rails.configuration.react_forms_enabled %>
       <% if resource_name == 'variable_draft' %>
         <div class="variable_draft_collection_association" style="margin-left: 10px; padding: 10px">
           <%= render partial: 'drafts/shared/collection_association_progress_panel' %>
@@ -96,6 +97,9 @@
           <% if resource_name == 'variable_draft' %>
             <%= react_component("editor/UmmVarForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
           <% end %>
+          <% if resource_name == 'service_draft' %>
+            <%= react_component("editor/UmmServicesForm", { token: @react_token, user: @react_user, provider: @react_provider }) %>
+          <% end %>
           </div>
       </section>
     <% else %>
@@ -105,6 +109,7 @@
       <%= render partial: 'drafts/shared/form_progress_panel', locals: { schema: @schema, json_form: @json_form, resource: get_resource } %>
     <% end %>
 
+    <!-- If the react form is not enabled, this if block will render the old preview gem-->
     <% if (resource_name === 'service_draft') || !(Rails.configuration.react_forms_enabled) %>
       <div class="preview-content grid-row content">
         <% if @preview.sidebars.blank? %>

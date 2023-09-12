@@ -3637,7 +3637,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     <div
                       class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                     >
-                      August 2023
+                      September 2023
                     </div>
                     <div
                       class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -4765,7 +4765,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                   </div>
                   <div
-                    aria-label="month  2023-08"
+                    aria-label="month  2023-09"
                     class="react-datepicker__month"
                     role="listbox"
                   >
@@ -4774,306 +4774,9 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     >
                       <div
                         aria-disabled="false"
-                        aria-label="Choose Sunday, July 30th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        30
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, July 31st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        31
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 1st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--001"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        1
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 2nd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--002"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        2
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 3rd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--003"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        3
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 4th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--004"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        4
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 5th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        5
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 6th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        6
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 7th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--007"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        7
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 8th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--008"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        8
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 9th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--009"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        9
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 10th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--010"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        10
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 11th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--011"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        11
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 12th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        12
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 13th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        13
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 14th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--014"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        14
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 15th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--015"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        15
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 16th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--016"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        16
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 17th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--017"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        17
-                      </div>
-                      <div
-                        aria-current="date"
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 18th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--keyboard-selected react-datepicker__day--today"
-                        role="option"
-                        tabindex="0"
-                      >
-                        18
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 19th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        19
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 20th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        20
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 21st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--021"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        21
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 22nd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--022"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        22
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 23rd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--023"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        23
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 24th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--024"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        24
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 25th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--025"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        25
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 26th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        26
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
                         aria-label="Choose Sunday, August 27th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
+                        class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -5083,7 +4786,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Monday, August 28th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--028"
+                        class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -5093,7 +4796,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Tuesday, August 29th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--029"
+                        class="react-datepicker__day react-datepicker__day--029 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -5103,7 +4806,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Wednesday, August 30th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--030"
+                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -5113,7 +4816,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Thursday, August 31st, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--031"
+                        class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -5123,7 +4826,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Friday, September 1st, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--001"
                         role="option"
                         tabindex="-1"
                       >
@@ -5133,7 +4836,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Saturday, September 2nd, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
@@ -5147,7 +4850,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Sunday, September 3rd, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
@@ -5157,19 +4860,20 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Monday, September 4th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--004"
                         role="option"
                         tabindex="-1"
                       >
                         4
                       </div>
                       <div
+                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Tuesday, September 5th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                         role="option"
-                        tabindex="-1"
+                        tabindex="0"
                       >
                         5
                       </div>
@@ -5177,7 +4881,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Wednesday, September 6th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--006"
                         role="option"
                         tabindex="-1"
                       >
@@ -5187,7 +4891,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Thursday, September 7th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--007"
                         role="option"
                         tabindex="-1"
                       >
@@ -5197,7 +4901,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Friday, September 8th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--008"
                         role="option"
                         tabindex="-1"
                       >
@@ -5207,11 +4911,307 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Saturday, September 9th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
                         9
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 10th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        10
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 11th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--011"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        11
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 12th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--012"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        12
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 13th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--013"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        13
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 14th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--014"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        14
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 15th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--015"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        15
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 16th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--016 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        16
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 17th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--017 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        17
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 18th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--018"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        18
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 19th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--019"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        19
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 20th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--020"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        20
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 21st, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--021"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        21
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 22nd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--022"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        22
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 23rd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--023 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        23
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 24th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--024 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        24
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 25th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--025"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        25
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 26th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--026"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        26
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 27th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--027"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        27
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 28th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--028"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        28
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 29th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--029"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        29
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 30th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        30
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, October 1st, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        1
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, October 2nd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        2
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, October 3rd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        3
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, October 4th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        4
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, October 5th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        5
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, October 6th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        6
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, October 7th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        7
                       </div>
                     </div>
                   </div>
@@ -5337,7 +5337,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     <div
                       class="react-datepicker__current-month react-datepicker__current-month--hasYearDropdown react-datepicker__current-month--hasMonthDropdown"
                     >
-                      August 2023
+                      September 2023
                     </div>
                     <div
                       class="react-datepicker__header__dropdown react-datepicker__header__dropdown--select"
@@ -6465,7 +6465,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     </div>
                   </div>
                   <div
-                    aria-label="month  2023-08"
+                    aria-label="month  2023-09"
                     class="react-datepicker__month"
                     role="listbox"
                   >
@@ -6474,306 +6474,9 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                     >
                       <div
                         aria-disabled="false"
-                        aria-label="Choose Sunday, July 30th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend react-datepicker__day--outside-month"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        30
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, July 31st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        31
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 1st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--001"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        1
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 2nd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--002"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        2
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 3rd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--003"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        3
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 4th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--004"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        4
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 5th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        5
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 6th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        6
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 7th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--007"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        7
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 8th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--008"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        8
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 9th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--009"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        9
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 10th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--010"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        10
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 11th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--011"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        11
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 12th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--012 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        12
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 13th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--013 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        13
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 14th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--014"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        14
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 15th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--015"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        15
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 16th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--016"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        16
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 17th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--017"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        17
-                      </div>
-                      <div
-                        aria-current="date"
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 18th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--018 react-datepicker__day--keyboard-selected react-datepicker__day--today"
-                        role="option"
-                        tabindex="0"
-                      >
-                        18
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 19th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--019 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        19
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Sunday, August 20th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--020 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        20
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Monday, August 21st, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--021"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        21
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Tuesday, August 22nd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--022"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        22
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Wednesday, August 23rd, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--023"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        23
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Thursday, August 24th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--024"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        24
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Friday, August 25th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--025"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        25
-                      </div>
-                      <div
-                        aria-disabled="false"
-                        aria-label="Choose Saturday, August 26th, 2023"
-                        aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--026 react-datepicker__day--weekend"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        26
-                      </div>
-                    </div>
-                    <div
-                      class="react-datepicker__week"
-                    >
-                      <div
-                        aria-disabled="false"
                         aria-label="Choose Sunday, August 27th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend"
+                        class="react-datepicker__day react-datepicker__day--027 react-datepicker__day--weekend react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -6783,7 +6486,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Monday, August 28th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--028"
+                        class="react-datepicker__day react-datepicker__day--028 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -6793,7 +6496,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Tuesday, August 29th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--029"
+                        class="react-datepicker__day react-datepicker__day--029 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -6803,7 +6506,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Wednesday, August 30th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--030"
+                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -6813,7 +6516,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Thursday, August 31st, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--031"
+                        class="react-datepicker__day react-datepicker__day--031 react-datepicker__day--outside-month"
                         role="option"
                         tabindex="-1"
                       >
@@ -6823,7 +6526,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Friday, September 1st, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--001"
                         role="option"
                         tabindex="-1"
                       >
@@ -6833,7 +6536,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Saturday, September 2nd, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
@@ -6847,7 +6550,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Sunday, September 3rd, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
@@ -6857,19 +6560,20 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Monday, September 4th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--004"
                         role="option"
                         tabindex="-1"
                       >
                         4
                       </div>
                       <div
+                        aria-current="date"
                         aria-disabled="false"
                         aria-label="Choose Tuesday, September 5th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--keyboard-selected react-datepicker__day--today"
                         role="option"
-                        tabindex="-1"
+                        tabindex="0"
                       >
                         5
                       </div>
@@ -6877,7 +6581,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Wednesday, September 6th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--006"
                         role="option"
                         tabindex="-1"
                       >
@@ -6887,7 +6591,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Thursday, September 7th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--007"
                         role="option"
                         tabindex="-1"
                       >
@@ -6897,7 +6601,7 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Friday, September 8th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--008 react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--008"
                         role="option"
                         tabindex="-1"
                       >
@@ -6907,11 +6611,307 @@ exports[`Custom Date Time Widget Component renders the custom dateTime widget wi
                         aria-disabled="false"
                         aria-label="Choose Saturday, September 9th, 2023"
                         aria-selected="false"
-                        class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        class="react-datepicker__day react-datepicker__day--009 react-datepicker__day--weekend"
                         role="option"
                         tabindex="-1"
                       >
                         9
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 10th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--010 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        10
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 11th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--011"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        11
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 12th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--012"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        12
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 13th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--013"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        13
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 14th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--014"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        14
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 15th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--015"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        15
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 16th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--016 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        16
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 17th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--017 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        17
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 18th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--018"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        18
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 19th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--019"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        19
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 20th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--020"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        20
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 21st, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--021"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        21
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 22nd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--022"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        22
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 23rd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--023 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        23
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, September 24th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--024 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        24
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, September 25th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--025"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        25
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, September 26th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--026"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        26
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, September 27th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--027"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        27
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, September 28th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--028"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        28
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, September 29th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--029"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        29
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, September 30th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--030 react-datepicker__day--weekend"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        30
+                      </div>
+                    </div>
+                    <div
+                      class="react-datepicker__week"
+                    >
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Sunday, October 1st, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--001 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        1
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Monday, October 2nd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--002 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        2
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Tuesday, October 3rd, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--003 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        3
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Wednesday, October 4th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--004 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        4
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Thursday, October 5th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--005 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        5
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Friday, October 6th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--006 react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        6
+                      </div>
+                      <div
+                        aria-disabled="false"
+                        aria-label="Choose Saturday, October 7th, 2023"
+                        aria-selected="false"
+                        class="react-datepicker__day react-datepicker__day--007 react-datepicker__day--weekend react-datepicker__day--outside-month"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        7
                       </div>
                     </div>
                   </div>

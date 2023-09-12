@@ -2,6 +2,8 @@
 class ServiceDraftsController < BaseDraftsController
   include ControlledKeywords
   before_action :umm_s_enabled?
+  include Cmr::Util
+
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_action :ensure_published_record_supported_version, only: [:show, :edit]
@@ -9,6 +11,7 @@ class ServiceDraftsController < BaseDraftsController
   before_action :set_form, only: [:show, :edit, :update]
   before_action :set_current_form, only: [:edit]
   before_action :set_preview, only: [:show]
+  before_action :set_react_token, only: [:new, :create, :edit, :update, :show]
 
   def edit
     super
@@ -56,5 +59,19 @@ class ServiceDraftsController < BaseDraftsController
       whitelisted[:draft] = params[:service_draft][:draft]
     end
     permitted.to_unsafe_h # need to understand what this is doing more, think related to nested parameters not permitted.
+  end
+
+  def prefix_token(token)
+    new_token = token
+    if is_urs_token?(token)
+      new_token = "Bearer #{token}"
+    end
+    new_token
+  end
+
+  def set_react_token
+    @react_token = prefix_token(token)
+    @react_user = current_user.urs_uid
+    @react_provider = current_user.provider_id
   end
 end

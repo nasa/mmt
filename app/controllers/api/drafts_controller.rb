@@ -93,7 +93,10 @@ class Api::DraftsController < BaseDraftsController
         render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
 
         ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
+      elsif params[:draft_type] == 'service_drafts'
+        ingested_response = cmr_client.ingest_service(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
       end
+
       if ingested_response.success?
         # get information for publication email notification before draft is deleted
         Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{user.urs_uid} for provider: #{user.provider_id}")
