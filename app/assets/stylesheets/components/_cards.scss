@@ -3,14 +3,14 @@
 \* ===================================================== */
 
 //.cards:not(#metadata-preview *),
-.cards:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *)
+.cards:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *)
 {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.card:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *)
+.card:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *)
 {
   border: 1px solid darken($light-blue, 8%);
   border-radius: 4px;
@@ -23,7 +23,7 @@
   }
 }
 
-.card-header:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *)
+.card-header:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *)
 {
   border-bottom: 1px solid darken($light-blue, 8%);
   background-color: $light-blue;
@@ -57,7 +57,7 @@
   }
 }
 
-.card-footer:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *) {
+.card-footer:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *) {
   padding: 0.5em 1em;
   font-size: 0.8em;
   border-top: 1px solid darken($light-blue, 8%);
@@ -69,7 +69,7 @@
   justify-content: space-between;
 }
 
-.card-body:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *)
+.card-body:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *)
 {
   padding: 0;
   border-top: 2px solid lighten($light-grey, 2%);
@@ -122,18 +122,18 @@
   }
 }
 
-.card-body-details:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *) {
+.card-body-details:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *) {
   padding: 0.8em;
   border-right: 1px solid $light-grey;
   flex: 0 0 216px;
 }
 
-.card-body-details-full:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *) {
+.card-body-details-full:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *) {
   padding: 0.8em;
   flex: 0 1 auto;
 }
 
-.card-body-aside:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *) {
+.card-body-aside:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *) {
   padding: 0.8em;
   flex: 0 1 auto;
 }
@@ -149,7 +149,7 @@
   flex: 1 1 auto;
 }
 
-.card-navigation:not(#react-editor-form *, #metadata-preview *, #accordion-additional-information *, #collection-metadata-preview *) {
+.card-navigation:not(#react-editor-form *, #metadata-preview *, #collection-metadata-preview *) {
   border-top: 1px solid $light-grey;
   background-color: $light-blue;
   border-bottom-left-radius: 3px;

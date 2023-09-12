@@ -2,7 +2,7 @@
    Tables
 \* ===================================================== */
 
-table:not(#metadata-preview .table) {
+table:not(#metadata-preview .table, #collection-metadata-preview .table) {
   // Override jQuery Chosen styles in tables
   .chosen-container-multi {
     width: 100% !important;
