@@ -51,8 +51,9 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
         this.setState({ status: `Error retrieving draft! ${error.message}` })
       })
     })
-
-    window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
+    if (this.conceptType() !== '') {
+      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
+    }
   }
 
   conceptType() {
