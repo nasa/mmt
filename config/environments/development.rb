@@ -132,4 +132,5 @@ Rails.application.configure do
   config.metadata_preview_css_url = ENV['metadata_preview_css_url']
 
   config.react_forms_enabled = true
+  config.cmr_drafts_api_enabled = true
 end

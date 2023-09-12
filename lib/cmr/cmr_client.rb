@@ -720,6 +720,24 @@ module Cmr
       delete(url, {}, nil, headers.merge(token_header(token)))
     end
 
+    def ingest_draft(provider_id:, draft_type:, native_id:, token:, draft:)
+      url = "https://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/#{draft_type}/#{native_id}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Content-Type' => 'application/vnd.nasa.cmr.umm+json',
+        'Authorization' => token
+      }
+      post(url, draft, headers)
+    end
+
+    def search_draft(draft_type:, native_id:, token:)
+      url = "https://cmr.sit.earthdata.nasa.gov/search/#{draft_type}.umm_json?native_id=#{native_id}"
+      headers = {
+        'Accept' => 'application/json; charset=utf-8',
+        'Authorization' => token
+      }
+      get(url, nil, headers)
+    end
     private
 
     def valid_uri?(uri)

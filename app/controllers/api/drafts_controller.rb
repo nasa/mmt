@@ -30,6 +30,10 @@ class Api::DraftsController < BaseDraftsController
     render json: array, status: 200
   end
 
+  def cmrCreate
+    provider_id = params[:provider]
+
+  end
   def create
     provider_id = params[:provider]
     user = User.find_or_create_by(urs_uid: @urs_uid)
@@ -49,19 +53,31 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def update
-    begin
+    if Rails.configuration.cmr_drafts_api_enabled
       provider_id = params[:provider]
-      user = User.find_or_create_by(urs_uid: @urs_uid)
-      json_params = JSON.parse(request.body.read())
-      json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
-      json_params_to_resource(json_params: json_params)
-      get_resource.save
-      Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
-      render json: draft_json_result, status: 200
-    rescue => e
-      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
-      render json: JSON.generate({'error': "Could not update draft: #{e.message}"}), status: 500
+      native_id = params[:id]
+      token = request.headers["Authorization"]
+      draft_type = params[:draft_type].sub('_','-')
+      draft = request.body.read()
+
+      draft_parse = JSON.parse(draft) unless draft.is_a?(Hash)
+      cmr_response = cmr_client.ingest_draft(provider_id: provider_id, draft_type: draft_type, native_id: native_id, token: token, draft:draft_parse.to_json)
+      result = cmr_response.body()
+      render json:result.gid('items'), status: 200
     end
+    # begin
+    #   provider_id = params[:provider]
+    #   user = User.find_or_create_by(urs_uid: @urs_uid)
+    #   json_params = JSON.parse(request.body.read())
+    #   json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+    #   json_params_to_resource(json_params: json_params)
+    #   get_resource.save
+    #   Rails.logger.info("Audit Log: #{user.urs_uid} successfully updated #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id}")
+    #   render json: draft_json_result, status: 200
+    # rescue => e
+    #   Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
+    #   render json: JSON.generate({'error': "Could not update draft: #{e.message}"}), status: 500
+    # end
   end
 
   def destroy
@@ -130,7 +146,16 @@ class Api::DraftsController < BaseDraftsController
   end
 
   def show
-    render json: draft_json_result
+    if Rails.configuration.cmr_drafts_api_enabled
+      native_id = params[:id]
+      token = request.headers["Authorization"]
+      draft_type = params[:draft_type].sub('_','-')
+
+      cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
+      render json:cmr_response, status: 200
+      #  curl -H "Authorization" "https://cmr.sit.earthdata.nasa.gov/search/tool-drafts.umm_json?native_id=21acd31-6e07-7508-b2fe-a83a184dd7a"
+    end
+    # render json: draft_json_result
   end
 
   def validate_token
