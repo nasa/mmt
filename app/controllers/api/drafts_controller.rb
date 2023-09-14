@@ -9,11 +9,13 @@ class Api::DraftsController < BaseDraftsController
   skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
 
   def set_resource(resource = nil)
-    begin
-      resource ||= resource_class.find(params[:id])
-      instance_variable_set("@#{resource_name}", resource)
-    rescue ActiveRecord::RecordNotFound
-      render json: JSON.generate({'error': "Couldn't find #{resource_name} with 'id'=#{params[:id]}"}), status: 404
+    if !Rails.configuration.cmr_drafts_api_enabled
+      begin
+        resource ||= resource_class.find(params[:id])
+        instance_variable_set("@#{resource_name}", resource)
+      rescue ActiveRecord::RecordNotFound
+        render json: JSON.generate({'error': "Couldn't find #{resource_name} with 'id'=#{params[:id]}"}), status: 404
+      end
     end
   end
 
@@ -62,8 +64,13 @@ class Api::DraftsController < BaseDraftsController
 
       draft_parse = JSON.parse(draft) unless draft.is_a?(Hash)
       cmr_response = cmr_client.ingest_draft(provider_id: provider_id, draft_type: draft_type, native_id: native_id, token: token, draft:draft_parse.to_json)
-      result = cmr_response.body()
-      render json:result.gid('items'), status: 200
+
+      if cmr_response.success?
+        render json:cmr_response.body, status: 200
+      else
+        render json: cmr_response.errors, status: 500
+      end
+
     end
     # begin
     #   provider_id = params[:provider]
@@ -79,72 +86,101 @@ class Api::DraftsController < BaseDraftsController
     #   render json: JSON.generate({'error': "Could not update draft: #{e.message}"}), status: 500
     # end
   end
-
+  # add a test toggle
   def destroy
-    begin
+    if Rails.configuration.cmr_drafts_api_enabled
       provider_id = params[:provider]
-      user = User.find_or_create_by(urs_uid: @urs_uid)
-      draft = draft_json_result
-      get_resource.destroy
-      Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
-      render json: draft, status: 200
-    rescue  => e
-      Rails.logger.info("Audit Log: #{user.urs_uid} could not delete #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
-      render json: JSON.generate({'error': "Could not delete draft: #{e.message}"}), status: 500
+      native_id = params[:id]
+      token = request.headers["Authorization"]
+      draft_type = params[:draft_type].sub('_','-')
+
+      cmr_response = cmr_client.delete_draft(provider_id: provider_id, draft_type: draft_type, native_id: native_id, token: token)
+
+      if cmr_response.success?
+        render json:cmr_response, status: 200
+      else
+        render json: cmr_response.errors, status: 500
+      end
     end
+
+    #   begin
+    #   provider_id = params[:provider]
+    #   user = User.find_or_create_by(urs_uid: @urs_uid)
+    #   draft = draft_json_result
+    #   get_resource.destroy
+    #   Rails.logger.info("Audit Log: #{resource_name.titleize} #{get_resource.entry_title} was destroyed by #{user.urs_uid} in provider: #{provider_id}")
+    #   render json: draft, status: 200
+    # rescue  => e
+    #   Rails.logger.info("Audit Log: #{user.urs_uid} could not delete #{resource_name.titleize} with id: #{params[:id]} for provider: #{provider_id} because of #{e.inspect}")
+    #   render json: JSON.generate({'error': "Could not delete draft: #{e.message}"}), status: 500
+    # end
   end
 
   def publish
-    provider_id = params[:provider]
-    user = User.find_or_create_by(urs_uid: @urs_uid)
-    json_params = JSON.parse(request.body.read())
-    json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
-    json_params_to_resource(json_params: json_params)
+    if Rails.configuration.cmr_drafts_api_enabled
+      concept_id = params[:concept_id]
+      publish_native_id = params[:publish_native_id]
+      token = request.headers["Authorization"]
 
-    if get_resource.save
-      ingested_response = {}
-      if params[:draft_type] == 'tool_drafts'
-        ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-      elsif params[:draft_type] == 'variable_drafts'
-        render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
-
-        ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
-      elsif params[:draft_type] == 'service_drafts'
-        ingested_response = cmr_client.ingest_service(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
-      end
-
-      if ingested_response.success?
-        # get information for publication email notification before draft is deleted
-        Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{user.urs_uid} for provider: #{user.provider_id}")
-        short_name = get_resource.draft['short_name']
-        # Delete draft
-        get_resource.destroy
-
-        concept_id = ingested_response.body['concept-id']
-        revision_id = ingested_response.body['revision-id']
-
-        begin
-          # instantiate and deliver notification email
-          DraftMailer.send("#{params[:draft_type].underscore}_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
-        rescue => e
-          Rails.logger.error "Error trying to send email in #{self.class} Error: #{e}"
-        end
-
-        result = ingested_response.body
-        render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
-
+      cmr_response = cmr_client.publish_draft(concept_id: concept_id, publish_native_id: publish_native_id, token: token )
+      if cmr_response.success?
+        render json:cmr_response.body, status: 200
       else
-        Rails.logger.error("Ingest #{resource_name.capitalize} Metadata Error: #{ingested_response.clean_inspect}")
-        Rails.logger.info("User #{user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{user.provider_id} but encountered an error.")
-        render json: draft_json_result(errors: ingested_response.errors), status: 500
+        render json: cmr_response.errors, status: 500
       end
-    else
-      errors_list = generate_model_error
-      Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
-      render json: JSON.generate({'error': 'Could not update draft'}), status: 500
     end
-  end
 
+
+      # provider_id = params[:provider]
+    # user = User.find_or_create_by(urs_uid: @urs_uid)
+    # json_params = JSON.parse(request.body.read())
+    # json_params = JSON.parse(json_params) unless json_params.is_a?(Hash)
+    # json_params_to_resource(json_params: json_params)
+
+    # if get_resource.save
+    #   ingested_response = {}
+    #   if params[:draft_type] == 'tool_drafts'
+    #     ingested_response = cmr_client.ingest_tool(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
+    #   elsif params[:draft_type] == 'variable_drafts'
+    #     render json: draft_json_result(errors: ['Associated Collection Concept ID is required.']), status: 400 and return unless get_resource.collection_concept_id
+    #
+    #     ingested_response = cmr_client.ingest_variable(metadata: get_resource.draft.to_json, collection_concept_id: get_resource.collection_concept_id, native_id: get_resource.native_id, token: @token)
+    #   elsif params[:draft_type] == 'service_drafts'
+    #     ingested_response = cmr_client.ingest_service(metadata: get_resource.draft.to_json, provider_id: get_resource.provider_id, native_id: get_resource.native_id, token: @token)
+    #   end
+    #
+    #   if ingested_response.success?
+    #     # get information for publication email notification before draft is deleted
+    #     Rails.logger.info("Audit Log: #{resource_name.capitalize} with title #{get_resource.entry_title} and id: #{get_resource.id} was published by #{user.urs_uid} for provider: #{user.provider_id}")
+    #     short_name = get_resource.draft['short_name']
+    #     # Delete draft
+    #     get_resource.destroy
+    #
+    #     concept_id = ingested_response.body['concept-id']
+    #     revision_id = ingested_response.body['revision-id']
+    #
+    #     begin
+    #       # instantiate and deliver notification email
+    #       DraftMailer.send("#{params[:draft_type].underscore}_published_notification", get_user_info, concept_id, revision_id, short_name).deliver_now
+    #     rescue => e
+    #       Rails.logger.error "Error trying to send email in #{self.class} Error: #{e}"
+    #     end
+    #
+    #     result = ingested_response.body
+    #     render json: draft_json_result(concept_id: result.dig('concept-id'), revision_id: result.dig('revision-id') ), status: 200
+    #
+    #   else
+    #     Rails.logger.error("Ingest #{resource_name.capitalize} Metadata Error: #{ingested_response.clean_inspect}")
+    #     Rails.logger.info("User #{user.urs_uid} attempted to ingest #{resource_name} draft #{get_resource.entry_title} in provider #{user.provider_id} but encountered an error.")
+    #     render json: draft_json_result(errors: ingested_response.errors), status: 500
+    #   end
+    # else
+    #   errors_list = generate_model_error
+    #   Rails.logger.info("Audit Log: #{user.urs_uid} could not update #{resource_name.titleize} with title: '#{get_resource.entry_title}' and id: #{get_resource.id} for provider: #{provider_id} because of #{errors_list}")
+    #   render json: JSON.generate({'error': 'Could not update draft'}), status: 500
+    # end
+  end
+  # check for collection
   def show
     if Rails.configuration.cmr_drafts_api_enabled
       native_id = params[:id]
@@ -152,8 +188,12 @@ class Api::DraftsController < BaseDraftsController
       draft_type = params[:draft_type].sub('_','-')
 
       cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
-      render json:cmr_response, status: 200
-      #  curl -H "Authorization" "https://cmr.sit.earthdata.nasa.gov/search/tool-drafts.umm_json?native_id=21acd31-6e07-7508-b2fe-a83a184dd7a"
+
+      if cmr_response.success?
+        render json:cmr_response.body, status: 200
+      else
+        render json: cmr_response.errors, status: 500
+      end
     end
     # render json: draft_json_result
   end

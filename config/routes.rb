@@ -156,6 +156,8 @@ Rails.application.routes.draw do
     put '/providers/:provider/:draft_type/:id' => 'drafts#update'
     delete '/providers/:provider/:draft_type/:id' => 'drafts#destroy'
     post '/providers/:provider/:draft_type/:id/publish' => 'drafts#publish'
+    put '/:concept_id/:publish_native_id/publish' => 'drafts#publish'
+
   end
 
   resources :collection_drafts, controller: 'collection_drafts', draft_type: 'CollectionDraft', as: 'collection_drafts' do
