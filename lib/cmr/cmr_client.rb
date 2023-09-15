@@ -741,9 +741,8 @@ module Cmr
       url = "https://cmr.sit.earthdata.nasa.gov/search/#{draft_type}.umm_json?native_id=#{native_id}"
       headers = {
         'Accept' => 'application/json; charset=utf-8',
-        'Authorization' => token
       }
-      get(url, nil, headers)
+      get(url, nil, headers.merge(token_header(token)))
     end
     # rails env
     def delete_draft(provider_id:, native_id:, draft_type:, token:)

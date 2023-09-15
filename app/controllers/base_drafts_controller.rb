@@ -12,13 +12,15 @@ class BaseDraftsController < DraftsController
   end
 
   def show
-    if params[:not_authorized_request_params]
-      @not_authorized_request = params[:not_authorized_request_params]
-    else
-      authorize get_resource
+    if !Rails.configuration.cmr_drafts_api_enabled
+      if params[:not_authorized_request_params]
+        @not_authorized_request = params[:not_authorized_request_params]
+      else
+        authorize get_resource
+      end
     end
 
-    add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb fetch_entry_id(get_resource['draft'], resource_name), send("#{resource_name}_path", get_resource)
 
     respond_to do |format|
       format.html { return }
@@ -39,9 +41,11 @@ class BaseDraftsController < DraftsController
   end
 
   def edit
-    authorize get_resource
+    if !Rails.configuration.cmr_drafts_api_enabled
+      authorize get_resource
+    end
 
-    add_breadcrumb fetch_entry_id(get_resource.draft, resource_name), send("#{resource_name}_path", get_resource)
+    add_breadcrumb fetch_entry_id(get_resource['draft'], resource_name), send("#{resource_name}_path", get_resource)
 
     unless @json_form.get_form(@current_form).nil?
       add_breadcrumb @json_form.get_form(@current_form).title, send("edit_#{resource_name}_path", get_resource, @current_form)
@@ -212,8 +216,31 @@ class BaseDraftsController < DraftsController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_resource(resource = nil)
-    resource ||= resource_class.find(params[:id])
-    instance_variable_set("@#{resource_name}", resource)
+    if Rails.configuration.cmr_drafts_api_enabled
+      native_id = params[:id]
+      draft_type = "#{resource_name.sub('_','-')}s"
+
+      cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
+
+      if cmr_response.success?
+        result = cmr_response.body['items'][0]
+        resource =
+          {
+            "id" =>  result['meta']['native-id'],
+            "user_id" => result['meta']['user-id'],
+            "draft" => result['umm'],
+            "updated_at" => result['meta']['revision-date'],
+            "short_name" => result['umm']['Name'],
+            "entry_title" => result['umm']["LongName"],
+            "provider_id" => result['meta']['provider-id'],
+        }
+        instance_variable_set("@#{resource_name}", resource)
+      end
+    else
+      resource ||= resource_class.find(params[:id])
+      resource = JSON.parse(resource.to_json)
+      instance_variable_set("@#{resource_name}", resource)
+    end
   end
 
   def add_top_level_breadcrumbs

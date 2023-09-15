@@ -38,12 +38,12 @@ class ToolDraftsController < BaseDraftsController
 
   def set_form
     @json_form = UmmJsonForm.new(
-      plural_published_resource_name,
-      'umm-t-form.json',
-      @schema,
-      get_resource.draft,
-      field_prefix: 'tool_draft/draft',
-      draft_id: get_resource.id
+    plural_published_resource_name,
+    'umm-t-form.json',
+    @schema,
+    get_resource['draft'],
+    field_prefix: 'tool_draft/draft',
+    draft_id: get_resource['id']
     )
   end
 
@@ -53,10 +53,10 @@ class ToolDraftsController < BaseDraftsController
 
   def set_preview
     @preview = UmmPreview.new(
-      schema_type: published_resource_name,
-      preview_filename: 'umm-t-preview.json',
-      data: get_resource.draft,
-      draft_id: get_resource.id
+    schema_type: published_resource_name,
+    preview_filename: 'umm-t-preview.json',
+    data: get_resource['draft'],
+    draft_id: get_resource['id']
     )
   end
 

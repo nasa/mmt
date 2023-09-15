@@ -1,9 +1,9 @@
 <% content_for :header_title do %>
-  <h2><%= fetch_entry_id(get_resource.draft, resource_name) %></h2>
-  <p class="subtitle"><%= display_header_subtitle(get_resource.draft, resource_name) %></p>
+  <h2><%= fetch_entry_id(get_resource['draft'], resource_name) %></h2>
+  <p class="subtitle"><%= display_header_subtitle(get_resource['draft'], resource_name) %></p>
 <% end %>
 
-<% if !current_provider?(get_resource.provider_id) %>
+<% if !current_provider?(get_resource['provider_id']) %>
   <div class="eui-banner--warn">
     <p class="eui-banner__message">
       <%= link_to("You need to change your current provider to #{@not_authorized_request['action']} this #{resource_name.titleize}. Click here to change your provider.",
