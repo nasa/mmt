@@ -3992,7 +3992,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  6
+                                  0
                                   /
                                   85
                                 </span>
@@ -4004,7 +4004,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 maxlength="85"
                                 name="Name"
                                 type="text"
-                                value="a name"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -4048,7 +4048,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  14
+                                  0
                                   /
                                   1024
                                 </span>
@@ -4060,7 +4060,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 maxlength="1024"
                                 name="Long Name"
                                 type="text"
-                                value="a long name #1"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -4104,7 +4104,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  1
+                                  0
                                   /
                                   20
                                 </span>
@@ -4116,7 +4116,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                 maxlength="20"
                                 name="Version"
                                 type="text"
-                                value="1"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -4225,7 +4225,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                   >
                                     <span
                                       class="css-1f43avz-a11yText-A11yText"
-                                      id="react-select-42-live-region"
+                                      id="react-select-18-live-region"
                                     />
                                     <span
                                       aria-atomic="false"
@@ -4240,9 +4240,10 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                         class=" css-1fdsijx-ValueContainer"
                                       >
                                         <div
-                                          class=" css-1dimb5e-singleValue"
+                                          class=" css-1jqq78o-placeholder"
+                                          id="react-select-18-placeholder"
                                         >
-                                          Web Portal
+                                          Select Type
                                         </div>
                                         <div
                                           class=" css-qbdosj-Input"
@@ -4250,13 +4251,14 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                         >
                                           <input
                                             aria-autocomplete="list"
+                                            aria-describedby="react-select-18-placeholder"
                                             aria-expanded="false"
                                             aria-haspopup="true"
                                             autocapitalize="none"
                                             autocomplete="off"
                                             autocorrect="off"
                                             class=""
-                                            id="react-select-42-input"
+                                            id="react-select-18-input"
                                             role="combobox"
                                             spellcheck="false"
                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -4620,7 +4622,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-43-live-region"
+                                                    id="react-select-19-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -4636,7 +4638,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-43-placeholder"
+                                                        id="react-select-19-placeholder"
                                                       >
                                                         Select URL Content Type
                                                       </div>
@@ -4646,14 +4648,14 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-43-placeholder"
+                                                          aria-describedby="react-select-19-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          id="react-select-43-input"
+                                                          id="react-select-19-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -4739,7 +4741,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-44-live-region"
+                                                    id="react-select-20-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -4755,7 +4757,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-44-placeholder"
+                                                        id="react-select-20-placeholder"
                                                       >
                                                         No available  Type
                                                       </div>
@@ -4765,7 +4767,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-44-placeholder"
+                                                          aria-describedby="react-select-20-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -4773,7 +4775,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-44-input"
+                                                          id="react-select-20-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -4855,7 +4857,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-45-live-region"
+                                                    id="react-select-21-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -4871,7 +4873,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-45-placeholder"
+                                                        id="react-select-21-placeholder"
                                                       >
                                                         No available Subtype
                                                       </div>
@@ -4881,7 +4883,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-45-placeholder"
+                                                          aria-describedby="react-select-21-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -4889,7 +4891,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-45-input"
+                                                          id="react-select-21-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5053,7 +5055,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
@@ -5070,6 +5072,70 @@ exports[`Navigation View Component error canceling changes 1`] = `
                   <ul
                     class="error-list-header-list"
                   >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__name--info"
+                          />
+                          Must have required property 'Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__long-name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__long-name--info"
+                          />
+                          Must have required property 'Long Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__type"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__type--info"
+                          />
+                          Must have required property 'Type'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__version"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__version--info"
+                          />
+                          Must have required property 'Version'
+                        </div>
+                      </li>
+                    </div>
                     <div
                       class="error-list-item"
                       data-testid="error-list-item__description"
@@ -5244,6 +5310,26 @@ exports[`Navigation View Component error canceling changes 1`] = `
                     <li
                       class="list-group-item text-danger"
                     >
+                      must have required property 'Name'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'LongName'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Type'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Version'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
                       must have required property 'Description'
                     </li>
                     <li
@@ -5280,7 +5366,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -5308,11 +5394,23 @@ exports[`Navigation View Component error canceling changes 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a name"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Name__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Name'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -5340,11 +5438,23 @@ exports[`Navigation View Component error canceling changes 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a long name #1"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_LongName__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'LongName'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -5399,9 +5509,21 @@ exports[`Navigation View Component error canceling changes 1`] = `
                           NOT PROVIDED
                         </option>
                       </select>
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Type__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Type'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -5429,8 +5551,20 @@ exports[`Navigation View Component error canceling changes 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="1"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Version__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Version'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
                       class="form-group field field-string"
@@ -7649,60 +7783,7 @@ exports[`Navigation View Component error canceling changes 1`] = `
                     <pre
                       class="__json-pretty__"
                     >
-                      {
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Name
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a name"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        LongName
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a long name #1"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Version
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "1"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Type
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "Web Portal"
-                      </span>
-                      
-}
+                      {}
                     </pre>
                   </div>
                 </div>
@@ -16301,7 +16382,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  6
+                                  0
                                   /
                                   85
                                 </span>
@@ -16313,7 +16394,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 maxlength="85"
                                 name="Name"
                                 type="text"
-                                value="a name"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -16357,7 +16438,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  14
+                                  0
                                   /
                                   1024
                                 </span>
@@ -16369,7 +16450,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 maxlength="1024"
                                 name="Long Name"
                                 type="text"
-                                value="a long name #1"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -16413,7 +16494,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  1
+                                  0
                                   /
                                   20
                                 </span>
@@ -16425,7 +16506,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                 maxlength="20"
                                 name="Version"
                                 type="text"
-                                value="1"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -16534,7 +16615,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                   >
                                     <span
                                       class="css-1f43avz-a11yText-A11yText"
-                                      id="react-select-14-live-region"
+                                      id="react-select-6-live-region"
                                     />
                                     <span
                                       aria-atomic="false"
@@ -16549,9 +16630,10 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                         class=" css-1fdsijx-ValueContainer"
                                       >
                                         <div
-                                          class=" css-1dimb5e-singleValue"
+                                          class=" css-1jqq78o-placeholder"
+                                          id="react-select-6-placeholder"
                                         >
-                                          Web Portal
+                                          Select Type
                                         </div>
                                         <div
                                           class=" css-qbdosj-Input"
@@ -16559,13 +16641,14 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                         >
                                           <input
                                             aria-autocomplete="list"
+                                            aria-describedby="react-select-6-placeholder"
                                             aria-expanded="false"
                                             aria-haspopup="true"
                                             autocapitalize="none"
                                             autocomplete="off"
                                             autocorrect="off"
                                             class=""
-                                            id="react-select-14-input"
+                                            id="react-select-6-input"
                                             role="combobox"
                                             spellcheck="false"
                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -16929,7 +17012,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-15-live-region"
+                                                    id="react-select-7-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -16945,7 +17028,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-15-placeholder"
+                                                        id="react-select-7-placeholder"
                                                       >
                                                         Select URL Content Type
                                                       </div>
@@ -16955,14 +17038,14 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-15-placeholder"
+                                                          aria-describedby="react-select-7-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          id="react-select-15-input"
+                                                          id="react-select-7-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -17048,7 +17131,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-16-live-region"
+                                                    id="react-select-8-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -17064,7 +17147,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-16-placeholder"
+                                                        id="react-select-8-placeholder"
                                                       >
                                                         No available  Type
                                                       </div>
@@ -17074,7 +17157,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-16-placeholder"
+                                                          aria-describedby="react-select-8-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -17082,7 +17165,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-16-input"
+                                                          id="react-select-8-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -17164,7 +17247,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-17-live-region"
+                                                    id="react-select-9-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -17180,7 +17263,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-17-placeholder"
+                                                        id="react-select-9-placeholder"
                                                       >
                                                         No available Subtype
                                                       </div>
@@ -17190,7 +17273,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-17-placeholder"
+                                                          aria-describedby="react-select-9-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -17198,7 +17281,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-17-input"
+                                                          id="react-select-9-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -17409,7 +17492,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
@@ -17426,6 +17509,70 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                   <ul
                     class="error-list-header-list"
                   >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__name--info"
+                          />
+                          Must have required property 'Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__long-name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__long-name--info"
+                          />
+                          Must have required property 'Long Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__type"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__type--info"
+                          />
+                          Must have required property 'Type'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__version"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__version--info"
+                          />
+                          Must have required property 'Version'
+                        </div>
+                      </li>
+                    </div>
                     <div
                       class="error-list-item"
                       data-testid="error-list-item__description"
@@ -17600,6 +17747,26 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                     <li
                       class="list-group-item text-danger"
                     >
+                      must have required property 'Name'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'LongName'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Type'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Version'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
                       must have required property 'Description'
                     </li>
                     <li
@@ -17636,7 +17803,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -17664,11 +17831,23 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a name"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Name__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Name'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -17696,11 +17875,23 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a long name #1"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_LongName__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'LongName'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -17755,9 +17946,21 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                           NOT PROVIDED
                         </option>
                       </select>
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Type__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Type'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -17785,8 +17988,20 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="1"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Version__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Version'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
                       class="form-group field field-string"
@@ -20005,60 +20220,7 @@ exports[`Navigation View Component saves and previews with error 1`] = `
                     <pre
                       class="__json-pretty__"
                     >
-                      {
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Name
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a name"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        LongName
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a long name #1"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Version
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "1"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Type
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "Web Portal"
-                      </span>
-                      
-}
+                      {}
                     </pre>
                   </div>
                 </div>
@@ -20206,7 +20368,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  6
+                                  0
                                   /
                                   85
                                 </span>
@@ -20218,7 +20380,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 maxlength="85"
                                 name="Name"
                                 type="text"
-                                value="a name"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -20262,7 +20424,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  14
+                                  0
                                   /
                                   1024
                                 </span>
@@ -20274,7 +20436,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 maxlength="1024"
                                 name="Long Name"
                                 type="text"
-                                value="a long name #2"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -20318,7 +20480,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   </span>
                                 </div>
                                 <span>
-                                  1
+                                  0
                                   /
                                   20
                                 </span>
@@ -20330,7 +20492,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                 maxlength="20"
                                 name="Version"
                                 type="text"
-                                value="2"
+                                value=""
                               />
                               <span
                                 class="widget-description"
@@ -20439,7 +20601,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                   >
                                     <span
                                       class="css-1f43avz-a11yText-A11yText"
-                                      id="react-select-22-live-region"
+                                      id="react-select-10-live-region"
                                     />
                                     <span
                                       aria-atomic="false"
@@ -20454,9 +20616,10 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                         class=" css-1fdsijx-ValueContainer"
                                       >
                                         <div
-                                          class=" css-1dimb5e-singleValue"
+                                          class=" css-1jqq78o-placeholder"
+                                          id="react-select-10-placeholder"
                                         >
-                                          Web Portal
+                                          Select Type
                                         </div>
                                         <div
                                           class=" css-qbdosj-Input"
@@ -20464,13 +20627,14 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                         >
                                           <input
                                             aria-autocomplete="list"
+                                            aria-describedby="react-select-10-placeholder"
                                             aria-expanded="false"
                                             aria-haspopup="true"
                                             autocapitalize="none"
                                             autocomplete="off"
                                             autocorrect="off"
                                             class=""
-                                            id="react-select-22-input"
+                                            id="react-select-10-input"
                                             role="combobox"
                                             spellcheck="false"
                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -20834,7 +20998,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-23-live-region"
+                                                    id="react-select-11-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -20850,7 +21014,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-23-placeholder"
+                                                        id="react-select-11-placeholder"
                                                       >
                                                         Select URL Content Type
                                                       </div>
@@ -20860,14 +21024,14 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-23-placeholder"
+                                                          aria-describedby="react-select-11-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          id="react-select-23-input"
+                                                          id="react-select-11-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -20953,7 +21117,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-24-live-region"
+                                                    id="react-select-12-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -20969,7 +21133,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-24-placeholder"
+                                                        id="react-select-12-placeholder"
                                                       >
                                                         No available  Type
                                                       </div>
@@ -20979,7 +21143,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-24-placeholder"
+                                                          aria-describedby="react-select-12-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -20987,7 +21151,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-24-input"
+                                                          id="react-select-12-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -21069,7 +21233,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-25-live-region"
+                                                    id="react-select-13-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -21085,7 +21249,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-25-placeholder"
+                                                        id="react-select-13-placeholder"
                                                       >
                                                         No available Subtype
                                                       </div>
@@ -21095,7 +21259,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-25-placeholder"
+                                                          aria-describedby="react-select-13-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -21103,7 +21267,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-25-input"
+                                                          id="react-select-13-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -21314,7 +21478,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
@@ -21331,6 +21495,70 @@ exports[`Navigation View Component saves but receives error 1`] = `
                   <ul
                     class="error-list-header-list"
                   >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__name--info"
+                          />
+                          Must have required property 'Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__long-name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__long-name--info"
+                          />
+                          Must have required property 'Long Name'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__type"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__type--info"
+                          />
+                          Must have required property 'Type'
+                        </div>
+                      </li>
+                    </div>
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__version"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__version--info"
+                          />
+                          Must have required property 'Version'
+                        </div>
+                      </li>
+                    </div>
                     <div
                       class="error-list-item"
                       data-testid="error-list-item__description"
@@ -21505,6 +21733,26 @@ exports[`Navigation View Component saves but receives error 1`] = `
                     <li
                       class="list-group-item text-danger"
                     >
+                      must have required property 'Name'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'LongName'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Type'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Version'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
                       must have required property 'Description'
                     </li>
                     <li
@@ -21541,7 +21789,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -21569,11 +21817,23 @@ exports[`Navigation View Component saves but receives error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a name"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Name__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Name'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -21601,11 +21861,23 @@ exports[`Navigation View Component saves but receives error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="a long name #2"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_LongName__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'LongName'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -21660,9 +21932,21 @@ exports[`Navigation View Component saves but receives error 1`] = `
                           NOT PROVIDED
                         </option>
                       </select>
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Type__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Type'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -21690,8 +21974,20 @@ exports[`Navigation View Component saves but receives error 1`] = `
                         placeholder=""
                         required=""
                         type="text"
-                        value="2"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Version__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Version'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
                       class="form-group field field-string"
@@ -23910,60 +24206,7 @@ exports[`Navigation View Component saves but receives error 1`] = `
                     <pre
                       class="__json-pretty__"
                     >
-                      {
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Name
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a name"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        LongName
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "a long name #2"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Version
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "2"
-                      </span>
-                      ,
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Type
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "Web Portal"
-                      </span>
-                      
-}
+                      {}
                     </pre>
                   </div>
                 </div>

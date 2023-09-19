@@ -20,10 +20,12 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         />
       </span>
     </div>
-    <span
+    <div
       class="description-box"
       data-testid="custom-select-widget__my-test-data-label--description"
-    />
+    >
+      <span />
+    </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
@@ -199,10 +201,12 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
       </span>
       <span />
     </div>
-    <span
+    <div
       class="description-box"
       data-testid="custom-select-widget__my-test-data-label--description"
-    />
+    >
+      <span />
+    </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
@@ -382,10 +386,12 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         />
       </span>
     </div>
-    <span
+    <div
       class="description-box"
       data-testid="custom-select-widget__my-test-data-label--description"
-    />
+    >
+      <span />
+    </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
@@ -565,10 +571,12 @@ exports[`Custom Multi Select Widget Component renders the custom multi select wi
         />
       </span>
     </div>
-    <span
+    <div
       class="description-box"
       data-testid="custom-select-widget__my-test-data-label--description"
-    />
+    >
+      <span />
+    </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
@@ -744,10 +752,12 @@ exports[`Custom Multi Select Widget Component renders the custom select widget w
       </span>
       <span />
     </div>
-    <span
+    <div
       class="description-box"
       data-testid="custom-select-widget__my-test-data-label--description"
-    />
+    >
+      <span />
+    </div>
     <div
       data-testid="custom-multi-select-widget__my-test-data-label--selector"
     >
@@ -1018,12 +1028,14 @@ exports[`Custom Multi Select Widget Component testing autofocus against multi se
                                                   />
                                                 </span>
                                               </div>
-                                              <span
+                                              <div
                                                 class="description-box"
                                                 data-testid="custom-select-widget__roles--description"
                                               >
-                                                This is the roles of the organization.
-                                              </span>
+                                                <span>
+                                                  This is the roles of the organization.
+                                                </span>
+                                              </div>
                                               <div
                                                 data-testid="custom-multi-select-widget__roles--selector"
                                               >

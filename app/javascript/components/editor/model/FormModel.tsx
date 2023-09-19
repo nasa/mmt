@@ -18,6 +18,7 @@ export default interface FormModel {
   service: MetadataService;
   getFormSchema();
   getFormData();
+  getMetadataSpecification();
   setFormData(value: { [key: string]: object })
   migratedSectionName(sectionName: string): string;
   shouldRedirectAfterPublish: boolean;

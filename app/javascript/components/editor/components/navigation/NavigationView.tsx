@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/require-default-props */
 import {
   Button, ButtonGroup, Dropdown, ListGroup
@@ -7,6 +8,7 @@ import { observer } from 'mobx-react'
 import { cloneDeep } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import { RJSFValidationError } from '@rjsf/utils'
+import { toJS } from 'mobx'
 import NavigationItem from './NavigationItem'
 import MetadataEditor from '../../MetadataEditor'
 import withRouter from '../withRouter'
@@ -14,6 +16,7 @@ import Status from '../../model/Status'
 import { removeEmpty } from '../../utils/json_utils'
 import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
 import './NavigationView.css'
+import Draft from '../../model/Draft'
 
 type NavigationViewProps = {
   router?: RouterType
@@ -36,12 +39,12 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
       draft
     } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.ingestDraft(draft).then(() => {
         editor.draft = draft
         this.setState({ saving: false })
         if (navigateNext) {
           const section = editor.nextSection()
-          navigate(`/${editor.documentType}/${draft.apiId}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
+          navigate(`/${editor.documentType}/${draft.nativeId}/edit/${section.displayName.replace(/\s/g, '_')}`, { replace: false })
           editor.navigateTo(section)
         }
       }).catch((error) => {
@@ -58,15 +61,16 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
     } = editor
     const { model } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.ingestDraft(draft).then(() => {
         editor.draft = draft
-        editor.publishDraft(draft).then((draft) => {
+        editor.publishDraft(draft).then((data) => {
+          const draft = new Draft()
           const urlOrigin = window.location.origin
           editor.draft = draft
-          editor.status = new Status('success', `Draft Published! ${draft.conceptId}/${draft.revisionId}`)
+          editor.status = new Status('success', `Draft Published! ${data['concept-id']}/${data['revision-id']}`)
           editor.publishErrors = null
           if (model.shouldRedirectAfterPublish) {
-            window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${draft.conceptId}`
+            window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${data['concept-id']}`
           }
           this.setState({ saving: false })
         }).catch((errors) => {
@@ -90,14 +94,13 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
       draft
     } = editor
     this.setState({ saving: true }, () => {
-      editor.saveDraft(draft).then((draft) => {
+      editor.ingestDraft(draft).then(() => {
         editor.draft = draft
         this.setState({ saving: false })
-        // Remove service_drafts check when the service preview is is MMT
-        if (editor.documentType === 'variable_drafts' || editor.documentType === 'service_drafts') {
-          window.location.href = `/${editor.documentType}/${draft.apiId}`
+        if (editor.documentType === 'variable_drafts') {
+          window.location.href = `/${editor.documentType}/${draft.nativeId}`
         } else {
-          navigate(`/${editor.documentType}/${draft.apiId}`, { replace: false })
+          navigate(`/${editor.documentType}/${draft.nativeId}`, { replace: false })
         }
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
@@ -187,7 +190,7 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
             data-testid="navigationview--cancel-button"
             onClick={() => {
               this.setState({ saving: true }, () => {
-                editor.fetchDraft(draft.apiId).then((draft) => {
+                editor.getDraft(draft.nativeId).then((draft) => {
                   editor.draft = draft
                   editor.status = new Status('info', 'Changes discarded.')
                   this.setState({ saving: false })

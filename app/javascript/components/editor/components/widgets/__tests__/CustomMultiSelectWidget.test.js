@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen, waitFor
+  render, fireEvent, screen, waitFor, act
 } from '@testing-library/react'
 import { createSchemaUtils } from '@rjsf/utils'
 import validator from '@rjsf/validator-ajv8'

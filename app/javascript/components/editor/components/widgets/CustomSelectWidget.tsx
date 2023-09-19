@@ -6,8 +6,6 @@ import Select from 'react-select'
 import _, { kebabCase } from 'lodash'
 import { observer } from 'mobx-react'
 import {
-  EnumOptionsType,
-  RJSFSchema,
   UIOptionsType, UiSchema, WidgetProps
 } from '@rjsf/utils'
 import { JSONSchema7 } from 'json-schema'
@@ -33,12 +31,7 @@ interface CustomSelectWidgetProps extends WidgetProps {
   required: boolean,
   onChange: (value: string) => void,
   disabled: boolean,
-  uiSchema?: CustomUiSchema,
-  // oneOf properties is passing enum through options
-  options: {
-    title?: string,
-    enumOptions?: EnumOptionsType<RJSFSchema>[]
-  }
+  uiSchema?: CustomUiSchema
 }
 
 type CustomSelectWidgetState = {
@@ -118,7 +111,7 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     const selectOptions: SelectOptions[] = []
     const { setFocus, loading } = this.state
     const {
-      required, label, schema, registry, isLoading = loading, disabled, uiSchema = {}, options = { enumOptions: null }
+      required, label, schema, registry, isLoading = loading, disabled, uiSchema = {}
     } = this.props
     let {
       placeholder
@@ -137,19 +130,15 @@ class CustomSelectWidget extends React.Component<CustomSelectWidgetProps, Custom
     }
 
     selectOptions.push({ value: null, label: '✓' })
+
     // Extracting ui:options from uiSchema
     const uiOptions = uiSchema['ui:options'] || {}
     const { enumOptions } = uiOptions
 
-    // Be able to override schema enums from ui:schema
+    // Be able to override schema enums
     if (enumOptions) {
       (enumOptions as string[]).forEach((enumValue) => {
         selectOptions.push({ value: enumValue, label: enumValue })
-      })
-    } else if (options.enumOptions) {
-      // if the field is oneOf field
-      (options.enumOptions).forEach((option) => {
-        selectOptions.push(option)
       })
     } else {
       // Otherwise, just use the enums in the schema

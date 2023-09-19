@@ -50,6 +50,17 @@ export default class UmmModel implements FormModel {
     this.draft.draft = newValue
   }
 
+  getMetadataSpecification() {
+    const metadataSpecification = {
+      MetadataSpecification: {
+        URL: this.fullSchema.definitions.MetadataSpecificationType.properties.URL.enum[0],
+        Name: this.fullSchema.definitions.MetadataSpecificationType.properties.Name.enum[0],
+        Version: this.fullSchema.definitions.MetadataSpecificationType.properties.Version.enum[0]
+      }
+    }
+    return metadataSpecification
+  }
+
   getFormData() {
     const formData: { [key: string]: object } = {}
     const config = this.formSections.filter((obj: FormSection) => obj.displayName === this.currentSection.displayName)[0]

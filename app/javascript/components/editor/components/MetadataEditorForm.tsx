@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line max-classes-per-file
@@ -10,6 +11,8 @@ import { RegistryFieldsType, RegistryWidgetsType } from '@rjsf/utils'
 import Form from '@rjsf/bootstrap-4'
 import validator from '@rjsf/validator-ajv8'
 import { IChangeEvent } from '@rjsf/core'
+
+import uuid from 'react-uuid'
 import JSONView from './JSONView'
 import MetadataEditor from '../MetadataEditor'
 import CustomTextareaWidget from './widgets/CustomTextareaWidget'
@@ -30,7 +33,7 @@ import CustomRadioWidget from './widgets/CustomRadioWidget'
 import './MetadataEditorForm.css'
 import CustomTitleFieldTemplate from './templates/CustomTitleFieldTemplate'
 import CustomTitleField from './fields/CustomTitleField'
-import OneOfField from './fields/OneOfField'
+import Draft from '../model/Draft'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -46,8 +49,10 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidMount() {
     const { router, editor } = this.props
     const { params, location, navigate } = router
-    const urlParams = new URLSearchParams(router.location.search)
-    const associatedCollectionId = urlParams.get('associated_collection_id')
+    const { draft } = editor
+    // const urlParams = new URLSearchParams(router.location.search)
+    // const associatedCollectionId = urlParams.get('associated_collection_id')
+
     let { sectionName } = params
     const { id } = params
     if (router.params.fieldName) {
@@ -76,22 +81,32 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         }
       }
     }
-
     if (id) {
-      editor.loading = true
-      editor.fetchDraft(Number(id)).then((draft) => {
+      editor.getDraft(id).then((response) => {
+        const draft = new Draft()
+
+        draft.nativeId = id
+        draft.publishNativeId = id.replace(/-draft/, '')
+        draft.conceptId = response.conceptId
+        draft.draft = response.draft
         editor.draft = draft
-        editor.loading = false
       }).catch((error) => {
         editor.status = new Status('warning', `error retrieving draft! ${error.message}`)
         editor.loading = false
       })
     } else {
-      editor.draft.associatedCollectionId = associatedCollectionId
-      editor.saveDraft(editor.draft).then((draft) => {
-        editor.draft = draft
-        editor.loading = false
-        navigate(`/${editor.model.documentType}/${draft.apiId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: false })
+      editor.loading = true
+
+      // sets the native-id and MetadataSpecification to draft
+      const getNativeId = uuid().replace(/-/g, '')
+      draft.nativeId = `${getNativeId}-draft`
+      draft.publishNativeId = getNativeId
+      draft.draft = editor.model.getMetadataSpecification()
+
+      editor.ingestDraft(editor.draft).then((data) => {
+        editor.draft.conceptId = data['concept-id']
+        console.log('new editor', editor.draft)
+        navigate(`/${editor.model.documentType}/${editor.draft.nativeId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: true })
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
         editor.loading = false
@@ -150,7 +165,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleField,
-      OneOfField,
       AnyOfField: () => null
     }
     const widgets: RegistryWidgetsType = {
@@ -195,7 +209,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
               {publishErrors && publishErrors.length > 0 && (
                 <Alert key={JSON.stringify(status)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
                   <h5>Errors Publishing Record</h5>
-                  {publishErrors.map((error) => (<div>{error}</div>))}
+                  {publishErrors.map((error) => (<div key={error}>{error}</div>))}
                 </Alert>
               )}
             </Col>

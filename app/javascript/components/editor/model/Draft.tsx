@@ -4,24 +4,34 @@ import { makeObservable, observable } from 'mobx'
 export default class Draft {
   key: Date
   draft: any
-  apiId: number
-  apiUserId: number
+  nativeId: string
+  apiUserId: string
   conceptId: string
   revisionId: number
   associatedCollectionId: string
   errors: any
+  // nativeId: string
+  publishNativeId: string
 
   constructor() {
     this.key = new Date()
     this.draft = {}
-    this.apiId = -1
-    this.apiUserId = -1
-    this.conceptId = null
+    this.nativeId = ''
+    this.apiUserId = ''
+    this.conceptId = ''
     this.revisionId = -1
     this.associatedCollectionId = null
     this.errors = {}
+
+    this.publishNativeId = null
     makeObservable(this, {
-      draft: observable, apiId: observable, apiUserId: observable, conceptId: observable, revisionId: observable, associatedCollectionId: observable, errors: observable
+      draft: observable,
+      nativeId: observable,
+      apiUserId: observable,
+      conceptId: observable,
+      revisionId: observable,
+      associatedCollectionId: observable,
+      errors: observable
     })
   }
 }

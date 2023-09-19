@@ -8,6 +8,7 @@ import {
   MemoryRouter, Route, Routes
 } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
+// import { toJS } from 'mobx'
 import UmmToolsModel from '../../model/UmmToolsModel'
 import MetadataEditor from '../../MetadataEditor'
 import MetadataEditorForm from '../MetadataEditorForm'
@@ -23,11 +24,7 @@ async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #new', Version: '1', Type: 'Web Portal'
-          },
-          id: 1,
-          user_id: 9
+          'concept-id': 'mock-concept-id_provider-id'
         })
       }
     }
@@ -36,11 +33,15 @@ async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #1', Version: '1', Type: 'Web Portal'
-          },
-          id: 1,
-          user_id: 9
+          items: [{
+            umm: {
+              Name: 'a name', LongName: 'a long name #1', Version: '1', Type: 'Web Portal'
+            },
+            meta: {
+              'native-id': '1',
+              'user-id': 'user.id'
+            }
+          }]
         })
       }
     }
@@ -49,18 +50,22 @@ async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #2', Version: '1', Type: 'Web Portal'
-          },
-          id: 2,
-          user_id: 9
+          items: [{
+            umm: {
+              Name: 'a name', LongName: 'a long name #2', Version: '1', Type: 'Web Portal'
+            },
+            meta: {
+              'native-id': '2',
+              'user-id': 'user.id'
+            }
+          }]
         })
       }
     }
     default: {
       return {
         ok: false,
-        status: 404
+        status: 500
       }
     }
   }
@@ -108,7 +113,11 @@ describe('UMM Tools Form', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.draft.draft.LongName).toEqual('a long name #new')
+    expect(editor.draft.draft.MetadataSpecification).toEqual({
+      URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+      Name: 'UMM-T',
+      Version: '1.2.0'
+    })
     expect(container).toMatchSnapshot()
   })
 
@@ -125,7 +134,7 @@ describe('UMM Tools Form', () => {
       </MemoryRouter>
     )
     await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(screen.getByText('error retrieving draft! Error code: 404')).toBeInTheDocument()
+    expect(screen.getByText('error retrieving draft! Error code: 500')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 

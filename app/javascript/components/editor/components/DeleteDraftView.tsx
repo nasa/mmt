@@ -1,5 +1,6 @@
 import React from 'react'
 import { Alert, Button } from 'react-bootstrap'
+import uuid from 'react-uuid'
 import MetadataEditor from '../MetadataEditor'
 import withRouter from './withRouter'
 
@@ -10,7 +11,7 @@ type DeleteDraftViewProps = {
 class DeleteDraftView extends React.Component<DeleteDraftViewProps, never> {
   render() {
     const { editor, router } = this.props
-    const { status } = editor
+    const { status, draft } = editor
     const { navigate } = router
 
     return (
@@ -24,6 +25,7 @@ class DeleteDraftView extends React.Component<DeleteDraftViewProps, never> {
           data-testid="create-new-draft"
           onClick={() => {
             editor.status = null
+            draft.nativeId = uuid().replace(/-/g, '')
             navigate(`/${editor.model.documentType}/new`, { replace: true })
           }}
         >

@@ -16,7 +16,7 @@ class BaseDraftsController < DraftsController
       if params[:not_authorized_request_params]
         @not_authorized_request = params[:not_authorized_request_params]
       else
-        authorize get_resource
+        # authorize get_resource
       end
     end
 
@@ -31,7 +31,7 @@ class BaseDraftsController < DraftsController
   def new
     set_resource(resource_class.new(provider_id: current_user.provider_id, user: current_user, draft: {}))
 
-    authorize get_resource
+    # authorize get_resource
 
     add_breadcrumb 'New', send("new_#{resource_name}_path")
 

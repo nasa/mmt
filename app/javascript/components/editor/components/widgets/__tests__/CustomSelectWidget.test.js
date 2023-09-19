@@ -333,8 +333,7 @@ describe('Custom Select Widget Component', () => {
     const editor = new MetadataEditor(model)
 
     const draft = new Draft()
-    draft.id = 2
-    draft.apiId = 2
+    draft.nativeId = '2'
     draft.draft = { Name: 'Test Record' }
     jest.spyOn(MetadataService.prototype, 'fetchDraft').mockResolvedValue(draft)
 
@@ -381,7 +380,7 @@ describe('Custom Select Widget Component', () => {
 
     const draft = new Draft()
     draft.id = 2
-    draft.apiId = 2
+    draft.nativeId = 2
     draft.draft = { Name: 'Test Record' }
     jest.spyOn(MetadataService.prototype, 'fetchDraft').mockResolvedValue(draft)
 

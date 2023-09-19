@@ -664,9 +664,7 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       )
     }
     // if we get here, the field wasn't found in the schema
-    if (!schema.oneOf && schema === undefined) {
-      throw new Error(`can not render ${name}`)
-    }
+    console.log('can not render ', name)
     return null
   }
 

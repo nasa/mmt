@@ -123,6 +123,10 @@ export default class MetadataEditor {
     this.model.setFormData(value)
   }
 
+  get metadataSpecification() {
+    return this.model.getMetadataSpecification()
+  }
+
   get formErrors() {
     return this.model.formErrors
   }
@@ -185,16 +189,12 @@ export default class MetadataEditor {
     this.model.addToVisitedFields(sectionName)
   }
   // Service
-
-  async fetchDraft(draftId: number): Promise<Draft> {
-    return this.service.fetchDraft(draftId)
+  async ingestDraft(draft: Draft): Promise<Draft> {
+    return this.service.ingestDraft(draft)
   }
 
-  async saveDraft(draft: Draft): Promise<Draft> {
-    if (this.model.draft.apiId === -1) {
-      return this.service.saveDraft(draft)
-    }
-    return this.service.updateDraft(draft)
+  async getDraft(nativeId: string): Promise<Draft> {
+    return this.service.getDraft(nativeId)
   }
 
   async publishDraft(draft: Draft): Promise<Draft> {

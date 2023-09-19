@@ -35,7 +35,7 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
-          id="react-select-25-live-region"
+          id="react-select-10-live-region"
         />
         <span
           aria-atomic="false"
@@ -66,7 +66,7 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
                 autocomplete="off"
                 autocorrect="off"
                 class=""
-                id="react-select-25-input"
+                id="react-select-10-input"
                 role="combobox"
                 spellcheck="false"
                 style="opacity: 0; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1538,22 +1538,24 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                   <span
                                                                     class="css-1f43avz-a11yText-A11yText"
                                                                     id="react-select-24-live-region"
-                                                                  />
-                                                                  <span
-                                                                    aria-atomic="false"
-                                                                    aria-live="polite"
-                                                                    aria-relevant="additions text"
-                                                                    class="css-1f43avz-a11yText-A11yText"
                                                                   >
                                                                     <span
                                                                       id="aria-selection"
-                                                                    />
+                                                                    >
+                                                                      option GET, selected.
+                                                                    </span>
                                                                     <span
                                                                       id="aria-context"
                                                                     >
                                                                         Select is focused ,type to refine list, press Down to open the menu, 
                                                                     </span>
                                                                   </span>
+                                                                  <span
+                                                                    aria-atomic="false"
+                                                                    aria-live="polite"
+                                                                    aria-relevant="additions text"
+                                                                    class="css-1f43avz-a11yText-A11yText"
+                                                                  />
                                                                   <div
                                                                     class=" css-t3ipsp-control"
                                                                   >
@@ -1571,6 +1573,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                       >
                                                                         <input
                                                                           aria-autocomplete="list"
+                                                                          aria-describedby="react-select-24-live-region"
                                                                           aria-expanded="false"
                                                                           aria-haspopup="true"
                                                                           autocapitalize="none"
@@ -2061,7 +2064,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   class="section"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
@@ -2175,7 +2178,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-check green-progress-circle"
                   />
                    
                   Potential Action
@@ -2213,6 +2216,11 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   <ul
                     class="list-group"
                   >
+                    <li
+                      class="list-group-item text-danger"
+                    >
+                      must have required property 'Name'
+                    </li>
                     <li
                       class="list-group-item text-danger"
                     >
@@ -2267,7 +2275,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -2295,8 +2303,20 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                         placeholder=""
                         required=""
                         type="text"
-                        value="Test Record"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Name__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Name'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
                       class="form-group field field-string field-error has-error has-danger"
@@ -4021,7 +4041,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                 name="root_PotentialAction_Target_Description"
                                 placeholder=""
                                 type="text"
-                                value=""
+                                value="target description"
                               />
                             </div>
                             <div
@@ -4074,7 +4094,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           placeholder=""
                                           required=""
                                           type="text"
-                                          value=""
+                                          value="response content type"
                                         />
                                       </div>
                                     </div>
@@ -4147,7 +4167,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                 placeholder=""
                                 required=""
                                 type="text"
-                                value=""
+                                value="url template"
                               />
                             </div>
                             <div
@@ -4677,15 +4697,100 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                       <span
                         class="__json-key__"
                       >
-                        Name
+                        PotentialAction
+                      </span>
+                      ": {
+    "
+                      <span
+                        class="__json-key__"
+                      >
+                        Target
+                      </span>
+                      ": {
+      "
+                      <span
+                        class="__json-key__"
+                      >
+                        ResponseContentType
+                      </span>
+                      ": [
+        
+                      <span
+                        class="__json-string__"
+                      >
+                        "response content type"
+                      </span>
+                      
+      ],
+      "
+                      <span
+                        class="__json-key__"
+                      >
+                        HttpMethod
+                      </span>
+                      ": [
+        
+                      <span
+                        class="__json-string__"
+                      >
+                        "GET"
+                      </span>
+                      
+      ],
+      "
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
                       </span>
                       ": 
                       <span
                         class="__json-string__"
                       >
-                        "Test Record"
+                        "EntryPoint"
+                      </span>
+                      ,
+      "
+                      <span
+                        class="__json-key__"
+                      >
+                        Description
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "target description"
+                      </span>
+                      ,
+      "
+                      <span
+                        class="__json-key__"
+                      >
+                        UrlTemplate
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "url template"
                       </span>
                       
+    },
+    "
+                      <span
+                        class="__json-key__"
+                      >
+                        Type
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "SearchAction"
+                      </span>
+                      
+  }
 }
                     </pre>
                   </div>
@@ -5888,7 +5993,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Tool Information
@@ -5905,6 +6010,22 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <ul
                     class="error-list-header-list"
                   >
+                    <div
+                      class="error-list-item"
+                      data-testid="error-list-item__name"
+                    >
+                      <li>
+                        <div
+                          style="display: flex;"
+                        >
+                          <i
+                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
+                            data-testid="error-list-item__name--info"
+                          />
+                          Must have required property 'Name'
+                        </div>
+                      </li>
+                    </div>
                     <div
                       class="error-list-item"
                       data-testid="error-list-item__long-name"
@@ -6127,6 +6248,11 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     <li
                       class="list-group-item text-danger"
                     >
+                      must have required property 'Name'
+                    </li>
+                    <li
+                      class="list-group-item text-danger"
+                    >
                       must have required property 'LongName'
                     </li>
                     <li
@@ -6178,7 +6304,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string"
+                      class="form-group field field-string field-error has-error has-danger"
                     >
                       <label
                         class="control-label"
@@ -6206,8 +6332,20 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                         placeholder=""
                         required=""
                         type="text"
-                        value="Test Record"
+                        value=""
                       />
+                      <div>
+                        <ul
+                          class="error-detail bs-callout bs-callout-info"
+                          id="root_Name__error"
+                        >
+                          <li
+                            class="text-danger"
+                          >
+                            must have required property 'Name'
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div
                       class="form-group field field-string field-error has-error has-danger"
@@ -8578,21 +8716,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     <pre
                       class="__json-pretty__"
                     >
-                      {
-  "
-                      <span
-                        class="__json-key__"
-                      >
-                        Name
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "Test Record"
-                      </span>
-                      
-}
+                      {}
                     </pre>
                   </div>
                 </div>

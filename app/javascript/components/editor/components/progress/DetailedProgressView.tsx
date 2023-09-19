@@ -20,6 +20,7 @@ import { createPath, prefixProperty, removeEmpty } from '../../utils/json_utils'
 import ReactJsonSchemaForm from '../ReactJsonSchemaForm'
 import './DetailedProgressView.css'
 import Status from '../../model/Status'
+import Draft from '../../model/Draft'
 
 type DetailedProgressViewProps = {
   router: RouterType
@@ -43,7 +44,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     const { id } = params
 
     this.setState({ status: null }, () => {
-      editor.fetchDraft(Number(id)).then((draft) => {
+      editor.getDraft(id).then((draft) => {
         editor.draft = draft
         editor.loading = false
       }).catch((error) => {
@@ -52,10 +53,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       })
     })
 
-    // only renders the preview if the conceptType is tool_draft and variable_draft. Once we implement service_draft, remove this check.
-    if (this.conceptType() !== '') {
-      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
-    }
+    window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
   }
 
   conceptType() {
@@ -179,13 +177,14 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
     const { draft } = editor
     const { model } = editor
     this.setState({ loading: true }, () => {
-      editor.publishDraft(draft).then((draft) => {
+      editor.publishDraft(draft).then((data) => {
+        const draft = new Draft()
         const urlOrigin = window.location.origin
         editor.draft = draft
-        editor.status = new Status('success', `Draft Published ${draft.conceptId}/${draft.revisionId}`)
+        editor.status = new Status('success', `Draft Published! ${data['concept-id']}/${data['revision-id']}`)
         editor.publishErrors = null
         if (model.shouldRedirectAfterPublish) {
-          window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${draft.conceptId}`
+          window.location.href = `${urlOrigin}//${editor.documentType.split('_').at(0)}s/${data['concept-id']}`
         }
         this.setState({ loading: false })
       }).catch((errors) => {
@@ -265,7 +264,7 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
               {editor.publishErrors && editor.publishErrors.length > 0 && (
                 <Alert key={JSON.stringify(editor.status.message)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
                   <h5>Error Publishing Draft</h5>
-                  {editor.publishErrors.map((error) => (<div>{error}</div>))}
+                  {editor.publishErrors.map((error) => (<div key={error}>{error}</div>))}
                 </Alert>
               )}
             </Col>
