@@ -32,10 +32,6 @@ class Api::DraftsController < BaseDraftsController
     render json: array, status: 200
   end
 
-  def cmrCreate
-    provider_id = params[:provider]
-
-  end
   def create
     provider_id = params[:provider]
     user = User.find_or_create_by(urs_uid: @urs_uid)

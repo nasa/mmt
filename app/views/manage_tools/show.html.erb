@@ -26,7 +26,7 @@
               <li>
                 <p class="drafts">
                   <%= draft['updated_at'].split('T')[0]%> |
-                  <%= link_to draft['short_name'] != nil ? draft['short_name'] : '<Blank Name> ' , tool_draft_path(draft["id"]), title: 'test' %>
+                  <%= link_to draft['short_name'] != nil ? draft['short_name'] : '<Blank Name> ' , tool_draft_path(draft["id"]), title: draft['short_name'] %>
                   <br>
                   <%= content_tag(:span, draft['entry_title'] != nil ? draft['entry_title'] : '<Untitled Tool Record>', title: draft['entry_title']) %>
                 </p>

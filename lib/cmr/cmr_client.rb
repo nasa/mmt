@@ -721,7 +721,7 @@ module Cmr
     end
 
     def ingest_draft(provider_id:, draft_type:, native_id:, token:, draft:)
-      url = "https://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/#{draft_type}/#{native_id}"
+      url = "/ingest/providers/#{provider_id}/#{draft_type}/#{native_id}"
       headers = {
         'Accept' => 'application/json; charset=utf-8',
         'Content-Type' => 'application/vnd.nasa.cmr.umm+json',
@@ -730,7 +730,7 @@ module Cmr
       post(url, draft, headers)
     end
     def provider_search_draft(draft_type:, token:)
-      url = "https://cmr.sit.earthdata.nasa.gov/search/#{draft_type}.umm_json"
+      url = "/search/#{draft_type}.umm_json"
       headers = {
         'Accept' => 'application/json; charset=utf-8',
         'Authorization' => token
@@ -738,7 +738,7 @@ module Cmr
       get(url, nil, headers)
     end
     def search_draft(draft_type:, native_id:, token:)
-      url = "https://cmr.sit.earthdata.nasa.gov/search/#{draft_type}.umm_json?native_id=#{native_id}"
+      url = "/search/#{draft_type}.umm_json?native_id=#{native_id}"
       headers = {
         'Accept' => 'application/json; charset=utf-8',
       }
@@ -746,7 +746,7 @@ module Cmr
     end
     # rails env
     def delete_draft(provider_id:, native_id:, draft_type:, token:)
-      url = "https://cmr.sit.earthdata.nasa.gov/ingest/providers/#{provider_id}/#{draft_type}/#{native_id}"
+      url = "/ingest/providers/#{provider_id}/#{draft_type}/#{native_id}"
       headers = {
         'Accept' => 'application/json'
       }
@@ -755,7 +755,10 @@ module Cmr
 
 
     def publish_draft(concept_id:, publish_native_id:, token:)
-      url = "https://cmr.sit.earthdata.nasa.gov/ingest/publish/#{concept_id}/#{publish_native_id}"
+      if concept_id.start_with?('V')
+        puts ('its is a variable')
+      end
+      url = "/ingest/publish/#{concept_id}/#{publish_native_id}"
       headers = {
         'Accept' => 'application/json; charset=utf-8',
         'Content-Type' => 'application/vnd.nasa.cmr.umm+json',

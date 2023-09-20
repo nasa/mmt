@@ -4,12 +4,12 @@
   <ul class="progress-indicator">
     <li id="collection-association-progress">
       <div class="status">
-        <%= single_form_circle('Collection Association', get_resource.collection_concept_id.present?) %>
+        <%= single_form_circle('Collection Association', get_resource['collection_concept_id'].present?) %>
       </div>
       <div class="meta-info">
         <%= link_to 'Collection Association', collection_search_variable_draft_path(get_resource) %>
         <div class="progress-indicators">
-          <% status = get_resource.collection_concept_id.blank? ? 'empty' : 'complete' %>
+          <% status = get_resource['collection_concept_id'].blank? ? 'empty' : 'complete' %>
           <%= single_preview_circle(collection_search_variable_draft_path(get_resource), 'collection_association', status) %>
         </div>
       </div>

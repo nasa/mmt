@@ -36,12 +36,22 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def update_associated_collection
-    authorize get_resource
+    # authorize get_resource
 
     params.permit(:id, :selected_collection)
 
-    if get_resource.update(collection_concept_id: params[:selected_collection])
+    if get_resource.update('collection_concept_id' => params[:selected_collection])
       flash[:success] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.success")
+      if Rails.configuration.cmr_drafts_api_enabled
+        provider_id = current_user.provider_id
+        native_id = get_resource['id']
+        draft_type = params[:controller].sub('_','-')
+        draft = get_resource['draft']
+        collection_concept_id = get_resource['collection_concept_id']
+        draft.store('collection_concept_id', collection_concept_id)
+        cmr_response = cmr_client.ingest_draft(provider_id: provider_id, draft_type: draft_type, native_id: native_id, token: token, draft:draft.to_json)
+        puts(cmr_response)
+      end
     else
       flash[:error] = I18n.t("controllers.draft.variable_drafts.update_associated_collection.flash.error")
     end
@@ -86,9 +96,9 @@ class VariableDraftsController < BaseDraftsController
       plural_published_resource_name,
       'umm-var-form.json',
       @schema,
-      get_resource.draft,
+      get_resource['draft'],
       field_prefix: 'variable_draft/draft',
-      draft_id: get_resource.id,
+      draft_id: get_resource['id'],
       'existing_variable' => existing_variable
     )
   end
@@ -97,8 +107,8 @@ class VariableDraftsController < BaseDraftsController
     @preview = UmmPreview.new(
       schema_type: published_resource_name,
       preview_filename: 'umm-var-preview.json',
-      data: get_resource.draft,
-      draft_id: get_resource.id
+      data: get_resource['draft'],
+      draft_id: get_resource['id']
     )
   end
 

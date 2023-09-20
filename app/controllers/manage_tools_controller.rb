@@ -10,7 +10,6 @@ class ManageToolsController < ManageMetadataController
       if cmr_response.success?
         result = cmr_response.body
         @drafts = []
-        puts(result)
         result['items'].each do |item|
           if current_user.provider_id === item['meta']['provider-id']
             @drafts.push(
@@ -24,7 +23,6 @@ class ManageToolsController < ManageMetadataController
                 "provider_id" => item['meta']['provider-id'],
               }
             )
-            puts(item)
           end
         end
       end

@@ -20,7 +20,7 @@
 
           <tbody>
             <tr>
-              <% if @draft.collection_concept_id.present? && @current_collection_info %>
+              <% if @draft['collection_concept_id'].present? && @current_collection_info %>
               <td><%= link_to @current_collection_info.dig('umm', 'entry-title'), collection_path(@current_collection_info.dig('meta', 'concept-id')) %></td>
               <td><%= @current_collection_info.dig('umm', 'short-name') %></td>
               <td><%= @current_collection_info.dig('umm', 'version-id') %></td>
@@ -33,7 +33,7 @@
           </tbody>
         </table>
 
-        <% if @draft.collection_concept_id.present? %>
+        <% if @draft['collection_concept_id'].present? %>
           <%= button_to 'Clear Collection Association', update_associated_collection_variable_draft_path(@draft), method: :post, params: { selected_collection: nil }, class: 'eui-btn eui-btn--red'  %>
         <% end %>
       </fieldset>

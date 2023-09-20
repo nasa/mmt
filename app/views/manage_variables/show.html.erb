@@ -34,10 +34,10 @@
             <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
               <li>
                 <p class="drafts">
-                  <%= time_tag draft.updated_at, draft.updated_at.to_s(:date) %> |
-                  <%= link_to draft.display_short_name, variable_draft_path(draft), title: draft.display_short_name %>
+                  <%= draft['updated_at'].split('T')[0]%> |
+                  <%= link_to draft['short_name'] != nil ? draft['short_name'] : '<Blank Name> ' , variable_draft_path(draft["id"]), title: draft['short_name'] %>
                   <br>
-                  <%= content_tag(:span, draft.display_entry_title, title: draft.display_entry_title) %>
+                  <%= content_tag(:span, draft['entry_title'] != nil ? draft['entry_title'] : '<Untitled Variable Record>', title: draft['entry_title']) %>
                 </p>
               </li>
             <% end %>

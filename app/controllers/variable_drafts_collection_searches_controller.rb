@@ -6,7 +6,7 @@ class VariableDraftsCollectionSearchesController < CmrSearchController
     add_top_level_breadcrumbs
 
     current_collection_response = cmr_client.get_collections_by_post(
-      { concept_id: @draft.collection_concept_id }, token
+      { concept_id: @draft ['collection_concept_id'] }, token
     )
     if current_collection_response.success?
       if current_collection_response.body['hits'] > 0
@@ -28,10 +28,33 @@ class VariableDraftsCollectionSearchesController < CmrSearchController
 
   def add_top_level_breadcrumbs
     add_breadcrumb 'Variable Drafts', variable_drafts_path
-    add_breadcrumb fetch_entry_id(@draft.draft, @draft.draft_type), variable_draft_path(@draft.id)
+    add_breadcrumb fetch_entry_id(@draft['draft'], @draft['draft_type']), variable_draft_path(@draft['id'])
   end
 
   def set_resource
-    @draft = VariableDraft.find(params[:id])
+    if Rails.configuration.cmr_drafts_api_enabled
+      native_id = params[:id]
+      draft_type = "#{params[:draft_type].tableize.singularize.sub('_','-')}s"
+
+      cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
+
+      if cmr_response.success?
+        result = cmr_response.body['items'][0]
+        @draft={
+          "id" => result['meta']['native-id'],
+          "user_id" => result['meta']['user-id'],
+          "draft" => result['umm'],
+          "updated_at" => result['meta']['revision-date'],
+          "short_name" => result['umm']['Name'],
+          "entry_title" => result['umm']["LongName"],
+          "provider_id" => result['meta']['provider-id'],
+          "draft_type" => draft_type
+        }
+      else
+        render json: cmr_response.errors, status: 500
+      end
+    else
+      @draft = VariableDraft.find(params[:id])
+    end
   end
 end

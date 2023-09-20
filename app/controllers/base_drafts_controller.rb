@@ -219,7 +219,7 @@ class BaseDraftsController < DraftsController
     if Rails.configuration.cmr_drafts_api_enabled
       native_id = params[:id]
       draft_type = "#{resource_name.sub('_','-')}s"
-
+      collection_concept_id = params[:collection_concept_id]
       cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
 
       if cmr_response.success?
@@ -233,6 +233,7 @@ class BaseDraftsController < DraftsController
             "short_name" => result['umm']['Name'],
             "entry_title" => result['umm']["LongName"],
             "provider_id" => result['meta']['provider-id'],
+            "collection_concept_id" => result['umm']['collection_concept_id']
         }
         instance_variable_set("@#{resource_name}", resource)
       end
@@ -290,7 +291,7 @@ class BaseDraftsController < DraftsController
   end
 
   def ensure_published_record_supported_version
-    concept_id = get_published_record_by_provider_and_native_id(provider: get_resource.provider_id, native_id: get_resource.native_id)
+    concept_id = get_published_record_by_provider_and_native_id(provider: get_resource['provider_id'], native_id: get_resource['native_id'])
 
     return if concept_id.nil? || @unconfirmed_version
 
