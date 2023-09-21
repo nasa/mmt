@@ -47,8 +47,10 @@ class VariableDraftsController < BaseDraftsController
         native_id = get_resource['id']
         draft_type = params[:controller].sub('_','-')
         draft = get_resource['draft']
-        collection_concept_id = get_resource['collection_concept_id']
-        draft.store('collection_concept_id', collection_concept_id)
+        collection_concept_id = {
+          'collection_concept_id' => params[:selected_collection]
+        }
+        draft.store('_meta', collection_concept_id)
         cmr_response = cmr_client.ingest_draft(provider_id: provider_id, draft_type: draft_type, native_id: native_id, token: token, draft:draft.to_json)
         puts(cmr_response)
       end

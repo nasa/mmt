@@ -1,84 +1,83 @@
 import React from 'react'
 import {
-  render, screen
+  render, screen, waitFor
 } from '@testing-library/react'
 import {
   MemoryRouter, Route, Routes
 } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
+import nock from 'nock'
 import UmmToolsModel from '../../../model/UmmToolsModel'
 import MetadataEditor from '../../../MetadataEditor'
 import NavigationView from '../NavigationView'
 import DetailedProgressView from '../../progress/DetailedProgressView'
 import MetadataEditorForm from '../../MetadataEditorForm'
 
-global.fetch = require('jest-fetch-mock')
-
 global.scroll = jest.fn()
 
-async function mockFetch(url) {
-  switch (url) {
-    case '/api/providers/MMT_1/tool_drafts': {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #1', Version: '1', Type: 'Web Portal'
-          },
-          id: 1,
-          user_id: 9
-        })
-      }
-    }
-    case '/api/providers/MMT_1/tool_drafts/1': {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #1', Version: '1', Type: 'Web Portal'
-          },
-          id: 1,
-          user_id: 9
-        })
-      }
-    }
-    case '/api/providers/MMT_1/tool_drafts/2': {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ({
-          draft: {
-            Name: 'a name', LongName: 'a long name #2', Version: '2', Type: 'Web Portal'
-          },
-          id: 2,
-          user_id: 9
-        })
-      }
-    }
-    default: {
-      return {
-        ok: false,
-        status: 404
-      }
-    }
-  }
-}
-const OLD_ENV = process.env
-
 describe('Navigation View Component', () => {
-  beforeEach(() => {
-    process.env = { ...OLD_ENV }
-    window.fetch.mockImplementation(mockFetch)
-  })
-
-  afterEach(() => {
-    process.env = OLD_ENV
-  })
-
-  beforeAll(() => jest.spyOn(window, 'fetch'))
   Window.prototype.metadataPreview = jest.fn()
+
+  beforeAll(() => {
+    nock.cleanAll()
+
+    nock('http://localhost')
+      .persist()
+      .get('/api/providers/MMT_1/tool_drafts/1')
+      .reply(200, {
+        items: [{
+          umm: {
+            Name: 'a name',
+            LongName: 'foobar',
+            Version: '1',
+            Type: 'Web Portal',
+            RelatedURLs: [
+              {
+                Description: 'Test',
+                URLContentType: 'PublicationURL',
+                Type: 'VIEW RELATED INFORMATION',
+                URL: 'https://earthdata.nasa.gov/'
+              }
+            ]
+          },
+          meta: {
+            'native-id': '1',
+            'user-id': 'chris.gokey'
+          }
+        }]
+      })
+
+    nock('http://localhost')
+      .persist()
+      .get('/api/providers/MMT_1/tool_drafts/2')
+      .reply(200, {
+        items: [{
+          umm: {
+            Name: 'a name',
+            LongName: 'foobar',
+            Version: '2',
+            Type: 'Web Portal',
+            RelatedURLs: [
+              {
+                Description: 'Test',
+                URLContentType: 'PublicationURL',
+                Type: 'VIEW RELATED INFORMATION',
+                URL: 'https://earthdata.nasa.gov/'
+              }
+            ]
+          },
+          meta: {
+            'native-id': '1',
+            'user-id': 'chris.gokey'
+          }
+        }]
+      })
+
+    nock('http://localhost')
+      .persist()
+      .get(/\/api\/cmr_keywords\/.*/)
+      .reply(200, {})
+  })
 
   test('renders the navigation view', async () => {
     const model = new UmmToolsModel()
@@ -100,44 +99,10 @@ describe('Navigation View Component', () => {
   })
 
   test('saves draft', async () => {
-    const model = new UmmToolsModel()
-    const editor = new MetadataEditor(model)
-    const { container } = render(
-      <MemoryRouter initialEntries={['/tool_drafts/1/edit/Tool_Information']}>
-        <NavigationView editor={editor} />
-      </MemoryRouter>
-    )
-    jest.spyOn(editor, 'saveDraft')
-    await act(async () => {
-      screen.queryByTestId('navigationview--dropdown-toggle').click()
-    })
-    const saveButton = screen.queryByTestId('navigationview--save-draft-button')
-    await act(async () => {
-      saveButton.click()
-    })
-    expect(editor.saveDraft).toHaveBeenCalledTimes(1)
-    expect(container).toMatchSnapshot()
-  })
+    nock('http://localhost')
+      .put('/api/providers/MMT_1/tool_drafts/1')
+      .reply(200, {})
 
-  test('saves and continues to next', async () => {
-    const model = new UmmToolsModel()
-    const editor = new MetadataEditor(model)
-    const { container } = render(
-      <MemoryRouter initialEntries={['/tool_drafts/1/edit/Tool_Information']}>
-        <NavigationView editor={editor} />
-      </MemoryRouter>
-    )
-    const saveAndContinueButton = screen.queryByTestId('navigationview--save-and-continue-button')
-    jest.spyOn(editor, 'saveDraft')
-    await act(async () => {
-      saveAndContinueButton.click()
-    })
-    expect(editor.saveDraft).toHaveBeenCalledTimes(1)
-    expect(editor.currentSection.displayName).toEqual('Related URLs')
-    expect(container).toMatchSnapshot()
-  })
-
-  test('saves and previews', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const { container } = render(
@@ -150,14 +115,92 @@ describe('Navigation View Component', () => {
         </Routes>
       </MemoryRouter>
     )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
+    jest.spyOn(editor, 'ingestDraft')
     await act(async () => {
       screen.queryByTestId('navigationview--dropdown-toggle').click()
     })
+    const saveButton = screen.queryByTestId('navigationview--save-draft-button')
+    await act(async () => {
+      saveButton.click()
+    })
+    expect(editor.ingestDraft).toHaveBeenCalledTimes(1)
+    expect(container).toMatchSnapshot()
+  })
+
+  test('saves and continues to next', async () => {
+    nock('http://localhost')
+      .put('/api/providers/MMT_1/tool_drafts/1')
+      .reply(200, {})
+
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/1/edit/Tool_Information']}>
+        <Routes>
+          <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+    jest.spyOn(editor, 'ingestDraft')
+
+    await act(async () => {
+      const saveAndContinueButton = screen.queryByTestId('navigationview--save-and-continue-button')
+      saveAndContinueButton.click()
+    })
+
+    await waitFor(() => {
+      expect(editor.ingestDraft).toHaveBeenCalledTimes(1)
+      expect(editor.currentSection.displayName).toEqual('Related URLs')
+    })
+    expect(container).toMatchSnapshot()
+  })
+
+  test('saves and previews', async () => {
+    nock('http://localhost')
+      .put('/api/providers/MMT_1/tool_drafts/1')
+      .reply(200, {})
+
+    const model = new UmmToolsModel()
+    const editor = new MetadataEditor(model)
+    const { container } = render(
+      <MemoryRouter initialEntries={['/tool_drafts/1/edit/Tool_Information']}>
+        <Routes>
+          <Route path={`/${editor.model.documentType}/:id`} element={<DetailedProgressView editor={editor} />} />
+          <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} />} />
+          <Route path={`/${editor.model.documentType}/new`} element={<MetadataEditorForm editor={editor} />} />
+          <Route path="/" element={<MetadataEditorForm editor={editor} />} />
+        </Routes>
+      </MemoryRouter>
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
+    jest.spyOn(editor, 'ingestDraft')
+
+    await act(async () => {
+      screen.queryByTestId('navigationview--dropdown-toggle').click()
+    })
+
     const saveAndPreviewButton = screen.queryByTestId('navigationview--save-and-preview')
     await act(async () => {
       saveAndPreviewButton.click()
     })
-    expect(screen.getByText('Metadata Fields')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(editor.ingestDraft).toHaveBeenCalledTimes(1)
+      expect(screen.getByText('Metadata Fields')).toBeInTheDocument()
+    })
     expect(container).toMatchSnapshot()
   })
 
@@ -174,16 +217,31 @@ describe('Navigation View Component', () => {
         </Routes>
       </MemoryRouter>
     )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
+    jest.spyOn(editor, 'ingestDraft')
+
     await act(async () => {
       screen.queryByTestId('navigationview--dropdown-toggle').click()
     })
-    const saveAndPreviewButton = screen.queryByTestId('navigationview--save-and-preview')
-    fetch.mockRejectedValueOnce(new Error('500 error'))
 
+    nock('http://localhost')
+      .put('/api/providers/MMT_1/tool_drafts/1')
+      .reply(500, {})
+
+    const saveAndPreviewButton = screen.queryByTestId('navigationview--save-and-preview')
     await act(async () => {
       saveAndPreviewButton.click()
     })
-    expect(screen.getByText('error saving draft! 500 error')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(editor.ingestDraft).toHaveBeenCalledTimes(1)
+      expect(screen.getByText('error saving draft! Error code: 500')).toBeInTheDocument()
+    })
+
     expect(container).toMatchSnapshot()
   })
 
@@ -200,16 +258,26 @@ describe('Navigation View Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
     await act(async () => {
       screen.queryByTestId('navigationview--dropdown-toggle').click()
     })
     const saveButton = screen.queryByTestId('navigationview--save-draft-button')
-    fetch.mockRejectedValueOnce(new Error('500 error'))
+
+    nock('http://localhost')
+      .put('/api/providers/MMT_1/tool_drafts/2')
+      .reply(500, {})
+
     await act(async () => {
       saveButton.click()
     })
-    expect(screen.getByText('error saving draft! 500 error')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('error saving draft! Error code: 500')).toBeInTheDocument()
+    })
     expect(container).toMatchSnapshot()
   })
 
@@ -226,13 +294,20 @@ describe('Navigation View Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
     const cancelButton = screen.queryByTestId('navigationview--cancel-button')
     await act(async () => {
       cancelButton.click()
     })
-    await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
-    expect(editor.status).toEqual({ message: 'Changes discarded.', type: 'info' })
+
+    await waitFor(() => {
+      expect(editor.status).toEqual({ message: 'Changes discarded.', type: 'info' })
+    })
+
     expect(container).toMatchSnapshot()
   })
 
@@ -249,13 +324,23 @@ describe('Navigation View Component', () => {
         </Routes>
       </MemoryRouter>
     )
-    await act(async () => null) // required otherwise the fetch for draft id 1 doesn't happen.
+
+    await waitFor(() => {
+      expect(screen.getByTestId('custom-text-widget__long-name--text-input')).toHaveValue('foobar')
+    })
+
+    nock('http://localhost')
+      .get('/api/providers/MMT_1/tool_drafts/1')
+      .reply(500, {})
+
     const cancelButton = screen.queryByTestId('navigationview--cancel-button')
-    fetch.mockRejectedValueOnce(new Error('500 error'))
     await act(async () => {
       cancelButton.click()
     })
-    expect(editor.status).toEqual({ message: 'Error cancelling. 500 error', type: 'warning' })
+
+    await waitFor(() => {
+      expect(editor.status).toEqual({ message: 'Error cancelling. Error code: 500', type: 'warning' })
+    })
     expect(container).toMatchSnapshot()
   })
 })

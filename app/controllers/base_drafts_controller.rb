@@ -219,11 +219,15 @@ class BaseDraftsController < DraftsController
     if Rails.configuration.cmr_drafts_api_enabled
       native_id = params[:id]
       draft_type = "#{resource_name.sub('_','-')}s"
-      collection_concept_id = params[:collection_concept_id]
       cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
 
       if cmr_response.success?
         result = cmr_response.body['items'][0]
+
+        if result['umm'].key?('_meta')
+          collection_concept_id = result['umm']['_meta']['collection_concept_id']
+        end
+
         resource =
           {
             "id" =>  result['meta']['native-id'],
@@ -233,7 +237,7 @@ class BaseDraftsController < DraftsController
             "short_name" => result['umm']['Name'],
             "entry_title" => result['umm']["LongName"],
             "provider_id" => result['meta']['provider-id'],
-            "collection_concept_id" => result['umm']['collection_concept_id']
+            "collection_concept_id" => collection_concept_id
         }
         instance_variable_set("@#{resource_name}", resource)
       end

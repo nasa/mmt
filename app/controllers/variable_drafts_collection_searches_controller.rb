@@ -40,6 +40,11 @@ class VariableDraftsCollectionSearchesController < CmrSearchController
 
       if cmr_response.success?
         result = cmr_response.body['items'][0]
+
+        if result['umm'].key?('_meta')
+          collection_concept_id = result['umm']['_meta']['collection_concept_id']
+        end
+
         @draft={
           "id" => result['meta']['native-id'],
           "user_id" => result['meta']['user-id'],
@@ -48,7 +53,8 @@ class VariableDraftsCollectionSearchesController < CmrSearchController
           "short_name" => result['umm']['Name'],
           "entry_title" => result['umm']["LongName"],
           "provider_id" => result['meta']['provider-id'],
-          "draft_type" => draft_type
+          "draft_type" => draft_type,
+          "collection_concept_id" => collection_concept_id
         }
       else
         render json: cmr_response.errors, status: 500

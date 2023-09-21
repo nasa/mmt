@@ -3,7 +3,6 @@ import { MetadataService } from '../MetadataService'
 
 describe('Testing MetadataService', () => {
   async function mockFetch(url) {
-    // console.log('url', url)
     switch (url) {
       case '/api/providers/provider/tool_drafts/1': {
         return {

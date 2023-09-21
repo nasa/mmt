@@ -598,7 +598,6 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
     if (pos > -1) {
       parentName = parentName.substring(0, pos)
     }
-    // console.log('id in Layout field', idSchema)
     if (idSchema[name]) {
       const childIdSchema = idSchema[name]
       const keys = Object.keys(childIdSchema)
@@ -664,7 +663,9 @@ class LayoutGridField extends React.Component<FieldProps, LayoutGridSchemaState>
       )
     }
     // if we get here, the field wasn't found in the schema
-    console.log('can not render ', name)
+    if (!schema.oneOf && schema === undefined) {
+      throw new Error(`can not render ${name}`)
+    }
     return null
   }
 

@@ -34,6 +34,7 @@ import './MetadataEditorForm.css'
 import CustomTitleFieldTemplate from './templates/CustomTitleFieldTemplate'
 import CustomTitleField from './fields/CustomTitleField'
 import Draft from '../model/Draft'
+import OneOfField from './fields/OneOfField'
 
 type MetadataEditorFormProps = {
   router?: RouterType
@@ -105,7 +106,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
 
       editor.ingestDraft(editor.draft).then((data) => {
         editor.draft.conceptId = data['concept-id']
-        console.log('new editor', editor.draft)
         navigate(`/${editor.model.documentType}/${editor.draft.nativeId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: true })
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)
@@ -165,6 +165,7 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       streetAddresses: StreetAddressesField,
       keywordPicker: KeywordsField,
       TitleField: CustomTitleField,
+      OneOfField,
       AnyOfField: () => null
     }
     const widgets: RegistryWidgetsType = {

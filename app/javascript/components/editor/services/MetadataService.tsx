@@ -1,4 +1,3 @@
-// import { cloneDeep } from 'lodash'
 import uuid from 'react-uuid'
 import Draft from '../model/Draft'
 // import { removeEmpty } from '../utils/json_utils'
@@ -24,6 +23,7 @@ export class MetadataService {
     const url = `/api/${draft.conceptId}/${draft.publishNativeId}/publish`
     const requestOptions = {
       method: 'PUT',
+      body: JSON.stringify(draft),
       headers: {
         Accept: 'application/json',
         Authorization: `${this.token}`,
@@ -37,7 +37,6 @@ export class MetadataService {
       return data
     }
     const data = await response.json()
-    console.log('error response', data)
     return Promise.reject(data)
   }
 
@@ -147,9 +146,9 @@ export class MetadataService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   convertToDraft(data: any): Draft {
     const draft = new Draft()
-    // draft.draft = data.draft
     draft.draft = data[0].umm
-    draft.nativeId = data.id
+    draft.nativeId = data[0].meta['native-id']
+    draft.publishNativeId = data[0].meta['native-id'].split('-').at(0)
     draft.apiUserId = data[0].meta['user-id']
     draft.conceptId = data[0].meta['concept-id']
     draft.revisionId = data.revision_id

@@ -754,11 +754,13 @@ module Cmr
     end
 
 
-    def publish_draft(concept_id:, publish_native_id:, token:)
+    def publish_draft(concept_id:, publish_native_id:, token:, associate_concept_id:, associate_revision_id:)
       if concept_id.start_with?('V')
-        puts ('its is a variable')
+        url = "/ingest/collections/#{associate_concept_id}/#{associate_revision_id}/variables/#{publish_native_id}/publish/#{concept_id}"
+      else
+        url = "/ingest/publish/#{concept_id}/#{publish_native_id}"
       end
-      url = "/ingest/publish/#{concept_id}/#{publish_native_id}"
+
       headers = {
         'Accept' => 'application/json; charset=utf-8',
         'Content-Type' => 'application/vnd.nasa.cmr.umm+json',

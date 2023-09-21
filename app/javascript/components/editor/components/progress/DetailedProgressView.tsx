@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import _, { uniqueId } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import { RJSFValidationError } from '@rjsf/utils'
+import { toJS } from 'mobx'
 import MetadataEditor from '../../MetadataEditor'
 import withRouter from '../withRouter'
 import ProgressSection from './ProgressSection'
@@ -47,13 +48,18 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
       editor.getDraft(id).then((draft) => {
         editor.draft = draft
         editor.loading = false
+        console.log('response', draft)
+        console.log('editor', toJS(editor.draft))
       }).catch((error) => {
         editor.loading = false
         this.setState({ status: `Error retrieving draft! ${error.message}` })
       })
     })
 
-    window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
+    // only renders the preview if the conceptType is tool_draft and variable_draft. Once we implement service_draft, remove this check.
+    if (this.conceptType() !== '') {
+      window.metadataPreview(id, this.conceptType(), service.token, document.getElementById('metadata-preview'))
+    }
   }
 
   conceptType() {

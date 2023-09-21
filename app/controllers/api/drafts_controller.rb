@@ -112,12 +112,49 @@ class Api::DraftsController < BaseDraftsController
     end
   end
 
+  # This is a helper function for publishing variable drafts
+  # The goal of this helper is to remove the associate collection id from draft. After removing,
+  # it calls ingest draft which will then update the draft.
+  def variable_publish(editor, token)
+    native_id = editor['nativeId']
+    provider_id = current_user.provider_id
+    draft = editor['draft']
+    draft = remove_empty(draft)
+    if draft['_meta']
+      draft.delete('_meta')
+      cmr_response = cmr_client.ingest_draft(provider_id: provider_id, draft_type: 'variable-drafts', native_id: native_id, token: token, draft:draft.to_json)
+      if cmr_response.success?
+        cmr_response
+        Rails.logger.info("Draft saved successfully #{native_id}")
+      else
+        Rails.logger.error("Error saving draft #{native_id}")
+      end
+    end
+  end
+
   def publish
     if Rails.configuration.cmr_drafts_api_enabled
       concept_id = params[:concept_id]
       publish_native_id = params[:publish_native_id]
       token = request.headers["Authorization"]
-      cmr_response = cmr_client.publish_draft(concept_id: concept_id, publish_native_id: publish_native_id, token: token )
+
+      associate_concept_id = nil
+      associate_revision_id = nil
+
+      if concept_id.start_with?('V')
+        body = JSON.parse(request.body.read())
+        associate_concept_id = body['draft']['_meta']['collection_concept_id']
+        variable_publish(body, token)
+
+        # gets the associated collection's revision id
+        get_revision_id =  cmr_client.get_collections_by_post({ concept_id: associate_concept_id}, token)
+        if get_revision_id.success?
+          result = get_revision_id.body['items'][0]
+          associate_revision_id = result['meta']['revision-id']
+        end
+      end
+
+      cmr_response = cmr_client.publish_draft(concept_id: concept_id, publish_native_id: publish_native_id, token: token, associate_concept_id: associate_concept_id, associate_revision_id: associate_revision_id)
       if cmr_response.success?
         render json:cmr_response.body, status: 200
       else
@@ -174,7 +211,7 @@ class Api::DraftsController < BaseDraftsController
       end
     end
   end
-  # check for collection
+
   def show
     if Rails.configuration.cmr_drafts_api_enabled
       native_id = params[:id]
@@ -182,7 +219,6 @@ class Api::DraftsController < BaseDraftsController
       draft_type = params[:draft_type].sub('_','-')
 
       cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
-
       if cmr_response.success?
         render json:cmr_response.body, status: 200
       else

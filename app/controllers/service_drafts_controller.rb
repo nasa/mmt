@@ -30,9 +30,9 @@ class ServiceDraftsController < BaseDraftsController
       plural_published_resource_name,
       'umm-s-form.json',
       @schema,
-      get_resource.draft,
+      get_resource['draft'],
       field_prefix: 'service_draft/draft',
-      draft_id: get_resource.id
+      draft_id: get_resource['id']
     )
   end
 
@@ -40,8 +40,8 @@ class ServiceDraftsController < BaseDraftsController
     @preview = UmmPreview.new(
       schema_type: published_resource_name,
       preview_filename: 'umm-s-preview.json',
-      data: get_resource.draft,
-      draft_id: get_resource.id
+      data: get_resource['draft'],
+      draft_id: get_resource['id']
     )
   end
 
