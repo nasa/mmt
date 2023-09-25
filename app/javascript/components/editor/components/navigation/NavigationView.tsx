@@ -191,7 +191,7 @@ class NavigationView extends React.Component<NavigationViewProps, NavigationView
             data-testid="navigationview--cancel-button"
             onClick={() => {
               this.setState({ saving: true }, () => {
-                editor.getDraft(draft.nativeId).then((draft) => {
+                editor.fetchDraft(draft.nativeId).then((draft) => {
                   editor.draft = draft
                   editor.status = new Status('info', 'Changes discarded.')
                   this.setState({ saving: false })

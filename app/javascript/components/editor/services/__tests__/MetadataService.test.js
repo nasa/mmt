@@ -1,9 +1,20 @@
 // import Draft from '../../model/Draft'
+import Draft from '../../model/Draft'
 import { MetadataService } from '../MetadataService'
 
 describe('Testing MetadataService', () => {
   async function mockFetch(url) {
     switch (url) {
+      // post
+      case '/api/providers/provider/tool_drafts/T10101-draft': {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            'concept-id': 'mock-concept-id_provider-id'
+          })
+        }
+      }
       case '/api/providers/provider/tool_drafts/1': {
         return {
           ok: true,
@@ -17,11 +28,7 @@ describe('Testing MetadataService', () => {
               meta: {
                 'native-id': '1'
               }
-            }],
-            // draft: {
-            // },
-            nativeId: '1',
-            user_id: 9
+            }]
           })
         }
       }
@@ -30,15 +37,19 @@ describe('Testing MetadataService', () => {
           ok: true,
           status: 200,
           json: async () => ({
-            draft: {
-              Name: 'a name', LongName: 'a long name', Definition: 'Def', StandardName: 'Web Portal'
-            },
-            nativeId: '50',
-            user_id: 9
+            items: [{
+              umm: {
+                Name: 'a name', LongName: 'a long name', Definition: 'Def', StandardName: 'Web Portal'
+              },
+              meta: {
+                'native-id': '1',
+                'user-id': 'chris.gokey'
+              }
+            }]
           })
         }
       }
-      case '/api/providers/provider/tool_drafts/55/publish': {
+      case '/api/mock-concept-id_provider-id/55/publish': {
         return {
           ok: true,
           status: 200,
@@ -60,12 +71,14 @@ describe('Testing MetadataService', () => {
           })
         }
       }
+      // put
       case '/api/providers/provider/tool_drafts/55': {
         return {
           ok: true,
           status: 200,
           json: async () => ({
-            nativeId: '55'
+            'concept-id': 'mock-concept-id_provider-id',
+            'revision-id': 2
           })
         }
       }
@@ -157,103 +170,100 @@ describe('Testing MetadataService', () => {
 
   test('fetch tool draft', async () => {
     const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-    metadataService.getDraft('1').then((draft) => {
+    metadataService.fetchDraft('1').then((draft) => {
       expect(draft.draft.Name).toEqual('a name')
       expect(draft.draft.LongName).toEqual('a long name')
       expect(draft.nativeId).toEqual('1')
     })
-    metadataService.getDraft('101').then((draft) => {
+    metadataService.fetchDraft('101').then((draft) => {
       console.log(draft)
     }).catch((error) => {
       expect(error.message).toEqual('Error code: 404')
     })
   })
 
-  // test('fetch variable draft', async () => {
-  //   const metadataService = new MetadataService('test_token', 'variable_drafts', 'test_user', 'provider')
-  //   metadataService.fetchDraft(1).then((draft) => {
-  //     expect(draft.draft.Name).toEqual('a name')
-  //     expect(draft.draft.LongName).toEqual('a long name')
-  //     expect(draft.draft.Definition).toEqual('Def')
-  //     expect(draft.draft.StandardName).toEqual('Web Portal')
-  //     expect(draft.apiId).toEqual(50)
-  //   })
-  // })
+  test('fetch variable draft', async () => {
+    const metadataService = new MetadataService('test_token', 'variable_drafts', 'test_user', 'provider')
+    metadataService.fetchDraft(1).then((draft) => {
+      expect(draft.draft.Name).toEqual('a name')
+      expect(draft.draft.LongName).toEqual('a long name')
+      expect(draft.draft.Definition).toEqual('Def')
+      expect(draft.draft.StandardName).toEqual('Web Portal')
+      expect(draft.nativeId).toEqual('1')
+    })
+  })
 
   // rename to create
-  // test('save draft', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   const draft = new Draft()
-  //   draft.draft = { Name: 'Test Record' }
-  //   metadataService.saveDraft(draft).then((result) => {
-  //     expect(result.apiId).toEqual(12)
-  //   })
-  // })
+  test('save draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.nativeId = 'T10101-draft'
+    draft.draft = { Name: 'Test Record' }
+    metadataService.ingestDraft(draft).then((result) => {
+      expect(result['concept-id']).toEqual('mock-concept-id_provider-id')
+    })
+  })
 
-  // test('update draft', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   const draft = new Draft()
-  //   draft.apiId = 55
-  //   draft.apiUserId = 10
-  //   draft.draft = { Name: 'Test Record' }
-  //   metadataService.updateDraft(draft).then((result) => {
-  //     expect(result.apiId).toEqual(55)
-  //   })
-  //   draft.apiId = 200
-  //   metadataService.updateDraft(draft).then((result) => {
-  //     console.log(result)
-  //   }).catch((error) => {
-  //     expect(error.message).toEqual('Error code: 404')
-  //   })
-  // })
+  test('update draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.nativeId = '55'
+    draft.apiUserId = 'chris.gokey'
+    draft.draft = { Name: 'Test Record' }
+    metadataService.ingestDraft(draft).then((result) => {
+      expect(result['concept-id']).toEqual('mock-concept-id_provider-id')
+      expect(result['revision-id']).toEqual(2)
+    })
+  })
 
-  // test('delete draft', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   const draft = new Draft()
-  //   draft.nativeId = '55'
-  //   draft.apiUserId = 10
-  //   draft.draft = { Name: 'Test Record' }
-  //   metadataService.deleteDraft(draft).then((result) => {
+  test('delete draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.nativeId = '55'
+    draft.apiUserId = 'chris.gokey'
+    draft.draft = { Name: 'Test Record' }
+    metadataService.deleteDraft(draft).then((result) => {
+      expect(result.nativeId).toEqual(null)
+    })
+  })
+  test('publish draft', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    const draft = new Draft()
+    draft.nativeId = '55-draft'
+    draft.conceptId = 'mock-concept-id_provider-id'
+    draft.revisionId = 2
+    draft.apiUserId = 'chris.gokey'
+    draft.draft = { Name: 'Test Record' }
+    metadataService.publishDraft(draft).then((result) => {
+      expect(result.nativeId).toEqual('55')
+    })
+  })
 
-  //     expect(result.nativeId).toEqual(null)
-  //   })
-  // })
-  // test('publish draft', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   const draft = new Draft()
-  //   draft.apiId = 55
-  //   draft.apiUserId = 10
-  //   draft.draft = { Name: 'Test Record' }
-  //   metadataService.publishDraft(draft).then((result) => {
-  //     expect(result.apiId).toEqual(55)
-  //   })
-  // })
+  test('fetch kms keywords', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    metadataService.fetchKmsKeywords('science_keywords').then((keywords) => {
+      expect(keywords).toEqual({
+        Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
+      })
+    })
+    metadataService.fetchKmsKeywords('science').then((keywords) => {
+      console.log(keywords)
+    }).catch((error) => {
+      expect(error.message).toEqual('Error code: 404')
+    })
+  })
 
-  // test('fetch kms keywords', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   metadataService.fetchKmsKeywords('science_keywords').then((keywords) => {
-  //     expect(keywords).toEqual({
-  //       Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
-  //     })
-  //   })
-  //   metadataService.fetchKmsKeywords('science').then((keywords) => {
-  //     console.log(keywords)
-  //   }).catch((error) => {
-  //     expect(error.message).toEqual('Error code: 404')
-  //   })
-  // })
-
-  // test('fetch cmr keywords', async () => {
-  //   const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
-  //   metadataService.fetchCmrKeywords('science_keywords').then((keywords) => {
-  //     expect(keywords).toEqual({
-  //       Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
-  //     })
-  //   })
-  //   metadataService.fetchCmrKeywords('science').then((keywords) => {
-  //     console.log(keywords)
-  //   }).catch((error) => {
-  //     expect(error.message).toEqual('Error code: 404')
-  //   })
-  // })
+  test('fetch cmr keywords', async () => {
+    const metadataService = new MetadataService('test_token', 'tool_drafts', 'test_user', 'provider')
+    metadataService.fetchCmrKeywords('science_keywords').then((keywords) => {
+      expect(keywords).toEqual({
+        Name: 'a name', LongName: 'a long name', Version: '1', Type: 'Web Portal'
+      })
+    })
+    metadataService.fetchCmrKeywords('science').then((keywords) => {
+      console.log(keywords)
+    }).catch((error) => {
+      expect(error.message).toEqual('Error code: 404')
+    })
+  })
 })

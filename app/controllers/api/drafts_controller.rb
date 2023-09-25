@@ -8,15 +8,61 @@ class Api::DraftsController < BaseDraftsController
   skip_before_action :ensure_user_is_logged_in, only: [:index, :create, :show, :update, :publish, :destroy]
   skip_before_action :add_top_level_breadcrumbs, only: [:index, :create, :show, :update, :publish, :destroy]
 
+  def get_draft_type(concept_id)
+    if concept_id[0] == 'T'
+      return 'tool-drafts'
+    elsif concept_id[0] == 'V'
+      return 'variable-drafts'
+    elsif concept_id[0] == 'S'
+      return 'service-drafts'
+    else
+      return nil
+    end
+  end
   def set_resource(resource = nil)
     if !Rails.configuration.cmr_drafts_api_enabled
       begin
         resource ||= resource_class.find(params[:id])
+        resource = JSON.parse(resource.to_json)
         instance_variable_set("@#{resource_name}", resource)
       rescue ActiveRecord::RecordNotFound
         render json: JSON.generate({'error': "Couldn't find #{resource_name} with 'id'=#{params[:id]}"}), status: 404
       end
-    end
+    else
+      if params[:action] == 'publish'
+        native_id = "#{params[:publish_native_id]}-draft"
+        draft_type = get_draft_type(params[:concept_id])
+      else
+        native_id = "#{params[:id]}"
+        draft_type = params[:draft_type].sub('_','-')
+      end
+      token = request.headers["Authorization"]
+
+      cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
+        if cmr_response.success?
+          result = cmr_response.body['items'][0]
+          if result
+            if result['umm'].key?('_meta')
+              collection_concept_id = result['umm']['_meta']['collection_concept_id']
+            end
+
+            resource =
+              {
+                "id" =>  result['meta']['native-id'],
+                "user_id" => result['meta']['user-id'],
+                "draft" => result['umm'],
+                "updated_at" => result['meta']['revision-date'],
+                "short_name" => result['umm']['Name'],
+                "entry_title" => result['umm']["LongName"],
+                "provider_id" => result['meta']['provider-id'],
+                "collection_concept_id" => collection_concept_id
+              }
+            @resource_name = draft_type.titleize.singularize.delete(' ')
+            instance_variable_set("@#{resource_name}", resource)
+          end
+          end
+
+      end
   end
 
   def index
@@ -220,7 +266,11 @@ class Api::DraftsController < BaseDraftsController
 
       cmr_response = cmr_client.search_draft(draft_type: draft_type, native_id: native_id, token: token)
       if cmr_response.success?
-        render json:cmr_response.body, status: 200
+        if cmr_response.body()['hits'] == 0
+          render json:'{}', status: 404
+        else
+          render json:cmr_response.body(), status: cmr_response.status
+        end
       else
         render json: cmr_response.errors, status: 500
       end
@@ -282,7 +332,7 @@ class Api::DraftsController < BaseDraftsController
       unless token_user.nil?
         # For drafts, users have access to any drafts in their provider list
         provider_id = params[:provider]
-        provider_id = get_resource.provider_id unless get_resource.nil?
+        provider_id = get_resource['provider_id'] unless get_resource.nil?
         authorized = true if token_user.available_providers.include? provider_id
       end
     end

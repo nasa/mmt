@@ -50,9 +50,6 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
   componentDidMount() {
     const { router, editor } = this.props
     const { params, location, navigate } = router
-    const { draft } = editor
-    // const urlParams = new URLSearchParams(router.location.search)
-    // const associatedCollectionId = urlParams.get('associated_collection_id')
 
     let { sectionName } = params
     const { id } = params
@@ -83,11 +80,9 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
       }
     }
     if (id) {
-      editor.getDraft(id).then((response) => {
-        const draft = new Draft()
-
+      const draft = new Draft()
+      editor.fetchDraft(id).then((response) => {
         draft.nativeId = id
-        draft.publishNativeId = id.replace(/-draft/, '')
         draft.conceptId = response.conceptId
         draft.draft = response.draft
         editor.draft = draft
@@ -96,16 +91,18 @@ class MetadataEditorForm extends React.Component<MetadataEditorFormProps, never>
         editor.loading = false
       })
     } else {
+      const draft = new Draft()
       editor.loading = true
 
       // sets the native-id and MetadataSpecification to draft
-      const getNativeId = uuid().replace(/-/g, '')
-      draft.nativeId = `${getNativeId}-draft`
-      draft.publishNativeId = getNativeId
+      draft.nativeId = `${uuid().replace(/-/g, '')}-draft`
       draft.draft = editor.model.getMetadataSpecification()
 
-      editor.ingestDraft(editor.draft).then((data) => {
-        editor.draft.conceptId = data['concept-id']
+      editor.ingestDraft(draft).then((data) => {
+        editor.draft = draft
+        draft.conceptId = data['concept-id']
+        draft.revisionId = data['revision-id']
+
         navigate(`/${editor.model.documentType}/${editor.draft.nativeId}/edit/${editor.currentSection.displayName.replace(/\s/g, '_')}`, { replace: true })
       }).catch((error) => {
         editor.status = new Status('warning', `error saving draft! ${error.message}`)

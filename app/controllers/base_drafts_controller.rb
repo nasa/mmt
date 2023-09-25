@@ -41,9 +41,7 @@ class BaseDraftsController < DraftsController
   end
 
   def edit
-    if !Rails.configuration.cmr_drafts_api_enabled
-      authorize get_resource
-    end
+    authorize get_resource
 
     add_breadcrumb fetch_entry_id(get_resource['draft'], resource_name), send("#{resource_name}_path", get_resource)
 

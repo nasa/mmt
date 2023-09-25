@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import _, { uniqueId } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import { RJSFValidationError } from '@rjsf/utils'
-import { toJS } from 'mobx'
 import MetadataEditor from '../../MetadataEditor'
 import withRouter from '../withRouter'
 import ProgressSection from './ProgressSection'
@@ -40,19 +39,40 @@ class DetailedProgressView extends React.Component<DetailedProgressViewProps, De
   }
   componentDidMount() {
     const { router, editor } = this.props
-    const { params } = router
+    const { params, navigate } = router
     const { service } = editor
     const { id } = params
 
     this.setState({ status: null }, () => {
-      editor.getDraft(id).then((draft) => {
+      editor.fetchDraft(id).then((draft) => {
         editor.draft = draft
         editor.loading = false
-        console.log('response', draft)
-        console.log('editor', toJS(editor.draft))
       }).catch((error) => {
         editor.loading = false
-        this.setState({ status: `Error retrieving draft! ${error.message}` })
+
+        // This is a use case when editing a published draft.
+        // 1.) Retrieves the Publish Record
+        // 2.) Sets the metadata to the editor
+        // 3.) Ingests the metadata as a draft
+        if (error.message === 'Error code: 404') {
+          editor.fetchPublishedRecord(id).then((draft) => {
+            draft.nativeId = `${id}-draft`
+            editor.ingestDraft(draft).then((data) => {
+              draft.conceptId = data['concept-id']
+              draft.revisionId = data['revision-id']
+              editor.draft = draft
+              navigate(`/${editor.model.documentType}/${editor.draft.nativeId}`, { replace: true })
+            }).catch((error) => {
+              editor.status = new Status('warning', `error saving draft! ${error.message}`)
+              editor.loading = false
+            })
+          }).catch((error) => {
+            editor.status = new Status('warning', `error fetching published record! ${error.message}`)
+            editor.loading = false
+          })
+        } else {
+          this.setState({ status: `Error retrieving draft! ${error.message}` })
+        }
       })
     })
 

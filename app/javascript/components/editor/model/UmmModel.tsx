@@ -107,7 +107,6 @@ export default class UmmModel implements FormModel {
   addToVisitedFields(id: string) {
     if (!this.visitedFields.includes(id)) { this.visitedFields.push(id) }
   }
-
   /* istanbul ignore next */
   get uiSchema(): object {
     throw new Error('Method uiSchema() must be implemented.')

@@ -25,7 +25,7 @@ export class MetadataService {
       method: 'PUT',
       body: JSON.stringify(draft),
       headers: {
-        Accept: 'application/json',
+        Accept: 'application/vnd.nasa.cmr.umm+json',
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid()
@@ -40,7 +40,7 @@ export class MetadataService {
     return Promise.reject(data)
   }
 
-  async getDraft(nativeId: string): Promise<Draft> {
+  async fetchDraft(nativeId: string): Promise<Draft> {
     const url = `/api/providers/${this.providerId}/${this.draftType}/${nativeId}`
 
     const requestOptions = {
@@ -53,7 +53,28 @@ export class MetadataService {
       }
     }
     const response = await fetch(url, requestOptions)
-    if (response.ok) {
+    if (response.status === 200) {
+      const data = await response.json()
+      const draft = this.convertToDraft(data.items)
+      return draft
+    }
+    return Promise.reject(new Error(`Error code: ${response.status}`))
+  }
+
+  async fetchPublishedRecord(nativeId: string): Promise<Draft> {
+    const url = `https://cmr.sit.earthdata.nasa.gov:443/search/tools.umm_json?native_id=${nativeId}`
+
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `${this.token}`,
+        'Client-Id': 'mmt-react-ui',
+        'X-Request-Id': uuid()
+      }
+    }
+    const response = await fetch(url, requestOptions)
+    if (response.status === 200) {
       const data = await response.json()
       const draft = this.convertToDraft(data.items)
       return draft
@@ -67,7 +88,7 @@ export class MetadataService {
       method: 'PUT',
       body: JSON.stringify(draft.draft),
       headers: {
-        Accept: 'application/json',
+        Accept: 'application/vnd.nasa.cmr.umm+json',
         Authorization: `${this.token}`,
         'Client-Id': 'mmt-react-ui',
         'X-Request-Id': uuid(),
@@ -148,13 +169,11 @@ export class MetadataService {
     const draft = new Draft()
     draft.draft = data[0].umm
     draft.nativeId = data[0].meta['native-id']
-    draft.publishNativeId = data[0].meta['native-id'].split('-').at(0)
     draft.apiUserId = data[0].meta['user-id']
     draft.conceptId = data[0].meta['concept-id']
     draft.revisionId = data.revision_id
     draft.associatedCollectionId = data.collection_concept_id
     draft.errors = data.errors
-    draft.nativeId = data[0].meta['native-id']
     return draft
   }
 

@@ -19536,160 +19536,7 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                     </p>
                                     <div
                                       class="row array-item-list"
-                                    >
-                                      <div
-                                        class="array-item"
-                                      >
-                                        <div
-                                          class="col-xs-9"
-                                        >
-                                          <div
-                                            class="form-group field field-object"
-                                          >
-                                            <fieldset
-                                              id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0"
-                                            >
-                                              <legend
-                                                id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0__title"
-                                              >
-                                                Shapefile-0
-                                                <span
-                                                  class="required"
-                                                >
-                                                  *
-                                                </span>
-                                              </legend>
-                                              <p
-                                                class="field-description"
-                                                id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0__description"
-                                              >
-                                                Additional information should be provided for this type of subsetter which includes the shapefile format, maximum number of points and the maximum file size in bytes.
-                                              </p>
-                                              <div
-                                                class="form-group field field-string"
-                                              >
-                                                <label
-                                                  class="control-label"
-                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
-                                                >
-                                                  Format
-                                                  <span
-                                                    class="required"
-                                                  >
-                                                    *
-                                                  </span>
-                                                </label>
-                                                <p
-                                                  class="field-description"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__description"
-                                                >
-                                                  This element is used to identify the file format used in the shapefile.
-                                                </p>
-                                                <select
-                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format__help"
-                                                  class="form-control"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
-                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_Format"
-                                                  required=""
-                                                >
-                                                  <option
-                                                    value=""
-                                                  />
-                                                  <option
-                                                    value="0"
-                                                  >
-                                                    ESRI
-                                                  </option>
-                                                  <option
-                                                    value="1"
-                                                  >
-                                                    KML
-                                                  </option>
-                                                  <option
-                                                    value="2"
-                                                  >
-                                                    GeoJSON
-                                                  </option>
-                                                </select>
-                                              </div>
-                                              <div
-                                                class="form-group field field-number"
-                                              >
-                                                <label
-                                                  class="control-label"
-                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
-                                                >
-                                                  MaximumFileSizeInBytes
-                                                </label>
-                                                <p
-                                                  class="field-description"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__description"
-                                                >
-                                                  This element describes the maximum file size in bytes of the shapefile that can be sent to the service.
-                                                </p>
-                                                <input
-                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes__help"
-                                                  class="form-control"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
-                                                  label="MaximumFileSizeInBytes"
-                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumFileSizeInBytes"
-                                                  placeholder=""
-                                                  step="any"
-                                                  type="number"
-                                                  value=""
-                                                />
-                                              </div>
-                                              <div
-                                                class="form-group field field-number"
-                                              >
-                                                <label
-                                                  class="control-label"
-                                                  for="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
-                                                >
-                                                  MaximumNumberOfPoints
-                                                </label>
-                                                <p
-                                                  class="field-description"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__description"
-                                                >
-                                                  This element describes the maximum number of points contained in the shapefile that can be sent to the service.
-                                                </p>
-                                                <input
-                                                  aria-describedby="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__error root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__description root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints__help"
-                                                  class="form-control"
-                                                  id="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
-                                                  label="MaximumNumberOfPoints"
-                                                  name="root_ServiceOptions_Subset_SpatialSubset_Shapefile_0_MaximumNumberOfPoints"
-                                                  placeholder=""
-                                                  step="any"
-                                                  type="number"
-                                                  value=""
-                                                />
-                                              </div>
-                                            </fieldset>
-                                          </div>
-                                        </div>
-                                        <div
-                                          class="col-xs-3 array-item-toolbox"
-                                        >
-                                          <div
-                                            class="btn-group"
-                                            style="display: flex; justify-content: space-around;"
-                                          >
-                                            <button
-                                              class="btn btn-danger array-item-remove"
-                                              style="flex: 1; padding-left: 6px; padding-right: 6px; font-weight: bold;"
-                                              title="Remove"
-                                              type="button"
-                                            >
-                                              <i
-                                                class="glyphicon glyphicon-remove"
-                                              />
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    />
                                     <div
                                       class="row"
                                     >
@@ -19765,12 +19612,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                     >
                                       SpatialSubset
                                     </legend>
-                                    <p
-                                      class="field-description"
-                                      id="root_ServiceOptions_Subset_SpatialSubset__description"
-                                    >
-                                      This element describes what kind of spatial subsetting the service provides. The sub elements provide the details.
-                                    </p>
                                   </fieldset>
                                 </div>
                               </div>
@@ -19904,12 +19745,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                 >
                                   Subset
                                 </legend>
-                                <p
-                                  class="field-description"
-                                  id="root_ServiceOptions_Subset__description"
-                                >
-                                  This element is used to identify the set of supported subsetting capabilities, Spatial, Temporal, and Variable.
-                                </p>
                               </fieldset>
                             </div>
                           </div>
@@ -20006,12 +19841,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                 >
                                   Aggregation
                                 </legend>
-                                <p
-                                  class="field-description"
-                                  id="root_ServiceOptions_Aggregation__description"
-                                >
-                                  This element describes what kinds of aggregations the service allows. When services pull data files, this option allows the service to put the result data into as few files as possible.
-                                </p>
                               </fieldset>
                             </div>
                           </div>
@@ -22810,12 +22639,6 @@ exports[`Layout Grid Field Component testing custom checkbox field 1`] = `
                                                   >
                                                     Points
                                                   </legend>
-                                                  <p
-                                                    class="field-description"
-                                                    id="root_OperationMetadata_0_CoupledResource_DataResource_DataResourceSpatialExtent__description"
-                                                  >
-                                                    The spatial extent of the coverage available from the service. These are coordinate pairs which describe either the point, line string, or polygon representing the spatial extent. The bounding box is described by the west, south, east and north ordinates
-                                                  </p>
                                                   <div
                                                     class="form-group field field-array"
                                                   >

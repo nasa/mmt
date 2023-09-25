@@ -312,10 +312,35 @@ describe('Navigation View Component', () => {
   })
 
   test('error canceling changes', async () => {
+    nock('http://localhost')
+      .get('/api/providers/MMT_1/tool_drafts/3')
+      .reply(200, {
+        items: [{
+          umm: {
+            Name: 'a name',
+            LongName: 'foobar',
+            Version: '1',
+            Type: 'Web Portal',
+            RelatedURLs: [
+              {
+                Description: 'Test',
+                URLContentType: 'PublicationURL',
+                Type: 'VIEW RELATED INFORMATION',
+                URL: 'https://earthdata.nasa.gov/'
+              }
+            ]
+          },
+          meta: {
+            'native-id': '1',
+            'user-id': 'chris.gokey'
+          }
+        }]
+      })
+
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
     const { container } = render(
-      <MemoryRouter initialEntries={['/tool_drafts/1/edit/Tool_Information']}>
+      <MemoryRouter initialEntries={['/tool_drafts/3/edit/Tool_Information']}>
         <Routes>
           <Route path={`/${editor.model.documentType}/:id`} element={<DetailedProgressView editor={editor} />} />
           <Route path={`/${editor.model.documentType}/:id/edit/:sectionName`} element={<MetadataEditorForm editor={editor} />} />
@@ -330,7 +355,7 @@ describe('Navigation View Component', () => {
     })
 
     nock('http://localhost')
-      .get('/api/providers/MMT_1/tool_drafts/1')
+      .get('/api/providers/MMT_1/tool_drafts/3')
       .reply(500, {})
 
     const cancelButton = screen.queryByTestId('navigationview--cancel-button')

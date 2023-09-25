@@ -22,7 +22,11 @@ class BasePublishedRecordController < ManageMetadataController
     if @native_id
       draft = draft_resource_class.send("create_from_#{resource_name}", get_resource, current_user, @native_id, associated_concept_id)
       Rails.logger.info("Audit Log: #{resource_name.classify} Draft for #{draft.entry_title} was created by #{current_user.urs_uid} in provider #{current_user.provider_id}")
-      redirect_to send("#{resource_name}_draft_path", draft), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
+      if Rails.configuration.cmr_drafts_api_enabled
+        redirect_to send("#{resource_name}_draft_path", "#{@native_id}"), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
+      else
+        redirect_to send("#{resource_name}_draft_path", draft), flash: { success: I18n.t("controllers.draft.#{resource_name}_drafts.create.flash.success") }
+      end
     else
       Rails.logger.info("User #{current_user.urs_uid} attempted to edit #{resource_name.classify} #{@concept_id} in provider #{current_user.provider_id} but a #{resource_name.classify} Draft was not created to edit because there was no native_id (#{@native_id}) found.")
       # if we cannot locate the native_id for the Variable, we should discontinue editing

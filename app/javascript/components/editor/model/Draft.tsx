@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { makeObservable, observable } from 'mobx'
+import { computed, makeObservable, observable } from 'mobx'
 
 export default class Draft {
   key: Date
@@ -10,8 +10,10 @@ export default class Draft {
   revisionId: number
   associatedCollectionId: string
   errors: any
-  // nativeId: string
-  publishNativeId: string
+
+  get publishNativeId(): string {
+    return this.nativeId.split('-').at(0)
+  }
 
   constructor() {
     this.key = new Date()
@@ -23,10 +25,10 @@ export default class Draft {
     this.associatedCollectionId = null
     this.errors = {}
 
-    this.publishNativeId = null
     makeObservable(this, {
       draft: observable,
       nativeId: observable,
+      publishNativeId: computed,
       apiUserId: observable,
       conceptId: observable,
       revisionId: observable,

@@ -193,8 +193,12 @@ export default class MetadataEditor {
     return this.service.ingestDraft(draft)
   }
 
-  async getDraft(nativeId: string): Promise<Draft> {
-    return this.service.getDraft(nativeId)
+  async fetchDraft(nativeId: string): Promise<Draft> {
+    return this.service.fetchDraft(nativeId)
+  }
+
+  async fetchPublishedRecord(nativeId: string): Promise<Draft> {
+    return this.service.fetchPublishedRecord(nativeId)
   }
 
   async publishDraft(draft: Draft): Promise<Draft> {

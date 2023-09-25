@@ -18,16 +18,16 @@ import keywords from '../../data/test/earth_science_services_keywords'
 global.fetch = require('jest-fetch-mock')
 
 async function mockFetch(url) {
-  switch (url) {
-    case '/api/providers/MMT_1/tool_drafts': {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ({
-          'concept-id': 'mock-concept-id_provider-id'
-        })
-      }
+  if (url.endsWith('-draft')) {
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        'concept-id': 'mock-concept-id_provider-id'
+      })
     }
+  }
+  switch (url) {
     case '/api/providers/MMT_1/tool_drafts/1': {
       return {
         ok: true,
@@ -103,6 +103,7 @@ describe('UMM Tools Form', () => {
   test('renders a new tool draft', async () => {
     const model = new UmmToolsModel()
     const editor = new MetadataEditor(model)
+
     const { container } = render(
       <MemoryRouter initialEntries={['/tool_drafts/new']}>
         <Routes>

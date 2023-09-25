@@ -740,7 +740,7 @@ module Cmr
     def search_draft(draft_type:, native_id:, token:)
       url = "/search/#{draft_type}.umm_json?native_id=#{native_id}"
       headers = {
-        'Accept' => 'application/json; charset=utf-8',
+        'Accept' => 'application/json; charset=utf-8'
       }
       get(url, nil, headers.merge(token_header(token)))
     end

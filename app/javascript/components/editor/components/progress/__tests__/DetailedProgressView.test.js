@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import {
   fireEvent,
@@ -8,6 +9,7 @@ import {
 } from 'react-router-dom'
 
 import { act } from 'react-dom/test-utils'
+import { toJS } from 'mobx'
 import DeleteDraftView from '../../DeleteDraftView'
 import DetailedProgressView from '../DetailedProgressView'
 
@@ -24,18 +26,22 @@ async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ({
-          draft: {
-            Name: 'a name',
-            LongName: 'a long name #1',
-            Version: '1',
-            Type: 'Web Portal',
-            RelatedURLs: [{
-              URLContentType: 'Collection URL', Type: 'EXTENDED METADATA', URL: 'sddfsdfsdfs', Description: 'desc'
+          items: [{
+            umm: {
+              Name: 'a name',
+              LongName: 'a long name #1',
+              Version: '1',
+              Type: 'Web Portal',
+              RelatedURLs: [{
+                URLContentType: 'Collection URL', Type: 'EXTENDED METADATA', URL: 'sddfsdfsdfs', Description: 'desc'
+              },
+              { Description: 'dssfadsdfadafs' }]
             },
-            { Description: 'dssfadsdfadafs' }]
-          },
-          id: 1,
-          user_id: 9
+            meta: {
+              'native-id': '1',
+              'user-id': 'chris.gokey'
+            }
+          }]
         })
       }
     }
@@ -44,39 +50,43 @@ async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ({
-          draft: {
-            Name: 'mock name for tool draft 2',
-            LongName: 'mock long name',
-            Version: '2',
-            Type: 'Downloadable Tool',
-            Description: 'mock description',
-            URL: {
-              Description: 'mock url',
-              URLContentType: 'DistributionURL',
-              Type: 'DOWNLOAD SOFTWARE',
-              URLValue: 'mock URL Value',
-              Subtype: 'MOBILE APP'
+          items: [{
+            umm: {
+              Name: 'mock name for tool draft 2',
+              LongName: 'mock long name',
+              Version: '2',
+              Type: 'Downloadable Tool',
+              Description: 'mock description',
+              URL: {
+                Description: 'mock url',
+                URLContentType: 'DistributionURL',
+                Type: 'DOWNLOAD SOFTWARE',
+                URLValue: 'mock URL Value',
+                Subtype: 'MOBILE APP'
+              },
+              ToolKeywords: [
+                {
+                  ToolCategory: 'EARTH SCIENCE SERVICES',
+                  ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+                  ToolTerm: 'CALIBRATION/VALIDATION'
+                }
+              ],
+              Organizations: [
+                {
+                  Roles: [
+                    'DEVELOPER'
+                  ],
+                  ShortName: 'ESA/ED',
+                  LongName: 'Educational Office, Ecological Society of America',
+                  URLValue: 'http://www.esa.org/education/'
+                }
+              ]
             },
-            ToolKeywords: [
-              {
-                ToolCategory: 'EARTH SCIENCE SERVICES',
-                ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
-                ToolTerm: 'CALIBRATION/VALIDATION'
-              }
-            ],
-            Organizations: [
-              {
-                Roles: [
-                  'DEVELOPER'
-                ],
-                ShortName: 'ESA/ED',
-                LongName: 'Educational Office, Ecological Society of America',
-                URLValue: 'http://www.esa.org/education/'
-              }
-            ]
-          },
-          id: 2,
-          user_id: 10
+            meta: {
+              'native-id': '2',
+              'user-id': 'chris.gokey'
+            }
+          }]
         })
       }
     }

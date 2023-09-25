@@ -35,7 +35,7 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
       >
         <span
           class="css-1f43avz-a11yText-A11yText"
-          id="react-select-10-live-region"
+          id="react-select-32-live-region"
         />
         <span
           aria-atomic="false"
@@ -66,7 +66,7 @@ exports[`Custom Select Widget Component Select box works with enums from uiSchem
                 autocomplete="off"
                 autocorrect="off"
                 class=""
-                id="react-select-10-input"
+                id="react-select-32-input"
                 role="combobox"
                 spellcheck="false"
                 style="opacity: 0; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -903,7 +903,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           >
                                             <span
                                               class="css-1f43avz-a11yText-A11yText"
-                                              id="react-select-22-live-region"
+                                              id="react-select-29-live-region"
                                             />
                                             <span
                                               aria-atomic="false"
@@ -919,7 +919,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                               >
                                                 <div
                                                   class=" css-1jqq78o-placeholder"
-                                                  id="react-select-25-placeholder"
+                                                  id="react-select-29-placeholder"
                                                 >
                                                   Select Type
                                                 </div>
@@ -929,14 +929,14 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                 >
                                                   <input
                                                     aria-autocomplete="list"
-                                                    aria-describedby="react-select-25-placeholder"
+                                                    aria-describedby="react-select-29-placeholder"
                                                     aria-expanded="false"
                                                     aria-haspopup="true"
                                                     autocapitalize="none"
                                                     autocomplete="off"
                                                     autocorrect="off"
                                                     class=""
-                                                    id="react-select-22-input"
+                                                    id="react-select-29-input"
                                                     role="combobox"
                                                     spellcheck="false"
                                                     style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1079,7 +1079,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                       >
                                                         <span
                                                           class="css-1f43avz-a11yText-A11yText"
-                                                          id="react-select-23-live-region"
+                                                          id="react-select-30-live-region"
                                                         />
                                                         <span
                                                           aria-atomic="false"
@@ -1095,7 +1095,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                           >
                                                             <div
                                                               class=" css-1jqq78o-placeholder"
-                                                              id="react-select-26-placeholder"
+                                                              id="react-select-30-placeholder"
                                                             >
                                                               Select Type
                                                             </div>
@@ -1105,14 +1105,14 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                             >
                                                               <input
                                                                 aria-autocomplete="list"
-                                                                aria-describedby="react-select-26-placeholder"
+                                                                aria-describedby="react-select-30-placeholder"
                                                                 aria-expanded="false"
                                                                 aria-haspopup="true"
                                                                 autocapitalize="none"
                                                                 autocomplete="off"
                                                                 autocorrect="off"
                                                                 class=""
-                                                                id="react-select-23-input"
+                                                                id="react-select-30-input"
                                                                 role="combobox"
                                                                 spellcheck="false"
                                                                 style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -1537,25 +1537,23 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                 >
                                                                   <span
                                                                     class="css-1f43avz-a11yText-A11yText"
-                                                                    id="react-select-24-live-region"
+                                                                    id="react-select-31-live-region"
+                                                                  />
+                                                                  <span
+                                                                    aria-atomic="false"
+                                                                    aria-live="polite"
+                                                                    aria-relevant="additions text"
+                                                                    class="css-1f43avz-a11yText-A11yText"
                                                                   >
                                                                     <span
                                                                       id="aria-selection"
-                                                                    >
-                                                                      option GET, selected.
-                                                                    </span>
+                                                                    />
                                                                     <span
                                                                       id="aria-context"
                                                                     >
                                                                         Select is focused ,type to refine list, press Down to open the menu, 
                                                                     </span>
                                                                   </span>
-                                                                  <span
-                                                                    aria-atomic="false"
-                                                                    aria-live="polite"
-                                                                    aria-relevant="additions text"
-                                                                    class="css-1f43avz-a11yText-A11yText"
-                                                                  />
                                                                   <div
                                                                     class=" css-t3ipsp-control"
                                                                   >
@@ -1564,7 +1562,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                     >
                                                                       <div
                                                                         class=" css-1jqq78o-placeholder"
-                                                                        id="react-select-27-placeholder"
+                                                                        id="react-select-31-placeholder"
                                                                       >
                                                                         Select HTTP Method
                                                                       </div>
@@ -1574,14 +1572,14 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                                                       >
                                                                         <input
                                                                           aria-autocomplete="list"
-                                                                          aria-describedby="react-select-24-live-region"
+                                                                          aria-describedby="react-select-31-placeholder"
                                                                           aria-expanded="false"
                                                                           aria-haspopup="true"
                                                                           autocapitalize="none"
                                                                           autocomplete="off"
                                                                           autocorrect="off"
                                                                           class=""
-                                                                          id="react-select-24-input"
+                                                                          id="react-select-31-input"
                                                                           role="combobox"
                                                                           spellcheck="false"
                                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -2065,7 +2063,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   class="section"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-times-circle red-progress-circle"
                   />
                    
                   Tool Information
@@ -2179,7 +2177,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-check green-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
                   />
                    
                   Potential Action
@@ -2217,11 +2215,6 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                   <ul
                     class="list-group"
                   >
-                    <li
-                      class="list-group-item text-danger"
-                    >
-                      must have required property 'Name'
-                    </li>
                     <li
                       class="list-group-item text-danger"
                     >
@@ -2276,7 +2269,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string field-error has-error has-danger"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -2304,20 +2297,8 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                         placeholder=""
                         required=""
                         type="text"
-                        value=""
+                        value="Test Record"
                       />
-                      <div>
-                        <ul
-                          class="error-detail bs-callout bs-callout-info"
-                          id="root_Name__error"
-                        >
-                          <li
-                            class="text-danger"
-                          >
-                            must have required property 'Name'
-                          </li>
-                        </ul>
-                      </div>
                     </div>
                     <div
                       class="form-group field field-string field-error has-error has-danger"
@@ -4042,7 +4023,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                 name="root_PotentialAction_Target_Description"
                                 placeholder=""
                                 type="text"
-                                value="target description"
+                                value=""
                               />
                             </div>
                             <div
@@ -4095,7 +4076,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                           placeholder=""
                                           required=""
                                           type="text"
-                                          value="response content type"
+                                          value=""
                                         />
                                       </div>
                                     </div>
@@ -4168,7 +4149,7 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                                 placeholder=""
                                 required=""
                                 type="text"
-                                value="url template"
+                                value=""
                               />
                             </div>
                             <div
@@ -4698,100 +4679,15 @@ exports[`Custom Select Widget Component testing autofocus against array section 
                       <span
                         class="__json-key__"
                       >
-                        PotentialAction
-                      </span>
-                      ": {
-    "
-                      <span
-                        class="__json-key__"
-                      >
-                        Target
-                      </span>
-                      ": {
-      "
-                      <span
-                        class="__json-key__"
-                      >
-                        ResponseContentType
-                      </span>
-                      ": [
-        
-                      <span
-                        class="__json-string__"
-                      >
-                        "response content type"
-                      </span>
-                      
-      ],
-      "
-                      <span
-                        class="__json-key__"
-                      >
-                        HttpMethod
-                      </span>
-                      ": [
-        
-                      <span
-                        class="__json-string__"
-                      >
-                        "GET"
-                      </span>
-                      
-      ],
-      "
-                      <span
-                        class="__json-key__"
-                      >
-                        Type
+                        Name
                       </span>
                       ": 
                       <span
                         class="__json-string__"
                       >
-                        "EntryPoint"
-                      </span>
-                      ,
-      "
-                      <span
-                        class="__json-key__"
-                      >
-                        Description
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "target description"
-                      </span>
-                      ,
-      "
-                      <span
-                        class="__json-key__"
-                      >
-                        UrlTemplate
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "url template"
+                        "Test Record"
                       </span>
                       
-    },
-    "
-                      <span
-                        class="__json-key__"
-                      >
-                        Type
-                      </span>
-                      ": 
-                      <span
-                        class="__json-string__"
-                      >
-                        "SearchAction"
-                      </span>
-                      
-  }
 }
                     </pre>
                   </div>
@@ -4918,7 +4814,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   </span>
                                 </div>
                                 <span>
-                                  0
+                                  11
                                   /
                                   85
                                 </span>
@@ -4930,7 +4826,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                 maxlength="85"
                                 name="Name"
                                 type="text"
-                                value=""
+                                value="Test Record"
                               />
                               <span
                                 class="widget-description"
@@ -5153,7 +5049,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                   >
                                     <span
                                       class="css-1f43avz-a11yText-A11yText"
-                                      id="react-select-14-live-region"
+                                      id="react-select-18-live-region"
                                     >
                                       <span
                                         id="aria-selection"
@@ -5180,7 +5076,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                       >
                                         <div
                                           class=" css-1jqq78o-placeholder"
-                                          id="react-select-14-placeholder"
+                                          id="react-select-18-placeholder"
                                         >
                                           Select Type
                                         </div>
@@ -5190,14 +5086,14 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                         >
                                           <input
                                             aria-autocomplete="list"
-                                            aria-describedby="react-select-14-placeholder"
+                                            aria-describedby="react-select-18-placeholder"
                                             aria-expanded="false"
                                             aria-haspopup="true"
                                             autocapitalize="none"
                                             autocomplete="off"
                                             autocorrect="off"
                                             class=""
-                                            id="react-select-14-input"
+                                            id="react-select-18-input"
                                             role="combobox"
                                             spellcheck="false"
                                             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5561,7 +5457,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-15-live-region"
+                                                    id="react-select-19-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -5577,7 +5473,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-15-placeholder"
+                                                        id="react-select-19-placeholder"
                                                       >
                                                         Select URL Content Type
                                                       </div>
@@ -5587,14 +5483,14 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-15-placeholder"
+                                                          aria-describedby="react-select-19-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
                                                           autocomplete="off"
                                                           autocorrect="off"
                                                           class=""
-                                                          id="react-select-15-input"
+                                                          id="react-select-19-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5680,7 +5576,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-16-live-region"
+                                                    id="react-select-20-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -5696,7 +5592,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-16-placeholder"
+                                                        id="react-select-20-placeholder"
                                                       >
                                                         No available  Type
                                                       </div>
@@ -5706,7 +5602,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-16-placeholder"
+                                                          aria-describedby="react-select-20-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -5714,7 +5610,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-16-input"
+                                                          id="react-select-20-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5796,7 +5692,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                 >
                                                   <span
                                                     class="css-1f43avz-a11yText-A11yText"
-                                                    id="react-select-17-live-region"
+                                                    id="react-select-21-live-region"
                                                   />
                                                   <span
                                                     aria-atomic="false"
@@ -5812,7 +5708,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                     >
                                                       <div
                                                         class=" css-1jqq78o-placeholder"
-                                                        id="react-select-17-placeholder"
+                                                        id="react-select-21-placeholder"
                                                       >
                                                         No available Subtype
                                                       </div>
@@ -5822,7 +5718,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                       >
                                                         <input
                                                           aria-autocomplete="list"
-                                                          aria-describedby="react-select-17-placeholder"
+                                                          aria-describedby="react-select-21-placeholder"
                                                           aria-expanded="false"
                                                           aria-haspopup="true"
                                                           autocapitalize="none"
@@ -5830,7 +5726,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                                                           autocorrect="off"
                                                           class=""
                                                           disabled=""
-                                                          id="react-select-17-input"
+                                                          id="react-select-21-input"
                                                           role="combobox"
                                                           spellcheck="false"
                                                           style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
@@ -5994,7 +5890,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   class="section-highlighted"
                 >
                   <i
-                    class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle"
+                    class="eui-icon eui-icon--sm eui-fa-circle-o red-progress-circle"
                   />
                    
                   Tool Information
@@ -6011,22 +5907,6 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                   <ul
                     class="error-list-header-list"
                   >
-                    <div
-                      class="error-list-item"
-                      data-testid="error-list-item__name"
-                    >
-                      <li>
-                        <div
-                          style="display: flex;"
-                        >
-                          <i
-                            class="eui-icon eui-icon--sm eui-fa-circle-o gray-progress-circle progess-circle"
-                            data-testid="error-list-item__name--info"
-                          />
-                          Must have required property 'Name'
-                        </div>
-                      </li>
-                    </div>
                     <div
                       class="error-list-item"
                       data-testid="error-list-item__long-name"
@@ -6249,11 +6129,6 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     <li
                       class="list-group-item text-danger"
                     >
-                      must have required property 'Name'
-                    </li>
-                    <li
-                      class="list-group-item text-danger"
-                    >
                       must have required property 'LongName'
                     </li>
                     <li
@@ -6305,7 +6180,7 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                       UMM-T
                     </legend>
                     <div
-                      class="form-group field field-string field-error has-error has-danger"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -6333,20 +6208,8 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                         placeholder=""
                         required=""
                         type="text"
-                        value=""
+                        value="Test Record"
                       />
-                      <div>
-                        <ul
-                          class="error-detail bs-callout bs-callout-info"
-                          id="root_Name__error"
-                        >
-                          <li
-                            class="text-danger"
-                          >
-                            must have required property 'Name'
-                          </li>
-                        </ul>
-                      </div>
                     </div>
                     <div
                       class="form-group field field-string field-error has-error has-danger"
@@ -8717,7 +8580,21 @@ exports[`Custom Select Widget Component testing autofocus for a custom select wi
                     <pre
                       class="__json-pretty__"
                     >
-                      {}
+                      {
+  "
+                      <span
+                        class="__json-key__"
+                      >
+                        Name
+                      </span>
+                      ": 
+                      <span
+                        class="__json-string__"
+                      >
+                        "Test Record"
+                      </span>
+                      
+}
                     </pre>
                   </div>
                 </div>
