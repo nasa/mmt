@@ -1,6 +1,0 @@
-<% flash.each do |type, message| %>
-  <div class="<%= flash_class(type) %> eui-banner__dismiss">
-    <%= message.html_safe unless message.nil? %>
-    <a href="javascript:void(0)" class="eui-banner__dismiss" title="Dismiss message"><i class="eui-icon eui-fa-times-circle"></i></a>
-  </div>
-<% end %>

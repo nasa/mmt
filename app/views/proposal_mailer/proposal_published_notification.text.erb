@@ -1,5 +1,0 @@
-<%= @user[:name] %>,
-<%= "The collection metadata record #{@short_name}_#{@version} has been successfully #{@request_specific_message} the CMR#{@email_env_note}. The collection's concept ID is #{@concept_id}." %>
-<% unless @request_type == 'delete' %>
-View Collection: <%= "#{cmr_search_root_url}/concepts/#{@concept_id}" %>
-<% end %>

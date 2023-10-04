@@ -1,1 +1,0 @@
-$.tablesorter.defaults.textSorter = $.tablesorter.sortText

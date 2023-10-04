@@ -1,8 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2>Editing <%= @order_option.fetch('name', nil) %></h2>
-    <%= form_tag(order_option_path(@order_option_concept_id), method: :put, id: 'order-option-definition-form', class: 'order-options') do %>
-      <%= render partial: 'form', locals: { new_form: false } %>
-    <% end %>
-  </section>
-</div>
