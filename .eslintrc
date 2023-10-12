@@ -1,0 +1,27 @@
+{
+  // Let eslint know were working as a browser to allow the standard globals (document, window, etc.)
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+
+  // Use AirBnb settings as a base
+  "extends": [
+    "@edsc"
+  ],
+
+  // Define version settings
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+
+  // Define any global variables to avoid no-undef errors
+  "globals": {
+    "waitForResponse": "readonly"
+  }
+}
