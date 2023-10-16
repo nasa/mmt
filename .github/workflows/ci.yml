@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    # TODO Change to only main branch before merging into main
     branches: [main, MMT-3390]
   pull_request: {}
 
@@ -104,23 +105,24 @@ jobs:
     - name: All Tests Have Passed
       run: 'echo true'
 
-  # sync:
-  #   if: success() && github.ref == 'refs/heads/main' # only run on main success
-  #   needs: [tests-passed] # only run after jest and cypress jobs complete
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v3
-  #   - name: Install SSH key
-  #     uses: shimataro/ssh-key-action@v2
-  #     with:
-  #       key: ${{ secrets.SSH_KEY }}
-  #       known_hosts: ${{ secrets.KNOWN_HOSTS }}
-  #   - name: Push to ECC
-  #     run: |
-  #       git remote add ecc ssh://git@git.earthdata.nasa.gov:7999/edsc/earthdata-download.git
-  #       git fetch ecc "+refs/heads/*:refs/remotes/origin/*"
+  sync:
+    # TODO Change to main branch before merging into main
+    if: success() && github.ref == 'refs/heads/MMT-3390' # only run on main success
+    needs: [tests-passed] # only run after jest and cypress jobs complete
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+    - name: Push to ECC
+      run: |
+        git remote add ecc ssh://git@git.earthdata.nasa.gov:7999/mmt/mmt.git
+        git fetch ecc "+refs/heads/*:refs/remotes/origin/*"
 
-  #       git fetch --unshallow || true
-  #       echo "GITHUB_COMMIT=$GITHUB_SHA"
-  #       git push ecc $GITHUB_SHA:refs/heads/main
+        git fetch --unshallow || true
+        echo "GITHUB_COMMIT=$GITHUB_SHA"
+        git push ecc $GITHUB_SHA:refs/heads/MMT-React

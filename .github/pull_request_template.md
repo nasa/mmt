@@ -34,4 +34,3 @@ Please include relevant screenshots or files that would be helpful in reviewing 
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
-- [ ] I have bumped the `version` field in package.json and ran `npm install`

@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/client/testing'
 
 import ExampleComponent from '../ExampleComponent'
 
-import { GET_COLLECTION } from '../../../operations/getCollection'
+import { GET_COLLECTION } from '../../../operations/queries/getCollection'
 
 describe('Example component', () => {
   test('renders the example text', async () => {
@@ -707,7 +707,6 @@ describe('Example component', () => {
     )
 
     await waitForResponse()
-    screen.debug()
 
     expect(screen.getByText('C1200000033-SEDAC')).toBeInTheDocument()
   })

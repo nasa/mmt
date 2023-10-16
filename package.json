@@ -13,7 +13,6 @@
     "test:silent": "jest --silent",
     "test:watch": "jest --watchAll",
     "test:watch-lite": "jest --watchAll --collectCoverageFrom='' --coverage=true",
-    "cmr:download": "node setup/downloadJar.js",
     "cmr:setup": "node setup/setupCmr.js",
     "cmr:start": "node setup/startCmr.js",
     "cmr:stop": "node setup/stopCmr.js",

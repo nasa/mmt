@@ -9,7 +9,6 @@ import ExampleComponent from './components/ExampleComponent/ExampleComponent'
 
 import config from '../../static.config.json'
 
-// TODO use an env variable
 const { graphQlHost } = config
 
 const App = () => {

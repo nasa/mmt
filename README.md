@@ -1,6 +1,6 @@
 # Metadata Management Tool Application
 
-<!-- TODO Change to main branch before merging -->
+<!-- TODO Change to main branch before merging into main -->
 ![Build Status](https://github.com/nasa/mmt/workflows/CI/badge.svg?branch=MMT-3390)
 [![codecov](https://codecov.io/gh/nasa/mmt/graph/badge.svg?token=B8Qspgsjou)](https://codecov.io/gh/nasa/mmt)
 
@@ -21,10 +21,6 @@ The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are
 Type the following command to install the necessary components:
 
     npm install
-
-#### Other Steps
-
-TODO env variables - cmrHost/cmrGraphqlHost/urs
 
 ### Usage
 
@@ -108,18 +104,6 @@ To run GraphDB in docker, run this script
 After starting the local CMR, cmr-graphql and GraphDB, run the start command
 
     npm start
-
-## Inserting Sample Drafts
-
-You can insert sample drafts into your local database. These commands use the first user in the database (there should only be one), and add the drafts to your current provider, so make sure you login to the system and select a provider or the commands will fail.
-
-To insert a sample draft that only has the required fields present:
-
-    rake drafts:load_required
-
-To insert a sample draft with every field completed:
-
-    rake drafts:load_full
 
 ### UMM JSON-Schema
 
