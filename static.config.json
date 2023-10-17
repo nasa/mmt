@@ -1,0 +1,4 @@
+{
+  "graphQlHost": "http://localhost:3013/dev/api",
+  "version": "development"
+}

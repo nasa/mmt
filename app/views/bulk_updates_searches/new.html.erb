@@ -1,9 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2><%= current_user.provider_id %> Bulk Update Collection Search</h2>
-
-    <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: new_bulk_updates_search_path } %>
-
-    <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, submit_path: new_bulk_updates_path, submit_text: 'Next' } %>
-  </section>
-</div>

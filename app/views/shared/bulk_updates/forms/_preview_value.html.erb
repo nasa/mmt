@@ -1,9 +1,0 @@
-<% value_hash.each do |level, value| %>
-  <% if level == 'ContactInformation' %>
-    <% value.fetch('RelatedUrls', []).fetch(0, {}).each do |related_url_key, related_url_value| %>
-      <%= hidden_field_tag "#{value_type}[#{level}][RelatedUrls][][#{related_url_key}]", related_url_value %>
-    <% end %>
-  <% else %>
-    <%= hidden_field_tag "#{value_type}[#{level}]", value %>
-  <% end %>
-<% end %>

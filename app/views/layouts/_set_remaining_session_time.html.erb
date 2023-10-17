@@ -1,7 +1,0 @@
-<script>
-  // Set the remaining session time for keep alive
-  var remainingSessionTime = <%= ((session[:logged_in_at].to_i + session[:expires_in].to_i) - Time.now.to_i) * 1000 %>;
-
-  // Don't run the keep alive unless launchpad is enabled
-  var launchpadEnabled = <%= launchpad_login_required? && session[:login_method] == 'launchpad' %>;
-</script>

@@ -1,7 +1,0 @@
-<% if @old_revision %>
-  <div class="eui-banner--info">
-    <p class="eui-banner__message">
-      <%= link_to "You are viewing an older revision of this #{@published_resource_name}. Click here to view the latest published version.", send("#{@published_resource_name}_path") %>
-    </p>
-  </div>
-<% end %>

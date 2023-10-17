@@ -1,9 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2>New <%= current_user.provider_id %> Order Policies</h2>
-
-    <%= form_tag(order_policies_path, method: :post, id: "order-policies-form") do %>
-      <%= render partial: "form" %>
-    <% end %>
-  </section>
-</div>

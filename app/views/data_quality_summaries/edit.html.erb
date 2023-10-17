@@ -1,9 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2>Edit <%= current_user.provider_id %> Data Quality Summary</h2>
-
-    <%= form_tag(data_quality_summary_path(@summary.fetch('meta', {}).fetch('concept-id', '')), method: :put, class: "data-quality-summary-form", id: "data-quality-summary-form") do %>
-      <%= render partial: "form" %>
-    <% end %>
-  </section>
-</div>

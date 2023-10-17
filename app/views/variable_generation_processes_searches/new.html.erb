@@ -1,9 +1,0 @@
-<div class="grid-row row-content">
-  <section>
-    <h2><%= current_user.provider_id %> Variable Generation Process Collection Search</h2>
-
-    <%= render partial: 'cmr_search/shared/search_form', locals: { submit_path: new_variable_generation_processes_search_path } %>
-
-    <%= render partial: 'cmr_search/shared/search_results', locals: { collections: @collections, use_radio_buttons: true, submit_path: variable_generation_process_path, submit_text: 'Generate Variables', use_spinner: true } %>
-  </section>
-</div>
