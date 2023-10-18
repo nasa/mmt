@@ -110,7 +110,7 @@
     <% end %>
 
     <!-- If the react form is not enabled, this if block will render the old preview gem-->
-    <% if (resource_name === 'service_draft') || !(Rails.configuration.react_forms_enabled) %>
+    <% if !(Rails.configuration.react_forms_enabled) %>
       <div class="preview-content grid-row content">
         <% if @preview.sidebars.blank? %>
           <!-- No sidebar -->
