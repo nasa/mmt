@@ -2,7 +2,7 @@
 .dockerignore
 .DS_Store
 .serverless
-.webpack
+.esbuild
 coverage
 dist
 doc

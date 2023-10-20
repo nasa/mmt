@@ -88,7 +88,11 @@ After you have cmr-graphql set up, run this command (within the cmr-graphql repo
 
     CMR_ROOT_URL=http://localhost:4000 npm start
 
+### Running a local CMR proxy
+
 The local CMR uses ports instead of the routes you see in production. So you also need to start the graphql proxy found within this repo for the local cmr-graphql to succesfully talk to local CMR.
+
+After opening a new terminal within the MMT repo, run this command:
 
     npm run start:proxy
 
@@ -98,6 +102,11 @@ To run GraphDB in docker, run this script
 
     npm run start:graphdb
 
+#### Running Serverless Offline (API Gateway/Lambdas)
+
+In order to run serverless-offline, which is used for mimicing API Gateway to call lambda functions, run this command:
+
+    npm run offline
 
 #### Running MMT
 
