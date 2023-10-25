@@ -40,7 +40,7 @@ WORKDIR /build
 RUN npm ci --omit=dev && npm run build
 EOF
 
-dockerTag=edsc-$bamboo_STAGE_NAME
+dockerTag=mmt-$bamboo_STAGE_NAME
 docker build -t $dockerTag .
 
 # Convenience function to invoke `docker run` with appropriate env vars instead of baking them into image
