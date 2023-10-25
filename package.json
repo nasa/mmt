@@ -29,6 +29,7 @@
     "postcss-scss": "^4.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "serverless": "^3.35.2",
     "serverless-esbuild": "^1.48.5",
     "serverless-finch": "^4.0.3",
