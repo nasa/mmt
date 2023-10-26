@@ -16,7 +16,7 @@ describe('Example component', () => {
               query: GET_COLLECTION,
               variables: {
                 params: {
-                  conceptId: 'C1200000033-SEDAC',
+                  conceptId: 'C1000000201-EDF_OPS',
                   includeTags: '*'
                 }
               }
@@ -54,7 +54,7 @@ describe('Example component', () => {
                     }
                   ],
                   collectionProgress: 'COMPLETE',
-                  conceptId: 'C1200000033-SEDAC',
+                  conceptId: 'C1000000201-EDF_OPS',
                   contactGroups: [
                     {
                       roles: [
@@ -708,6 +708,6 @@ describe('Example component', () => {
 
     await waitForResponse()
 
-    expect(screen.getByText('C1200000033-SEDAC')).toBeInTheDocument()
+    expect(screen.getByText('C1000000201-EDF_OPS')).toBeInTheDocument()
   })
 })

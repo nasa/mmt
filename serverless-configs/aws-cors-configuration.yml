@@ -1,0 +1,7 @@
+origin: '*'
+headers:
+  - Access-Control-Request-Headers
+  - Access-Control-Request-Methods
+  - Authorization
+  - Origin
+  - User-Agent

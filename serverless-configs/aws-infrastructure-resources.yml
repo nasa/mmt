@@ -1,0 +1,67 @@
+Resources:
+  LambdaSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security Group for MMT Lambda functions'
+      SecurityGroupEgress:
+        - CidrIp: '0.0.0.0/0'
+          IpProtocol: -1
+          FromPort: 0
+          ToPort: 65535
+      VpcId: ${env:VPC_ID}
+
+  ServerlessAppRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      PermissionsBoundary:
+        Fn::Join: [
+          "", [
+            "arn:aws:iam::",
+            {
+              "Ref": "AWS::AccountId"
+            },
+            ":policy/NGAPShRoleBoundary"
+          ]
+        ]
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - states.amazonaws.com
+                - events.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: MMTLambdaBase
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: '*'
+
+# Output the following resources so that other stacks can access the values
+Outputs:
+  MMTLambdaSecurityGroup:
+    Value:
+      Ref: LambdaSecurityGroup
+    Export:
+      Name: ${self:provider.stage}-LambdaSecurityGroup
+
+  MMTServerlessAppRole:
+    Description: Role used to execute commands across the serverless application
+    Value:
+      Fn::GetAtt:
+        - ServerlessAppRole
+        - Arn
+    Export:
+      Name: ${self:provider.stage}-MMTServerlessAppRole
