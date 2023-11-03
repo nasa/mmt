@@ -1,0 +1,83 @@
+
+/*
+ * This file pulls in all the Bootstrap variables and customizations. This file is
+ * separated so it can can be imported into a component SASS file to make the variables
+ * available in the component scope.
+ *
+ * See https://getbootstrap.com/docs/5.0/customize/sass/ for more info.
+*/
+
+/*
+ * Bootstrap utils
+*/
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+/*
+ * Theme customizations
+ *
+ * Included after `variables` and before `maps` as noted in the Bootstrap documentation
+*/
+
+/*
+ * Color
+*/
+
+$custom-colors: (
+  "blue": #2276ac,
+  "blue-light": #2c93d5,
+  "indigo": #2c3e50,
+  "purple": #673285,
+  "pink": #e74c3c,
+  "red": #b3241c,
+  "orange": #f28429,
+  "yellow": #f2d029,
+  "green": #189c54,
+  "teal": #20ce6f,
+  "cyan": #7ab5da,
+  "white": #fff,
+  "gray": #6c757d,
+  "gray-dark": #343a40,
+  "primary": #2276ac,
+  "secondary": #6c757d,
+  "success": #189c54,
+  "info": #7ab5da,
+  "warning": #f2d029,
+  "danger": #b3241c,
+  "light": #f8f9fa,
+  "dark": #212529
+);
+
+/* stylelint-disable-next-line function-no-unknown */
+$theme-colors: map-merge($theme-colors, $custom-colors);
+$gradient: linear-gradient(180deg, rgb(255 255 255 / 15%), rgb(255 255 255 / 0%));
+
+/*
+ * Text
+*/
+
+$font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+/*
+ * Badge
+*/
+
+$badge-border-radius: 0.25rem;
+
+/*
+ * Navbar
+*/
+
+$navbar-padding-y: 0.75rem;
+$navbar-brand-padding-y: 0.75rem;
+$navbar-brand-font-size: calc(1.285rem + 0.42vw);
+
+/*
+ * Bootstrap utilities
+*/
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";

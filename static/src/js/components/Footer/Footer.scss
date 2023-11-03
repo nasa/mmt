@@ -1,13 +1,18 @@
+@import '../../../css/vendor/bootstrap/variables';
+
 .footer {
   &__item {
     margin-left: 0.5rem;
 
-    &:not(:first-child) {
-      &::before {
-        margin-right: 1rem;
-        color: var(--bs-white);
-        content: "\b7";
-        transform: scale(1.5);
+
+    @include media-breakpoint-up(md) {
+      &:not(:first-child) {
+        &::before {
+          margin-right: 1rem;
+          color: var(--bs-white);
+          content: "\b7";
+          transform: scale(1.5);
+        }
       }
     }
   }

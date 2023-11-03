@@ -15,18 +15,16 @@ import './Page.scss'
 /*
  * Renders a `For` component.
  *
- * The component is used to create a list of components from an array
+ * The component is used to create a page
  *
  * @param {PageProps} props
  *
  * @component
- * @example <caption>Render a list custom of items</caption>
+ * @example <caption>Render a page</caption>
  * return (
- *   <Page
- *      each={['Thing', 'Thing', 'Thing']}
- *    >
+ *   <Page title="This is a title">
  *      <div>This is some page content</div>
- *    </Page>
+ *   </Page>
  * )
  */
 const Page = ({
