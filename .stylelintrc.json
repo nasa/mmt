@@ -10,7 +10,6 @@
   "rules": {
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
-    "custom-property-pattern": "[a-z]__.+",
     "import-notation": "string",
     "keyframes-name-pattern": "[a-zA-Z]",
     "property-no-unknown": [
