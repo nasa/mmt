@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { ApolloClient } from '@apollo/client'
 
 import App from '../App'
@@ -146,6 +150,126 @@ describe('App component', () => {
     test('renders the manage CMR page', async () => {
       render(<App />)
       expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
+    })
+  })
+
+  describe('when visiting /', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-collections', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-collections')
+      })
+    })
+  })
+
+  describe('when visiting /manage_collections', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/manage_collections')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-collections', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-collections')
+      })
+    })
+  })
+
+  describe('when visiting /manage_variable', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/manage_variable')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-variable', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-variable')
+      })
+    })
+  })
+
+  describe('when visiting /manage_services', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/manage_services')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-services', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-services')
+      })
+    })
+  })
+
+  describe('when visiting /manage_tools', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/manage_tools')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-tools', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-tools')
+      })
+    })
+  })
+
+  describe('when visiting /manage_cmr', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/manage_cmr')
+    })
+
+    afterEach(() => {
+      delete window.location
+      window.location = new URL('http://localhost/')
+    })
+
+    test('redirects to /manage-cmr', () => {
+      render(<App />)
+
+      waitFor(() => {
+        expect(window.location.href).toEqual('http://localhost/manage-cmr')
+      })
     })
   })
 })

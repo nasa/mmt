@@ -15,11 +15,36 @@ import ManageCollectionsPage from './pages/ManageCollectionsPage/ManageCollectio
 import ManageServicesPage from './pages/ManageServicesPage/ManageServicesPage'
 import ManageToolsPage from './pages/ManageToolsPage/ManageToolsPage'
 import ManageVariablesPage from './pages/ManageVariablesPage/ManageVariablesPage'
+import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
 
 const { graphQlHost } = config
 
+const redirectKeys = Object.keys(REDIRECTS)
+
+// Create an array of the redirect `Route`s
+const Redirects = redirectKeys.map(
+  (redirectKey) => (
+    <Route
+      key={redirectKey}
+      path={redirectKey}
+      element={(
+        <Navigate replace to={`/${REDIRECTS[redirectKey]}`} />
+      )}
+    />
+  )
+)
+
+/**
+ * Renders the `App` component
+ *
+ * @component
+ * @example <caption>Renders a `App` component</caption>
+ * return (
+ *   <App />
+ * )
+ */
 const App = () => {
   const client = new ApolloClient({
     uri: graphQlHost,
@@ -31,7 +56,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Navigate replace to="/manage-collections" />} />
+            {Redirects}
             <Route
               element={<ManageCollectionsPage />}
               index

@@ -26,15 +26,21 @@ import './Header.scss'
  * )
  */
 const Header = () => (
-  <header className="header">
-    <Navbar bg="primary" variant="dark">
-      <Container>
+  <header className="header bg-primary">
+    <Container>
+      <Navbar
+        className="w-100"
+        bg="primary"
+        collapseOnSelect
+        expand="lg"
+        variant="dark"
+      >
         <Navbar.Brand className="nasa" as={Link} to="/">
           <span className="header__brand-earthdata d-block text-uppercase">Earthdata</span>
           Metadata Management Tool
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="primary-navigation" />
-        <Navbar.Collapse id="primary-navigation" className="d-flex flex-column align-items-end">
+        <Navbar.Collapse id="primary-navigation" className="flex-column align-items-end pt-3">
           <Badge className="header__user-info mb-3" bg="blue-light">
             Hi, User
           </Badge>
@@ -65,8 +71,9 @@ const Header = () => (
             </FormGroup>
           </Form>
         </Navbar.Collapse>
-      </Container>
-    </Navbar>
+      </Navbar>
+    </Container>
+
   </header>
 )
 

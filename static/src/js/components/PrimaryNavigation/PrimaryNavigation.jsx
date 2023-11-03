@@ -47,8 +47,8 @@ import './PrimaryNavigation.scss'
 const PrimaryNavigation = ({
   items
 }) => (
-  <nav className="primary-navigation">
-    <ul className="d-flex flex-row list-unstyled overflow-y-auto">
+  <nav className="primary-navigation pt-3">
+    <ul className="d-flex flex-row flex-wrap list-unstyled">
       <For each={items}>
         {
           ({
@@ -56,11 +56,11 @@ const PrimaryNavigation = ({
             to,
             version
           }) => (
-            <li key={title} className="d-block fw-bold">
+            <li key={title} className="d-block fw-bold me-4">
               <NavLink
                 className={
                   ({ isActive }) => classNames([
-                    'primary-navigation__item d-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-3 text-white',
+                    'd-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-0 text-white primary-navigation__item ',
                     {
                       'border-bottom border-pink border-4': isActive
                     }
@@ -68,8 +68,12 @@ const PrimaryNavigation = ({
                 }
                 to={to}
               >
-                <span className="primary-navigation__title d-block me-1">{title}</span>
-                {version && <Badge className="primary-navigation__badge flex-grow-0">{version}</Badge>}
+                <span className="primary-navigation__title d-block me-1 text-nowrap">{title}</span>
+                {
+                  version && (
+                    <Badge className="primary-navigation__badge flex-grow-0">{version}</Badge>
+                  )
+                }
               </NavLink>
             </li>
           )
