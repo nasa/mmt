@@ -1,0 +1,30 @@
+.navbar {
+  line-height: 1;
+}
+
+.navbar-brand {
+  font-weight: 100;
+
+  &.nasa {
+    padding-left: 4.375rem;
+    background: url("static/src/assets/images/logos/nasa-outline-new.svg") no-repeat;
+    background-position: left center;
+    background-size: 3.75rem 3.75rem;
+
+    &:hover {
+      background: url("static/src/assets/images/logos/nasa-meatball-new.svg") no-repeat;
+      background-position: left center;
+      background-size: 3.75rem 3.75rem;
+      cursor: pointer;
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .navbar-brand {
+    --bs-navbar-brand-font-size: 1.6rem;
+  }
+}
+
+
+

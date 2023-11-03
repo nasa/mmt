@@ -1,0 +1,19 @@
+.header {
+  &__brand-earthdata {
+    margin-bottom: 0.25rem;
+    font-size: 0.925rem;
+    font-weight: 700;
+    line-height: 1rem;
+  }
+
+  &__dropdown-button-title {
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    text-indent: -9999px;
+  }
+
+  &__user-info {
+    font-size: 0.75rem;
+  }
+}

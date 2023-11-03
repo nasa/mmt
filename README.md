@@ -48,7 +48,7 @@ After adding the line and saving the file, don't forget to source the file
 
 ##### 3. Setting up local redis for CMR
 
-CMR comes with redis in the jar, but it is not compiled to run on Macs.  If you need to run the CMR on a Mac, install redix with homebrew
+CMR comes with redis in the jar, but it is not compiled to run on Macs.  If you need to run the CMR on a Mac, install redis with homebrew
 
     brew update
     brew install redis
@@ -123,3 +123,36 @@ You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nas
 To run the tests:
 
     npm run test
+
+## UI
+
+### Styling
+
+CSS should follow the following guidelines:
+
+* Prefer [Bootstrap](https://getbootstrap.com/docs/5.0/) styles when writing custom components
+* If the desired look can not be achieved with Bootstrap, additional styling should be accomplished by:
+  * Creating a scss file for the custom component
+    * Classes should be defined on the elements following the [BEM methodology](https://getbem.com/)
+    * Sass should be written take advantage of nesting to prevent repetition of the blocks and elements
+
+#### Things to keep in mind
+
+These will help create more maintainable css:
+
+* Use Bootstrap variables where possible
+  * Bootstrap provides css variables for things like colors, sizes, etc which should be used when possible.
+    * Bootstrap variables are used with the `var()` syntax in css
+* Aim to keep specificity low
+  * Most elements should only require a single class name
+  * Avoid chaining selectors, descendant selectors, or other ways of increasing specificity
+* Use consistent modifier class names, starting with `--is`. Add more to the list below as new states are required.
+  * `--is-active`,
+  * `--is-complete`
+  * `--is-errored`
+
+### Helpful links
+
+* [Bootstrap Docs](https://getbootstrap.com/docs/5.0/)
+* [BEM methodology](https://getbem.com/)
+* [Specificity MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)

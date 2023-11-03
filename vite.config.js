@@ -24,5 +24,8 @@ export default defineConfig({
         rollupNodePolyFill()
       ]
     }
+  },
+  css: {
+    devSourcemap: true
   }
 })
