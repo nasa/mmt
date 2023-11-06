@@ -109,7 +109,11 @@
     "word-wrap": "^1.2.4",
     "@adobe/css-tools": "^4.3.1",
     "css-minimizer-webpack-plugin/postcss": "^8.4.31",
-    "css-loader/postcss": "^8.4.31"
+    "css-loader/postcss": "^8.4.31",
+    "@babel/core/@babel/traverse": "^7.23.2",
+    "@babel/core/@babel/helper-module-transforms/@babel/traverse": "^7.23.2",
+    "@babel/preset-env/**/@babel/traverse": "^7.23.2",
+    "babel-preset-react-app/@babel/core/@babel/traverse": "^7.23.2"
   },
   "scripts": {
     "start": "react-scripts start",
