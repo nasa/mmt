@@ -149,7 +149,8 @@ module Cmr
       # Cache controlled keywords for 30 seconds
       # UMM forms will call get_controlled_keywords for every
       # keyword on the page
-      response = Rails.cache.fetch("#{type}_keywords", expires_in: 30.seconds) do
+      expires_in = (Rails.configuration.cmr_keyword_cache_expires_in).seconds
+      response = Rails.cache.fetch("#{type}_keywords", expires_in: expires_in) do
         get(url)
       end
       response
