@@ -2,12 +2,12 @@ import React from 'react'
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider
+  ApolloProvider,
+  createHttpLink
 } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
-
-import config from '../../../static.config.json'
 
 import Layout from './components/Layout/Layout'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -19,9 +19,9 @@ import ToolDraftsPage from './pages/ToolDraftsPage/ToolDraftsPage'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import '../css/index.scss'
+import { getApplicationConfig } from './utils/getConfig'
 
-const { graphQlHost } = config
+import '../css/index.scss'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -48,9 +48,27 @@ const Redirects = redirectKeys.map(
  * )
  */
 const App = () => {
+  const { graphQlHost } = getApplicationConfig()
+
+  const httpLink = createHttpLink({
+    uri: graphQlHost
+  })
+
+  // eslint-disable-next-line arrow-body-style
+  const authLink = setContext((_, { headers }) => {
+    // TODO MMT-3407 - get a real token from launchpad to send
+
+    return {
+      headers: {
+        ...headers,
+        Authorization: 'ABC-1'
+      }
+    }
+  })
+
   const client = new ApolloClient({
-    uri: graphQlHost,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    link: authLink.concat(httpLink)
   })
 
   return (
