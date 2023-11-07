@@ -10,9 +10,9 @@ set -eux
 config="`cat static.config.json`"
 
 # update keys for deployment
-config="`jq '.version = $newValue' --arg newValue ${RELEASE_VERSION} <<< $config`"
-config="`jq '.graphQlHost = $newValue' --arg newValue $bamboo_GRAPHQL_HOST <<< $config`"
-config="`jq '.apiHost = $newValue' --arg newValue $bamboo_API_HOST <<< $config`"
+config="`jq '.application.version = $newValue' --arg newValue ${RELEASE_VERSION} <<< $config`"
+config="`jq '.application.graphQlHost = $newValue' --arg newValue $bamboo_GRAPHQL_HOST <<< $config`"
+config="`jq '.application.apiHost = $newValue' --arg newValue $bamboo_API_HOST <<< $config`"
 
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json

@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap'
 
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 
+import { getUmmVersionsConfig } from '../../utils/getConfig'
+
 import './Page.scss'
 
 /**
@@ -30,48 +32,57 @@ import './Page.scss'
 const Page = ({
   children,
   title
-}) => (
-  <main className="mb-3">
-    <header className="page__header">
+}) => {
+  const {
+    ummC,
+    ummS,
+    ummT,
+    ummV
+  } = getUmmVersionsConfig()
+
+  return (
+    <main className="mb-3">
+      <header className="page__header">
+        <Container>
+          <PrimaryNavigation
+            items={
+              [
+                {
+                  to: '/manage-collections',
+                  title: 'Manage Collections',
+                  version: `v${ummC}`
+                },
+                {
+                  to: '/manage-variables',
+                  title: 'Manage Variables',
+                  version: `v${ummV}`
+                },
+                {
+                  to: '/manage-services',
+                  title: 'Manage Services',
+                  version: `v${ummS}`
+                },
+                {
+                  to: '/manage-tools',
+                  title: 'Manage Tools',
+                  version: `v${ummT}`
+                },
+                {
+                  to: '/manage-cmr',
+                  title: 'Manage CMR'
+                }
+              ]
+            }
+          />
+        </Container>
+      </header>
       <Container>
-        <PrimaryNavigation
-          items={
-            [
-              {
-                to: '/manage-collections',
-                title: 'Manage Collections',
-                version: 'v1.17.3'
-              },
-              {
-                to: '/manage-variables',
-                title: 'Manage Variables',
-                version: 'v1.17.3'
-              },
-              {
-                to: '/manage-services',
-                title: 'Manage Services',
-                version: 'v1.17.3'
-              },
-              {
-                to: '/manage-tools',
-                title: 'Manage Tools',
-                version: 'v1.17.3'
-              },
-              {
-                to: '/manage-cmr',
-                title: 'Manage CMR'
-              }
-            ]
-          }
-        />
+        <h2 className="visually-hidden mt-0">{title}</h2>
+        {children}
       </Container>
-    </header>
-    <Container>
-      <h2 className="visually-hidden mt-0">{title}</h2>
-      {children}
-    </Container>
-  </main>
-)
+    </main>
+  )
+}
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,

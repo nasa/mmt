@@ -7,7 +7,8 @@ const REDIRECTS = {
   manage_variables: 'manage-variables',
   manage_services: 'manage-services',
   manage_tools: 'manage-tools',
-  manage_cmr: 'manage-cmr'
+  manage_cmr: 'manage-cmr',
+  tool_drafts: 'tool-drafts'
 }
 
 export default REDIRECTS

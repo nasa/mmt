@@ -15,6 +15,8 @@ import ManageCollectionsPage from './pages/ManageCollectionsPage/ManageCollectio
 import ManageServicesPage from './pages/ManageServicesPage/ManageServicesPage'
 import ManageToolsPage from './pages/ManageToolsPage/ManageToolsPage'
 import ManageVariablesPage from './pages/ManageVariablesPage/ManageVariablesPage'
+import ToolDraftsPage from './pages/ToolDraftsPage/ToolDraftsPage'
+
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
@@ -77,6 +79,10 @@ const App = () => {
             <Route
               element={<ManageCmrPage />}
               path="manage-cmr"
+            />
+            <Route
+              element={<ToolDraftsPage />}
+              path="tool-drafts/*"
             />
           </Route>
         </Routes>
