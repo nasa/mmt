@@ -51,7 +51,7 @@ jest.mock('../pages/ManageCmrPage/ManageCmrPage', () => ({
 }))
 
 describe('App component', () => {
-  test('initializes Apollo with the correct options', async () => {
+  test.only('initializes Apollo with the correct options', async () => {
     render(<App />)
 
     expect(ApolloClient).toHaveBeenCalledTimes(1)

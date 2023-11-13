@@ -54,6 +54,7 @@ const App = () => {
     uri: graphQlHost
   })
 
+  // TODO remove eslint-disable after this method expands in MMT-3407
   // eslint-disable-next-line arrow-body-style
   const authLink = setContext((_, { headers }) => {
     // TODO MMT-3407 - get a real token from launchpad to send

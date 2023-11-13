@@ -76,6 +76,7 @@ const Page = ({
           />
         </Container>
       </header>
+
       <Container>
         <h2 className="visually-hidden mt-0">{title}</h2>
         {children}

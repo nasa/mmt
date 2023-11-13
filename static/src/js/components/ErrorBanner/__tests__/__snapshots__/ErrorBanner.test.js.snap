@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Banner Component Provided a message it renders an error banner with the message 1`] = `
+<div>
+  <div
+    class="row"
+  >
+    <div
+      class="col"
+    >
+      <div
+        class="fade alert alert-danger show"
+        role="alert"
+      >
+        <div
+          class="alert-heading h4"
+        >
+          Sorry!
+        </div>
+        <p
+          data-testid="error-banner__message"
+        >
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Error Banner Component Provided a test id it renders an error banner with the message 1`] = `
+<div>
+  <div
+    class="row"
+  >
+    <div
+      class="col"
+    >
+      <div
+        class="fade alert alert-danger show"
+        role="alert"
+      >
+        <div
+          class="alert-heading h4"
+        >
+          Sorry!
+        </div>
+        <p
+          data-testid="test-error"
+        >
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

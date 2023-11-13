@@ -1,17 +1,22 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import ToolDraftsPage from '../ToolDraftsPage'
 
+import DraftList from '../../../components/DraftList/DraftList'
+
+jest.mock('../../../components/DraftList/DraftList')
+
 describe('ToolDraftsPage component', () => {
-  test('renders the manage tools page', async () => {
+  test('renders the tool drafts routes page', async () => {
     render(
       <BrowserRouter>
         <ToolDraftsPage />
       </BrowserRouter>
     )
 
-    expect(screen.getByText('This is the page manage tools page content')).toBeInTheDocument()
+    // Renders the default route
+    expect(DraftList).toHaveBeenCalledTimes(1)
   })
 })

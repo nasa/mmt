@@ -28,7 +28,7 @@ const Footer = () => {
       <Navbar bg="primary">
         <Container className="d-flex flex-column flex-md-row align-items-center justify-content-start align-items-middle">
           <Badge bg="dark" className="d-block">
-            V
+            v
             {version}
           </Badge>
           <ul className="list-unstyled m-0 p-0 pt-2 pt-md-0 d-flex flex-column flex-md-row align-items-center">

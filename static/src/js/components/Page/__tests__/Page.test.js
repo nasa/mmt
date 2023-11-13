@@ -29,17 +29,17 @@ describe('Page component', () => {
       {
         to: '/manage-variables',
         title: 'Manage Variables',
-        version: 'v1.17.3'
+        version: 'v1.9.0'
       },
       {
         to: '/manage-services',
         title: 'Manage Services',
-        version: 'v1.17.3'
+        version: 'v1.4'
       },
       {
         to: '/manage-tools',
         title: 'Manage Tools',
-        version: 'v1.17.3'
+        version: 'v1.1'
       },
       {
         to: '/manage-cmr',
