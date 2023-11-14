@@ -69,7 +69,15 @@ const App = () => {
 
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink)
+    link: authLink.concat(httpLink),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache'
+      },
+      watchQuery: {
+        fetchPolicy: 'no-cache'
+      }
+    }
   })
 
   return (

@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router'
+import { kebabCase } from 'lodash'
 
 import ProgressField from '../ProgressField/ProgressField'
 import For from '../For/For'
@@ -34,6 +36,8 @@ const ProgressSection = ({
   fields,
   status
 }) => {
+  const navigate = useNavigate()
+
   // Progress circle icons for the form section
   const progressSectionIcon = () => {
     switch (status) {
@@ -64,8 +68,7 @@ const ProgressSection = ({
 
   // Handle clicking on a section
   const handleSectionClick = () => {
-    // TODO navigate to form
-    console.log(`Navigate to form ${displayName}`)
+    navigate(`${kebabCase(displayName)}`)
   }
 
   // Accessible event props for clicking on the form section

@@ -34,12 +34,14 @@ import './MetadataForm.scss'
 const MetadataForm = () => {
   const {
     conceptId,
-    sectionName
+    sectionName,
+    fieldName
   } = useParams()
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   const [validationErrors, setValidationErrors] = useState(null)
   const [draftMetadata, setDraftMetadata] = useState(null)
   const [visitedFields, setVisitedFields] = useState([])
+  // TODO use fieldName to focus the field
   const [focusField, setFocusField] = useState(null)
 
   const [ingestDraftMutation, {
