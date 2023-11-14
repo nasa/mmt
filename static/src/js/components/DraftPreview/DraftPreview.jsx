@@ -246,6 +246,7 @@ const DraftPreview = () => {
             />
           </Col>
         </Row>
+
         <Row>
           <Col md={12}>
             <Row className="draft-preview__header">

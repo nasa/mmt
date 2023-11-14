@@ -5,9 +5,9 @@ import ProgressField from '../ProgressField/ProgressField'
 import For from '../For/For'
 
 import progressCircleTypes from '../../constants/progressCircleTypes'
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import './ProgressSection.scss'
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 /**
  * @typedef {Object} ProgressSectionProps

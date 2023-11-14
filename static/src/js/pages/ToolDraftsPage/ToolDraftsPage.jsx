@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router'
 
 import DraftPreview from '../../components/DraftPreview/DraftPreview'
 import DraftList from '../../components/DraftList/DraftList'
+import MetadataForm from '../../components/MetadataForm/MetadataForm'
 
 /**
  * Renders a `ToolDraftsPage` component
@@ -22,6 +23,14 @@ const ToolDraftsPage = () => (
     <Route
       element={<DraftPreview />}
       path=":conceptId"
+    />
+    <Route
+      element={<MetadataForm />}
+      path=":conceptId/:sectionName"
+    />
+    <Route
+      element={<MetadataForm />}
+      path=":conceptId/:sectionName/:fieldName"
     />
   </Routes>
 )
