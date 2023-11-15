@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
 import Form from '@rjsf/core'
@@ -38,11 +38,15 @@ const MetadataForm = () => {
     fieldName
   } = useParams()
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
-  const [validationErrors, setValidationErrors] = useState(null)
+  const [validationErrors, setValidationErrors] = useState([])
   const [draftMetadata, setDraftMetadata] = useState(null)
   const [visitedFields, setVisitedFields] = useState([])
-  // TODO use fieldName to focus the field
   const [focusField, setFocusField] = useState(null)
+
+  useEffect(() => {
+    // If fieldName was pulled from the URL, set it to the focusField
+    setFocusField(`root_${fieldName}`)
+  }, [fieldName])
 
   const [ingestDraftMutation, {
     data: ingestDraftData,
@@ -58,7 +62,6 @@ const MetadataForm = () => {
       }
     }
   })
-  console.log('🚀 ~ file: MetadataForm.jsx:27 ~ MetadataForm ~ data:', data)
 
   if (loading) {
     return (

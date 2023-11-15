@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { ListGroup } from 'react-bootstrap'
-import { useNavigate } from 'react-router'
 import classNames from 'classnames'
 
 import './NavigationItemError.scss'
@@ -12,7 +11,6 @@ const NavigationItemError = ({
   setFocusField
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
-  const navigate = useNavigate()
 
   const { message, property } = error
 
@@ -33,13 +31,8 @@ const NavigationItemError = ({
   }
 
   return (
-    <div
-      // data-testid={`navigationitem--${kebabCase(displayName)}`}
-      // className={`navigation-item ${focusClass}`}
-      // key={displayName}
-    >
+    <div>
       <ListGroup.Item
-        // className={`navigation-item ${focusClass}`}
         className={
           classNames([
             'navigation-item-error__item',
@@ -48,7 +41,6 @@ const NavigationItemError = ({
             }
           ])
         }
-        // data-testid={`navigationitem--listgroup.item__${kebabCase(displayName)}`}
         action
         onMouseOver={
           () => {
@@ -60,18 +52,9 @@ const NavigationItemError = ({
             setHasFocus(false)
           }
         }
-        // key={displayName}
         onClick={
           () => {
-            console.log('clicked')
             setFocusField(createId())
-            // TODO this needs to focus on clicked field
-            // navigate(`../${conceptId}/${kebabCase(displayName)}`)
-            // editor.setFocusField('')
-            // editor.setArrayAutoScroll(null)
-            // editor.navigateTo(section)
-            // window.scroll(0, 0)
-            // navigate(`/${editor.documentType}/${id}/edit/${displayName.replace(/\s/g, '_')}`, { replace: false })
           }
         }
       >
@@ -101,7 +84,8 @@ NavigationItemError.propTypes = {
     message: PropTypes.string,
     property: PropTypes.string
   }).isRequired,
-  visited: PropTypes.bool.isRequired
+  visited: PropTypes.bool.isRequired,
+  setFocusField: PropTypes.func.isRequired
 }
 
 export default NavigationItemError

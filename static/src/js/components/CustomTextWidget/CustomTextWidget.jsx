@@ -1,10 +1,17 @@
-import React, { useRef, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
+import { useNavigate, useParams } from 'react-router'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import './CustomTextWidget.scss'
+
+// TODO a lot of this logic feels like it can/should still be abstracted out. Focus logic will need to happen for every widget
 
 const CustomTextWidget = ({
   disabled,
@@ -19,6 +26,12 @@ const CustomTextWidget = ({
   uiSchema = {},
   value
 }) => {
+  const {
+    conceptId,
+    sectionName,
+    fieldName
+  } = useParams()
+  const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
   const inputScrollRef = useRef(null)
@@ -29,6 +42,7 @@ const CustomTextWidget = ({
     focusField,
     setFocusField
   } = formContext
+
   const { maxLength, description } = schema
 
   const fieldType = uiSchema ? uiSchema['ui:type'] : null
@@ -48,13 +62,20 @@ const CustomTextWidget = ({
     }
   }
 
-  if (shouldFocus) {
-    inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-
-    if (focusRef.current) {
-      focusRef.current.focus()
+  useEffect(() => {
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    if (shouldFocus) {
+      inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      focusRef.current?.focus()
     }
-  }
+  }, [shouldFocus])
+
+  useEffect(() => {
+    if (fieldName) {
+      // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
+      navigate(`../${conceptId}/${sectionName}`, { replace: true })
+    }
+  }, [fieldName])
 
   const handleFocus = () => {
     setShowDescription(true)

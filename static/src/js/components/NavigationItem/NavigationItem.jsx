@@ -35,6 +35,7 @@ const NavigationItem = ({
 
     return value !== undefined
   })
+
   const hasErrors = validationErrors.some((error) => {
     const { property } = error
 
@@ -68,16 +69,13 @@ const NavigationItem = ({
             setHasFocus(false)
           }
         }
-        key={displayName}
         onClick={
           () => {
-            console.log('clicked')
+            // Navigate to the correct form
             navigate(`../${conceptId}/${kebabCase(displayName)}`)
-            // editor.setFocusField('')
-            // editor.setArrayAutoScroll(null)
-            // editor.navigateTo(section)
+
+            // Ensure the window is scrolled to the top of the page
             window.scroll(0, 0)
-            // navigate(`/${editor.documentType}/${id}/edit/${displayName.replace(/\s/g, '_')}`, { replace: false })
           }
         }
       >
@@ -141,7 +139,8 @@ NavigationItem.propTypes = {
   validationErrors: PropTypes.arrayOf(
     PropTypes.shape({})
   ),
-  visitedFields: PropTypes.arrayOf(PropTypes.string).isRequired
+  visitedFields: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setFocusField: PropTypes.func.isRequired
 }
 
 export default NavigationItem
