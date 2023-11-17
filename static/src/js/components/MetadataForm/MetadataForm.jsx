@@ -137,7 +137,7 @@ const MetadataForm = () => {
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
-    ArrayFieldTemplate: CustomArrayTemplate // deep
+    ArrayFieldTemplate: CustomArrayTemplate // Deep
     // FieldTemplate: CustomFieldTemplate,
     // TitleFieldTemplate: CustomTitleFieldTemplate
   }
@@ -179,7 +179,7 @@ const MetadataForm = () => {
               // Key={`${JSON.stringify(draft.key)}`}
               validator={validator}
               schema={formSchema}
-              // formData={ummMetadata}
+              // FormData={ummMetadata}
               // TODO we don't like doing it this way
               formData={draftMetadata || ummMetadata}
               uiSchema={uiSchema}
