@@ -1,5 +1,3 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-
 const relatedUrlsUiSchema = {
   RelatedURLs: {
     'ui:title': 'Related URLs',
@@ -101,21 +99,23 @@ const relatedUrlsUiSchema = {
       },
       Description: {
         'ui:widget': 'textarea'
-      },
-      Format: {
-        'ui:widget': CustomSelectWidget,
-        'ui:controlled': {
-          name: 'granule-data-format',
-          controlName: 'short_name'
-        }
-      },
-      MimeType: {
-        'ui:widget': CustomSelectWidget,
-        'ui:controlled': {
-          name: 'mime-type',
-          controlName: 'mime_type'
-        }
       }
+      // TODO: Waiting for keywords from CMR.
+
+      // Format: {
+      //   'ui:widget': CustomSelectWidget,
+      //   'ui:controlled': {
+      //     name: 'granule-data-format',
+      //     controlName: 'short_name'
+      //   }
+      // },
+      // MimeType: {
+      //   'ui:widget': CustomSelectWidget,
+      //   'ui:controlled': {
+      //     name: 'mime-type',
+      //     controlName: 'mime_type'
+      //   }
+      // }
     }
   }
 }

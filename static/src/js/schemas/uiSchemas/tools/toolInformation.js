@@ -1,4 +1,4 @@
-// import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import urlTypes from '../../kms/urlTypeTool'
 
 const toolInformationUiSchema = {
@@ -112,9 +112,9 @@ const toolInformationUiSchema = {
   Description: {
     'ui:widget': 'textarea'
   },
-  // Type: {
-  //   'ui:widget': CustomSelectWidget
-  // },
+  Type: {
+    'ui:widget': CustomSelectWidget
+  },
   URL: {
     'ui:root': 'URL',
     'ui:field': 'layout',

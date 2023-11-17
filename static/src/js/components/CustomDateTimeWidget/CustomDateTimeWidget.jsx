@@ -1,23 +1,21 @@
 import React, {
-  useEffect,
+  useState,
   useRef,
-  useState
+  useEffect
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-import { useNavigate, useParams } from 'react-router'
 
+import moment from 'moment'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+
+import { useParams, useNavigate } from 'react-router'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-import './CustomTextWidget.scss'
-
-// TODO a lot of this logic feels like it can/should still be abstracted out. Focus logic will need to happen for every widget
-
-const CustomTextWidget = ({
-  disabled,
+const CustomDateTimeWidget = ({
   label = '',
   id,
-  placeholder,
   onBlur,
   onChange,
   registry,
@@ -32,10 +30,15 @@ const CustomTextWidget = ({
     fieldName
   } = useParams()
   const navigate = useNavigate()
+  const [date, onChangeDate] = React.useState(value ? new Date(value) : null)
   const [showDescription, setShowDescription] = useState(false)
-  const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
-  const inputScrollRef = useRef(null)
-  const focusRef = useRef(null)
+  const [showCalender, setShowCalender] = useState(false)
+  const datetimeScrollRef = useRef(null)
+
+  const { description } = schema
+
+  const dateWithZone = moment(date, 'America/New_York').format('YYYY-MM-DDTHH:mm:ss.SSS')
+  const fieldValue = new Date(dateWithZone)
 
   const { formContext } = registry
   const {
@@ -43,12 +46,8 @@ const CustomTextWidget = ({
     setFocusField
   } = formContext
 
-  const { maxLength, description } = schema
-
-  const fieldType = uiSchema ? uiSchema['ui:type'] : null
-  const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
-
   let title = startCase(label.split(/-/)[0])
+
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
@@ -65,8 +64,8 @@ const CustomTextWidget = ({
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
-      inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      focusRef.current?.focus()
+      datetimeScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      setShowCalender(true)
     }
   }, [shouldFocus])
 
@@ -79,66 +78,68 @@ const CustomTextWidget = ({
 
   const handleFocus = () => {
     setShowDescription(true)
+    setShowCalender(true)
   }
 
   const handleChange = (event) => {
-    const { value: newValue } = event.target
-
-    if (newValue === '') {
-      setCharsUsed(0)
-      onChange(undefined)
+    // If a date is selected, this will convert the date to ISO string and set the onChange
+    if (event) {
+      onChangeDate(event)
+      let formattedDateTime = event.toISOString()
+      formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
+      onChange(formattedDateTime)
+    } else {
+      onChange(null)
     }
-
-    setCharsUsed(newValue.length)
-    onChange(newValue)
   }
 
   const handleBlur = () => {
     setFocusField(null)
 
     setShowDescription(false)
+    setShowCalender(false)
     onBlur(id)
   }
 
   return (
     <CustomWidgetWrapper
-      charsUsed={charsUsed}
       description={showDescription ? description : null}
-      headerClassName={headerClassName}
       label={label}
-      maxLength={maxLength}
       required={required}
-      scrollRef={inputScrollRef}
       title={title}
+      scrollRef={datetimeScrollRef}
     >
-      <input
-        ref={focusRef}
-        className="custom-text-widget__input"
-        disabled={disabled}
+      <DatePicker
+        className="w-100 p-2"
         id={id}
-        maxLength={maxLength}
-        name={title}
+        placeholderText="YYYY-MM-DDTHH:MM:SSZ"
+        dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
+        dropdownMode="select"
+        showMonthDropdown
+        showYearDropdown
+        peekNextMonth
+        selected={
+          value
+            ? new Date(fieldValue.toLocaleString('en-US', {
+              timeZone: 'GMT'
+            })) : null
+        }
+        onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
-        onFocus={handleFocus}
-        placeholder={placeholder}
-        type={fieldType && fieldType === 'number' ? 'number' : 'text'}
-        value={value ?? ''}
+        open={showCalender}
       />
     </CustomWidgetWrapper>
   )
 }
 
-CustomTextWidget.defaultProps = {
-  disabled: false,
+CustomDateTimeWidget.defaultProps = {
   value: null
 }
 
-CustomTextWidget.propTypes = {
-  disabled: PropTypes.bool,
+CustomDateTimeWidget.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -150,10 +151,12 @@ CustomTextWidget.propTypes = {
     description: PropTypes.string,
     maxLength: PropTypes.number
   }).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+
+  }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired
 }
 
-export default CustomTextWidget
+export default CustomDateTimeWidget

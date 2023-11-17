@@ -50,11 +50,12 @@ const CustomWidgetWrapper = ({
 CustomWidgetWrapper.defaultProps = {
   description: null,
   headerClassName: null,
-  maxLength: null
+  maxLength: null,
+  charsUsed: null
 }
 
 CustomWidgetWrapper.propTypes = {
-  charsUsed: PropTypes.number.isRequired,
+  charsUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
   headerClassName: PropTypes.string,

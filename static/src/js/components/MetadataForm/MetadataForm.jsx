@@ -9,7 +9,12 @@ import {
   Row
 } from 'react-bootstrap'
 
+import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
+
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
@@ -111,26 +116,26 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // layout: LayoutGridField, // chris
+    // Layout: LayoutGridField, // chris
     // streetAddresses: StreetAddressesField, // chris
-    // boundingRectangle: BoundingRectangleField, // chris
+    // boundingRectangle: BoundingRectangleField,
     // keywordPicker: KeywordsField, // deep
     // TitleField: CustomTitleField,
     // OneOfField,
     // AnyOfField: () => null
   }
   const widgets = {
-    TextWidget: CustomTextWidget
-    // TextareaWidget: CustomTextareaWidget, // deep
-    // SelectWidget: CustomSelectWidget, // deep
-    // DateTimeWidget: CustomDateTimeWidget, // deep
+    TextWidget: CustomTextWidget,
+    TextareaWidget: CustomTextareaWidget,
+    SelectWidget: CustomSelectWidget,
+    DateTimeWidget: CustomDateTimeWidget
     // CountrySelectWiget: CustomCountrySelectWidget,
     // RadioWidget: CustomRadioWidget,
     // CheckboxWidget: CustomRadioWidget
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
-    // ArrayFieldTemplate: CustomArrayFieldTemplate, // deep
+    ArrayFieldTemplate: CustomArrayTemplate // deep
     // FieldTemplate: CustomFieldTemplate,
     // TitleFieldTemplate: CustomTitleFieldTemplate
   }
@@ -174,7 +179,7 @@ const MetadataForm = () => {
               schema={formSchema}
               // formData={ummMetadata}
               // TODO we don't like doing it this way
-              formData={draftMetadata || {}}
+              formData={draftMetadata || ummMetadata}
               uiSchema={uiSchema}
               fields={fields}
               templates={templates}
@@ -201,7 +206,7 @@ const MetadataForm = () => {
           <Col sm={4}>
             <div className="metadata-form__navigation sticky-top">
               <FormNavigation
-                draft={{}}
+                draft={ummMetadata}
                 fullSchema={schema}
                 formSections={formSections}
                 loading={ingestDraftLoading}

@@ -1,23 +1,19 @@
 import React, {
-  useEffect,
   useRef,
-  useState
+  useState,
+  useEffect
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-import { useNavigate, useParams } from 'react-router'
 
+import { useNavigate, useParams } from 'react-router'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-import './CustomTextWidget.scss'
+import './CustomTextareaWidget.scss'
 
-// TODO a lot of this logic feels like it can/should still be abstracted out. Focus logic will need to happen for every widget
-
-const CustomTextWidget = ({
-  disabled,
+const CustomTextareaWidget = ({
   label = '',
   id,
-  placeholder,
   onBlur,
   onChange,
   registry,
@@ -32,27 +28,31 @@ const CustomTextWidget = ({
     fieldName
   } = useParams()
   const navigate = useNavigate()
+
   const [showDescription, setShowDescription] = useState(false)
   const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
-  const inputScrollRef = useRef(null)
+
+  const textareaScrollRef = useRef(null)
   const focusRef = useRef(null)
 
   const { formContext } = registry
+
   const {
     focusField,
     setFocusField
   } = formContext
-
   const { maxLength, description } = schema
 
-  const fieldType = uiSchema ? uiSchema['ui:type'] : null
+  // Note: I feel like this can be done in CustomWrapper
   const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
 
   let title = startCase(label.split(/-/)[0])
+
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
 
+  // Note: I feel like this can be done in CustomWrapper
   let shouldFocus = false
   if (focusField === id) {
     shouldFocus = true
@@ -62,10 +62,11 @@ const CustomTextWidget = ({
     }
   }
 
+  // Note: I feel like this can be done in CustomWrapper
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
-      inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
       focusRef.current?.focus()
     }
   }, [shouldFocus])
@@ -76,6 +77,14 @@ const CustomTextWidget = ({
       navigate(`../${conceptId}/${sectionName}`, { replace: true })
     }
   }, [fieldName])
+
+  if (shouldFocus) {
+    textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+    if (focusRef.current) {
+      focusRef.current.focus()
+    }
+  }
 
   const handleFocus = () => {
     setShowDescription(true)
@@ -108,37 +117,30 @@ const CustomTextWidget = ({
       label={label}
       maxLength={maxLength}
       required={required}
-      scrollRef={inputScrollRef}
+      scrollRef={textareaScrollRef}
       title={title}
     >
-      <input
+      <textarea
+        className="custom-textarea-widget__input"
         ref={focusRef}
-        className="custom-text-widget__input"
-        disabled={disabled}
-        id={id}
-        maxLength={maxLength}
         name={title}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        placeholder={placeholder}
-        type={fieldType && fieldType === 'number' ? 'number' : 'text'}
+        maxLength={maxLength}
         value={value ?? ''}
+        onFocus={handleFocus}
+        onChange={handleChange}
+        onBlur={handleBlur}
       />
     </CustomWidgetWrapper>
   )
 }
 
-CustomTextWidget.defaultProps = {
-  disabled: false,
+CustomTextareaWidget.defaultProps = {
   value: null
 }
 
-CustomTextWidget.propTypes = {
-  disabled: PropTypes.bool,
+CustomTextareaWidget.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -150,10 +152,12 @@ CustomTextWidget.propTypes = {
     description: PropTypes.string,
     maxLength: PropTypes.number
   }).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+
+  }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired
 }
 
-export default CustomTextWidget
+export default CustomTextareaWidget
