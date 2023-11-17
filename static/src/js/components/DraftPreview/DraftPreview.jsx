@@ -36,6 +36,8 @@ import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 
+import useAppContext from '../../hooks/useAppContext'
+
 import './DraftPreview.scss'
 
 /**
@@ -49,6 +51,10 @@ import './DraftPreview.scss'
  */
 const DraftPreview = () => {
   const { conceptId } = useParams()
+  const {
+    draft,
+    setDraft
+  } = useAppContext()
 
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
@@ -61,12 +67,19 @@ const DraftPreview = () => {
     // error: deleteError
   }] = useMutation(DELETE_DRAFT)
 
-  const { data, loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
+    // If the draft has already been loaded, skip this query
+    skip: draft,
     variables: {
       params: {
         conceptId,
         conceptType: derivedConceptType
       }
+    },
+    onCompleted: (getDraftData) => {
+      const { draft: fetchedDraft } = getDraftData
+
+      setDraft(fetchedDraft)
     }
   })
 
@@ -87,8 +100,6 @@ const DraftPreview = () => {
       </Page>
     )
   }
-
-  const { draft } = data
 
   if (!draft) {
     return (
@@ -190,7 +201,7 @@ const DraftPreview = () => {
       <Container id="metadata-form">
         <Row>
           <Col sm={12}>
-            TODO Error messages
+            {/* // TODO Error messages */}
             {/* {
               editor.status && (
                 <Alert

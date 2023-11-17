@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
-    "@edsc/metadata-preview": "^1.0.1",
+    "@edsc/metadata-preview": "^1.1.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@rjsf/core": "^5.13.4",
     "@rjsf/utils": "^5.13.4",

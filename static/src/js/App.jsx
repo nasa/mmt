@@ -22,6 +22,7 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import Providers from './providers/Providers/Providers'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -79,41 +80,48 @@ const App = () => {
       }
     }
   })
+  // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
+  // appContext = {
+  //   statusMessage
+  //   errorMessage
+  // }
 
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            {Redirects}
-            <Route
-              element={<ManageCollectionsPage />}
-              index
-              path="manage-collections"
-            />
-            <Route
-              element={<ManageVariablesPage />}
-              path="manage-variables"
-            />
-            <Route
-              element={<ManageServicesPage />}
-              path="manage-services"
-            />
-            <Route
-              element={<ManageToolsPage />}
-              path="manage-tools"
-            />
-            <Route
-              element={<ManageCmrPage />}
-              path="manage-cmr"
-            />
-            <Route
-              element={<ToolDraftsPage />}
-              path="tool-drafts/*"
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Providers>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              {Redirects}
+              <Route
+                element={<ManageCollectionsPage />}
+                index
+                path="manage-collections"
+              />
+              <Route
+                element={<ManageVariablesPage />}
+                path="manage-variables"
+              />
+              <Route
+                element={<ManageServicesPage />}
+                path="manage-services"
+              />
+              <Route
+                element={<ManageToolsPage />}
+                path="manage-tools"
+              />
+              <Route
+                element={<ManageCmrPage />}
+                path="manage-cmr"
+              />
+              <Route
+                element={<ToolDraftsPage />}
+                path="tool-drafts/*"
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Providers>
     </ApolloProvider>
   )
 }
