@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
-import {
-  Col,
-  Container,
-  Row
-} from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import { kebabCase } from 'lodash'
 
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
@@ -26,12 +25,17 @@ import toolsUiSchema from '../../schemas/uiSchemas/tools'
 import formConfigurations from '../../schemas/uiForms'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import saveTypes from '../../constants/saveTypes'
+import statusMessageTypes from '../../constants/statusMessageTypes'
+
+import useAppContext from '../../hooks/useAppContext'
 
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 
 import convertToDottedNotation from '../../utils/convertToDottedNotation'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '../../utils/getFormSchema'
+import getNextFormName from '../../utils/getNextForm'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
@@ -45,9 +49,16 @@ const MetadataForm = () => {
     sectionName,
     fieldName
   } = useParams()
+  const navigate = useNavigate()
+  const {
+    addStatusMessage,
+    draft,
+    setDraft
+  } = useAppContext()
+  console.log('🚀 ~ file: MetadataForm.jsx:50 ~ MetadataForm ~ draft:', draft)
+
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   const [validationErrors, setValidationErrors] = useState([])
-  const [draftMetadata, setDraftMetadata] = useState(null)
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
 
@@ -57,17 +68,22 @@ const MetadataForm = () => {
   }, [fieldName])
 
   const [ingestDraftMutation, {
-    data: ingestDraftData,
-    loading: ingestDraftLoading,
-    error: ingestDraftError
+    loading: ingestDraftLoading
   }] = useMutation(INGEST_DRAFT)
 
-  const { data, loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
+    // If the draft has already been loaded, skip this query
+    skip: draft,
     variables: {
       params: {
         conceptId,
         conceptType: derivedConceptType
       }
+    },
+    onCompleted: (getDraftData) => {
+      const { draft: fetchedDraft } = getDraftData
+
+      setDraft(fetchedDraft)
     }
   })
 
@@ -89,8 +105,6 @@ const MetadataForm = () => {
     )
   }
 
-  const { draft } = data
-
   if (!draft) {
     return (
       <Page>
@@ -102,14 +116,16 @@ const MetadataForm = () => {
   const {
     conceptType,
     // Name,
-    // nativeId,
-    // providerId,
+    nativeId,
+    providerId,
     ummMetadata
   } = draft
 
   const schema = getUmmSchema(conceptType)
   const uiSchema = toolsUiSchema[sectionName]
   const formSections = formConfigurations[conceptType]
+  console.log('🚀 ~ file: MetadataForm.jsx:162 ~ MetadataForm ~ conceptType:', conceptType)
+  console.log('🚀 ~ file: MetadataForm.jsx:162 ~ MetadataForm ~ formSections:', formSections)
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
@@ -144,19 +160,66 @@ const MetadataForm = () => {
   }
 
   const handleSave = (type) => {
-    console.log('🚀 ~ file: MetadataForm.jsx:128 ~ handleSave ~ type:', type)
-    // TODO call ingestDraftMutation()
+    // Save the draft
+    ingestDraftMutation({
+      variables: {
+        conceptType: getConceptTypeByDraftConceptId(conceptId),
+        metadata: ummMetadata,
+        nativeId,
+        providerId,
+        // TODO pull this version number from a config
+        ummVersion: '1.0.0'
+      },
+      onCompleted: (mutationData) => {
+        console.log('🚀 ~ file: MetadataForm.jsx:149 ~ handleSave ~ mutationData:', mutationData)
+
+        addStatusMessage({
+          id: `${conceptId}-saved`,
+          message: 'Draft saved successfully',
+          type: statusMessageTypes.INFO
+        })
+
+        // TODO show a status message
+        if (type === saveTypes.save) {
+          // Navigate to current form? just scroll to top of page instead?
+          window.scroll(0, 0)
+        }
+
+        if (type === saveTypes.saveAndContinue) {
+          // Navigate to next form (using formSections), maybe scroll top too
+          const nextFormName = getNextFormName(formSections, sectionName)
+          navigate(`../${conceptId}/${kebabCase(nextFormName)}`)
+        }
+
+        if (type === saveTypes.saveAndPreview) {
+          // Navigate to preview page
+          window.scroll(0, 0)
+          navigate(`../${conceptId}`)
+        }
+
+        if (type === saveTypes.saveAndPublish) {
+          // Save and then publish?
+        }
+      },
+      onError: (ingestError) => {
+        console.log('🚀 ~ file: MetadataForm.jsx:175 ~ handleSave ~ ingestError:', ingestError)
+        // Populate some errors to be displayed
+      }
+    })
   }
 
   const handleCancel = () => {
-    setDraftMetadata(ummMetadata)
+    setDraft(draft)
   }
 
   // Handle form changes
   const handleChange = (event) => {
     const { formData } = event
 
-    setDraftMetadata(removeEmpty(formData))
+    setDraft({
+      ...draft,
+      ummMetadata: removeEmpty(formData)
+    })
   }
 
   // Handle bluring fields within the form
@@ -180,9 +243,9 @@ const MetadataForm = () => {
               // Key={`${JSON.stringify(draft.key)}`}
               validator={validator}
               schema={formSchema}
-              // FormData={ummMetadata}
+              formData={ummMetadata}
               // TODO we don't like doing it this way
-              formData={draftMetadata || ummMetadata}
+              // formData={draftMetadata || ummMetadata}
               uiSchema={uiSchema}
               fields={fields}
               templates={templates}
