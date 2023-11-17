@@ -12,6 +12,7 @@ import {
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 
@@ -128,9 +129,9 @@ const MetadataForm = () => {
     TextWidget: CustomTextWidget,
     TextareaWidget: CustomTextareaWidget,
     SelectWidget: CustomSelectWidget,
-    DateTimeWidget: CustomDateTimeWidget
+    DateTimeWidget: CustomDateTimeWidget,
     // CountrySelectWiget: CustomCountrySelectWidget,
-    // RadioWidget: CustomRadioWidget,
+    RadioWidget: CustomRadioWidget
     // CheckboxWidget: CustomRadioWidget
   }
   const templates = {

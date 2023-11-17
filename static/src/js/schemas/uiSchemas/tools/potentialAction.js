@@ -1,6 +1,6 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
-import CustomRadioWidget from '../../../../components/widgets/CustomRadioWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
+import CustomRadioWidget from '../../../components/CustomRadioWidget/CustomRadioWidget'
 
 const potentialActionUiSchema = {
   PotentialAction: {
