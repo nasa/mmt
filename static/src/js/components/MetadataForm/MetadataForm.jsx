@@ -14,6 +14,7 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
+import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
@@ -118,7 +119,7 @@ const MetadataForm = () => {
   const fields = {
     // Layout: LayoutGridField, // chris
     // streetAddresses: StreetAddressesField, // chris
-    // boundingRectangle: BoundingRectangleField,
+    boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
     // TitleField: CustomTitleField,
     // OneOfField,
