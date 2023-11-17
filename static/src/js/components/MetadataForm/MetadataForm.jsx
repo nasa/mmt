@@ -12,6 +12,7 @@ import {
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
@@ -129,14 +130,14 @@ const MetadataForm = () => {
     TextWidget: CustomTextWidget,
     TextareaWidget: CustomTextareaWidget,
     SelectWidget: CustomSelectWidget,
-    DateTimeWidget: CustomDateTimeWidget
+    DateTimeWidget: CustomDateTimeWidget,
     // CountrySelectWiget: CustomCountrySelectWidget,
-    // RadioWidget: CustomRadioWidget,
+    RadioWidget: CustomRadioWidget
     // CheckboxWidget: CustomRadioWidget
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
-    ArrayFieldTemplate: CustomArrayTemplate // deep
+    ArrayFieldTemplate: CustomArrayTemplate // Deep
     // FieldTemplate: CustomFieldTemplate,
     // TitleFieldTemplate: CustomTitleFieldTemplate
   }
@@ -178,7 +179,7 @@ const MetadataForm = () => {
               // Key={`${JSON.stringify(draft.key)}`}
               validator={validator}
               schema={formSchema}
-              // formData={ummMetadata}
+              // FormData={ummMetadata}
               // TODO we don't like doing it this way
               formData={draftMetadata || ummMetadata}
               uiSchema={uiSchema}
