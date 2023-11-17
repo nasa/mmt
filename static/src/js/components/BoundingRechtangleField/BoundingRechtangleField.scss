@@ -1,0 +1,29 @@
+.bounding-rectangle-field {
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__north,
+  &__south {
+    &--row {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+
+  &__east-west {
+    &--row {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__coordinate {
+    text-align: center;
+    width: 100px;
+    &--label {
+      text-align: center;
+    }  
+  }
+}
