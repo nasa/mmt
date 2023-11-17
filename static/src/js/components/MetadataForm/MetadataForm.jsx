@@ -37,6 +37,7 @@ import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
 
 import './MetadataForm.scss'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 const MetadataForm = () => {
   const {
@@ -119,7 +120,7 @@ const MetadataForm = () => {
 
   const fields = {
     // Layout: LayoutGridField, // chris
-    // streetAddresses: StreetAddressesField, // chris
+    streetAddresses: StreetAddressField,
     boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
     // TitleField: CustomTitleField,
