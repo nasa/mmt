@@ -16,6 +16,7 @@ import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
+import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
@@ -151,7 +152,7 @@ const MetadataForm = () => {
     TextareaWidget: CustomTextareaWidget,
     SelectWidget: CustomSelectWidget,
     DateTimeWidget: CustomDateTimeWidget,
-    // CountrySelectWiget: CustomCountrySelectWidget,
+    CountrySelectWiget: CustomCountrySelectWidget,
     RadioWidget: CustomRadioWidget
     // CheckboxWidget: CustomRadioWidget
   }
