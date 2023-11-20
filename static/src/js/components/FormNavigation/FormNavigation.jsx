@@ -25,11 +25,12 @@ const FormNavigation = ({
   setFocusField
 }) => (
   <>
-    <div>
+    <div className="mb-4">
       <Dropdown as={ButtonGroup}>
         <Button
           onClick={() => onSave(saveTypes.saveAndContinue)}
           variant="success"
+          className="text-white"
         >
           <span>
             Save &amp; Continue
@@ -41,6 +42,7 @@ const FormNavigation = ({
           split
           variant="success"
           id="dropdown-split-basic"
+          className="text-white"
         />
 
         <Dropdown.Menu>
@@ -76,14 +78,15 @@ const FormNavigation = ({
         </Dropdown.Menu>
       </Dropdown>
 
-      <button
+      <Button
         data-testid="navigationview--cancel-button"
         onClick={onCancel}
         type="button"
-        className="link-button"
+        className="link-button ms-2"
+        variant="link-secondary"
       >
         Cancel
-      </button>
+      </Button>
 
       {
         loading && (
@@ -92,7 +95,7 @@ const FormNavigation = ({
       }
     </div>
 
-    <ListGroup className="form-navigation__sections">
+    <ListGroup className="form-navigation__sections p-2 bg-light">
       <For each={formSections}>
         {
           (section) => (

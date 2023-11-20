@@ -137,9 +137,10 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    layout: LayoutGridField,
-    streetAddresses: StreetAddressField,
-    boundingRectangle: BoundingRectangleField, // Hoan
+    // eslint-disable-next-line capitalized-comments
+    // layout: LayoutGridField,
+    // streetAddresses: StreetAddressField,
+    // boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
     titleField: CustomTitleField
     // OneOfField,

@@ -35,7 +35,7 @@ const NavigationItemError = ({
       <ListGroup.Item
         className={
           classNames([
-            'navigation-item-error__item',
+            'navigation-item-error__item d-flex align-items-baseline border-0 ps-4 px-1 py-1',
             {
               'navigation-item-error__item--isFocused': hasFocus
             }
@@ -58,22 +58,20 @@ const NavigationItemError = ({
           }
         }
       >
-        <span>
-          <i className={
-            classNames([
-              'eui-icon eui-icon--sm navigation-item__icon',
-              {
-                'eui-fa-circle-o navigation-item__icon--not-started': !visited
-              },
-              {
-                'eui-fa-times-circle navigation-item__icon--error': visited
-              }
-            ])
-          }
-          />
-          {/* // TODO format message, handle array fields, etc from ErrorList */}
-          {message}
-        </span>
+        <i className={
+          classNames([
+            'eui-icon eui-icon--sm navigation-item__icon',
+            {
+              'eui-fa-circle-o navigation-item__icon--not-started': !visited
+            },
+            {
+              'eui-fa-times-circle navigation-item__icon--error': visited
+            }
+          ])
+        }
+        />
+        {/* // TODO format message, handle array fields, etc from ErrorList */}
+        <span className="small">{message}</span>
       </ListGroup.Item>
     </div>
   )

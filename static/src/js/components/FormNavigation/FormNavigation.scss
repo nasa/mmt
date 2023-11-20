@@ -1,7 +1,5 @@
 .form-navigation {
   &__sections {
-    width: 300px;
-    height: 400px;
-    margin-top: 5px;
+    --bs-list-group-bg: transparent;
   }
 }

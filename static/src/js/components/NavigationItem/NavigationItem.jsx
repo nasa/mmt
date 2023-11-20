@@ -49,7 +49,7 @@ const NavigationItem = ({
       <ListGroup.Item
         className={
           classNames([
-            'navigation-item__item',
+            'navigation-item__item d-flex px-1 py-1 border-0',
             {
               'navigation-item__item--isFocused': hasFocus
             },
