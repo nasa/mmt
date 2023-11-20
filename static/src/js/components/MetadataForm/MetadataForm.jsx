@@ -11,6 +11,7 @@ import { kebabCase } from 'lodash'
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '../CustomTitleField'
 import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -140,7 +141,7 @@ const MetadataForm = () => {
     streetAddresses: StreetAddressField,
     boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
-    // TitleField: CustomTitleField,
+    TitleField: CustomTitleField,
     // OneOfField,
     // AnyOfField: () => null
   }
