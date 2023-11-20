@@ -13,12 +13,13 @@ const CustomTitleField = ({
 }) => {
   const scrollRef = useRef(null)
 
-  const executeScroll = () => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  // Function to execute smooth scroll
+  const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
 
   const { focusField } = registry.formContext
 
+  // Effect to scroll into view when the focused field changes
+  // Check if the current title corresponds to the focused field and Scroll into view with a delay for better user experience
   useEffect(() => {
     if (title.replace(/ /g, '') === focusField) {
       setTimeout(() => {
@@ -27,6 +28,10 @@ const CustomTitleField = ({
     }
   }, [title, focusField])
 
+  // Determine the required status for the title
+  const isRequired = requiredUI || required
+
+  // Process the title for display
   let heading = title
   if (uiSchema['ui:title']) {
     heading = uiSchema['ui:title']
@@ -35,23 +40,17 @@ const CustomTitleField = ({
     heading = startCase(firstPart)
   }
 
+  // Check if the header should be hidden based on the UI schema
   const hideHeader = uiSchema['ui:hide-header']
 
   return (
     <div>
-      <div
-        ref={scrollRef}
-        className={groupBoxClassName}
-      >
+      <div ref={scrollRef} className={groupBoxClassName}>
         {
           hideHeader ? null : (
             <span className={`${className}`}>
               {heading}
-              {
-                (required || requiredUI) && (
-                  <i className="eui-icon eui-required-o required-icon" />
-                )
-              }
+              {isRequired && <i className="eui-icon eui-required-o required-icon" />}
             </span>
           )
         }
@@ -82,8 +81,7 @@ CustomTitleField.defaultProps = {
   required: false,
   className: '',
   groupBoxClassName: '',
-  uiSchema: PropTypes.shape({
-  })
+  uiSchema: {}
 }
 
 export default CustomTitleField
