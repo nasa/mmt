@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row'
 import { kebabCase } from 'lodash'
 
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField'
@@ -158,8 +159,8 @@ const MetadataForm = () => {
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
-    ArrayFieldTemplate: CustomArrayTemplate // Deep
-    // FieldTemplate: CustomFieldTemplate,
+    ArrayFieldTemplate: CustomArrayTemplate,
+    FieldTemplate: CustomFieldTemplate
     // TitleFieldTemplate: CustomTitleFieldTemplate
   }
 
