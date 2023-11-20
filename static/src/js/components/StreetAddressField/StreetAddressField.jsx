@@ -40,7 +40,7 @@ const StreetAddressField = ({
       <Col md={12} className="street-address-field__address-line">
         <CustomTextWidget
           name={`address_line_${i}`}
-          label="Address Line 1"
+          label={`Address Line ${i + 1}`}
           schema={clonedSchema}
           value={lines[i]}
           required={false}
@@ -60,7 +60,7 @@ const StreetAddressField = ({
   return (
 
     <div>
-      <span className="street-adress-field__description-box">
+      <span className="street-address-field__description-box">
         {description}
         {lineWidgets}
       </span>

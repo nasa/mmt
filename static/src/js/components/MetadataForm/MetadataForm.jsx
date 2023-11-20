@@ -42,6 +42,7 @@ import removeEmpty from '../../utils/removeEmpty'
 
 import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
+import LayoutGridField from '../LayoutGridField/LayoutGridField'
 
 const MetadataForm = () => {
   const {
@@ -135,7 +136,7 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // Layout: LayoutGridField, // chris
+    layout: LayoutGridField,
     streetAddresses: StreetAddressField,
     boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
