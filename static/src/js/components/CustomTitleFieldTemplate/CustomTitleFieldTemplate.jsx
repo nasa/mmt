@@ -2,14 +2,17 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
-const CustomTitleFieldTemplate = (props) => {
-  const {
-    title, required, registry, uiSchema = {}
-  } = props
-
+const CustomTitleFieldTemplate = ({
+  registry,
+  required,
+  title,
+  uiSchema
+}) => {
   const scrollRef = useRef(null)
 
-  const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  const executeScroll = () => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   useEffect(() => {
     if (title.replace(/ /g, '') === registry?.focusField) {
@@ -30,16 +33,20 @@ const CustomTitleFieldTemplate = (props) => {
 
   return (
     <div>
-      <div ref={scrollRef} data-testid="custom-title-field-template--heading" className={headerBoxClassName}>
+      <div
+        ref={scrollRef}
+        className={headerBoxClassName}
+      >
         {
           hideHeader ? null : (
             <span className={headerClassName}>
               {heading}
               {
-                required || requiredUI ? (
-                  <i data-testid="custom-title-field-template--required" className="eui-icon eui-required-o required-icon" />
-                ) : (
-                  ''
+                (required || requiredUI) && (
+                  <i
+                    data-testid="custom-title-field-template--required"
+                    className="eui-icon eui-required-o required-icon"
+                  />
                 )
               }
             </span>

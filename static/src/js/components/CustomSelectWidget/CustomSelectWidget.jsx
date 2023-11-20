@@ -24,8 +24,10 @@ const CustomSelectWidget = ({
 }) => {
   const [showDescription, setShowDescription] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
+
   const selectOptions = []
   const { enum: schemaEnums = [], description } = schema
   const { formContext } = registry

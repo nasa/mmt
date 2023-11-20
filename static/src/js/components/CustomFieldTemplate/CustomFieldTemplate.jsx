@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { propTypes } from 'react-bootstrap/esm/Image'
 
 const CustomFieldTemplate = ({
   classNames,
@@ -8,12 +7,16 @@ const CustomFieldTemplate = ({
   errors,
   children
 }) => (
-  <div data-testid="custom-field-template" className={`metadata-editor-field ${classNames}`}>
-		{children}
+  <div
+    data-testid="custom-field-template"
+    className={`metadata-editor-field ${classNames}`}
+  >
+    {children}
     {errors}
     {help}
   </div>
 )
+
 CustomFieldTemplate.defaultProps = {
   classNames: ''
 }

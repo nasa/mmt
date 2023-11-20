@@ -4,24 +4,24 @@ import React, {
   useEffect
 } from 'react'
 import PropTypes from 'prop-types'
+import { useParams, useNavigate } from 'react-router'
 import { startCase } from 'lodash'
-
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 
-import { useParams, useNavigate } from 'react-router'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 const CustomDateTimeWidget = ({
-  label = '',
+  label,
   id,
   onBlur,
   onChange,
   registry,
   required,
   schema,
-  uiSchema = {},
+  uiSchema,
   value
 }) => {
   const {
