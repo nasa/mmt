@@ -9,7 +9,6 @@ const CustomFieldTemplate = ({
   children
 }) => (
   <div data-testid="custom-field-template" className={`metadata-editor-field ${classNames}`}>
-    {console.log(classNames)}
 		{children}
     {errors}
     {help}
