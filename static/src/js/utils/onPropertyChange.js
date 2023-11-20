@@ -5,8 +5,11 @@
  */
 export const onPropertyChange = (
   name,
+  formData,
+  onChange,
+  errorSchema,
   addedByAdditionalProperties = false
-) => (value, newErrorSchema, formData, onChange, errorSchema, id) => {
+) => (value, newErrorSchema, id) => {
   if (value === undefined && addedByAdditionalProperties) {
     // Don't set value = undefined for fields added by
     // additionalProperties. Doing so removes them from the

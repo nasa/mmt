@@ -139,8 +139,8 @@ const MetadataForm = () => {
 
   const fields = {
     // eslint-disable-next-line capitalized-comments
-    // layout: LayoutGridField,
-    // streetAddresses: StreetAddressField,
+    layout: LayoutGridField,
+    streetAddresses: StreetAddressField,
     // boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
     titleField: CustomTitleField

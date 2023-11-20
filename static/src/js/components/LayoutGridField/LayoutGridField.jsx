@@ -43,24 +43,20 @@ const LayoutGridField = (props) => {
     const { schemaUtils } = registry
     const retrievedSchema = schemaUtils.retrieveSchema(schema)
 
-    return rows.map((layoutSchema) => {
-      const { controlName: ignore, ...rest } = props
-
-      return (
-        <LayoutGridField
-          {...rest}
-          key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
-          schema={retrievedSchema}
-          layoutGridSchema={layoutSchema}
-          controlName={rowControlName}
-          onChange={
-            (e) => {
-              onChange(e)
-            }
+    return rows.map((layoutSchema) => (
+      <LayoutGridField
+        {...props}
+        key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
+        schema={retrievedSchema}
+        layoutGridSchema={layoutSchema}
+        controlName={rowControlName}
+        onChange={
+          (e) => {
+            onChange(e)
           }
-        />
-      )
-    })
+        }
+      />
+    ))
   }
 
   // Renders a row
@@ -286,6 +282,7 @@ const LayoutGridField = (props) => {
     const { properties = {} } = retrievedSchema // OneOf causes properties to return null
 
     if (properties[layoutName] && !render) {
+
       return (
         <span>
           <SchemaField
@@ -297,7 +294,7 @@ const LayoutGridField = (props) => {
             errorSchema={errorSchema[layoutName]}
             idSchema={idSchema[layoutName]}
             formData={(formData || {})[layoutName]}
-            onChange={onPropertyChange(layoutName)}
+            onChange={onPropertyChange(layoutName, formData, onChange, errorSchema)}
             onBlur={onBlur}
             onFocus={onFocus}
             registry={registry}

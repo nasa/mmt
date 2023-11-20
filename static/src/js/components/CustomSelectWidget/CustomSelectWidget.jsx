@@ -27,7 +27,7 @@ const CustomSelectWidget = ({
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
   const selectOptions = []
-  const { enum: schemaEnums, description } = schema
+  const { enum: schemaEnums = [], description } = schema
   const { formContext } = registry
 
   // Const [cmrKeywords, setCmrKeywords] = useState([])
@@ -133,14 +133,15 @@ const CustomSelectWidget = ({
 
 CustomSelectWidget.defaultProps = {
   disabled: false,
-  value: null
+  value: null,
+  placeholder: ''
 }
 
 CustomSelectWidget.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,

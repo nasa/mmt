@@ -27,7 +27,6 @@ const CustomArrayFieldTemplate = ({
   const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const scrollRef = useRef(false)
   const [scrollIndex, setScrollRef] = useState(null)
-  console.log('ref', scrollRef)
 
   useEffect(() => {
     if (scrollIndex) {
@@ -55,7 +54,6 @@ const CustomArrayFieldTemplate = ({
 
   const handleAdd = (event) => {
     onAddClick(event)
-    console.log(items.length)
     setScrollRef(true)
     setTimeout(() => {
       setScrollRef(false)

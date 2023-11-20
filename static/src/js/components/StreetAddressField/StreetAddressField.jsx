@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, uniqueId } from 'lodash'
 
 import './StreetAddressField.scss'
 import { Col } from 'react-bootstrap'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 
 const StreetAddressField = ({
-  id,
-  options,
   onChange,
   registry,
   schema,
@@ -33,11 +31,15 @@ const StreetAddressField = ({
 
   const clonedSchema = cloneDeep(schema)
   clonedSchema.description = ''
-
+  const id = uniqueId()
   const lineWidgets = []
   for (let i = 0; i < 3; i += 1) {
     lineWidgets.push(
-      <Col md={12} className="street-address-field__address-line">
+      <Col
+        key={`address_line_${i}`}
+        md={12}
+        className="street-address-field__address-line"
+      >
         <CustomTextWidget
           name={`address_line_${i}`}
           label={`Address Line ${i + 1}`}
@@ -46,12 +48,12 @@ const StreetAddressField = ({
           required={false}
           id={`${id}_${i}`}
           disabled={false}
-          options={options}
           onChange={(value) => { handleUpdateAddressLine(value, i) }}
           onBlur={() => undefined}
           onFocus={() => undefined}
           registry={registry}
           uiSchema={uiSchema}
+          placeholder=""
         />
       </Col>
     )
@@ -74,11 +76,9 @@ StreetAddressField.defaultProps = {
 }
 
 StreetAddressField.propTypes = {
-  formData: PropTypes.shape([]),
-  id: PropTypes.string.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.string),
   noLines: PropTypes.number,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.shape({}).isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
