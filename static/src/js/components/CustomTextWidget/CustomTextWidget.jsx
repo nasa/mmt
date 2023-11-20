@@ -15,7 +15,7 @@ import './CustomTextWidget.scss'
 
 const CustomTextWidget = ({
   disabled,
-  label = '',
+  label,
   id,
   placeholder,
   onBlur,
@@ -23,7 +23,7 @@ const CustomTextWidget = ({
   registry,
   required,
   schema,
-  uiSchema = {},
+  uiSchema,
   value
 }) => {
   const {

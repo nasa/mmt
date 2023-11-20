@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { startCase } from 'lodash'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import countryList from 'react-select-country-list'
 
 const CustomCountrySelectWidget = ({
@@ -17,7 +16,7 @@ const CustomCountrySelectWidget = ({
   const remove = (list, aValue) => list.filter((item) => (item.value !== aValue))
 
   const getInitialCountrySelection = () => {
-    const selected = countryList().getData().filter((item) => (item.value === value))[0]
+    const [selected] = countryList().getData().filter((item) => (item.value === value))
 
     return selected
   }
@@ -25,6 +24,7 @@ const CustomCountrySelectWidget = ({
   const getInitialCountryList = () => {
     let cList = countryList().getData()
     const unitedStates = getSelectOption(cList, 'US')
+
     cList = remove(cList, unitedStates.value)
     cList.unshift(unitedStates)
     cList.unshift({
@@ -36,7 +36,6 @@ const CustomCountrySelectWidget = ({
   }
 
   const [selectedCountry, setSelectedCountry] = useState(getInitialCountrySelection())
-
   const [listOfCountries] = useState(getInitialCountryList())
 
   const selectCountry = (val) => {
@@ -59,10 +58,12 @@ const CustomCountrySelectWidget = ({
         <span className="metadata-editor-field-label">
           {title}
         </span>
+
         <span>
           {required ? '*' : ''}
         </span>
       </div>
+
       <div>
         <Select
           id={id}

@@ -1,9 +1,11 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
+
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+
 import './CustomRadioWidget.scss'
 
 const CustomRadioWidget = ({
@@ -30,6 +32,11 @@ const CustomRadioWidget = ({
     setInputValue(null)
   }
 
+  // Accessible event props for clicking on the form field icon
+  const accessibleEventProps = useAccessibleEvent((event) => {
+    handleClear(event)
+  })
+
   return (
     <div className="custom-radio-widget" data-testid={`${componentId}`}>
       <CustomWidgetWrapper
@@ -39,9 +46,14 @@ const CustomRadioWidget = ({
         title={title}
       />
       <div>
-        <div className="custom-radio-widget-clear-btn" data-testid={`${componentId}--clear-btn`} onClick={handleClear}>
+        <div
+          className="custom-radio-widget-clear-btn"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...accessibleEventProps}
+        >
           Clear
         </div>
+
         <input
           type="radio"
           name="true"
@@ -51,7 +63,7 @@ const CustomRadioWidget = ({
           data-testid={`${componentId}--value__true`}
         />
         <label htmlFor={id}>True</label>
-        <br />
+
         <input
           type="radio"
           name="false"

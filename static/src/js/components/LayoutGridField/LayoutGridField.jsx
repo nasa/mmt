@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
+import Col from 'react-bootstrap/Col'
 
 import { kebabCase, uniqueId } from 'lodash'
 
-import './LayoutGridField.scss'
-import { Col } from 'react-bootstrap'
 import LayoutGridFieldGroupedSinglePanel from './LayoutGridFieldGroupedSinglePanel'
 import LayoutGridFieldCheckboxPanel from './LayoutGridFieldCheckboxPanel'
 import LayoutGridFieldControlledField from './LayoutGridFieldControlledField'
+
 import isRequired from '../../utils/isRequired'
 import onPropertyChange from '../../utils/onPropertyChange'
 import onKeyChange from '../../utils/onKeyChange'
+
+import './LayoutGridField.scss'
 
 const LayoutGridField = (props) => {
   const {
@@ -50,11 +52,7 @@ const LayoutGridField = (props) => {
         schema={retrievedSchema}
         layoutGridSchema={layoutSchema}
         controlName={rowControlName}
-        onChange={
-          (e) => {
-            onChange(e)
-          }
-        }
+        onChange={onChange}
       />
     ))
   }
@@ -93,7 +91,7 @@ const LayoutGridField = (props) => {
           >
             <span>
               {
-                (TitleField) && (
+                TitleField && (
                   <TitleField
                     name={title}
                     title={title}
@@ -117,11 +115,11 @@ const LayoutGridField = (props) => {
               }
             </span>
             {
-              groupDescription ? (
+              groupDescription && (
                 <div className="layout-grid-field__description-box">
                   {description}
                 </div>
-              ) : null
+              )
             }
 
             {
@@ -133,7 +131,11 @@ const LayoutGridField = (props) => {
                     key={`groupedpanel--${JSON.stringify(layoutSchema)}`}
                   />
                 )
-                : (<div className="row" key={`row--${JSON.stringify(rows)}`}>{renderChildren(rows)}</div>)
+                : (
+                  <div className="row" key={`row--${JSON.stringify(rows)}`}>
+                    {renderChildren(rows)}
+                  </div>
+                )
             }
           </fieldset>
         </div>
@@ -164,7 +166,11 @@ const LayoutGridField = (props) => {
   // Renders a Col
   // { 'ui:col': { md: 6, children: ['firstName'] } },
   const renderCol = (layoutSchema) => {
-    const { children, colControlName, ...colProps } = layoutSchema['ui:col']
+    const {
+      children,
+      colControlName,
+      ...colProps
+    } = layoutSchema['ui:col']
 
     const group = layoutSchema['ui:group']
     const groupDescription = layoutSchema['ui:group-description']
@@ -190,7 +196,7 @@ const LayoutGridField = (props) => {
           >
             <span>
               {
-                (TitleField && (
+                TitleField && (
                   <TitleField
                     name={title}
                     title={title}
@@ -209,7 +215,6 @@ const LayoutGridField = (props) => {
                     disabled={false}
                     registry={registry}
                   />
-                )
                 )
               }
             </span>
@@ -282,7 +287,6 @@ const LayoutGridField = (props) => {
     const { properties = {} } = retrievedSchema // OneOf causes properties to return null
 
     if (properties[layoutName] && !render) {
-
       return (
         <span>
           <SchemaField

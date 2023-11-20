@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+
 import './BoundingRectangleField.scss'
 
 const BoundingRectangleField = ({
@@ -32,6 +33,7 @@ const BoundingRectangleField = ({
       WestBoundingCoordinate: -180,
       EastBoundingCoordinate: 180
     }
+
     setCoordinates(createStateObject(data))
     onChange(data)
   }
@@ -41,6 +43,7 @@ const BoundingRectangleField = ({
   const handleChange = (field, value) => {
     const data = formData
     data[field] = toNumber(value)
+
     setCoordinates(createStateObject(data))
     onChange(data)
   }
@@ -55,8 +58,15 @@ const BoundingRectangleField = ({
   return (
     <div>
       <div>
-        <Button style={{ fontSize: 12 }} variant="primary" onClick={handleApplyGlobal}>Apply Global Spatial Coverage</Button>
+        <Button
+          style={{ fontSize: 12 }}
+          variant="primary"
+          onClick={handleApplyGlobal}
+        >
+          Apply Global Spatial Coverage
+        </Button>
       </div>
+
       <div className="bounding-rectangle-field__container">
         <div className="bounding-rectangle-field__container--north-row">
           <div className="bounding-rectangle-field__container--coordinate-label">
@@ -73,11 +83,13 @@ const BoundingRectangleField = ({
             />
           </div>
         </div>
+
         <div className="bounding-rectangle-field__container--east-west-row">
           <div>
             <div className="bounding-rectangle-field__container--coordinate-label">
               West
             </div>
+
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
@@ -89,10 +101,12 @@ const BoundingRectangleField = ({
               value={WestBoundingCoordinate}
             />
           </div>
+
           <div>
             <div className="bounding-rectangle-field__container--coordinate-label">
               East
             </div>
+
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
@@ -105,6 +119,7 @@ const BoundingRectangleField = ({
             />
           </div>
         </div>
+
         <div className="bounding-rectangle-field__container--south-row">
           <div className="bounding-rectangle-field__container--coordinate-label">
             South

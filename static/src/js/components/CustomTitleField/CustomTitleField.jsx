@@ -2,21 +2,23 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
-const CustomTitleField = (props) => {
-  const {
-    title,
-    requiredUI,
-    registry,
-    className,
-    groupBoxClassName,
-    uiSchema
-  } = props
-
+const CustomTitleField = ({
+  title,
+  required,
+  requiredUI,
+  registry,
+  className,
+  groupBoxClassName,
+  uiSchema
+}) => {
   const scrollRef = useRef(null)
 
-  const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  const executeScroll = () => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const { focusField } = registry.formContext
+
   useEffect(() => {
     if (title.replace(/ /g, '') === focusField) {
       setTimeout(() => {
@@ -24,11 +26,6 @@ const CustomTitleField = (props) => {
       })
     }
   }, [title, focusField])
-
-  let { required } = props
-  if (requiredUI) {
-    required = requiredUI
-  }
 
   let heading = title
   if (uiSchema['ui:title']) {
@@ -42,12 +39,19 @@ const CustomTitleField = (props) => {
 
   return (
     <div>
-      <div ref={scrollRef} data-testid="custom-title-field--heading" className={groupBoxClassName}>
+      <div
+        ref={scrollRef}
+        className={groupBoxClassName}
+      >
         {
           hideHeader ? null : (
             <span className={`${className}`}>
               {heading}
-              {required === true ? <i data-testid="custom-title-field--required" className="eui-icon eui-required-o required-icon" /> : ''}
+              {
+                (required || requiredUI) && (
+                  <i className="eui-icon eui-required-o required-icon" />
+                )
+              }
             </span>
           )
         }
