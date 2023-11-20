@@ -16,7 +16,7 @@ const CustomTitleField = (props) => {
 
   const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
 
-  const { focusField } = registry.formContext.editor
+  const { focusField } = registry.formContext
   useEffect(() => {
     if (title.replace(/ /g, '') === focusField) {
       setTimeout(() => {
@@ -62,9 +62,7 @@ CustomTitleField.propTypes = {
   required: PropTypes.bool,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
-      editor: PropTypes.shape({
-        focusField: PropTypes.string
-      })
+      focusField: PropTypes.string
     })
   }).isRequired,
   className: PropTypes.string,
