@@ -13,6 +13,7 @@ import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField'
+import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate'
 import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -160,8 +161,8 @@ const MetadataForm = () => {
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     ArrayFieldTemplate: CustomArrayTemplate,
-    FieldTemplate: CustomFieldTemplate
-    // TitleFieldTemplate: CustomTitleFieldTemplate
+    FieldTemplate: CustomFieldTemplate,
+    titleFieldTemplate: CustomTitleFieldTemplate
   }
 
   const handleSave = (type) => {
