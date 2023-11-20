@@ -9,9 +9,11 @@ import Row from 'react-bootstrap/Row'
 import { kebabCase } from 'lodash'
 
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
 import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -158,9 +160,9 @@ const MetadataForm = () => {
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
-    ArrayFieldTemplate: CustomArrayTemplate // Deep
-    // FieldTemplate: CustomFieldTemplate,
-    // TitleFieldTemplate: CustomTitleFieldTemplate
+    ArrayFieldTemplate: CustomArrayTemplate,
+    FieldTemplate: CustomFieldTemplate,
+    titleFieldTemplate: CustomTitleFieldTemplate
   }
 
   const handleSave = (type) => {

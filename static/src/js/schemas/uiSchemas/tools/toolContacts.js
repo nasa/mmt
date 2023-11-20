@@ -1,7 +1,6 @@
 // Import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
 // import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
-// import CustomCountrySelectWidget from '../../../../components/widgets/CustomCountrySelectWidget'
-
+import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const toolContactsUiSchema = {
@@ -242,7 +241,7 @@ const toolContactsUiSchema = {
               'ui:title': 'State / Province'
             },
             Country: {
-              // 'ui:widget': CustomCountrySelectWidget
+              'ui:widget': CustomCountrySelectWidget
             }
           }
         }
@@ -469,7 +468,7 @@ const toolContactsUiSchema = {
               'ui:title': 'State / Province'
             },
             Country: {
-              // 'ui:widget': CustomCountrySelectWidget
+              'ui:widget': CustomCountrySelectWidget
             }
           }
         }
