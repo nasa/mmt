@@ -1,6 +1,8 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef
+} from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
@@ -9,37 +11,65 @@ import './CustomRadioWidget.scss'
 const CustomRadioWidget = ({
   label = '',
   id,
+  registry,
   required,
   schema,
   uiSchema = {},
   value
 }) => {
+  const selectScrollRef = useRef(null)
+  const focusRef = useRef(null)
+  const { formContext } = registry
   const [inputValue, setInputValue] = useState(value)
   const [componentId] = useState('custom-radio-widget')
+
+  const {
+    focusField
+  } = formContext
 
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
 
-  const handleChange = (event) => {
-    setInputValue(event.target.name)
+  let shouldFocus = false
+  if (focusField === id) {
+    shouldFocus = true
+  } else if (focusField && id.match(/^\w+_\d+$/)) {
+    if (id !== '' && id.startsWith(focusField)) {
+      shouldFocus = true
+    }
   }
 
+  useEffect(() => {
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    if (shouldFocus) {
+      selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      focusRef.current?.focus()
+    }
+  }, [shouldFocus])
+
+  // Sets inputValue to input selected
+  const handleChange = (event) => {
+    setInputValue(event.target.name)
+    focusRef.current?.blur()
+  }
+
+  // Needed for this UI implementaion so that users can clear their selection
   const handleClear = () => {
     setInputValue(null)
   }
 
   return (
-    <div className="custom-radio-widget" data-testid={`${componentId}`}>
-      <CustomWidgetWrapper
-        label={label}
-        description={schema.description}
-        required={required}
-        title={title}
-      />
-      <div>
-        <div className="custom-radio-widget-clear-btn" data-testid={`${componentId}--clear-btn`} onClick={handleClear}>
+    <CustomWidgetWrapper
+      label={label}
+      description={schema.description}
+      scrollRef={selectScrollRef}
+      required={required}
+      title={title}
+    >
+      <div className="custom-radio-widget" data-testid={`${componentId}`}>
+        <div className="custom-radio-widget-clear-btn" data-testid={`${componentId}--clear-btn`} onClick={handleClear} role="presentation">
           Clear
         </div>
         <input
@@ -62,7 +92,7 @@ const CustomRadioWidget = ({
         />
         <label htmlFor={id}>False</label>
       </div>
-    </div>
+    </CustomWidgetWrapper>
   )
 }
 
@@ -73,6 +103,12 @@ CustomRadioWidget.defaultProps = {
 CustomRadioWidget.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  registry: PropTypes.shape({
+    formContext: PropTypes.shape({
+      focusField: PropTypes.string,
+      setFocusField: PropTypes.func
+    }).isRequired
+  }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string
