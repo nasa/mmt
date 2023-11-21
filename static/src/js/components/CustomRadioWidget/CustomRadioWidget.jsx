@@ -69,8 +69,6 @@ const CustomRadioWidget = ({
     handleClear(event)
   })
 
-  console.log('value: ', inputValue)
-
   return (
     <CustomWidgetWrapper
       label={label}
@@ -80,29 +78,34 @@ const CustomRadioWidget = ({
       title={title}
     >
       <div className="custom-radio-widget" data-testid={`${componentId}`}>
-        <div className="custom-radio-widget-clear-btn" data-testid={`${componentId}--clear-btn`} onClick={handleClear} role="presentation">
+        <div
+          className="custom-radio-widget-clear-btn"
+          data-testid={`${componentId}--clear-btn`}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...accessibleEventProps}
+        >
           Clear
         </div>
 
         <input
           type="radio"
           name="true"
-          id={id}
+          id="trueRadio"
           checked={inputValue === 'true'}
           onChange={handleChange}
           data-testid={`${componentId}--value__true`}
         />
-        <label htmlFor={id}>True</label>
+        <label htmlFor="trueRadio">True</label>
         <br />
         <input
           type="radio"
           name="false"
-          id={id}
+          id="falseRadio"
           checked={inputValue === 'false'}
           onChange={handleChange}
           data-testid={`${componentId}--value__false`}
         />
-        <label htmlFor={id}>False</label>
+        <label htmlFor="falseRadio">False</label>
       </div>
     </CustomWidgetWrapper>
   )
