@@ -9,7 +9,6 @@ import { useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash'
-// TODO put back in after MetadataPreview bootstrap is upgraded
 import {
   CollectionPreview,
   ServicePreview,
@@ -113,7 +112,6 @@ const DraftPreview = () => {
     conceptType,
     name,
     nativeId,
-    // TODO put back in after MetadataPreview bootstrap is upgraded
     previewMetadata,
     providerId,
     ummMetadata
@@ -146,7 +144,6 @@ const DraftPreview = () => {
   const formSections = formConfigurations[conceptType]
 
   // Determine which MetadataPreview component to show
-  // TODO put back in after MetadataPreview bootstrap is upgraded
   const metadataPreviewComponent = () => {
     if (derivedConceptType === 'Collection') {
       return (
@@ -278,7 +275,6 @@ const DraftPreview = () => {
           </Col>
           <Row>
             <Col md={12}>
-              {/* // TODO put back in after MetadataPreview bootstrap is upgraded */}
               {metadataPreviewComponent()}
             </Col>
           </Row>

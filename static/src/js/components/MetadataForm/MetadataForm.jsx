@@ -14,7 +14,6 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-// import CustomTitleField from '../CustomTitleField'
 import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -48,6 +47,7 @@ import removeEmpty from '../../utils/removeEmpty'
 import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 import LayoutGridField from '../LayoutGridField/LayoutGridField'
+import JsonPreview from '../JsonPreview/JsonPreview'
 
 const MetadataForm = () => {
   const {
@@ -67,6 +67,7 @@ const MetadataForm = () => {
   const [validationErrors, setValidationErrors] = useState([])
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
+  console.log('🚀 ~ file: MetadataForm.jsx:70 ~ MetadataForm ~ focusField:', focusField)
 
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
@@ -143,9 +144,9 @@ const MetadataForm = () => {
   const fields = {
     layout: LayoutGridField,
     streetAddresses: StreetAddressField,
-    // boundingRectangle: BoundingRectangleField // Hoan
-    // keywordPicker: KeywordsField, // deep
-    // titleField: CustomTitleField
+    boundingRectangle: BoundingRectangleField,
+    // keywordPicker: KeywordsField,
+    TitleField: CustomTitleField
     // OneOfField,
     // AnyOfField: () => null
   }
@@ -155,16 +156,14 @@ const MetadataForm = () => {
     SelectWidget: CustomSelectWidget,
     DateTimeWidget: CustomDateTimeWidget,
     CountrySelectWiget: CustomCountrySelectWidget,
-    RadioWidget: CustomRadioWidget
-    // CheckboxWidget: CustomRadioWidget
+    RadioWidget: CustomRadioWidget,
+    CheckboxWidget: CustomRadioWidget
   }
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     ArrayFieldTemplate: CustomArrayTemplate,
     FieldTemplate: CustomFieldTemplate,
-    titleFieldTemplate: CustomTitleFieldTemplate
-    // FieldTemplate: CustomFieldTemplate,
-    // TitleFieldTemplate: CustomTitleFieldTemplate
+    TitleFieldTemplate: CustomTitleFieldTemplate
   }
 
   const handleSave = (type) => {
@@ -288,6 +287,12 @@ const MetadataForm = () => {
                 setFocusField={setFocusField}
               />
             </div>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col sm={8}>
+            <JsonPreview />
           </Col>
         </Row>
       </Container>

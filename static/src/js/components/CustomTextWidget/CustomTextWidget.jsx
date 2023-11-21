@@ -54,6 +54,8 @@ const CustomTextWidget = ({
   }
 
   let shouldFocus = false
+  console.log('🚀 ~ file: CustomTextWidget.jsx:58 ~ id:', id)
+  console.log('🚀 ~ file: CustomTextWidget.jsx:59 ~ focusField:', focusField)
   if (focusField === id) {
     shouldFocus = true
   } else if (focusField && id.match(/^\w+_\d+$/)) {
