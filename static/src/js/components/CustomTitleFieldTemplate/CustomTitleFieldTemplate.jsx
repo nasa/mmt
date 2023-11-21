@@ -6,7 +6,7 @@ const CustomTitleFieldTemplate = ({
   registry,
   required,
   title,
-  uiSchema = {}
+  uiSchema
 }) => {
   const scrollRef = useRef(null)
 
@@ -22,38 +22,34 @@ const CustomTitleFieldTemplate = ({
     }
   }, [title, registry?.focusField])
 
-  const { uiSchema: { options = {} } = {} } = uiSchema || {}
-  const { title: uiTitle } = options
-
   // Extract values or use defaults for styling classNames
+  const { options = {} } = uiSchema
+  const { title: uiTitle } = options
   const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
   const requiredUI = uiSchema['ui:required']
   const hideHeader = uiSchema['ui:hide-header']
 
   // Determine the heading text based on uiTitle or formatted title
-  const heading = uiTitle || startCase(title.split(/-/)[0])
+  let heading = title
+  if (uiTitle) {
+    heading = uiTitle
+  } else {
+    const [firstPart] = title.split(/-/)
+    heading = startCase(firstPart)
+  }
 
   return (
     <div>
-      <div
-        ref={scrollRef}
-        className={headerBoxClassName}
-      >
+      <div ref={scrollRef} data-testid="custom-title-field-template--heading" className={headerBoxClassName}>
         {
-          hideHeader ? null : (
-            <span className={headerClassName}>
-              {heading}
-              {
-                (required || requiredUI) && (
-                  <i
-                    data-testid="custom-title-field-template--required"
-                    className="eui-icon eui-required-o required-icon"
-                  />
-                )
-              }
-            </span>
-          )
+          hideHeader ? null
+            : (
+              <span className={headerClassName}>
+                {heading}
+                {required || requiredUI ? <i data-testid="custom-title-field-template--required" className="eui-icon eui-required-o required-icon" /> : ''}
+              </span>
+            )
         }
       </div>
     </div>
@@ -67,12 +63,10 @@ CustomTitleFieldTemplate.propTypes = {
     focusField: PropTypes.string
   }),
   uiSchema: PropTypes.shape({
-    ui: PropTypes.shape({
-      'ui:header-classname': PropTypes.string,
-      'ui:header-box-classname': PropTypes.string,
-      'ui:required': PropTypes.bool,
-      'ui:hide-header': PropTypes.bool
-    }),
+    'ui:header-classname': PropTypes.string,
+    'ui:header-box-classname': PropTypes.string,
+    'ui:required': PropTypes.bool,
+    'ui:hide-header': PropTypes.bool,
     options: PropTypes.shape({
       title: PropTypes.string
     })
