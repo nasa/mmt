@@ -26,6 +26,7 @@ const CustomArrayFieldTemplate = ({
   const scrollRef = useRef(false)
   const [scrollIndex, setScrollRef] = useState(null)
 
+  // This useEffect for scrollIndex lets the refs be in place before trying to use them
   useEffect(() => {
     if (scrollIndex) {
       scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -50,6 +51,9 @@ const CustomArrayFieldTemplate = ({
     return startCase(title)
   }
 
+  // This handleAdd adds a new array,
+  // sets the scrollRef so the autoScroll executes
+  // sets the scrollRef to false after 400ms. (this is needed or else the page will keep scrolling back and forth)
   const handleAdd = (event) => {
     onAddClick(event)
     setScrollRef(true)
@@ -154,7 +158,13 @@ CustomArrayFieldTemplate.propTypes = {
   ).isRequired,
   canAdd: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+    'ui:required': PropTypes.bool,
+    'ui:hide-header': PropTypes.bool,
+    'ui:canAdd': PropTypes.bool,
+    'ui:title': PropTypes.string,
+    'ui:header-classname': PropTypes.string
+  }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired

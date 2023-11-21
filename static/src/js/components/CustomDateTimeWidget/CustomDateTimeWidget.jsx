@@ -152,7 +152,7 @@ CustomDateTimeWidget.propTypes = {
     maxLength: PropTypes.number
   }).isRequired,
   uiSchema: PropTypes.shape({
-
+    'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

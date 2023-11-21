@@ -6,7 +6,8 @@ import React, {
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-
+import parseCmrResponse from '../../utils/parseCmrResponse'
+import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 const CustomSelectWidget = ({
@@ -19,7 +20,7 @@ const CustomSelectWidget = ({
   registry,
   required,
   schema,
-  uiSchema = {},
+  uiSchema,
   value
 }) => {
   const [showDescription, setShowDescription] = useState(false)
@@ -31,21 +32,6 @@ const CustomSelectWidget = ({
   const selectOptions = []
   const { enum: schemaEnums = [], description } = schema
   const { formContext } = registry
-
-  // Const [cmrKeywords, setCmrKeywords] = useState([])
-  // useEffect(() => {
-  //   fetch('http://localhost:4000/search/keywords/related-urls')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //       setCmrKeywords(data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message)
-  //     })
-  // }, [])
-
-  // console.log('cmr', cmrKeywords)
 
   const {
     focusField,
@@ -66,6 +52,27 @@ const CustomSelectWidget = ({
     }
   }
 
+  // If the value already has data, this will store it as an object for react-select
+  const existingValue = value != null ? {
+    value,
+    label: value
+  } : {}
+
+  const [cmrKeywords, setCmrKeywords] = useState([])
+  const controlledField = uiSchema['ui:controlled']
+  // If a field in the uiSchema defines 'ui:controlled', this will make a
+  // call out to CMR /keywords to retrieve the keyword.
+  useEffect(() => {
+    if (controlledField) {
+      const { name } = controlledField
+      const cmrKeyword = async () => {
+        setCmrKeywords(await fetchCmrKeywords(name))
+      }
+
+      cmrKeyword()
+    }
+  }, [])
+
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
@@ -76,22 +83,33 @@ const CustomSelectWidget = ({
     }
   }, [shouldFocus])
 
-  // If a value already has data, this will store it as an object for react-select
-  const existingValue = value != null ? {
-    value,
-    label: value
-  } : {}
-
-  // Gets the enum values from the schema and adds to selectOption array.
-  schemaEnums.forEach((schemaEnum) => {
-    selectOptions.push({
-      value: schemaEnum,
-      label: schemaEnum
+  // Helper function that will add the list of enums to selectedOption
+  const selectOptionList = (enums) => {
+    enums.forEach((enumValue) => {
+      selectOptions.push({
+        value: enumValue,
+        label: enumValue
+      })
     })
-  })
+  }
+
+  // Extracting ui:options from uiSchema
+  const uiOptions = uiSchema['ui:options']
+  const { enumOptions } = uiOptions
+
+  // If enumOptions are define in uiSchema, these options take precedence over schema enums.
+  if (enumOptions) {
+    selectOptionList(enumOptions)
+  } else if (Object.keys(cmrKeywords).length > 0) { // If cmrKeywords are present, this condition will parse the cmr response and add the enums the selectOption.
+    const paths = parseCmrResponse(cmrKeywords, controlledField.controlName)
+    const enums = paths.map((path) => (path[0]))
+    selectOptionList(enums)
+  } else { // Gets the enum values from the schema and adds to selectOption.
+    selectOptionList(schemaEnums)
+  }
 
   const handleChange = (event) => {
-    onChange(event)
+    onChange(event.value)
     setShowMenu(false)
     focusRef.current?.blur()
   }
@@ -157,6 +175,14 @@ CustomSelectWidget.propTypes = {
     enum: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
   uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      enumOptions: PropTypes.arrayOf()
+    }),
+    'ui:title': PropTypes.string.isRequired,
+    'ui:controlled': PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      controlName: PropTypes.string.isRequired
+    })
   }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -164,66 +190,3 @@ CustomSelectWidget.propTypes = {
 }
 
 export default CustomSelectWidget
-
-// FROM OG MMT-React that needs to be implemented
-// Extracting ui:options from uiSchema
-// const uiOptions = uiSchema['ui:options'] || {}
-// const { enumOptions } = uiOptions
-// Let existingValue = null
-// if (typeof value === 'number') { // Used by oneOf, value is a number
-//   existingValue = value ? options.enumOptions[value] : {}
-// } else { // Used by everything else, it is value is a string
-//   existingValue = value != null ? {
-//     value,
-//     label: value
-//   } : {}
-// }
-// Be able to override schema enums from ui:schema
-// if (enumOptions) {
-//   (enumOptions as string[]).forEach((enumValue) => {
-//     selectOptions.push({
-//       value: enumValue,
-//       label: enumValue
-//     })
-//   })
-// } else if (options.enumOptions) {
-//   // If the field is oneOf field
-//   (options.enumOptions).forEach((option) => {
-//     selectOptions.push(option)
-//   })
-// } else {
-//   // Otherwise, just use the enums in the schema
-//   const { enum: enums = retrievedSchema?.enum ?? [] } = schema
-//   enums.forEach((currentEnum: string) => {
-//     if (currentEnum) {
-//       selectOptions.push({
-//         value: currentEnum,
-//         label: currentEnum
-//       })
-//     }
-//   })
-// }
-
-// TODO waiting on cmrFetch for this part
-// const { schema, uiSchema = {} } = this.props
-// const service = uiSchema['ui:service']
-// const controlled = uiSchema['ui:controlled'] || {}
-// const { name, controlName } = controlled
-
-// if (name && controlName) {
-//   this.setState({ loading: true }, () => {
-//     service.fetchCmrKeywords(name).then((keywords) => {
-//       const paths = parseCmrResponse(keywords, controlName)
-//       const enums = paths.map((path: string[]) => (path[0]))
-//       schema.enum = enums
-//       this.setState({ loading: false })
-//     })
-//       .catch(() => {
-//         const { registry } = this.props
-//         const { formContext } = registry
-//         const { editor } = formContext
-//         this.setState({ loading: false })
-//         editor.status = new Status('warning', `Error retrieving ${name} keywords`)
-//       })
-//   })
-// }
