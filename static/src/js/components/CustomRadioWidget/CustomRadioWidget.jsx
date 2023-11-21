@@ -5,7 +5,11 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
+
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+
 import './CustomRadioWidget.scss'
 
 const CustomRadioWidget = ({
@@ -60,6 +64,11 @@ const CustomRadioWidget = ({
     setInputValue(null)
   }
 
+  // Accessible event props for clicking on the form field icon
+  const accessibleEventProps = useAccessibleEvent((event) => {
+    handleClear(event)
+  })
+
   return (
     <CustomWidgetWrapper
       label={label}
@@ -72,6 +81,7 @@ const CustomRadioWidget = ({
         <div className="custom-radio-widget-clear-btn" data-testid={`${componentId}--clear-btn`} onClick={handleClear} role="presentation">
           Clear
         </div>
+
         <input
           type="radio"
           name="true"
@@ -81,7 +91,7 @@ const CustomRadioWidget = ({
           data-testid={`${componentId}--value__true`}
         />
         <label htmlFor={id}>True</label>
-        <br />
+
         <input
           type="radio"
           name="false"
