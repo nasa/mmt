@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { startCase } from 'lodash'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import countryList from 'react-select-country-list'
 
 const CustomCountrySelectWidget = ({
