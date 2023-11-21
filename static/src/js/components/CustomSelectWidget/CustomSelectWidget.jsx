@@ -95,10 +95,11 @@ const CustomSelectWidget = ({
 
   // Extracting ui:options from uiSchema
   const uiOptions = uiSchema['ui:options']
-  const { enumOptions } = uiOptions
 
   // If enumOptions are define in uiSchema, these options take precedence over schema enums.
-  if (enumOptions) {
+  if (uiOptions) {
+    const { enumOptions } = uiOptions
+
     selectOptionList(enumOptions)
   } else if (Object.keys(cmrKeywords).length > 0) { // If cmrKeywords are present, this condition will parse the cmr response and add the enums the selectOption.
     const paths = parseCmrResponse(cmrKeywords, controlledField.controlName)
