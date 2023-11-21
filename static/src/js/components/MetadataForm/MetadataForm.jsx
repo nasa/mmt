@@ -12,7 +12,9 @@ import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTem
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+// import CustomTitleField from '../CustomTitleField'
 import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -139,12 +141,11 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // eslint-disable-next-line capitalized-comments
-    // layout: LayoutGridField,
-    // streetAddresses: StreetAddressField,
+    layout: LayoutGridField,
+    streetAddresses: StreetAddressField,
     // boundingRectangle: BoundingRectangleField // Hoan
     // keywordPicker: KeywordsField, // deep
-    titleField: CustomTitleField
+    // titleField: CustomTitleField
     // OneOfField,
     // AnyOfField: () => null
   }
@@ -160,7 +161,9 @@ const MetadataForm = () => {
   const templates = {
     // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     ArrayFieldTemplate: CustomArrayTemplate,
-    FieldTemplate: CustomFieldTemplate
+    FieldTemplate: CustomFieldTemplate,
+    titleFieldTemplate: CustomTitleFieldTemplate
+    // FieldTemplate: CustomFieldTemplate,
     // TitleFieldTemplate: CustomTitleFieldTemplate
   }
 
@@ -245,12 +248,9 @@ const MetadataForm = () => {
           <Col sm={8}>
             {/* <MMTForm */}
             <Form
-              // Key={`${JSON.stringify(draft.key)}`}
               validator={validator}
               schema={formSchema}
               formData={ummMetadata}
-              // TODO we don't like doing it this way
-              // formData={draftMetadata || ummMetadata}
               uiSchema={uiSchema}
               fields={fields}
               templates={templates}

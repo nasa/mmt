@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
+import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, uniqueId } from 'lodash'
 
-import './StreetAddressField.scss'
-import { Col } from 'react-bootstrap'
+import For from '../For/For'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 
+import './StreetAddressField.scss'
+
 const StreetAddressField = ({
-  id,
-  options,
   onChange,
   registry,
   schema,
@@ -16,9 +16,9 @@ const StreetAddressField = ({
   formData,
   noLines
 }) => {
-  for (let i = 0; i < noLines - formData.count; i += 1) {
-    formData.push('')
-  }
+  // for (let i = 0; i < noLines - formData.count; i += 1) {
+  //   formData.push('')
+  // }
 
   const [lines, setLines] = useState(formData)
 
@@ -27,42 +27,47 @@ const StreetAddressField = ({
   const handleUpdateAddressLine = (line, pos) => {
     lines[pos] = line
     const values = Object.values(lines)
+
     setLines(values)
     onChange(values)
   }
 
   const clonedSchema = cloneDeep(schema)
   clonedSchema.description = ''
-
-  const lineWidgets = []
-  for (let i = 0; i < 3; i += 1) {
-    lineWidgets.push(
-      <Col md={12} className="street-address-field__address-line">
-        <CustomTextWidget
-          name={`address_line_${i}`}
-          label={`Address Line ${i + 1}`}
-          schema={clonedSchema}
-          value={lines[i]}
-          required={false}
-          id={`${id}_${i}`}
-          disabled={false}
-          options={options}
-          onChange={(value) => { handleUpdateAddressLine(value, i) }}
-          onBlur={() => undefined}
-          onFocus={() => undefined}
-          registry={registry}
-          uiSchema={uiSchema}
-        />
-      </Col>
-    )
-  }
+  const id = uniqueId()
 
   return (
-
     <div>
       <span className="street-address-field__description-box">
         {description}
-        {lineWidgets}
+
+        <For each={[...new Array(3)]}>
+          {
+            (_value, index) => (
+              <Col
+                key={`address_line_${index}`}
+                md={12}
+                className="street-address-field__address-line"
+              >
+                <CustomTextWidget
+                  name={`address_line_${index}`}
+                  label={`Address Line ${index + 1}`}
+                  schema={clonedSchema}
+                  value={lines[index]}
+                  required={false}
+                  id={`${id}_${index}`}
+                  disabled={false}
+                  onChange={(value) => { handleUpdateAddressLine(value, index) }}
+                  onBlur={() => undefined}
+                  onFocus={() => undefined}
+                  registry={registry}
+                  uiSchema={uiSchema}
+                  placeholder=""
+                />
+              </Col>
+            )
+          }
+        </For>
       </span>
     </div>
   )
@@ -74,11 +79,9 @@ StreetAddressField.defaultProps = {
 }
 
 StreetAddressField.propTypes = {
-  formData: PropTypes.shape([]),
-  id: PropTypes.string.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.string),
   noLines: PropTypes.number,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.shape({}).isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,

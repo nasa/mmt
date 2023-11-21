@@ -69,6 +69,8 @@ const CustomRadioWidget = ({
     handleClear(event)
   })
 
+  console.log('value: ', inputValue)
+
   return (
     <CustomWidgetWrapper
       label={label}
@@ -91,7 +93,7 @@ const CustomRadioWidget = ({
           data-testid={`${componentId}--value__true`}
         />
         <label htmlFor={id}>True</label>
-
+        <br />
         <input
           type="radio"
           name="false"

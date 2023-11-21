@@ -4,20 +4,18 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import { startCase } from 'lodash'
 
 import './CustomArrayFieldTemplate.scss'
-import {
-  Button,
-  Col,
-  Row
-} from 'react-bootstrap'
-import { startCase } from 'lodash'
 
 const CustomArrayFieldTemplate = ({
   items,
   canAdd,
   title,
-  uiSchema = {},
+  uiSchema,
   required,
   schema,
   onAddClick
@@ -27,8 +25,8 @@ const CustomArrayFieldTemplate = ({
   const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const scrollRef = useRef(false)
   const [scrollIndex, setScrollRef] = useState(null)
-  console.log('ref', scrollRef)
 
+  // This useEffect for scrollIndex lets the refs be in place before trying to use them
   useEffect(() => {
     if (scrollIndex) {
       scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -53,9 +51,11 @@ const CustomArrayFieldTemplate = ({
     return startCase(title)
   }
 
+  // This handleAdd adds a new array,
+  // sets the scrollRef so the autoScroll executes
+  // sets the scrollRef to false after 400ms. (this is needed or else the page will keep scrolling back and forth)
   const handleAdd = (event) => {
     onAddClick(event)
-    console.log(items.length)
     setScrollRef(true)
     setTimeout(() => {
       setScrollRef(false)
@@ -65,18 +65,25 @@ const CustomArrayFieldTemplate = ({
   return (
     <div className="custom-array-field-template">
       {
-        hideHeader ? (
+        hideHeader && (
           <span className={headerClassName}>
             <h1 className="custom-array-field-template__title">
               {fieldTitle()}
-              {required || requiredUI ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+
+              {
+                (required || requiredUI) && (
+                  <i className="eui-icon eui-required-o required-icon" />
+                )
+              }
             </h1>
           </span>
-        ) : null
+        )
       }
+
       <p className="custom-array-field-template__description">
         {schema.description}
       </p>
+
       {
         items && items.map((element, index) => (
           <div
@@ -87,12 +94,13 @@ const CustomArrayFieldTemplate = ({
             {/* Renders the field title. e.x: Related URL (1 of 1) */}
             <div>
               {
-                addElement ? (
+                addElement && (
                   <div className="h5 custom-array-field-template__field-title">
                     <span>
                       {fieldTitle()}
                       {items.length > 0 && ` (${index + 1} of ${items.length})`}
                     </span>
+
                     <Button
                       className="custom-array-field-template__remove-button"
                       variant="link"
@@ -102,7 +110,7 @@ const CustomArrayFieldTemplate = ({
                       Remove
                     </Button>
                   </div>
-                ) : null
+                )
               }
             </div>
 
@@ -116,6 +124,7 @@ const CustomArrayFieldTemplate = ({
           </div>
         ))
       }
+
       {/* Renders the add another field button */}
       {
         addElement ? (
@@ -126,13 +135,13 @@ const CustomArrayFieldTemplate = ({
             <span>
               {/* TODO From font awesome, do you want to use this or something else */}
               <i className="fa-solid fa-circle-plus fa-lg p-1" />
+
               {
                 items.length === 0 ? (
                   <span>Add</span>
                 ) : <span>Add another</span>
               }
-              {/* TODO Don't like this see if there is a better way of doing this  */}
-              {' '}
+
               {fieldTitle()}
             </span>
           </Button>
@@ -149,7 +158,13 @@ CustomArrayFieldTemplate.propTypes = {
   ).isRequired,
   canAdd: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+    'ui:required': PropTypes.bool,
+    'ui:hide-header': PropTypes.bool,
+    'ui:canAdd': PropTypes.bool,
+    'ui:title': PropTypes.string,
+    'ui:header-classname': PropTypes.string
+  }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired

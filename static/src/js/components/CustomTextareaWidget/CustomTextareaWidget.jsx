@@ -5,21 +5,21 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-
 import { useNavigate, useParams } from 'react-router'
+
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import './CustomTextareaWidget.scss'
 
 const CustomTextareaWidget = ({
-  label = '',
+  label,
   id,
   onBlur,
   onChange,
   registry,
   required,
   schema,
-  uiSchema = {},
+  uiSchema,
   value
 }) => {
   const {
@@ -153,7 +153,8 @@ CustomTextareaWidget.propTypes = {
     maxLength: PropTypes.number
   }).isRequired,
   uiSchema: PropTypes.shape({
-
+    'ui:header-classname': PropTypes.string,
+    'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

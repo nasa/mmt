@@ -10,12 +10,12 @@ import { useMutation, useQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash'
 // TODO put back in after MetadataPreview bootstrap is upgraded
-// import {
-//   CollectionPreview,
-//   ServicePreview,
-//   ToolPreview,
-//   VariablePreview
-// } from '@edsc/metadata-preview'
+import {
+  CollectionPreview,
+  ServicePreview,
+  ToolPreview,
+  VariablePreview
+} from '@edsc/metadata-preview'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
@@ -114,7 +114,7 @@ const DraftPreview = () => {
     name,
     nativeId,
     // TODO put back in after MetadataPreview bootstrap is upgraded
-    // previewMetadata,
+    previewMetadata,
     providerId,
     ummMetadata
   } = draft
@@ -147,49 +147,49 @@ const DraftPreview = () => {
 
   // Determine which MetadataPreview component to show
   // TODO put back in after MetadataPreview bootstrap is upgraded
-  // const metadataPreviewComponent = () => {
-  //   if (derivedConceptType === 'Collection') {
-  //     return (
-  //       <CollectionPreview
-  //         collection={previewMetadata}
-  //         conceptId={conceptId}
-  //         conceptType="collection-draft"
-  //       />
-  //     )
-  //   }
+  const metadataPreviewComponent = () => {
+    if (derivedConceptType === 'Collection') {
+      return (
+        <CollectionPreview
+          collection={previewMetadata}
+          conceptId={conceptId}
+          conceptType="collection-draft"
+        />
+      )
+    }
 
-  //   if (derivedConceptType === 'Service') {
-  //     return (
-  //       <ServicePreview
-  //         conceptId={conceptId}
-  //         conceptType="service-draft"
-  //         service={previewMetadata}
-  //       />
-  //     )
-  //   }
+    if (derivedConceptType === 'Service') {
+      return (
+        <ServicePreview
+          conceptId={conceptId}
+          conceptType="service-draft"
+          service={previewMetadata}
+        />
+      )
+    }
 
-  //   if (derivedConceptType === 'Tool') {
-  //     return (
-  //       <ToolPreview
-  //         conceptId={conceptId}
-  //         conceptType="tool-draft"
-  //         tool={previewMetadata}
-  //       />
-  //     )
-  //   }
+    if (derivedConceptType === 'Tool') {
+      return (
+        <ToolPreview
+          conceptId={conceptId}
+          conceptType="tool-draft"
+          tool={previewMetadata}
+        />
+      )
+    }
 
-  //   if (derivedConceptType === 'Variable') {
-  //     return (
-  //       <VariablePreview
-  //         conceptId={conceptId}
-  //         conceptType="variable-draft"
-  //         variable={previewMetadata}
-  //       />
-  //     )
-  //   }
+    if (derivedConceptType === 'Variable') {
+      return (
+        <VariablePreview
+          conceptId={conceptId}
+          conceptType="variable-draft"
+          variable={previewMetadata}
+        />
+      )
+    }
 
-  //   return null
-  // }
+    return null
+  }
 
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
@@ -279,7 +279,7 @@ const DraftPreview = () => {
           <Row>
             <Col md={12}>
               {/* // TODO put back in after MetadataPreview bootstrap is upgraded */}
-              {/* {metadataPreviewComponent()} */}
+              {metadataPreviewComponent()}
             </Col>
           </Row>
         </Row>

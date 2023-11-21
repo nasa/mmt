@@ -7,12 +7,16 @@ const CustomFieldTemplate = ({
   errors,
   children
 }) => (
-  <div data-testid="custom-field-template" className={`metadata-editor-field ${classNames}`}>
+  <div
+    data-testid="custom-field-template"
+    className={`metadata-editor-field ${classNames}`}
+  >
     {children}
     {errors}
     {help}
   </div>
 )
+
 CustomFieldTemplate.defaultProps = {
   classNames: ''
 }
