@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-const LayoutGridFieldCheckboxPanel = () => (
+const GridCheckboxPanel = () => (
   <Row>
     <Col>
       This is where the Checkbox Panel would go.
@@ -9,4 +9,4 @@ const LayoutGridFieldCheckboxPanel = () => (
   </Row>
 )
 
-export default LayoutGridFieldCheckboxPanel
+export default GridCheckboxPanel

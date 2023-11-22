@@ -46,8 +46,8 @@ import removeEmpty from '../../utils/removeEmpty'
 
 import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
-import LayoutGridField from '../LayoutGridField/LayoutGridField'
 import JsonPreview from '../JsonPreview/JsonPreview'
+import GridLayout from '../GridLayout/GridLayout'
 
 const MetadataForm = () => {
   const {
@@ -142,10 +142,10 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    layout: LayoutGridField,
+    layout: GridLayout,
     streetAddresses: StreetAddressField,
-    boundingRectangle: BoundingRectangleField,
-    // keywordPicker: KeywordsField,
+    BoundingRectangle: BoundingRectangleField,
+    // KeywordPicker: KeywordsField,
     TitleField: CustomTitleField
     // OneOfField,
     // AnyOfField: () => null
@@ -290,7 +290,7 @@ const MetadataForm = () => {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="json-view">
           <Col sm={8}>
             <JsonPreview />
           </Col>

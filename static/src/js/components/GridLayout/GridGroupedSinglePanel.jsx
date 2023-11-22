@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-const LayoutGridFieldGroupedSinglePanel = () => (
+const GridGroupedSinglePanel = () => (
   <Row>
     <Col>
       This is where the Grouped Single Panel would go.
@@ -9,4 +9,4 @@ const LayoutGridFieldGroupedSinglePanel = () => (
   </Row>
 )
 
-export default LayoutGridFieldGroupedSinglePanel
+export default GridGroupedSinglePanel

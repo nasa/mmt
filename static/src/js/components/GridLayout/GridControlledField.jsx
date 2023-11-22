@@ -48,7 +48,7 @@ import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
  *
  */
 
-const LayoutGridFieldControlledField = ({
+const GridControlledField = ({
   schema,
   registry,
   formData,
@@ -257,12 +257,12 @@ const LayoutGridFieldControlledField = ({
   )
 }
 
-LayoutGridFieldControlledField.defaultProps = {
+GridControlledField.defaultProps = {
   uiSchema: {},
   onSelectValue: null
 }
 
-LayoutGridFieldControlledField.propTypes = {
+GridControlledField.propTypes = {
   formData: PropTypes.shape({}).isRequired,
   idSchema: PropTypes.shape({
     $id: PropTypes.string
@@ -285,4 +285,4 @@ LayoutGridFieldControlledField.propTypes = {
   uiSchema: PropTypes.shape({})
 }
 
-export default LayoutGridFieldControlledField
+export default GridControlledField
