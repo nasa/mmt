@@ -45,7 +45,7 @@ const CustomTitleField = ({
 
   return (
     <div>
-      <div ref={scrollRef} className={groupBoxClassName}>
+      <div ref={scrollRef} data-testid="custom-title-field--heading" className={groupBoxClassName}>
         {
           hideHeader ? null : (
             <span className={`${className}`}>
