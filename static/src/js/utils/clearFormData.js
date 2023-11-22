@@ -2,9 +2,9 @@
 // i.e., If the hierarchy has category, topic, term, variable and the
 // specified target key is 'topic', it will clear the form data for term
 // and variable.
-const clearFormData = (controlled, form, targetKey) => {
+const clearFormData = (mapping, form, targetKey) => {
   let found = false
-  const { map, clearAdditions = [] } = controlled
+  const { map, clearAdditions = [] } = mapping
   const keys = Object.keys(map)
   keys.forEach((key) => {
     const controlKey = map[key]

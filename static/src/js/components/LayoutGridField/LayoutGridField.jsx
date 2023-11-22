@@ -21,7 +21,6 @@ const LayoutGridField = (props) => {
     schema,
     uiSchema = {},
     idSchema,
-    controlName,
     layoutGridSchema,
     required,
     formData,
@@ -29,7 +28,8 @@ const LayoutGridField = (props) => {
     onBlur,
     onFocus,
     disabled,
-    readonly
+    readonly,
+    controlName
   } = props
 
   const scrollRef = useRef(null)
@@ -168,7 +168,7 @@ const LayoutGridField = (props) => {
   const renderCol = (layoutSchema) => {
     const {
       children,
-      colControlName,
+      controlName: cName,
       ...colProps
     } = layoutSchema['ui:col']
 
@@ -178,10 +178,6 @@ const LayoutGridField = (props) => {
     const groupBoxClassName = layoutSchema['ui:group-box-classname']
     const requiredUI = layoutSchema['ui:required']
 
-    // Need to pull out controlName as it isn't a valid property that can be
-    // passed to Col
-    const { controlName: _controlName, ...properColProps } = colProps
-
     if (group) {
       const { fields } = registry
       const { TitleField } = fields
@@ -189,7 +185,7 @@ const LayoutGridField = (props) => {
       const title = group
 
       return (
-        <Col {...properColProps} key={`col--${JSON.stringify(colProps)}`}>
+        <Col {...colProps} key={`col--${JSON.stringify(colProps)}`}>
           <fieldset
             ref={scrollRef}
             className="rjsf-layout-grid-group"
@@ -226,7 +222,7 @@ const LayoutGridField = (props) => {
               ) : null
             }
             <div>
-              {renderChildren(children, controlName)}
+              {renderChildren(children, cName)}
             </div>
           </fieldset>
         </Col>
@@ -234,9 +230,9 @@ const LayoutGridField = (props) => {
     }
 
     return (
-      <Col {...properColProps}>
+      <Col {...colProps}>
         {' '}
-        {renderChildren(children, controlName)}
+        {renderChildren(children, cName)}
       </Col>
     )
   }
@@ -379,13 +375,23 @@ const LayoutGridField = (props) => {
     return renderCol(layoutSchema)
   }
 
+  const fieldName = layoutSchema
+  const fieldUiSchema = uiSchema[fieldName] ?? {}
   if (controlName) {
     return (
       <LayoutGridFieldControlledField
-        {...props}
+        registry={registry}
+        uiSchema={fieldUiSchema}
+        schema={schema}
         key={`controlledfield--${controlName}`}
-        layoutGridSchema={layoutSchema}
+        name={fieldName}
         controlName={controlName}
+        formData={formData}
+        idSchema={idSchema}
+        onChange={onChange}
+        errorSchema={errorSchema}
+        onSelectValue={uiSchema['ui:onHandleChange']}
+        mapping={uiSchema['ui:controlled']}
       />
     )
   }

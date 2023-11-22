@@ -4,7 +4,7 @@ import { getApplicationConfig } from './getConfig'
  * @param {string} scheme keyword name. e.x: related-urls
  */
 
-const fetchCmrKeywords = async (scheme) => {
+const fetchCmrKeywords = async (scheme, completionHandler = null) => {
   const { cmrHost } = getApplicationConfig()
 
   let res = null
@@ -15,6 +15,10 @@ const fetchCmrKeywords = async (scheme) => {
     .catch((err) => {
       res = err
     })
+
+  if (completionHandler) {
+    completionHandler()
+  }
 
   return res
 }

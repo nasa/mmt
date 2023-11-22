@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react'
-import { kebabCase } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { cloneDeep, kebabCase } from 'lodash'
 import PropTypes from 'prop-types'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import convertToDottedNotation from '../../utils/convertToDottedNotation'
@@ -10,29 +10,75 @@ import getParentFormData from '../../utils/getFormData'
 import clearFormData from '../../utils/clearFormData'
 import getKeywords from '../../utils/getKeywords'
 import useAppContext from '../../hooks/useAppContext'
+import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
+
+/**
+ * Handles fields that are linked via controlled vocabulary
+ * The mapping is the mapping from JSON to CMR field names, as well as the
+ * keyword's type (name)
+ *
+ * This component will handle the select box change events, so if a click one
+ * select box, it will auto populate the next select box based on the field
+ * selected.
+ * {
+ *     name: 'related-urls',
+ *     map: {
+ *       URLContentType: 'url_content_type',
+ *       Type: 'type',
+ *       Subtype: 'subtype'
+ *     }
+ * }
+ * name is the JSON field name
+ * controlName is the CMR field naame
+ * formData contains the JSON data for parent form of the field
+ * {
+ *    URLContentType: 'alpha',
+ *    Type: 'beta',
+ *    Subtype: 'gamma'
+ * }
+ * uiSchema: is the uiSchema for the field
+ * onSelectValue(name, value, props, state): handler is triggered when the user selects a value
+ * schema: schema for the parent
+*/
 
 const LayoutGridFieldControlledField = ({
-  layoutGridSchema,
-  controlName,
-  uiSchema,
   schema,
   registry,
   formData,
   idSchema,
-  onChange
+  onChange,
+  mapping,
+  onSelectValue,
+  name,
+  controlName,
+  uiSchema
 }) => {
-  const [cmrResponse, setCmrResponse] = useState({})
   const [loading, setLoading] = useState(false)
 
   const {
-    addStatusMessage,
     draft
   } = useAppContext()
 
+  const [cmrKeywords, setCmrKeywords] = useState([])
+
+  const { name: keywordType } = mapping
+
+  // If a field in the uiSchema defines 'ui:controlled', this will make a
+  // call out to CMR /keywords to retrieve the keyword.
+  useEffect(() => {
+    if (mapping) {
+      setLoading(true)
+      const fetchKeywords = async () => {
+        setCmrKeywords(await fetchCmrKeywords(keywordType, () => { setLoading(false) }))
+      }
+
+      fetchKeywords()
+    }
+  }, [])
+
   // Builds the filter for retrieving keywords.
   const createFilter = (form) => {
-    const controlled = uiSchema['ui:controlled']
-    const { map } = controlled
+    const { map } = mapping
 
     const keys = Object.keys(map)
     const object = {}
@@ -45,18 +91,14 @@ const LayoutGridFieldControlledField = ({
     return object
   }
 
-  const isRequired = (name) => {
+  const isRequired = (fieldName) => {
     const { required } = schema
 
-    return Array.isArray(required) && required.indexOf(name) !== -1
+    return Array.isArray(required) && required.indexOf(fieldName) !== -1
   }
-
-  const onHandleChange = uiSchema['ui:onHandleChange']
 
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(schema)
-
-  const name = layoutGridSchema
 
   // In this case the name referenced in the control name isn't in the schema
   if (retrievedSchema.properties[name] === undefined) {
@@ -71,11 +113,9 @@ const LayoutGridFieldControlledField = ({
 
   const filter = createFilter(formData)
 
-  const controlled = uiSchema['ui:controlled']
-  const { map } = controlled
-  const { includeParentFormData = false } = controlled
+  const { map } = mapping
+  const { includeParentFormData = false } = mapping
   if (includeParentFormData) {
-    A
     const path = createPath(convertToDottedNotation(idSchema.$id))
     const parentFormData = getParentFormData(path, draft) ?? {}
     Object.keys(parentFormData).forEach((key) => {
@@ -88,7 +128,7 @@ const LayoutGridFieldControlledField = ({
 
   delete filter[controlName]
   const enums = getKeywords(
-    cmrResponse,
+    cmrKeywords,
     controlName,
     filter,
     Object.values(map)
@@ -105,7 +145,7 @@ const LayoutGridFieldControlledField = ({
     childIdSchema[key] = childIdSchema[key].replace('root', '')
   })
 
-  const fieldUiSchema = uiSchema[name] ?? {}
+  const fieldUiSchema = mapping[name] ?? {}
   const title = fieldUiSchema['ui:title'] ?? name
 
   const existingValue = formData[name]
@@ -149,7 +189,7 @@ const LayoutGridFieldControlledField = ({
           label={title}
           value={value}
           placeholder={placeholder}
-          onChange={undefined}
+          onChange={onChange}
           schema={retrievedSchema.properties[name]}
           onBlur={undefined}
           onFocus={undefined}
@@ -183,25 +223,25 @@ const LayoutGridFieldControlledField = ({
         required={isRequired(name)}
         label={title}
         schema={retrievedSchema.properties[name]}
-        uiSchema={uiSchema[name]}
+        uiSchema={uiSchema}
         registry={registry}
         value={formData[name]}
         onChange={
           (selectValue) => {
-            let data = formData
+            let data = cloneDeep(formData)
             data[name] = selectValue
-            data = clearFormData(controlled, data, controlName)
+            data = clearFormData(mapping, data, controlName)
             onChange(data, null)
 
-            if (onHandleChange) {
-              onHandleChange(name, selectValue)
+            if (onSelectValue) {
+              onSelectValue(name, selectValue)
             }
           }
         }
         isLoading={loading}
         placeholder={placeholder}
-        onBlur={undefined}
-        onFocus={undefined}
+        onBlur={() => null}
+        onFocus={() => null}
         options={undefined}
         disabled={enumsLength === 0}
         id={idSchema[name].$id}
@@ -210,37 +250,32 @@ const LayoutGridFieldControlledField = ({
   )
 }
 
+LayoutGridFieldControlledField.defaultProps = {
+  uiSchema: {},
+  onSelectValue: null
+}
+
 LayoutGridFieldControlledField.propTypes = {
-  controlName: PropTypes.string.isRequired,
-  errorSchema: PropTypes.shape({}).isRequired,
   formData: PropTypes.shape({}).isRequired,
   idSchema: PropTypes.shape({
     $id: PropTypes.string
   }).isRequired,
-  layoutGridSchema: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]).isRequired,
+  name: PropTypes.string.isRequired,
+  controlName: PropTypes.string.isRequired,
   registry: PropTypes.shape({
-    formContext: PropTypes.shape({
-      focusField: PropTypes.string,
-      setFocusField: PropTypes.func
-    }).isRequired,
-    getUiOptions: PropTypes.func,
-    schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired,
-    fields: PropTypes.shape({
-      TitleField: PropTypes.func,
-      SchemaField: PropTypes.func
-    })
+    schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired
   }).isRequired,
   schema: PropTypes.shape({
-    description: PropTypes.string,
-    maxLength: PropTypes.number,
-    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
-    properties: PropTypes.shape({})
+    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)])
   }).isRequired,
-  uiSchema: PropTypes.shape({
-    'ui:controlled': PropTypes.string,
-    'ui:onHandleChange': PropTypes.func
+  onChange: PropTypes.func.isRequired,
+  mapping: PropTypes.shape({
+    name: PropTypes.string,
+    map: PropTypes.shape({}),
+    includeParentFormData: PropTypes.bool
   }).isRequired,
-  onChange: PropTypes.func.isRequired
+  onSelectValue: PropTypes.func,
+  uiSchema: PropTypes.shape({})
 }
 
 export default LayoutGridFieldControlledField

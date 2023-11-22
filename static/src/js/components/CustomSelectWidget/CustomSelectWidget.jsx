@@ -60,16 +60,19 @@ const CustomSelectWidget = ({
 
   const [cmrKeywords, setCmrKeywords] = useState([])
   const controlledField = uiSchema['ui:controlled']
+
   // If a field in the uiSchema defines 'ui:controlled', this will make a
   // call out to CMR /keywords to retrieve the keyword.
   useEffect(() => {
     if (controlledField) {
       const { name } = controlledField
-      const cmrKeyword = async () => {
-        setCmrKeywords(await fetchCmrKeywords(name))
-      }
+      if (name) {
+        const cmrKeyword = async () => {
+          setCmrKeywords(await fetchCmrKeywords(name))
+        }
 
-      cmrKeyword()
+        cmrKeyword()
+      }
     }
   }, [])
 
@@ -155,7 +158,10 @@ const CustomSelectWidget = ({
 CustomSelectWidget.defaultProps = {
   disabled: false,
   value: null,
-  placeholder: ''
+  placeholder: '',
+  uiSchema: {
+    'ui:title': null
+  }
 }
 
 CustomSelectWidget.propTypes = {
@@ -179,12 +185,12 @@ CustomSelectWidget.propTypes = {
     'ui:options': PropTypes.shape({
       enumOptions: PropTypes.arrayOf()
     }),
-    'ui:title': PropTypes.string.isRequired,
+    'ui:title': PropTypes.string,
     'ui:controlled': PropTypes.shape({
       name: PropTypes.string.isRequired,
       controlName: PropTypes.string.isRequired
     })
-  }).isRequired,
+  }),
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired
