@@ -13,7 +13,8 @@ const GridCol = (
     schema,
     required,
     uiSchema,
-    onChange
+    onChange,
+    layout
   } = props
 
   const scrollRef = useRef(null)
@@ -22,13 +23,13 @@ const GridCol = (
     children,
     controlName: cName,
     ...colProps
-  } = uiSchema['ui:col']
+  } = layout['ui:col']
 
-  const group = uiSchema['ui:group']
-  const groupDescription = uiSchema['ui:group-description']
-  const groupClassName = uiSchema['ui:group-classname']
-  const groupBoxClassName = uiSchema['ui:group-box-classname']
-  const requiredUI = uiSchema['ui:required']
+  const group = layout['ui:group']
+  const groupDescription = layout['ui:group-description']
+  const groupClassName = layout['ui:group-classname']
+  const groupBoxClassName = layout['ui:group-box-classname']
+  const requiredUI = layout['ui:required']
 
   // Render children rows
   //  {
@@ -47,7 +48,8 @@ const GridCol = (
         {...props}
         key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
         schema={retrievedSchema}
-        layoutGridSchema={layoutSchema}
+        uiSchema={uiSchema}
+        layout={layoutSchema}
         onChange={onChange}
         controlName={cName}
       />
@@ -130,9 +132,9 @@ GridCol.propTypes = {
     description: PropTypes.string
 
   }).isRequired,
-  uiSchema: PropTypes.shape({
+  layout: PropTypes.shape({
     'ui:col': PropTypes.shape({
-      children: PropTypes.arrayOf(PropTypes.shape({})),
+      children: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string])),
       controlName: PropTypes.string
     }),
     'ui:group': PropTypes.string,
@@ -142,6 +144,7 @@ GridCol.propTypes = {
     'ui:group-box-classname': PropTypes.string,
     'ui:required': PropTypes.bool
   }).isRequired,
+  uiSchema: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired
 
 }

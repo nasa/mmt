@@ -11,6 +11,7 @@ const GridRow = (
 ) => {
   const {
     uiSchema,
+    layout,
     registry,
     schema,
     formData,
@@ -18,14 +19,14 @@ const GridRow = (
     onChange
   } = props
 
-  const rows = uiSchema['ui:row']
-  const group = uiSchema['ui:group']
-  const groupCheckbox = uiSchema['ui:group-checkbox']
-  const groupDescription = uiSchema['ui:group-description']
-  const groupClassName = uiSchema['ui:group-classname']
-  const groupBoxClassName = uiSchema['ui:group-box-classname']
-  const requiredUI = uiSchema['ui:required']
-  const hide = uiSchema['ui:hide']
+  const rows = layout['ui:row']
+  const group = layout['ui:group']
+  const groupCheckbox = layout['ui:group-checkbox']
+  const groupDescription = layout['ui:group-description']
+  const groupClassName = layout['ui:group-classname']
+  const groupBoxClassName = layout['ui:group-box-classname']
+  const requiredUI = layout['ui:required']
+  const hide = layout['ui:hide']
 
   // Render children rows
   //  {
@@ -42,9 +43,10 @@ const GridRow = (
     return rows.map((layoutSchema) => (
       <GridLayout
         {...props}
+        uiSchema={uiSchema}
+        layout={layoutSchema}
         key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
         schema={retrievedSchema}
-        layoutGridSchema={layoutSchema}
         onChange={onChange}
       />
     ))
@@ -59,7 +61,7 @@ const GridRow = (
     const { TitleField } = fields
     const { description = '' } = schema
     const title = group
-    const groupSinglePanel = uiSchema['ui:group-single-panel']
+    const groupSinglePanel = layout['ui:group-single-panel']
 
     return (
       <div className="layout-grid-field__row-fieldset">
@@ -183,7 +185,7 @@ GridRow.propTypes = {
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
     properties: PropTypes.shape({})
   }).isRequired,
-  uiSchema: PropTypes.shape({
+  layout: PropTypes.shape({
     'ui:row': PropTypes.arrayOf(
       PropTypes.shape({})
     ),
@@ -195,7 +197,8 @@ GridRow.propTypes = {
     'ui:required': PropTypes.bool,
     'ui:hide': PropTypes.func,
     'ui:group-single-panel': PropTypes.string
-  }).isRequired
+  }).isRequired,
+  uiSchema: PropTypes.shape({}).isRequired
 }
 
 export default GridRow

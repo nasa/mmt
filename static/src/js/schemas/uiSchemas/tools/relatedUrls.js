@@ -100,6 +100,7 @@ const relatedUrlsUiSchema = {
         ]
       },
       Description: {
+        'ui:title': 'Hello',
         'ui:widget': 'textarea'
       },
       Format: {

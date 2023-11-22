@@ -16,34 +16,33 @@ const GridLayout = (props) => {
     schema,
     uiSchema = {},
     idSchema,
-    layoutGridSchema,
     formData,
     errorSchema,
     controlName
   } = props
-  let layoutSchema = layoutGridSchema
-  if (!layoutSchema) {
-    layoutSchema = uiSchema['ui:layout_grid']
+  let { layout } = props
+  if (!layout) {
+    layout = uiSchema['ui:layout_grid']
   }
 
-  if (layoutSchema['ui:col']) {
-    layoutSchema['ui:controlled'] = uiSchema['ui:controlled']
+  if (layout['ui:col']) {
+    layout['ui:controlled'] = uiSchema['ui:controlled']
 
     return (
-      <GridCol {...props} uiSchema={layoutSchema} />
+      <GridCol {...props} uiSchema={uiSchema} layout={layout} />
     )
   }
 
-  if (layoutSchema['ui:row']) {
-    layoutSchema['ui:controlled'] = uiSchema['ui:controlled']
+  if (layout['ui:row']) {
+    layout['ui:controlled'] = uiSchema['ui:controlled']
 
     return (
-      <GridRow {...props} uiSchema={layoutSchema} />
+      <GridRow {...props} uiSchema={uiSchema} layout={layout} />
     )
   }
 
   if (controlName) {
-    const fieldName = layoutSchema
+    const fieldName = layout
     const fieldUiSchema = uiSchema[fieldName] ?? {}
 
     return (
@@ -69,12 +68,14 @@ const GridLayout = (props) => {
   //    { 'ui:col': { md: 6, children: ['firstName'] } },
   //  ]
   return (
-    <GridField {...props} uiSchema={layoutSchema} />
+    <div>
+      <GridField {...props} uiSchema={uiSchema} layout={layout} />
+    </div>
   )
 }
 
 GridLayout.defaultProps = {
-  layoutGridSchema: null,
+  layout: null,
   required: false,
   onChange: null,
   controlName: null
@@ -88,7 +89,7 @@ GridLayout.propTypes = {
   idSchema: PropTypes.shape({
     $id: PropTypes.string
   }).isRequired,
-  layoutGridSchema: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
+  layout: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,

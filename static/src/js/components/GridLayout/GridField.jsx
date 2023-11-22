@@ -8,6 +8,7 @@ import onKeyChange from '../../utils/onKeyChange'
 const GridField = (props) => {
   const {
     uiSchema,
+    layout,
     registry,
     formData,
     schema,
@@ -29,11 +30,11 @@ const GridField = (props) => {
   // Grab the name of the field we want from the ui schema.
   let layoutName
   let render
-  if (typeof uiSchema === 'string') {
-    layoutName = uiSchema
+  if (typeof layout === 'string') {
+    layoutName = layout
   } else {
-    layoutName = uiSchema.name
-    render = uiSchema.render
+    layoutName = layout.name
+    render = layout.render
   }
 
   const pos = layoutName.lastIndexOf('-')
@@ -62,6 +63,7 @@ const GridField = (props) => {
 
   const { properties = {} } = retrievedSchema // OneOf causes properties to return null
 
+  console.log('presenting schema field for ', layoutName, uiSchema, layout)
   if (properties[layoutName] && !render) {
     return (
       <span>
@@ -170,15 +172,18 @@ GridField.propTypes = {
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
     properties: PropTypes.shape({})
   }).isRequired,
-  uiSchema: PropTypes.shape({
-    name: PropTypes.string,
-    render: PropTypes.func
-  }).isRequired,
+  layout: PropTypes.oneOfType(
+    [PropTypes.shape({
+      name: PropTypes.string,
+      render: PropTypes.func
+    }), PropTypes.string]
+  ).isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   disabled: PropTypes.bool,
-  readonly: PropTypes.bool
+  readonly: PropTypes.bool,
+  uiSchema: PropTypes.shape({}).isRequired
 }
 
 export default GridField
