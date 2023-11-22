@@ -4,12 +4,13 @@ import React, {
   useEffect
 } from 'react'
 import PropTypes from 'prop-types'
-import { useParams, useNavigate } from 'react-router'
 import { startCase } from 'lodash'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import shouldFocusField from '../../utils/shouldFocusField'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -24,12 +25,6 @@ const CustomDateTimeWidget = ({
   uiSchema,
   value
 }) => {
-  const {
-    conceptId,
-    sectionName,
-    fieldName
-  } = useParams()
-  const navigate = useNavigate()
   const [date, onChangeDate] = React.useState(value ? new Date(value) : null)
   const [showDescription, setShowDescription] = useState(false)
   const [showCalender, setShowCalender] = useState(false)
@@ -52,14 +47,7 @@ const CustomDateTimeWidget = ({
     title = uiSchema['ui:title']
   }
 
-  let shouldFocus = false
-  if (focusField === id) {
-    shouldFocus = true
-  } else if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
-      shouldFocus = true
-    }
-  }
+  const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
@@ -68,13 +56,6 @@ const CustomDateTimeWidget = ({
       setShowCalender(true)
     }
   }, [shouldFocus])
-
-  useEffect(() => {
-    if (fieldName) {
-      // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-      navigate(`../${conceptId}/${sectionName}`, { replace: true })
-    }
-  }, [fieldName])
 
   const handleFocus = () => {
     setShowDescription(true)

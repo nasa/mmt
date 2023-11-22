@@ -71,7 +71,10 @@ const MetadataForm = () => {
 
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
-    setFocusField(`root_${fieldName}`)
+    setFocusField(fieldName)
+
+    // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
+    navigate(`../${conceptId}/${sectionName}`, { replace: true })
   }, [fieldName])
 
   const [ingestDraftMutation, {

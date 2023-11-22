@@ -6,9 +6,12 @@ import React, {
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-import parseCmrResponse from '../../utils/parseCmrResponse'
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
+
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
+import parseCmrResponse from '../../utils/parseCmrResponse'
+import shouldFocusField from '../../utils/shouldFocusField'
 
 const CustomSelectWidget = ({
   disabled,
@@ -43,14 +46,7 @@ const CustomSelectWidget = ({
     title = uiSchema['ui:title']
   }
 
-  let shouldFocus = false
-  if (focusField === id) {
-    shouldFocus = true
-  } else if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
-      shouldFocus = true
-    }
-  }
+  const shouldFocus = shouldFocusField(focusField, id)
 
   // If the value already has data, this will store it as an object for react-select
   const existingValue = value != null ? {

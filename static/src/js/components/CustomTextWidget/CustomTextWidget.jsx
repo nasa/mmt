@@ -5,13 +5,12 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-import { useNavigate, useParams } from 'react-router'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-import './CustomTextWidget.scss'
+import shouldFocusField from '../../utils/shouldFocusField'
 
-// TODO a lot of this logic feels like it can/should still be abstracted out. Focus logic will need to happen for every widget
+import './CustomTextWidget.scss'
 
 const CustomTextWidget = ({
   disabled,
@@ -26,14 +25,10 @@ const CustomTextWidget = ({
   uiSchema,
   value
 }) => {
-  const {
-    conceptId,
-    sectionName,
-    fieldName
-  } = useParams()
-  const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
-  const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
+  const [charsUsed, setCharsUsed] = useState(value?.length)
+  const [fieldValue, setFieldValue] = useState(value)
+
   const inputScrollRef = useRef(null)
   const focusRef = useRef(null)
 
@@ -45,24 +40,15 @@ const CustomTextWidget = ({
 
   const { maxLength, description } = schema
 
-  const fieldType = uiSchema ? uiSchema['ui:type'] : null
-  const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
+  const fieldType = uiSchema['ui:type']
+  const headerClassName = uiSchema['ui:header-classname']
 
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
 
-  let shouldFocus = false
-  console.log('🚀 ~ file: CustomTextWidget.jsx:58 ~ id:', id)
-  console.log('🚀 ~ file: CustomTextWidget.jsx:59 ~ focusField:', focusField)
-  if (focusField === id) {
-    shouldFocus = true
-  } else if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
-      shouldFocus = true
-    }
-  }
+  const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
@@ -72,29 +58,29 @@ const CustomTextWidget = ({
     }
   }, [shouldFocus])
 
-  useEffect(() => {
-    if (fieldName) {
-      // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-      navigate(`../${conceptId}/${sectionName}`, { replace: true })
-    }
-  }, [fieldName])
-
+  // Handling focusing the field
   const handleFocus = () => {
     setShowDescription(true)
   }
 
+  // Handle the value changing in the field
   const handleChange = (event) => {
     const { value: newValue } = event.target
+
+    setFieldValue(newValue)
 
     if (newValue === '') {
       setCharsUsed(0)
       onChange(undefined)
+
+      return
     }
 
     setCharsUsed(newValue.length)
     onChange(newValue)
   }
 
+  // Handle the field losing focus
   const handleBlur = () => {
     setFocusField(null)
 
@@ -125,7 +111,7 @@ const CustomTextWidget = ({
         onFocus={handleFocus}
         placeholder={placeholder}
         type={fieldType && fieldType === 'number' ? 'number' : 'text'}
-        value={value ?? ''}
+        value={fieldValue}
       />
     </CustomWidgetWrapper>
   )
@@ -133,7 +119,7 @@ const CustomTextWidget = ({
 
 CustomTextWidget.defaultProps = {
   disabled: false,
-  value: null
+  value: ''
 }
 
 CustomTextWidget.propTypes = {
@@ -152,7 +138,11 @@ CustomTextWidget.propTypes = {
     description: PropTypes.string,
     maxLength: PropTypes.number
   }).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+    'ui:header-classname': PropTypes.string,
+    'ui:title': PropTypes.string,
+    'ui:type': PropTypes.string
+  }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired

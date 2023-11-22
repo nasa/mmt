@@ -5,9 +5,10 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
-import { useNavigate, useParams } from 'react-router'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import shouldFocusField from '../../utils/shouldFocusField'
 
 import './CustomTextareaWidget.scss'
 
@@ -22,13 +23,6 @@ const CustomTextareaWidget = ({
   uiSchema,
   value
 }) => {
-  const {
-    conceptId,
-    sectionName,
-    fieldName
-  } = useParams()
-  const navigate = useNavigate()
-
   const [showDescription, setShowDescription] = useState(false)
   const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
 
@@ -52,15 +46,7 @@ const CustomTextareaWidget = ({
     title = uiSchema['ui:title']
   }
 
-  // Note: I feel like this can be done in CustomWrapper
-  let shouldFocus = false
-  if (focusField === id) {
-    shouldFocus = true
-  } else if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
-      shouldFocus = true
-    }
-  }
+  const shouldFocus = shouldFocusField(focusField, id)
 
   // Note: I feel like this can be done in CustomWrapper
   useEffect(() => {
@@ -70,13 +56,6 @@ const CustomTextareaWidget = ({
       focusRef.current?.focus()
     }
   }, [shouldFocus])
-
-  useEffect(() => {
-    if (fieldName) {
-      // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-      navigate(`../${conceptId}/${sectionName}`, { replace: true })
-    }
-  }, [fieldName])
 
   if (shouldFocus) {
     textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { ListGroup } from 'react-bootstrap'
-import { kebabCase } from 'lodash'
+import ListGroup from 'react-bootstrap/ListGroup'
+import { get, kebabCase } from 'lodash'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 
@@ -84,6 +84,7 @@ const NavigationItem = ({
   // TODO errors are not correct for array groups
   // ? Must have required property 'Organizations' -- correct
   // ? Must NOT have fewer than 1 items - current
+  // TODO nested array fields?
   const errorsWithGroups = {}
   const errorsWithoutGroups = []
   validationErrors.forEach((validationError) => {
@@ -105,6 +106,17 @@ const NavigationItem = ({
       if (match && match[1]) {
         // This is an array field
         [, fieldName] = match[1].split('.')
+        const index = parseInt(match[2], 10)
+
+        const matchedPath = match[1].substring(1)
+        console.log('🚀 ~ file: NavigationItem.jsx:111 ~ validationErrors.forEach ~ matchedPath:', matchedPath)
+        const results = get(draft, matchedPath)
+        console.log('🚀 ~ file: NavigationItem.jsx:113 ~ validationErrors.forEach ~ results:', results)
+
+        // If the
+        const length = Math.max(results?.length || 1, index + 1)
+
+        fieldName = `${fieldName} (${parseInt(index, 10) + 1} of ${length})`
       } else {
         // This is an object
         const parts = property.split('.');

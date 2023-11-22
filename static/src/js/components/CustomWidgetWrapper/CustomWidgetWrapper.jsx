@@ -23,7 +23,11 @@ const CustomWidgetWrapper = ({
               {title}
             </span>
             <span>
-              {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+              {
+                required && (
+                  <i className="eui-icon eui-required-o required-icon" />
+                )
+              }
             </span>
           </div>
         )

@@ -10,6 +10,8 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
+import shouldFocusField from '../../utils/shouldFocusField'
+
 import './CustomRadioWidget.scss'
 
 const CustomRadioWidget = ({
@@ -36,14 +38,7 @@ const CustomRadioWidget = ({
     title = uiSchema['ui:title']
   }
 
-  let shouldFocus = false
-  if (focusField === id) {
-    shouldFocus = true
-  } else if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
-      shouldFocus = true
-    }
-  }
+  const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
