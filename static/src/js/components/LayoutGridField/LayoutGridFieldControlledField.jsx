@@ -13,23 +13,17 @@ import useAppContext from '../../hooks/useAppContext'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 
 /**
- * Handles fields that are linked via controlled vocabulary
- * The mapping is the mapping from JSON to CMR field names, as well as the
- * keyword's type (name)
  *
- * This component will handle the select box change events, so if a click one
- * select box, it will auto populate the next select box based on the field
+ * Todo: This component needs work, still confusing.
+ *
+ * Handles fields that are linked via controlled vocabulary
+ *
+ * This component will handle the select box change events, so if a user clicks one of
+ * the select box, it will auto populate the next select box based on the field
  * selected.
- * {
- *     name: 'related-urls',
- *     map: {
- *       URLContentType: 'url_content_type',
- *       Type: 'type',
- *       Subtype: 'subtype'
- *     }
- * }
- * name is the JSON field name
- * controlName is the CMR field naame
+ *
+ * name: is the JSON field name
+ * controlName: is the CMR field naame
  * formData contains the JSON data for parent form of the field
  * {
  *    URLContentType: 'alpha',
@@ -39,7 +33,20 @@ import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
  * uiSchema: is the uiSchema for the field
  * onSelectValue(name, value, props, state): handler is triggered when the user selects a value
  * schema: schema for the parent
-*/
+ *
+ * The mapping is the mapping from JSON to CMR field names, as well as the
+ * keyword's type (name)
+ * mapping:
+ * {
+ *     name: 'related-urls',
+ *     map: {
+ *       URLContentType: 'url_content_type',
+ *       Type: 'type',
+ *       Subtype: 'subtype'
+ *     }
+ * }
+ *
+ */
 
 const LayoutGridFieldControlledField = ({
   schema,
