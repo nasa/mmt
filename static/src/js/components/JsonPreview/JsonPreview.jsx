@@ -1,11 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
-import { Accordion } from 'react-bootstrap'
+import Accordion from 'react-bootstrap/Accordion'
 import { cloneDeep } from 'lodash'
 import JSONPretty from 'react-json-pretty'
+
 import removeEmpty from '../../utils/removeEmpty'
+
 import useAppContext from '../../hooks/useAppContext'
-import './JsonPreview.scss'
 
 const JsonPreview = () => {
   const {
@@ -17,11 +17,13 @@ const JsonPreview = () => {
   const data = removeEmpty(cloneDeep(ummMetadata))
 
   return (
-    <Accordion defaultActiveKey="0" className="json-preview__accordion">
+    <Accordion
+      defaultActiveKey="0"
+      className="mt-4"
+    >
       <Accordion.Item eventKey="0">
         <Accordion.Header>
           JSON
-          <i style={{ marginLeft: '620px' }} />
         </Accordion.Header>
         <Accordion.Body>
           <JSONPretty data={data} />

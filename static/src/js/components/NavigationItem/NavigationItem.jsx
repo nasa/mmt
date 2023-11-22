@@ -11,6 +11,7 @@ import For from '../For/For'
 import prefixProperty from '../../utils/prefixProperty'
 
 import './NavigationItem.scss'
+import createPath from '../../utils/createPath'
 
 const NavigationItem = ({
   draft,
@@ -36,11 +37,113 @@ const NavigationItem = ({
     return value !== undefined
   })
 
+//   [
+//     {
+//         "name": "required",
+//         "property": "Name",
+//         "message": "must have required property 'Name'",
+//         "params": {
+//             "missingProperty": "Name"
+//         },
+//         "stack": "must have required property 'Name'",
+//         "schemaPath": "#/required"
+//     },
+//     {
+//         "name": "required",
+//         "property": ".URL.URLContentType",
+//         "message": "must have required property 'URL Content Type'",
+//         "params": {
+//             "missingProperty": "URLContentType"
+//         },
+//         "stack": "must have required property 'URL Content Type'",
+//         "schemaPath": "#/properties/URL/required"
+//     },
+//     {
+//         "name": "required",
+//         "property": ".URL.Type",
+//         "message": "must have required property ' Type'",
+//         "params": {
+//             "missingProperty": "Type"
+//         },
+//         "stack": "must have required property ' Type'",
+//         "schemaPath": "#/properties/URL/required"
+//     },
+//     {
+//         "name": "required",
+//         "property": ".URL.URLValue",
+//         "message": "must have required property 'URL Value'",
+//         "params": {
+//             "missingProperty": "URLValue"
+//         },
+//         "stack": "must have required property 'URL Value'",
+//         "schemaPath": "#/properties/URL/required"
+//     }
+// ]
+
+  // TODO find total length to add on to array groups - Organzations (1 of 1)
+  // TODO errors are not correct for array groups
+  // ? Must have required property 'Organizations' -- correct
+  // ? Must NOT have fewer than 1 items - current
+  const errorsWithGroups = {}
+  const errorsWithoutGroups = []
+  validationErrors.forEach((validationError) => {
+    const { property } = validationError
+    const visited = visitedFields.includes(prefixProperty(property))
+    console.log('🚀 ~ file: NavigationItem.jsx:109 ~ validationErrors.forEach ~ validationError:', validationError)
+
+    const isGrouped = property.startsWith('.')
+    console.log('🚀 ~ file: NavigationItem.jsx:90 ~ validationErrors.forEach ~ isGrouped:', isGrouped)
+
+    if (isGrouped) {
+      const path = createPath(property)
+      console.log('🚀 ~ file: NavigationItem.jsx:95 ~ validationErrors.forEach ~ path:', path)
+      const regexp = /^(.*[^\\[]+)\[(\d+)\]/
+      const match = path.match(regexp)
+      console.log('🚀 ~ file: NavigationItem.jsx:95 ~ validationErrors.forEach ~ match:', match)
+
+      let fieldName
+      if (match && match[1]) {
+        // This is an array field
+        [, fieldName] = match[1].split('.')
+      } else {
+        // This is an object
+        const parts = property.split('.');
+        [, fieldName] = parts
+      }
+
+      errorsWithGroups[fieldName] ||= []
+      errorsWithGroups[fieldName] = [
+        ...errorsWithGroups[fieldName],
+        {
+          ...validationError,
+          visited
+        }
+      ]
+    } else {
+      errorsWithoutGroups.push({
+        ...validationError,
+        visited
+      })
+    }
+  })
+
+  console.log('🚀 ~ file: NavigationItem.jsx:99 ~ validationErrors.forEach ~ errorsWithGroups:', errorsWithGroups)
+
   const hasErrors = validationErrors.some((error) => {
     const { property } = error
 
     return section.properties.some((propertyPrefix) => prefixProperty(property).startsWith(`${prefixProperty(propertyPrefix)}`))
   })
+  console.log('🚀 ~ file: NavigationItem.jsx:44 ~ hasErrors ~ validationErrors:', validationErrors)
+
+  const errors = [
+    ...errorsWithoutGroups,
+    ...Object.keys(errorsWithGroups).map((fieldName) => ({
+      fieldName,
+      errors: errorsWithGroups[fieldName]
+    }))
+  ]
+  console.log('🚀 ~ file: NavigationItem.jsx:120 ~ errors:', errors)
 
   return (
     <div
@@ -102,20 +205,15 @@ const NavigationItem = ({
         </span>
       </ListGroup.Item>
 
-      <For each={validationErrors}>
+      <For each={errors}>
         {
           (error) => {
             if (!isSectionDisplayed) return null
-
-            const { property } = error
-
-            const visited = visitedFields.includes(prefixProperty(property))
 
             return (
               <NavigationItemError
                 key={JSON.stringify(error)}
                 error={error}
-                visited={visited}
                 setFocusField={setFocusField}
               />
             )
