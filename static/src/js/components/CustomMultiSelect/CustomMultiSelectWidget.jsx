@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, {
   useEffect,
   useRef,
@@ -10,11 +9,9 @@ import { startCase } from 'lodash'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
-import parseCmrResponse from '../../utils/parseCmrResponse'
 import shouldFocusField from '../../utils/shouldFocusField'
 
-const CustomSelectWidget = ({
+const CustomMultiSelectWidget = ({
   disabled,
   label = '',
   id,
@@ -27,7 +24,7 @@ const CustomSelectWidget = ({
   uiSchema,
   value
 }) => {
-  const { items = {} } = schema
+  const { items } = schema
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
@@ -54,29 +51,17 @@ const CustomSelectWidget = ({
   const shouldFocus = shouldFocusField(focusField, id)
 
   // If the value already has data, this will store it as an object for react-select
-  const existingValue = value != null ? {
-    value,
-    label: value
-  } : {}
-
-  const [cmrKeywords, setCmrKeywords] = useState([])
-  const controlledField = uiSchema['ui:controlled']
-
-  // If a field in the uiSchema defines 'ui:controlled', this will make a
-  // call out to CMR /keywords to retrieve the keyword.
-  useEffect(() => {
-    if (controlledField) {
-      const { name } = controlledField
-      if (name) {
-        const cmrKeyword = async () => {
-          setCmrKeywords(await fetchCmrKeywords(name))
-        }
-
-        cmrKeyword()
-      }
+  const existingValues = []
+  value.forEach((currentValue) => {
+    if (currentValue != null) {
+      existingValues.push({
+        value: currentValue,
+        label: currentValue
+      })
     }
-  }, [])
+  })
 
+  console.log('select', existingValues)
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
@@ -97,25 +82,16 @@ const CustomSelectWidget = ({
     })
   }
 
-  // Extracting ui:options from uiSchema
-  const uiOptions = uiSchema['ui:options']
-
   // If enumOptions are define in uiSchema, these options take precedence over schema enums.
-  if (uiOptions) {
-    const { enumOptions } = uiOptions
-
-    selectOptionList(enumOptions)
-  } else if (Object.keys(cmrKeywords).length > 0) { // If cmrKeywords are present, this condition will parse the cmr response and add the enums the selectOption.
-    const paths = parseCmrResponse(cmrKeywords, controlledField.controlName)
-    const enums = paths.map((path) => (path[0]))
-    selectOptionList(enums)
-  } else { // Gets the enum values from the schema and adds to selectOption.
-    selectOptionList(schemaEnums)
-  }
+  selectOptionList(schemaEnums)
 
   const handleChange = (event) => {
-    const { value: selectedValue } = event || false
-    onChange(selectedValue)
+    const result = []
+    event.forEach((current) => {
+      result.push(current.value)
+    })
+
+    onChange(result)
     setShowMenu(false)
     focusRef.current?.blur()
   }
@@ -146,7 +122,7 @@ const CustomSelectWidget = ({
         id={id}
         ref={focusRef}
         placeholder={placeholder || `Select ${title}`}
-        defaultValue={existingValue ?? ''}
+        defaultValue={existingValues ?? ''}
         options={selectOptions}
         isClearable
         onChange={handleChange}
@@ -154,12 +130,13 @@ const CustomSelectWidget = ({
         onBlur={handleBlur}
         menuIsOpen={showMenu}
         isDisabled={disabled}
+        isMulti
       />
     </CustomWidgetWrapper>
   )
 }
 
-CustomSelectWidget.defaultProps = {
+CustomMultiSelectWidget.defaultProps = {
   disabled: false,
   value: null,
   placeholder: '',
@@ -168,12 +145,15 @@ CustomSelectWidget.defaultProps = {
   }
 }
 
-CustomSelectWidget.propTypes = {
+CustomMultiSelectWidget.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   registry: PropTypes.shape({
+    schemaUtils: PropTypes.shape({
+      retrieveSchema: PropTypes.func
+    }).isRequired,
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
       setFocusField: PropTypes.func
@@ -181,23 +161,17 @@ CustomSelectWidget.propTypes = {
   }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
+    items: PropTypes.shape({}).isRequired,
     description: PropTypes.string,
     maxLength: PropTypes.number,
     enum: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
   uiSchema: PropTypes.shape({
-    'ui:options': PropTypes.shape({
-      enumOptions: PropTypes.arrayOf()
-    }),
-    'ui:title': PropTypes.string,
-    'ui:controlled': PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      controlName: PropTypes.string.isRequired
-    })
+    'ui:title': PropTypes.string
   }),
-  value: PropTypes.string,
+  value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired
 }
 
-export default CustomSelectWidget
+export default CustomMultiSelectWidget

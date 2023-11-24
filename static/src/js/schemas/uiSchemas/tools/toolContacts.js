@@ -1,6 +1,5 @@
-// Import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-// import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
 import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelect/CustomMultiSelectWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const toolContactsUiSchema = {
@@ -78,8 +77,8 @@ const toolContactsUiSchema = {
         ]
       },
       Roles: {
-        'ui:group': 'ContactGroups'
-        // 'ui:widget': CustomMultiSelectWidget
+        'ui:group': 'ContactGroups',
+        'ui:widget': CustomMultiSelectWidget
       },
       GroupName: {
         'ui:widget': CustomTextWidget
@@ -305,7 +304,7 @@ const toolContactsUiSchema = {
         ]
       },
       Roles: {
-        // 'ui:widget': CustomMultiSelectWidget
+        'ui:widget': CustomMultiSelectWidget
       },
       ContactInformation: {
         'ui:field': 'layout',

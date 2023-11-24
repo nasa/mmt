@@ -1,21 +1,19 @@
 import toolInformationUiSchema from './toolInformation'
 import relatedUrlUiSchema from './relatedUrls'
 import potentialActionUiSchema from './potentialAction'
-// Import compatabilityAndUsabilityUiSchema from './compatibilityAndUsability'
-// import descriptiveKeywordsUiSchema from './descriptiveKeywords'
-import toolContactsUiSchema from './toolContacts'
+import compatabilityAndUsabilityUiSchema from './compatibilityAndUsability'
 import descriptiveKeywordsUiSchema from './descriptiveKeywords'
-// Import organizationUiSchema from './organization'
+import toolContactsUiSchema from './toolContacts'
+import organizationUiSchema from './organization'
 
 const toolsUiSchema = {
-  // 'compatability-and-usability': compatabilityAndUsabilityUiSchema,
-  'descriptive-keywords': descriptiveKeywordsUiSchema,
-  // 'organization': organizationUiSchema,
-  'potential-action': potentialActionUiSchema,
+  'tool-information': toolInformationUiSchema,
   'related-ur-ls': relatedUrlUiSchema, // Kebab case messing this up
+  'compatibility-and-usability': compatabilityAndUsabilityUiSchema,
+  'descriptive-keywords': descriptiveKeywordsUiSchema,
+  'tool-organizations': organizationUiSchema,
   'tool-contacts': toolContactsUiSchema,
-  'tool-information': toolInformationUiSchema
-
+  'potential-action': potentialActionUiSchema
 }
 
 export default toolsUiSchema

@@ -1,12 +1,12 @@
-import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelect/CustomMultiSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const compatibilityAndUsabilityUiSchema = {
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Compatability and Usability',
+        'ui:group': 'Compatibility and Usability',
         'ui:col': {
           md: 12,
           children: [

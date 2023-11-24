@@ -1,5 +1,5 @@
-import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
-import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelect/CustomMultiSelectWidget'
+import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const organizationUiSchema = {
   Organizations: {

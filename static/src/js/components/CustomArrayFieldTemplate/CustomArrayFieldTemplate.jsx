@@ -133,15 +133,14 @@ const CustomArrayFieldTemplate = ({
             onClick={handleAdd}
           >
             <span>
-              {/* TODO From font awesome, do you want to use this or something else */}
               <i className="fa-solid fa-circle-plus fa-lg p-1" />
 
               {
                 items.length === 0 ? (
                   <span>Add</span>
-                ) : <span>Add another</span>
+                ) : <span>Add Another</span>
               }
-
+              {' '}
               {fieldTitle()}
             </span>
           </Button>

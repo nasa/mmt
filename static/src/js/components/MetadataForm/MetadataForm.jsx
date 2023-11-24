@@ -146,7 +146,7 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // layout: GridLayout,
+    layout: GridLayout,
     streetAddresses: StreetAddressField,
     // BoundingRectangle: BoundingRectangleField // Hoan
     keywordPicker: KeywordPicker // Deep
