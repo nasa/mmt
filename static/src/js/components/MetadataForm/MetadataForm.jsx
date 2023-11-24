@@ -19,6 +19,7 @@ import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
+import KeywordPicker from '../KeywordPicker/KeywordPicker'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
@@ -145,11 +146,11 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    layout: GridLayout,
+    // layout: GridLayout,
     streetAddresses: StreetAddressField,
-    BoundingRectangle: BoundingRectangleField,
-    // KeywordPicker: KeywordsField,
-    TitleField: CustomTitleField
+    // BoundingRectangle: BoundingRectangleField // Hoan
+    keywordPicker: KeywordPicker // Deep
+    // titleField: CustomTitleField
     // OneOfField,
     // AnyOfField: () => null
   }
@@ -232,6 +233,7 @@ const MetadataForm = () => {
     })
   }
 
+  console.log('ummmmmmmmm', ummMetadata)
   // Handle bluring fields within the form
   const handleBlur = (fieldId) => {
     // Add the blurred field into `visitedFields`

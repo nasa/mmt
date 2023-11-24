@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { startCase } from 'lodash'
-import countryList from 'react-select-country-list'
+// import countryList from 'react-select-country-list'
 
 const CustomCountrySelectWidget = ({
   label,

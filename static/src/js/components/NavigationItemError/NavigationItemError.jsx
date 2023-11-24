@@ -13,6 +13,10 @@ const NavigationItemError = ({
   error,
   setFocusField
 }) => {
+  // console.log('')
+  // console.log('')
+  // console.log('')
+  // console.log('🚀 ~ file: NavigationItemError.jsx:13 ~ error:', error)
   const [hasFocus, setHasFocus] = useState(false)
 
   const {
