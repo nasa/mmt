@@ -10,9 +10,8 @@ import { startCase } from 'lodash'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
-import parseCmrResponse from '../../utils/parseCmrResponse'
 import shouldFocusField from '../../utils/shouldFocusField'
+import getEnums from '../../utils/getEnums'
 
 const CustomSelectWidget = ({
   disabled,
@@ -59,7 +58,7 @@ const CustomSelectWidget = ({
     label: value
   } : {}
 
-  const [cmrKeywords, setCmrKeywords] = useState([])
+  const [cmrEnums, setCmrEnums] = useState([])
   const controlledField = uiSchema['ui:controlled']
 
   // If a field in the uiSchema defines 'ui:controlled', this will make a
@@ -68,11 +67,11 @@ const CustomSelectWidget = ({
     if (controlledField) {
       const { name } = controlledField
       if (name) {
-        const cmrKeyword = async () => {
-          setCmrKeywords(await fetchCmrKeywords(name))
+        const cmrEnum = async () => {
+          setCmrEnums(await getEnums(name, controlledField.controlName))
         }
 
-        cmrKeyword()
+        cmrEnum()
       }
     }
   }, [])
@@ -105,10 +104,8 @@ const CustomSelectWidget = ({
     const { enumOptions } = uiOptions
 
     selectOptionList(enumOptions)
-  } else if (Object.keys(cmrKeywords).length > 0) { // If cmrKeywords are present, this condition will parse the cmr response and add the enums the selectOption.
-    const paths = parseCmrResponse(cmrKeywords, controlledField.controlName)
-    const enums = paths.map((path) => (path[0]))
-    selectOptionList(enums)
+  } else if (uiSchema['ui:controlled']) {
+    selectOptionList(cmrEnums)
   } else { // Gets the enum values from the schema and adds to selectOption.
     selectOptionList(schemaEnums)
   }
