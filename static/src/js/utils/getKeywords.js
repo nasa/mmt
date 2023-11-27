@@ -36,7 +36,11 @@ const collectKeywords = (
 /**
  * Given the specified cmr response object and corresponding default values, will return a list of keywords.
  * i.e., type='subtype', values= { url_content_type: 'PublicationURL', type: 'VIEW RELATED INFORMATION' }
- * it will return a list of all keywords for PublicationURL>VIEW RELATED INFORMATION hierachy
+ * it will return a list of all keywords for PublicationURL>VIEW RELATED INFORMATION hierarchy
+ * @param {Object} response A response body.
+ * @param {String} type A type from CMR. (e.x subType)
+ * @param {String} filter specify a "filter"
+ * @param {Array} keys Object keys
  */
 const getKeywords = (
   response,

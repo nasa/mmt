@@ -2,6 +2,22 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
+/**
+ * CustomTitleField
+ * @typedef {Object} CustomTitleField
+ * @property {String} title The title of the field.
+ * @property {Boolean} required Is the field required.
+ * @property {Boolean} requiredUI A boolean value set in the uiSchema.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {String} className A className defined in the uiSchema.
+ * @property {String} groupBoxClassName A groupBoxClassName defined in the uiSchema.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ */
+
+/**
+ * Renders Custom Title Field
+ * @param {CustomTitleField} props
+ */
 const CustomTitleField = ({
   title,
   required,

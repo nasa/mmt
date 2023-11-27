@@ -14,6 +14,22 @@ import shouldFocusField from '../../utils/shouldFocusField'
 
 import './CustomRadioWidget.scss'
 
+/**
+ * CustomRadioWidget
+ * @typedef {Object} CustomRadioWidget
+ * @property {String} label The label of the widget.
+ * @property {String} id The id of the widget.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Boolean} required Is the CustomRadioWidget field required
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {String} value An option is saved to the draft.
+ */
+
+/**
+ * Renders Custom Radio Field Template
+ * @param {CustomRadioWidget} props
+ */
 const CustomRadioWidget = ({
   label = '',
   id,

@@ -4,6 +4,16 @@ import Button from 'react-bootstrap/Button'
 
 import './BoundingRectangleField.scss'
 
+/**
+ * BoundingRectangleField
+ * @property {Object} formData Saved draft.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ */
+
+/**
+ * Renders Bounding Rectangle Field
+ * @param {BoundingRectangleField} props
+ */
 const BoundingRectangleField = ({
   formData,
   onChange

@@ -1,9 +1,9 @@
 import { getApplicationConfig } from './getConfig'
+
 /**
  * Calls cmr /keywords/ endpoint to get a list of keywords
- * @param {string} scheme keyword name. e.x: related-urls
+ * @param {String} scheme keyword name
  */
-
 const fetchCmrKeywords = async (scheme, completionHandler = null) => {
   const { cmrHost } = getApplicationConfig()
 

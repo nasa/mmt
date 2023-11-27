@@ -2,7 +2,22 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { startCase } from 'lodash'
-// import countryList from 'react-select-country-list'
+import countryList from 'react-select-country-list'
+
+/**
+ * CustomCountrySelectWidget
+ * @typedef {Object} CustomCountrySelectWidget
+ * @property {String} label A label of the widget.
+ * @property {String} value A country saved to the draft.
+ * @property {Boolean} required Is the CustomCountrySelectWidget field required
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Function} onChange A callback function triggered when the user selects a option.
+ */
+
+/**
+ * Renders Custom Country Select Widget
+ * @param {CustomCountrySelectWidget} props
+ */
 
 const CustomCountrySelectWidget = ({
   label,

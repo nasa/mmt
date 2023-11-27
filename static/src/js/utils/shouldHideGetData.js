@@ -1,4 +1,7 @@
-// Function to determine whether to hide 'GetData'
+/**
+ * Function to determine whether to hide 'GetData'
+ * @param {Object} props An form object from uiSchema
+ */
 const shouldHideGetData = (props) => {
   const { URLContentType, Type } = props
 

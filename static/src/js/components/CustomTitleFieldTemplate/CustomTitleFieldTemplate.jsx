@@ -2,6 +2,19 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
+/**
+ * CustomTitleFieldTemplate
+ * @typedef {Object} CustomTitleFieldTemplate
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Boolean} required Is the field required.
+ * @property {String} title The title of the field.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ */
+
+/**
+ * Renders Custom Title Field Template
+ * @param {CustomTitleFieldTemplate} props
+ */
 const CustomTitleFieldTemplate = ({
   registry,
   required,

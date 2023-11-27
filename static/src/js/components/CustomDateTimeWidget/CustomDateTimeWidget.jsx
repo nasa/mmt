@@ -14,6 +14,25 @@ import shouldFocusField from '../../utils/shouldFocusField'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
+/**
+ * CustomDateTimeWidget
+ * @typedef {Object} CustomDateTimeWidget
+ * @property {String} label The label of the widget.
+ * @property {String} id The id of the widget.
+ * @property {Boolean} onBlur Should blur a field.
+ * @property {Function} onChange A callback function triggered when the user selects a date.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Boolean} required Is the CustomDateTimeWidget field required
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {String} value A Date value saved to the draft.
+ */
+
+/**
+ * Renders CustomDateTimeWidget
+ * @param {CustomDateTimeWidget} props
+ */
+
 const CustomDateTimeWidget = ({
   label,
   id,

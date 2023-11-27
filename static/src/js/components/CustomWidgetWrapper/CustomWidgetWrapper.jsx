@@ -1,6 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+/**
+ * CustomWidgetWrapper
+ * @typedef {Object} CustomWidgetWrapper
+ * @property {Number} charsUsed Number of character used.
+ * @property {String} description A description of the field.
+ * @property {String} headerClassName A headerClassName defined in the uiSchema.
+ * @property {Number} maxLength Max number of character defined for a field in the schema.
+ * @property {Boolean} required Is the field required.
+ * @property {HTMLDivElement} scrollRef A ref to scroll to.
+ * @property {String} title A title of the field.
+ */
+
+/**
+ * Renders Custom Widget Wrapper
+ * @param {CustomWidgetWrapper} props
+ */
 const CustomWidgetWrapper = ({
   charsUsed,
   children,

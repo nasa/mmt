@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, {
   useEffect,
   useRef,
@@ -13,6 +12,26 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
 import getEnums from '../../utils/getEnums'
 
+/**
+ * CustomSelectWidget
+ * @typedef {Object} CustomArrayFieldTemplate
+ * @property {Boolean} disable A boolean value to disable the select field.
+ * @property {String} label The label of the widget.
+ * @property {String} id The id of the widget.
+ * @property {String} placeholder A placeholder text for the multiselect.
+ * @property {Boolean} onBlur Should blur a field.
+ * @property {Function} onChange A callback function triggered when the user selects an option.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Boolean} required Is the CustomSelectWidget field required
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {String} value A Date value saved to the draft.
+ */
+
+/**
+ * Renders Custom Select Widget
+ * @param {CustomArrayFieldTemplate} props
+ */
 const CustomSelectWidget = ({
   disabled,
   label = '',
@@ -174,10 +193,14 @@ CustomSelectWidget.propTypes = {
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
       setFocusField: PropTypes.func
-    }).isRequired
+    }).isRequired,
+    schemaUtils: PropTypes.shape({
+      retrieveSchema: PropTypes.func()
+    })
   }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
+    items: PropTypes.shape({}),
     description: PropTypes.string,
     maxLength: PropTypes.number,
     enum: PropTypes.arrayOf(PropTypes.string)

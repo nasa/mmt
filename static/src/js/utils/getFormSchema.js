@@ -1,5 +1,11 @@
 import { kebabCase } from 'lodash'
 
+/**
+ * Gets the form schema based on the current section
+ * @param {Object} fullSchema A full schema.
+ * @param {Object[]} formConfigurations A configurations of the form with the list of field in each section.
+ * @param {string} formName A form's title.
+ */
 const getFormSchema = ({
   fullSchema,
   formConfigurations,

@@ -11,6 +11,22 @@ import { startCase } from 'lodash'
 
 import './CustomArrayFieldTemplate.scss'
 
+/**
+ * CustomArrayFieldTemplate
+ * @typedef {Object} CustomArrayFieldTemplate
+ * @property {Object[]} items The items for the fields being shown.
+ * @property {Boolean} canAdd A canAdd array field flag that can be set to False in uiSchema.
+ * @property {String} title The title of the Array field.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Boolean} required Is the Array field required.
+ * @property {Object} schema A UMM Schema for the draft being previewed.
+ * @property {Function} onAddClick A function to add another array item.
+ */
+
+/**
+ * Renders Custom Array Field Template
+ * @param {CustomArrayFieldTemplate} props
+ */
 const CustomArrayFieldTemplate = ({
   items,
   canAdd,
