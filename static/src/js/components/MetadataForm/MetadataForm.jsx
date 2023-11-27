@@ -148,9 +148,9 @@ const MetadataForm = () => {
   const fields = {
     layout: GridLayout,
     streetAddresses: StreetAddressField,
-    // BoundingRectangle: BoundingRectangleField // Hoan
-    keywordPicker: KeywordPicker // Deep
-    // titleField: CustomTitleField
+    BoundingRectangle: BoundingRectangleField,
+    keywordPicker: KeywordPicker,
+    TitleField: CustomTitleField
     // OneOfField,
     // AnyOfField: () => null
   }

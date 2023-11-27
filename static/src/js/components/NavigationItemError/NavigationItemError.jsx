@@ -8,6 +8,23 @@ import For from '../For/For'
 
 import './NavigationItemError.scss'
 
+/**
+ * @typedef {Object} NavigationItemError
+ * @property {String} className Class name to be applied to the component.
+ * @property {Object} error Validation error to be displayed.
+= * @property {Function} setFocusField A callback function to set a field as focused.
+ */
+
+/**
+ * Renders a NavigationItemError
+ * @param {NavigationItemError} props
+ *
+ * @component
+ * @example <caption>Render a NavigationItemError</caption>
+ * return (
+ *   <NavigationItemError />
+ * )
+ */
 const NavigationItemError = ({
   className,
   error,
@@ -89,7 +106,7 @@ const NavigationItemError = ({
           <For each={errors}>
             {
               (nestedError) => {
-                const key = Buffer.from(JSON.stringify(nestedError)).toString('base64')
+                const key = JSON.stringify(nestedError)
 
                 return (
                   <NavigationItemError
