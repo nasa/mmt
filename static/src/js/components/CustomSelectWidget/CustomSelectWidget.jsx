@@ -195,7 +195,7 @@ CustomSelectWidget.propTypes = {
       setFocusField: PropTypes.func
     }).isRequired,
     schemaUtils: PropTypes.shape({
-      retrieveSchema: PropTypes.func()
+      retrieveSchema: PropTypes.func
     })
   }).isRequired,
   required: PropTypes.bool.isRequired,
@@ -207,7 +207,7 @@ CustomSelectWidget.propTypes = {
   }).isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      enumOptions: PropTypes.arrayOf()
+      enumOptions: PropTypes.arrayOf(PropTypes.string)
     }),
     'ui:title': PropTypes.string,
     'ui:controlled': PropTypes.shape({
