@@ -1,9 +1,7 @@
 import React from 'react'
-import {
-  Badge,
-  Container,
-  Navbar
-} from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import Container from 'react-bootstrap/Container'
+import Navbar from 'react-bootstrap/Navbar'
 
 import For from '../For/For'
 

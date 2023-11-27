@@ -1,9 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  Dropdown,
-  ListGroup
-} from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Dropdown from 'react-bootstrap/Dropdown'
+import ListGroup from 'react-bootstrap/ListGroup'
 import PropTypes from 'prop-types'
 import React from 'react'
 

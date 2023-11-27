@@ -1,17 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Badge,
-  Button,
-  Container,
-  Dropdown,
-  DropdownButton,
-  Form,
-  FormControl,
-  FormGroup,
-  InputGroup,
-  Navbar
-} from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import FormGroup from 'react-bootstrap/FormGroup'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Navbar from 'react-bootstrap/Navbar'
 import { FaSearch } from 'react-icons/fa'
 
 import './Header.scss'

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { uniqueId } from 'lodash'
-import { Col } from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
 import GridLayout from './GridLayout'
 
 const GridCol = (

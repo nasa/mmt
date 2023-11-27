@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import {
-  Alert,
-  Row,
-  Col
-} from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 export const ErrorBanner = ({ message, dataTestId }) => (
   <Row>

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container } from 'react-bootstrap'
+import Container from 'react-bootstrap/Container'
 
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 
