@@ -8,7 +8,7 @@ const fetchCmrKeywords = async (scheme, completionHandler = null) => {
   const { cmrHost } = getApplicationConfig()
 
   let res = null
-  await fetch(`${cmrHost}/keywords/${scheme}`)
+  await fetch(`${cmrHost}/search/keywords/${scheme}`)
     .then((response) => {
       res = response.json()
     })

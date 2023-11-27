@@ -4,11 +4,10 @@ import { Button } from 'react-bootstrap'
 import { cloneDeep } from 'lodash'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
-import parseCmrResponse from '../../utils/parseCmrResponse'
 import removeEmpty from '../../utils/removeEmpty'
 
 import './KeywordPicker.scss'
+import getPickerKeywords from '../../utils/getPickerKeywords'
 
 const KeywordPicker = ({
   formData,
@@ -21,11 +20,7 @@ const KeywordPicker = ({
 
   const { description } = schema
   const title = uiSchema['ui:title']
-  const keywordSchema = uiSchema['ui:keyword_scheme']
-  const keywordSchemeColumnNames = uiSchema['ui:keyword_scheme_column_names']
   const schemeValues = uiSchema['ui:scheme_values']
-  const keywordObject = {}
-  let paths = []
 
   const [keywordList, setKeywordList] = useState([])
   const [currentList, setCurrentList] = useState([])
@@ -38,15 +33,6 @@ const KeywordPicker = ({
   const [marginTop, setMarginTop] = useState(0)
   const [marginLeft, setMarginLeft] = useState(0)
 
-  // Fetches the list of keywords from CMR
-  useEffect(() => {
-    const cmrKeyword = async () => {
-      setKeywordList(await fetchCmrKeywords(keywordSchema))
-    }
-
-    cmrKeyword()
-  }, [])
-
   const filterKeywords = (path) => {
     const filteredPath = []
     const joinedPath = selectedKeywords.join('>')
@@ -58,35 +44,31 @@ const KeywordPicker = ({
     return filteredPath
   }
 
-  // TODO need to talk to the team about this.
-  // For now this implementation works. I am checking if KeywordList is there and initializing all the state variable we need for the picker.
+  // Gets the parsed list of keywords from CMR.
+  useEffect(() => {
+    const cmrKeyword = async () => {
+      setKeywordList(await getPickerKeywords(uiSchema))
+    }
+
+    cmrKeyword()
+  }, [])
+
   useEffect(() => {
     if (Object.keys(keywordList).length > 0) {
-      const initialValue = uiSchema['ui:picker_title']
-      const initialKeyword = keywordSchemeColumnNames.at(0)
-      keywordObject[initialKeyword] = [{
-        value: initialValue,
-        subfields: [keywordSchemeColumnNames.at(1)],
-        ...keywordList
-      }]
-
-      paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
-      paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
-
       const createCurrentList = []
       const createSelectedKeyword = []
       const createFullPath = []
 
-      createSelectedKeyword.push(paths[0][0])
+      createSelectedKeyword.push(keywordList[0][0])
 
-      paths.forEach((path) => {
+      keywordList.forEach((path) => {
         if (!createCurrentList.includes(path[1])) {
           createCurrentList.push(path[1])
         }
       })
 
       // Creates a fullPath array with a '>' separator
-      paths.forEach((keyword) => {
+      keywordList.forEach((keyword) => {
         const join = keyword.join('>')
         createFullPath.push(join)
       })
@@ -232,6 +214,8 @@ const KeywordPicker = ({
     onChange(value)
   }
 
+  // When a item from the search Typeahead is selected, this will capture that selection and add it
+  // formData.
   const handleSearch = (text) => {
     const split = text.toString().split('>')
     const filter = fullPath.filter((path) => path.indexOf(split[split.length - 1]) !== -1)
@@ -249,10 +233,10 @@ const KeywordPicker = ({
     const fullSelectedPath = getFullSelectedPath(item)
     const isLeafNode = isLeaf(fullSelectedPath)
 
-    // If the item is the last node
     if (isLeafNode) {
       if (item === finalSelectedValue) {
         return (
+        // Renders a child element that is selected
           <span
             className="final-option-selected"
             key={item}
@@ -265,6 +249,7 @@ const KeywordPicker = ({
       }
 
       return (
+      // Renders a child element that is not selected
         <span
           className="final-option"
           key={item}
@@ -279,6 +264,7 @@ const KeywordPicker = ({
     }
 
     return (
+      // Renders a parent element
       <span
         className="item.parent"
         key={item}
@@ -306,7 +292,7 @@ const KeywordPicker = ({
         </span>
       </div>
 
-      {/* Renders the list of added keywords */}
+      {/* Renders the list of added keywords with a remove button */}
       <div className="p-3 mb-5 keyword-picker__added-keywords">
         {
           Object.values(removeEmpty(formData)).map((item, index) => (
