@@ -198,6 +198,7 @@ const config = {
     '/node_modules/(?!'
       + '@react-leaflet|'
       + 'react-leaflet|'
+      + 'nanoid|'
       + 'jest-runtime'
       + ').+\\.js$'
   ]

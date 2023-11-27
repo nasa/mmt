@@ -9,10 +9,12 @@ import { ApolloClient } from '@apollo/client'
 import App from '../App'
 
 jest.mock('@apollo/client', () => ({
+  ...jest.requireActual('@apollo/client'),
   __esModule: true,
   ApolloClient: jest.fn(),
   InMemoryCache: jest.fn(() => ({ mockCache: {} })),
-  ApolloProvider: jest.fn(({ children }) => children)
+  ApolloProvider: jest.fn(({ children }) => children),
+  createHttpLink: jest.fn()
 }))
 
 jest.mock('../pages/ManageCollectionsPage/ManageCollectionsPage', () => ({

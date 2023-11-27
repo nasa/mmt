@@ -233,7 +233,6 @@ const MetadataForm = () => {
     })
   }
 
-  console.log('ummmmmmmmm', ummMetadata)
   // Handle bluring fields within the form
   const handleBlur = (fieldId) => {
     // Add the blurred field into `visitedFields`

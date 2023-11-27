@@ -1,14 +1,19 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+
 import ProgressField from '../ProgressField'
+
 import progressCircleTypes from '../../../constants/progressCircleTypes'
 
 const setup = (fieldInfo) => {
   render(
-    <ProgressField
-      fieldInfo={fieldInfo}
-      formName="Test Form"
-    />
+    <BrowserRouter>
+      <ProgressField
+        fieldInfo={fieldInfo}
+        formName="Test Form"
+      />
+    </BrowserRouter>
   )
 }
 

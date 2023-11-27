@@ -9,7 +9,6 @@ import { setContext } from '@apollo/client/link/context'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import Layout from './components/Layout/Layout'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
 import ManageCollectionsPage from './pages/ManageCollectionsPage/ManageCollectionsPage'
 import ManageServicesPage from './pages/ManageServicesPage/ManageServicesPage'
@@ -17,12 +16,15 @@ import ManageToolsPage from './pages/ManageToolsPage/ManageToolsPage'
 import ManageVariablesPage from './pages/ManageVariablesPage/ManageVariablesPage'
 import ToolDraftsPage from './pages/ToolDraftsPage/ToolDraftsPage'
 
+import Layout from './components/Layout/Layout'
+
+import Providers from './providers/Providers/Providers'
+
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
-import Providers from './providers/Providers/Providers'
 
 const redirectKeys = Object.keys(REDIRECTS)
 

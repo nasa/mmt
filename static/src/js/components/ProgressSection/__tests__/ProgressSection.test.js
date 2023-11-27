@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+
 import ProgressSection from '../ProgressSection'
-import progressCircleTypes from '../../../constants/progressCircleTypes'
 import ProgressField from '../../ProgressField/ProgressField'
+
+import progressCircleTypes from '../../../constants/progressCircleTypes'
 
 jest.mock('../../ProgressField/ProgressField')
 
@@ -15,7 +18,9 @@ const setup = (overrideProps = {}) => {
   }
 
   render(
-    <ProgressSection {...props} />
+    <BrowserRouter>
+      <ProgressSection {...props} />
+    </BrowserRouter>
   )
 }
 

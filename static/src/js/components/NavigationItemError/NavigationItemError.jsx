@@ -13,10 +13,6 @@ const NavigationItemError = ({
   error,
   setFocusField
 }) => {
-  // console.log('')
-  // console.log('')
-  // console.log('')
-  // console.log('🚀 ~ file: NavigationItemError.jsx:13 ~ error:', error)
   const [hasFocus, setHasFocus] = useState(false)
 
   const {
@@ -92,13 +88,18 @@ const NavigationItemError = ({
         errors && (
           <For each={errors}>
             {
-              (nestedError) => (
-                <NavigationItemError
-                  className="ps-4"
-                  error={nestedError}
-                  setFocusField={setFocusField}
-                />
-              )
+              (nestedError) => {
+                const key = Buffer.from(JSON.stringify(nestedError)).toString('base64')
+
+                return (
+                  <NavigationItemError
+                    key={key}
+                    className="ps-4"
+                    error={nestedError}
+                    setFocusField={setFocusField}
+                  />
+                )
+              }
             }
           </For>
         )
