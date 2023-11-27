@@ -48,6 +48,25 @@ import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
  *
  */
 
+/**
+ * GridControlledField
+ * @typedef {Object} GridControlledField
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Object} idSchema A idSchema for the field being shown.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} mapping A mapping object with the field needed for mapping the form
+ * @property {Function} onSelectValue A callback function that will set the selected value
+ * @property {String} name A name of the field
+ * @property {String} controlName A name that is defined in the schema
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ */
+
+/**
+ * Renders GridControlledField
+ * @param {GridControlledField} props
+ */
 const GridControlledField = ({
   schema,
   registry,

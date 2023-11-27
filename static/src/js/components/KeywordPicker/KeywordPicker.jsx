@@ -9,6 +9,20 @@ import removeEmpty from '../../utils/removeEmpty'
 import './KeywordPicker.scss'
 import getPickerKeywords from '../../utils/getPickerKeywords'
 
+/**
+ * KeywordPicker
+ * @typedef {Object} KeywordPicker
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Function} onChange A callback function triggered when the user adds a keyword.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Boolean} required Is the field required.
+ */
+
+/**
+ * Renders KeywordPicker
+ * @param {KeywordPicker} props
+ */
 const KeywordPicker = ({
   formData,
   schema,

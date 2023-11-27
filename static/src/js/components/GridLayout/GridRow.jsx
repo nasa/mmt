@@ -6,6 +6,22 @@ import GridLayout from './GridLayout'
 import GridGroupedSinglePanel from './GridGroupedSinglePanel'
 import GridCheckboxPanel from './GridCheckboxPanel'
 
+/**
+ * GridRow
+ * @typedef {Object} GridRow
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Object} layout A layout schema with ui option defined.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Boolean} required Is the field required
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ */
+
+/**
+ * Renders GridRow
+ * @param {GridRow} props
+ */
 const GridRow = (
   props
 ) => {

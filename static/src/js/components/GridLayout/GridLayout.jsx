@@ -9,6 +9,23 @@ import GridRow from './GridRow'
 import GridField from './GridField'
 import GridCol from './GridCol'
 
+/**
+ * GridLayout
+ * @typedef {Object} GridLayout
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Object} idSchema A idSchema for the field being shown.
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Object} errorSchema A Object with the list of errors
+ * @property {String} controlName A name that is defined in the schema
+ */
+
+/**
+ * Renders GridLayout
+ * @param {GridLayout} props
+ */
 const GridLayout = (props) => {
   const {
     onChange,

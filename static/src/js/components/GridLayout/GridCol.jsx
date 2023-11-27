@@ -5,6 +5,21 @@ import { uniqueId } from 'lodash'
 import Col from 'react-bootstrap/Col'
 import GridLayout from './GridLayout'
 
+/**
+ * GridCol
+ * @typedef {Object} GridCol
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Boolean} required Is the CustomSelectWidget field required
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} layout A layout schema with ui option defined.
+ */
+
+/**
+ * Renders GridCol
+ * @param {GridCol} props
+ */
 const GridCol = (
   props
 ) => {

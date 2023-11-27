@@ -1,4 +1,7 @@
-// Function to determine whether to hide 'GetService'
+/**
+ * Function to determine whether to hide 'GetService'
+ * @param {Object} props An form object from uiSchema
+ */
 const shouldHideGetService = (props) => {
   const { URLContentType, Type } = props
 

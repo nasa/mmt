@@ -8,6 +8,20 @@ import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 
 import './StreetAddressField.scss'
 
+/**
+ * StreetAddressField
+ * @typedef {Object} StreetAddressField
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Object} formData An Object with the saved metadata
+ */
+
+/**
+ * Renders StreetAddressField
+ * @param {StreetAddressField} props
+ */
 const StreetAddressField = ({
   onChange,
   registry,

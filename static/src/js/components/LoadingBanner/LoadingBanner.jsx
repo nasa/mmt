@@ -4,6 +4,16 @@ import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 
+/**
+ * LoadingBanner
+ * @typedef {Object} LoadingBanner
+ * @property {String} dataTestId A test id for the page
+ */
+
+/**
+ * Renders a Loading Banner
+ * @param {LoadingBanner} props
+ */
 export const LoadingBanner = ({
   dataTestId
 }) => (

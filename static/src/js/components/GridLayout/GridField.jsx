@@ -5,6 +5,27 @@ import isRequired from '../../utils/isRequired'
 import onPropertyChange from '../../utils/onPropertyChange'
 import onKeyChange from '../../utils/onKeyChange'
 
+/**
+ * GridField
+ * @typedef {Object} GridField
+ * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Object} layout A layout schema with ui option defined.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} idSchema A idSchema for the field being shown.
+ * @property {Object} errorSchema A Object with the list of errors
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Boolean} onBlur Should blur a field.
+ * @property {Boolean} onFocus Should focus a field.
+ * @property {Boolean} disabled Should field be disabled.
+ * @property {Boolean} readonly Is the field readonly.
+ */
+
+/**
+ * Renders GridField
+ * @param {GridField} props
+ */
 const GridField = (props) => {
   const {
     uiSchema,

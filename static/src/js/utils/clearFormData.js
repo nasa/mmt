@@ -1,7 +1,11 @@
-// Clears form data for all controlled data below the given target key
-// i.e., If the hierarchy has category, topic, term, variable and the
-// specified target key is 'topic', it will clear the form data for term
-// and variable.
+/**
+ * Clears form data for all controlled data below the given target key
+ * i.e., If the hierarchy has category, topic, term, variable and the
+ * specified target key is 'topic', it will clear the form data for term and variable.
+ * @param {Object} mapping
+ * @param {Object} form A object that needs to clear formData.
+ * @param {String} targetKey A fieldName that needs to be cleared.
+ */
 const clearFormData = (mapping, form, targetKey) => {
   let found = false
   const { map, clearAdditions = [] } = mapping

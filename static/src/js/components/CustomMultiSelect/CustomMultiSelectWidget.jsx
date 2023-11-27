@@ -28,7 +28,7 @@ import shouldFocusField from '../../utils/shouldFocusField'
 
 /**
  * Renders Custom Multi Select Widget
- * @param {CustomArrayFieldTemplate} props
+ * @param {CustomMultiSelectWidget} props
  */
 const CustomMultiSelectWidget = ({
   label = '',

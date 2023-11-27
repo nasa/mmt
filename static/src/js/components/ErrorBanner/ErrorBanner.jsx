@@ -4,6 +4,16 @@ import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+/**
+ * @typedef {Object} ErrorBannerProps
+ * @property {String} message A message displaying what error has occurred.
+ * @property {String} dataTestId A data-testid for the error message
+ */
+
+/**
+ * Renders a ErrorBanner component
+ * @param {ErrorBanner} props
+ */
 export const ErrorBanner = ({ message, dataTestId }) => (
   <Row>
     <Col>

@@ -12,6 +12,23 @@ import saveTypes from '../../constants/saveTypes'
 
 import './FormNavigation.scss'
 
+/**
+ * FormNavigation
+ * @typedef {Object} FormNavigation
+ * @property {Object} draft A save version of the umm metadata.
+ * @property {Object} formSections A list of form sections.
+ * @property {Boolean} loading A boolean value that represent if a page is loading.
+ * @property {Object[]} validationErrors An object array with a list of errors.
+ * @property {Array} visitedFields An array with a list of visited fields.
+ * @property {Function} onCancel A function that cancels unsaved draft.
+ * @property {Function} onSave A function that saves the draft.
+ * @property {Function} setFocusField A function that sets the focus field.
+ */
+
+/**
+ * Renders Form Navigation
+ * @param {FormNavigation} props
+ */
 const FormNavigation = ({
   draft,
   formSections,
