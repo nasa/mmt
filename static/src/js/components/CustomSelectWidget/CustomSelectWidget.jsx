@@ -138,7 +138,7 @@ const CustomSelectWidget = ({
     const { value: selectedValue } = event || false
     onChange(selectedValue)
     setShowMenu(false)
-    focusRef.current?.blur()
+    // FocusRef.current?.blur()
   }
 
   const handleFocus = () => {
