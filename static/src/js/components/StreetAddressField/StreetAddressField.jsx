@@ -30,9 +30,9 @@ const StreetAddressField = ({
   formData,
   noLines
 }) => {
-  // for (let i = 0; i < noLines - formData.count; i += 1) {
-  //   formData.push('')
-  // }
+  for (let i = 0; i <= noLines - formData.count; i += 1) {
+    formData.push('')
+  }
 
   const [lines, setLines] = useState(formData)
 
@@ -40,10 +40,9 @@ const StreetAddressField = ({
 
   const handleUpdateAddressLine = (line, pos) => {
     lines[pos] = line
-    const values = Object.values(lines)
-
-    setLines(values)
-    onChange(values)
+    console.log('sending up ', lines)
+    setLines(lines)
+    onChange(lines)
   }
 
   const clonedSchema = cloneDeep(schema)
@@ -55,7 +54,7 @@ const StreetAddressField = ({
       <span className="street-address-field__description-box">
         {description}
 
-        <For each={[...new Array(3)]}>
+        <For each={[...new Array(noLines)]}>
           {
             (_value, index) => (
               <Col

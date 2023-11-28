@@ -43,7 +43,6 @@ import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextForm'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
-import removeEmpty from '../../utils/removeEmpty'
 
 import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
