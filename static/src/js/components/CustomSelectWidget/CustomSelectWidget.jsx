@@ -43,7 +43,8 @@ const CustomSelectWidget = ({
   required,
   schema,
   uiSchema,
-  value
+  value,
+  isLoading
 }) => {
   const { items = {} } = schema
   const { schemaUtils } = registry
@@ -51,6 +52,7 @@ const CustomSelectWidget = ({
 
   const [showDescription, setShowDescription] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+  const [loading, setLoading] = useState(isLoading)
 
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -86,8 +88,11 @@ const CustomSelectWidget = ({
     if (controlledField) {
       const { name } = controlledField
       if (name) {
+        setLoading(true)
         const cmrEnum = async () => {
-          setCmrEnums(await getEnums(name, controlledField.controlName))
+          setCmrEnums(await getEnums(name, controlledField.controlName, () => {
+            setLoading(false)
+          }))
         }
 
         cmrEnum()
@@ -170,18 +175,10 @@ const CustomSelectWidget = ({
         onBlur={handleBlur}
         menuIsOpen={showMenu}
         isDisabled={disabled}
+        isLoading={isLoading}
       />
     </CustomWidgetWrapper>
   )
-}
-
-CustomSelectWidget.defaultProps = {
-  disabled: false,
-  value: null,
-  placeholder: '',
-  uiSchema: {
-    'ui:title': null
-  }
 }
 
 CustomSelectWidget.propTypes = {
@@ -217,7 +214,8 @@ CustomSelectWidget.propTypes = {
   }),
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  onBlur: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 }
 
 export default CustomSelectWidget

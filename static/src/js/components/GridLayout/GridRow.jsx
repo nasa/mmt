@@ -1,10 +1,10 @@
 /* eslint-disable import/no-cycle */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { uniqueId } from 'lodash'
 import GridLayout from './GridLayout'
 import GridGroupedSinglePanel from './GridGroupedSinglePanel'
 import GridCheckboxPanel from './GridCheckboxPanel'
+import GridTitle from './GridTitle'
 
 /**
  * GridRow
@@ -44,14 +44,6 @@ const GridRow = (
   const requiredUI = layout['ui:required']
   const hide = layout['ui:hide']
 
-  // Render children rows
-  //  {
-  //     'ui:row': [
-  //       { 'ui:col': { md: 6, children: ['firstName'] } },
-  //       { 'ui:col': { md: 6, children: ['lastName'] } }
-  //     ]
-  // },
-
   const renderChildren = () => {
     const { schemaUtils } = registry
     const retrievedSchema = schemaUtils.retrieveSchema(schema)
@@ -73,8 +65,6 @@ const GridRow = (
   }
 
   if (group) {
-    const { fields, formContext } = registry
-    const { TitleField } = fields
     const { description = '' } = schema
     const title = group
     const groupSinglePanel = layout['ui:group-single-panel']
@@ -85,29 +75,13 @@ const GridRow = (
           className="rjsf-layout-grid-group"
         >
           <span>
-            {
-              TitleField && (
-                <TitleField
-                  name={title}
-                  title={title}
-                  className={groupClassName}
-                  groupBoxClassName={groupBoxClassName}
-                  required={required}
-                  requiredUI={requiredUI}
-                  formContext={formContext}
-                  onBlur={undefined}
-                  onFocus={undefined}
-                  options={undefined}
-                  idSchema={undefined}
-                  id={uniqueId()}
-                  onChange={undefined}
-                  schema={undefined}
-                  readonly={false}
-                  disabled={false}
-                  registry={registry}
-                />
-              )
-            }
+            <GridTitle
+              title={title}
+              className={groupClassName}
+              groupBoxClassName={groupBoxClassName}
+              required={requiredUI ?? required}
+              registry={registry}
+            />
           </span>
           {
             groupDescription && (
@@ -127,7 +101,7 @@ const GridRow = (
               )
               : (
                 <div className="row" key={`row--${JSON.stringify(rows)}`}>
-                  {renderChildren(rows)}
+                  {renderChildren()}
                 </div>
               )
           }
@@ -151,37 +125,18 @@ const GridRow = (
       key={`row-children--${JSON.stringify(rows)}`}
     >
       {' '}
-      {renderChildren(rows)}
+      {renderChildren()}
     </div>
   )
 }
 
 GridRow.defaultProps = {
-  controlName: null,
-  disabled: false,
-  id: null,
-  label: null,
-  layoutGridSchema: null,
-  placeholder: null,
   required: false
 }
 
 GridRow.propTypes = {
-  controlName: PropTypes.string,
-  disabled: PropTypes.bool,
-  errorSchema: PropTypes.shape({}).isRequired,
   formData: PropTypes.shape({}).isRequired,
-  id: PropTypes.string,
-  idSchema: PropTypes.shape({
-    $id: PropTypes.string
-  }).isRequired,
-  label: PropTypes.string,
-  layoutGridSchema: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
-  onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  readonly: PropTypes.bool.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,

@@ -6,8 +6,8 @@ import parseCmrResponse from './parseCmrResponse'
  * @param {String} scheme keyword name for CMR
  * @param {String} filter specify a "filter"
  */
-const getEnums = async (scheme, filter) => {
-  const cmrEnums = await fetchCmrKeywords(scheme)
+const getEnums = async (scheme, filter, completionHandler) => {
+  const cmrEnums = await fetchCmrKeywords(scheme, completionHandler)
 
   const paths = parseCmrResponse(cmrEnums, filter)
 

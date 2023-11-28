@@ -49,6 +49,7 @@ import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import GridLayout from '../GridLayout/GridLayout'
+import ReactJsonSchemaForm from '../ReactJsonSchemaForm/ReactJsonSchemaForm'
 
 const MetadataForm = () => {
   const {
@@ -229,7 +230,7 @@ const MetadataForm = () => {
 
     setDraft({
       ...draft,
-      ummMetadata: removeEmpty(formData)
+      ummMetadata: formData
     })
   }
 
@@ -250,7 +251,7 @@ const MetadataForm = () => {
         <Row className="sidebar_column">
           <Col sm={8}>
             {/* <MMTForm */}
-            <Form
+            <ReactJsonSchemaForm
               validator={validator}
               schema={formSchema}
               formData={ummMetadata}

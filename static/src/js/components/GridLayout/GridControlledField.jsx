@@ -13,53 +13,21 @@ import useAppContext from '../../hooks/useAppContext'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 
 /**
- *
- * Todo: This component needs work, still confusing.
- *
+ * GridControlledField
  * Handles fields that are linked via controlled vocabulary
- *
  * This component will handle the select box change events, so if a user clicks one of
  * the select box, it will auto populate the next select box based on the field
  * selected.
- *
- * name: is the JSON field name
- * controlName: is the CMR field naame
- * formData contains the JSON data for parent form of the field
- * {
- *    URLContentType: 'alpha',
- *    Type: 'beta',
- *    Subtype: 'gamma'
- * }
- * uiSchema: is the uiSchema for the field
- * onSelectValue(name, value, props, state): handler is triggered when the user selects a value
- * schema: schema for the parent
- *
- * The mapping is the mapping from JSON to CMR field names, as well as the
- * keyword's type (name)
- * mapping:
- * {
- *     name: 'related-urls',
- *     map: {
- *       URLContentType: 'url_content_type',
- *       Type: 'type',
- *       Subtype: 'subtype'
- *     }
- * }
- *
- */
-
-/**
- * GridControlledField
  * @typedef {Object} GridControlledField
  * @property {Object} schema A UMM Schema for the widget being previewed.
  * @property {Object} registry An Object that has all the props that are in registry.
- * @property {Object} formData An Object with the saved metadata
+ * @property {Object} formData contains the JSON data for parent form of the field
  * @property {Object} idSchema A idSchema for the field being shown.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
- * @property {Object} mapping A mapping object with the field needed for mapping the form
- * @property {Function} onSelectValue A callback function that will set the selected value
- * @property {String} name A name of the field
- * @property {String} controlName A name that is defined in the schema
+ * @property {Object} mapping is the mapping from JSON to CMR field names
+ * @property {Function} onSelectValue A callback function triggered when the user selects a value
+ * @property {String} name is the JSON field name
+ * @property {String} controlName is the CMR field name
  * @property {Object} uiSchema A uiSchema for the field being shown.
  */
 
@@ -73,10 +41,10 @@ const GridControlledField = ({
   formData,
   idSchema,
   onChange,
-  mapping,
   onSelectValue,
   name,
   controlName,
+  mapping,
   uiSchema
 }) => {
   const [loading, setLoading] = useState(false)
@@ -84,6 +52,7 @@ const GridControlledField = ({
   const {
     draft
   } = useAppContext()
+  const { ummMetadata } = draft
 
   const [cmrKeywords, setCmrKeywords] = useState([])
 
@@ -92,7 +61,7 @@ const GridControlledField = ({
   // If a field in the uiSchema defines 'ui:controlled', this will make a
   // call out to CMR /keywords to retrieve the keyword.
   useEffect(() => {
-    if (mapping) {
+    if (keywordType) {
       setLoading(true)
       const fetchKeywords = async () => {
         setCmrKeywords(await fetchCmrKeywords(keywordType, () => { setLoading(false) }))
@@ -139,11 +108,24 @@ const GridControlledField = ({
 
   const filter = createFilter(formData)
 
+  /* The mapping is the mapping from JSON to CMR field names, as well as the
+   * keyword's type (name)
+   * mapping:
+   * {
+   *     name: 'related-urls',
+   *     map: {
+   *       URLContentType: 'url_content_type',
+   *       Type: 'type',
+   *       Subtype: 'subtype'
+   *     }
+   * }
+   *
+   */
   const { map } = mapping
   const { includeParentFormData = false } = mapping
   if (includeParentFormData) {
     const path = createPath(convertToDottedNotation(idSchema.$id))
-    const parentFormData = getParentFormData(path, draft) ?? {}
+    const parentFormData = getParentFormData(path, ummMetadata) ?? {}
     Object.keys(parentFormData).forEach((key) => {
       const newKey = map[key]
       if (newKey) {
@@ -207,7 +189,7 @@ const GridControlledField = ({
         data-testid={`controlled-fields__custom-text-widget--${kebabCase(name)}`}
       >
         <CustomTextWidget
-          key={`text--${name}`}
+          key={`text--${name}-${value}`}
           id={idSchema[name].$id}
           name={name}
           disabled
@@ -244,7 +226,7 @@ const GridControlledField = ({
       data-testid={`layout-grid-field__custom-select-widget--${kebabCase(name)}`}
     >
       <CustomSelectWidget
-        key={`select--${name}`}
+        key={`select--${name}-${formData[name]}`}
         name={name}
         required={isRequired(name)}
         label={title}

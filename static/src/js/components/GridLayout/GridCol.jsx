@@ -1,9 +1,9 @@
 /* eslint-disable import/no-cycle */
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { uniqueId } from 'lodash'
 import Col from 'react-bootstrap/Col'
 import GridLayout from './GridLayout'
+import GridTitle from './GridTitle'
 
 /**
  * GridCol
@@ -36,7 +36,7 @@ const GridCol = (
 
   const {
     children,
-    controlName: cName,
+    controlName,
     ...colProps
   } = layout['ui:col']
 
@@ -45,14 +45,6 @@ const GridCol = (
   const groupClassName = layout['ui:group-classname']
   const groupBoxClassName = layout['ui:group-box-classname']
   const requiredUI = layout['ui:required']
-
-  // Render children rows
-  //  {
-  //     'ui:row': [
-  //       { 'ui:col': { md: 6, children: ['firstName'] } },
-  //       { 'ui:col': { md: 6, children: ['lastName'] } }
-  //     ]
-  // },
 
   const renderChildren = () => {
     const { schemaUtils } = registry
@@ -66,17 +58,14 @@ const GridCol = (
         uiSchema={uiSchema}
         layout={layoutSchema}
         onChange={onChange}
-        controlName={cName}
+        controlName={controlName}
       />
     ))
   }
 
+  const { description } = schema
+  const title = group
   if (group) {
-    const { fields } = registry
-    const { TitleField } = fields
-    const { description } = schema
-    const title = group
-
     return (
       <Col {...colProps} key={`col--${JSON.stringify(colProps)}`}>
         <fieldset
@@ -84,28 +73,13 @@ const GridCol = (
           className="rjsf-layout-grid-group"
         >
           <span>
-            {
-              TitleField && (
-                <TitleField
-                  name={title}
-                  title={title}
-                  className={groupClassName}
-                  groupBoxClassName={groupBoxClassName}
-                  required={required}
-                  requiredUI={requiredUI}
-                  onBlur={undefined}
-                  onFocus={undefined}
-                  options={undefined}
-                  idSchema={undefined}
-                  id={uniqueId()}
-                  onChange={undefined}
-                  schema={undefined}
-                  readonly={false}
-                  disabled={false}
-                  registry={registry}
-                />
-              )
-            }
+            <GridTitle
+              title={title}
+              className={groupClassName}
+              groupBoxClassName={groupBoxClassName}
+              required={requiredUI ?? required}
+              registry={registry}
+            />
           </span>
           {
             groupDescription ? (
@@ -115,7 +89,7 @@ const GridCol = (
             ) : null
           }
           <div>
-            {renderChildren(children, cName)}
+            {renderChildren()}
           </div>
         </fieldset>
       </Col>
@@ -124,8 +98,7 @@ const GridCol = (
 
   return (
     <Col {...colProps}>
-      {' '}
-      {renderChildren(children, cName)}
+      {renderChildren()}
     </Col>
   )
 }
@@ -137,7 +110,6 @@ GridCol.defaultProps = {
 GridCol.propTypes = {
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      TitleField: PropTypes.func,
       SchemaField: PropTypes.func
     }),
     schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired
