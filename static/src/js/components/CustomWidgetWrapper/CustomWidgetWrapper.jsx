@@ -29,19 +29,24 @@ const CustomWidgetWrapper = ({
 }) => (
   <>
     <div
-      className="custom-widget__header"
+      className="d-flex justify-content-between pb-2"
       ref={scrollRef}
     >
       {
         title && (
-          <div className="field-label-box">
-            <span className={`metadata-editor-field-label ${headerClassName}`}>
+          <div>
+            <span className={headerClassName}>
               {title}
             </span>
+
             <span>
               {
                 required && (
-                  <i className="eui-icon eui-required-o required-icon" />
+                  <i
+                    className="eui-icon eui-required-o text-success ps-1"
+                    role="img"
+                    aria-label="Required"
+                  />
                 )
               }
             </span>
@@ -61,7 +66,7 @@ const CustomWidgetWrapper = ({
 
     {children}
 
-    <span className="custom-widget__description">
+    <span className="fs-6 fst-italic">
       {description}
     </span>
   </>

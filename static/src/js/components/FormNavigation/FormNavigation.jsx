@@ -53,11 +53,11 @@ const FormNavigation = ({
         </Button>
 
         <Dropdown.Toggle
-          data-testid="navigationview--dropdown-toggle"
           split
           variant="success"
           id="dropdown-split-basic"
           className="text-white"
+          aria-label="Save Options"
         />
 
         <Dropdown.Menu>
@@ -94,7 +94,6 @@ const FormNavigation = ({
       </Dropdown>
 
       <Button
-        data-testid="navigationview--cancel-button"
         onClick={onCancel}
         type="button"
         className="link-button ms-2"

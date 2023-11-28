@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash'
+
 /**
  * Function used to traverse through the cmr keywords response and build a multidimensional array of keywords
  * @param {Object} node List of keywords from cmr
@@ -7,8 +9,6 @@
  * @param {Array} paths empty two dimension array
  * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
  */
-import { cloneDeep } from 'lodash'
-
 const traverse = (
   node,
   parent,

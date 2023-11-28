@@ -12,7 +12,6 @@ import traverse from './traverse'
  * @param {Object} response response from CMR
  * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
  */
-
 const parseCmrResponse = (response, filter) => {
   let paths = []
   const path = []

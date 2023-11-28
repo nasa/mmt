@@ -121,7 +121,7 @@ const GridRow = (
 
   return (
     <div
-      className="row row-children"
+      className="row row-children pb-3"
       key={`row-children--${JSON.stringify(rows)}`}
     >
       {' '}

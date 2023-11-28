@@ -5,7 +5,6 @@ import parseCmrResponse from './parseCmrResponse'
  * This will call fetchCmrKeywords and retrieve the list of keywords and parse the keywords
  * @param {object} uiSchema uiSchema for the picker
  */
-
 const getPickerKeywords = async (uiSchema) => {
   const keywordObject = {}
   const keywordScheme = uiSchema['ui:keyword_scheme']
