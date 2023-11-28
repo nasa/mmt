@@ -8,6 +8,7 @@
  */
 const clearFormData = (mapping, form, targetKey) => {
   let found = false
+  const clearedForm = form
   const { map, clearAdditions = [] } = mapping
   const keys = Object.keys(map)
   keys.forEach((key) => {
@@ -19,8 +20,7 @@ const clearFormData = (mapping, form, targetKey) => {
     }
 
     if (found) {
-      // eslint-disable-next-line no-param-reassign
-      delete form[key]
+      delete clearedForm[key]
     }
   })
 
@@ -28,7 +28,7 @@ const clearFormData = (mapping, form, targetKey) => {
     const pos = name.lastIndexOf('.')
     if (pos > -1) {
       const parent = name.substring(0, pos)
-      let subform = form[parent]
+      let subform = clearedForm[parent]
       if (subform) {
         if (!Array.isArray(subform)) {
           subform = [subform]
@@ -36,17 +36,16 @@ const clearFormData = (mapping, form, targetKey) => {
 
         const childField = name.substring(pos + 1)
         subform.forEach((obj) => {
-          // eslint-disable-next-line no-param-reassign
-          delete obj[childField]
+          const tempObject = obj
+          delete tempObject[childField]
         })
       }
     } else {
-      // eslint-disable-next-line no-param-reassign
-      delete form[name]
+      delete clearedForm[name]
     }
   })
 
-  return form
+  return clearedForm
 }
 
 export default clearFormData
