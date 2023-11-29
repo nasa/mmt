@@ -1,3 +1,4 @@
+import errorLogger from './errorLogger'
 import { getApplicationConfig } from './getConfig'
 
 /**
@@ -12,8 +13,8 @@ const fetchCmrKeywords = async (scheme, completionHandler = null) => {
     .then((response) => {
       res = response.json()
     })
-    .catch((err) => {
-      res = err
+    .catch((errors) => {
+      errorLogger(errors)
     })
 
   if (completionHandler) {

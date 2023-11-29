@@ -49,6 +49,7 @@ import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import GridLayout from '../GridLayout/GridLayout'
+import errorLogger from '../../utils/errorLogger'
 
 const MetadataForm = () => {
   const {
@@ -214,6 +215,7 @@ const MetadataForm = () => {
       },
       onError: (ingestError) => {
         console.log('🚀 ~ file: MetadataForm.jsx:175 ~ handleSave ~ ingestError:', ingestError)
+        errorLogger(ingestError)
         // Populate some errors to be displayed
       }
     })
