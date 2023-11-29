@@ -1,6 +1,3 @@
-// Given the full path, e.g. ContactGroups[1].ContactInformation.ContactMechanisms, it will return the parent's
-// form data, e.g., ContactGroups[1].ContactInformation
-
 import { cloneDeep } from 'lodash'
 import removeEmpty from './removeEmpty'
 
