@@ -7,8 +7,8 @@ describe('shouldHideGetService', () => {
         URLContentType: 'OtherContentType',
         Type: 'OtherType'
       }
-      const getData = shouldHideGetService(props)
-      expect(getData).toBe(true)
+      const getService = shouldHideGetService(props)
+      expect(getService).toBe(true)
     })
   })
 
@@ -18,8 +18,8 @@ describe('shouldHideGetService', () => {
         URLContentType: 'DistributionURL',
         Type: 'USE SERVICE API'
       }
-      const getData = shouldHideGetService(props)
-      expect(getData).toBe(false)
+      const getService = shouldHideGetService(props)
+      expect(getService).toBe(false)
     })
   })
 })
