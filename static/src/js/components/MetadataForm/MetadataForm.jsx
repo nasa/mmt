@@ -215,7 +215,7 @@ const MetadataForm = () => {
       },
       onError: (ingestError) => {
         console.log('🚀 ~ file: MetadataForm.jsx:175 ~ handleSave ~ ingestError:', ingestError)
-        errorLogger(ingestError)
+        errorLogger(ingestError, 'MetadataForm: ingestDraftMutation')
         // Populate some errors to be displayed
       }
     })
