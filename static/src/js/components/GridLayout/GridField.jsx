@@ -103,7 +103,7 @@ const GridField = (props) => {
           registry={registry}
           disabled={disabled}
           readonly={readonly}
-          onKeyChange={onKeyChange(layoutName, formData, onChange, errorSchema)}
+          onKeyChange={onKeyChange(layoutName, formData, onChange, errorSchema, uiSchema, registry)}
         />
       </span>
     )

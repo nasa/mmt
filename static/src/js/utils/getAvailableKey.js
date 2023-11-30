@@ -1,4 +1,5 @@
 import { has } from 'lodash'
+import { getUiOptions } from '@rjsf/utils'
 
 /**
  * This function was pulled from ObjectField to support LayoutGridField
@@ -12,15 +13,17 @@ export const getAvailableKey = (
   uiSchema,
   formData
 ) => {
-  const { getUiOptions } = registry
-  const { duplicateKeySuffixSeparator = '-' } = getUiOptions(uiSchema)
+  const { duplicateKeySuffixSeparator = '-' } = getUiOptions(uiSchema, registry.globalUiOptions)
 
   let index = 0
   let newKey = preferredKey
+  // Loop through formData to see if there is a key with the value of newKey.
+  // If so, append an incremented index number
   while (has(formData, newKey)) {
-    // eslint-disable-next-line no-plusplus
-    newKey = `${preferredKey}${duplicateKeySuffixSeparator}${++index}`
+    newKey = `${preferredKey}${duplicateKeySuffixSeparator}${index += 1}`
   }
+
+  console.log(newKey)
 
   return newKey
 }

@@ -14,14 +14,22 @@ export const onKeyChange = (
   oldValue,
   formData,
   onChange,
-  errorSchema
+  errorSchema,
+  uiSchema,
+  registry
 ) => (value, newErrorSchema) => {
+  // Checks to see if user input is the same as old input. If so, do nothing
   if (oldValue === value) {
     return
   }
 
+  // Checks that the value already exists in formData, if it does,
+  // getAvailableKey creates a unique key with an appended suffix
   // eslint-disable-next-line no-param-reassign
-  value = getAvailableKey(value, formData)
+  value = getAvailableKey(value, formData, uiSchema, registry)
+
+  // Create a new object, renamedObj, based on existing form data and
+  // change the key corresponding to oldVale to the new value.
   const newFormData = {
     ...(formData)
   }
@@ -33,6 +41,7 @@ export const onKeyChange = (
   })
   const renamedObj = Object.assign({}, ...keyValues)
 
+  // Callback with updated object or error
   onChange(
     renamedObj,
     errorSchema
