@@ -136,15 +136,19 @@ const MetadataForm = () => {
   const schema = getUmmSchema(conceptType)
   const uiSchema = toolsUiSchema[sectionName]
   const formSections = formConfigurations[conceptType]
-  console.log('🚀 ~ file: MetadataForm.jsx:162 ~ MetadataForm ~ conceptType:', conceptType)
-  console.log('🚀 ~ file: MetadataForm.jsx:162 ~ MetadataForm ~ formSections:', formSections)
 
   // Limit the schema to only the fields present in the displayed form section
+  console.log('S----------------------------S')
+  console.log('SCHEMA:', schema)
+  console.log('formSections:', formSections)
+  console.log('sectionName:', sectionName)
   const formSchema = getFormSchema({
     fullSchema: schema,
     formConfigurations: formSections,
     formName: sectionName
   })
+  console.log('formSchema:', formSchema)
+  console.log('E-----------------------------E')
 
   const fields = {
     layout: GridLayout,
