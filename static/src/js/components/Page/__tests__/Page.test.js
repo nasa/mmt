@@ -22,27 +22,27 @@ describe('Page component', () => {
     expect(screen.getByTestId('mock-primary-navigation')).toBeInTheDocument()
     expect(MockPrimaryNavigation.mock.calls[0][0].items).toEqual([
       {
-        to: '/manage-collections',
+        to: '/manage/collections',
         title: 'Manage Collections',
         version: 'v1.17.3'
       },
       {
-        to: '/manage-variables',
+        to: '/manage/variables',
         title: 'Manage Variables',
         version: 'v1.9.0'
       },
       {
-        to: '/manage-services',
+        to: '/manage/services',
         title: 'Manage Services',
         version: 'v1.4'
       },
       {
-        to: '/manage-tools',
+        to: '/manage/tools',
         title: 'Manage Tools',
         version: 'v1.1'
       },
       {
-        to: '/manage-cmr',
+        to: '/manage/cmr',
         title: 'Manage CMR'
       }
     ])
@@ -56,7 +56,7 @@ describe('Page component', () => {
     )
 
     expect(screen.getByText('Test page')).toBeInTheDocument()
-    expect(screen.getByText('Test page')).toHaveClass('visually-hidden')
+    expect(screen.getByText('Test page').parentElement).toHaveClass('visually-hidden')
   })
 
   test('renders the content', () => {
@@ -67,5 +67,9 @@ describe('Page component', () => {
     )
 
     expect(screen.getByText('This is some page content')).toBeInTheDocument()
+  })
+
+  describe('when rendering a secondary page', () => {
+
   })
 })

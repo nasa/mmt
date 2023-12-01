@@ -1,7 +1,11 @@
 .primary-navigation {
-  &__item:hover {
-    --bs-link-color-rgb: rgba(var(--bs-white) / 85%);
-    --bs-text-opacity: 0.75;
+  &__item {
+    --bs-border-color: transparent;
+
+    &:hover {
+      --bs-link-color-rgb: rgba(var(--bs-white) / 85%);
+      --bs-text-opacity: 0.75;
+    }
   }
 
   &__title {

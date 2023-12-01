@@ -9,13 +9,13 @@ import ummVarSchema from '../schemas/umm/ummVarSchema'
  */
 const getUmmSchema = (conceptType) => {
   switch (conceptType) {
-    case 'collection-draft':
+    case 'Collection':
       return ummCSchema
-    case 'service-draft':
+    case 'Service':
       return ummSSchema
-    case 'tool-draft':
+    case 'Tool':
       return ummTSchema
-    case 'variable-draft':
+    case 'Variable':
       return ummVarSchema
     default:
       return null

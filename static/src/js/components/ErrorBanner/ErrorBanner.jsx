@@ -19,6 +19,7 @@ export const ErrorBanner = ({ message, dataTestId }) => (
     <Col>
       <Alert variant="danger">
         <Alert.Heading>Sorry!</Alert.Heading>
+        <span className="visually-hidden">{' '}</span>
         <p data-testid={dataTestId}>{message}</p>
       </Alert>
     </Col>

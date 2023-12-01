@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-// Query to retrieve tool draft
-export const GET_TOOL_DRAFT = gql`
-  query Draft($params: DraftInput) {
+// Query to retrieve draft
+export const TOOL_DRAFT = gql`
+  query ToolDraft($params: DraftInput) {
     draft(params: $params) {
       conceptId
       conceptType

@@ -8,25 +8,25 @@ import ummVarSchema from '../../schemas/umm/ummVarSchema'
 describe('getUmmSchema', () => {
   describe('when the concept type is collection-draft', () => {
     test('returns the UMM-C schema', () => {
-      expect(getUmmSchema('collection-draft')).toEqual(ummCSchema)
+      expect(getUmmSchema('Collection')).toEqual(ummCSchema)
     })
   })
 
   describe('when the concept type is service-draft', () => {
     test('returns the UMM-S schema', () => {
-      expect(getUmmSchema('service-draft')).toEqual(ummSSchema)
+      expect(getUmmSchema('Service')).toEqual(ummSSchema)
     })
   })
 
   describe('when the concept type is tool-draft', () => {
     test('returns the UMM-T schema', () => {
-      expect(getUmmSchema('tool-draft')).toEqual(ummTSchema)
+      expect(getUmmSchema('Tool')).toEqual(ummTSchema)
     })
   })
 
   describe('when the concept type is variable-draft', () => {
     test('returns the UMM-Var schema', () => {
-      expect(getUmmSchema('variable-draft')).toEqual(ummVarSchema)
+      expect(getUmmSchema('Variable')).toEqual(ummVarSchema)
     })
   })
 

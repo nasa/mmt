@@ -7,12 +7,14 @@ import removeEmpty from '../../utils/removeEmpty'
 
 import useAppContext from '../../hooks/useAppContext'
 
+// TODO Needs tests
+
 const JsonPreview = () => {
   const {
-    draft
+    draft = {}
   } = useAppContext()
 
-  const { ummMetadata } = draft
+  const { ummMetadata = {} } = draft
 
   const data = removeEmpty(cloneDeep(ummMetadata))
 

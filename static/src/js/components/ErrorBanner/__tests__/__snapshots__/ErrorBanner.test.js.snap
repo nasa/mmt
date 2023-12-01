@@ -17,6 +17,11 @@ exports[`Error Banner Component Provided a message it renders an error banner wi
         >
           Sorry!
         </div>
+        <span
+          class="visually-hidden"
+        >
+           
+        </span>
         <p
           data-testid="error-banner__message"
         >
@@ -45,6 +50,11 @@ exports[`Error Banner Component Provided a test id it renders an error banner wi
         >
           Sorry!
         </div>
+        <span
+          class="visually-hidden"
+        >
+           
+        </span>
         <p
           data-testid="test-error"
         >

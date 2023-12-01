@@ -9,22 +9,18 @@ import { setContext } from '@apollo/client/link/context'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
-import ManageCollectionsPage from './pages/ManageCollectionsPage/ManageCollectionsPage'
-import ManageServicesPage from './pages/ManageServicesPage/ManageServicesPage'
-import ManageToolsPage from './pages/ManageToolsPage/ManageToolsPage'
-import ManageVariablesPage from './pages/ManageVariablesPage/ManageVariablesPage'
-import ToolDraftsPage from './pages/ToolDraftsPage/ToolDraftsPage'
-
 import Layout from './components/Layout/Layout'
-
-import Providers from './providers/Providers/Providers'
+import ManagePage from './pages/ManagePage/ManagePage'
+import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
+import DraftsPage from './pages/DraftsPage/DraftsPage'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import Providers from './providers/Providers/Providers'
+import Page from './components/Page/Page'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -52,6 +48,7 @@ const Redirects = redirectKeys.map(
  */
 const App = () => {
   const { graphQlHost } = getApplicationConfig()
+  console.log('🚀 ~ file: App.jsx:51 ~ App ~ graphQlHost:', graphQlHost)
 
   const httpLink = createHttpLink({
     uri: graphQlHost
@@ -88,6 +85,8 @@ const App = () => {
   //   errorMessage
   // }
 
+  console.log('then made it here')
+
   return (
     <ApolloProvider client={client}>
       <Providers>
@@ -95,31 +94,11 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               {Redirects}
-              <Route
-                element={<ManageCollectionsPage />}
-                index
-                path="manage-collections"
-              />
-              <Route
-                element={<ManageVariablesPage />}
-                path="manage-variables"
-              />
-              <Route
-                element={<ManageServicesPage />}
-                path="manage-services"
-              />
-              <Route
-                element={<ManageToolsPage />}
-                path="manage-tools"
-              />
-              <Route
-                element={<ManageCmrPage />}
-                path="manage-cmr"
-              />
-              <Route
-                element={<ToolDraftsPage />}
-                path="tool-drafts/*"
-              />
+              <Route path="manage/:type/*" element={<ManagePage />} />
+              <Route path="manage/cmr" element={<ManageCmrPage />} />
+              <Route path="drafts/:draftType/*" element={<DraftsPage />} />
+              <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
             </Route>
           </Routes>
         </BrowserRouter>

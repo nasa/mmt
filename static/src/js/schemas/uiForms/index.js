@@ -1,7 +1,7 @@
 import toolsConfiguration from './toolsConfiguration'
 
 const formConfigurations = {
-  'tool-draft': toolsConfiguration
+  Tool: toolsConfiguration
 }
 
 export default formConfigurations

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 // Query to retrieve tool drafts for listing open drafts
 export const GET_TOOL_DRAFTS = gql`
-  query Drafts($params: DraftsInput) {
+  query ToolDrafts($params: DraftsInput) {
     drafts(params: $params) {
       count
       items {

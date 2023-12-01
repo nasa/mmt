@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import useStatusMessages from '../../hooks/useStatusMessages'
@@ -23,13 +23,22 @@ import AppContext from '../../context/AppContext'
  */
 const AppContextProvider = ({ children }) => {
   const statusMessagesContext = useStatusMessages()
-  const [draft, setDraft] = useState(null)
+  const [draft, setDraft] = useState()
+  const [user, setUser] = useState({})
+
+  useEffect(() => {
+    setUser({
+      token: 'ABC-1',
+      providerId: 'MMT_2'
+    })
+  }, [])
 
   const providerValue = useMemo(() => ({
     ...statusMessagesContext,
     draft,
-    setDraft
-  }), [draft])
+    setDraft,
+    user
+  }), [draft, user])
 
   return (
     <AppContext.Provider value={providerValue}>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
-import Form from '@rjsf/core'
+import { kebabCase, capitalize } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
+import Form from '@rjsf/core'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import { kebabCase } from 'lodash'
 
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
@@ -49,43 +49,61 @@ import './MetadataForm.scss'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import GridLayout from '../GridLayout/GridLayout'
+import toolsConfiguration from '../../schemas/uiForms/toolsConfiguration'
+import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
 import errorLogger from '../../utils/errorLogger'
 
 const MetadataForm = () => {
   const {
-    conceptId,
+    conceptId = 'new',
     sectionName,
-    fieldName
+    fieldName,
+    draftType
   } = useParams()
   const navigate = useNavigate()
   const {
+    user: {
+      providerId
+    },
     addStatusMessage,
     draft,
     setDraft
   } = useAppContext()
-  console.log('🚀 ~ file: MetadataForm.jsx:50 ~ MetadataForm ~ draft:', draft)
 
-  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  let derivedConceptType
+
+  if (conceptId !== 'new') {
+    derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  } else {
+    derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
+  }
+
+  useEffect(() => {
+    if (conceptId === 'new') setDraft({})
+  }, [conceptId])
+
+  console.log('🚀 ~ file: MetadataForm.jsx:77 ~ MetadataForm ~ derivedConceptType:', derivedConceptType)
+
   const [validationErrors, setValidationErrors] = useState([])
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
-  console.log('🚀 ~ file: MetadataForm.jsx:70 ~ MetadataForm ~ focusField:', focusField)
 
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
     setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-    navigate(`../${conceptId}/${sectionName}`, { replace: true })
+    if (sectionName) navigate(`../${conceptId}/${sectionName}`, { replace: true })
   }, [fieldName])
 
   const [ingestDraftMutation, {
     loading: ingestDraftLoading
   }] = useMutation(INGEST_DRAFT)
 
+  console.log('🚀 ~ file: MetadataForm.jsx:100 ~ MetadataForm ~ conceptTypeDraftQueries[derivedConceptType]:', conceptTypeDraftQueries[derivedConceptType])
   const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
     // If the draft has already been loaded, skip this query
-    skip: draft,
+    skip: draft || conceptId === 'new',
     variables: {
       params: {
         conceptId,
@@ -117,25 +135,19 @@ const MetadataForm = () => {
     )
   }
 
-  if (!draft) {
-    return (
-      <Page>
-        <ErrorBanner message="Draft could not be loaded." />
-      </Page>
-    )
-  }
-
   const {
     conceptType,
     // Name,
-    nativeId,
-    providerId,
-    ummMetadata
-  } = draft
+    nativeId = `MMT_${crypto.randomUUID()}`,
+    ummMetadata = {}
+  } = draft || {}
 
-  const schema = getUmmSchema(conceptType)
-  const uiSchema = toolsUiSchema[sectionName]
-  const formSections = formConfigurations[conceptType]
+  const schema = getUmmSchema(derivedConceptType)
+  const formSections = formConfigurations[derivedConceptType]
+  const [firstFormSection] = formSections
+  const firstSectionName = kebabCase(firstFormSection.displayName)
+  const currentSection = sectionName || firstSectionName
+  const uiSchema = toolsUiSchema[currentSection]
 
   // Limit the schema to only the fields present in the displayed form section
   console.log('S----------------------------S')
@@ -145,7 +157,7 @@ const MetadataForm = () => {
   const formSchema = getFormSchema({
     fullSchema: schema,
     formConfigurations: formSections,
-    formName: sectionName
+    formName: currentSection
   })
   console.log('formSchema:', formSchema)
   console.log('E-----------------------------E')
@@ -179,7 +191,7 @@ const MetadataForm = () => {
     // Save the draft
     ingestDraftMutation({
       variables: {
-        conceptType: getConceptTypeByDraftConceptId(conceptId),
+        conceptType: derivedConceptType,
         metadata: ummMetadata,
         nativeId,
         providerId,
@@ -188,9 +200,9 @@ const MetadataForm = () => {
       },
       onCompleted: (mutationData) => {
         console.log('🚀 ~ file: MetadataForm.jsx:149 ~ handleSave ~ mutationData:', mutationData)
-
+        const { ingestDraft: { conceptId: savedConceptId } } = mutationData
         addStatusMessage({
-          id: `${conceptId}-saved`,
+          id: `${savedConceptId}-saved`,
           message: 'Draft saved successfully',
           type: statusMessageTypes.INFO
         })
@@ -198,19 +210,21 @@ const MetadataForm = () => {
         // TODO show a status message
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
+          if (currentSection) navigate(`../${conceptId}/${currentSection}`, { replace: true })
+
           window.scroll(0, 0)
         }
 
         if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
-          const nextFormName = getNextFormName(formSections, sectionName)
-          navigate(`../${conceptId}/${kebabCase(nextFormName)}`)
+          const nextFormName = getNextFormName(formSections, currentSection)
+          navigate(`../${savedConceptId}/${kebabCase(nextFormName)}`)
         }
 
         if (type === saveTypes.saveAndPreview) {
           // Navigate to preview page
           window.scroll(0, 0)
-          navigate(`../${conceptId}`)
+          navigate(`../${savedConceptId}`)
         }
 
         if (type === saveTypes.saveAndPublish) {
@@ -250,8 +264,10 @@ const MetadataForm = () => {
     ])])
   }
 
+  const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${conceptId}`
+
   return (
-    <Page>
+    <Page title={pageTitle} pageType="secondary">
       <Container id="metadata-form__container">
         <Row className="sidebar_column">
           <Col sm={8}>

@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useParams } from 'react-router'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useLazyQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash'
 import {
@@ -37,6 +37,8 @@ import useAppContext from '../../hooks/useAppContext'
 
 import './DraftPreview.scss'
 
+// TODO Needs tests
+
 /**
  * Renders a DraftPreview component
  *
@@ -64,7 +66,7 @@ const DraftPreview = () => {
     // error: deleteError
   }] = useMutation(DELETE_DRAFT)
 
-  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { loading, error } = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     // If the draft has already been loaded, skip this query
     skip: draft,
     variables: {
@@ -106,6 +108,8 @@ const DraftPreview = () => {
     )
   }
 
+  console.log('🚀 ~ file: DraftPreview.jsx:117 ~ DraftPreview ~ draft:', draft)
+
   const {
     conceptType,
     name,
@@ -119,7 +123,7 @@ const DraftPreview = () => {
   const handleDelete = () => {
     deleteDraftMutation({
       variables: {
-        conceptType: 'Tool',
+        conceptType,
         nativeId,
         providerId
       },
@@ -133,13 +137,13 @@ const DraftPreview = () => {
   }
 
   // Get the UMM Schema for the draft
-  const schema = getUmmSchema(conceptType)
+  const schema = getUmmSchema(derivedConceptType)
 
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
 
   // Pull the formSections out of the formConfigurations
-  const formSections = formConfigurations[conceptType]
+  const formSections = formConfigurations[derivedConceptType]
 
   // Determine which MetadataPreview component to show
   const metadataPreviewComponent = () => {
