@@ -16,11 +16,11 @@ const parseCmrResponse = (response, filter) => {
   let paths = []
   const path = []
   traverse(response, 'root', Object.keys(response)[0], path, paths, filter)
-  paths = paths.sort((a, b) => {
-    const j1 = a.join('>')
-    const j2 = b.join('>')
+  paths = paths.sort((value1, value2) => {
+    const join1 = value1.join('>')
+    const join2 = value2.join('>')
 
-    return j1.localeCompare(j2)
+    return join1.localeCompare(join2)
   })
 
   return paths

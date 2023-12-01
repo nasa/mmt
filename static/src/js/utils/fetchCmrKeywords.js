@@ -5,7 +5,7 @@ import { getApplicationConfig } from './getConfig'
  * Calls cmr /keywords/ endpoint to get a list of keywords
  * @param {String} scheme keyword name
  */
-const fetchCmrKeywords = async (scheme, completionHandler = null) => {
+const fetchCmrKeywords = async (scheme) => {
   const { cmrHost } = getApplicationConfig()
 
   let res = null
@@ -16,10 +16,6 @@ const fetchCmrKeywords = async (scheme, completionHandler = null) => {
     .catch((errors) => {
       errorLogger(errors)
     })
-
-  if (completionHandler) {
-    completionHandler()
-  }
 
   return res
 }
