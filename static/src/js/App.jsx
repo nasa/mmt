@@ -85,8 +85,6 @@ const App = () => {
   //   errorMessage
   // }
 
-  console.log('then made it here')
-
   return (
     <ApolloProvider client={client}>
       <Providers>

@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useParams } from 'react-router'
-import { useMutation, useLazyQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash'
 import {
@@ -66,7 +66,7 @@ const DraftPreview = () => {
     // error: deleteError
   }] = useMutation(DELETE_DRAFT)
 
-  const { loading, error } = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
     // If the draft has already been loaded, skip this query
     skip: draft,
     variables: {
@@ -107,8 +107,6 @@ const DraftPreview = () => {
       </Page>
     )
   }
-
-  console.log('🚀 ~ file: DraftPreview.jsx:117 ~ DraftPreview ~ draft:', draft)
 
   const {
     conceptType,
