@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash'
 function traverseArrays(parent, tokens) {
   if (tokens.length > 0) {
     const token = tokens.shift()
+
     if (token === '') {
       traverseArrays(parent, tokens)
 
@@ -24,6 +25,7 @@ function traverseArrays(parent, tokens) {
 // map['atmosphere']['atmospheric phenomema'] returns ['hurricanes']
 export function buildMap(paths) {
   const map = {}
+
   paths.forEach((tokens) => {
     traverseArrays(map, tokens)
   })
@@ -40,8 +42,9 @@ const walkMap = (
   const key = level.shift()
   const children = Object.keys(node)
 
-  // eslint-disable-next-line no-param-reassign
-  if (current) { cmrResponse[current] = [] }
+  if (current) {
+    cmrResponse[current] = []
+  }
 
   children.forEach((field) => {
     if (key) {
@@ -50,11 +53,13 @@ const walkMap = (
         subfields: [key],
         value: field
       }
+
       cmrResponse[current].push(dict)
       walkMap(value, key, level, dict)
     } else {
       const value = node[field]
       const dict = { value: field }
+
       cmrResponse[current].push(dict)
       walkMap(value, key, level, dict)
     }
@@ -77,6 +82,7 @@ const createResponseFromKeywords = (keywords, keys) => {
   const map = buildMap(cloneDeep(keywords))
   const current = cloneDeep(keys.shift())
   const response = {}
+
   walkMap(map, current, keys, response)
 
   return response

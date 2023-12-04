@@ -11,6 +11,7 @@ const clearFormData = (mapping, form, targetKey) => {
   const clearedForm = form
   const { map, clearAdditions = [] } = mapping
   const keys = Object.keys(map)
+
   // Iterates over all keys clear sub form element for found key
   keys.forEach((key) => {
     const controlKey = map[key]
@@ -29,23 +30,26 @@ const clearFormData = (mapping, form, targetKey) => {
   // Clears additional sub form fields passed in
   clearAdditions.forEach((name) => {
     const pos = name.lastIndexOf('.')
+
     // Field is a sub field
     if (pos > -1) {
       const parent = name.substring(0, pos)
       let subform = clearedForm[parent]
+
       if (subform) {
         if (!Array.isArray(subform)) {
           subform = [subform]
         }
 
         const childField = name.substring(pos + 1)
+
         subform.forEach((obj) => {
           const tempObj = obj
           delete tempObj[childField]
         })
       }
-    // Field is top level field
     } else {
+      // Field is top level field
       delete clearedForm[name]
     }
   })

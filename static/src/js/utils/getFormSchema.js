@@ -13,6 +13,7 @@ const getFormSchema = ({
 }) => {
   const config = formConfigurations
     .find((formConfig) => kebabCase(formConfig.displayName) === formName)
+
   const { properties } = config
 
   const schemaProperties = {}

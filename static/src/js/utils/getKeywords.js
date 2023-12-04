@@ -9,10 +9,13 @@ const collectKeywords = (
   const node = response
   const { _value, _subfields, ...rest } = node
   const array = Object.keys(rest)
+
   array.forEach((key) => {
     const value = node[key]
+
     if (type === key) {
       const finalNode = node[type] ?? []
+
       finalNode.forEach((n) => {
         list.push(n.value)
       })
@@ -21,6 +24,7 @@ const collectKeywords = (
         value.forEach((item) => {
           if (keys.includes(key)) {
             const { value: itemValue } = item
+
             if (itemValue === filter[key]) {
               collectKeywords(item, type, filter, keys, list)
             }

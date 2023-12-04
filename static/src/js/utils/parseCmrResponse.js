@@ -15,7 +15,9 @@ import traverse from './traverse'
 const parseCmrResponse = (response, filter) => {
   let paths = []
   const path = []
+
   traverse(response, 'root', Object.keys(response)[0], path, paths, filter)
+
   paths = paths.sort((value1, value2) => {
     const join1 = value1.join('>')
     const join2 = value2.join('>')

@@ -24,7 +24,6 @@ export default class ObjectField extends React.Component {
       // fields which are "mandated" by the schema, these fields can
       // be set to undefined by clicking a "delete field" button, so
       // set empty values to the empty string.
-      // eslint-disable-next-line no-param-reassign
       value = ''
     }
 
@@ -51,7 +50,6 @@ export default class ObjectField extends React.Component {
     let index = 0
     let newKey = preferredKey
     while (has(formData, newKey)) {
-      // eslint-disable-next-line no-plusplus
       newKey = `${preferredKey}${duplicateKeySuffixSeparator}${++index}`
     }
 
@@ -65,7 +63,6 @@ export default class ObjectField extends React.Component {
 
     const { formData, onChange, errorSchema } = this.props
 
-    // eslint-disable-next-line no-param-reassign
     value = this.getAvailableKey(value, formData)
     const newFormData = {
       ...formData

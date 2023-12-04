@@ -33,7 +33,6 @@ const GridLayout = (props) => {
   const {
     registry,
     uiSchema,
-    formData,
     controlName
   } = props
   let { layout } = props

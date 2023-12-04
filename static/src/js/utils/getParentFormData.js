@@ -11,19 +11,23 @@ import removeEmpty from './removeEmpty'
 const getParentFormData = (fullPath, fullData) => {
   const pos = fullPath.lastIndexOf('.')
   let path = fullPath
+
   if (pos > -1) {
     path = path.substring(0, pos)
   }
 
   const parts = path.split('.')
   let data = removeEmpty(cloneDeep(fullData))
+
   parts.forEach((part) => {
     if (part !== '') {
       const p = part.replace('.', '')
       const regexp = /^(.*[^\\[]+)\[(\d+)\]/
       const match = p.match(regexp)
+
       if (match) {
         data = data[match[1]]
+
         if (data) {
           data = data.at(match[2])
         }
