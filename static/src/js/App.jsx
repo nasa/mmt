@@ -48,7 +48,6 @@ const Redirects = redirectKeys.map(
  */
 const App = () => {
   const { graphQlHost } = getApplicationConfig()
-  console.log('🚀 ~ file: App.jsx:51 ~ App ~ graphQlHost:', graphQlHost)
 
   const httpLink = createHttpLink({
     uri: graphQlHost

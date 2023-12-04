@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
-import { kebabCase, capitalize } from 'lodash'
+import { isEqual, kebabCase, merge } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import Form from '@rjsf/core'
 import Col from 'react-bootstrap/Col'
@@ -54,6 +54,7 @@ import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeM
 import errorLogger from '../../utils/errorLogger'
 
 const MetadataForm = () => {
+  const [formstuffs, setFormstuffs] = useState({})
   const {
     conceptId = 'new',
     sectionName,
@@ -62,13 +63,13 @@ const MetadataForm = () => {
   } = useParams()
   const navigate = useNavigate()
   const {
-    user: {
-      providerId
-    },
+    user,
     addStatusMessage,
     draft,
     setDraft
   } = useAppContext()
+
+  const { providerId } = user
 
   let derivedConceptType
 
@@ -81,8 +82,6 @@ const MetadataForm = () => {
   useEffect(() => {
     if (conceptId === 'new') setDraft({})
   }, [conceptId])
-
-  console.log('🚀 ~ file: MetadataForm.jsx:77 ~ MetadataForm ~ derivedConceptType:', derivedConceptType)
 
   const [validationErrors, setValidationErrors] = useState([])
   const [visitedFields, setVisitedFields] = useState([])
@@ -100,7 +99,6 @@ const MetadataForm = () => {
     loading: ingestDraftLoading
   }] = useMutation(INGEST_DRAFT)
 
-  console.log('🚀 ~ file: MetadataForm.jsx:100 ~ MetadataForm ~ conceptTypeDraftQueries[derivedConceptType]:', conceptTypeDraftQueries[derivedConceptType])
   const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
     // If the draft has already been loaded, skip this query
     skip: draft || conceptId === 'new',
@@ -150,20 +148,15 @@ const MetadataForm = () => {
   const uiSchema = toolsUiSchema[currentSection]
 
   // Limit the schema to only the fields present in the displayed form section
-  console.log('S----------------------------S')
-  console.log('SCHEMA:', schema)
-  console.log('formSections:', formSections)
-  console.log('sectionName:', sectionName)
   const formSchema = getFormSchema({
     fullSchema: schema,
     formConfigurations: formSections,
     formName: currentSection
   })
-  console.log('formSchema:', formSchema)
-  console.log('E-----------------------------E')
 
   const fields = {
     layout: GridLayout,
+    // layout: LayoutGridField,
     streetAddresses: StreetAddressField,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
@@ -199,7 +192,6 @@ const MetadataForm = () => {
         ummVersion: '1.0.0'
       },
       onCompleted: (mutationData) => {
-        console.log('🚀 ~ file: MetadataForm.jsx:149 ~ handleSave ~ mutationData:', mutationData)
         const { ingestDraft: { conceptId: savedConceptId } } = mutationData
         addStatusMessage({
           id: `${savedConceptId}-saved`,
@@ -232,7 +224,6 @@ const MetadataForm = () => {
         }
       },
       onError: (ingestError) => {
-        console.log('🚀 ~ file: MetadataForm.jsx:175 ~ handleSave ~ ingestError:', ingestError)
         errorLogger(ingestError, 'MetadataForm: ingestDraftMutation')
         // Populate some errors to be displayed
       }
@@ -240,6 +231,7 @@ const MetadataForm = () => {
   }
 
   const handleCancel = () => {
+    // TODO this isn't working because we are changing the draft as the form is used
     setDraft(draft)
   }
 
@@ -251,6 +243,8 @@ const MetadataForm = () => {
       ...draft,
       ummMetadata: removeEmpty(formData)
     })
+
+    setFormstuffs(formData)
   }
 
   // Handle bluring fields within the form
@@ -271,11 +265,11 @@ const MetadataForm = () => {
       <Container id="metadata-form__container">
         <Row className="sidebar_column">
           <Col sm={8}>
-            {/* <MMTForm */}
             <Form
               validator={validator}
               schema={formSchema}
               formData={ummMetadata}
+              // formData={formstuffs}
               uiSchema={uiSchema}
               fields={fields}
               templates={templates}

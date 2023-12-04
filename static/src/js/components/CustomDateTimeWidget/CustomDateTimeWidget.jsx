@@ -104,6 +104,7 @@ const CustomDateTimeWidget = ({
   return (
     <CustomWidgetWrapper
       description={showDescription ? description : null}
+      descriptionPlacement="top"
       label={label}
       required={required}
       title={title}

@@ -47,7 +47,6 @@ const CustomTextWidget = ({
 }) => {
   const [showDescription, setShowDescription] = useState(false)
   const [charsUsed, setCharsUsed] = useState(value?.length)
-  const [fieldValue, setFieldValue] = useState(value)
 
   const inputScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -86,8 +85,6 @@ const CustomTextWidget = ({
   // Handle the value changing in the field
   const handleChange = (event) => {
     const { value: newValue } = event.target
-
-    setFieldValue(newValue)
 
     if (newValue === '') {
       setCharsUsed(0)
@@ -131,7 +128,7 @@ const CustomTextWidget = ({
         onFocus={handleFocus}
         placeholder={placeholder}
         type={fieldType && fieldType === 'number' ? 'number' : 'text'}
-        value={fieldValue}
+        value={value}
       />
     </CustomWidgetWrapper>
   )

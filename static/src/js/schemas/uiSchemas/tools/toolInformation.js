@@ -202,7 +202,6 @@ const toolInformationUiSchema = {
     URLValue: { 'ui:title': 'URL Value' },
     Type: { 'ui:title': ' Type' }
   }
-
 }
 
 export default toolInformationUiSchema

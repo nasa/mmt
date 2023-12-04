@@ -1,9 +1,10 @@
-/* eslint-disable import/no-cycle */
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import Col from 'react-bootstrap/Col'
+import { uniqueId } from 'lodash'
+
+// eslint-disable-next-line import/no-cycle
 import GridLayout from './GridLayout'
-import GridTitle from './GridTitle'
 
 /**
  * GridCol
@@ -27,8 +28,6 @@ const GridCol = (
     registry,
     schema,
     required,
-    uiSchema,
-    onChange,
     layout
   } = props
 
@@ -55,9 +54,7 @@ const GridCol = (
         {...props}
         key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
         schema={retrievedSchema}
-        uiSchema={uiSchema}
         layout={layoutSchema}
-        onChange={onChange}
         controlName={controlName}
       />
     ))
@@ -66,27 +63,43 @@ const GridCol = (
   const { description } = schema
   const title = group
   if (group) {
+    const { fields, formContext } = registry
+    const { TitleField } = fields
+
     return (
-      <Col {...colProps} key={`col--${JSON.stringify(colProps)}`}>
+      <Col {...colProps}>
         <fieldset
+          // TODO I don't think this scrollRef should be defined in GridCol, in the prototype it was defined at the grid layout level
           ref={scrollRef}
           className="rjsf-layout-grid-group"
         >
           <span>
-            <GridTitle
+            <TitleField
+              name={title}
               title={title}
               className={groupClassName}
               groupBoxClassName={groupBoxClassName}
-              required={requiredUI ?? required}
+              required={required}
+              requiredUI={requiredUI}
+              formContext={formContext}
+              onBlur={undefined}
+              onFocus={undefined}
+              options={undefined}
+              idSchema={undefined}
+              id={uniqueId()}
+              onChange={undefined}
+              schema={undefined}
+              readonly={false}
+              disabled={false}
               registry={registry}
             />
           </span>
           {
-            groupDescription ? (
+            groupDescription && (
               <div className="description-box">
                 {description}
               </div>
-            ) : null
+            )
           }
           <div>
             {renderChildren()}
@@ -126,7 +139,7 @@ GridCol.propTypes = {
     }),
     'ui:group': PropTypes.string,
     'ui:group-checkbox': PropTypes.string,
-    'ui:group-description': PropTypes.string,
+    'ui:group-description': PropTypes.bool,
     'ui:group-classname': PropTypes.string,
     'ui:group-box-classname': PropTypes.string,
     'ui:required': PropTypes.bool

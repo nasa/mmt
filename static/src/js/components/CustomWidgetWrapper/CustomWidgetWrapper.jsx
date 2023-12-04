@@ -21,59 +21,69 @@ const CustomWidgetWrapper = ({
   charsUsed,
   children,
   description,
+  descriptionPlacement,
   headerClassName,
   maxLength,
   required,
   scrollRef,
   title
-}) => (
-  <>
-    <div
-      className="d-flex justify-content-between pb-2"
-      ref={scrollRef}
-    >
-      {
-        title && (
-          <div>
-            <span className={headerClassName}>
-              {title}
-            </span>
-
-            <span>
-              {
-                required && (
-                  <i
-                    className="eui-icon eui-required-o text-success ps-1"
-                    role="img"
-                    aria-label="Required"
-                  />
-                )
-              }
-            </span>
-          </div>
-        )
-      }
-      {
-        maxLength && (
-          <span>
-            {charsUsed}
-            /
-            {maxLength}
-          </span>
-        )
-      }
-    </div>
-
-    {children}
-
+}) => {
+  const descriptionBody = (
     <span className="fs-6 fst-italic">
       {description}
     </span>
-  </>
-)
+  )
+
+  return (
+    <>
+      <div
+        className="d-flex justify-content-between pb-2"
+        ref={scrollRef}
+      >
+        {
+          title && (
+            <div>
+              <span className={headerClassName}>
+                {title}
+              </span>
+
+              <span>
+                {
+                  required && (
+                    <i
+                      className="eui-icon eui-required-o text-success ps-1"
+                      role="img"
+                      aria-label="Required"
+                    />
+                  )
+                }
+              </span>
+            </div>
+          )
+        }
+        {
+          maxLength && (
+            <span>
+              {charsUsed}
+              /
+              {maxLength}
+            </span>
+          )
+        }
+      </div>
+
+      {descriptionPlacement === 'top' && descriptionBody}
+
+      {children}
+
+      {descriptionPlacement === 'bottom' && descriptionBody}
+    </>
+  )
+}
 
 CustomWidgetWrapper.defaultProps = {
   description: null,
+  descriptionPlacement: 'bottom',
   headerClassName: null,
   maxLength: null,
   charsUsed: null
@@ -83,6 +93,7 @@ CustomWidgetWrapper.propTypes = {
   charsUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
+  descriptionPlacement: PropTypes.string,
   headerClassName: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool.isRequired,

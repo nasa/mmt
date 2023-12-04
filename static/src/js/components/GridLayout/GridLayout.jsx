@@ -1,13 +1,16 @@
-/* eslint-disable import/no-cycle */
 import React from 'react'
 import PropTypes from 'prop-types'
 
 import GridControlledField from './GridControlledField'
 
-import './GridLayout.scss'
+// eslint-disable-next-line import/no-cycle
 import GridRow from './GridRow'
-import GridField from './GridField'
+// eslint-disable-next-line import/no-cycle
 import GridCol from './GridCol'
+
+import GridField from './GridField'
+
+import './GridLayout.scss'
 
 /**
  * GridLayout
@@ -28,13 +31,9 @@ import GridCol from './GridCol'
  */
 const GridLayout = (props) => {
   const {
-    onChange,
     registry,
-    schema,
-    uiSchema = {},
-    idSchema,
+    uiSchema,
     formData,
-    errorSchema,
     controlName
   } = props
   let { layout } = props
@@ -43,18 +42,20 @@ const GridLayout = (props) => {
   }
 
   if (layout['ui:col']) {
-    layout['ui:controlled'] = uiSchema['ui:controlled']
-
     return (
-      <GridCol {...props} uiSchema={uiSchema} layout={layout} />
+      <GridCol
+        {...props}
+        layout={layout}
+      />
     )
   }
 
   if (layout['ui:row']) {
-    layout['ui:controlled'] = uiSchema['ui:controlled']
-
     return (
-      <GridRow {...props} uiSchema={uiSchema} layout={layout} />
+      <GridRow
+        {...props}
+        layout={layout}
+      />
     )
   }
 
@@ -64,16 +65,12 @@ const GridLayout = (props) => {
 
     return (
       <GridControlledField
+        {...props}
+        layout={layout}
         registry={registry}
-        uiSchema={fieldUiSchema}
-        schema={schema}
-        key={`controlledfield--${controlName}`}
-        name={fieldName}
         controlName={controlName}
-        formData={formData}
-        idSchema={idSchema}
-        onChange={onChange}
-        errorSchema={errorSchema}
+        uiSchema={fieldUiSchema}
+        name={fieldName}
         onSelectValue={uiSchema['ui:onHandleChange']}
         mapping={uiSchema['ui:controlled']}
       />

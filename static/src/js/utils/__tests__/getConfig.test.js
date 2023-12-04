@@ -23,7 +23,6 @@ describe('getConfig', () => {
     }
 
     const ummVersionConfig = getUmmVersionsConfig()
-    console.log('🚀 ~ file: getConfig.test.js:26 ~ test ~ ummVersionConfig:', ummVersionConfig)
 
     expect(ummVersionConfig).toMatchObject(expectedUmmVersionConfig)
   })

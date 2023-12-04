@@ -1,10 +1,11 @@
-/* eslint-disable import/no-cycle */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { uniqueId } from 'lodash'
+
+// eslint-disable-next-line import/no-cycle
 import GridLayout from './GridLayout'
 import GridGroupedSinglePanel from './GridGroupedSinglePanel'
 import GridCheckboxPanel from './GridCheckboxPanel'
-import GridTitle from './GridTitle'
 
 /**
  * GridRow
@@ -51,7 +52,6 @@ const GridRow = (
     return rows.map((layoutSchema) => (
       <GridLayout
         {...props}
-        uiSchema={uiSchema}
         layout={layoutSchema}
         key={`layoutgridfield--${JSON.stringify(layoutSchema)}`}
         schema={retrievedSchema}
@@ -68,6 +68,8 @@ const GridRow = (
     const { description = '' } = schema
     const title = group
     const groupSinglePanel = layout['ui:group-single-panel']
+    const { fields, formContext } = registry
+    const { TitleField } = fields
 
     return (
       <div className="layout-grid-field__row-fieldset">
@@ -75,11 +77,23 @@ const GridRow = (
           className="rjsf-layout-grid-group"
         >
           <span>
-            <GridTitle
+            <TitleField
+              name={title}
               title={title}
               className={groupClassName}
               groupBoxClassName={groupBoxClassName}
-              required={requiredUI ?? required}
+              required={required}
+              requiredUI={requiredUI}
+              formContext={formContext}
+              onBlur={undefined}
+              onFocus={undefined}
+              options={undefined}
+              idSchema={undefined}
+              id={uniqueId()}
+              onChange={undefined}
+              schema={undefined}
+              readonly={false}
+              disabled={false}
               registry={registry}
             />
           </span>
@@ -93,14 +107,9 @@ const GridRow = (
 
           {
             groupSinglePanel
-              ? (
-                <GridGroupedSinglePanel
-                  layoutGridSchema={uiSchema}
-                  key={`groupedpanel--${JSON.stringify(uiSchema)}`}
-                />
-              )
+              ? (<GridGroupedSinglePanel layoutGridSchema={uiSchema} />)
               : (
-                <div className="row" key={`row--${JSON.stringify(rows)}`}>
+                <div className="row">
                   {renderChildren()}
                 </div>
               )

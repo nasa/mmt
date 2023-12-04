@@ -1,5 +1,4 @@
-/* eslint-disable no-param-reassign */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { cloneDeep, kebabCase } from 'lodash'
 import PropTypes from 'prop-types'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -10,7 +9,7 @@ import getParentFormData from '../../utils/getParentFormData'
 import clearFormData from '../../utils/clearFormData'
 import getKeywords from '../../utils/getKeywords'
 import useAppContext from '../../hooks/useAppContext'
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
+import useControlledKeywords from '../../hooks/useControlledKeywords'
 
 /**
  * GridControlledField
@@ -47,29 +46,30 @@ const GridControlledField = ({
   mapping,
   uiSchema
 }) => {
-  const [loading, setLoading] = useState(false)
-
   const {
-    draft
+    draft = {}
   } = useAppContext()
   const { ummMetadata } = draft
 
   const [cmrKeywords, setCmrKeywords] = useState([])
 
-  const { name: keywordType } = mapping
+  const {
+    keywords: schemaKeywords,
+    map: controlledKeywordsMap,
+    name: keywordType
+  } = mapping
 
-  // If a field in the uiSchema defines 'ui:controlled', this will make a
-  // call out to CMR /keywords to retrieve the keyword.
+  // TODO saving the values is working correctly, but displaying them is failing. I think it has something to do with the keywords being recalulated in this step after the context changes
+  const {
+    keywords,
+    isLoading
+  } = useControlledKeywords(keywordType, schemaKeywords, controlledKeywordsMap)
+
   useEffect(() => {
-    if (keywordType) {
-      setLoading(true)
-      const fetchKeywords = async () => {
-        setCmrKeywords(await fetchCmrKeywords(keywordType, () => { setLoading(false) }))
-      }
-
-      fetchKeywords()
+    if (keywords && cmrKeywords !== keywords) {
+      setCmrKeywords(keywords)
     }
-  }, [])
+  }, [keywords])
 
   // Builds the filter for retrieving keywords.
   const createFilter = (form) => {
@@ -153,8 +153,7 @@ const GridControlledField = ({
     childIdSchema[key] = childIdSchema[key].replace('root', '')
   })
 
-  const fieldUiSchema = mapping[name] ?? {}
-  const title = fieldUiSchema['ui:title'] ?? name
+  const title = uiSchema['ui:title'] ?? name
 
   const existingValue = formData[name]
   const enumValue = (enums.length > 0) ? enums[0] : ''
@@ -162,7 +161,7 @@ const GridControlledField = ({
 
   const { length: enumsLength } = enums
 
-  const widget = fieldUiSchema['ui:widget']
+  const widget = uiSchema['ui:widget']
 
   if (widget === CustomTextWidget) {
     const id = idSchema[name].$id
@@ -180,16 +179,11 @@ const GridControlledField = ({
       }
     }
 
-    const placeholder = fieldUiSchema['ui:place-holder']
+    const placeholder = uiSchema['ui:place-holder']
 
     return (
-      <div
-        className="form-group field field-string"
-        key={`${name}-${JSON.stringify(formData)}`}
-        data-testid={`controlled-fields__custom-text-widget--${kebabCase(name)}`}
-      >
+      <div className="form-group field field-string">
         <CustomTextWidget
-          key={`text--${name}-${value}`}
           id={idSchema[name].$id}
           name={name}
           disabled
@@ -214,24 +208,19 @@ const GridControlledField = ({
   }
 
   let placeholder = `Select ${title}`
-  if (loading) {
+  if (isLoading) {
     placeholder = 'Fetching keywords...'
   } else if (enumsLength === 0) {
     placeholder = `No available ${title}`
   }
 
   return (
-    <div
-      className="form-group field field-string"
-      data-testid={`layout-grid-field__custom-select-widget--${kebabCase(name)}`}
-    >
+    <div className="form-group field field-string">
       <CustomSelectWidget
-        key={`select--${name}-${formData[name]}`}
         name={name}
         required={isRequired(name)}
         label={title}
         schema={retrievedSchema.properties[name]}
-        uiSchema={uiSchema}
         registry={registry}
         value={formData[name]}
         onChange={
@@ -246,13 +235,15 @@ const GridControlledField = ({
             }
           }
         }
-        isLoading={loading}
+        isLoading={isLoading}
         placeholder={placeholder}
         onBlur={() => null}
         onFocus={() => null}
         options={undefined}
         disabled={enumsLength === 0}
         id={idSchema[name].$id}
+        selectOptions={enums}
+        uiSchema={uiSchema}
       />
     </div>
   )

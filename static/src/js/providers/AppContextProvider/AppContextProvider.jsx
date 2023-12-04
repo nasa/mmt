@@ -1,7 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 
 import useStatusMessages from '../../hooks/useStatusMessages'
+import useKeywords from '../../hooks/useKeywords'
 
 import AppContext from '../../context/AppContext'
 
@@ -23,6 +28,7 @@ import AppContext from '../../context/AppContext'
  */
 const AppContextProvider = ({ children }) => {
   const statusMessagesContext = useStatusMessages()
+  const keywordsContext = useKeywords()
   const [draft, setDraft] = useState()
   const [user, setUser] = useState({})
 
@@ -33,12 +39,19 @@ const AppContextProvider = ({ children }) => {
     })
   }, [])
 
+  const { keywords } = keywordsContext
+
   const providerValue = useMemo(() => ({
     ...statusMessagesContext,
+    ...keywordsContext,
     draft,
     setDraft,
     user
-  }), [draft, user])
+  }), [
+    draft,
+    keywords,
+    user
+  ])
 
   return (
     <AppContext.Provider value={providerValue}>

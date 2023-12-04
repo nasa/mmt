@@ -132,10 +132,9 @@ const CustomMultiSelectWidget = ({
       scrollRef={selectScrollRef}
       required={required}
       title={title}
+      description={showDescription ? description : null}
+      descriptionPlacement="top"
     >
-      <span className="custom-widget__description">
-        {showDescription ? description : null}
-      </span>
       <Select
         id={id}
         ref={focusRef}

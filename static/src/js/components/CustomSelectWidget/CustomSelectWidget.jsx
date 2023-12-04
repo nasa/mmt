@@ -5,12 +5,13 @@ import React, {
 } from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
-import { startCase } from 'lodash'
+import { isEmpty, startCase } from 'lodash'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import shouldFocusField from '../../utils/shouldFocusField'
-import getEnums from '../../utils/getEnums'
+import parseCmrResponse from '../../utils/parseCmrResponse'
+import useControlledKeywords from '../../hooks/useControlledKeywords'
 
 /**
  * CustomSelectWidget
@@ -34,30 +35,36 @@ import getEnums from '../../utils/getEnums'
  */
 const CustomSelectWidget = ({
   disabled,
-  label = '',
   id,
-  placeholder,
+  label,
   onBlur,
   onChange,
+  placeholder,
   registry,
   required,
+  selectOptions: propsSelectOptions,
   schema,
   uiSchema,
-  value,
-  isLoading
+  value
 }) => {
   const { items = {} } = schema
   const { schemaUtils } = registry
+  // ?? What is this doing?
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
   const [showDescription, setShowDescription] = useState(false)
-  const [showMenu, setShowMenu] = useState(false)
-  const [loading, setLoading] = useState(isLoading)
+  const [selectOptions, setSelectOptions] = useState()
 
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
 
-  const selectOptions = []
+  const controlledField = uiSchema['ui:controlled']
+  const { name: keywordType, controlName } = controlledField || {}
+  const {
+    keywords,
+    isLoading
+  } = useControlledKeywords(keywordType)
+
   const { enum: schemaEnums = retrievedSchema?.enum ?? [], description } = schema
   const { formContext } = registry
 
@@ -73,85 +80,88 @@ const CustomSelectWidget = ({
 
   const shouldFocus = shouldFocusField(focusField, id)
 
-  // If the value already has data, this will store it as an object for react-select
-  const existingValue = value != null ? {
-    value,
-    label: value
-  } : {}
-
-  const [cmrEnums, setCmrEnums] = useState([])
-  const controlledField = uiSchema['ui:controlled']
-
-  // If a field in the uiSchema defines 'ui:controlled', this will make a
-  // call out to CMR /keywords to retrieve the keyword.
-  useEffect(() => {
-    if (controlledField) {
-      const { name } = controlledField
-      if (name) {
-        setLoading(true)
-        const cmrEnum = async () => {
-          setCmrEnums(await getEnums(name, controlledField.controlName, () => {
-            setLoading(false)
-          }))
-        }
-
-        cmrEnum()
-      }
-    }
-  }, [])
-
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
       selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
       focusRef.current?.focus()
-
-      setShowMenu(true)
     }
   }, [shouldFocus])
 
-  // Helper function that will add the list of enums to selectedOption
-  const selectOptionList = (enums) => {
-    enums.forEach((enumValue) => {
-      selectOptions.push({
+  useEffect(() => {
+    if (propsSelectOptions) {
+      const options = propsSelectOptions.map((enumValue) => ({
         value: enumValue,
         label: enumValue
-      })
-    })
-  }
+      }))
 
-  // Extracting ui:options from uiSchema
-  const uiOptions = uiSchema['ui:options']
+      setSelectOptions(options)
 
-  // If enumOptions are define in uiSchema, these options take precedence over schema enums.
-  if (uiOptions) {
+      return
+    }
+
+    // TODO refactor
+    if (schemaEnums.length) {
+      const options = schemaEnums.map((enumValue) => ({
+        value: enumValue,
+        label: enumValue
+      }))
+
+      setSelectOptions(options)
+    }
+
+    const uiOptions = uiSchema['ui:options'] || {}
     const { enumOptions } = uiOptions
 
-    selectOptionList(enumOptions)
-  } else if (uiSchema['ui:controlled']) {
-    selectOptionList(cmrEnums)
-  } else { // Gets the enum values from the schema and adds to selectOption.
-    selectOptionList(schemaEnums)
-  }
+    // TODO test this example
+    if (enumOptions) {
+      const options = schemaEnums.map((enumValue) => ({
+        value: enumValue,
+        label: enumValue
+      }))
+
+      setSelectOptions(options)
+    }
+  }, [propsSelectOptions])
+
+  useEffect(() => {
+    if (!isEmpty(keywords)) {
+      const parsedKeywords = parseCmrResponse(keywords, controlName)
+
+      const options = parsedKeywords.map((enumValue) => {
+        const [firstValue] = enumValue
+
+        return {
+          value: firstValue,
+          label: firstValue
+        }
+      })
+
+      setSelectOptions(options)
+    }
+  }, [keywords])
 
   const handleChange = (event) => {
-    const { value: selectedValue } = event || false
-    onChange(selectedValue)
-    setShowMenu(false)
-    focusRef.current?.blur()
+    const { value: newValue } = event || false
+
+    onChange(newValue)
   }
 
   const handleFocus = () => {
     setShowDescription(true)
-    setShowMenu(true)
   }
 
   const handleBlur = () => {
-    onBlur(id)
     setFocusField(null)
-    setShowMenu(false)
     setShowDescription(false)
+
+    onBlur(id)
   }
+
+  const existingValue = value != null ? {
+    value,
+    label: value
+  } : null
 
   return (
     <CustomWidgetWrapper
@@ -159,32 +169,42 @@ const CustomSelectWidget = ({
       scrollRef={selectScrollRef}
       required={required}
       title={title}
+      description={showDescription ? description : null}
+      descriptionPlacement="top"
     >
-      <span className="custom-widget__description">
-        {showDescription ? description : null}
-      </span>
       <Select
+        defaultValue={existingValue}
         id={id}
-        ref={focusRef}
-        placeholder={placeholder || `Select ${title}`}
-        defaultValue={existingValue ?? ''}
-        options={selectOptions}
         isClearable
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        menuIsOpen={showMenu}
         isDisabled={disabled}
         isLoading={isLoading}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        options={selectOptions}
+        placeholder={placeholder || `Select ${title}`}
+        openMenuOnFocus
+        openMenuOnClick
+        ref={focusRef}
+        value={existingValue}
       />
     </CustomWidgetWrapper>
   )
 }
 
+CustomSelectWidget.defaultProps = {
+  disabled: false,
+  placeholder: null,
+  uiSchema: {},
+  value: undefined
+}
+
 CustomSelectWidget.propTypes = {
   disabled: PropTypes.bool,
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
@@ -212,10 +232,7 @@ CustomSelectWidget.propTypes = {
       controlName: PropTypes.string.isRequired
     })
   }),
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool
+  value: PropTypes.string
 }
 
 export default CustomSelectWidget
