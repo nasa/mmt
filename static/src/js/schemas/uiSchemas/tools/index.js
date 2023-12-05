@@ -8,7 +8,7 @@ import organizationUiSchema from './organization'
 
 const toolsUiSchema = {
   'tool-information': toolInformationUiSchema,
-  'related-ur-ls': relatedUrlUiSchema, // Kebab case messing this up
+  'related-urls': relatedUrlUiSchema,
   'compatibility-and-usability': compatabilityAndUsabilityUiSchema,
   'descriptive-keywords': descriptiveKeywordsUiSchema,
   'tool-organizations': organizationUiSchema,

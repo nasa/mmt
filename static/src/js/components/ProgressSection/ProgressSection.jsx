@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
-import { kebabCase } from 'lodash'
+import { kebabCase, toLower } from 'lodash'
 
 import ProgressField from '../ProgressField/ProgressField'
 import For from '../For/For'
@@ -68,7 +68,7 @@ const ProgressSection = ({
 
   // Handle clicking on a section
   const handleSectionClick = () => {
-    navigate(`${kebabCase(displayName)}`)
+    navigate(`${kebabCase(toLower(displayName))}`)
   }
 
   // Accessible event props for clicking on the form section

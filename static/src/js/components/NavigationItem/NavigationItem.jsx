@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
-import { get, kebabCase } from 'lodash'
+import {
+  get,
+  kebabCase,
+  toLower
+} from 'lodash'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 
@@ -161,7 +165,7 @@ const NavigationItem = ({
         onClick={
           () => {
             // Navigate to the correct form
-            navigate(`../${conceptId}/${kebabCase(displayName)}`)
+            navigate(`../${conceptId}/${kebabCase(toLower(displayName))}`)
 
             // Ensure the window is scrolled to the top of the page
             window.scroll(0, 0)

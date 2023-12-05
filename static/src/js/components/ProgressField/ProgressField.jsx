@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
-import { kebabCase } from 'lodash'
+import { kebabCase, toLower } from 'lodash'
 
 import progressCircleTypes from '../../constants/progressCircleTypes'
 
@@ -114,7 +114,7 @@ const ProgressField = ({
   const handleCircleClick = () => {
     // TODO navigate to form field
     // console.log(`Navigate to ${formName} - ${fieldName}`)
-    navigate(`${kebabCase(formName)}/${fieldName}`)
+    navigate(`${kebabCase(toLower(formName))}/${fieldName}`)
   }
 
   // Accessible event props for clicking on the form field icon

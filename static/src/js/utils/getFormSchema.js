@@ -1,4 +1,4 @@
-import { kebabCase } from 'lodash'
+import { kebabCase, toLower } from 'lodash'
 
 /**
  * Gets the form schema based on the current section
@@ -12,7 +12,7 @@ const getFormSchema = ({
   formName
 }) => {
   const config = formConfigurations
-    .find((formConfig) => kebabCase(formConfig.displayName) === formName)
+    .find((formConfig) => kebabCase(toLower(formConfig.displayName)) === formName)
 
   const { properties } = config
 
