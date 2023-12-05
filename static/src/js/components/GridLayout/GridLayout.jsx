@@ -91,25 +91,32 @@ GridLayout.defaultProps = {
   layout: null,
   required: false,
   onChange: null,
-  controlName: null
+  controlName: null,
+  formData: {}
 }
 
 GridLayout.propTypes = {
   controlName: PropTypes.string,
   onChange: PropTypes.func,
   errorSchema: PropTypes.shape({}).isRequired,
-  formData: PropTypes.shape({}).isRequired,
+  formData: PropTypes.shape({}),
   idSchema: PropTypes.shape({
     $id: PropTypes.string
   }).isRequired,
-  layout: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
+  layout: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.string
+  ]),
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
       setFocusField: PropTypes.func
     }).isRequired,
     getUiOptions: PropTypes.func,
-    schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired,
+    schemaUtils: PropTypes.oneOfType([
+      PropTypes.shape({}),
+      PropTypes.func
+    ]).isRequired,
     fields: PropTypes.shape({
       TitleField: PropTypes.func,
       SchemaField: PropTypes.func
@@ -119,10 +126,17 @@ GridLayout.propTypes = {
   schema: PropTypes.shape({
     description: PropTypes.string,
     maxLength: PropTypes.number,
-    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
+    required: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.string)
+    ]),
     properties: PropTypes.shape({})
   }).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired
+  uiSchema: PropTypes.shape({
+    'ui:layout_grid': PropTypes.shape({}),
+    'ui:onHandleChange': PropTypes.shape({}),
+    'ui:controlled': PropTypes.shape({})
+  }).isRequired
 }
 
 export default GridLayout

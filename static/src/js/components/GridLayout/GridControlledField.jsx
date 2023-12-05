@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { cloneDeep, kebabCase } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { cloneDeep } from 'lodash'
 import PropTypes from 'prop-types'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import convertToDottedNotation from '../../utils/convertToDottedNotation'
@@ -255,26 +255,41 @@ GridControlledField.defaultProps = {
 }
 
 GridControlledField.propTypes = {
+  controlName: PropTypes.string.isRequired,
   formData: PropTypes.shape({}).isRequired,
   idSchema: PropTypes.shape({
     $id: PropTypes.string
   }).isRequired,
+  mapping: PropTypes.shape({
+    includeParentFormData: PropTypes.bool,
+    keywords: PropTypes.arrayOf(
+      PropTypes.arrayOf(
+        PropTypes.string
+      )
+    ),
+    map: PropTypes.shape({}),
+    name: PropTypes.string
+  }).isRequired,
   name: PropTypes.string.isRequired,
-  controlName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSelectValue: PropTypes.func,
   registry: PropTypes.shape({
-    schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired
+    schemaUtils: PropTypes.oneOfType([
+      PropTypes.shape({}),
+      PropTypes.func
+    ]).isRequired
   }).isRequired,
   schema: PropTypes.shape({
-    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)])
+    required: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.string)
+    ])
   }).isRequired,
-  onChange: PropTypes.func.isRequired,
-  mapping: PropTypes.shape({
-    name: PropTypes.string,
-    map: PropTypes.shape({}),
-    includeParentFormData: PropTypes.bool
-  }).isRequired,
-  onSelectValue: PropTypes.func,
-  uiSchema: PropTypes.shape({})
+  uiSchema: PropTypes.shape({
+    'ui:title': PropTypes.string,
+    'ui:place-holder': PropTypes.string,
+    'ui:widget': PropTypes.string
+  })
 }
 
 export default GridControlledField

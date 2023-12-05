@@ -171,7 +171,7 @@ GridRow.propTypes = {
     ),
     'ui:group': PropTypes.string,
     'ui:group-checkbox': PropTypes.string,
-    'ui:group-description': PropTypes.string,
+    'ui:group-description': PropTypes.bool,
     'ui:group-classname': PropTypes.string,
     'ui:group-box-classname': PropTypes.string,
     'ui:required': PropTypes.bool,

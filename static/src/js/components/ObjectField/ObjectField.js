@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { has } from 'lodash'
 import { getUiOptions } from '@rjsf/utils'
 
@@ -6,15 +7,17 @@ import { getUiOptions } from '@rjsf/utils'
  * This class is pulled from:
  * https://github.com/rjsf-team/react-jsonschema-form/blob/main/packages/core/src/components/fields/ObjectField.tsx
  *
- * It contains methods necessary for LayoutGridField.  I could not figure out how to extend this class via Typescript.
- * So for now, I'm just includeing the source of the necessary methods here.
+ * It contains methods necessary for GridField.
  */
-export default class ObjectField extends React.Component {
+class ObjectField extends React.Component {
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onPropertyChange = (
     name,
     addedByAdditionalProperties = false
   ) => (value, newErrorSchema, id) => {
     const { formData, onChange, errorSchema } = this.props
+
+    let updatedValue = value
 
     if (value === undefined && addedByAdditionalProperties) {
       // Don't set value = undefined for fields added by
@@ -24,12 +27,12 @@ export default class ObjectField extends React.Component {
       // fields which are "mandated" by the schema, these fields can
       // be set to undefined by clicking a "delete field" button, so
       // set empty values to the empty string.
-      value = ''
+      updatedValue = ''
     }
 
     const newFormData = {
       ...formData,
-      [name]: value
+      [name]: updatedValue
     }
 
     onChange(
@@ -50,12 +53,14 @@ export default class ObjectField extends React.Component {
     let index = 0
     let newKey = preferredKey
     while (has(formData, newKey)) {
-      newKey = `${preferredKey}${duplicateKeySuffixSeparator}${++index}`
+      index += 1
+      newKey = `${preferredKey}${duplicateKeySuffixSeparator}${index}`
     }
 
     return newKey
   }
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onKeyChange = (oldValue) => (value, newErrorSchema) => {
     if (oldValue === value) {
       return
@@ -63,11 +68,11 @@ export default class ObjectField extends React.Component {
 
     const { formData, onChange, errorSchema } = this.props
 
-    value = this.getAvailableKey(value, formData)
+    const updatedValue = this.getAvailableKey(value, formData)
     const newFormData = {
       ...formData
     }
-    const newKeys = { [oldValue]: value }
+    const newKeys = { [oldValue]: updatedValue }
     const keyValues = Object.keys(newFormData).map((key) => {
       const newKey = newKeys[key] || key
 
@@ -80,14 +85,29 @@ export default class ObjectField extends React.Component {
       errorSchema
       && errorSchema && {
         ...errorSchema,
-        [value]: newErrorSchema
+        [updatedValue]: newErrorSchema
       }
     )
   }
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   isRequired(name) {
     const { schema } = this.props
 
     return Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
   }
 }
+
+ObjectField.propTypes = {
+  schema: PropTypes.shape({
+    required: PropTypes.arrayOf(
+      PropTypes.string
+    )
+  }).isRequired,
+  formData: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired,
+  errorSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({}).isRequired
+}
+
+export default ObjectField

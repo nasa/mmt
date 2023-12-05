@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
-import { isEqual, kebabCase, merge } from 'lodash'
+import { kebabCase } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
 import Form from '@rjsf/core'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
+import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
-import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
+import GridLayout from '../GridLayout/GridLayout'
+import JsonPreview from '../JsonPreview/JsonPreview'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
@@ -32,12 +35,14 @@ import formConfigurations from '../../schemas/uiForms'
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
 import statusMessageTypes from '../../constants/statusMessageTypes'
+import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
 
 import useAppContext from '../../hooks/useAppContext'
 
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 
 import convertToDottedNotation from '../../utils/convertToDottedNotation'
+import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
@@ -46,15 +51,8 @@ import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
 
 import './MetadataForm.scss'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
-import JsonPreview from '../JsonPreview/JsonPreview'
-import GridLayout from '../GridLayout/GridLayout'
-import toolsConfiguration from '../../schemas/uiForms/toolsConfiguration'
-import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
-import errorLogger from '../../utils/errorLogger'
 
 const MetadataForm = () => {
-  const [formstuffs, setFormstuffs] = useState({})
   const {
     conceptId = 'new',
     sectionName,
@@ -134,7 +132,6 @@ const MetadataForm = () => {
   }
 
   const {
-    conceptType,
     // Name,
     nativeId = `MMT_${crypto.randomUUID()}`,
     ummMetadata = {}
@@ -156,7 +153,6 @@ const MetadataForm = () => {
 
   const fields = {
     layout: GridLayout,
-    // layout: LayoutGridField,
     streetAddresses: StreetAddressField,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
@@ -243,8 +239,6 @@ const MetadataForm = () => {
       ...draft,
       ummMetadata: removeEmpty(formData)
     })
-
-    setFormstuffs(formData)
   }
 
   // Handle bluring fields within the form
@@ -258,6 +252,7 @@ const MetadataForm = () => {
     ])])
   }
 
+  // TODO use name here
   const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${conceptId}`
 
   return (
@@ -269,7 +264,6 @@ const MetadataForm = () => {
               validator={validator}
               schema={formSchema}
               formData={ummMetadata}
-              // formData={formstuffs}
               uiSchema={uiSchema}
               fields={fields}
               templates={templates}

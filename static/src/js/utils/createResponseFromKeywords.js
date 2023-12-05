@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash'
 
 // Private function used by buildMap function to parse through a multidimensional array of keywords and build a map, see exported/public interface below.
-function traverseArrays(parent, tokens) {
+const traverseArrays = (parent, tokens) => {
   if (tokens.length > 0) {
     const token = tokens.shift()
 
@@ -23,7 +23,7 @@ function traverseArrays(parent, tokens) {
 // This parses through the response of parseCmrResponse below (which is a multidimensional array of keywords) and
 // produces a map of keywords used by the controlled fields widget.   The map is used like below:
 // map['atmosphere']['atmospheric phenomema'] returns ['hurricanes']
-export function buildMap(paths) {
+const buildMap = (paths) => {
   const map = {}
 
   paths.forEach((tokens) => {

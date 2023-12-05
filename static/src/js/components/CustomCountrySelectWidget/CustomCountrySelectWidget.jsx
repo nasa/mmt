@@ -79,6 +79,7 @@ const CustomCountrySelectWidget = ({
         </span>
 
         <span>
+          {/* // TODO This should be an icon */}
           {required ? '*' : ''}
         </span>
       </div>

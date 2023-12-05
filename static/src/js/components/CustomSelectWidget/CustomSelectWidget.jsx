@@ -195,6 +195,7 @@ const CustomSelectWidget = ({
 CustomSelectWidget.defaultProps = {
   disabled: false,
   placeholder: null,
+  selectOptions: null,
   uiSchema: {},
   value: undefined
 }
@@ -222,6 +223,7 @@ CustomSelectWidget.propTypes = {
     maxLength: PropTypes.number,
     enum: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
+  selectOptions: PropTypes.arrayOf(PropTypes.string),
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       enumOptions: PropTypes.arrayOf(PropTypes.string)

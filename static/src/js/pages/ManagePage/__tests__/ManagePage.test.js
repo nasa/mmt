@@ -3,8 +3,7 @@ import {
   render,
   screen,
   within,
-  waitFor,
-  logRoles
+  waitFor
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -12,12 +11,12 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 import { GET_TOOL_DRAFTS } from '../../../operations/queries/getToolDrafts'
 
 import ManagePage from '../ManagePage'
 import AppContext from '../../../context/AppContext'
-import userEvent from '@testing-library/user-event'
 
 describe('ManagePage component', () => {
   describe('when all metadata is provided', () => {

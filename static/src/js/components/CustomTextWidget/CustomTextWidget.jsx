@@ -136,14 +136,16 @@ const CustomTextWidget = ({
 
 CustomTextWidget.defaultProps = {
   disabled: false,
-  value: ''
+  value: '',
+  placeholder: null,
+  onBlur: null
 }
 
 CustomTextWidget.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -162,7 +164,7 @@ CustomTextWidget.propTypes = {
   }).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  onBlur: PropTypes.func
 }
 
 export default CustomTextWidget

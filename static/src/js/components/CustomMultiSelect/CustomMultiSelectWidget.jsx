@@ -79,7 +79,6 @@ const CustomMultiSelectWidget = ({
     }
   })
 
-  console.log('select', existingValues)
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {

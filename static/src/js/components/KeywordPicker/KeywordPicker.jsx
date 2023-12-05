@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 import { cloneDeep } from 'lodash'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import 'react-bootstrap-typeahead/css/Typeahead.css'
-import removeEmpty from '../../utils/removeEmpty'
 
-import './KeywordPicker.scss'
+import removeEmpty from '../../utils/removeEmpty'
 import getPickerKeywords from '../../utils/getPickerKeywords'
+
+import 'react-bootstrap-typeahead/css/Typeahead.css'
+import './KeywordPicker.scss'
 
 /**
  * KeywordPicker
@@ -374,8 +375,14 @@ const KeywordPicker = ({
   )
 }
 
+KeywordPicker.defaultProps = {
+  formData: []
+}
+
 KeywordPicker.propTypes = {
-  formData: PropTypes.shape([]).isRequired,
+  formData: PropTypes.arrayOf(
+    PropTypes.shape({})
+  ),
   uiSchema: PropTypes.shape({}).isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired

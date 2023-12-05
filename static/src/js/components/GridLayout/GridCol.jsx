@@ -123,8 +123,10 @@ GridCol.defaultProps = {
 GridCol.propTypes = {
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func
+      SchemaField: PropTypes.func,
+      TitleField: PropTypes.func
     }),
+    formContext: PropTypes.shape({}),
     schemaUtils: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func]).isRequired
   }).isRequired,
   required: PropTypes.bool,

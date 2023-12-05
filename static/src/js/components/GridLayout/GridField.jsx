@@ -124,7 +124,7 @@ class GridField extends ObjectField {
     useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
       if (shouldFocus) {
-        scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+        this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
       }
     }, [shouldFocus])
 
