@@ -40,7 +40,6 @@ const StreetAddressField = ({
 
   const handleUpdateAddressLine = (line, pos) => {
     lines[pos] = line
-    console.log('sending up ', lines)
     setLines(lines)
     onChange(lines)
   }
