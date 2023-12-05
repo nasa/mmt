@@ -40,13 +40,13 @@ const traverse = (
   //     }
   const {
     data,
-    parent,
+    parentName,
     name
   } = node
 
   const children = data[name]
   // Only add the keyword if it is included in the filtered list of field names
-  if (data.value && filter.includes(parent)) {
+  if (data.value && filter.includes(parentName)) {
     path.push(data.value)
   }
 
@@ -60,7 +60,7 @@ const traverse = (
       child.subfields.forEach((subfield) => {
         paths = paths.concat(traverse({
           data: child,
-          parent: name,
+          parentName: name,
           name: subfield
         }, filter, cloneDeep(childPath)))
       })
