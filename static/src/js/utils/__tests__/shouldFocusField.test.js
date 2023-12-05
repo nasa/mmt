@@ -22,8 +22,8 @@ describe('shouldFocusField', () => {
       })
     })
 
-    describe('when empty id on the Nav panel', () => {
-      test('Empty id should return false', () => {
+    describe('when empty id field name on the Nav panel', () => {
+      test('should return false', () => {
         const result = shouldFocusField('Version', '')
         expect(result).toBe(false)
       })
