@@ -4,30 +4,53 @@ import { cloneDeep, uniqWith } from 'lodash'
 * Helper function that traverses through a CMR facet response and builds a multidimensinal array of keywords.
 * Given the node, it does an in order traversal of the tree.   When it visits the node, it adds node's
 * value to the `path`list.   The `path` list represents the path for the given keyword set
-* (i.e., [ATMOSPHERE, ATMOSPHERIC PHENOMENA, HURRICANES]).   Once the traversal hits the leaf node, it adds
-* `path` array to `paths`
+* (i.e., [ATMOSPHERE, ATMOSPHERIC PHENOMENA, HURRICANES]).
 * You specify a "filter" array which specifies which fields you want to include in
 * multidimensional array (e.g, 'category', 'topic', 'term', 'variable')
-* @param {Object} node of the tree being traversed
-* @param {string} parent node's name
-* @param {string} child node's name
-* @param {Array} path to where the keywords will be added for the set
-* @param {Array} paths to where all keyword sets will be added
+* @param {node} node of the tree being traversed
+* @param {Array} path to where the keywords will be added for the set as it traverses down to the leaf
 * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
+@ returns the multidimensional array of keywords
 */
 const traverse = (
   node,
-  parent,
-  name,
-  path,
-  paths,
-  filter
+  filter,
+  path = []
 ) => {
-  const children = node[name]
+  // Example of `data` being passed in the node object:
+  // {
+  //   "value": "VisualizationURL",
+  //   "subfields": [
+  //     "type"
+  //   ],
+  //   "type": [
+  //     {
+  //       "value": "Color Map",
+  //       "subfields": [
+  //         "subtype"
+  //       ],
+  //       "subtype": [
+  //         {
+  //           "value": "Giovanni",
+  //         },
+  //         {
+  //           "value": "GITC",
+  //         }
+  //       ]
+  //     }
+  const {
+    data,
+    parent,
+    name
+  } = node
+
+  const children = data[name]
   // Only add the keyword if it is included in the filtered list of field names
-  if (node.value && filter.includes(parent)) {
-    path.push(node.value)
+  if (data.value && filter.includes(parent)) {
+    path.push(data.value)
   }
+
+  let paths = []
 
   // In order traversal into children recursively
   children.forEach((child) => {
@@ -35,7 +58,11 @@ const traverse = (
 
     if (child.subfields) {
       child.subfields.forEach((subfield) => {
-        traverse(child, name, subfield, cloneDeep(childPath), paths, filter)
+        paths = paths.concat(traverse({
+          data: child,
+          parent: name,
+          name: subfield
+        }, filter, cloneDeep(childPath)))
       })
     } else {
       if (child.value && filter.includes(name)) {
@@ -45,6 +72,17 @@ const traverse = (
       paths.push(childPath)
     }
   })
+
+  paths = paths.sort((value1, value2) => {
+    const join1 = value1.join('>')
+    const join2 = value2.join('>')
+
+    return join1.localeCompare(join2)
+  })
+
+  paths = uniqWith(paths, (path1, path2) => path1.join('>') === path2.join('>'))
+
+  return paths
 }
 
 /**
@@ -60,19 +98,10 @@ const traverse = (
  * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
  */
 const parseCmrResponse = (response, filter) => {
-  let paths = []
-  const path = []
-
-  traverse(response, 'root', Object.keys(response)[0], path, paths, filter)
-
-  paths = paths.sort((value1, value2) => {
-    const join1 = value1.join('>')
-    const join2 = value2.join('>')
-
-    return join1.localeCompare(join2)
-  })
-
-  paths = uniqWith(paths, (path1, path2) => path1.join('>') === path2.join('>'))
+  const paths = traverse({
+    name: Object.keys(response)[0],
+    data: response
+  }, filter)
 
   return paths
 }
