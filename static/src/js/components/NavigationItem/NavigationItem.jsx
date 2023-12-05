@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
-import {
-  get,
-  kebabCase,
-  toLower
-} from 'lodash'
+import { get } from 'lodash'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 
@@ -16,6 +12,7 @@ import prefixProperty from '../../utils/prefixProperty'
 import createPath from '../../utils/createPath'
 
 import './NavigationItem.scss'
+import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 /**
  * @typedef {Object} NavigationItem
@@ -52,7 +49,7 @@ const NavigationItem = ({
 
   const { displayName } = section
 
-  const isSectionDisplayed = kebabCase(displayName) === sectionName
+  const isSectionDisplayed = toLowerKebabCase(displayName) === sectionName
 
   // Does the form section have values
   const hasValues = section.properties.some((propertyPrefix) => {
@@ -165,7 +162,7 @@ const NavigationItem = ({
         onClick={
           () => {
             // Navigate to the correct form
-            navigate(`../${conceptId}/${kebabCase(toLower(displayName))}`)
+            navigate(`../${conceptId}/${toLowerKebabCase(displayName)}`)
 
             // Ensure the window is scrolled to the top of the page
             window.scroll(0, 0)
