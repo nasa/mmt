@@ -1,4 +1,4 @@
-import _, { cloneDeep } from 'lodash'
+import { cloneDeep, uniqWith } from 'lodash'
 
 /*
 * Helper function that traverses through a CMR facet response and builds a multidimensinal array of keywords.
@@ -72,7 +72,7 @@ const parseCmrResponse = (response, filter) => {
     return join1.localeCompare(join2)
   })
 
-  paths = _.uniqWith(paths, (a, b) => a.join('>') === b.join('>'))
+  paths = uniqWith(paths, (path1, path2) => path1.join('>') === path2.join('>'))
 
   return paths
 }
