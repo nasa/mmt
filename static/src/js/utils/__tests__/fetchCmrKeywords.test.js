@@ -32,8 +32,8 @@ global.fetch = jest.fn(() => Promise.resolve({
   })
 }))
 
-describe('fetchCmrKeywords', () => {
-  test('calls CMR for related-urls keywords and returns status 200', async () => {
+describe('when fetchCmrKeywords is called for keywords related-urls', () => {
+  test('returns status 200', async () => {
     const response = await fetchCmrKeywords('related-urls')
 
     expect(response.status).toBe(200)
@@ -41,7 +41,7 @@ describe('fetchCmrKeywords', () => {
     expect(fetch).toHaveBeenCalledWith('http://localhost:4000/search/keywords/related-urls')
   })
 
-  test('calls CMR for related-urls keywords and returns null', async () => {
+  test('returns null when the response from CMR is an error', async () => {
     fetch.mockImplementationOnce(() => Promise.reject(new Error('Error calling CMR')))
 
     const response = await fetchCmrKeywords('related-urls')

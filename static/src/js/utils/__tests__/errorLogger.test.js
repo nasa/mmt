@@ -9,28 +9,32 @@ global.fetch = jest.fn(() => Promise.resolve({
 }))
 
 describe('errorLogger', () => {
-  test('testing when error-logger endpoint is successful', async () => {
-    const error = {
-      message: 'Mock error',
-      stack: 'Mock stack'
-    }
-    const action = 'Error Logger test'
+  describe('when errorLogger is call successfully', () => {
+    test('a error message is logged', async () => {
+      const error = {
+        message: 'Mock error',
+        stack: 'Mock stack'
+      }
+      const action = 'Error Logger test'
 
-    await errorLogger(error, action)
+      await errorLogger(error, action)
 
-    expect(fetch).toHaveBeenCalledTimes(1)
+      expect(fetch).toHaveBeenCalledTimes(1)
+    })
   })
 
-  test('testing when error-logger endpoint fails', async () => {
-    fetch.mockImplementationOnce(() => Promise.reject(new Error('error')))
-    const error = {
-      message: 'Mock error',
-      stack: 'Mock stack'
-    }
-    const action = 'Error Logger test'
+  describe('when errorLogger call fails', () => {
+    test('return undefined response', async () => {
+      fetch.mockImplementationOnce(() => Promise.reject(new Error('error')))
+      const error = {
+        message: 'Mock error',
+        stack: 'Mock stack'
+      }
+      const action = 'Error Logger test'
 
-    const response = await errorLogger(error, action)
-    expect(response).toEqual(undefined)
-    expect(fetch).toHaveBeenCalledTimes(1)
+      const response = await errorLogger(error, action)
+      expect(response).toEqual(undefined)
+      expect(fetch).toHaveBeenCalledTimes(1)
+    })
   })
 })

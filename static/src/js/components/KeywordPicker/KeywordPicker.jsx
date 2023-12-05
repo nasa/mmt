@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 import { Typeahead } from 'react-bootstrap-typeahead'
 
 import removeEmpty from '../../utils/removeEmpty'
-import getPickerKeywords from '../../utils/getPickerKeywords'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.scss'
+import useControlledKeywords from '../../hooks/useControlledKeywords'
+import parseCmrResponse from '../../utils/parseCmrResponse'
 
 /**
  * KeywordPicker
@@ -59,14 +60,34 @@ const KeywordPicker = ({
     return filteredPath
   }
 
-  // Gets the parsed list of keywords from CMR.
-  useEffect(() => {
-    const cmrKeyword = async () => {
-      setKeywordList(await getPickerKeywords(uiSchema))
-    }
+  const keywordScheme = uiSchema['ui:keyword_scheme']
 
-    cmrKeyword()
-  }, [])
+  const {
+    keywords,
+    isLoading
+  } = useControlledKeywords(keywordScheme)
+
+  // If keywords are available this is create the keyword object and set it to keywordList.
+  useEffect(() => {
+    if (!isEmpty(keywords)) {
+      const keywordObject = {}
+      const initialValue = uiSchema['ui:picker_title']
+      const keywordSchemeColumnNames = uiSchema['ui:keyword_scheme_column_names']
+      const initialKeyword = keywordSchemeColumnNames.at(0)
+
+      // Create formatted keywordObject with the initialValue and keywords from CMR.
+      keywordObject[initialKeyword] = [{
+        value: initialValue,
+        subfields: [keywordSchemeColumnNames.at(1)],
+        ...keywords
+      }]
+
+      let paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
+      paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
+
+      setKeywordList(paths)
+    }
+  }, [keywords])
 
   useEffect(() => {
     if (Object.keys(keywordList).length > 0) {
@@ -196,9 +217,9 @@ const KeywordPicker = ({
   }
 
   const handleSubmit = () => {
-    const keywords = addKeywords(finalSelectedList.splice(1))
-    if (keywords) {
-      value.push(keywords)
+    const addedKeywords = addKeywords(finalSelectedList.splice(1))
+    if (addedKeywords) {
+      value.push(addedKeywords)
     }
 
     setValue(value)
@@ -235,10 +256,10 @@ const KeywordPicker = ({
     const split = text.toString().split('>')
     const filter = fullPath.filter((path) => path.indexOf(split[split.length - 1]) !== -1)
     const filterArr = filter[0].toString().split('>').slice(1)
-    const keywords = addKeywords(filterArr)
+    const addedKeywords = addKeywords(filterArr)
 
-    if (keywords) {
-      value.push(keywords)
+    if (addedKeywords) {
+      value.push(addedKeywords)
     }
 
     onChange(value)
@@ -350,6 +371,7 @@ const KeywordPicker = ({
               options={searchResult}
               clearButton
               onChange={(e) => { handleSearch(e) }}
+              isLoading={isLoading}
             />
           </div>
           {/* Renders the items */}
