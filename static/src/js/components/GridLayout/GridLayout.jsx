@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import GridControlledField from './GridControlledField'
+import GridControlledField from '../GridControlledField/GridControlledField'
 
 // eslint-disable-next-line import/no-cycle
-import GridRow from './GridRow'
+import GridRow from '../GridRow/GridRow'
 // eslint-disable-next-line import/no-cycle
-import GridCol from './GridCol'
+import GridCol from '../GridCol/GridCol'
 
-import GridField from './GridField'
+import GridField from '../GridField/GridField'
 
 import './GridLayout.scss'
 

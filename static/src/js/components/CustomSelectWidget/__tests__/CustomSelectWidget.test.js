@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-import Select from 'react-select'
+// Import Select from 'react-select'
 
 import CustomSelectWidget from '../CustomSelectWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
@@ -14,11 +14,160 @@ import useControlledKeywords from '../../../hooks/useControlledKeywords'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
 jest.mock('../../../hooks/useControlledKeywords')
-jest.mock('react-select')
+// Jest.mock('react-select', () => jest.fn(({ children }) => (
+//   <mock-Component data-testid="react-select">
+//     {children}
+//   </mock-Component>
+// )))
 
 const setup = (overrideProps = {}) => {
   useControlledKeywords.mockReturnValue({
-    keywords: [],
+    keywords: [
+      {
+        value: 'application/gml+xml',
+        label: 'application/gml+xml'
+      },
+      {
+        value: 'application/gzip',
+        label: 'application/gzip'
+      },
+      {
+        value: 'application/json',
+        label: 'application/json'
+      },
+      {
+        value: 'application/msword',
+        label: 'application/msword'
+      },
+      {
+        value: 'application/octet-stream',
+        label: 'application/octet-stream'
+      },
+      {
+        value: 'application/opensearchdescription+xml',
+        label: 'application/opensearchdescription+xml'
+      },
+      {
+        value: 'application/pdf',
+        label: 'application/pdf'
+      },
+      {
+        value: 'application/tar',
+        label: 'application/tar'
+      },
+      {
+        value: 'application/tar+gzip',
+        label: 'application/tar+gzip'
+      },
+      {
+        value: 'application/tar+zip',
+        label: 'application/tar+zip'
+      },
+      {
+        value: 'application/vnd.google-earth.kml+xml',
+        label: 'application/vnd.google-earth.kml+xml'
+      },
+      {
+        value: 'application/vnd.google-earth.kmz',
+        label: 'application/vnd.google-earth.kmz'
+      },
+      {
+        value: 'application/vnd.ms-excel',
+        label: 'application/vnd.ms-excel'
+      },
+      {
+        value: 'application/vnd.opendap.dap4.dmrpp+xml',
+        label: 'application/vnd.opendap.dap4.dmrpp+xml'
+      },
+      {
+        value: 'application/x-bufr',
+        label: 'application/x-bufr'
+      },
+      {
+        value: 'application/x-hdf',
+        label: 'application/x-hdf'
+      },
+      {
+        value: 'application/x-hdf5',
+        label: 'application/x-hdf5'
+      },
+      {
+        value: 'application/x-hdfeos',
+        label: 'application/x-hdfeos'
+      },
+      {
+        value: 'application/x-netcdf',
+        label: 'application/x-netcdf'
+      },
+      {
+        value: 'application/x-tar-gz',
+        label: 'application/x-tar-gz'
+      },
+      {
+        value: 'application/x-vnd.iso.19139-2+xml',
+        label: 'application/x-vnd.iso.19139-2+xml'
+      },
+      {
+        value: 'application/xml',
+        label: 'application/xml'
+      },
+      {
+        value: 'application/zip',
+        label: 'application/zip'
+      },
+      {
+        value: 'image/bmp',
+        label: 'image/bmp'
+      },
+      {
+        value: 'image/gif',
+        label: 'image/gif'
+      },
+      {
+        value: 'image/jpeg',
+        label: 'image/jpeg'
+      },
+      {
+        value: 'image/png',
+        label: 'image/png'
+      },
+      {
+        value: 'image/tiff',
+        label: 'image/tiff'
+      },
+      {
+        value: 'image/vnd.collada+xml',
+        label: 'image/vnd.collada+xml'
+      },
+      {
+        value: 'text/css',
+        label: 'text/css'
+      },
+      {
+        value: 'text/csv',
+        label: 'text/csv'
+      },
+      {
+        value: 'text/html',
+        label: 'text/html'
+      },
+      {
+        value: 'text/javascript',
+        label: 'text/javascript'
+      },
+      {
+        value: 'text/markdown',
+        label: 'text/markdown'
+      },
+      {
+        value: 'text/plain',
+        label: 'text/plain'
+      },
+      {
+        value: 'text/xml',
+        label: 'text/xml'
+      }
+    ],
     isLoading: false
   })
 
@@ -69,24 +218,26 @@ beforeEach(() => {
 
 describe('CustomSelectWidget', () => {
   describe('when the field is required', () => {
-    test.only('renders a select element', () => {
-      setup({
+    test.only('renders a select element', async () => {
+      const { user } = setup({
         required: true
       })
 
-      // const field = screen.getByRole('combobox')
+      const field = screen.getByRole('combobox')
+      screen.debug()
+      await user.click(field)
 
-      // expect(field).toHaveAttribute('id', 'react-select-2-input')
-      // expect(field).toHaveAttribute('name', 'Test Field')
-      // expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      // expect(field).toHaveAttribute('type', 'text')
-      // expect(field).toHaveAttribute('value', '')
+      expect(field).toHaveAttribute('id', 'react-select-2-input')
+      // Expect(field).toHaveAttribute('name', 'Test Field')
+      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
+      expect(field).toHaveAttribute('options', 'text')
+      // Expect(field).toHaveAttribute('value', '')
 
-      expect(Select).toHaveBeenCalledTimes(1)
+      // expect(Select).toHaveBeenCalledTimes(2)
+      // expect(Select).toHaveBeenCalledWith()
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: null,
         headerClassName: null,
         label: 'Test Field',

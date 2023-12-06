@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { uniqueId } from 'lodash'
 
 // eslint-disable-next-line import/no-cycle
-import GridLayout from './GridLayout'
-import GridGroupedSinglePanel from './GridGroupedSinglePanel'
-import GridCheckboxPanel from './GridCheckboxPanel'
+import GridLayout from '../GridLayout/GridLayout'
+import GridGroupedSinglePanel from '../GridGroupedSinglePanel/GridGroupedSinglePanel'
+import GridCheckboxPanel from '../GridCheckboxPanel/GridCheckboxPanel'
 
 /**
  * GridRow

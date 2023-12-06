@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col'
 import { uniqueId } from 'lodash'
 
 // eslint-disable-next-line import/no-cycle
-import GridLayout from './GridLayout'
+import GridLayout from '../GridLayout/GridLayout'
 
 /**
  * GridCol
