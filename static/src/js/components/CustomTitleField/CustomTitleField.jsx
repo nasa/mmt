@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
+
+import './CustomTitleField.scss'
 
 /**
  * CustomTitleField
@@ -22,27 +24,27 @@ const CustomTitleField = ({
   title,
   required,
   requiredUI,
-  registry,
   className,
   groupBoxClassName,
   uiSchema
 }) => {
   const scrollRef = useRef(null)
 
+  // Do not think this is needed anymore.
   // Function to execute smooth scroll
-  const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  // const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
 
-  const { focusField } = registry.formContext
+  // const { focusField } = registry.formContext
 
-  // Effect to scroll into view when the focused field changes
-  // Check if the current title corresponds to the focused field and Scroll into view with a delay for better user experience
-  useEffect(() => {
-    if (title.replace(/ /g, '') === focusField) {
-      setTimeout(() => {
-        executeScroll()
-      })
-    }
-  }, [title, focusField])
+  // // Effect to scroll into view when the focused field changes
+  // // Check if the current title corresponds to the focused field and Scroll into view with a delay for better user experience
+  // useEffect(() => {
+  //   if (title.replace(/ /g, '') === focusField) {
+  //     setTimeout(() => {
+  //       executeScroll()
+  //     })
+  //   }
+  // }, [title, focusField])
 
   // Determine the required status for the title
   const isRequired = requiredUI || required
@@ -61,12 +63,21 @@ const CustomTitleField = ({
 
   return (
     <div>
-      <div ref={scrollRef} data-testid="custom-title-field--heading" className={groupBoxClassName}>
+      <div ref={scrollRef} className={`custom-title-field__${groupBoxClassName}`}>
         {
           hideHeader ? null : (
-            <span className={`${className}`}>
+            <span className={`custom-title-field__${className}`}>
               {heading}
-              {isRequired && <i className="eui-icon eui-required-o required-icon" />}
+              {
+                isRequired && (
+                  <i
+                    title={heading}
+                    className="eui-icon eui-required-o text-success ps-1"
+                    role="img"
+                    aria-label="Required"
+                  />
+                )
+              }
             </span>
           )
         }
@@ -95,8 +106,8 @@ CustomTitleField.propTypes = {
 CustomTitleField.defaultProps = {
   requiredUI: false,
   required: false,
-  className: '',
-  groupBoxClassName: '',
+  className: 'h1-title',
+  groupBoxClassName: 'h1-box',
   uiSchema: {}
 }
 

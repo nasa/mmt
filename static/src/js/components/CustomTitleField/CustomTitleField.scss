@@ -1,0 +1,27 @@
+.custom-title-field {
+  &__h1-box {
+    border-bottom: solid 2px rgb(240, 240, 240);
+    padding-bottom: 6px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+  }
+
+  &__h2-box {
+    margin-bottom: 15px;
+  }
+
+  &__h1-title {
+    font-size: 1.75rem;
+    font-weight: 500;
+  }
+
+  &__h2-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  &__h3-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+}
