@@ -117,8 +117,8 @@ const CustomTextWidget = ({
       title={title}
     >
       <input
-        ref={focusRef}
         className="custom-text-widget__input"
+        defaultValue={value}
         disabled={disabled}
         id={id}
         maxLength={maxLength}
@@ -127,8 +127,8 @@ const CustomTextWidget = ({
         onChange={handleChange}
         onFocus={handleFocus}
         placeholder={placeholder}
+        ref={focusRef}
         type={fieldType && fieldType === 'number' ? 'number' : 'text'}
-        value={value}
       />
     </CustomWidgetWrapper>
   )

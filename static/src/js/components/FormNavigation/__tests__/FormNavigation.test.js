@@ -24,6 +24,7 @@ const setup = (overrideProps = {}) => {
       properties: ['Field2']
     }],
     loading: false,
+    schema: {},
     validationErrors: [],
     visitedFields: [],
     onCancel: jest.fn(),

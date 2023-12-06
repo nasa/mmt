@@ -1,9 +1,10 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import ListGroup from 'react-bootstrap/ListGroup'
-import PropTypes from 'prop-types'
-import React from 'react'
+import validator from '@rjsf/validator-ajv8'
 
 import NavigationItem from '../NavigationItem/NavigationItem'
 import For from '../For/For'
@@ -33,100 +34,104 @@ const FormNavigation = ({
   draft,
   formSections,
   loading,
-  validationErrors,
   visitedFields,
   onCancel,
   onSave,
+  schema,
   setFocusField
-}) => (
-  <>
-    <div className="mb-4">
-      <Dropdown as={ButtonGroup}>
-        <Button
-          onClick={() => onSave(saveTypes.saveAndContinue)}
-          variant="success"
-          className="text-white"
-        >
-          <span>
-            Save &amp; Continue
-          </span>
-        </Button>
+}) => {
+  const { errors } = validator.validateFormData(draft, schema)
 
-        <Dropdown.Toggle
-          split
-          variant="success"
-          id="dropdown-split-basic"
-          className="text-white"
-          aria-label="Save Options"
-        />
-
-        <Dropdown.Menu>
-          <Dropdown.Item
-            onClick={() => onSave(saveTypes.save)}
-          >
-            <span>
-              Save
-            </span>
-          </Dropdown.Item>
-
-          <Dropdown.Item
+  return (
+    <>
+      <div className="mb-4">
+        <Dropdown as={ButtonGroup}>
+          <Button
             onClick={() => onSave(saveTypes.saveAndContinue)}
+            variant="success"
+            className="text-white"
           >
             <span>
               Save &amp; Continue
             </span>
-          </Dropdown.Item>
+          </Button>
 
-          <Dropdown.Item
-            onClick={() => onSave(saveTypes.saveAndPublish)}
-          >
-            Save &amp; Publish
-          </Dropdown.Item>
+          <Dropdown.Toggle
+            split
+            variant="success"
+            id="dropdown-split-basic"
+            className="text-white"
+            aria-label="Save Options"
+          />
 
-          <Dropdown.Item
-            onClick={() => onSave(saveTypes.saveAndPreview)}
-          >
-            <span>
-              Save &amp; Preview
-            </span>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={() => onSave(saveTypes.save)}
+            >
+              <span>
+                Save
+              </span>
+            </Dropdown.Item>
 
-      <Button
-        onClick={onCancel}
-        type="button"
-        className="link-button ms-2"
-        variant="link-secondary"
-      >
-        Cancel
-      </Button>
+            <Dropdown.Item
+              onClick={() => onSave(saveTypes.saveAndContinue)}
+            >
+              <span>
+                Save &amp; Continue
+              </span>
+            </Dropdown.Item>
 
-      {
-        loading && (
-          <div className="spinner-border spinner" role="status" />
-        )
-      }
-    </div>
+            <Dropdown.Item
+              onClick={() => onSave(saveTypes.saveAndPublish)}
+            >
+              Save &amp; Publish
+            </Dropdown.Item>
 
-    <ListGroup className="form-navigation__sections p-2 bg-light">
-      <For each={formSections}>
+            <Dropdown.Item
+              onClick={() => onSave(saveTypes.saveAndPreview)}
+            >
+              <span>
+                Save &amp; Preview
+              </span>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Button
+          onClick={onCancel}
+          type="button"
+          className="link-button ms-2"
+          variant="link-secondary"
+        >
+          Cancel
+        </Button>
+
         {
-          (section) => (
-            <NavigationItem
-              key={JSON.stringify(section)}
-              draft={draft}
-              section={section}
-              validationErrors={validationErrors}
-              visitedFields={visitedFields}
-              setFocusField={setFocusField}
-            />
+          loading && (
+            <div className="spinner-border spinner" role="status" />
           )
         }
-      </For>
-    </ListGroup>
-  </>
-)
+      </div>
+
+      <ListGroup className="form-navigation__sections p-2 bg-light">
+        <For each={formSections}>
+          {
+            (section) => (
+              <NavigationItem
+                key={JSON.stringify(section)}
+                draft={draft}
+                section={section}
+                validationErrors={errors}
+                visitedFields={visitedFields}
+                setFocusField={setFocusField}
+              />
+            )
+          }
+        </For>
+      </ListGroup>
+    </>
+  )
+}
 
 FormNavigation.defaultProps = {
   loading: false
@@ -138,14 +143,12 @@ FormNavigation.propTypes = {
     PropTypes.shape({})
   ).isRequired,
   loading: PropTypes.bool,
-  validationErrors: PropTypes.arrayOf(
-    PropTypes.shape({})
-  ).isRequired,
   visitedFields: PropTypes.arrayOf(
     PropTypes.string
   ).isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  schema: PropTypes.shape({}).isRequired,
   setFocusField: PropTypes.func.isRequired
 }
 

@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
-import { get } from 'lodash'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 
-import NavigationItemError from '../NavigationItemError/NavigationItemError'
 import For from '../For/For'
+import NavigationItemError from '../NavigationItemError/NavigationItemError'
 
 import prefixProperty from '../../utils/prefixProperty'
 import createPath from '../../utils/createPath'
+import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import buildValidationErrors from '../../utils/buildValidationErrors'
 
 import './NavigationItem.scss'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 /**
  * @typedef {Object} NavigationItem
@@ -47,12 +47,12 @@ const NavigationItem = ({
   } = useParams()
   const navigate = useNavigate()
 
-  const { displayName } = section
+  const { displayName, properties: sectionProperties } = section
 
   const isSectionDisplayed = toLowerKebabCase(displayName) === sectionName
 
   // Does the form section have values
-  const hasValues = section.properties.some((propertyPrefix) => {
+  const hasValues = sectionProperties.some((propertyPrefix) => {
     const value = draft[propertyPrefix]
 
     return value !== undefined
@@ -62,76 +62,47 @@ const NavigationItem = ({
   const hasErrors = validationErrors.some((error) => {
     const { property } = error
 
-    return section.properties.some((propertyPrefix) => prefixProperty(property).startsWith(`${prefixProperty(propertyPrefix)}`))
+    return sectionProperties.some((propertyPrefix) => prefixProperty(property).startsWith(`${prefixProperty(propertyPrefix)}`))
   })
 
-  const errorsWithGroups = {}
+  let errorsWithGroups = []
   const errorsWithoutGroups = []
 
   // Multiple errors can occur within a nested field or array field, so we group those errors together
   // in order to display them together within NavigationItemError
   validationErrors.forEach((validationError) => {
     const { property } = validationError
-    const visited = visitedFields.includes(prefixProperty(property))
+
+    const propertyField = property.startsWith('.')
+      ? property.split('.')[1]
+      : property
+
+    // If the property is not found in the `sectionProperties`, we don't show the error, so return here
+    if (!sectionProperties.includes(propertyField)) return
 
     // Nested/Array errors from sjv start with `.`
     const isGrouped = property.startsWith('.')
 
-    // If the error is part of a group, build the group to store in `errorsWithGroups`
     if (isGrouped) {
       const path = createPath(property)
-      const regexp = /^(.*[^\\[]+)\[(\d+)\]/
-      const match = path.match(regexp)
+      const parts = path.split('.').filter(Boolean)
 
-      let fieldName
-      // If `match[1]` exists the regex found an array index
-      if (match && match[1]) {
-        // This is an array field
-        [, fieldName] = match[1].split('.')
-        const arrayIndex = parseInt(match[2], 10)
-
-        // Find the total number of values for this array in the draft metadata
-        const matchedPath = match[1].substring(1)
-        const results = get(draft, matchedPath)
-
-        // If no results exist, default the length parameter to 1
-        const length = Math.max(results?.length || 1, arrayIndex + 1)
-
-        // Build a field name with the `arrayIndex` and `length` values: "RelatedURLs (1 of 2)"
-        fieldName = `${fieldName} (${arrayIndex + 1} of ${length})`
-      } else {
-        // This is an object
-        const parts = property.split('.');
-        [, fieldName] = parts
-      }
-
-      // Create a new array of errors for this `fieldName` if it doesn't exist
-      errorsWithGroups[fieldName] ||= []
-
-      // Add the new error the the list
-      errorsWithGroups[fieldName] = [
-        ...errorsWithGroups[fieldName],
-        {
-          ...validationError,
-          visited
-        }
-      ]
+      errorsWithGroups = buildValidationErrors({
+        draft,
+        errors: errorsWithGroups,
+        pathParts: parts,
+        validationError
+      })
     } else {
       // If the error was not nested, save it in `errorsWithoutGroups`
-      errorsWithoutGroups.push({
-        ...validationError,
-        visited
-      })
+      errorsWithoutGroups.push(validationError)
     }
   })
 
   // Combine the errors without groups to those with groups
   const errors = [
     ...errorsWithoutGroups,
-    ...Object.keys(errorsWithGroups).map((fieldName) => ({
-      fieldName,
-      errors: errorsWithGroups[fieldName]
-    }))
+    ...errorsWithGroups
   ]
 
   return (
@@ -207,6 +178,7 @@ const NavigationItem = ({
                 key={JSON.stringify(error)}
                 error={error}
                 setFocusField={setFocusField}
+                visitedFields={visitedFields}
               />
             )
           }

@@ -20,7 +20,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('../../NavigationItemError/NavigationItemError')
 
-const setup = (overrideProps = {}) => {
+const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
   const props = {
     draft: {},
     section: {
@@ -34,7 +34,7 @@ const setup = (overrideProps = {}) => {
   }
 
   render(
-    <MemoryRouter initialEntries={['/tool-drafts/TD1000000-MMT/mock-section-name']}>
+    <MemoryRouter initialEntries={[`/tool-drafts/TD1000000-MMT/${formSection}`]}>
       <Routes>
         <Route
           path="/tool-drafts"
@@ -106,10 +106,10 @@ describe('NavigationItem', () => {
             params: { missingProperty: 'Name' },
             property: 'Name',
             schemaPath: '#/required',
-            stack: "must have required property 'Name'",
-            visited: false
+            stack: "must have required property 'Name'"
           },
-          setFocusField: props.setFocusField
+          setFocusField: props.setFocusField,
+          visitedFields: ['Name']
         }, {})
       })
     })
@@ -143,12 +143,12 @@ describe('NavigationItem', () => {
               params: { missingProperty: 'Type' },
               property: '.URL.Type',
               schemaPath: '#/properties/URL/required',
-              stack: "must have required property ' Type'",
-              visited: false
+              stack: "must have required property ' Type'"
             }],
             fieldName: 'URL'
           },
-          setFocusField: props.setFocusField
+          setFocusField: props.setFocusField,
+          visitedFields: ['URL']
         }, {})
       })
     })
@@ -184,13 +184,40 @@ describe('NavigationItem', () => {
               },
               property: '.RelatedURLs.0.URLContentType',
               schemaPath: '#/properties/RelatedURLs/items/required',
-              stack: "must have required property 'URLContentType'",
-              visited: false
+              stack: "must have required property 'URLContentType'"
             }],
             fieldName: 'RelatedURLs (1 of 1)'
           },
-          setFocusField: props.setFocusField
+          setFocusField: props.setFocusField,
+          visitedFields: ['RelatedURLs']
         }, {})
+      })
+    })
+
+    describe('when the section with the errors is not currently being displayed', () => {
+      test('does not display the error message', () => {
+        setup({
+          section: {
+            displayName: 'Mock Section Name 2',
+            properties: ['Mock Field']
+          },
+          visitedFields: ['Name'],
+          validationErrors: [{
+            name: 'required',
+            property: 'Name',
+            message: "must have required property 'Name'",
+            params: {
+              missingProperty: 'Name'
+            },
+            stack: "must have required property 'Name'",
+            schemaPath: '#/required'
+          }]
+        }, 'mock-section-name-2')
+
+        expect(screen.getByText('Mock Section Name 2')).toBeInTheDocument()
+        expect(screen.getByRole('img', { name: 'Mock Section Name 2' }).className).toContain('eui-fa-circle-o')
+
+        expect(NavigationItemError).toHaveBeenCalledTimes(0)
       })
     })
   })

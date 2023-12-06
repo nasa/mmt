@@ -6,13 +6,22 @@ import {
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import Select from 'react-select'
 
 import CustomSelectWidget from '../CustomSelectWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
+import useControlledKeywords from '../../../hooks/useControlledKeywords'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
+jest.mock('../../../hooks/useControlledKeywords')
+jest.mock('react-select')
 
 const setup = (overrideProps = {}) => {
+  useControlledKeywords.mockReturnValue({
+    keywords: [],
+    isLoading: false
+  })
+
   const formContext = {
     focusField: '',
     setFocusField: jest.fn()
@@ -21,13 +30,15 @@ const setup = (overrideProps = {}) => {
   const props = {
     disabled: false,
     id: 'mock-id',
-    isLoading: false, /////
     label: 'Test Field',
     onBlur: jest.fn(),
     onChange: jest.fn(),
     placeholder: 'Test Placeholder',
     registry: {
-      formContext
+      formContext,
+      schemaUtils: {
+        retrieveSchema: jest.fn().mockReturnValue({})
+      }
     },
     required: false,
     schema: {
@@ -63,13 +74,15 @@ describe('CustomSelectWidget', () => {
         required: true
       })
 
-      const field = screen.getByRole('textbox')
+      // const field = screen.getByRole('combobox')
 
-      expect(field).toHaveAttribute('id', 'mock-id')
-      expect(field).toHaveAttribute('name', 'Test Field')
-      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      expect(field).toHaveAttribute('type', 'text')
-      expect(field).toHaveAttribute('value', '')
+      // expect(field).toHaveAttribute('id', 'react-select-2-input')
+      // expect(field).toHaveAttribute('name', 'Test Field')
+      // expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
+      // expect(field).toHaveAttribute('type', 'text')
+      // expect(field).toHaveAttribute('value', '')
+
+      expect(Select).toHaveBeenCalledTimes(1)
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({

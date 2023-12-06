@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
 import { kebabCase } from 'lodash'
 import validator from '@rjsf/validator-ajv8'
-import Form from '@rjsf/core'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import Form from '@rjsf/core'
 import Row from 'react-bootstrap/Row'
 
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
@@ -29,8 +29,8 @@ import FormNavigation from '../FormNavigation/FormNavigation'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
 
-import toolsUiSchema from '../../schemas/uiSchemas/tools'
 import formConfigurations from '../../schemas/uiForms'
+import toolsUiSchema from '../../schemas/uiSchemas/tools'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
@@ -41,7 +41,6 @@ import useAppContext from '../../hooks/useAppContext'
 
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 
-import convertToDottedNotation from '../../utils/convertToDottedNotation'
 import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '../../utils/getFormSchema'
@@ -81,7 +80,6 @@ const MetadataForm = () => {
     if (conceptId === 'new') setDraft({})
   }, [conceptId])
 
-  const [validationErrors, setValidationErrors] = useState([])
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
 
@@ -243,12 +241,9 @@ const MetadataForm = () => {
 
   // Handle bluring fields within the form
   const handleBlur = (fieldId) => {
-    // Add the blurred field into `visitedFields`
-    const path = convertToDottedNotation(fieldId.replace('root', ''))
-
     setVisitedFields([...new Set([
       ...visitedFields,
-      path
+      fieldId
     ])])
   }
 
@@ -276,14 +271,6 @@ const MetadataForm = () => {
               widgets={widgets}
               onChange={handleChange}
               onBlur={handleBlur}
-              liveValidate
-              transformErrors={
-                (errors) => {
-                  setValidationErrors(errors)
-
-                  return []
-                }
-              }
             />
           </Col>
 
@@ -294,10 +281,10 @@ const MetadataForm = () => {
                 fullSchema={schema}
                 formSections={formSections}
                 loading={ingestDraftLoading}
-                validationErrors={validationErrors}
                 visitedFields={visitedFields}
                 onSave={handleSave}
                 onCancel={handleCancel}
+                schema={schema}
                 setFocusField={setFocusField}
               />
             </div>

@@ -288,7 +288,7 @@ GridControlledField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string,
     'ui:place-holder': PropTypes.string,
-    'ui:widget': PropTypes.string
+    'ui:widget': PropTypes.func
   })
 }
 
