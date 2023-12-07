@@ -61,15 +61,19 @@ const Notifications = () => {
                 bg="secondary"
                 autohide
                 delay={delay}
-                onClose={() => {
+                onClose={
+                  () => {
                   // Hide the notification on close
-                  hideNotification(id)
-                }}
+                    hideNotification(id)
+                  }
+                }
                 show={show}
-                onExited={() => {
+                onExited={
+                  () => {
                   // Remove the notification from the list once it has finished exiting
-                  removeNotification(id)
-                }}
+                    removeNotification(id)
+                  }
+                }
               >
                 <Toast.Body className="text-white d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">

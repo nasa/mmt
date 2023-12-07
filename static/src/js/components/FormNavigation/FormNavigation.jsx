@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Spinner from 'react-bootstrap/Spinner'
 import validator from '@rjsf/validator-ajv8'
 
 import NavigationItem from '../NavigationItem/NavigationItem'
@@ -52,23 +53,23 @@ const FormNavigation = ({
             className="text-white"
             disabled={loading}
           >
-          {
-            loading && (
-              <Spinner
-                className="me-2"
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-              />
-            )
-          }
+            {
+              loading && (
+                <Spinner
+                  className="me-2"
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                />
+              )
+            }
             <span>
               {
-              loading
-                ? 'Saving draft...'
-                : 'Save & Continue'
-            }
+                loading
+                  ? 'Saving draft...'
+                  : 'Save & Continue'
+              }
             </span>
           </Button>
 
@@ -121,7 +122,7 @@ const FormNavigation = ({
         >
           Cancel
         </Button>
-    </div>
+      </div>
 
       <ListGroup className="form-navigation__sections p-2 bg-light">
         <For each={formSections}>
