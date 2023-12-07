@@ -37,8 +37,8 @@ const CustomArrayFieldTemplate = ({
   onAddClick
 }) => {
   const requiredUI = uiSchema['ui:required']
-  const hideHeader = uiSchema['ui:hide-header']
-  const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
+  const hideHeader = uiSchema['ui:hide-header'] || null
+  // Const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const scrollRef = useRef(false)
   const [scrollIndex, setScrollRef] = useState(null)
 
@@ -81,14 +81,18 @@ const CustomArrayFieldTemplate = ({
   return (
     <div className="custom-array-field-template">
       {
-        !hideHeader && (
-          <span className={headerClassName}>
+        hideHeader ? null : (
+          <span className>
             <h1 className="custom-array-field-template__title">
               {fieldTitle()}
 
               {
                 (required || requiredUI) && (
-                  <i className="eui-icon eui-required-o required-icon" />
+                  <i
+                    className="eui-icon eui-required-o text-success ps-1"
+                    role="img"
+                    aria-label="Required"
+                  />
                 )
               }
             </h1>

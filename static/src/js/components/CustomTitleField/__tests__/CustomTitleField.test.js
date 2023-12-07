@@ -4,7 +4,7 @@ import { userEvent } from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import CustomTitleField from '../CustomTitleField'
 
-const setupCustomTitleField = (overrideProps = {}) => {
+const setup = (overrideProps = {}) => {
   const props = {
     title: 'Test field',
     required: true,
@@ -32,18 +32,18 @@ const setupCustomTitleField = (overrideProps = {}) => {
 describe('CustomTitleField', () => {
   describe('when a field is required', () => {
     test('renders the section name and a required icon', () => {
-      setupCustomTitleField({
+      setup({
         required: true
       })
 
       expect(screen.getByText('Test Field')).toBeInTheDocument()
-      expect(screen.getByTitle('Test Field').className).toContain('eui-icon eui-required-o text-success ps-1')
+      expect(screen.getByRole('img', { name: 'Required' })).toBeInTheDocument()
     })
   })
 
   describe('when a field is not required', () => {
     test('renders the section name and no required icon', () => {
-      setupCustomTitleField({
+      setup({
         required: false
       })
 
@@ -54,7 +54,7 @@ describe('CustomTitleField', () => {
 
   describe('when a custom title is provided', () => {
     test('renders the custom section title', () => {
-      setupCustomTitleField({
+      setup({
         uiSchema: {
           'ui:title': 'Custom Title'
         }
@@ -67,7 +67,7 @@ describe('CustomTitleField', () => {
 
   describe('when hideHeader is true', () => {
     test('renders no title', () => {
-      setupCustomTitleField({
+      setup({
         uiSchema: {
           'ui:hide-header': true
         }

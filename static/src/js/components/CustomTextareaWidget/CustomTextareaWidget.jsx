@@ -42,7 +42,7 @@ const CustomTextareaWidget = ({
   value
 }) => {
   const [showDescription, setShowDescription] = useState(false)
-  const [charsUsed, setCharsUsed] = useState(value != null ? value.length : 0)
+  const [charsUsed, setCharsUsed] = useState(value?.length)
 
   const textareaScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -54,9 +54,6 @@ const CustomTextareaWidget = ({
     setFocusField
   } = formContext
   const { maxLength, description } = schema
-
-  // Note: I feel like this can be done in CustomWrapper
-  const headerClassName = uiSchema && uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : null
 
   let title = startCase(label.split(/-/)[0])
 
@@ -110,7 +107,6 @@ const CustomTextareaWidget = ({
     <CustomWidgetWrapper
       charsUsed={charsUsed}
       description={showDescription ? description : null}
-      headerClassName={headerClassName}
       label={label}
       maxLength={maxLength}
       required={required}
@@ -121,8 +117,9 @@ const CustomTextareaWidget = ({
         className="custom-textarea-widget__input"
         ref={focusRef}
         name={title}
+        id={id}
         maxLength={maxLength}
-        value={value ?? ''}
+        defaultValue={value}
         onFocus={handleFocus}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -132,7 +129,7 @@ const CustomTextareaWidget = ({
 }
 
 CustomTextareaWidget.defaultProps = {
-  value: null
+  value: ''
 }
 
 CustomTextareaWidget.propTypes = {
@@ -150,7 +147,6 @@ CustomTextareaWidget.propTypes = {
     maxLength: PropTypes.number
   }).isRequired,
   uiSchema: PropTypes.shape({
-    'ui:header-classname': PropTypes.string,
     'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.string,

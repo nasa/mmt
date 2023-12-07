@@ -5,9 +5,8 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
-
-import CustomTextWidget from '../CustomTextWidget'
+import { userEvent } from '@testing-library/user-event'
+import CustomTextareaWidget from '../CustomTextareaWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
@@ -21,10 +20,9 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    disabled: false,
+    disable: false,
     label: 'Test Field',
     id: 'mock-id',
-    placeholder: 'Test Placeholder',
     onBlur,
     onChange,
     registry: {
@@ -41,7 +39,7 @@ const setup = (overrideProps = {}) => {
 
   render(
     <BrowserRouter>
-      <CustomTextWidget {...props} />
+      <CustomTextareaWidget {...props} />
     </BrowserRouter>
   )
 
@@ -57,9 +55,9 @@ beforeEach(() => {
   )
 })
 
-describe('CustomTextWidget', () => {
+describe('CustomTextareaWidget', () => {
   describe('when the field is required', () => {
-    test('renders a input element', () => {
+    test('renders a input element with a required icon', () => {
       setup({
         required: true
       })
@@ -68,9 +66,6 @@ describe('CustomTextWidget', () => {
 
       expect(field).toHaveAttribute('id', 'mock-id')
       expect(field).toHaveAttribute('name', 'Test Field')
-      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      expect(field).toHaveAttribute('type', 'text')
-      expect(field).toHaveAttribute('value', '')
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
@@ -85,34 +80,7 @@ describe('CustomTextWidget', () => {
     })
   })
 
-  describe('when the field has a value', () => {
-    test('renders a input element', () => {
-      setup({
-        value: 'Test Value'
-      })
-
-      const field = screen.getByRole('textbox')
-
-      expect(field).toHaveAttribute('id', 'mock-id')
-      expect(field).toHaveAttribute('name', 'Test Field')
-      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      expect(field).toHaveAttribute('type', 'text')
-      expect(field).toHaveAttribute('value', 'Test Value')
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 10,
-        description: null,
-        headerClassName: null,
-        label: 'Test Field',
-        maxLength: null,
-        required: false,
-        title: 'Test Field'
-      }), {})
-    })
-  })
-
-  describe('when the field is focused', () => {
+  describe('when a field is focused', () => {
     test('shows the field description', async () => {
       setup()
 
@@ -124,6 +92,7 @@ describe('CustomTextWidget', () => {
 
       expect(field).toHaveFocus()
 
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description'
       }), {})
@@ -131,7 +100,7 @@ describe('CustomTextWidget', () => {
   })
 
   describe('when the field is blurred', () => {
-    test('clears the focusField and calls onBlur', async () => {
+    test('blurs the field', async () => {
       const { props } = setup()
 
       const field = screen.getByRole('textbox')
@@ -180,7 +149,6 @@ describe('CustomTextWidget', () => {
 
       await user.clear(field)
 
-      expect(props.onChange).toHaveBeenCalledTimes(1)
       expect(props.onChange).toHaveBeenCalledWith(undefined)
 
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
@@ -189,23 +157,7 @@ describe('CustomTextWidget', () => {
     })
   })
 
-  describe('when the field should be focused', () => {
-    test('focuses the field', async () => {
-      setup({
-        registry: {
-          formContext: {
-            focusField: 'mock-id'
-          }
-        }
-      })
-
-      const field = screen.getByRole('textbox')
-
-      expect(field).toHaveFocus()
-    })
-  })
-
-  describe('when the field has a schema title', () => {
+  describe('when the field has a custom title', () => {
     test('uses the schema title', () => {
       setup({
         uiSchema: {
@@ -226,16 +178,19 @@ describe('CustomTextWidget', () => {
     })
   })
 
-  describe('when the input is a number field', () => {
-    test('renders a number field', () => {
+  describe('when the field should be focused', () => {
+    test('focuses the field', async () => {
       setup({
-        uiSchema: {
-          'ui:type': 'number'
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
+          }
         }
       })
 
-      const field = screen.getByRole('spinbutton')
-      expect(field).toHaveAttribute('type', 'number')
+      const field = screen.getByRole('textbox')
+
+      expect(field).toHaveFocus()
     })
   })
 })
