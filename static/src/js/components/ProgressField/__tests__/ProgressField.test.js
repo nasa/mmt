@@ -27,7 +27,7 @@ describe('ProgressField', () => {
         status: progressCircleTypes.Invalid
       })
 
-      expect(screen.getByTitle('mock message').className).toContain('progress-field__icon--invalid-circle')
+      expect(screen.getByRole('img', { name: 'mock message' }).className).toContain('progress-field__icon--invalid-circle')
     })
   })
 
@@ -41,7 +41,7 @@ describe('ProgressField', () => {
           status: progressCircleTypes.NotStarted
         })
 
-        expect(screen.getByTitle('mock message').className).toContain('progress-field__icon--not-started-required-circle')
+        expect(screen.getByRole('img', { name: 'mock message' }).className).toContain('progress-field__icon--not-started-required-circle')
       })
     })
 
@@ -54,7 +54,7 @@ describe('ProgressField', () => {
           status: progressCircleTypes.NotStarted
         })
 
-        expect(screen.getByTitle('Test Field').className).toContain('progress-field__icon--not-started-not-required-circle')
+        expect(screen.getByRole('img', { name: 'Test Field' }).className).toContain('progress-field__icon--not-started-not-required-circle')
       })
     })
   })
@@ -69,7 +69,7 @@ describe('ProgressField', () => {
           status: progressCircleTypes.Pass
         })
 
-        expect(screen.getByTitle('Test Field - Required field complete').className).toContain('progress-field__icon--pass-required-circle')
+        expect(screen.getByRole('img', { name: 'Test Field - Required field complete' }).className).toContain('progress-field__icon--pass-required-circle')
       })
     })
 
@@ -82,7 +82,7 @@ describe('ProgressField', () => {
           status: progressCircleTypes.Pass
         })
 
-        expect(screen.getByTitle('mock message').className).toContain('progress-field__icon--pass-not-required-circle')
+        expect(screen.getByRole('img', { name: 'mock message' }).className).toContain('progress-field__icon--pass-not-required-circle')
       })
     })
   })
@@ -96,7 +96,7 @@ describe('ProgressField', () => {
         status: progressCircleTypes.Error
       })
 
-      expect(screen.getByTitle('mock message').className).toContain('progress-field__icon--error-circle')
+      expect(screen.getByRole('img', { name: 'mock message' }).className).toContain('progress-field__icon--error-circle')
     })
   })
 

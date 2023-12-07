@@ -42,7 +42,6 @@ const CustomTextareaWidget = ({
   value
 }) => {
   const [showDescription, setShowDescription] = useState(false)
-  const [charsUsed, setCharsUsed] = useState(value?.length)
 
   const textareaScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -87,12 +86,6 @@ const CustomTextareaWidget = ({
   const handleChange = (event) => {
     const { value: newValue } = event.target
 
-    if (newValue === '') {
-      setCharsUsed(0)
-      onChange(undefined)
-    }
-
-    setCharsUsed(newValue.length)
     onChange(newValue)
   }
 
@@ -105,7 +98,7 @@ const CustomTextareaWidget = ({
 
   return (
     <CustomWidgetWrapper
-      charsUsed={charsUsed}
+      charsUsed={value?.length}
       description={showDescription ? description : null}
       label={label}
       maxLength={maxLength}
@@ -115,14 +108,14 @@ const CustomTextareaWidget = ({
     >
       <textarea
         className="custom-textarea-widget__input"
-        ref={focusRef}
-        name={title}
         id={id}
         maxLength={maxLength}
-        defaultValue={value}
-        onFocus={handleFocus}
-        onChange={handleChange}
+        name={title}
         onBlur={handleBlur}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        ref={focusRef}
+        value={value}
       />
     </CustomWidgetWrapper>
   )

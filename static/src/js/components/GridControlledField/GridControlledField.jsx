@@ -169,14 +169,8 @@ const GridControlledField = ({
 
     if (enums.length === 1) {
       const [first] = enums
-      const priorValue = formData[name]
       formData[name] = first
       value = formData[name]
-      if (priorValue !== value) {
-        setTimeout(() => {
-          onChange(formData, null)
-        })
-      }
     }
 
     const placeholder = uiSchema['ui:place-holder']

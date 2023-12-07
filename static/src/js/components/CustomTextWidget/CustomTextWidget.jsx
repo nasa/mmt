@@ -46,7 +46,6 @@ const CustomTextWidget = ({
   value
 }) => {
   const [showDescription, setShowDescription] = useState(false)
-  const [charsUsed, setCharsUsed] = useState(value?.length)
 
   const inputScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -86,14 +85,6 @@ const CustomTextWidget = ({
   const handleChange = (event) => {
     const { value: newValue } = event.target
 
-    if (newValue === '') {
-      setCharsUsed(0)
-      onChange(undefined)
-
-      return
-    }
-
-    setCharsUsed(newValue.length)
     onChange(newValue)
   }
 
@@ -107,7 +98,7 @@ const CustomTextWidget = ({
 
   return (
     <CustomWidgetWrapper
-      charsUsed={charsUsed}
+      charsUsed={value?.length}
       description={showDescription ? description : null}
       headerClassName={headerClassName}
       label={label}
@@ -118,7 +109,7 @@ const CustomTextWidget = ({
     >
       <input
         className="custom-text-widget__input"
-        defaultValue={value}
+        value={value}
         disabled={disabled}
         id={id}
         maxLength={maxLength}

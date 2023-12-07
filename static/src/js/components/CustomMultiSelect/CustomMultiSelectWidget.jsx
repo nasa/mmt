@@ -68,17 +68,6 @@ const CustomMultiSelectWidget = ({
 
   const shouldFocus = shouldFocusField(focusField, id)
 
-  // If the value already has data, this will store it as an object for react-select
-  const existingValues = []
-  value.forEach((currentValue) => {
-    if (currentValue != null) {
-      existingValues.push({
-        value: currentValue,
-        label: currentValue
-      })
-    }
-  })
-
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
@@ -125,27 +114,38 @@ const CustomMultiSelectWidget = ({
     setShowDescription(false)
   }
 
+  // If the value already has data, this will store it as an object for react-select
+  const existingValues = []
+  value.forEach((currentValue) => {
+    if (currentValue != null) {
+      existingValues.push({
+        value: currentValue,
+        label: currentValue
+      })
+    }
+  })
+
   return (
     <CustomWidgetWrapper
-      label={label}
-      scrollRef={selectScrollRef}
-      required={required}
-      title={title}
       description={showDescription ? description : null}
       descriptionPlacement="top"
+      label={label}
+      required={required}
+      scrollRef={selectScrollRef}
+      title={title}
     >
       <Select
+        value={existingValues}
         id={id}
-        ref={focusRef}
-        placeholder={placeholder || `Select ${title}`}
-        defaultValue={existingValues ?? ''}
-        options={selectOptions}
         isClearable
+        isMulti
+        menuIsOpen={showMenu}
+        onBlur={handleBlur}
         onChange={handleChange}
         onFocus={handleFocus}
-        onBlur={handleBlur}
-        menuIsOpen={showMenu}
-        isMulti
+        options={selectOptions}
+        placeholder={placeholder || `Select ${title}`}
+        ref={focusRef}
       />
     </CustomWidgetWrapper>
   )

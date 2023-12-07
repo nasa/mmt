@@ -48,6 +48,7 @@ import getNextFormName from '../../utils/getNextFormName'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
+import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './MetadataForm.scss'
 
@@ -62,7 +63,9 @@ const MetadataForm = () => {
   const {
     user,
     draft,
-    setDraft
+    originalDraft,
+    setDraft,
+    setOriginalDraft
   } = useAppContext()
   const { providerId } = user
   const { addNotification } = useNotificationsContext()
@@ -105,6 +108,7 @@ const MetadataForm = () => {
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
 
+      setOriginalDraft(fetchedDraft)
       setDraft(fetchedDraft)
     }
   })
@@ -191,7 +195,6 @@ const MetadataForm = () => {
           variant: 'success'
         })
 
-        // TODO show a status message
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
 
@@ -203,7 +206,7 @@ const MetadataForm = () => {
         if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
-          navigate(`../${savedConceptId}/${kebabCase(nextFormName)}`)
+          navigate(`../${savedConceptId}/${toLowerKebabCase(nextFormName)}`)
         }
 
         if (type === saveTypes.saveAndPreview) {
@@ -228,9 +231,10 @@ const MetadataForm = () => {
     })
   }
 
+  // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {
-    // TODO this isn't working because we are changing the draft as the form is used
-    setDraft(draft)
+    setDraft(originalDraft)
+    setVisitedFields([])
   }
 
   // Handle form changes

@@ -27,6 +27,7 @@ import AppContext from '../../context/AppContext'
  */
 const AppContextProvider = ({ children }) => {
   const keywordsContext = useKeywords()
+  const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
   const [user, setUser] = useState({})
 
@@ -42,10 +43,13 @@ const AppContextProvider = ({ children }) => {
   const providerValue = useMemo(() => ({
     ...keywordsContext,
     draft,
+    originalDraft,
     setDraft,
+    setOriginalDraft,
     user
   }), [
     draft,
+    originalDraft,
     keywords,
     user
   ])
