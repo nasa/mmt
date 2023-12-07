@@ -12,7 +12,7 @@ import { cloneDeep, uniqWith } from 'lodash'
 * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
 @ returns the multidimensional array of keywords
 */
-const traverse = (
+const traverseCmrResponse = (
   node,
   filter,
   path = []
@@ -58,7 +58,7 @@ const traverse = (
 
     if (child.subfields) {
       child.subfields.forEach((subfield) => {
-        paths = paths.concat(traverse({
+        paths = paths.concat(traverseCmrResponse({
           data: child,
           parentName: name,
           name: subfield
@@ -98,7 +98,7 @@ const traverse = (
  * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
  */
 const parseCmrResponse = (response, filter) => {
-  const paths = traverse({
+  const paths = traverseCmrResponse({
     name: Object.keys(response)[0],
     data: response
   }, filter)
