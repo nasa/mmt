@@ -34,10 +34,10 @@ import toolsUiSchema from '../../schemas/uiSchemas/tools'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
-import statusMessageTypes from '../../constants/statusMessageTypes'
 import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
 
 import useAppContext from '../../hooks/useAppContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 
@@ -61,13 +61,11 @@ const MetadataForm = () => {
   const navigate = useNavigate()
   const {
     user,
-    addStatusMessage,
     draft,
     setDraft
   } = useAppContext()
-
   const { providerId } = user
-
+  const { addNotification } = useNotificationsContext()
   let derivedConceptType
 
   if (conceptId !== 'new') {
@@ -187,15 +185,16 @@ const MetadataForm = () => {
       },
       onCompleted: (mutationData) => {
         const { ingestDraft: { conceptId: savedConceptId } } = mutationData
-        addStatusMessage({
-          id: `${savedConceptId}-saved`,
+
+        addNotification({
           message: 'Draft saved successfully',
-          type: statusMessageTypes.INFO
+          variant: 'success'
         })
 
         // TODO show a status message
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
+
           if (currentSection) navigate(`../${conceptId}/${currentSection}`, { replace: true })
 
           window.scroll(0, 0)
@@ -218,6 +217,11 @@ const MetadataForm = () => {
         }
       },
       onError: (ingestError) => {
+        addNotification({
+          message: 'Error saving draft',
+          variant: 'danger'
+        })
+
         errorLogger(ingestError, 'MetadataForm: ingestDraftMutation')
         // Populate some errors to be displayed
       }

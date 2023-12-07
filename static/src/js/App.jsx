@@ -13,14 +13,15 @@ import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
 import DraftsPage from './pages/DraftsPage/DraftsPage'
+import Notifications from './components/Notifications/Notifications'
+import Providers from './providers/Providers/Providers'
+import Page from './components/Page/Page'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
-import Providers from './providers/Providers/Providers'
-import Page from './components/Page/Page'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -99,6 +100,7 @@ const App = () => {
             </Route>
           </Routes>
         </BrowserRouter>
+        <Notifications />
       </Providers>
     </ApolloProvider>
   )

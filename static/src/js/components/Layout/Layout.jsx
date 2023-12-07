@@ -16,7 +16,7 @@ import Footer from '../Footer/Footer'
  * )
  */
 const Layout = () => (
-  <div className="d-flex flex-column h-100 w-100">
+  <div className="d-flex flex-column w-100 overflow-auto">
     <Header />
     <Outlet />
     <Footer />

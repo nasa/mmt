@@ -5,7 +5,6 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 
-import useStatusMessages from '../../hooks/useStatusMessages'
 import useKeywords from '../../hooks/useKeywords'
 
 import AppContext from '../../context/AppContext'
@@ -27,7 +26,6 @@ import AppContext from '../../context/AppContext'
  * )
  */
 const AppContextProvider = ({ children }) => {
-  const statusMessagesContext = useStatusMessages()
   const keywordsContext = useKeywords()
   const [draft, setDraft] = useState()
   const [user, setUser] = useState({})
@@ -42,7 +40,6 @@ const AppContextProvider = ({ children }) => {
   const { keywords } = keywordsContext
 
   const providerValue = useMemo(() => ({
-    ...statusMessagesContext,
     ...keywordsContext,
     draft,
     setDraft,
@@ -60,8 +57,12 @@ const AppContextProvider = ({ children }) => {
   )
 }
 
+AppContextProvider.defaultProps = {
+  children: null
+}
+
 AppContextProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 }
 
 export default AppContextProvider

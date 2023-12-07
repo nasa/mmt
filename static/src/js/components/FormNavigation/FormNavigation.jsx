@@ -50,9 +50,25 @@ const FormNavigation = ({
             onClick={() => onSave(saveTypes.saveAndContinue)}
             variant="success"
             className="text-white"
+            disabled={loading}
           >
+          {
+            loading && (
+              <Spinner
+                className="me-2"
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+              />
+            )
+          }
             <span>
-              Save &amp; Continue
+              {
+              loading
+                ? 'Saving draft...'
+                : 'Save & Continue'
+            }
             </span>
           </Button>
 
@@ -105,13 +121,7 @@ const FormNavigation = ({
         >
           Cancel
         </Button>
-
-        {
-          loading && (
-            <div className="spinner-border spinner" role="status" />
-          )
-        }
-      </div>
+    </div>
 
       <ListGroup className="form-navigation__sections p-2 bg-light">
         <For each={formSections}>
