@@ -86,10 +86,11 @@ const BoundingRectangleField = ({
       <div className="bounding-rectangle-field__container">
         <div className="bounding-rectangle-field__container--north-row">
           <div className="bounding-rectangle-field__container--coordinate-label">
-            North
+            <label htmlFor="north-coordinate">North</label>
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
+              id="north-coordinate"
               onChange={
                 (e) => {
                   handleChange('NorthBoundingCoordinate', e.target.value)
@@ -103,12 +104,13 @@ const BoundingRectangleField = ({
         <div className="bounding-rectangle-field__container--east-west-row">
           <div>
             <div className="bounding-rectangle-field__container--coordinate-label">
-              West
+              <label htmlFor="west-coordinate">West</label>
             </div>
 
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
+              id="west-coordinate"
               onChange={
                 (e) => {
                   handleChange('WestBoundingCoordinate', e.target.value)
@@ -120,12 +122,13 @@ const BoundingRectangleField = ({
 
           <div>
             <div className="bounding-rectangle-field__container--coordinate-label">
-              East
+              <label htmlFor="east-coordinate">East</label>
             </div>
 
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
+              id="east-coordinate"
               onChange={
                 (e) => {
                   handleChange('EastBoundingCoordinate', e.target.value)
@@ -138,10 +141,11 @@ const BoundingRectangleField = ({
 
         <div className="bounding-rectangle-field__container--south-row">
           <div className="bounding-rectangle-field__container--coordinate-label">
-            South
+            <label htmlFor="south-coordinate">South</label>
             <input
               className="form-control bounding-rectangle-field__container--coordinate-input"
               type="number"
+              id="south-coordinate"
               width="100px"
               onChange={
                 (e) => {
