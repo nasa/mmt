@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  fireEvent
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import BoundingRectangleField from '../BoundingRectangleField'
@@ -67,12 +63,12 @@ describe('BoundingRectangleField', () => {
   })
 
   describe('when apply global coordinates', () => {
-    test('renders the fields', () => {
-      setup({
+    test('renders the fields', async () => {
+      const { user } = setup({
         formData: {}
       })
 
-      fireEvent.click(screen.getByRole('button'))
+      await user.click(screen.getByRole('button'))
       const west = screen.getByLabelText('West')
       expect(west).toHaveValue(-180)
       const south = screen.getByLabelText('South')
