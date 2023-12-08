@@ -82,7 +82,7 @@ const CustomArrayFieldTemplate = ({
     <div className="custom-array-field-template">
       {
         hideHeader ? null : (
-          <span className>
+          <span>
             <h1 className="custom-array-field-template__title">
               {fieldTitle()}
 

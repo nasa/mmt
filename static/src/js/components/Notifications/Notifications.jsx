@@ -17,8 +17,6 @@ import './Notifications.scss'
  * The component is renders application wide notifications. Notifications should be created
  * with the `useNotifications` hook.
  *
- * @param {ButtonProps} props
- *
  * @component
  * @example <caption>Render the Notifications component</caption>
  * return (
@@ -27,8 +25,8 @@ import './Notifications.scss'
  */
 const Notifications = () => {
   const {
-    notifications,
     hideNotification,
+    notifications,
     removeNotification
   } = useNotificationsContext()
 
@@ -41,9 +39,9 @@ const Notifications = () => {
         {
           ({
             id,
-            variant,
             message,
-            show
+            show,
+            variant
           }) => {
             const iconClassNames = 'notifications-list__icon d-block text-white'
             const iconMap = {
@@ -56,24 +54,24 @@ const Notifications = () => {
 
             return (
               <Toast
-                key={id}
-                className="bg-dark position-relative overflow-hidden"
-                bg="secondary"
                 autohide
+                bg="secondary"
+                className="bg-dark position-relative overflow-hidden"
                 delay={delay}
+                key={id}
                 onClose={
                   () => {
-                  // Hide the notification on close
+                    // Hide the notification on close
                     hideNotification(id)
                   }
                 }
-                show={show}
                 onExited={
                   () => {
-                  // Remove the notification from the list once it has finished exiting
+                    // Remove the notification from the list once it has finished exiting
                     removeNotification(id)
                   }
                 }
+                show={show}
               >
                 <Toast.Body className="text-white d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
@@ -90,20 +88,23 @@ const Notifications = () => {
                     >
                       {iconMap[variant] && iconMap[variant]}
                     </span>
+
                     {message}
                   </div>
+
                   <Button
                     className="px-1 py-2 m-0"
                     naked
-                    size="sm"
                     onClick={() => hideNotification(id)}
+                    size="sm"
                   >
                     Close
                   </Button>
                 </Toast.Body>
+
                 <span
-                  style={{ '--timer-duration': `${delay}ms` }}
                   className="notifications-list__timer position-absolute bottom-0"
+                  style={{ '--timer-duration': `${delay}ms` }}
                 />
               </Toast>
             )
