@@ -82,7 +82,10 @@ describe('BoundingRectangleField', () => {
 
   describe('when west coordinate field is changed', () => {
     test('updates the field and calls onChange', async () => {
-      const { props, user } = setup({
+      const {
+        props,
+        user
+      } = setup({
         formData: {}
       })
 
@@ -96,7 +99,10 @@ describe('BoundingRectangleField', () => {
 
   describe('when south coordinate field is changed', () => {
     test('updates the field and calls onChange', async () => {
-      const { props, user } = setup({
+      const {
+        props,
+        user
+      } = setup({
         formData: {}
       })
 
@@ -110,7 +116,10 @@ describe('BoundingRectangleField', () => {
 
   describe('when east coordinate field is changed', () => {
     test('updates the field and calls onChange', async () => {
-      const { props, user } = setup({
+      const {
+        props,
+        user
+      } = setup({
         formData: {}
       })
 
@@ -124,7 +133,10 @@ describe('BoundingRectangleField', () => {
 
   describe('when north coordinate field is changed', () => {
     test('updates the field and calls onChange', async () => {
-      const { props, user } = setup({
+      const {
+        props,
+        user
+      } = setup({
         formData: {}
       })
 
