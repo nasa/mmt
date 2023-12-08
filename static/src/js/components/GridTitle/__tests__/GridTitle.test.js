@@ -35,11 +35,9 @@ const setup = (overrideProps = {}) => {
 
 describe('GridTitle', () => {
   describe('when there is a TitleField registered', () => {
-    describe('when there is TitleField registered', () => {
-      test('renders the mock title', () => {
-        setup()
-        expect(screen.queryByText('mock title field')).not.toBeInTheDocument()
-      })
+    test('renders the mock title', () => {
+      setup()
+      expect(screen.queryByText('mock title field')).not.toBeInTheDocument()
     })
 
     test('verifies props passed in', () => {
