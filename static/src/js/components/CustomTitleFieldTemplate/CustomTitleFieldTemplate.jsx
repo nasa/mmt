@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
@@ -16,24 +16,24 @@ import { startCase } from 'lodash'
  * @param {CustomTitleFieldTemplate} props
  */
 const CustomTitleFieldTemplate = ({
-  registry,
   required,
   title,
   uiSchema
 }) => {
   const scrollRef = useRef(null)
 
+  // Do not think this is needed anymore.
   // Function to scroll into view
-  const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  // const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
 
-  // Effect to scroll into view when focusField changes
-  useEffect(() => {
-    if (title.replace(/ /g, '') === registry?.focusField) {
-      setTimeout(() => {
-        executeScroll()
-      })
-    }
-  }, [title, registry?.focusField])
+  // // Effect to scroll into view when focusField changes
+  // useEffect(() => {
+  //   if (title.replace(/ /g, '') === registry?.focusField) {
+  //     setTimeout(() => {
+  //       executeScroll()
+  //     })
+  //   }
+  // }, [title, registry?.focusField])
 
   // Extract values or use defaults for styling classNames
   const { options = {} } = uiSchema
@@ -54,19 +54,24 @@ const CustomTitleFieldTemplate = ({
 
   return (
     <div>
-      <div ref={scrollRef} data-testid="custom-title-field-template--heading" className={headerBoxClassName}>
+      <div ref={scrollRef} className={headerBoxClassName}>
         {
           hideHeader ? null
             : (
               <span className={headerClassName}>
                 {heading}
-                {required || requiredUI ? <i data-testid="custom-title-field-template--required" className="eui-icon eui-required-o required-icon" /> : ''}
+                {required || requiredUI ? <i title={heading} className="eui-icon eui-required-o required-icon" role="img" aria-label="Required" /> : ''}
               </span>
             )
         }
       </div>
     </div>
   )
+}
+
+CustomTitleFieldTemplate.defaultProps = {
+  registry: {},
+  uiSchema: {}
 }
 
 CustomTitleFieldTemplate.propTypes = {
@@ -84,11 +89,6 @@ CustomTitleFieldTemplate.propTypes = {
       title: PropTypes.string
     })
   })
-}
-
-CustomTitleFieldTemplate.defaultProps = {
-  registry: {},
-  uiSchema: {}
 }
 
 export default CustomTitleFieldTemplate
