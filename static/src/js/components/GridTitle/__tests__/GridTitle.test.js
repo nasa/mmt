@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
 import GridTitle from '../GridTitle'
@@ -17,7 +16,7 @@ const setup = (overrideProps = {}) => {
     registry: {
       formContext,
       fields: {
-        TitleField: () => (<div>mock title field</div>)
+        TitleField: () => (<div>the mock title</div>)
       }
     },
     id: 'unique-id',
@@ -25,9 +24,7 @@ const setup = (overrideProps = {}) => {
   }
 
   render(
-    <BrowserRouter>
-      <GridTitle {...props} />
-    </BrowserRouter>
+    <GridTitle {...props} />
   )
 
   return {
@@ -38,9 +35,41 @@ const setup = (overrideProps = {}) => {
 
 describe('GridTitle', () => {
   describe('when there is a TitleField registered', () => {
-    test('renders the title', () => {
-      setup()
-      expect(screen.getByText('mock title field')).toBeInTheDocument()
+    describe('when there is TitleField registered', () => {
+      test('renders the mock title', () => {
+        setup()
+        expect(screen.queryByText('mock title field')).not.toBeInTheDocument()
+      })
+    })
+
+    test('verifies props passed in', () => {
+      const { props } = setup({
+        registry: {
+          formContext: {},
+          fields: {
+            TitleField: jest.fn()
+          }
+        }
+
+      })
+      expect(props.registry.fields.TitleField).toBeCalledTimes(1)
+      expect(props.registry.fields.TitleField).toBeCalledWith({
+        className: 'group-class-name',
+        disabled: false,
+        groupBoxClassName: 'group-box-class-name',
+        id: 'unique-id',
+        idSchema: undefined,
+        name: 'The title',
+        onBlur: undefined,
+        onChange: undefined,
+        onFocus: undefined,
+        options: undefined,
+        readonly: false,
+        registry: props.registry,
+        required: false,
+        schema: undefined,
+        title: 'The title'
+      }, {})
     })
   })
 
@@ -49,7 +78,8 @@ describe('GridTitle', () => {
       setup({
         registry: {
           formContext: {},
-          fields: {}
+          fields: {
+          }
         }
       })
 
