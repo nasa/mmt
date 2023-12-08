@@ -1,4 +1,4 @@
-import reducerActions from '../../constants/reducerActions'
+import keywordsActions from '../../constants/keywordsActions'
 import { initialState, keywordsReducer } from '../keywordsReducer'
 
 describe('keywordsReducer', () => {
@@ -8,7 +8,7 @@ describe('keywordsReducer', () => {
         type: 'wrong value'
       }
 
-      expect(() => keywordsReducer(initialState, action)).toThrowError(`Unhandled action type (${action.type}) in keywords reducer`)
+      expect(keywordsReducer(initialState, action)).toEqual(initialState)
     })
   })
 
@@ -22,7 +22,7 @@ describe('keywordsReducer', () => {
       }
 
       const action = {
-        type: reducerActions.ADD_KEYWORDS_DATA,
+        type: keywordsActions.ADD_KEYWORDS_DATA,
         payload: keywords
       }
 
@@ -53,7 +53,7 @@ describe('keywordsReducer', () => {
       }
 
       const action = {
-        type: reducerActions.ADD_KEYWORDS_DATA,
+        type: keywordsActions.ADD_KEYWORDS_DATA,
         payload: keywords
       }
 

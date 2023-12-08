@@ -2,10 +2,11 @@ import { uniqueId } from 'lodash'
 
 import notificationsActions from '../constants/notificationsActions'
 
+export const initialState = []
 /*
  * Create the reducer to manage application wide notifications
  */
-const notificationsReducer = (state, action) => {
+export const notificationsReducer = (state, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -27,13 +28,13 @@ const notificationsReducer = (state, action) => {
       const { id } = payload
 
       return [
-        ...state.map(({ id: notificationId }, i) => (
+        ...state.map(({ id: notificationId }, index) => (
           id === notificationId
             ? {
-              ...state[i],
+              ...state[index],
               show: false
             }
-            : state[i]
+            : state[index]
         ))
       ]
     }
@@ -50,5 +51,3 @@ const notificationsReducer = (state, action) => {
       return state
   }
 }
-
-export default notificationsReducer

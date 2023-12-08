@@ -2,13 +2,16 @@ import React, { useMemo, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
 import notificationsActions from '../../constants/notificationsActions'
-import notificationsReducer from '../../reducers/notificationsReducer'
+import { initialState, notificationsReducer } from '../../reducers/notificationsReducer'
 
 import NotificationsContext from '../../context/NotificationsContext'
 
 const NotificationsContextProvider = ({ children }) => {
-  const [notifications, dispatch] = useReducer(notificationsReducer, [])
+  const [notifications, dispatch] = useReducer(notificationsReducer, initialState)
 
+  /**
+   * Adds a new notification to the notifications reducer
+   */
   const addNotification = ({
     message,
     variant
@@ -22,6 +25,9 @@ const NotificationsContextProvider = ({ children }) => {
     })
   }
 
+  /**
+   * Hides a new notification to the notifications reducer
+   */
   const hideNotification = (id) => {
     dispatch({
       type: notificationsActions.NOTIFICATIONS_HIDE,
@@ -31,6 +37,9 @@ const NotificationsContextProvider = ({ children }) => {
     })
   }
 
+  /**
+   * Removes a new notification to the notifications reducer
+   */
   const removeNotification = (id) => {
     dispatch({
       type: notificationsActions.NOTIFICATION_REMOVE,

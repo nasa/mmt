@@ -1,20 +1,20 @@
 import { useCallback, useReducer } from 'react'
 
 import { initialState, keywordsReducer } from '../reducers/keywordsReducer'
-import reducerActions from '../constants/reducerActions'
+import keywordsActions from '../constants/keywordsActions'
 
 const useKeywords = () => {
   const [keywords, keywordsDispatch] = useReducer(keywordsReducer, initialState)
 
   /**
-   * TODO
+   * Adds keyword data to the keywords reducer
    */
   const addKeywordsData = useCallback(({
     data,
     type
   }) => {
     keywordsDispatch({
-      type: reducerActions.ADD_KEYWORDS_DATA,
+      type: keywordsActions.ADD_KEYWORDS_DATA,
       payload: {
         type,
         data
@@ -22,31 +22,9 @@ const useKeywords = () => {
     })
   }, [])
 
-  /**
-   * TODO remove
-   */
-  const loadingKeywords = useCallback((type) => {
-    keywordsDispatch({
-      type: reducerActions.LOADING_KEYWORDS,
-      payload: type
-    })
-  }, [])
-
-  /**
-   * TODO remove
-   */
-  const loadedKeywords = useCallback((type) => {
-    keywordsDispatch({
-      type: reducerActions.LOADED_KEYWORDS,
-      payload: type
-    })
-  }, [])
-
   return {
     keywords,
-    addKeywordsData,
-    loadingKeywords,
-    loadedKeywords
+    addKeywordsData
   }
 }
 

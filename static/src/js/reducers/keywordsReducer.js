@@ -1,4 +1,4 @@
-import reducerActions from '../constants/reducerActions'
+import keywordsActions from '../constants/keywordsActions'
 
 export const initialState = {}
 
@@ -12,7 +12,7 @@ export const initialState = {}
 
 export const keywordsReducer = (state, action) => {
   switch (action.type) {
-    case reducerActions.ADD_KEYWORDS_DATA: {
+    case keywordsActions.ADD_KEYWORDS_DATA: {
       const { type, data } = action.payload
 
       return {
@@ -24,33 +24,7 @@ export const keywordsReducer = (state, action) => {
       }
     }
 
-    case reducerActions.LOADING_KEYWORDS: {
-      const type = action.payload
-
-      return {
-        ...state,
-        [type]: {
-          ...state[type],
-          isLoading: true,
-          isLoaded: false
-        }
-      }
-    }
-
-    case reducerActions.LOADED_KEYWORDS: {
-      const type = action.payload
-
-      return {
-        ...state,
-        [type]: {
-          ...state[type],
-          isLoading: false,
-          isLoaded: true
-        }
-      }
-    }
-
     default:
-      throw new Error(`Unhandled action type (${action.type}) in keywords reducer`)
+      return state
   }
 }
