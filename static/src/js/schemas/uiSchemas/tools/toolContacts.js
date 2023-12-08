@@ -1,5 +1,5 @@
 import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
-import CustomMultiSelectWidget from '../../../components/CustomMultiSelect/CustomMultiSelectWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget/CustomMultiSelectWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const toolContactsUiSchema = {

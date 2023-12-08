@@ -1,4 +1,4 @@
-import CustomMultiSelectWidget from '../../../components/CustomMultiSelect/CustomMultiSelectWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget/CustomMultiSelectWidget'
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const compatibilityAndUsabilityUiSchema = {
