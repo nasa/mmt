@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useParams } from 'react-router'
-import { useMutation, useQuery } from '@apollo/client'
+import { useNavigate, useParams } from 'react-router'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash'
 import {
@@ -13,6 +13,7 @@ import {
   ToolPreview,
   VariablePreview
 } from '@edsc/metadata-preview'
+import pluralize from 'pluralize'
 
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
@@ -25,6 +26,7 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import formConfigurations from '../../schemas/uiForms'
 
+import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
@@ -34,6 +36,7 @@ import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 
 import useAppContext from '../../hooks/useAppContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import './DraftPreview.scss'
 
@@ -52,23 +55,25 @@ const DraftPreview = () => {
   const { conceptId } = useParams()
   const {
     draft,
-    setDraft
+    savedDraft,
+    setDraft,
+    setOriginalDraft,
+    setSavedDraft
   } = useAppContext()
+
+  const { addNotification } = useNotificationsContext()
+  const navigate = useNavigate()
 
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [error, setError] = useState()
+  const [loading, setLoading] = useState(true)
+  const [retries, setRetries] = useState(0)
 
-  const [deleteDraftMutation, {
-    // TODO how to use this information?
-    // data: deleteData,
-    // loading: deleteLoading,
-    // error: deleteError
-  }] = useMutation(DELETE_DRAFT)
+  const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
 
-  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
-    // If the draft has already been loaded, skip this query
-    skip: draft,
+  const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId,
@@ -77,10 +82,54 @@ const DraftPreview = () => {
     },
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
+      const { revisionId } = fetchedDraft || {}
 
-      setDraft(fetchedDraft)
+      const { revisionId: savedRevisionId } = savedDraft || {}
+
+      if (
+        !fetchedDraft
+        || !fetchedDraft.previewMetadata
+        || (savedRevisionId && revisionId !== savedRevisionId)
+      ) {
+        // If the fetchedDraft doesn't exist, doesn't have previewMetadata or doesn't matched the savedRevisionId (if avaiable),
+        // then call getDraft again
+        setRetries(retries + 1)
+      } else {
+        // The correct version of the draft has been fetched, update the context and set loading to false
+        setDraft(fetchedDraft)
+        setOriginalDraft(fetchedDraft)
+
+        // Clear the savedDraft, we don't need it anymore
+        setSavedDraft()
+
+        setLoading(false)
+      }
+    },
+    onError: (getDraftError) => {
+      setError(getDraftError)
+      setLoading(false)
+
+      // Send the error to the errorLogger
+      errorLogger(getDraftError, 'DraftPreview: getDraft Query')
     }
   })
+
+  useEffect(() => {
+    // Also check that revision id matches the revision saved from the mutation result
+    if (
+      (!draft || !draft.previewMetadata)
+      && retries < 5
+    ) {
+      setLoading(true)
+      getDraft()
+    }
+
+    if (retries >= 5) {
+      setLoading(false)
+      errorLogger('Max retries allowed', 'DraftPreview: getDraft Query')
+      setError('Draft could not be loaded.')
+    }
+  }, [draft, retries])
 
   if (loading) {
     return (
@@ -100,7 +149,7 @@ const DraftPreview = () => {
     )
   }
 
-  if (!draft) {
+  if (!draft && !loading) {
     return (
       <Page>
         <ErrorBanner message="Draft could not be loaded." />
@@ -115,22 +164,44 @@ const DraftPreview = () => {
     previewMetadata,
     providerId,
     ummMetadata
-  } = draft
+  } = draft || {}
 
   // Handle the user selecting delete from the delete draft modal
   const handleDelete = () => {
     deleteDraftMutation({
       variables: {
-        conceptType,
+        conceptType: derivedConceptType,
         nativeId,
         providerId
       },
       onCompleted: () => {
+        // Hide the modal
         setShowDeleteModal(false)
 
-        // TODO navigate back to tool-drafts
+        // Add a success notification
+        addNotification({
+          message: 'Draft deleted successfully',
+          variant: 'success'
+        })
+
+        // Clear the draft context
+        setDraft()
+        setOriginalDraft()
+        setSavedDraft()
+
+        // Navigate to the manage page
+        navigate(`/manage/${pluralize(derivedConceptType).toLowerCase()}`)
       },
-      onError: () => {}
+      onError: (deleteDraftError) => {
+        // Add an error notification
+        addNotification({
+          message: 'Error deleting draft',
+          variant: 'danger'
+        })
+
+        // Send the error to the errorLogger
+        errorLogger(deleteDraftError, 'DraftPreview: deleteDraftMutation')
+      }
     })
   }
 
@@ -196,31 +267,6 @@ const DraftPreview = () => {
   return (
     <Page title={name || '<Blank Name>'}>
       <Container id="metadata-form">
-        <Row>
-          <Col sm={12}>
-            {/* // TODO Error messages */}
-            {/* {
-              editor.status && (
-                <Alert
-                  key={editor.status.type}
-                  variant={editor.status.type}
-                  onClose={() => { editor.status = null }}
-                  dismissible
-                >
-                  {editor.status.message}
-                </Alert>
-              )
-            }
-            {
-              editor.publishErrors && editor.publishErrors.length > 0 && (
-                <Alert key={JSON.stringify(editor.status.message)} variant="warning" onClose={() => { editor.publishErrors = null }} dismissible>
-                  <h5>Error Publishing Draft</h5>
-                  {editor.publishErrors.map((error) => (<div key={error}>{error}</div>))}
-                </Alert>
-              )
-            } */}
-          </Col>
-        </Row>
         <Row>
           <Col md={12}>
             <Button

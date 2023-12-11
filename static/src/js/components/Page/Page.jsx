@@ -151,7 +151,8 @@ const Page = ({
 
 Page.defaultProps = {
   headerActions: [],
-  pageType: 'primary'
+  pageType: 'primary',
+  title: null
 }
 
 Page.propTypes = {
@@ -163,7 +164,7 @@ Page.propTypes = {
     }).isRequired
   ),
   pageType: PropTypes.string,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string
 }
 
 export default Page

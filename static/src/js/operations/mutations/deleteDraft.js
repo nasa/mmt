@@ -14,8 +14,6 @@ export const DELETE_DRAFT = gql`
     ) {
       conceptId
       revisionId
-      warnings
-      existingErrors
     }
   }
 `

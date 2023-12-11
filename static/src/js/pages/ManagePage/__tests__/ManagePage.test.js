@@ -18,84 +18,89 @@ import { GET_TOOL_DRAFTS } from '../../../operations/queries/getToolDrafts'
 import ManagePage from '../ManagePage'
 import AppContext from '../../../context/AppContext'
 
+const setup = (overrideMocks) => {
+  const mocks = [
+    {
+      request: {
+        query: GET_TOOL_DRAFTS,
+        variables: {
+          params: {
+            conceptType: 'Tool',
+            provider: 'TESTPROV',
+            limit: 5,
+            sortKey: ['-revision_date']
+          }
+        }
+      },
+      result: {
+        data: {
+          drafts: {
+            count: 1,
+            items: [
+              {
+                conceptId: 'TD1000000000-TESTPROV',
+                revisionDate: '2023-11-30 00:00:00',
+                previewMetadata: {
+                  __typename: 'Tool',
+                  name: 'Tool Draft 1 Name',
+                  longName: 'Tool Draft 1 Long Name'
+                }
+              },
+              {
+                conceptId: 'TD1000000001-TESTPROV',
+                revisionDate: '2023-11-30 00:00:00',
+                previewMetadata: {
+                  __typename: 'Tool',
+                  name: 'Tool Draft 2 Name',
+                  longName: 'Tool Draft 2 Long Name'
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+
+  render(
+    <AppContext.Provider value={
+      {
+        user: {
+          providerId: 'TESTPROV'
+        },
+        setDraft: jest.fn(),
+        setOriginalDraft: jest.fn()
+      }
+    }
+    >
+      <MemoryRouter initialEntries={['/manage/tools']}>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+          <Routes>
+            <Route
+              path="/manage/:type"
+              element={<ManagePage />}
+            />
+            <Route
+              path="/drafts/tools/new"
+              element={<>New Draft Page</>}
+            />
+            <Route
+              path="/drafts/tools"
+              element={<>View All Tool Drafts Page</>}
+            />
+          </Routes>
+        </MockedProvider>
+      </MemoryRouter>
+    </AppContext.Provider>
+  )
+}
+
 describe('ManagePage component', () => {
   describe('when all metadata is provided', () => {
     beforeEach(() => {
-      render(
-        <AppContext.Provider value={
-          {
-            user: {
-              providerId: 'TESTPROV',
-              token: 'TOKEN'
-            }
-          }
-        }
-        >
-          <MemoryRouter initialEntries={['/manage/tools']}>
-            <MockedProvider
-              mocks={
-                [
-                  {
-                    request: {
-                      query: GET_TOOL_DRAFTS,
-                      variables: {
-                        params: {
-                          conceptType: 'Tool',
-                          provider: 'TESTPROV',
-                          limit: 5,
-                          sortKey: ['-revision_date']
-                        }
-                      }
-                    },
-                    result: {
-                      data: {
-                        drafts: {
-                          count: 1,
-                          items: [
-                            {
-                              conceptId: 'TD1000000000-TESTPROV',
-                              revisionDate: '2023-11-30 00:00:00',
-                              previewMetadata: {
-                                __typename: 'Tool',
-                                name: 'Tool Draft 1 Name',
-                                longName: 'Tool Draft 1 Long Name'
-                              }
-                            },
-                            {
-                              conceptId: 'TD1000000001-TESTPROV',
-                              revisionDate: '2023-11-30 00:00:00',
-                              previewMetadata: {
-                                __typename: 'Tool',
-                                name: 'Tool Draft 2 Name',
-                                longName: 'Tool Draft 2 Long Name'
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            >
-              <Routes>
-                <Route
-                  path="/manage/:type"
-                  element={<ManagePage />}
-                />
-                <Route
-                  path="/drafts/tools/new"
-                  element={<>New Draft Page</>}
-                />
-                <Route
-                  path="/drafts/tools"
-                  element={<>View All Tool Drafts Page</>}
-                />
-              </Routes>
-            </MockedProvider>
-          </MemoryRouter>
-        </AppContext.Provider>
-      )
+      setup()
     })
 
     test('renders the correct heading for the "create" section', async () => {
@@ -172,72 +177,39 @@ describe('ManagePage component', () => {
 
   describe('when a name or long name are missing', () => {
     test('displays a fallback', async () => {
-      render(
-        <AppContext.Provider value={
-          {
-            user: {
-              providerId: 'TESTPROV',
-              token: 'TOKEN'
+      setup([
+        {
+          request: {
+            query: GET_TOOL_DRAFTS,
+            variables: {
+              params: {
+                conceptType: 'Tool',
+                provider: 'TESTPROV',
+                limit: 5,
+                sortKey: ['-revision_date']
+              }
             }
-          }
-        }
-        >
-          <MemoryRouter initialEntries={['/manage/tools']}>
-            <MockedProvider
-              mocks={
-                [
+          },
+          result: {
+            data: {
+              drafts: {
+                count: 1,
+                items: [
                   {
-                    request: {
-                      query: GET_TOOL_DRAFTS,
-                      variables: {
-                        params: {
-                          conceptType: 'Tool',
-                          provider: 'TESTPROV',
-                          limit: 5,
-                          sortKey: ['-revision_date']
-                        }
-                      }
-                    },
-                    result: {
-                      data: {
-                        drafts: {
-                          count: 1,
-                          items: [
-                            {
-                              conceptId: 'TD1000000000-TESTPROV',
-                              revisionDate: '2023-11-30 00:00:00',
-                              previewMetadata: {
-                                __typename: 'Tool',
-                                name: null,
-                                longName: null
-                              }
-                            }
-                          ]
-                        }
-                      }
+                    conceptId: 'TD1000000000-TESTPROV',
+                    revisionDate: '2023-11-30 00:00:00',
+                    previewMetadata: {
+                      __typename: 'Tool',
+                      name: null,
+                      longName: null
                     }
                   }
                 ]
               }
-            >
-              <Routes>
-                <Route
-                  path="/manage/:type"
-                  element={<ManagePage />}
-                />
-                <Route
-                  path="/drafts/tools/new"
-                  element={<>New Draft Page</>}
-                />
-                <Route
-                  path="/drafts/tools"
-                  element={<>View All Tool Drafts Page</>}
-                />
-              </Routes>
-            </MockedProvider>
-          </MemoryRouter>
-        </AppContext.Provider>
-      )
+            }
+          }
+        }
+      ])
 
       await waitForResponse()
 
@@ -252,55 +224,22 @@ describe('ManagePage component', () => {
 
   describe('when the drafts request receives an error', () => {
     test('displays the error state', async () => {
-      render(
-        <AppContext.Provider value={
-          {
-            user: {
-              providerId: 'TESTPROV',
-              token: 'TOKEN'
-            }
-          }
-        }
-        >
-          <MemoryRouter initialEntries={['/manage/tools']}>
-            <MockedProvider
-              mocks={
-                [
-                  {
-                    request: {
-                      query: GET_TOOL_DRAFTS,
-                      variables: {
-                        params: {
-                          conceptType: 'Tool',
-                          provider: 'TESTPROV',
-                          limit: 5,
-                          sortKey: ['-revision_date']
-                        }
-                      }
-                    },
-                    error: new Error('An error occurred')
-                  }
-                ]
+      setup([
+        {
+          request: {
+            query: GET_TOOL_DRAFTS,
+            variables: {
+              params: {
+                conceptType: 'Tool',
+                provider: 'TESTPROV',
+                limit: 5,
+                sortKey: ['-revision_date']
               }
-            >
-              <Routes>
-                <Route
-                  path="/manage/:type"
-                  element={<ManagePage />}
-                />
-                <Route
-                  path="/drafts/tools/new"
-                  element={<>New Draft Page</>}
-                />
-                <Route
-                  path="/drafts/tools"
-                  element={<>View All Tool Drafts Page</>}
-                />
-              </Routes>
-            </MockedProvider>
-          </MemoryRouter>
-        </AppContext.Provider>
-      )
+            }
+          },
+          error: new Error('An error occurred')
+        }
+      ])
 
       await waitForResponse()
 

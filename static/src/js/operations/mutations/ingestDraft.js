@@ -17,9 +17,7 @@ export const INGEST_DRAFT = gql`
       ummVersion: $ummVersion
     ) {
       conceptId
-      # revisionId
-      # warnings
-      # existingErrors
+      revisionId
     }
   }
 `

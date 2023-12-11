@@ -4,20 +4,24 @@ import { useLazyQuery } from '@apollo/client'
 
 import useAppContext from './useAppContext'
 
-import { GET_TOOL_DRAFTS } from '../operations/queries/getToolDrafts'
+import conceptTypeDraftsQueries from '../constants/conceptTypeDraftsQueries'
 
 const useDraftsQuery = ({ draftType, limit }) => {
-  const { user: { token, providerId } } = useAppContext()
+  const {
+    setDraft,
+    setOriginalDraft,
+    user: {
+      providerId
+    }
+  } = useAppContext()
   const [drafts, setDrafts] = useState({})
+  const [error, setError] = useState()
+  const [loading, setLoading] = useState()
 
-  // TODO Eventually will need to support dynamically choosing draft types before making the query
-  const [getDrafts, { loading, error }] = useLazyQuery(GET_TOOL_DRAFTS, {
+  const [getDrafts] = useLazyQuery(conceptTypeDraftsQueries[draftType], {
     // If the draft has already been loaded, skip this query
     skip: !isEmpty(drafts),
     notifyOnNetworkStatusChange: true,
-    headers: {
-      Authorization: token
-    },
     variables: {
       params: {
         limit,
@@ -30,11 +34,32 @@ const useDraftsQuery = ({ draftType, limit }) => {
       const { drafts: fetchedDrafts } = getDraftsData
 
       setDrafts(fetchedDrafts)
+      setLoading(false)
+    },
+    onError: (fetchError) => {
+      const regex = /Concept with concept-id \[.*\] and revision-id \[.*\] does not exist/
+      const matchedError = fetchError?.message?.match(regex)
+
+      // TODO put a max amount of retries in here somewhere
+      if (matchedError) {
+        // Fetch the drafts
+        getDrafts()
+      } else {
+        setError(fetchError)
+        setLoading(false)
+      }
     }
   })
 
   useEffect(() => {
+    setLoading(true)
+
+    // Fetch the drafts
     getDrafts()
+
+    // Clear the draft and original draft to ensure navigating back to a draft page does not have saved data
+    setDraft()
+    setOriginalDraft()
   }, [draftType])
 
   return {

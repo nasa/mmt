@@ -65,8 +65,10 @@ const MetadataForm = () => {
     draft,
     originalDraft,
     setDraft,
-    setOriginalDraft
+    setOriginalDraft,
+    setSavedDraft
   } = useAppContext()
+
   const { providerId } = user
   const { addNotification } = useNotificationsContext()
   let derivedConceptType
@@ -188,8 +190,13 @@ const MetadataForm = () => {
         ummVersion: '1.0.0'
       },
       onCompleted: (mutationData) => {
-        const { ingestDraft: { conceptId: savedConceptId } } = mutationData
+        const { ingestDraft } = mutationData
+        const { conceptId: savedConceptId } = ingestDraft
 
+        // Update the original draft with the newly saved draft
+        setOriginalDraft(draft)
+
+        // Add a success notification
         addNotification({
           message: 'Draft saved successfully',
           variant: 'success'
@@ -198,7 +205,7 @@ const MetadataForm = () => {
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
 
-          if (currentSection) navigate(`../${conceptId}/${currentSection}`, { replace: true })
+          if (currentSection) navigate(`../${savedConceptId}/${currentSection}`, { replace: true })
 
           window.scroll(0, 0)
         }
@@ -210,23 +217,32 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPreview) {
+          // Set savedDraft so the preview page can request the correct version
+          setSavedDraft(ingestDraft)
+
+          // Clear out the draft and originalDraft so that the preview page will refetch the draft
+          setDraft()
+          setOriginalDraft()
+
           // Navigate to preview page
           window.scroll(0, 0)
           navigate(`../${savedConceptId}`)
         }
 
         if (type === saveTypes.saveAndPublish) {
-          // Save and then publish?
+          // Save and then publish
+          // TODO MMT-3411
         }
       },
       onError: (ingestError) => {
+        // Add an error notification
         addNotification({
           message: 'Error saving draft',
           variant: 'danger'
         })
 
+        // Send the error to the errorLogger
         errorLogger(ingestError, 'MetadataForm: ingestDraftMutation')
-        // Populate some errors to be displayed
       }
     })
   }

@@ -18,7 +18,9 @@ const parseError = (error) => {
     ({ message } = networkError)
   }
 
-  return message
+  if (message) return message
+
+  return error
 }
 
 export default parseError

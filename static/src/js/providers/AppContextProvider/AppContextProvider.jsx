@@ -29,6 +29,7 @@ const AppContextProvider = ({ children }) => {
   const keywordsContext = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
+  const [savedDraft, setSavedDraft] = useState()
   const [user, setUser] = useState({})
 
   useEffect(() => {
@@ -44,13 +45,16 @@ const AppContextProvider = ({ children }) => {
     ...keywordsContext,
     draft,
     originalDraft,
+    savedDraft,
     setDraft,
     setOriginalDraft,
+    setSavedDraft,
     user
   }), [
     draft,
     originalDraft,
     keywords,
+    savedDraft,
     user
   ])
 
