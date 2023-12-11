@@ -9,7 +9,6 @@ import CustomMultiSelectWidget from '../CustomMultiSelectWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
-jest.mock('../../../hooks/useControlledKeywords')
 
 const setup = (overrideProps = {}) => {
   const formContext = {
