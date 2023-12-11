@@ -43,7 +43,6 @@ const CustomRadioWidget = ({
   const focusRef = useRef(null)
   const { formContext } = registry
   const [inputValue, setInputValue] = useState(value)
-  const [componentId] = useState('custom-radio-widget')
 
   const {
     focusField
@@ -89,10 +88,12 @@ const CustomRadioWidget = ({
       title={title}
       // TODO update with descriptionPlacement
     >
-      <div className="custom-radio-widget" data-testid={`${componentId}`}>
+      <div
+        className="custom-radio-widget"
+        role="radiogroup"
+      >
         <div
           className="custom-radio-widget-clear-btn"
-          data-testid={`${componentId}--clear-btn`}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...accessibleEventProps}
         >
@@ -103,9 +104,8 @@ const CustomRadioWidget = ({
           type="radio"
           name="true"
           id="trueRadio"
-          checked={inputValue === 'true'}
+          aria-checked={inputValue === 'true' ? 'true' : 'false'}
           onChange={handleChange}
-          data-testid={`${componentId}--value__true`}
         />
         <label htmlFor="trueRadio">True</label>
         <br />
@@ -113,9 +113,8 @@ const CustomRadioWidget = ({
           type="radio"
           name="false"
           id="falseRadio"
-          checked={inputValue === 'false'}
+          aria-checked={inputValue === 'false' ? 'true' : 'false'}
           onChange={handleChange}
-          data-testid={`${componentId}--value__false`}
         />
         <label htmlFor="falseRadio">False</label>
       </div>
