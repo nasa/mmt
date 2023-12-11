@@ -1,15 +1,9 @@
-import React, {
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { useRef, useState } from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
-
-import shouldFocusField from '../../utils/shouldFocusField'
 
 /**
  * CustomMultiSelectWidget
@@ -57,7 +51,6 @@ const CustomMultiSelectWidget = ({
   const { formContext } = registry
 
   const {
-    focusField,
     setFocusField
   } = formContext
 
@@ -65,18 +58,6 @@ const CustomMultiSelectWidget = ({
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
-
-  const shouldFocus = shouldFocusField(focusField, id)
-
-  useEffect(() => {
-    // This useEffect for shouldFocus lets the refs be in place before trying to use them
-    if (shouldFocus) {
-      selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      focusRef.current?.focus()
-
-      setShowMenu(true)
-    }
-  }, [shouldFocus])
 
   // Helper function that will add the list of enums to selectedOption
   const selectOptionList = (enums) => {
