@@ -30,7 +30,7 @@ const StreetAddressField = ({
   formData,
   noLines
 }) => {
-  for (let i = 0; i <= noLines - formData.count; i += 1) {
+  for (let i = 0; i <= noLines - formData.length; i += 1) {
     formData.push('')
   }
 
@@ -46,7 +46,8 @@ const StreetAddressField = ({
 
   const clonedSchema = cloneDeep(schema)
   clonedSchema.description = ''
-  const id = uniqueId()
+  // Prefix with 'f' for 'field' because to be queriable, id should not start with a number.
+  const id = uniqueId('f')
 
   return (
     <div>
@@ -70,8 +71,6 @@ const StreetAddressField = ({
                   id={`${id}_${index}`}
                   disabled={false}
                   onChange={(value) => { handleUpdateAddressLine(value, index) }}
-                  onBlur={() => undefined}
-                  onFocus={() => undefined}
                   registry={registry}
                   uiSchema={uiSchema}
                   placeholder=""
