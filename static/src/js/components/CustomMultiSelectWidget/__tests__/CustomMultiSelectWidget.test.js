@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { render, screen } from '@testing-library/react'
-
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
@@ -60,7 +58,7 @@ beforeEach(() => {
 
 describe('CustomMultiSelectWidget', () => {
   describe('when the field is required', () => {
-    test.only('renders a select element', () => {
+    test('renders a select element', () => {
       const {
         component
       } = setup({
@@ -91,7 +89,7 @@ describe('CustomMultiSelectWidget', () => {
   })
 
   describe('when the field has values', () => {
-    test.only('renders a select element with values', () => {
+    test('renders a select element with values', () => {
       const {
         component
       } = setup({
@@ -110,7 +108,7 @@ describe('CustomMultiSelectWidget', () => {
   })
 
   describe('when user selects a value from the option list', () => {
-    test.only('renders a select element with selected value', async () => {
+    test('renders a select element with selected value', async () => {
       const {
         component,
         user,
