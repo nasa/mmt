@@ -10,6 +10,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.scss'
 import useControlledKeywords from '../../hooks/useControlledKeywords'
 import parseCmrResponse from '../../utils/parseCmrResponse'
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 /**
  * KeywordPicker
@@ -28,16 +29,13 @@ import parseCmrResponse from '../../utils/parseCmrResponse'
 const KeywordPicker = ({
   formData,
   schema,
-  uiSchema = {},
+  uiSchema,
   onChange,
   required
 }) => {
-  const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h3'
-
   const { description } = schema
   const title = uiSchema['ui:title']
   const schemeValues = uiSchema['ui:scheme_values']
-
   const [keywordList, setKeywordList] = useState([])
   const [currentList, setCurrentList] = useState([])
   const [selectedKeywords, setSelectedKeywords] = useState([])
@@ -83,6 +81,7 @@ const KeywordPicker = ({
       }]
 
       let paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
+
       paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
 
       setKeywordList(paths)
@@ -269,14 +268,22 @@ const KeywordPicker = ({
     const fullSelectedPath = getFullSelectedPath(item)
     const isLeafNode = isLeaf(fullSelectedPath)
 
+    const parentAccessibleEventProps = useAccessibleEvent(() => {
+      handleSelectParent(item)
+    })
+
+    const childrenAccessibleEventProps = useAccessibleEvent(() => {
+      handleSelectChildren(item)
+    })
     if (isLeafNode) {
       if (item === finalSelectedValue) {
         return (
         // Renders a child element that is selected
           <span
             className="final-option-selected"
-            key={item}
-            type="button"
+            aria-label={item}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...childrenAccessibleEventProps}
           >
             {' '}
             {item}
@@ -288,11 +295,10 @@ const KeywordPicker = ({
       // Renders a child element that is not selected
         <span
           className="final-option"
-          key={item}
-          onClick={() => handleSelectChildren(item)}
-          onKeyDown={() => handleSelectChildren(item)}
-          role="button"
-          tabIndex="0"
+          aria-label={item}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...childrenAccessibleEventProps}
+
         >
           {item}
         </span>
@@ -303,23 +309,47 @@ const KeywordPicker = ({
       // Renders a parent element
       <span
         className="item.parent"
-        key={item}
-        role="button"
-        tabIndex="0"
-        onClick={() => handleSelectParent(item)}
-        onKeyDown={() => handleSelectParent(item)}
+        aria-label={item}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...parentAccessibleEventProps}
       >
         {item}
       </span>
     )
   }
 
+  const displayPrevious = (item) => {
+    const previousAccessibleEventProps = useAccessibleEvent(() => {
+      handlePrevious(item)
+    })
+
+    return (
+      <li key={item}>
+        <span
+          aria-label={item}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...previousAccessibleEventProps}
+        >
+          {item}
+        </span>
+      </li>
+    )
+  }
+
   return (
     <div className="keyword-picker">
       <div className="mb-3">
-        <span className={headerClassName}>
+        <span>
           {title}
-          {required ? <i className="eui-icon eui-required-o required-icon" /> : ''}
+          {
+            required ? (
+              <i
+                className="eui-icon eui-required-o text-success ps-1"
+                role="img"
+                aria-label="Required"
+              />
+            ) : ''
+          }
         </span>
       </div>
       <div className="mb-2">
@@ -338,7 +368,11 @@ const KeywordPicker = ({
                 variant="link"
                 onClick={() => handleRemove(index)}
               >
-                <i className="fa fa-times-circle remove-button" />
+                <i
+                  className="fa fa-times-circle remove-button text-red ps-1"
+                  role="img"
+                  aria-label="Remove"
+                />
               </Button>
             </li>
           ))
@@ -349,16 +383,7 @@ const KeywordPicker = ({
         <ul className="eui-item-path">
           {
             selectedKeywords.map((item) => (
-              <li key={item}>
-                <span
-                  onClick={() => { handlePrevious(item) }}
-                  onKeyDown={() => { handlePrevious(item) }}
-                  role="button"
-                  tabIndex="0"
-                >
-                  {item}
-                </span>
-              </li>
+              displayPrevious(item)
             ))
           }
         </ul>
@@ -405,7 +430,14 @@ KeywordPicker.propTypes = {
   formData: PropTypes.arrayOf(
     PropTypes.shape({})
   ),
-  uiSchema: PropTypes.shape({}).isRequired,
+  uiSchema: PropTypes.shape({
+    'ui:title': PropTypes.string,
+    'ui:keyword_scheme': PropTypes.string,
+    'ui:picker_title': PropTypes.string,
+    'ui:filter': PropTypes.string,
+    'ui:scheme_values': PropTypes.arrayOf(PropTypes.string),
+    'ui:keyword_scheme_column_names': PropTypes.arrayOf(PropTypes.string)
+  }).isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired
   }).isRequired,
