@@ -21,10 +21,11 @@ import './FormNavigation.scss'
  * @property {Object} formSections A list of form sections.
  * @property {Boolean} loading A boolean value that represent if a page is loading.
  * @property {Object[]} validationErrors An object array with a list of errors.
- * @property {Array} visitedFields An array with a list of visited fields.
  * @property {Function} onCancel A function that cancels unsaved draft.
  * @property {Function} onSave A function that saves the draft.
+ * @property {Object} schema UMM Schema.
  * @property {Function} setFocusField A function that sets the focus field.
+ * @property {Array} visitedFields An array with a list of visited fields.
  */
 
 /**
@@ -35,11 +36,11 @@ const FormNavigation = ({
   draft,
   formSections,
   loading,
-  visitedFields,
   onCancel,
   onSave,
   schema,
-  setFocusField
+  setFocusField,
+  visitedFields
 }) => {
   const { errors } = validator.validateFormData(draft, schema)
 

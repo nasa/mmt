@@ -118,13 +118,13 @@ const setup = ({
       mocks={overrideMocks || mocks}
     >
       <Providers>
-        <MemoryRouter initialEntries={['/drafts/tools/TD1000000-MMT/mock-section-name']}>
+        <MemoryRouter initialEntries={['/drafts/tools/TD1000000-MMT']}>
           <Routes>
             <Route
               path="/drafts/tools"
             >
               <Route
-                path=":conceptId/:sectionName"
+                path=":conceptId"
                 element={<DraftPreview />}
               />
             </Route>

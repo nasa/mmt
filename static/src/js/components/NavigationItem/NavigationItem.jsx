@@ -133,7 +133,7 @@ const NavigationItem = ({
         onClick={
           () => {
             // Navigate to the correct form
-            navigate(`../${conceptId}/${toLowerKebabCase(displayName)}`)
+            navigate(`../${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
 
             // Ensure the window is scrolled to the top of the page
             window.scroll(0, 0)

@@ -52,6 +52,7 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './MetadataForm.scss'
 
+
 const MetadataForm = () => {
   const {
     conceptId = 'new',
@@ -80,7 +81,10 @@ const MetadataForm = () => {
   }
 
   useEffect(() => {
-    if (conceptId === 'new') setDraft({})
+    if (conceptId === 'new') {
+      setDraft({})
+      setOriginalDraft({})
+    }
   }, [conceptId])
 
   const [visitedFields, setVisitedFields] = useState([])
@@ -91,7 +95,7 @@ const MetadataForm = () => {
     setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-    if (sectionName) navigate(`../${conceptId}/${sectionName}`, { replace: true })
+    if (fieldName && sectionName) navigate(`../${conceptId}/${sectionName}`, { replace: true })
   }, [fieldName])
 
   const [ingestDraftMutation, {
@@ -154,26 +158,26 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    layout: GridLayout,
-    streetAddresses: StreetAddressField,
+    // AnyOfField: () => null,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
-    TitleField: CustomTitleField
+    layout: GridLayout,
     // OneOfField,
-    // AnyOfField: () => null
+    streetAddresses: StreetAddressField,
+    TitleField: CustomTitleField
   }
   const widgets = {
-    TextWidget: CustomTextWidget,
-    TextareaWidget: CustomTextareaWidget,
-    SelectWidget: CustomSelectWidget,
-    DateTimeWidget: CustomDateTimeWidget,
+    CheckboxWidget: CustomRadioWidget,
     CountrySelectWiget: CustomCountrySelectWidget,
+    DateTimeWidget: CustomDateTimeWidget,
     RadioWidget: CustomRadioWidget,
-    CheckboxWidget: CustomRadioWidget
+    SelectWidget: CustomSelectWidget,
+    TextareaWidget: CustomTextareaWidget,
+    TextWidget: CustomTextWidget
   }
   const templates = {
-    // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     ArrayFieldTemplate: CustomArrayTemplate,
+    // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     FieldTemplate: CustomFieldTemplate,
     TitleFieldTemplate: CustomTitleFieldTemplate
   }
@@ -214,6 +218,8 @@ const MetadataForm = () => {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
           navigate(`../${savedConceptId}/${toLowerKebabCase(nextFormName)}`)
+
+          window.scroll(0, 0)
         }
 
         if (type === saveTypes.saveAndPreview) {
@@ -276,25 +282,25 @@ const MetadataForm = () => {
 
   return (
     <Page title={pageTitle} pageType="secondary">
-      <Container id="metadata-form__container">
+      <Container data-testid="metadata-form__container">
         <Row className="sidebar_column">
           <Col sm={8}>
             <Form
-              validator={validator}
-              schema={formSchema}
-              formData={ummMetadata}
-              uiSchema={uiSchema}
               fields={fields}
-              templates={templates}
               formContext={
                 {
                   focusField,
                   setFocusField
                 }
               }
-              widgets={widgets}
-              onChange={handleChange}
+              formData={ummMetadata}
               onBlur={handleBlur}
+              onChange={handleChange}
+              schema={formSchema}
+              templates={templates}
+              uiSchema={uiSchema}
+              validator={validator}
+              widgets={widgets}
             />
           </Col>
 
@@ -302,14 +308,13 @@ const MetadataForm = () => {
             <div className="metadata-form__navigation sticky-top">
               <FormNavigation
                 draft={ummMetadata}
-                fullSchema={schema}
                 formSections={formSections}
                 loading={ingestDraftLoading}
-                visitedFields={visitedFields}
-                onSave={handleSave}
                 onCancel={handleCancel}
+                onSave={handleSave}
                 schema={schema}
                 setFocusField={setFocusField}
+                visitedFields={visitedFields}
               />
             </div>
           </Col>
