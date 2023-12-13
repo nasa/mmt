@@ -23,8 +23,8 @@ const useKeywords = () => {
   }, [])
 
   return {
-    keywords,
-    addKeywordsData
+    addKeywordsData,
+    keywords
   }
 }
 

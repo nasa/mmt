@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import '@testing-library/jest-dom'
 
 import { GET_TOOL_DRAFTS } from '../../operations/queries/getToolDrafts'
 
