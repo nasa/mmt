@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { cloneDeep } from 'lodash'
 import PropTypes from 'prop-types'
+
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import convertToDottedNotation from '../../utils/convertToDottedNotation'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+
 import createPath from '../../utils/createPath'
+import convertToDottedNotation from '../../utils/convertToDottedNotation'
 import getParentFormData from '../../utils/getParentFormData'
 import clearFormData from '../../utils/clearFormData'
 import getKeywords from '../../utils/getKeywords'
+
 import useAppContext from '../../hooks/useAppContext'
 import useControlledKeywords from '../../hooks/useControlledKeywords'
 
@@ -18,15 +21,15 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
  * the select box, it will auto populate the next select box based on the field
  * selected.
  * @typedef {Object} GridControlledField
- * @property {Object} schema A UMM Schema for the widget being previewed.
- * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {String} controlName is the CMR field name
  * @property {Object} formData contains the JSON data for parent form of the field
  * @property {Object} idSchema A idSchema for the field being shown.
- * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} mapping is the mapping from JSON to CMR field names
- * @property {Function} onSelectValue A callback function triggered when the user selects a value
  * @property {String} name is the JSON field name
- * @property {String} controlName is the CMR field name
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Function} onSelectValue A callback function triggered when the user selects a value
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
  * @property {Object} uiSchema A uiSchema for the field being shown.
  */
 
@@ -35,15 +38,15 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
  * @param {GridControlledField} props
  */
 const GridControlledField = ({
-  schema,
-  registry,
+  controlName,
   formData,
   idSchema,
+  mapping,
+  name,
   onChange,
   onSelectValue,
-  name,
-  controlName,
-  mapping,
+  registry,
+  schema,
   uiSchema
 }) => {
   const {
@@ -59,7 +62,6 @@ const GridControlledField = ({
     name: keywordType
   } = mapping
 
-  // TODO saving the values is working correctly, but displaying them is failing. I think it has something to do with the keywords being recalulated in this step after the context changes
   const {
     keywords,
     isLoading
@@ -122,6 +124,7 @@ const GridControlledField = ({
    *
    */
   const { map } = mapping
+  // TODO MMT-3416, this feature is only used in Variables, be sure to add tests to cover this functionality
   const { includeParentFormData = false } = mapping
   if (includeParentFormData) {
     const path = createPath(convertToDottedNotation(idSchema.$id))
@@ -164,13 +167,27 @@ const GridControlledField = ({
   const widget = uiSchema['ui:widget']
 
   if (widget === CustomTextWidget) {
-    const id = idSchema[name].$id
-    idSchema[name].$id = id.replace('root', parentName)
+    const updatedIdSchema = idSchema
+
+    const id = updatedIdSchema[name].$id
+    updatedIdSchema[name].$id = id.replace('root', parentName)
 
     if (enums.length === 1) {
       const [first] = enums
-      formData[name] = first
-      value = formData[name]
+      value = first
+
+      if (value !== formData[name]) {
+        let updatedFormData = cloneDeep(formData)
+        updatedFormData[name] = value
+        updatedFormData = clearFormData(mapping, updatedFormData, controlName)
+
+        // Calling this onChange outside of the setTimeout results in an error:
+        // Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
+        // I'm not sure how else to achieve the update without it though
+        setTimeout(() => {
+          onChange(updatedFormData, null)
+        })
+      }
     }
 
     const placeholder = uiSchema['ui:place-holder']
@@ -178,20 +195,19 @@ const GridControlledField = ({
     return (
       <div className="form-group field field-string">
         <CustomTextWidget
-          id={idSchema[name].$id}
-          name={name}
           disabled
-          required={isRequired(name)}
+          id={updatedIdSchema[name].$id}
           label={title}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-          schema={retrievedSchema.properties[name]}
+          name={name}
           onBlur={undefined}
+          onChange={onChange}
           onFocus={undefined}
+          placeholder={placeholder}
           registry={registry}
-          options={undefined}
+          required={isRequired(name)}
+          schema={retrievedSchema.properties[name]}
           uiSchema={uiSchema}
+          value={value}
         />
       </div>
     )
@@ -211,33 +227,31 @@ const GridControlledField = ({
   return (
     <div className="form-group field field-string">
       <CustomSelectWidget
-        name={name}
-        required={isRequired(name)}
+        disabled={enumsLength === 0}
+        id={idSchema[name].$id}
+        isLoading={isLoading}
         label={title}
-        schema={retrievedSchema.properties[name]}
-        registry={registry}
-        value={formData[name]}
+        name={name}
+        onBlur={() => null}
         onChange={
           (selectValue) => {
-            let data = cloneDeep(formData)
-            data[name] = selectValue
-            data = clearFormData(mapping, data, controlName)
-            onChange(data, null)
+            let updatedFormData = cloneDeep(formData)
+            updatedFormData[name] = selectValue
+            updatedFormData = clearFormData(mapping, updatedFormData, controlName)
+            onChange(updatedFormData, null)
 
             if (onSelectValue) {
               onSelectValue(name, selectValue)
             }
           }
         }
-        isLoading={isLoading}
         placeholder={placeholder}
-        onBlur={() => null}
-        onFocus={() => null}
-        options={undefined}
-        disabled={enumsLength === 0}
-        id={idSchema[name].$id}
+        registry={registry}
+        required={isRequired(name)}
+        schema={retrievedSchema.properties[name]}
         selectOptions={enums}
         uiSchema={uiSchema}
+        value={formData[name]}
       />
     </div>
   )
