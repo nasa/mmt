@@ -60,7 +60,7 @@ const GridLayout = (props) => {
 
   if (controlName) {
     const fieldName = layout
-    const fieldUiSchema = uiSchema[fieldName] ?? {}
+    const fieldUiSchema = uiSchema[fieldName]
 
     return (
       <GridControlledField
@@ -134,7 +134,7 @@ GridLayout.propTypes = {
   }).isRequired,
   uiSchema: PropTypes.shape({
     'ui:layout_grid': PropTypes.shape({}),
-    'ui:onHandleChange': PropTypes.shape({}),
+    'ui:onHandleChange': PropTypes.func,
     'ui:controlled': PropTypes.shape({})
   }).isRequired
 }

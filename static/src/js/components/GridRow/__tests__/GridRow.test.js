@@ -112,7 +112,7 @@ const setup = (overrideProps = {}) => {
 }
 
 describe('GridRow', () => {
-  describe('when row data in the layout', () => {
+  describe('when row data is in the layout', () => {
     test('renders the row', () => {
       const { props } = setup({})
       expect(GridLayout).toHaveBeenCalledTimes(1)
