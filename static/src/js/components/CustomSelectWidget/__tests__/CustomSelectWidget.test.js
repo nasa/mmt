@@ -4,25 +4,20 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-// Import Select from 'react-select'
 
 import CustomSelectWidget from '../CustomSelectWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 import useControlledKeywords from '../../../hooks/useControlledKeywords'
+import parseCmrResponse from '../../../utils/parseCmrResponse'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
 jest.mock('../../../hooks/useControlledKeywords')
-// Jest.mock('react-select', () => jest.fn(({ children }) => (
-//   <mock-Component data-testid="react-select">
-//     {children}
-//   </mock-Component>
-// )))
+jest.mock('../../../utils/parseCmrResponse')
 
-const setup = (overrideProps = {}) => {
+const setup = (overrideProps = {}, mockControlledKeywords = true) => {
   useControlledKeywords.mockReturnValue({
-    keywords: [
+    keywords: mockControlledKeywords && [
       {
         value: 'application/gml+xml',
         label: 'application/gml+xml'
@@ -34,142 +29,16 @@ const setup = (overrideProps = {}) => {
       {
         value: 'application/json',
         label: 'application/json'
-      },
-      {
-        value: 'application/msword',
-        label: 'application/msword'
-      },
-      {
-        value: 'application/octet-stream',
-        label: 'application/octet-stream'
-      },
-      {
-        value: 'application/opensearchdescription+xml',
-        label: 'application/opensearchdescription+xml'
-      },
-      {
-        value: 'application/pdf',
-        label: 'application/pdf'
-      },
-      {
-        value: 'application/tar',
-        label: 'application/tar'
-      },
-      {
-        value: 'application/tar+gzip',
-        label: 'application/tar+gzip'
-      },
-      {
-        value: 'application/tar+zip',
-        label: 'application/tar+zip'
-      },
-      {
-        value: 'application/vnd.google-earth.kml+xml',
-        label: 'application/vnd.google-earth.kml+xml'
-      },
-      {
-        value: 'application/vnd.google-earth.kmz',
-        label: 'application/vnd.google-earth.kmz'
-      },
-      {
-        value: 'application/vnd.ms-excel',
-        label: 'application/vnd.ms-excel'
-      },
-      {
-        value: 'application/vnd.opendap.dap4.dmrpp+xml',
-        label: 'application/vnd.opendap.dap4.dmrpp+xml'
-      },
-      {
-        value: 'application/x-bufr',
-        label: 'application/x-bufr'
-      },
-      {
-        value: 'application/x-hdf',
-        label: 'application/x-hdf'
-      },
-      {
-        value: 'application/x-hdf5',
-        label: 'application/x-hdf5'
-      },
-      {
-        value: 'application/x-hdfeos',
-        label: 'application/x-hdfeos'
-      },
-      {
-        value: 'application/x-netcdf',
-        label: 'application/x-netcdf'
-      },
-      {
-        value: 'application/x-tar-gz',
-        label: 'application/x-tar-gz'
-      },
-      {
-        value: 'application/x-vnd.iso.19139-2+xml',
-        label: 'application/x-vnd.iso.19139-2+xml'
-      },
-      {
-        value: 'application/xml',
-        label: 'application/xml'
-      },
-      {
-        value: 'application/zip',
-        label: 'application/zip'
-      },
-      {
-        value: 'image/bmp',
-        label: 'image/bmp'
-      },
-      {
-        value: 'image/gif',
-        label: 'image/gif'
-      },
-      {
-        value: 'image/jpeg',
-        label: 'image/jpeg'
-      },
-      {
-        value: 'image/png',
-        label: 'image/png'
-      },
-      {
-        value: 'image/tiff',
-        label: 'image/tiff'
-      },
-      {
-        value: 'image/vnd.collada+xml',
-        label: 'image/vnd.collada+xml'
-      },
-      {
-        value: 'text/css',
-        label: 'text/css'
-      },
-      {
-        value: 'text/csv',
-        label: 'text/csv'
-      },
-      {
-        value: 'text/html',
-        label: 'text/html'
-      },
-      {
-        value: 'text/javascript',
-        label: 'text/javascript'
-      },
-      {
-        value: 'text/markdown',
-        label: 'text/markdown'
-      },
-      {
-        value: 'text/plain',
-        label: 'text/plain'
-      },
-      {
-        value: 'text/xml',
-        label: 'text/xml'
       }
     ],
     isLoading: false
   })
+
+  parseCmrResponse.mockReturnValue([
+    ['application/gml+xml'],
+    ['application/gzip'],
+    ['application/json']
+  ])
 
   const formContext = {
     focusField: '',
@@ -193,15 +62,14 @@ const setup = (overrideProps = {}) => {
     schema: {
       description: 'Test Description'
     },
+    selectOptions: undefined,
     uiSchema: {},
     value: undefined,
     ...overrideProps
   }
 
   render(
-    <BrowserRouter>
-      <CustomSelectWidget {...props} />
-    </BrowserRouter>
+    <CustomSelectWidget {...props} />
   )
 
   return {
@@ -217,26 +85,135 @@ beforeEach(() => {
 })
 
 describe('CustomSelectWidget', () => {
-  describe('when the field is required', () => {
-    test.only('renders a select element', async () => {
+  describe('when the field is given schema enums for options', () => {
+    test('renders a select element', async () => {
       const { user } = setup({
+        schema: {
+          description: 'Test Description',
+          enum: [
+            'Schema Enum 1',
+            'Schema Enum 2'
+          ]
+        }
+      }, false)
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'Schema Enum 1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Schema Enum 2' })).toBeInTheDocument()
+
+      // First call is loading the page
+      // Second call is setting the options
+      // Third call is clicking the select
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: null,
+        headerClassName: null,
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when the field is given selectOptions props', () => {
+    test('renders a select element', async () => {
+      const { user } = setup({
+        selectOptions: [
+          'Select Options Enum 1',
+          'Select Options Enum 2'
+        ]
+      }, false)
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'Select Options Enum 1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Select Options Enum 2' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: null,
+        headerClassName: null,
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when the field is given ui:options', () => {
+    test('renders a select element', async () => {
+      const { user } = setup({
+        uiSchema: {
+          'ui:options': {
+            enumOptions: [
+              'UI Schema Options Enum 1',
+              'UI Schema Options Enum 2'
+            ]
+          }
+        }
+      }, false)
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'UI Schema Options Enum 1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'UI Schema Options Enum 2' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: null,
+        headerClassName: null,
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when the field uses controlled keywords', () => {
+    test('renders a select element', async () => {
+      const { user } = setup()
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'application/gml+xml' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'application/gzip' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'application/json' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: null,
+        headerClassName: null,
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when the field is required', () => {
+    test('renders a select element', async () => {
+      setup({
         required: true
       })
 
-      const field = screen.getByRole('combobox')
-      screen.debug()
-      await user.click(field)
-
-      expect(field).toHaveAttribute('id', 'react-select-2-input')
-      // Expect(field).toHaveAttribute('name', 'Test Field')
-      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      expect(field).toHaveAttribute('options', 'text')
-      // Expect(field).toHaveAttribute('value', '')
-
-      // expect(Select).toHaveBeenCalledTimes(2)
-      // expect(Select).toHaveBeenCalledWith()
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: null,
         headerClassName: null,
@@ -251,27 +228,10 @@ describe('CustomSelectWidget', () => {
   describe('when the field has a value', () => {
     test('renders a select element', () => {
       setup({
-        value: 'Test Value'
+        value: 'application/json'
       })
 
-      const field = screen.getByRole('textbox')
-
-      expect(field).toHaveAttribute('id', 'mock-id')
-      expect(field).toHaveAttribute('name', 'Test Field')
-      expect(field).toHaveAttribute('placeholder', 'Test Placeholder')
-      expect(field).toHaveAttribute('type', 'text')
-      expect(field).toHaveAttribute('value', 'Test Value')
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 10,
-        description: null,
-        headerClassName: null,
-        label: 'Test Field',
-        maxLength: null,
-        required: false,
-        title: 'Test Field'
-      }), {})
+      expect(screen.getByText('application/json').className).toContain('singleValue')
     })
   })
 
@@ -279,7 +239,7 @@ describe('CustomSelectWidget', () => {
     test('shows the field description', async () => {
       setup()
 
-      const field = screen.getByRole('textbox')
+      const field = screen.getByRole('combobox')
 
       await waitFor(async () => {
         field.focus()
@@ -297,7 +257,7 @@ describe('CustomSelectWidget', () => {
     test('clears the focusField and calls onBlur', async () => {
       const { props } = setup()
 
-      const field = screen.getByRole('textbox')
+      const field = screen.getByRole('combobox')
 
       await waitFor(async () => {
         field.focus()
@@ -317,38 +277,17 @@ describe('CustomSelectWidget', () => {
   })
 
   describe('when the field is changed', () => {
-    test('updates the charsUsed and calls onChange', async () => {
+    test('calls onChange', async () => {
       const { props, user } = setup()
 
-      const field = screen.getByRole('textbox')
+      const field = screen.getByRole('combobox')
+      await user.click(field)
 
-      await user.type(field, 'New Value')
-
-      expect(props.onChange).toHaveBeenCalledTimes(9)
-      expect(props.onChange).toHaveBeenCalledWith('New Value')
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 9
-      }), {})
-    })
-  })
-
-  describe('when the field is cleared', () => {
-    test('removes the value and sets charsUsed to 0', async () => {
-      const { props, user } = setup({
-        value: 'Test Value'
-      })
-
-      const field = screen.getByRole('textbox')
-
-      await user.clear(field)
+      const option = screen.getByRole('option', { name: 'application/json' })
+      await user.click(option)
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
-      expect(props.onChange).toHaveBeenCalledWith(undefined)
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0
-      }), {})
+      expect(props.onChange).toHaveBeenCalledWith('application/json')
     })
   })
 
@@ -358,11 +297,14 @@ describe('CustomSelectWidget', () => {
         registry: {
           formContext: {
             focusField: 'mock-id'
+          },
+          schemaUtils: {
+            retrieveSchema: jest.fn().mockReturnValue({})
           }
         }
       })
 
-      const field = screen.getByRole('textbox')
+      const field = screen.getByRole('combobox')
 
       expect(field).toHaveFocus()
     })
@@ -371,14 +313,16 @@ describe('CustomSelectWidget', () => {
   describe('when the field has a schema title', () => {
     test('uses the schema title', () => {
       setup({
+        placeholder: undefined,
         uiSchema: {
           'ui:title': 'Schema Title'
         }
       })
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(screen.getByText('Select Schema Title').className).toContain('placeholder')
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: null,
         headerClassName: null,
         label: 'Test Field',

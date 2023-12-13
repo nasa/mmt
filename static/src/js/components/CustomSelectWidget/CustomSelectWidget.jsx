@@ -42,18 +42,17 @@ const CustomSelectWidget = ({
   placeholder,
   registry,
   required,
-  selectOptions: propsSelectOptions,
   schema,
+  selectOptions: propsSelectOptions,
   uiSchema,
   value
 }) => {
   const { items = {} } = schema
   const { schemaUtils } = registry
-  // ?? What is this doing?
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
   const [showDescription, setShowDescription] = useState(false)
-  const [selectOptions, setSelectOptions] = useState()
+  const [selectOptions, setSelectOptions] = useState([])
 
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -65,7 +64,10 @@ const CustomSelectWidget = ({
     isLoading
   } = useControlledKeywords(keywordType)
 
-  const { enum: schemaEnums = retrievedSchema?.enum ?? [], description } = schema
+  const {
+    enum: schemaEnums = retrievedSchema?.enum ?? [],
+    description
+  } = schema
   const { formContext } = registry
 
   const {
@@ -115,7 +117,7 @@ const CustomSelectWidget = ({
 
     // TODO test this example
     if (enumOptions) {
-      const options = schemaEnums.map((enumValue) => ({
+      const options = enumOptions.map((enumValue) => ({
         value: enumValue,
         label: enumValue
       }))
@@ -165,15 +167,14 @@ const CustomSelectWidget = ({
 
   return (
     <CustomWidgetWrapper
-      label={label}
-      scrollRef={selectScrollRef}
-      required={required}
-      title={title}
       description={showDescription ? description : null}
       descriptionPlacement="top"
+      label={label}
+      required={required}
+      scrollRef={selectScrollRef}
+      title={title}
     >
       <Select
-        defaultValue={existingValue}
         id={id}
         isClearable
         isDisabled={disabled}
@@ -181,10 +182,10 @@ const CustomSelectWidget = ({
         onBlur={handleBlur}
         onChange={handleChange}
         onFocus={handleFocus}
+        openMenuOnClick
+        openMenuOnFocus
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
-        openMenuOnFocus
-        openMenuOnClick
         ref={focusRef}
         value={existingValue}
       />

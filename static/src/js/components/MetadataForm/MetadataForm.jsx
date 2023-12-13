@@ -52,7 +52,6 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './MetadataForm.scss'
 
-
 const MetadataForm = () => {
   const {
     conceptId = 'new',

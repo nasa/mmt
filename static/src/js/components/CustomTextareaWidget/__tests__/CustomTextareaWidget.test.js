@@ -139,24 +139,6 @@ describe('CustomTextareaWidget', () => {
     })
   })
 
-  describe.skip('when the field is cleared', () => {
-    test('removes the value and sets charsUsed to 0', async () => {
-      const { props, user } = setup({
-        value: 'Test Value'
-      })
-
-      const field = screen.getByRole('textbox')
-
-      await user.clear(field)
-
-      expect(props.onChange).toHaveBeenCalledWith(undefined)
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0
-      }), {})
-    })
-  })
-
   describe('when the field has a custom title', () => {
     test('uses the schema title', () => {
       setup({

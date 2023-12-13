@@ -46,7 +46,6 @@ import JsonPreview from '../../JsonPreview/JsonPreview'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 jest.mock('@rjsf/core', () => jest.fn(({
-  children,
   onChange,
   onBlur,
   formData
@@ -71,7 +70,6 @@ jest.mock('@rjsf/core', () => jest.fn(({
       onBlur={() => onBlur('mock-name')}
       value={formData.Name || ''}
     />
-    {children}
   </mock-Component>
 )))
 
