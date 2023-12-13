@@ -61,11 +61,6 @@ class GridField extends ObjectField {
       render = layout.render
     }
 
-    const pos = layoutName.lastIndexOf('-')
-    if (pos > -1) {
-      layoutName = layoutName.substring(0, pos)
-    }
-
     // Populate the child Ids used for autofocus.
     if (idSchema[layoutName]) {
       const childIdSchema = idSchema[layoutName]
@@ -79,12 +74,6 @@ class GridField extends ObjectField {
       })
     }
 
-    // CG: Don't think is necessary 10/17/23
-    // else {
-    //   console.log('using this for ', idSchema)
-    //   idSchema.$id = name
-    // }
-
     const { properties = {} } = retrievedSchema // OneOf causes properties to return null
 
     if (properties[layoutName] && !render) {
@@ -97,7 +86,7 @@ class GridField extends ObjectField {
             uiSchema={uiSchema[layoutName]}
             errorSchema={errorSchema[layoutName]}
             idSchema={idSchema[layoutName]}
-            formData={(formData || {})[layoutName]}
+            formData={(formData)[layoutName]}
             onChange={this.onPropertyChange(layoutName)}
             onBlur={onBlur}
             onFocus={onFocus}
@@ -110,23 +99,27 @@ class GridField extends ObjectField {
       )
     }
 
+    //
+    // CG: Commented out, will revisit with tests if needed
+    // otherwise will remove
+    //
     // Handle auto scroll based on focus field.
 
-    const { formContext } = registry
-    const {
-      focusField
-    } = formContext
-    let shouldFocus = false
-    if (idSchema.$id === focusField) {
-      shouldFocus = true
-    }
+    // const { formContext } = registry
+    // const {
+    //   focusField
+    // } = formContext
+    // let shouldFocus = false
+    // if (idSchema.$id === focusField) {
+    //   shouldFocus = true
+    // }
 
-    useEffect(() => {
-    // This useEffect for shouldFocus lets the refs be in place before trying to use them
-      if (shouldFocus) {
-        this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      }
-    }, [shouldFocus])
+    // useEffect(() => {
+    // // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    //   if (shouldFocus) {
+    //     this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    //   }
+    // }, [shouldFocus])
 
     // Used for inline render's in the UI layotu file.
     //     'ui:row': [
@@ -157,13 +150,12 @@ class GridField extends ObjectField {
       )
     }
 
-    return (
-      <span data-testid={`layout-grid-field__schema-field--${kebabCase(layoutName)}__NOT-FOUND`} />
-    )
+    return null
   }
 }
 
 GridField.defaultProps = {
+  formData: {},
   onChange: null,
   onBlur: null,
   onFocus: null,
@@ -173,7 +165,7 @@ GridField.defaultProps = {
 
 GridField.propTypes = {
   errorSchema: PropTypes.shape({}).isRequired,
-  formData: PropTypes.shape({}).isRequired,
+  formData: PropTypes.shape({}),
   idSchema: PropTypes.shape({
     $id: PropTypes.string
   }).isRequired,
