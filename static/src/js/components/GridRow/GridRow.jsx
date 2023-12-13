@@ -65,7 +65,7 @@ const GridRow = (
   }
 
   if (group) {
-    const { description = '' } = schema
+    const { description } = schema
     const title = group
     const groupSinglePanel = layout['ui:group-single-panel']
     const { fields, formContext } = registry
@@ -98,7 +98,7 @@ const GridRow = (
             />
           </span>
           {
-            groupDescription && (
+            (groupDescription && description) && (
               <div className="layout-grid-field__description-box">
                 {description}
               </div>
@@ -107,7 +107,7 @@ const GridRow = (
 
           {
             groupSinglePanel
-              ? (<GridGroupedSinglePanel layoutGridSchema={uiSchema} />)
+              ? (<GridGroupedSinglePanel {...props} />)
               : (
                 <div className="row">
                   {renderChildren()}
