@@ -68,18 +68,18 @@ const CustomDateTimeWidget = ({
 
   const shouldFocus = shouldFocusField(focusField, id)
 
-  useEffect(() => {
-    // This useEffect for shouldFocus lets the refs be in place before trying to use them
-    if (shouldFocus) {
-      datetimeScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      setShowCalender(true)
-    }
-  }, [shouldFocus])
-
   const handleFocus = () => {
     setShowDescription(true)
     setShowCalender(true)
   }
+
+  useEffect(() => {
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    if (shouldFocus) {
+      datetimeScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      handleFocus()
+    }
+  }, [shouldFocus])
 
   const handleChange = (event) => {
     // If a date is selected, this will convert the date to ISO string and set the onChange
@@ -88,8 +88,6 @@ const CustomDateTimeWidget = ({
       let formattedDateTime = event.toISOString()
       formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
       onChange(formattedDateTime)
-    } else {
-      onChange(null)
     }
   }
 
@@ -104,7 +102,6 @@ const CustomDateTimeWidget = ({
   return (
     <CustomWidgetWrapper
       description={showDescription ? description : null}
-      descriptionPlacement="top"
       label={label}
       required={required}
       title={title}
