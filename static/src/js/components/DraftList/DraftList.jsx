@@ -43,6 +43,11 @@ const DraftList = ({ draftType }) => {
         conceptType: draftType
       }
     },
+    onError: (downloadError) => {
+      // Todo: Present error to user.
+      console.log('Error downloading JSON ', downloadError)
+      setDownloadDraftConceptId(null)
+    },
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
       const { ummMetadata } = fetchedDraft
@@ -199,14 +204,7 @@ const DraftList = ({ draftType }) => {
                                           setDownloadDraftConceptId(conceptId)
                                         }
                                       }
-                                      Icon={
-                                        // eslint-disable-next-line react/no-unstable-nested-components
-                                        () => (
-                                          <FaFileDownload
-                                            className="d-flex align-items-center justify-content-center me-2"
-                                          />
-                                        )
-                                      }
+                                      Icon={FaFileDownload}
                                     >
                                       JSON
                                     </Button>
