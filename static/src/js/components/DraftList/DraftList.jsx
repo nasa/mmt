@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import pluralize from 'pluralize'
 import { capitalize } from 'lodash'
@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table'
 import Placeholder from 'react-bootstrap/Placeholder'
 import PlaceholderButton from 'react-bootstrap/PlaceholderButton'
 
+import { useQuery } from '@apollo/client'
 import useAppContext from '../../hooks/useAppContext'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
 import parseError from '../../utils/parseError'
@@ -18,6 +19,9 @@ import Page from '../Page/Page'
 import For from '../For/For'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import draftConceptTypes from '../../constants/draftConceptTypes'
+import constructDownloadableFile from '../../utils/constructDownloadableFile'
+import Button from '../Button/Button'
+import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 
 // TODO Needs tests
 
@@ -25,9 +29,29 @@ const DraftList = ({ draftType }) => {
   const currentDraftType = draftConceptTypes[draftConceptTypes[capitalize(draftType)]]
 
   const { user: { providerId } } = useAppContext()
+  const { draftType: paramDraftType } = useParams()
 
   const { drafts, error, loading } = useDraftsQuery({ draftType })
   const { count, items = [] } = drafts
+
+  const [downloadDraftConceptId, setDownloadDraftConceptId] = useState(null)
+
+  useQuery(conceptTypeDraftQueries.Tool, {
+    variables: {
+      params: {
+        conceptId: downloadDraftConceptId, // DownloadDraftConceptId,
+        conceptType: draftType
+      }
+    },
+    onCompleted: (getDraftData) => {
+      const { draft: fetchedDraft } = getDraftData
+      const { ummMetadata } = fetchedDraft
+      const contents = JSON.stringify(ummMetadata, null, 2)
+      constructDownloadableFile(contents, downloadDraftConceptId)
+      setDownloadDraftConceptId(null)
+    },
+    skip: downloadDraftConceptId == null
+  })
 
   return (
     <Page
@@ -145,16 +169,47 @@ const DraftList = ({ draftType }) => {
                                 }
                               ) => (
                                 <tr key={conceptId}>
-                                  <td className="col-md-4">{name || 'No name provided'}</td>
-                                  <td className="col-md-4">{longName || 'No longname provided'}</td>
+                                  <td className="col-md-4">
+                                    <Link
+                                      className="text-decoration-none text-primary"
+                                      to={`/drafts/${`${paramDraftType}`}/${conceptId}`}
+                                    >
+                                      <div>
+                                        <span>{name || 'No name provided'}</span>
+                                      </div>
+                                    </Link>
+                                  </td>
+                                  <td className="col-md-4">
+                                    <Link
+                                      className="text-decoration-none text-primary"
+                                      to={`/drafts/${`${paramDraftType}`}/${conceptId}`}
+                                    >
+                                      <div>
+                                        <span>{longName || 'No longname provided'}</span>
+                                      </div>
+                                    </Link>
+                                  </td>
                                   <td className="col-auto text-center">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</td>
                                   <td className="col-auto text-center">
-                                    <div className="d-flex align-items-center justify-content-center">
-                                      <Link className="d-flex align-items-center btn btn-sm btn-secondary text-white" to="/">
-                                        <FaFileDownload className="me-2" />
-                                        JSON
-                                      </Link>
-                                    </div>
+                                    <Button
+                                      variant="secondary"
+                                      className="d-flex align-items-center justify-content-center"
+                                      onClick={
+                                        () => {
+                                          setDownloadDraftConceptId(conceptId)
+                                        }
+                                      }
+                                      Icon={
+                                        // eslint-disable-next-line react/no-unstable-nested-components
+                                        () => (
+                                          <FaFileDownload
+                                            className="d-flex align-items-center justify-content-center me-2"
+                                          />
+                                        )
+                                      }
+                                    >
+                                      JSON
+                                    </Button>
                                   </td>
                                 </tr>
                               )
