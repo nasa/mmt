@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import pluralize from 'pluralize'
@@ -10,7 +10,7 @@ import Table from 'react-bootstrap/Table'
 import Placeholder from 'react-bootstrap/Placeholder'
 import PlaceholderButton from 'react-bootstrap/PlaceholderButton'
 
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import useAppContext from '../../hooks/useAppContext'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
 import parseError from '../../utils/parseError'
@@ -21,7 +21,7 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import draftConceptTypes from '../../constants/draftConceptTypes'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import Button from '../Button/Button'
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 
 // TODO Needs tests
 
@@ -34,29 +34,32 @@ const DraftList = ({ draftType }) => {
   const { drafts, error, loading } = useDraftsQuery({ draftType })
   const { count, items = [] } = drafts
 
-  const [downloadDraftConceptId, setDownloadDraftConceptId] = useState(null)
-
-  useQuery(conceptTypeDraftQueries.Tool, {
-    variables: {
-      params: {
-        conceptId: downloadDraftConceptId, // DownloadDraftConceptId,
-        conceptType: draftType
-      }
-    },
+  const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
     onError: (downloadError) => {
-      // Todo: Present error to user.
+      // Todo: send error to user.
       console.log('Error downloading JSON ', downloadError)
-      setDownloadDraftConceptId(null)
     },
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
+      const { conceptId } = fetchedDraft
       const { ummMetadata } = fetchedDraft
       const contents = JSON.stringify(ummMetadata, null, 2)
-      constructDownloadableFile(contents, downloadDraftConceptId)
-      setDownloadDraftConceptId(null)
-    },
-    skip: downloadDraftConceptId == null
+      constructDownloadableFile(contents, conceptId)
+    }
   })
+
+  const fetchDraft = (conceptId) => {
+    downloadDraft(
+      {
+        variables: {
+          params: {
+            conceptId,
+            conceptType: draftType
+          }
+        }
+      }
+    )
+  }
 
   return (
     <Page
@@ -201,7 +204,7 @@ const DraftList = ({ draftType }) => {
                                       className="d-flex align-items-center justify-content-center"
                                       onClick={
                                         () => {
-                                          setDownloadDraftConceptId(conceptId)
+                                          fetchDraft(conceptId)
                                         }
                                       }
                                       Icon={FaFileDownload}
