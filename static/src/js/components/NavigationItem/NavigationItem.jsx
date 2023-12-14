@@ -38,7 +38,8 @@ const NavigationItem = ({
   section,
   validationErrors,
   visitedFields,
-  setFocusField
+  setFocusField,
+  required
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
   const {
@@ -106,16 +107,16 @@ const NavigationItem = ({
   ]
 
   return (
-    <div key={displayName}>
+    <div>
       <ListGroup.Item
         className={
           classNames([
             'navigation-item__item d-flex px-1 py-1 border-0',
             {
-              'navigation-item__item--isFocused': hasFocus
+              'navigation-item__item--is-focused': hasFocus
             },
             {
-              'navigation-item__item--isActive': isSectionDisplayed
+              'navigation-item__item--is-active': isSectionDisplayed
             }
           ])
         }
@@ -147,7 +148,7 @@ const NavigationItem = ({
             aria-label={displayName}
             className={
               classNames([
-                'eui-icon eui-icon--sm navigation-item__icon',
+                'eui-icon eui-icon--sm navigation-item__icon me-2',
                 {
                   'eui-fa-circle-o navigation-item__icon--not-started': !hasValues && !hasErrors
                 },
@@ -163,8 +164,12 @@ const NavigationItem = ({
               ])
             }
           />
-
           {displayName}
+          {
+            required && (
+              <i className="eui-icon eui-required-o required-icon text-success ms-1" />
+            )
+          }
         </span>
       </ListGroup.Item>
 

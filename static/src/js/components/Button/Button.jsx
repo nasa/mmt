@@ -9,9 +9,9 @@ import './Button.scss'
  * @typedef {Object} ButtonProps
  * @property {ReactNode} children The children of the button
  * @property {Boolean} [disabled] An optional boolean to that disables the button
- * @property {ReactNode} [Icon] An optional icon `react-icons` icon
+ * @property {Function} [Icon] An optional icon `react-icons` icon
  * @property {Function} onClick A callback function to be called when the button is clicked
- * @property {String} [size] An optional string passed to React Boostrap to change the size of the button
+ * @property {String} [size] An optional string passed to React Bootstrap to change the size of the button
  * @property {Boolean} [naked] An optional boolean passed to render a button with no background or border
  * @property {String} [variant] An optional string passed to React Bootstrap to change the variant
  */
@@ -29,13 +29,14 @@ import './Button.scss'
  *   <Button
  *      size="sm"
  *      variant="primary"
- *      Icon={<FaStar />}
+ *      Icon={FaStar}
  *   >
  *     Click me!
  *   </Button>
  * )
  */
 const Button = ({
+  className,
   children,
   Icon,
   onClick,
@@ -48,7 +49,8 @@ const Button = ({
       classNames([
         'd-flex align-items-center',
         {
-          'button--naked': naked
+          'button--naked': naked,
+          [className]: className
         }
       ])
     }
@@ -58,9 +60,7 @@ const Button = ({
   >
     {
       Icon && (
-        <span>
-          {Icon}
-        </span>
+        <Icon className="me-1" />
       )
     }
     {children}
@@ -68,6 +68,7 @@ const Button = ({
 )
 
 Button.defaultProps = {
+  className: '',
   Icon: null,
   size: '',
   naked: false,
@@ -75,8 +76,9 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
-  Icon: PropTypes.node,
+  Icon: PropTypes.func,
   onClick: PropTypes.func.isRequired,
   size: PropTypes.string,
   naked: PropTypes.bool,

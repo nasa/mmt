@@ -19,7 +19,7 @@ export const LoadingBanner = ({
 }) => (
   <Row className="justify-content-center mt-5">
     <Spinner
-      animation="grow"
+      animation="border"
       variant="primary"
       data-testid={dataTestId}
     />

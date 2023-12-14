@@ -1,0 +1,11 @@
+.custom-widget-wrapper {
+  &__help {
+    border-radius: 0.125rem;
+    padding: 0.0625rem 0.25rem;
+    position: relative;
+    right: -0.125rem;
+    border: 0;
+    margin: 0;
+    background-color: transparent;
+  }
+}

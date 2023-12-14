@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
  * @property {String} id the id to assign to the TitleField
 
  */
+// TODO is this being used?
 const GridTitle = ({
   title,
   groupClassName,

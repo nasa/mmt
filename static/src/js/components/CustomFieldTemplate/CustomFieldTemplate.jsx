@@ -9,7 +9,7 @@ const CustomFieldTemplate = ({
 }) => (
   <div
     data-testid="custom-field-template"
-    className={`metadata-editor-field ${classNames}`}
+    className={`custom-field-template ${classNames}`}
   >
     {children}
     {errors}

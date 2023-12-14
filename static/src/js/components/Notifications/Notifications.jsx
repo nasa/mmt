@@ -56,7 +56,7 @@ const Notifications = () => {
               <Toast
                 autohide
                 bg="secondary"
-                className="bg-dark position-relative overflow-hidden"
+                className="bg-light position-relative overflow-hidden"
                 delay={delay}
                 key={id}
                 onClose={
@@ -73,7 +73,7 @@ const Notifications = () => {
                 }
                 show={show}
               >
-                <Toast.Body className="text-white d-flex align-items-center justify-content-between">
+                <Toast.Body className="text-secondary d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
                     <span
                       className={
@@ -93,8 +93,8 @@ const Notifications = () => {
                   </div>
 
                   <Button
-                    className="px-1 py-2 m-0"
-                    naked
+                    className="ms-2"
+                    variant="outline-secondary"
                     onClick={() => hideNotification(id)}
                     size="sm"
                   >

@@ -1,6 +1,11 @@
+// @import '../../../css/vendor/bootstrap/variables';
+
 .metadata-form {
-  &__navigation {
-    padding-top: 10px;
-    margin-left: 20px;
+  &__container {
+    .eui-icon {
+      font-size: 1rem;
+      vertical-align: baseline;
+    }
   }
 }
+

@@ -281,9 +281,25 @@ const MetadataForm = () => {
 
   return (
     <Page title={pageTitle} pageType="secondary">
-      <Container data-testid="metadata-form__container">
-        <Row className="sidebar_column">
-          <Col sm={8}>
+      <Container className="metadata-form__container mx-0">
+        <Row className="metadata-form__row">
+          <Col className="mb-5" xs="auto" md={{ span: 4, order: 2 }}>
+            <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
+              <FormNavigation
+                draft={ummMetadata}
+                fullSchema={schema}
+                formSections={formSections}
+                loading={ingestDraftLoading}
+                visitedFields={visitedFields}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                schema={schema}
+                setFocusField={setFocusField}
+                uiSchema={toolsUiSchema}
+              />
+            </div>
+          </Col>
+          <Col xs="auto" md={{ span: 8, order: 1 }} className="p-md-0">
             <Form
               fields={fields}
               formContext={
@@ -300,22 +316,11 @@ const MetadataForm = () => {
               uiSchema={uiSchema}
               validator={validator}
               widgets={widgets}
-            />
-          </Col>
-
-          <Col sm={4}>
-            <div className="metadata-form__navigation sticky-top">
-              <FormNavigation
-                draft={ummMetadata}
-                formSections={formSections}
-                loading={ingestDraftLoading}
-                onCancel={handleCancel}
-                onSave={handleSave}
-                schema={schema}
-                setFocusField={setFocusField}
-                visitedFields={visitedFields}
-              />
-            </div>
+            >
+              {/* Pass an empty fragment as a child to hide the submit button */}
+              {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
+              <></>
+            </Form>
           </Col>
         </Row>
 

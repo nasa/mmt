@@ -27,7 +27,9 @@ const setup = (overrideProps = {}) => {
     items,
     canAdd: true,
     title: 'Array Field Test',
-    uiSchema: {},
+    uiSchema: {
+      'ui:heading-level': 'h3'
+    },
     schema: {
       description: 'Test Description'
     },
@@ -52,7 +54,7 @@ jest.useFakeTimers()
 
 describe('CustomArrayFieldTemplate', () => {
   describe('When a array field given', () => {
-    test('renders the children', () => {
+    test.only('renders the children', () => {
       setup({
         required: true
       })

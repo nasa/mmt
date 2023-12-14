@@ -41,8 +41,6 @@ const CustomTextareaWidget = ({
   uiSchema,
   value
 }) => {
-  const [showDescription, setShowDescription] = useState(false)
-
   const textareaScrollRef = useRef(null)
   const focusRef = useRef(null)
 
@@ -79,10 +77,6 @@ const CustomTextareaWidget = ({
     }
   }
 
-  const handleFocus = () => {
-    setShowDescription(true)
-  }
-
   const handleChange = (event) => {
     const { value: newValue } = event.target
 
@@ -91,31 +85,28 @@ const CustomTextareaWidget = ({
 
   const handleBlur = () => {
     setFocusField(null)
-
-    setShowDescription(false)
     onBlur(id)
   }
 
   return (
     <CustomWidgetWrapper
+      scrollRef={textareaScrollRef}
+      description={description}
       charsUsed={value?.length}
-      description={showDescription ? description : null}
       label={label}
       maxLength={maxLength}
       required={required}
-      scrollRef={textareaScrollRef}
       title={title}
     >
       <textarea
-        className="custom-textarea-widget__input"
+        ref={focusRef}
+        className="custom-textarea-widget__input form-control d-block"
         id={id}
         maxLength={maxLength}
         name={title}
-        onBlur={handleBlur}
+        value={value ?? ''}
         onChange={handleChange}
-        onFocus={handleFocus}
-        ref={focusRef}
-        value={value}
+        onBlur={handleBlur}
       />
     </CustomWidgetWrapper>
   )

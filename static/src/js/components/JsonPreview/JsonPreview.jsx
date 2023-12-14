@@ -21,7 +21,7 @@ const JsonPreview = () => {
   return (
     <Accordion
       defaultActiveKey="0"
-      className="mt-4"
+      className="mt-5"
     >
       <Accordion.Item eventKey="0">
         <Accordion.Header>

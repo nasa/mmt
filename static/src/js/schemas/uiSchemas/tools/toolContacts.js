@@ -4,6 +4,7 @@ import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWid
 
 const toolContactsUiSchema = {
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {

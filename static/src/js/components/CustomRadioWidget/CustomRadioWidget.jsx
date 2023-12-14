@@ -86,7 +86,6 @@ const CustomRadioWidget = ({
       scrollRef={selectScrollRef}
       required={required}
       title={title}
-      // TODO update with descriptionPlacement
     >
       <div
         className="custom-radio-widget"

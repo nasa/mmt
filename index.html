@@ -3,15 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/static/src/assets/images/logos/nasa-meatball-new.svg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Metadata Management Tool</title>
+    <link rel="stylesheet" type="text/css" href="/static/src/css/initial/index.scss">
   </head>
-  <body class="h-100 d-flex flex-column">
+  <body class="h-100 d-flex flex-column is-loading">
     <div id="earthdata-tophat2" class="th-wrapper" style="height: 34px; background: #000;"></div>
     <div id="root" class="d-flex flex-grow-1 align-items-stretch w-100"></div>
+    <div class="app-loading-screen">
+      <div class="app-loading-screen__content">
+        <div class="spinner-border text-primary" role="status">
+        </div>
+        <span class="app-loading-screen__text">Loading Metadata Management Tool...</span>
+      </div>
+    </div>
     <script type="module" src="/static/src/main.jsx"></script>
     <script
       id="earthdata-tophat-script"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import {
   ApolloClient,
   InMemoryCache,
@@ -48,6 +48,11 @@ const Redirects = redirectKeys.map(
  * )
  */
 const App = () => {
+  useLayoutEffect(() => {
+    console.log('removing class')
+    document.body.classList.remove('is-loading')
+  }, [])
+
   const { graphQlHost } = getApplicationConfig()
 
   const httpLink = createHttpLink({

@@ -40,7 +40,6 @@ const CustomMultiSelectWidget = ({
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
-  const [showDescription, setShowDescription] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
 
   const selectScrollRef = useRef(null)
@@ -84,7 +83,6 @@ const CustomMultiSelectWidget = ({
   }
 
   const handleFocus = () => {
-    setShowDescription(true)
     setShowMenu(true)
   }
 
@@ -92,7 +90,6 @@ const CustomMultiSelectWidget = ({
     onBlur(id)
     setFocusField(null)
     setShowMenu(false)
-    setShowDescription(false)
   }
 
   // If the value already has data, this will store it as an object for react-select
@@ -108,11 +105,10 @@ const CustomMultiSelectWidget = ({
 
   return (
     <CustomWidgetWrapper
-      description={showDescription ? description : null}
-      descriptionPlacement="top"
+      description={description}
       label={label}
-      required={required}
       scrollRef={selectScrollRef}
+      required={required}
       title={title}
     >
       <Select

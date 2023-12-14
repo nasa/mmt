@@ -63,6 +63,12 @@ $font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue"
 $font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 /*
+ * Forms
+ */
+
+ $input-btn-focus-color: map.get($theme-colors, "primary");
+
+/*
  * Links
 */
 
@@ -71,6 +77,14 @@ $link-hover-color: map.get($theme-colors, "blue");
 
 /*
  * Badge
+*/
+
+$btn-padding-y: 0.5rem;
+$btn-padding-x: 1rem;
+$btn-border-radius: 0.125rem;
+
+/*
+ * Button
 */
 
 $badge-border-radius: 0.25rem;

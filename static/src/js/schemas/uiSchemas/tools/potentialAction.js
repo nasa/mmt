@@ -5,6 +5,7 @@ import CustomRadioWidget from '../../../components/CustomRadioWidget/CustomRadio
 const potentialActionUiSchema = {
   PotentialAction: {
     'ui:field': 'layout',
+    'ui:heading-level': 'h3',
     'ui:layout_grid': {
       'ui:row': [
         {
@@ -13,6 +14,7 @@ const potentialActionUiSchema = {
             children: [
               {
                 'ui:group': 'Potential Action',
+                'ui:heading-level': 'h3',
                 'ui:group-description': true,
                 'ui:row': [
                   {

@@ -72,7 +72,7 @@ describe('CustomDateTimeWidget', () => {
         required: true,
         headerClassName: null,
         label: 'Test field',
-        description: null
+        description: 'Test Description'
       }), {})
     })
   })
@@ -112,10 +112,6 @@ describe('CustomDateTimeWidget', () => {
 
       expect(props.onBlur).toHaveBeenCalledTimes(1)
       expect(props.onBlur).toHaveBeenCalledWith('mock-id')
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: null
-      }), {})
     })
   })
 

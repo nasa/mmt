@@ -75,7 +75,7 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         charsUsed: 0,
-        description: null,
+        description: 'Test Description',
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,
@@ -102,7 +102,7 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         charsUsed: 10,
-        description: null,
+        description: 'Test Description',
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,
@@ -146,10 +146,6 @@ describe('CustomTextWidget', () => {
 
       expect(props.onBlur).toHaveBeenCalledTimes(1)
       expect(props.onBlur).toHaveBeenCalledWith('mock-id')
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: null
-      }), {})
     })
   })
 
@@ -197,7 +193,7 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         charsUsed: 0,
-        description: null,
+        description: 'Test Description',
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,

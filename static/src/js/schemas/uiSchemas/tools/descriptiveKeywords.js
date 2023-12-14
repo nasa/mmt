@@ -1,5 +1,6 @@
 const descriptiveKeywordsUiSchema = {
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {

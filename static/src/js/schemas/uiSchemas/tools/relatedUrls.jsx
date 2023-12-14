@@ -3,7 +3,7 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 const relatedUrlsUiSchema = {
   RelatedURLs: {
     'ui:title': 'Related URLs',
-    'ui:header-classname': 'h1-title',
+    'ui:heading-level': 'h3',
     'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',

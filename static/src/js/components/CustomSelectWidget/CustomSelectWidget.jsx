@@ -51,7 +51,6 @@ const CustomSelectWidget = ({
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
-  const [showDescription, setShowDescription] = useState(false)
   const [selectOptions, setSelectOptions] = useState([])
 
   const selectScrollRef = useRef(null)
@@ -149,14 +148,8 @@ const CustomSelectWidget = ({
     onChange(newValue)
   }
 
-  const handleFocus = () => {
-    setShowDescription(true)
-  }
-
   const handleBlur = () => {
     setFocusField(null)
-    setShowDescription(false)
-
     onBlur(id)
   }
 
@@ -167,21 +160,28 @@ const CustomSelectWidget = ({
 
   return (
     <CustomWidgetWrapper
-      description={showDescription ? description : null}
-      descriptionPlacement="top"
       label={label}
-      required={required}
       scrollRef={selectScrollRef}
+      required={required}
       title={title}
+      description={description}
     >
       <Select
+        styles={
+          {
+            control: (baseStyles, { isFocused }) => ({
+              ...baseStyles,
+              borderColor: isFocused ? '#86b7fe' : 'var(--bs-gray-400)',
+              boxShadow: isFocused && 'var(--bs-focus-ring-x, 0) var(--bs-focus-ring-y, 0) var(--bs-focus-ring-blur, 0) var(--bs-focus-ring-width) var(--bs-focus-ring-color)'
+            })
+          }
+        }
         id={id}
         isClearable
         isDisabled={disabled}
         isLoading={isLoading}
         onBlur={handleBlur}
         onChange={handleChange}
-        onFocus={handleFocus}
         openMenuOnClick
         openMenuOnFocus
         options={selectOptions}

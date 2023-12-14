@@ -1,15 +1,6 @@
 .custom-array-field-template{
   &__title {
-    font-size: 1.75rem;
-    font-weight: 500;
-    border-bottom: solid 2px rgb(240, 240, 240);
-    padding-bottom: 6px;
-    margin-top: 8px;
-    margin-bottom: 15px;
-  }
-
-  &__remove-button {
-    color: var(--bs-red);
+    font-weight: 700;
   }
 
   &__field-title {

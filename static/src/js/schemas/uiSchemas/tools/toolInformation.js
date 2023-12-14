@@ -3,6 +3,7 @@ import urlTypes from '../../kms/urlTypeTool'
 
 const toolInformationUiSchema = {
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {

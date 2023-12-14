@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper'
@@ -45,12 +45,19 @@ describe('CustomWidgetWrapper', () => {
   })
 
   test('renders a description', () => {
-    setup({
+    const { user } = setup({
       description: 'Mock Field Description'
     })
 
     expect(screen.getByText('Mock Field')).toBeInTheDocument()
-    expect(screen.getByText('Mock Field Description')).toBeInTheDocument()
+
+    const helpTrigger = screen.getByRole('button', { name: 'Help' })
+
+    user.hover(helpTrigger)
+
+    waitFor(() => {
+      expect(screen.getByText('Mock Field Description')).toBeInTheDocument()
+    })
   })
 
   test('renders a length indicator', () => {
@@ -60,6 +67,6 @@ describe('CustomWidgetWrapper', () => {
     })
 
     expect(screen.getByText('Mock Field')).toBeInTheDocument()
-    expect(screen.getByText('5/42')).toBeInTheDocument()
+    expect(screen.getByText('5/42 characters')).toBeInTheDocument()
   })
 })

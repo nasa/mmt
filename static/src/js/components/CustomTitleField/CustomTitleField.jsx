@@ -24,7 +24,6 @@ const CustomTitleField = ({
   title,
   required,
   requiredUI,
-  className,
   groupBoxClassName,
   uiSchema
 }) => {
@@ -61,12 +60,14 @@ const CustomTitleField = ({
   // Check if the header should be hidden based on the UI schema
   const hideHeader = uiSchema['ui:hide-header']
 
+  const HeadingLevel = uiSchema['ui:heading-level'] || 'span'
+
   return (
     <div>
       <div ref={scrollRef} className={`custom-title-field__${groupBoxClassName}`}>
         {
           hideHeader ? null : (
-            <span className={`custom-title-field__${className}`}>
+            <HeadingLevel className="custom-title-field__heading">
               {heading}
               {
                 isRequired && (
@@ -78,7 +79,7 @@ const CustomTitleField = ({
                   />
                 )
               }
-            </span>
+            </HeadingLevel>
           )
         }
       </div>
@@ -95,18 +96,17 @@ CustomTitleField.propTypes = {
       focusField: PropTypes.string
     })
   }).isRequired,
-  className: PropTypes.string,
   groupBoxClassName: PropTypes.string,
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string,
-    'ui:hide-header': PropTypes.bool
+    'ui:hide-header': PropTypes.bool,
+    'ui:heading-level': PropTypes.string
   })
 }
 
 CustomTitleField.defaultProps = {
   requiredUI: false,
   required: false,
-  className: 'h1-title',
   groupBoxClassName: 'h1-box',
   uiSchema: {}
 }

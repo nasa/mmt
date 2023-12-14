@@ -1,0 +1,83 @@
+@use "sass:map";
+
+@import '../vendor/bootstrap/variables';
+@import "bootstrap/scss/spinners";
+
+:root {
+  --bs-body-font-size: 1rem;
+  --bs-body-line-height: 1.5;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  background-color: #FEFEFE;
+  font-family: $font-family-sans-serif;
+
+  &.is-loading {
+    .text-primary {
+      color: #{map.get($theme-colors, "primary")};
+    }
+  }
+}
+
+#earthdata-tophat2 {
+  height: 32px;
+  background-color: #000 !important;
+}
+
+.app-loading-screen {
+  position: absolute;
+  z-index: 9999;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #FEFEFE;
+  inset: 0;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  visibility: hidden;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: loadingFade 0.3s ease-in forwards 1s;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+
+  body.is-loading & {
+    opacity: 1;
+    visibility: visible;
+
+    .spinner-border {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__text {
+    color: #{map.get($theme-colors, "gray-dark")};
+    font-size: 1rem;
+  }
+}
+
+@keyframes loadingFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

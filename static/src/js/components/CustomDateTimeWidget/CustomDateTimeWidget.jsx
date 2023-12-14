@@ -45,7 +45,6 @@ const CustomDateTimeWidget = ({
   value
 }) => {
   const [date, onChangeDate] = React.useState(value ? new Date(value) : null)
-  const [showDescription, setShowDescription] = useState(false)
   const [showCalender, setShowCalender] = useState(false)
   const datetimeScrollRef = useRef(null)
 
@@ -69,7 +68,6 @@ const CustomDateTimeWidget = ({
   const shouldFocus = shouldFocusField(focusField, id)
 
   const handleFocus = () => {
-    setShowDescription(true)
     setShowCalender(true)
   }
 
@@ -93,22 +91,21 @@ const CustomDateTimeWidget = ({
 
   const handleBlur = () => {
     setFocusField(null)
-
-    setShowDescription(false)
     setShowCalender(false)
     onBlur(id)
   }
 
   return (
     <CustomWidgetWrapper
-      description={showDescription ? description : null}
+      description={description}
       label={label}
       required={required}
       title={title}
       scrollRef={datetimeScrollRef}
     >
       <DatePicker
-        className="w-100 p-2"
+        className="w-100 p-2 form-control"
+        wrapperClassName="d-block"
         id={id}
         placeholderText="YYYY-MM-DDTHH:MM:SSZ"
         dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"

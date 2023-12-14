@@ -7,6 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
 import validator from '@rjsf/validator-ajv8'
 
+import { kebabCase } from 'lodash'
 import NavigationItem from '../NavigationItem/NavigationItem'
 import For from '../For/For'
 
@@ -40,7 +41,8 @@ const FormNavigation = ({
   onSave,
   schema,
   setFocusField,
-  visitedFields
+  visitedFields,
+  uiSchema
 }) => {
   const { errors } = validator.validateFormData(draft, schema)
 
@@ -125,19 +127,27 @@ const FormNavigation = ({
         </Button>
       </div>
 
-      <ListGroup className="form-navigation__sections p-2 bg-light">
+      <ListGroup className="form-navigation__sections p-3 bg-light">
         <For each={formSections}>
           {
-            (section) => (
-              <NavigationItem
-                key={JSON.stringify(section)}
-                draft={draft}
-                section={section}
-                validationErrors={errors}
-                visitedFields={visitedFields}
-                setFocusField={setFocusField}
-              />
-            )
+            (section, i) => {
+              const { displayName } = section
+              const ui = uiSchema[kebabCase(displayName)]
+              // TODO look into why this does not seem to account for all required forms
+              const required = ui?.['ui:layout_grid']?.['ui:row'][0]['ui:required'] || false
+
+              return (
+                <NavigationItem
+                  key={`section_${displayName}_${i}`}
+                  draft={draft}
+                  section={section}
+                  validationErrors={errors}
+                  visitedFields={visitedFields}
+                  setFocusField={setFocusField}
+                  required={required}
+                />
+              )
+            }
           }
         </For>
       </ListGroup>
@@ -161,7 +171,8 @@ FormNavigation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   schema: PropTypes.shape({}).isRequired,
-  setFocusField: PropTypes.func.isRequired
+  setFocusField: PropTypes.func.isRequired,
+  uiSchema: PropTypes.shape({}).isRequired
 }
 
 export default FormNavigation

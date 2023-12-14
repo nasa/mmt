@@ -30,6 +30,9 @@ const setup = (overrideProps = {}) => {
     onCancel: jest.fn(),
     onSave: jest.fn(),
     setFocusField: jest.fn(),
+    uiSchema: {
+      'section-1': {}
+    },
     ...overrideProps
   }
 
@@ -61,6 +64,7 @@ describe('FormNavigation', () => {
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
+      required: false,
       section: {
         displayName: 'Section 1',
         properties: ['Field1']
@@ -72,6 +76,7 @@ describe('FormNavigation', () => {
 
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
+      required: false,
       section: {
         displayName: 'Section 2',
         properties: ['Field2']

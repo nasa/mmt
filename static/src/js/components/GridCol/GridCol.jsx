@@ -28,9 +28,9 @@ const GridCol = (
     registry,
     schema,
     required,
-    layout
+    layout,
+    uiSchema
   } = props
-
   const scrollRef = useRef(null)
 
   const {
@@ -92,11 +92,12 @@ const GridCol = (
               readonly={false}
               disabled={false}
               registry={registry}
+              uiSchema={uiSchema}
             />
           </span>
           {
             groupDescription && (
-              <div className="description-box">
+              <div className="description-box mb-5">
                 {description}
               </div>
             )

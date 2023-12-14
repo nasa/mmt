@@ -63,7 +63,7 @@ const Page = ({
     <main
       className={
         classNames([
-          'pb-4 flex-grow-1',
+          'pb-5 flex-grow-1',
           {
             'bg-light': pageType === 'primary'
           }

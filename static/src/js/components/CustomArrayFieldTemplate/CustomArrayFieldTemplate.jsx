@@ -4,10 +4,13 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { startCase } from 'lodash'
+import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
+
+import Button from '../Button/Button'
 
 import './CustomArrayFieldTemplate.scss'
 
@@ -38,7 +41,7 @@ const CustomArrayFieldTemplate = ({
 }) => {
   const requiredUI = uiSchema['ui:required']
   const hideHeader = uiSchema['ui:hide-header'] || null
-  // Const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
+  const HeadingElement = uiSchema['ui:heading-level'] ? uiSchema['ui:heading-level'] : 'span'
   const scrollRef = useRef(false)
   const [scrollIndex, setScrollRef] = useState(null)
 
@@ -56,16 +59,7 @@ const CustomArrayFieldTemplate = ({
     addElement = false
   }
 
-  // Parses the title for add button
-  const fieldTitle = () => {
-    const uiTitle = uiSchema['ui:title']
-    // If a title is provided in uiSchema, this takes precedence
-    if (uiTitle) {
-      return uiTitle
-    }
-
-    return startCase(title)
-  }
+  const fieldTitle = uiSchema['ui:title'] || startCase(title)
 
   // This handleAdd adds a new array,
   // sets the scrollRef so the autoScroll executes
@@ -83,8 +77,8 @@ const CustomArrayFieldTemplate = ({
       {
         hideHeader ? null : (
           <span>
-            <h1 className="custom-array-field-template__title">
-              {fieldTitle()}
+            <HeadingElement className="custom-array-field-template__title">
+              {fieldTitle}
 
               {
                 (required || requiredUI) && (
@@ -95,7 +89,7 @@ const CustomArrayFieldTemplate = ({
                   />
                 )
               }
-            </h1>
+            </HeadingElement>
           </span>
         )
       }
@@ -117,16 +111,16 @@ const CustomArrayFieldTemplate = ({
                 addElement && (
                   <div className="h5 custom-array-field-template__field-title">
                     <span>
-                      {fieldTitle()}
+                      {fieldTitle}
                       {items.length > 0 && ` (${index + 1} of ${items.length})`}
                     </span>
 
                     <Button
-                      className="custom-array-field-template__remove-button"
-                      variant="link"
+                      className="custom-array-field-template__remove-button text-danger px-0"
+                      naked
                       onClick={element.onDropIndexClick(element.index)}
+                      Icon={FaMinusCircle}
                     >
-                      <i className="fa-solid fa-circle-minus fa-lg p-1" />
                       Remove
                     </Button>
                   </div>
@@ -147,24 +141,16 @@ const CustomArrayFieldTemplate = ({
 
       {/* Renders the add another field button */}
       {
-        addElement ? (
+        addElement && (
           <Button
-            variant="link"
+            className="text-primary"
+            naked
             onClick={handleAdd}
+            Icon={FaPlusCircle}
           >
-            <span>
-              <i className="fa-solid fa-circle-plus fa-lg p-1" />
-
-              {
-                items.length === 0 ? (
-                  <span>Add</span>
-                ) : <span>Add Another</span>
-              }
-              {' '}
-              {fieldTitle()}
-            </span>
+            {`Add ${items.length > 0 ? 'Another' : ''} ${fieldTitle}`}
           </Button>
-        ) : null
+        )
       }
 
     </div>
@@ -182,7 +168,8 @@ CustomArrayFieldTemplate.propTypes = {
     'ui:hide-header': PropTypes.bool,
     'ui:canAdd': PropTypes.bool,
     'ui:title': PropTypes.string,
-    'ui:header-classname': PropTypes.string
+    'ui:header-classname': PropTypes.string,
+    'ui:heading-level': PropTypes.string
   }).isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({

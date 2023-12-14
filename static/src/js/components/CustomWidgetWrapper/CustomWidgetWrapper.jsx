@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { FaInfoCircle } from 'react-icons/fa'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
+
+import './CustomWidgetWrapper.scss'
+import pluralize from 'pluralize'
+import commafy from 'commafy'
 
 /**
  * CustomWidgetWrapper
@@ -21,69 +27,111 @@ const CustomWidgetWrapper = ({
   charsUsed,
   children,
   description,
-  descriptionPlacement,
   headerClassName,
+  id,
   maxLength,
   required,
   scrollRef,
   title
 }) => {
-  const descriptionBody = (
-    <span className="fs-6 fst-italic">
-      {description}
-    </span>
-  )
+  const [showHelp, setShowHelp] = useState(false)
+
+  const handleOnMouseEnter = () => {
+    setShowHelp(true)
+  }
+
+  const handleOnMouseLeave = () => {
+    setShowHelp(false)
+  }
 
   return (
     <>
       <div
-        className="d-flex justify-content-between pb-2"
+        className="mb-1"
         ref={scrollRef}
       >
-        {
-          title && (
-            <div>
-              <span className={headerClassName}>
-                {title}
-              </span>
+        <div className="d-flex align-items-center justify-content-between">
+          <div>
+            {
+              title && (
+                <label className={`custom-widget-wrapper__label text-gray-700 ${headerClassName}`} htmlFor={id}>
+                  {title}
+                </label>
+              )
+            }
+            {
+              required && (
+                <span>
+                  <i
+                    className="eui-icon eui-required-o text-success ps-1"
+                    role="img"
+                    aria-label="Required"
+                  />
+                </span>
+              )
+            }
+          </div>
+          {
+            description && (
+              <div className="ms-2">
+                <OverlayTrigger
+                  show={showHelp}
+                  trigger={['hover', 'focus']}
+                  placement="top"
+                  overlay={
+                    (
+                      <Popover
+                        id={`help-test_${title}`}
+                        onMouseEnter={handleOnMouseEnter}
+                        onMouseLeave={handleOnMouseLeave}
+                      >
+                        <Popover.Header>{title}</Popover.Header>
+                        <Popover.Body>
+                          {/* TODO look at the description for urls and make them clickable */}
+                          {description}
+                        </Popover.Body>
+                      </Popover>
+                    )
+                  }
+                >
+                  <button
+                    className="custom-widget-wrapper__help focus-ring d-flex align-items-center text-primary small"
+                    tabIndex={0}
+                    type="button"
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
+                  >
+                    <FaInfoCircle className="me-1" />
+                    Help
+                  </button>
+                </OverlayTrigger>
+              </div>
+            )
+          }
+        </div>
+      </div>
+      {children}
 
-              <span>
-                {
-                  required && (
-                    <i
-                      className="eui-icon eui-required-o text-success ps-1"
-                      role="img"
-                      aria-label="Required"
-                    />
-                  )
-                }
-              </span>
-            </div>
-          )
-        }
+      <div className="d-flex justify-content-end mt-1 small text-secondary" style={{ minHeight: '1.5rem' }}>
         {
           maxLength && (
             <span>
-              {charsUsed}
+              {commafy(charsUsed)}
               /
-              {maxLength}
+              {commafy(maxLength)}
+              {' '}
+              {pluralize('character', maxLength)}
             </span>
           )
         }
       </div>
 
-      {descriptionPlacement === 'top' && descriptionBody}
-
-      {children}
-
-      {descriptionPlacement === 'bottom' && descriptionBody}
     </>
   )
 }
 
 CustomWidgetWrapper.defaultProps = {
   description: null,
-  descriptionPlacement: 'bottom',
   headerClassName: null,
   maxLength: null,
   charsUsed: null
@@ -93,7 +141,6 @@ CustomWidgetWrapper.propTypes = {
   charsUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
-  descriptionPlacement: PropTypes.string,
   headerClassName: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool.isRequired,

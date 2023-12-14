@@ -45,8 +45,6 @@ const CustomTextWidget = ({
   uiSchema,
   value
 }) => {
-  const [showDescription, setShowDescription] = useState(false)
-
   const inputScrollRef = useRef(null)
   const focusRef = useRef(null)
 
@@ -76,11 +74,6 @@ const CustomTextWidget = ({
     }
   }, [shouldFocus])
 
-  // Handling focusing the field
-  const handleFocus = () => {
-    setShowDescription(true)
-  }
-
   // Handle the value changing in the field
   const handleChange = (event) => {
     const { value: newValue } = event.target
@@ -92,14 +85,14 @@ const CustomTextWidget = ({
   const handleBlur = () => {
     setFocusField(null)
 
-    setShowDescription(false)
     onBlur(id)
   }
 
   return (
     <CustomWidgetWrapper
       charsUsed={value?.length}
-      description={showDescription ? description : null}
+      description={description}
+      id={id}
       headerClassName={headerClassName}
       label={label}
       maxLength={maxLength}
@@ -108,15 +101,15 @@ const CustomTextWidget = ({
       title={title}
     >
       <input
-        className="custom-text-widget__input"
+        className="custom-text-widget__input form-control"
         value={value}
+        tabIndex={0}
         disabled={disabled}
         id={id}
         maxLength={maxLength}
         name={title}
         onBlur={handleBlur}
         onChange={handleChange}
-        onFocus={handleFocus}
         placeholder={placeholder}
         ref={focusRef}
         type={fieldType && fieldType === 'number' ? 'number' : 'text'}

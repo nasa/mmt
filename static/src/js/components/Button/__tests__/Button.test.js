@@ -14,7 +14,7 @@ describe('Button', () => {
   describe('when the button with an icon', () => {
     test('renders the button', () => {
       const { container } = render(
-        <Button onClick={() => {}} Icon={<FaStar />}>
+        <Button onClick={() => {}} Icon={FaStar}>
           Click me!
         </Button>
       )

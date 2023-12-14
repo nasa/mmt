@@ -229,7 +229,7 @@ describe('NavigationItem', () => {
       const button = screen.getByRole('button', { value: 'Mock Section Name' })
       await user.hover(button)
 
-      expect(button.className).toContain('navigation-item__item--isFocused')
+      expect(button.className).toContain('navigation-item__item--is-focused')
     })
   })
 
@@ -240,11 +240,11 @@ describe('NavigationItem', () => {
       const button = screen.getByRole('button', { value: 'Mock Section Name' })
       await user.hover(button)
 
-      expect(button.className).toContain('navigation-item__item--isFocused')
+      expect(button.className).toContain('navigation-item__item--is-focused')
 
       await user.unhover(button)
 
-      expect(button.className).not.toContain('navigation-item__item--isFocused')
+      expect(button.className).not.toContain('navigation-item__item--is-focused')
     })
   })
 

@@ -39,6 +39,7 @@ const CustomTitleFieldTemplate = ({
   const { options = {} } = uiSchema
   const { title: uiTitle } = options
   const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
+  const HeadingElement = uiSchema['ui:heading-level'] ? uiSchema['ui:heading-level'] : 'span'
   const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
   const requiredUI = uiSchema['ui:required']
   const hideHeader = uiSchema['ui:hide-header']
@@ -58,10 +59,10 @@ const CustomTitleFieldTemplate = ({
         {
           hideHeader ? null
             : (
-              <span className={headerClassName}>
+              <HeadingElement className={headerClassName}>
                 {heading}
                 {required || requiredUI ? <i title={heading} className="eui-icon eui-required-o required-icon" role="img" aria-label="Required" /> : ''}
-              </span>
+              </HeadingElement>
             )
         }
       </div>

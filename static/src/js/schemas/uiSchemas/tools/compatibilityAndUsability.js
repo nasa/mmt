@@ -3,6 +3,7 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 
 const compatibilityAndUsabilityUiSchema = {
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {
@@ -14,6 +15,7 @@ const compatibilityAndUsabilityUiSchema = {
               'ui:group': 'Supported Formats',
               'ui:group-classname': 'h2-title',
               'ui:group-box-classname': 'h2-box',
+              'ui:heading-level': 'h4',
               'ui:row': [
                 {
                   'ui:col': {
@@ -112,6 +114,7 @@ const compatibilityAndUsabilityUiSchema = {
     'ui:widget': CustomMultiSelectWidget
   },
   SupportedOperatingSystems: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -148,6 +151,7 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   SupportedBrowsers: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -184,6 +188,7 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   SupportedSoftwareLanguages: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
