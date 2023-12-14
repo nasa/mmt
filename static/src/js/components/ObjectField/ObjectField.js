@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { has } from 'lodash'
-import { getUiOptions } from '@rjsf/utils'
 
 /**
  * This class is pulled from:
@@ -10,29 +8,18 @@ import { getUiOptions } from '@rjsf/utils'
  * It contains methods necessary for GridField.
  */
 class ObjectField extends React.Component {
+  // Returns the `onPropertyChange` handler for the `name` field. Handles the special case where a user is attempting
+  // to clear the data for a field added as an additional property. Calls the `onChange()` handler with the updated
+  // formData.
   // eslint-disable-next-line react/no-unused-class-component-methods
   onPropertyChange = (
-    name,
-    addedByAdditionalProperties = false
+    name
   ) => (value, newErrorSchema, id) => {
     const { formData, onChange, errorSchema } = this.props
 
-    let updatedValue = value
-
-    if (value === undefined && addedByAdditionalProperties) {
-      // Don't set value = undefined for fields added by
-      // additionalProperties. Doing so removes them from the
-      // formData, which causes them to completely disappear
-      // (including the input field for the property name). Unlike
-      // fields which are "mandated" by the schema, these fields can
-      // be set to undefined by clicking a "delete field" button, so
-      // set empty values to the empty string.
-      updatedValue = ''
-    }
-
     const newFormData = {
       ...formData,
-      [name]: updatedValue
+      [name]: value
     }
 
     onChange(
@@ -46,56 +33,60 @@ class ObjectField extends React.Component {
     )
   }
 
-  getAvailableKey = (preferredKey, formData) => {
-    const { uiSchema } = this.props
-    const { duplicateKeySuffixSeparator = '-' } = getUiOptions(uiSchema)
-
-    let index = 0
-    let newKey = preferredKey
-    while (has(formData, newKey)) {
-      index += 1
-      newKey = `${preferredKey}${duplicateKeySuffixSeparator}${index}`
-    }
-
-    return newKey
-  }
-
-  // eslint-disable-next-line react/no-unused-class-component-methods
-  onKeyChange = (oldValue) => (value, newErrorSchema) => {
-    if (oldValue === value) {
-      return
-    }
-
-    const { formData, onChange, errorSchema } = this.props
-
-    const updatedValue = this.getAvailableKey(value, formData)
-    const newFormData = {
-      ...formData
-    }
-    const newKeys = { [oldValue]: updatedValue }
-    const keyValues = Object.keys(newFormData).map((key) => {
-      const newKey = newKeys[key] || key
-
-      return { [newKey]: newFormData[key] }
-    })
-    const renamedObj = Object.assign({}, ...keyValues)
-
-    onChange(
-      renamedObj,
-      errorSchema
-      && errorSchema && {
-        ...errorSchema,
-        [updatedValue]: newErrorSchema
-      }
-    )
-  }
-
+  // Returns a flag indicating whether the `name` field is required in the object schema
   // eslint-disable-next-line react/no-unused-class-component-methods
   isRequired(name) {
     const { schema } = this.props
 
     return Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
   }
+
+  // Computes the next available key name from the `preferredKey`, indexing through the already existing keys until one
+  // that is already not assigned is found.
+  // getAvailableKey = (preferredKey, formData) => {
+  //   const { uiSchema } = this.props
+  //   const { duplicateKeySuffixSeparator = '-' } = getUiOptions(uiSchema)
+
+  //   let index = 0
+  //   let newKey = preferredKey
+  //   while (has(formData, newKey)) {
+  //     index += 1
+  //     newKey = `${preferredKey}${duplicateKeySuffixSeparator}${index}`
+  //   }
+
+  //   return newKey
+  // }
+
+  /** Returns a callback function that deals with the rename of a key for an additional property for a schema. That
+   * callback will attempt to rename the key and move the existing data to that key, calling `onChange` when it does. * */
+  //   onKeyChange = (oldValue) => (value, newErrorSchema) => {
+  //     if (oldValue === value) {
+  //       return
+  //     }
+
+  //     const { formData, onChange, errorSchema } = this.props
+
+  //     const updatedValue = this.getAvailableKey(value, formData)
+  //     const newFormData = {
+  //       ...formData
+  //     }
+  //     const newKeys = { [oldValue]: updatedValue }
+  //     const keyValues = Object.keys(newFormData).map((key) => {
+  //       const newKey = newKeys[key] || key
+
+  //       return { [newKey]: newFormData[key] }
+  //     })
+  //     const renamedObj = Object.assign({}, ...keyValues)
+
+  //     onChange(
+  //       renamedObj,
+  //       errorSchema
+  //       && errorSchema && {
+  //         ...errorSchema,
+  //         [updatedValue]: newErrorSchema
+  //       }
+  //     )
+  //   }
 }
 
 ObjectField.propTypes = {
@@ -106,8 +97,7 @@ ObjectField.propTypes = {
   }).isRequired,
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
-  errorSchema: PropTypes.shape({}).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired
+  errorSchema: PropTypes.shape({}).isRequired
 }
 
 export default ObjectField

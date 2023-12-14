@@ -93,7 +93,6 @@ class GridField extends ObjectField {
             registry={registry}
             disabled={disabled}
             readonly={readonly}
-            onKeyChange={this.onKeyChange(layoutName)}
           />
         </span>
       )
