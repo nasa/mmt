@@ -21,16 +21,16 @@ const BoundingRectangleField = ({
   // Creates state object from given coordinates
   const createStateObject = (object) => {
     const {
+      EastBoundingCoordinate,
       NorthBoundingCoordinate,
       SouthBoundingCoordinate,
-      WestBoundingCoordinate,
-      EastBoundingCoordinate
+      WestBoundingCoordinate
     } = object
 
     return {
+      EastBoundingCoordinate: EastBoundingCoordinate || '',
       NorthBoundingCoordinate: NorthBoundingCoordinate || '',
       SouthBoundingCoordinate: SouthBoundingCoordinate || '',
-      EastBoundingCoordinate: EastBoundingCoordinate || '',
       WestBoundingCoordinate: WestBoundingCoordinate || ''
     }
   }
@@ -41,35 +41,42 @@ const BoundingRectangleField = ({
   const handleApplyGlobal = () => {
     // Declares the global coordinates
     const data = {
+      EastBoundingCoordinate: 180,
       NorthBoundingCoordinate: 90,
       SouthBoundingCoordinate: -90,
-      WestBoundingCoordinate: -180,
-      EastBoundingCoordinate: 180
+      WestBoundingCoordinate: -180
     }
+
     // Stores as state object
     setCoordinates(createStateObject(data))
+
     // Propagates change
     onChange(data)
   }
 
   // Coverts coordinate string value to number
   const toNumber = (value) => (!value ? null : Number(value))
+
   // Handles coordinate in put field value change
-  const handleChange = (field, value) => {
+  const handleChange = (field, event) => {
+    const { value } = event.target
+
     const data = formData
     data[field] = toNumber(value)
+
     // Stores as state object
     setCoordinates(createStateObject(data))
+
     // Propagates change
     onChange(data)
   }
 
   // Reads coordinate values stored in state
   const {
+    EastBoundingCoordinate,
     NorthBoundingCoordinate,
     SouthBoundingCoordinate,
-    WestBoundingCoordinate,
-    EastBoundingCoordinate
+    WestBoundingCoordinate
   } = coordinates
 
   return (
@@ -83,17 +90,17 @@ const BoundingRectangleField = ({
         </Button>
       </div>
 
-      <div className="bounding-rectangle-field__container">
-        <div className="bounding-rectangle-field__container--north-row">
-          <div className="bounding-rectangle-field__container--coordinate-label">
+      <div className="d-flex flex-column">
+        <div className="justify-content-around">
+          <div className="text-center">
             <label htmlFor="north-coordinate">North</label>
             <input
-              className="form-control bounding-rectangle-field__container--coordinate-input"
+              className="form-control bounding-rectangle-field__coordinate-input"
               type="number"
               id="north-coordinate"
               onChange={
-                (e) => {
-                  handleChange('NorthBoundingCoordinate', e.target.value)
+                (event) => {
+                  handleChange('NorthBoundingCoordinate', event)
                 }
               }
               value={NorthBoundingCoordinate}
@@ -101,19 +108,19 @@ const BoundingRectangleField = ({
           </div>
         </div>
 
-        <div className="bounding-rectangle-field__container--east-west-row">
+        <div className="justify-content-between">
           <div>
-            <div className="bounding-rectangle-field__container--coordinate-label">
+            <div className="text-center">
               <label htmlFor="west-coordinate">West</label>
             </div>
 
             <input
-              className="form-control bounding-rectangle-field__container--coordinate-input"
+              className="form-control text-center bounding-rectangle-field__coordinate-input"
               type="number"
               id="west-coordinate"
               onChange={
-                (e) => {
-                  handleChange('WestBoundingCoordinate', e.target.value)
+                (event) => {
+                  handleChange('WestBoundingCoordinate', event)
                 }
               }
               value={WestBoundingCoordinate}
@@ -121,17 +128,17 @@ const BoundingRectangleField = ({
           </div>
 
           <div>
-            <div className="bounding-rectangle-field__container--coordinate-label">
+            <div className="text-center">
               <label htmlFor="east-coordinate">East</label>
             </div>
 
             <input
-              className="form-control bounding-rectangle-field__container--coordinate-input"
+              className="form-control bounding-rectangle-field__coordinate-input"
               type="number"
               id="east-coordinate"
               onChange={
-                (e) => {
-                  handleChange('EastBoundingCoordinate', e.target.value)
+                (event) => {
+                  handleChange('EastBoundingCoordinate', event)
                 }
               }
               value={EastBoundingCoordinate}
@@ -139,17 +146,17 @@ const BoundingRectangleField = ({
           </div>
         </div>
 
-        <div className="bounding-rectangle-field__container--south-row">
-          <div className="bounding-rectangle-field__container--coordinate-label">
+        <div className="justify-content-around">
+          <div className="text-center">
             <label htmlFor="south-coordinate">South</label>
             <input
-              className="form-control bounding-rectangle-field__container--coordinate-input"
+              className="form-control bounding-rectangle-field__coordinate-input"
               type="number"
               id="south-coordinate"
               width="100px"
               onChange={
-                (e) => {
-                  handleChange('SouthBoundingCoordinate', e.target.value)
+                (event) => {
+                  handleChange('SouthBoundingCoordinate', event)
                 }
               }
               value={SouthBoundingCoordinate}

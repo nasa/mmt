@@ -1,15 +1,16 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper'
 
 const setup = (overrideProps = {}) => {
   const props = {
-    charsUsed: null,
+    charactersUsed: null,
     children: (<div>Children</div>),
     description: null,
     headerClassName: null,
+    id: 'mock-id',
     maxLength: null,
     required: false,
     scrollRef: React.createRef(),
@@ -44,7 +45,7 @@ describe('CustomWidgetWrapper', () => {
     expect(screen.getByRole('img', { name: 'Required' })).toBeInTheDocument()
   })
 
-  test('renders a description', () => {
+  test('renders a description', async () => {
     const { user } = setup({
       description: 'Mock Field Description'
     })
@@ -53,16 +54,18 @@ describe('CustomWidgetWrapper', () => {
 
     const helpTrigger = screen.getByRole('button', { name: 'Help' })
 
-    user.hover(helpTrigger)
+    await user.hover(helpTrigger)
 
-    waitFor(() => {
-      expect(screen.getByText('Mock Field Description')).toBeInTheDocument()
-    })
+    expect(screen.getByText('Mock Field Description')).toBeInTheDocument()
+
+    await user.unhover(helpTrigger)
+
+    expect(screen.queryByText('Mock Field Description')).not.toBeInTheDocument()
   })
 
   test('renders a length indicator', () => {
     setup({
-      charsUsed: 5,
+      charactersUsed: 5,
       maxLength: 42
     })
 

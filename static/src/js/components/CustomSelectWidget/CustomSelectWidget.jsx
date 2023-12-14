@@ -19,12 +19,13 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
  * @property {Boolean} disable A boolean value to disable the select field.
  * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
- * @property {String} placeholder A placeholder text for the multiselect.
  * @property {Boolean} onBlur Should blur a field.
  * @property {Function} onChange A callback function triggered when the user selects an option.
+ * @property {String} placeholder A placeholder text for the multiselect.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Boolean} required Is the CustomSelectWidget field required
  * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {String[]} selectOptions Optional items to be provided to the select field.
  * @property {Object} uiSchema A uiSchema for the field being shown.
  * @property {String} value A Date value saved to the draft.
  */
@@ -89,39 +90,28 @@ const CustomSelectWidget = ({
     }
   }, [shouldFocus])
 
+  // Maps the list of options into a list of objects with labels and values
+  const buildOptions = (enums) => enums.map((enumValue) => ({
+    label: enumValue,
+    value: enumValue
+  }))
+
   useEffect(() => {
     if (propsSelectOptions) {
-      const options = propsSelectOptions.map((enumValue) => ({
-        value: enumValue,
-        label: enumValue
-      }))
-
-      setSelectOptions(options)
+      setSelectOptions(buildOptions(propsSelectOptions))
 
       return
     }
 
-    // TODO refactor
     if (schemaEnums.length) {
-      const options = schemaEnums.map((enumValue) => ({
-        value: enumValue,
-        label: enumValue
-      }))
-
-      setSelectOptions(options)
+      setSelectOptions(buildOptions(schemaEnums))
     }
 
     const uiOptions = uiSchema['ui:options'] || {}
     const { enumOptions } = uiOptions
 
-    // TODO test this example
     if (enumOptions) {
-      const options = enumOptions.map((enumValue) => ({
-        value: enumValue,
-        label: enumValue
-      }))
-
-      setSelectOptions(options)
+      setSelectOptions(buildOptions(enumOptions))
     }
   }, [propsSelectOptions])
 
@@ -143,7 +133,7 @@ const CustomSelectWidget = ({
   }, [keywords])
 
   const handleChange = (event) => {
-    const { value: newValue } = event || false
+    const { value: newValue } = event || {}
 
     onChange(newValue)
   }
@@ -160,22 +150,14 @@ const CustomSelectWidget = ({
 
   return (
     <CustomWidgetWrapper
-      label={label}
-      scrollRef={selectScrollRef}
-      required={required}
-      title={title}
       description={description}
+      label={label}
+      id={id}
+      required={required}
+      scrollRef={selectScrollRef}
+      title={title}
     >
       <Select
-        styles={
-          {
-            control: (baseStyles, { isFocused }) => ({
-              ...baseStyles,
-              borderColor: isFocused ? '#86b7fe' : 'var(--bs-gray-400)',
-              boxShadow: isFocused && 'var(--bs-focus-ring-x, 0) var(--bs-focus-ring-y, 0) var(--bs-focus-ring-blur, 0) var(--bs-focus-ring-width) var(--bs-focus-ring-color)'
-            })
-          }
-        }
         id={id}
         isClearable
         isDisabled={disabled}
@@ -187,6 +169,15 @@ const CustomSelectWidget = ({
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
         ref={focusRef}
+        styles={
+          {
+            control: (baseStyles, { isFocused }) => ({
+              ...baseStyles,
+              borderColor: isFocused ? '#86b7fe' : 'var(--bs-gray-400)',
+              boxShadow: isFocused && 'var(--bs-focus-ring-x, 0) var(--bs-focus-ring-y, 0) var(--bs-focus-ring-blur, 0) var(--bs-focus-ring-width) var(--bs-focus-ring-color)'
+            })
+          }
+        }
         value={existingValue}
       />
     </CustomWidgetWrapper>

@@ -22,11 +22,11 @@ const setup = (overrideProps = {}) => {
 
   const props = {
     disabled: false,
-    label: 'Test Field',
     id: 'mock-id',
-    placeholder: 'Test Placeholder',
+    label: 'Test Field',
     onBlur,
     onChange,
+    placeholder: 'Test Placeholder',
     registry: {
       formContext
     },
@@ -74,8 +74,8 @@ describe('CustomTextWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: 'Test Description',
+        charactersUsed: 0,
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,
@@ -101,8 +101,8 @@ describe('CustomTextWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 10,
         description: 'Test Description',
+        charactersUsed: 10,
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,
@@ -192,8 +192,8 @@ describe('CustomTextWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: 'Test Description',
+        charactersUsed: 0,
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,

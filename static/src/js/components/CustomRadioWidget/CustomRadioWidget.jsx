@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef
-} from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
@@ -17,8 +13,9 @@ import './CustomRadioWidget.scss'
 /**
  * CustomRadioWidget
  * @typedef {Object} CustomRadioWidget
- * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
+ * @property {String} label The label of the widget.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Boolean} required Is the CustomRadioWidget field required
  * @property {Object} schema A UMM Schema for the widget being previewed.
@@ -31,18 +28,18 @@ import './CustomRadioWidget.scss'
  * @param {CustomRadioWidget} props
  */
 const CustomRadioWidget = ({
-  label = '',
   id,
+  label,
+  onChange,
   registry,
   required,
   schema,
-  uiSchema = {},
+  uiSchema,
   value
 }) => {
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
   const { formContext } = registry
-  const [inputValue, setInputValue] = useState(value)
 
   const {
     focusField
@@ -65,26 +62,29 @@ const CustomRadioWidget = ({
 
   // Sets inputValue to input selected
   const handleChange = (event) => {
-    setInputValue(event.target.name)
-    focusRef.current?.blur()
+    const { name } = event.target
+    const newValue = name === 'true'
+
+    onChange(newValue)
   }
 
   // Needed for this UI implementaion so that users can clear their selection
   const handleClear = () => {
-    setInputValue(null)
+    onChange(undefined)
   }
 
   // Accessible event props for clicking on the form field icon
-  const accessibleEventProps = useAccessibleEvent((event) => {
-    handleClear(event)
+  const accessibleEventProps = useAccessibleEvent(() => {
+    handleClear()
   })
 
   return (
     <CustomWidgetWrapper
-      label={label}
       description={schema.description}
-      scrollRef={selectScrollRef}
+      id={id}
+      label={label}
       required={required}
+      scrollRef={selectScrollRef}
       title={title}
     >
       <div
@@ -100,20 +100,21 @@ const CustomRadioWidget = ({
         </div>
 
         <input
-          type="radio"
-          name="true"
           id="trueRadio"
-          aria-checked={inputValue === 'true' ? 'true' : 'false'}
+          name="true"
           onChange={handleChange}
+          type="radio"
+          checked={value === true}
+          ref={focusRef}
         />
         <label htmlFor="trueRadio">True</label>
         <br />
         <input
-          type="radio"
-          name="false"
           id="falseRadio"
-          aria-checked={inputValue === 'false' ? 'true' : 'false'}
+          name="false"
           onChange={handleChange}
+          type="radio"
+          checked={value === false}
         />
         <label htmlFor="falseRadio">False</label>
       </div>
@@ -122,12 +123,13 @@ const CustomRadioWidget = ({
 }
 
 CustomRadioWidget.defaultProps = {
-  value: false
+  value: null
 }
 
 CustomRadioWidget.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -139,6 +141,7 @@ CustomRadioWidget.propTypes = {
     description: PropTypes.string
   }).isRequired,
   uiSchema: PropTypes.shape({
+    'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.bool
 }

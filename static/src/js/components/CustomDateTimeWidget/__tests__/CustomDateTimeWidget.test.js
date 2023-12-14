@@ -1,31 +1,27 @@
+import React from 'react'
 import {
   render,
   screen,
   waitFor
 } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { act } from 'react-dom/test-utils'
+import userEvent from '@testing-library/user-event'
+
 import CustomDateTimeWidget from '../CustomDateTimeWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
 
 const setup = (overrideProps = {}) => {
-  const onBlur = jest.fn()
-  const onChange = jest.fn()
-
   const formContext = {
     focusField: '',
     setFocusField: jest.fn()
   }
 
   const props = {
-    label: 'Test field',
     id: 'mock-id',
-    onChange,
-    onBlur,
+    label: 'Test field',
+    onBlur: jest.fn(),
+    onChange: jest.fn(),
     registry: {
       formContext
     },
@@ -39,9 +35,7 @@ const setup = (overrideProps = {}) => {
   }
 
   render(
-    <BrowserRouter>
-      <CustomDateTimeWidget {...props} />
-    </BrowserRouter>
+    <CustomDateTimeWidget {...props} />
   )
 
   return {
@@ -67,7 +61,7 @@ describe('CustomDateTimeWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: null,
+        charactersUsed: null,
         maxLength: null,
         required: true,
         headerClassName: null,
@@ -143,23 +137,21 @@ describe('CustomDateTimeWidget', () => {
 
   describe('when the field should be focused', () => {
     test('shows the calender', async () => {
-      // Getting a console warning: An update to Popper inside a test was not wrapped in act(...).
-      // Wrapping the setup in an act fixed the warning
-      await act(async () => {
-        setup({
-          registry: {
-            formContext: {
-              focusField: 'mock-id'
-            }
+      setup({
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
           }
-        })
+        }
       })
 
       // Checks if the widget is focused by checking if the description is present.
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: 'Test Description'
-      }), {})
+      await waitFor(() => {
+        expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+        expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+          description: 'Test Description'
+        }), {})
+      })
     })
   })
 

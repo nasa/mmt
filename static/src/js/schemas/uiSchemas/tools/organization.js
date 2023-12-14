@@ -2,6 +2,9 @@ import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const organizationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   Organizations: {
     'ui:title': 'Tool Organizations',
     'ui:header-classname': 'h1-title',

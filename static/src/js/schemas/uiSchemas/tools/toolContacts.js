@@ -3,6 +3,9 @@ import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const toolContactsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
   'ui:heading-level': 'h3',
   'ui:layout_grid': {

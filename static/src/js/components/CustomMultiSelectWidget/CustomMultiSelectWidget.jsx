@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
@@ -8,11 +8,11 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 /**
  * CustomMultiSelectWidget
  * @typedef {Object} CustomArrayFieldTemplate
- * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
- * @property {String} placeholder A placeholder text for the multiselect.
+ * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
  * @property {Function} onChange A callback function triggered when the user selects an option.
+ * @property {String} placeholder A placeholder text for the multiselect.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Boolean} required Is the CustomMultiSelectWidget field required
  * @property {Object} schema A UMM Schema for the widget being previewed.
@@ -25,11 +25,11 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
  * @param {CustomMultiSelectWidget} props
  */
 const CustomMultiSelectWidget = ({
-  label = '',
   id,
-  placeholder,
+  label,
   onBlur,
   onChange,
+  placeholder,
   registry,
   required,
   schema,
@@ -40,13 +40,14 @@ const CustomMultiSelectWidget = ({
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
-  const [showMenu, setShowMenu] = useState(false)
-
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
 
   const selectOptions = []
-  const { enum: schemaEnums = retrievedSchema?.enum ?? [], description } = schema
+  const {
+    enum: schemaEnums = retrievedSchema?.enum ?? [],
+    description
+  } = schema
   const { formContext } = registry
 
   const {
@@ -78,67 +79,59 @@ const CustomMultiSelectWidget = ({
     })
 
     onChange(result)
-    setShowMenu(false)
-    focusRef.current?.blur()
-  }
-
-  const handleFocus = () => {
-    setShowMenu(true)
   }
 
   const handleBlur = () => {
-    onBlur(id)
     setFocusField(null)
-    setShowMenu(false)
+
+    onBlur(id)
   }
 
   // If the value already has data, this will store it as an object for react-select
-  const existingValues = []
-  value.forEach((currentValue) => {
-    if (currentValue != null) {
-      existingValues.push({
-        value: currentValue,
-        label: currentValue
-      })
-    }
-  })
+  const existingValues = value.filter(Boolean).map((currentValue) => ({
+    value: currentValue,
+    label: currentValue
+  }))
 
   return (
     <CustomWidgetWrapper
       description={description}
+      id={id}
       label={label}
-      scrollRef={selectScrollRef}
       required={required}
+      scrollRef={selectScrollRef}
       title={title}
     >
       <Select
-        value={existingValues}
         id={id}
         isClearable
         isMulti
-        menuIsOpen={showMenu}
         onBlur={handleBlur}
         onChange={handleChange}
-        onFocus={handleFocus}
+        openMenuOnClick
+        openMenuOnFocus
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
         ref={focusRef}
+        value={existingValues}
       />
     </CustomWidgetWrapper>
   )
 }
 
 CustomMultiSelectWidget.defaultProps = {
-  value: null,
   placeholder: '',
   uiSchema: {
     'ui:title': null
-  }
+  },
+  value: []
 }
 
 CustomMultiSelectWidget.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({
@@ -159,9 +152,7 @@ CustomMultiSelectWidget.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string
   }),
-  value: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  value: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default CustomMultiSelectWidget

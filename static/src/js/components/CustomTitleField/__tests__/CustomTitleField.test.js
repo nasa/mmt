@@ -1,26 +1,18 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+
 import CustomTitleField from '../CustomTitleField'
 
 const setup = (overrideProps = {}) => {
   const props = {
-    title: 'Test field',
     required: true,
-    registry: {
-      formContext: {
-        focusField: '',
-        setFocusField: jest.fn()
-      }
-    },
+    title: 'Test field',
     ...overrideProps
   }
 
   render(
-    <BrowserRouter>
-      <CustomTitleField {...props} />
-    </BrowserRouter>
+    <CustomTitleField {...props} />
   )
 
   return {

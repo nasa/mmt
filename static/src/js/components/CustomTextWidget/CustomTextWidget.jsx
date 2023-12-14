@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
@@ -16,11 +12,11 @@ import './CustomTextWidget.scss'
  * CustomTextWidget
  * @typedef {Object} CustomTextWidget
  * @property {Boolean} disable A boolean value to disable the text field.
- * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
- * @property {String} placeholder A placeholder text for the text field.
+ * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {String} placeholder A placeholder text for the text field.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Boolean} required Is the CustomSelectWidget field required
  * @property {Object} schema A UMM Schema for the widget being previewed.
@@ -34,11 +30,11 @@ import './CustomTextWidget.scss'
  */
 const CustomTextWidget = ({
   disabled,
-  label,
   id,
-  placeholder,
+  label,
   onBlur,
   onChange,
+  placeholder,
   registry,
   required,
   schema,
@@ -85,15 +81,15 @@ const CustomTextWidget = ({
   const handleBlur = () => {
     setFocusField(null)
 
-    onBlur(id)
+    if (onBlur) onBlur(id)
   }
 
   return (
     <CustomWidgetWrapper
-      charsUsed={value?.length}
+      charactersUsed={value?.length}
       description={description}
-      id={id}
       headerClassName={headerClassName}
+      id={id}
       label={label}
       maxLength={maxLength}
       required={required}
@@ -102,8 +98,6 @@ const CustomTextWidget = ({
     >
       <input
         className="custom-text-widget__input form-control"
-        value={value}
-        tabIndex={0}
         disabled={disabled}
         id={id}
         maxLength={maxLength}
@@ -112,7 +106,9 @@ const CustomTextWidget = ({
         onChange={handleChange}
         placeholder={placeholder}
         ref={focusRef}
+        tabIndex={0}
         type={fieldType && fieldType === 'number' ? 'number' : 'text'}
+        value={value}
       />
     </CustomWidgetWrapper>
   )
@@ -120,15 +116,17 @@ const CustomTextWidget = ({
 
 CustomTextWidget.defaultProps = {
   disabled: false,
-  value: '',
+  onBlur: null,
   placeholder: null,
-  onBlur: null
+  value: ''
 }
 
 CustomTextWidget.propTypes = {
   disabled: PropTypes.bool,
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
@@ -146,9 +144,7 @@ CustomTextWidget.propTypes = {
     'ui:title': PropTypes.string,
     'ui:type': PropTypes.string
   }).isRequired,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func
+  value: PropTypes.string
 }
 
 export default CustomTextWidget

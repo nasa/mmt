@@ -1,8 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  useEffect
-} from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash'
 
@@ -15,8 +11,8 @@ import './CustomTextareaWidget.scss'
 /**
  * CustomTextareaWidget
  * @typedef {Object} CustomTextareaWidget
- * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
+ * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} registry An Object that has all the props that are in registry.
@@ -31,8 +27,8 @@ import './CustomTextareaWidget.scss'
  * @param {CustomArrayFieldTemplate} props
  */
 const CustomTextareaWidget = ({
-  label,
   id,
+  label,
   onBlur,
   onChange,
   registry,
@@ -90,23 +86,24 @@ const CustomTextareaWidget = ({
 
   return (
     <CustomWidgetWrapper
-      scrollRef={textareaScrollRef}
+      charactersUsed={value?.length}
       description={description}
-      charsUsed={value?.length}
       label={label}
+      id={id}
       maxLength={maxLength}
       required={required}
+      scrollRef={textareaScrollRef}
       title={title}
     >
       <textarea
-        ref={focusRef}
         className="custom-textarea-widget__input form-control d-block"
         id={id}
         maxLength={maxLength}
         name={title}
-        value={value ?? ''}
-        onChange={handleChange}
         onBlur={handleBlur}
+        onChange={handleChange}
+        ref={focusRef}
+        value={value ?? ''}
       />
     </CustomWidgetWrapper>
   )
@@ -117,8 +114,10 @@ CustomTextareaWidget.defaultProps = {
 }
 
 CustomTextareaWidget.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -133,9 +132,7 @@ CustomTextareaWidget.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string
   }).isRequired,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  value: PropTypes.string
 }
 
 export default CustomTextareaWidget

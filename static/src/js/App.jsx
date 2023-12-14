@@ -49,7 +49,6 @@ const Redirects = redirectKeys.map(
  */
 const App = () => {
   useLayoutEffect(() => {
-    console.log('removing class')
     document.body.classList.remove('is-loading')
   }, [])
 

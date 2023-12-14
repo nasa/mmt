@@ -4,44 +4,41 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate'
 
 const setup = (overrideProps = {}) => {
   const items = [{
-    key: 'mock-key',
-    className: 'array-item',
-    length: '1',
     children: (
       <span>
         mock child
       </span>
     ),
+    className: 'array-item',
+    key: 'mock-key',
+    length: '1',
     onDropIndexClick: jest.fn()
   }]
 
   const onAddClick = jest.fn()
 
   const props = {
-    items,
     canAdd: true,
+    items,
+    onAddClick,
+    required: false,
+    schema: {
+      description: 'Test Description'
+    },
     title: 'Array Field Test',
     uiSchema: {
       'ui:heading-level': 'h3'
     },
-    schema: {
-      description: 'Test Description'
-    },
-    required: false,
-    onAddClick,
     ...overrideProps
   }
 
   render(
-    <BrowserRouter>
-      <CustomArrayFieldTemplate {...props} />
-    </BrowserRouter>
+    <CustomArrayFieldTemplate {...props} />
   )
 
   return {
@@ -50,16 +47,12 @@ const setup = (overrideProps = {}) => {
   }
 }
 
-jest.useFakeTimers()
-
 describe('CustomArrayFieldTemplate', () => {
   describe('When a array field given', () => {
-    test.only('renders the children', () => {
-      setup({
-        required: true
-      })
+    test('renders the children', () => {
+      setup()
 
-      expect(screen.queryByRole('heading')).toHaveTextContent('Array Field Test')
+      expect(screen.getByRole('heading')).toHaveTextContent('Array Field Test')
       expect(screen.getByText('mock child')).toBeInTheDocument()
       expect(screen.getByText('Test Description')).toBeInTheDocument()
     })
@@ -71,7 +64,7 @@ describe('CustomArrayFieldTemplate', () => {
         required: true
       })
 
-      expect(screen.queryByRole('heading')).toHaveTextContent('Array Field Test')
+      expect(screen.getByRole('heading')).toHaveTextContent('Array Field Test')
       expect(screen.getByText('mock child')).toBeInTheDocument()
       expect(screen.getByRole('img', { name: 'Required' })).toBeInTheDocument()
       expect(screen.getByText('Test Description')).toBeInTheDocument()
@@ -98,9 +91,10 @@ describe('CustomArrayFieldTemplate', () => {
         addButton.click()
       })
 
-      jest.runAllTimers()
-
       expect(props.onAddClick).toHaveBeenCalledTimes(1)
+
+      expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledTimes(1)
+      expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
     })
   })
 
@@ -138,7 +132,7 @@ describe('CustomArrayFieldTemplate', () => {
         }
       })
 
-      expect(screen.queryByRole('heading')).toHaveTextContent('New Custom Title')
+      expect(screen.getByRole('heading')).toHaveTextContent('New Custom Title')
     })
   })
 

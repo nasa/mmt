@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FaInfoCircle } from 'react-icons/fa'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
-
-import './CustomWidgetWrapper.scss'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover from 'react-bootstrap/Popover'
 import pluralize from 'pluralize'
 import commafy from 'commafy'
+
+import './CustomWidgetWrapper.scss'
 
 /**
  * CustomWidgetWrapper
  * @typedef {Object} CustomWidgetWrapper
- * @property {Number} charsUsed Number of character used.
+ * @property {Number} charactersUsed Number of character used.
+ * @property {ReactNode} children The widget content.
  * @property {String} description A description of the field.
  * @property {String} headerClassName A headerClassName defined in the uiSchema.
+ * @property {String} id The id of the widget.
  * @property {Number} maxLength Max number of character defined for a field in the schema.
  * @property {Boolean} required Is the field required.
  * @property {HTMLDivElement} scrollRef A ref to scroll to.
@@ -24,7 +27,7 @@ import commafy from 'commafy'
  * @param {CustomWidgetWrapper} props
  */
 const CustomWidgetWrapper = ({
-  charsUsed,
+  charactersUsed,
   children,
   description,
   headerClassName,
@@ -54,7 +57,10 @@ const CustomWidgetWrapper = ({
           <div>
             {
               title && (
-                <label className={`custom-widget-wrapper__label text-gray-700 ${headerClassName}`} htmlFor={id}>
+                <label
+                  className={`custom-widget-wrapper__label text-gray-700 ${headerClassName}`}
+                  htmlFor={id}
+                >
                   {title}
                 </label>
               )
@@ -63,9 +69,9 @@ const CustomWidgetWrapper = ({
               required && (
                 <span>
                   <i
+                    aria-label="Required"
                     className="eui-icon eui-required-o text-success ps-1"
                     role="img"
-                    aria-label="Required"
                   />
                 </span>
               )
@@ -75,9 +81,6 @@ const CustomWidgetWrapper = ({
             description && (
               <div className="ms-2">
                 <OverlayTrigger
-                  show={showHelp}
-                  trigger={['hover', 'focus']}
-                  placement="top"
                   overlay={
                     (
                       <Popover
@@ -93,13 +96,16 @@ const CustomWidgetWrapper = ({
                       </Popover>
                     )
                   }
+                  placement="top"
+                  show={showHelp}
+                  trigger={['hover', 'focus']}
                 >
                   <button
                     className="custom-widget-wrapper__help focus-ring d-flex align-items-center text-primary small"
-                    tabIndex={0}
-                    type="button"
                     onMouseEnter={handleOnMouseEnter}
                     onMouseLeave={handleOnMouseLeave}
+                    tabIndex={0}
+                    type="button"
                   >
                     <FaInfoCircle className="me-1" />
                     Help
@@ -116,7 +122,7 @@ const CustomWidgetWrapper = ({
         {
           maxLength && (
             <span>
-              {commafy(charsUsed)}
+              {commafy(charactersUsed)}
               /
               {commafy(maxLength)}
               {' '}
@@ -131,17 +137,18 @@ const CustomWidgetWrapper = ({
 }
 
 CustomWidgetWrapper.defaultProps = {
+  charactersUsed: null,
   description: null,
   headerClassName: null,
-  maxLength: null,
-  charsUsed: null
+  maxLength: null
 }
 
 CustomWidgetWrapper.propTypes = {
-  charsUsed: PropTypes.number,
+  charactersUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
   headerClassName: PropTypes.string,
+  id: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   required: PropTypes.bool.isRequired,
   scrollRef: PropTypes.shape({}).isRequired,

@@ -7,12 +7,12 @@ import './Button.scss'
 
 /**
  * @typedef {Object} ButtonProps
+ * @property {String} className Class name to apply to the button
  * @property {ReactNode} children The children of the button
- * @property {Boolean} [disabled] An optional boolean to that disables the button
  * @property {Function} [Icon] An optional icon `react-icons` icon
+ * @property {Boolean} [naked] An optional boolean passed to render a button with no background or border
  * @property {Function} onClick A callback function to be called when the button is clicked
  * @property {String} [size] An optional string passed to React Bootstrap to change the size of the button
- * @property {Boolean} [naked] An optional boolean passed to render a button with no background or border
  * @property {String} [variant] An optional string passed to React Bootstrap to change the variant
  */
 
@@ -39,9 +39,9 @@ const Button = ({
   className,
   children,
   Icon,
+  naked,
   onClick,
   size,
-  naked,
   variant
 }) => (
   <BootstrapButton
@@ -63,6 +63,7 @@ const Button = ({
         <Icon className="me-1" />
       )
     }
+
     {children}
   </BootstrapButton>
 )
@@ -70,8 +71,8 @@ const Button = ({
 Button.defaultProps = {
   className: '',
   Icon: null,
-  size: '',
   naked: false,
+  size: '',
   variant: ''
 }
 
@@ -79,9 +80,9 @@ Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
   Icon: PropTypes.func,
+  naked: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   size: PropTypes.string,
-  naked: PropTypes.bool,
   variant: PropTypes.string
 }
 

@@ -2,6 +2,9 @@ import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const compatibilityAndUsabilityUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
   'ui:heading-level': 'h3',
   'ui:layout_grid': {

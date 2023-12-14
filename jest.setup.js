@@ -26,5 +26,5 @@ global.waitForResponse = async () => {
 
 // JS Dom does not have scrollIntoView, so create it here
 // https://stackoverflow.com/a/53294906
-window.HTMLElement.prototype.scrollIntoView = function() {}
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
 window.scroll = jest.fn()

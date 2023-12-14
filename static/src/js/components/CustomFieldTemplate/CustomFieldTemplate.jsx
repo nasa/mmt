@@ -35,10 +35,10 @@ CustomFieldTemplate.defaultProps = {
 }
 
 CustomFieldTemplate.propTypes = {
+  children: PropTypes.shape({}).isRequired,
   classNames: PropTypes.string,
-  help: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
-  children: PropTypes.shape({}).isRequired
+  help: PropTypes.shape({}).isRequired
 }
 
 export default CustomFieldTemplate

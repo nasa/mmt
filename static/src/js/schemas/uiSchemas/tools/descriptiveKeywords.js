@@ -1,4 +1,7 @@
 const descriptiveKeywordsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
   'ui:heading-level': 'h3',
   'ui:layout_grid': {

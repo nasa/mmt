@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
 import CustomMultiSelectWidget from '../CustomMultiSelectWidget'
@@ -23,7 +22,14 @@ const setup = (overrideProps = {}) => {
     registry: {
       formContext,
       schemaUtils: {
-        retrieveSchema: jest.fn().mockReturnValue({ enum: ['Option1', 'Option2', 'Option3', 'Option4'] })
+        retrieveSchema: jest.fn().mockReturnValue({
+          enum: [
+            'Option1',
+            'Option2',
+            'Option3',
+            'Option4'
+          ]
+        })
       }
     },
     required: false,
@@ -37,14 +43,11 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
-  const component = render(
-    <BrowserRouter>
-      <CustomMultiSelectWidget {...props} />
-    </BrowserRouter>
+  render(
+    <CustomMultiSelectWidget {...props} />
   )
 
   return {
-    component,
     props,
     user: userEvent.setup()
   }
@@ -58,10 +61,8 @@ beforeEach(() => {
 
 describe('CustomMultiSelectWidget', () => {
   describe('when the field is required', () => {
-    test('renders a select element', () => {
-      const {
-        component
-      } = setup({
+    test('renders a select element', async () => {
+      const { user } = setup({
         required: true,
         value: [],
         uiSchema: {
@@ -69,12 +70,16 @@ describe('CustomMultiSelectWidget', () => {
         }
       })
 
-      expect(component.container).toHaveTextContent('Title From UISchema')
-      expect(component.container).toHaveTextContent('Test Placeholder')
+      expect(screen.getByText('Title From UISchema')).toBeInTheDocument()
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
 
-      const field = screen.getByRole('combobox')
-      expect(field).toHaveAttribute('id', 'react-select-2-input')
-      expect(field).toHaveAttribute('type', 'text')
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'Option1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Option2' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Option3' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Option4' })).toBeInTheDocument()
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
@@ -88,47 +93,71 @@ describe('CustomMultiSelectWidget', () => {
     })
   })
 
-  describe('when the field has values', () => {
-    test('renders a select element with values', () => {
-      const {
-        component
-      } = setup({
-        required: true,
-        value: ['Web', 'Portal']
+  describe('when the field has a schema title', () => {
+    test('uses the schema title', () => {
+      setup({
+        placeholder: undefined,
+        uiSchema: {
+          'ui:title': 'Schema Title'
+        }
       })
 
-      expect(component.container).toHaveTextContent('Test Field')
-      expect(component.container).not.toHaveTextContent('Test Placeholder')
-      expect(component.container).toHaveTextContent('Web')
-      expect(component.container).toHaveTextContent('Portal')
+      expect(screen.getByText('Select Schema Title').className).toContain('placeholder')
 
-      const field = screen.getByRole('combobox')
-      expect(field).toHaveAttribute('type', 'text')
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description',
+        headerClassName: null,
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Schema Title'
+      }), {})
+    })
+  })
+
+  describe('when the field has values', () => {
+    test('renders a select element with values', async () => {
+      const { user } = setup({
+        required: true,
+        value: ['Option1', 'Option2']
+      })
+
+      expect(screen.getByText('Test Field')).toBeInTheDocument()
+      expect(screen.queryByText('Test Placeholder')).not.toBeInTheDocument()
+
+      expect(screen.getByText('Option1').className).toContain('MultiValueGeneric')
+      expect(screen.getByText('Option2').className).toContain('MultiValueGeneric')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.queryByRole('option', { name: 'Option1' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Option2' })).not.toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Option3' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Option4' })).toBeInTheDocument()
     })
   })
 
   describe('when user selects a value from the option list', () => {
     test('renders a select element with selected value', async () => {
       const {
-        component,
-        user,
-        props
+        props,
+        user
       } = setup({
-        required: true,
-        value: ['Web', 'Portal']
+        required: true
       })
 
-      expect(component.container).toHaveTextContent('Test Field')
-      expect(component.container).not.toHaveTextContent('Test Placeholder')
-      expect(component.container).toHaveTextContent('Web')
-      expect(component.container).toHaveTextContent('Portal')
+      expect(screen.getByText('Test Field')).toBeInTheDocument()
 
-      const field = screen.getByRole('combobox')
-      expect(field).toHaveAttribute('type', 'text')
+      const select = screen.getByRole('combobox')
+      await user.click(select)
 
-      await user.click(field, { key: 'ArrowDown' })
-      await user.click(await screen.getByText('Option2'))
-      expect(props.onChange).toHaveBeenCalledWith(['Web', 'Portal', 'Option2'])
+      const option = screen.getByRole('option', { name: 'Option2' })
+      await user.click(option)
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith(['Option2'])
     })
   })
 })

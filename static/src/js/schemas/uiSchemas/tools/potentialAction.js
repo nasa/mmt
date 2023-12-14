@@ -3,6 +3,9 @@ import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWid
 import CustomRadioWidget from '../../../components/CustomRadioWidget/CustomRadioWidget'
 
 const potentialActionUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   PotentialAction: {
     'ui:field': 'layout',
     'ui:heading-level': 'h3',

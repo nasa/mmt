@@ -5,7 +5,7 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import CustomTextareaWidget from '../CustomTextareaWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
@@ -21,8 +21,8 @@ const setup = (overrideProps = {}) => {
 
   const props = {
     disable: false,
-    label: 'Test Field',
     id: 'mock-id',
+    label: 'Test Field',
     onBlur,
     onChange,
     registry: {
@@ -69,8 +69,8 @@ describe('CustomTextareaWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: 'Test Description',
+        charactersUsed: 0,
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,
@@ -95,8 +95,8 @@ describe('CustomTextareaWidget', () => {
         field.blur()
       })
 
-      // expect(props.registry.formContext.setFocusField).toHaveBeenCalledTimes(1)
-      // expect(props.registry.formContext.setFocusField).toHaveBeenCalledWith(null)
+      expect(props.registry.formContext.setFocusField).toHaveBeenCalledTimes(1)
+      expect(props.registry.formContext.setFocusField).toHaveBeenCalledWith(null)
 
       expect(props.onBlur).toHaveBeenCalledTimes(1)
       expect(props.onBlur).toHaveBeenCalledWith('mock-id')
@@ -134,8 +134,8 @@ describe('CustomTextareaWidget', () => {
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        charsUsed: 0,
         description: 'Test Description',
+        charactersUsed: 0,
         headerClassName: null,
         label: 'Test Field',
         maxLength: null,

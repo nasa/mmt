@@ -65,6 +65,8 @@ To start the local CMR:
 
     npm run cmr:start
 
+<!-- TODO update to mention start_and_setup -->
+
 To load data into the local CMR:
 
     npm run cmr:setup

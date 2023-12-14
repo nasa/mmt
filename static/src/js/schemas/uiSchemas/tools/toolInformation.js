@@ -2,6 +2,9 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import urlTypes from '../../kms/urlTypeTool'
 
 const toolInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
   'ui:heading-level': 'h3',
   'ui:layout_grid': {

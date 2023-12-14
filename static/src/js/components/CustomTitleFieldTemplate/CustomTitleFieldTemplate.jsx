@@ -5,7 +5,6 @@ import { startCase } from 'lodash'
 /**
  * CustomTitleFieldTemplate
  * @typedef {Object} CustomTitleFieldTemplate
- * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Boolean} required Is the field required.
  * @property {String} title The title of the field.
  * @property {Object} uiSchema A uiSchema for the field being shown.
@@ -22,22 +21,10 @@ const CustomTitleFieldTemplate = ({
 }) => {
   const scrollRef = useRef(null)
 
-  // Do not think this is needed anymore.
-  // Function to scroll into view
-  // const executeScroll = () => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-
-  // // Effect to scroll into view when focusField changes
-  // useEffect(() => {
-  //   if (title.replace(/ /g, '') === registry?.focusField) {
-  //     setTimeout(() => {
-  //       executeScroll()
-  //     })
-  //   }
-  // }, [title, registry?.focusField])
-
   // Extract values or use defaults for styling classNames
   const { options = {} } = uiSchema
   const { title: uiTitle } = options
+
   const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const HeadingElement = uiSchema['ui:heading-level'] ? uiSchema['ui:heading-level'] : 'span'
   const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
@@ -57,13 +44,22 @@ const CustomTitleFieldTemplate = ({
     <div>
       <div ref={scrollRef} className={headerBoxClassName}>
         {
-          hideHeader ? null
-            : (
-              <HeadingElement className={headerClassName}>
-                {heading}
-                {required || requiredUI ? <i title={heading} className="eui-icon eui-required-o required-icon" role="img" aria-label="Required" /> : ''}
-              </HeadingElement>
-            )
+          !hideHeader && (
+            <HeadingElement className={headerClassName}>
+              {heading}
+
+              {
+                (required || requiredUI) && (
+                  <i
+                    aria-label="Required"
+                    className="eui-icon eui-required-o required-icon"
+                    role="img"
+                    title={heading}
+                  />
+                )
+              }
+            </HeadingElement>
+          )
         }
       </div>
     </div>
@@ -71,19 +67,16 @@ const CustomTitleFieldTemplate = ({
 }
 
 CustomTitleFieldTemplate.defaultProps = {
-  registry: {},
   uiSchema: {}
 }
 
 CustomTitleFieldTemplate.propTypes = {
-  title: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
-  registry: PropTypes.shape({
-    focusField: PropTypes.string
-  }),
+  title: PropTypes.string.isRequired,
   uiSchema: PropTypes.shape({
     'ui:header-classname': PropTypes.string,
     'ui:header-box-classname': PropTypes.string,
+    'ui:heading-level': PropTypes.string,
     'ui:required': PropTypes.bool,
     'ui:hide-header': PropTypes.bool,
     options: PropTypes.shape({

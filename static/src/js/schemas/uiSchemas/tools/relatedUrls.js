@@ -1,6 +1,9 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const relatedUrlsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   RelatedURLs: {
     'ui:title': 'Related URLs',
     'ui:heading-level': 'h3',

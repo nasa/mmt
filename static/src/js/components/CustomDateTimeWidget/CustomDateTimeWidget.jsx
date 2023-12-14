@@ -17,8 +17,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 /**
  * CustomDateTimeWidget
  * @typedef {Object} CustomDateTimeWidget
- * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
+ * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
  * @property {Function} onChange A callback function triggered when the user selects a date.
  * @property {Object} registry An Object that has all the props that are in registry.
@@ -32,10 +32,9 @@ import 'react-datepicker/dist/react-datepicker.css'
  * Renders CustomDateTimeWidget
  * @param {CustomDateTimeWidget} props
  */
-
 const CustomDateTimeWidget = ({
-  label,
   id,
+  label,
   onBlur,
   onChange,
   registry,
@@ -44,7 +43,7 @@ const CustomDateTimeWidget = ({
   uiSchema,
   value
 }) => {
-  const [date, onChangeDate] = React.useState(value ? new Date(value) : null)
+  const [date, setDate] = useState(value ? new Date(value) : null)
   const [showCalender, setShowCalender] = useState(false)
   const datetimeScrollRef = useRef(null)
 
@@ -79,50 +78,51 @@ const CustomDateTimeWidget = ({
     }
   }, [shouldFocus])
 
-  const handleChange = (event) => {
-    // If a date is selected, this will convert the date to ISO string and set the onChange
-    if (event) {
-      onChangeDate(event)
-      let formattedDateTime = event.toISOString()
-      formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
-      onChange(formattedDateTime)
-    }
-  }
-
   const handleBlur = () => {
     setFocusField(null)
     setShowCalender(false)
     onBlur(id)
   }
 
+  const handleChange = (newDate) => {
+    // When a date is selected, this will convert the date to ISO string and set the onChange
+    setDate(newDate)
+
+    let formattedDateTime = newDate.toISOString()
+    formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
+    onChange(formattedDateTime)
+
+    handleBlur()
+  }
+
   return (
     <CustomWidgetWrapper
       description={description}
       label={label}
+      id={id}
       required={required}
-      title={title}
       scrollRef={datetimeScrollRef}
+      title={title}
     >
       <DatePicker
         className="w-100 p-2 form-control"
-        wrapperClassName="d-block"
-        id={id}
-        placeholderText="YYYY-MM-DDTHH:MM:SSZ"
         dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
         dropdownMode="select"
-        showMonthDropdown
-        showYearDropdown
-        peekNextMonth
-        selected={
-          value
-            ? new Date(fieldValue.toLocaleString('en-US', {
-              timeZone: 'GMT'
-            })) : null
-        }
-        onFocus={handleFocus}
+        id={id}
         onBlur={handleBlur}
         onChange={handleChange}
+        onFocus={handleFocus}
         open={showCalender}
+        peekNextMonth
+        placeholderText="YYYY-MM-DDTHH:MM:SSZ"
+        wrapperClassName="d-block"
+        selected={
+          value && new Date(fieldValue.toLocaleString('en-US', {
+            timeZone: 'GMT'
+          }))
+        }
+        showMonthDropdown
+        showYearDropdown
       />
     </CustomWidgetWrapper>
   )
@@ -133,8 +133,10 @@ CustomDateTimeWidget.defaultProps = {
 }
 
 CustomDateTimeWidget.propTypes = {
-  label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,
@@ -149,9 +151,7 @@ CustomDateTimeWidget.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string
   }).isRequired,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  value: PropTypes.string
 }
 
 export default CustomDateTimeWidget

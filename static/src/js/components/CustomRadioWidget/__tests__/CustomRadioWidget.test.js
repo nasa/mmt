@@ -1,16 +1,17 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+
 import CustomRadioWidget from '../CustomRadioWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
 jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
 
-const setupCustomRadioWidget = (overrideProps = {}) => {
+const setup = (overrideProps = {}) => {
   const props = {
-    label: 'label',
-    id: 'id',
+    id: 'mock-id',
+    label: 'Test Field',
+    onChange: jest.fn(),
     registry: {
       formContext: {
         focusField: '',
@@ -19,19 +20,15 @@ const setupCustomRadioWidget = (overrideProps = {}) => {
     },
     required: true,
     schema: {
-      description: 'description'
+      description: 'Test Description'
     },
-    uiSchema: {
-      'ui:title': 'Title Page'
-    },
+    uiSchema: {},
     value: false,
     ...overrideProps
   }
 
   render(
-    <BrowserRouter>
-      <CustomRadioWidget {...props} />
-    </BrowserRouter>
+    <CustomRadioWidget {...props} />
   )
 
   return {
@@ -49,22 +46,106 @@ beforeEach(() => {
 describe('CustomRadioWidget', () => {
   describe('when radio buttons are required', () => {
     test('renders a radio button element with required icon', async () => {
-      const { user } = setupCustomRadioWidget({
+      setup({
         required: true
       })
-      const radioButtons = screen.getAllByRole('radio')
-      const trueRadio = radioButtons[0]
-      const falseRadio = radioButtons[1]
-      const clearButton = screen.getByRole('link')
+
+      expect(screen.getByRole('radio', { name: 'True' })).toBeInTheDocument()
+      expect(screen.getByRole('radio', { name: 'False' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description',
+        headerClassName: null,
+        label: 'Test Field',
+        required: true,
+        title: 'Test Field'
+      }), {})
 
       expect(screen.getByRole('img')).toBeInTheDocument()
-      expect(clearButton).toBeInTheDocument()
-      expect(screen.getByRole('radiogroup')).toBeInTheDocument()
-      expect(trueRadio).toBeInTheDocument()
+    })
+  })
+
+  describe('when the field has a value', () => {
+    test('renders the correct radio selected', () => {
+      setup({
+        value: true
+      })
+
+      expect(screen.getByRole('radio', { name: 'True' })).toHaveAttribute('checked')
+      expect(screen.getByRole('radio', { name: 'False' })).not.toHaveAttribute('checked')
+    })
+  })
+
+  describe('when the field is changed', () => {
+    test('calls onChange', async () => {
+      const { props, user } = setup()
+
+      const trueRadio = screen.getByRole('radio', { name: 'True' })
       await user.click(trueRadio)
-      expect(falseRadio).toBeInTheDocument()
-      await user.click(falseRadio)
-      await user.click(clearButton)
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith(true)
+    })
+  })
+
+  describe('when the field is cleared', () => {
+    test('calls onChange', async () => {
+      const { props, user } = setup({
+        value: true
+      })
+
+      const clear = screen.getByRole('link', { name: 'Clear' })
+      await user.click(clear)
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith(undefined)
+    })
+  })
+
+  describe('when the field is cleared with a keypress', () => {
+    test('calls onChange', async () => {
+      const { props, user } = setup({
+        value: true
+      })
+
+      const clear = screen.getByRole('link', { name: 'Clear' })
+      clear.focus()
+      await user.keyboard('{Enter}')
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith(undefined)
+    })
+  })
+
+  describe('when the field should be focused', () => {
+    test('focuses the field', async () => {
+      setup({
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
+          }
+        }
+      })
+
+      const trueRadio = screen.getByRole('radio', { name: 'True' })
+
+      expect(trueRadio).toHaveFocus()
+    })
+  })
+
+  describe('when the field has a schema title', () => {
+    test('uses the schema title', () => {
+      setup({
+        uiSchema: {
+          'ui:title': 'Schema Title'
+        }
+      })
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        title: 'Schema Title'
+      }), {})
     })
   })
 })
