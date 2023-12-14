@@ -48,18 +48,14 @@ const DraftList = ({ draftType }) => {
     }
   })
 
-  const fetchDraft = (conceptId) => {
-    downloadDraft(
-      {
-        variables: {
-          params: {
-            conceptId,
-            conceptType: draftType
-          }
-        }
+  const createDownloadDraftParams = (conceptId) => ({
+    variables: {
+      params: {
+        conceptId,
+        conceptType: draftType
       }
-    )
-  }
+    }
+  })
 
   return (
     <Page
@@ -204,7 +200,7 @@ const DraftList = ({ draftType }) => {
                                       className="d-flex align-items-center justify-content-center"
                                       onClick={
                                         () => {
-                                          fetchDraft(conceptId)
+                                          downloadDraft(createDownloadDraftParams(conceptId))
                                         }
                                       }
                                       Icon={FaFileDownload}
