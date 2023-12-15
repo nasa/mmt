@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Button } from 'react-bootstrap'
-import userEvent from '@testing-library/user-event'
 import constructDownloadableFile from '../constructDownloadableFile'
 
 describe('constructDownloadableFile', () => {
@@ -21,7 +20,6 @@ describe('constructDownloadableFile', () => {
           </Button>
         </div>
       )
-      delete window.location
       const button = container.getByRole('button', { name: 'Download' })
       button.click()
       const link = screen.getByRole('link')
