@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { uniqueId } from 'lodash'
+import { uniqueId } from 'lodash-es'
 
 import GridCheckboxPanel from '../GridCheckboxPanel/GridCheckboxPanel'
 import GridGroupedSinglePanel from '../GridGroupedSinglePanel/GridGroupedSinglePanel'

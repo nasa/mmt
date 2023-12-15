@@ -1,8 +1,8 @@
 import notificationsActions from '../../constants/notificationsActions'
 import { initialState, notificationsReducer } from '../notificationsReducer'
 
-jest.mock('lodash', () => ({
-  ...jest.requireActual('lodash'),
+jest.mock('lodash-es', () => ({
+  ...jest.requireActual('lodash-es'),
   uniqueId: jest.fn().mockImplementation((value) => (`${value}42`))
 }))
 

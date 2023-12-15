@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import traverseArray from './traverseArray'
 import walkMap from './walkMap'
 /**

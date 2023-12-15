@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 

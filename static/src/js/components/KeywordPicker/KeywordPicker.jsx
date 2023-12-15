@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { cloneDeep, isEmpty } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Button from 'react-bootstrap/Button'
 

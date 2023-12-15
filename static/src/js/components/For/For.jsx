@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash-es'
 
 /**
  * @typedef {Object} ForProps

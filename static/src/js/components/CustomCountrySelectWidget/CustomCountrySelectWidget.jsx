@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 import countryList from 'react-select-country-list'
 
 /**

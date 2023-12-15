@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash-es'
 import { useLazyQuery } from '@apollo/client'
 
 import useAppContext from './useAppContext'

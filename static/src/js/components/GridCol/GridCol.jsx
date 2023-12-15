@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import Col from 'react-bootstrap/Col'
-import { uniqueId } from 'lodash'
+import { uniqueId } from 'lodash-es'
 
 // eslint-disable-next-line import/no-cycle
 import GridLayout from '../GridLayout/GridLayout'

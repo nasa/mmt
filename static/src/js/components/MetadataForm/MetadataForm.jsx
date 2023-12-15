@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
-import { kebabCase } from 'lodash'
+import { kebabCase } from 'lodash-es'
 import validator from '@rjsf/validator-ajv8'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'

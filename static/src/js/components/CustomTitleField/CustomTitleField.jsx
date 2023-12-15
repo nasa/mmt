@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 
 import './CustomTitleField.scss'
 

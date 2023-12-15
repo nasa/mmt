@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import PropTypes from 'prop-types'
 
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'

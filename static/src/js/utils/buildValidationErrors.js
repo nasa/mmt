@@ -1,4 +1,4 @@
-import { get, merge } from 'lodash'
+import { get, merge } from 'lodash-es'
 
 /**
  * Recursively builds a validation error to pass into NavigationItemError, give an AJV validation error. See the tests for examples of input and output objects

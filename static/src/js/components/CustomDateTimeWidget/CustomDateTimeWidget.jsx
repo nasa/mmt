@@ -4,7 +4,7 @@ import React, {
   useEffect
 } from 'react'
 import PropTypes from 'prop-types'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 

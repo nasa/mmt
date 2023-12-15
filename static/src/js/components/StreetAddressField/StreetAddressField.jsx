@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
-import { cloneDeep, uniqueId } from 'lodash'
+import { cloneDeep, uniqueId } from 'lodash-es'
 
 import For from '../For/For'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'

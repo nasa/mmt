@@ -1,4 +1,4 @@
-import { cloneDeep, uniqWith } from 'lodash'
+import { cloneDeep, uniqWith } from 'lodash-es'
 
 /*
 * Helper function that traverses through a CMR facet response and builds a multidimensinal array of keywords.

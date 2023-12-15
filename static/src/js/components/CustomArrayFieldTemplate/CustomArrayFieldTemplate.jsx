@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 
 import Button from '../Button/Button'

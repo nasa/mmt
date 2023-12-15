@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import { useNavigate, useParams } from 'react-router'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
-import { startCase } from 'lodash'
+import { startCase } from 'lodash-es'
 import {
   CollectionPreview,
   ServicePreview,

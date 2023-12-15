@@ -1,4 +1,4 @@
-import { kebabCase, toLower } from 'lodash'
+import { kebabCase, toLower } from 'lodash-es'
 
 /**
  * Returned a kebabCased version of the display name.

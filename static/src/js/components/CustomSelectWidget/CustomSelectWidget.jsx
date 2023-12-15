@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
-import { isEmpty, startCase } from 'lodash'
+import { isEmpty, startCase } from 'lodash-es'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 

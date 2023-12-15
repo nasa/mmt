@@ -1,4 +1,4 @@
-import { kebabCase } from 'lodash'
+import { kebabCase } from 'lodash-es'
 
 /**
  * Gets the next section in the form.

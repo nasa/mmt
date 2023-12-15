@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
 import classNames from 'classnames'
-import { upperFirst } from 'lodash'
+import { upperFirst } from 'lodash-es'
 
 import For from '../For/For'
 
