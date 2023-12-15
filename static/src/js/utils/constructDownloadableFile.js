@@ -13,7 +13,6 @@ export const constructDownloadableFile = (contents, name, type = 'text/plain;cha
 
   // Required for file downloads to work in Firefox
   document.body.appendChild(clickableElement)
-
   clickableElement.click()
 }
 
