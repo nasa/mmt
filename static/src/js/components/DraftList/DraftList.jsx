@@ -35,10 +35,6 @@ const DraftList = ({ draftType }) => {
   const { count, items = [] } = drafts
 
   const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
-    onError: (downloadError) => {
-      // Todo: send error to user.
-      console.log('Error downloading JSON ', downloadError)
-    },
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
       const { conceptId } = fetchedDraft
@@ -207,6 +203,7 @@ const DraftList = ({ draftType }) => {
                                       className="d-flex align-items-center justify-content-center"
                                       onClick={
                                         () => {
+                                          console.log('clicked it!!!!!!')
                                           downloadDraft(createDownloadDraftParams(conceptId))
                                         }
                                       }
