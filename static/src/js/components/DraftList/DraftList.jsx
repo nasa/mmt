@@ -203,7 +203,6 @@ const DraftList = ({ draftType }) => {
                                       className="d-flex align-items-center justify-content-center"
                                       onClick={
                                         () => {
-                                          console.log('clicked it!!!!!!')
                                           downloadDraft(createDownloadDraftParams(conceptId))
                                         }
                                       }
