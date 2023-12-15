@@ -72,11 +72,11 @@ const PreviewProgress = ({
 
   // Build the field progress for a non-array field
   const buildFieldProgress = ({
-    fieldValue,
-    section,
+    fieldIndex,
     fieldName,
+    fieldValue,
     isRequired,
-    fieldIndex
+    section
   }) => {
     const prefixedFieldName = prefixProperty(fieldName)
     const { displayName: formName } = section
@@ -118,27 +118,27 @@ const PreviewProgress = ({
     }
 
     return {
-      formName,
       fieldName,
+      formName,
       isRequired,
-      status,
-      message
+      message,
+      status
     }
   }
 
   // Build the field progress for an array field
   // Loop through each value in the array and call `buildFieldProgress` for each
   const buildFieldsProgress = ({
+    fieldName,
     fieldValue,
-    section,
-    fieldName,
-    isRequired
-  }) => fieldValue.map((value, index) => buildFieldProgress({
-    fieldValue: value,
-    fieldName,
-    section,
     isRequired,
-    fieldIndex: index
+    section
+  }) => fieldValue.map((value, index) => buildFieldProgress({
+    fieldIndex: index,
+    fieldName,
+    fieldValue: value,
+    isRequired,
+    section
   }))
 
   // Generate the progress circles for each field in a form section
@@ -152,17 +152,17 @@ const PreviewProgress = ({
 
       if (Array.isArray(fieldValue)) {
         fields.push(...buildFieldsProgress({
-          fieldValue,
-          section,
           fieldName,
-          isRequired: required
+          fieldValue,
+          isRequired: required,
+          section
         }))
       } else {
         fields.push(buildFieldProgress({
-          fieldValue,
-          section,
           fieldName,
-          isRequired: required
+          fieldValue,
+          isRequired: required,
+          section
         }))
       }
     })
@@ -182,9 +182,9 @@ const PreviewProgress = ({
             return (
               <ProgressSection
                 displayName={displayName}
-                status={status}
                 fields={fields}
                 key={displayName}
+                status={status}
               />
             )
           }

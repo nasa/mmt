@@ -1,6 +1,7 @@
+import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+
 import GridCol from '../GridCol'
 
 jest.mock('../../GridLayout/GridLayout', () => ({
@@ -31,12 +32,14 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    required: false,
-    registry,
-    schema: { description: 'Test Description' },
     layout,
-    uiSchema: {},
     onChange: jest.fn(),
+    registry,
+    required: false,
+    schema: {
+      description: 'Test Description'
+    },
+    uiSchema: {},
     ...overrideProps
   }
 

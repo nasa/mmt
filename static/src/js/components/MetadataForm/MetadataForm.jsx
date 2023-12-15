@@ -19,15 +19,14 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import FormNavigation from '../FormNavigation/FormNavigation'
 import GridLayout from '../GridLayout/GridLayout'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
-
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import FormNavigation from '../FormNavigation/FormNavigation'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 import formConfigurations from '../../schemas/uiForms'
 import toolsUiSchema from '../../schemas/uiSchemas/tools'
@@ -61,12 +60,12 @@ const MetadataForm = () => {
   } = useParams()
   const navigate = useNavigate()
   const {
-    user,
     draft,
     originalDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft
+    setSavedDraft,
+    user
   } = useAppContext()
 
   const { providerId } = user
@@ -151,9 +150,9 @@ const MetadataForm = () => {
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
-    fullSchema: schema,
     formConfigurations: formSections,
-    formName: currentSection
+    formName: currentSection,
+    fullSchema: schema
   })
 
   const fields = {
@@ -283,31 +282,44 @@ const MetadataForm = () => {
     <Page title={pageTitle} pageType="secondary">
       <Container className="metadata-form__container mx-0">
         <Row className="metadata-form__row">
-          <Col className="mb-5" xs="auto" md={{ span: 4, order: 2 }}>
+          <Col
+            className="mb-5"
+            md={
+              {
+                span: 4,
+                order: 2
+              }
+            }
+            xs="auto"
+          >
             <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
               <FormNavigation
                 draft={ummMetadata}
-                fullSchema={schema}
                 formSections={formSections}
+                fullSchema={schema}
                 loading={ingestDraftLoading}
-                visitedFields={visitedFields}
-                onSave={handleSave}
                 onCancel={handleCancel}
+                onSave={handleSave}
                 schema={schema}
                 setFocusField={setFocusField}
                 uiSchema={toolsUiSchema}
+                visitedFields={visitedFields}
               />
             </div>
           </Col>
-          <Col xs="auto" md={{ span: 8, order: 1 }} className="p-md-0">
+
+          <Col
+            className="p-md-0"
+            md={
+              {
+                span: 8,
+                order: 1
+              }
+            }
+            xs="auto"
+          >
             <Form
               fields={fields}
-              formContext={
-                {
-                  focusField,
-                  setFocusField
-                }
-              }
               formData={ummMetadata}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -316,11 +328,13 @@ const MetadataForm = () => {
               uiSchema={uiSchema}
               validator={validator}
               widgets={widgets}
-            >
-              {/* Pass an empty fragment as a child to hide the submit button */}
-              {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-              <></>
-            </Form>
+              formContext={
+                {
+                  focusField,
+                  setFocusField
+                }
+              }
+            />
           </Col>
         </Row>
 

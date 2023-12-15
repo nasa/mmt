@@ -2,11 +2,11 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import GridRow from '../../GridRow/GridRow'
 import GridCol from '../../GridCol/GridCol'
-import GridField from '../../GridField/GridField'
 import GridControlledField from '../../GridControlledField/GridControlledField'
+import GridField from '../../GridField/GridField'
 import GridLayout from '../GridLayout'
+import GridRow from '../../GridRow/GridRow'
 
 jest.mock('../../GridRow/GridRow')
 jest.mock('../../GridCol/GridCol')
@@ -34,85 +34,78 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    uiSchema: {
-      'ui:field': 'layout',
-      'ui:mapping': {
-        name: 'cmr-mock-name'
-      },
-      'ui:onHandleChange': jest.fn(),
-      'ui:layout_grid': {
-        'ui:row': [
-          {
-            'ui:group': 'Tool Information',
-            'ui:required': true,
-            'ui:col': {
-              md: 12,
-              children: [
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Name']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['LongName']
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
+    disabled: false,
+    errorSchema: {},
+    formData: {
+      LongName: 'mock long name',
+      Name: 'mock name'
+    },
+    idSchema: {
+      $id: 'root',
+      LongName: {
+        $id: 'root_LongName'
       },
       Name: {
-        'ui:widget': 'textarea'
+        $id: 'root_Name'
       }
     },
+    onBlur: jest.fn(),
+    onChange: jest.fn(),
+    onFocus: jest.fn(),
+    readonly: false,
     registry: {
+      fields: {
+        SchemaField: jest.fn(),
+        TitleField: jest.fn()
+      },
       formContext: {},
       schemaUtils: {
         retrieveSchema: () => schema
-      },
-      fields: {
-        TitleField: jest.fn(),
-        SchemaField: jest.fn()
       }
     },
-    formData: {
-      Name: 'mock name',
-      LongName: 'mock long name'
-    },
     schema,
-    idSchema: {
-      $id: 'root',
-      Name: { $id: 'root_Name' },
-      LongName: { $id: 'root_LongName' }
+    uiSchema: {
+      Name: {
+        'ui:widget': 'textarea'
+      },
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [{
+          'ui:col': {
+            children: [{
+              'ui:row': [{
+                'ui:col': {
+                  children: ['Name'],
+                  md: 12
+                }
+              }]
+            }, {
+              'ui:row': [{
+                'ui:col': {
+                  children: ['LongName'],
+                  md: 12
+                }
+              }]
+            }],
+            md: 12
+          },
+          'ui:group': 'Tool Information',
+          'ui:required': true
+        }]
+      },
+      'ui:mapping': {
+        name: 'cmr-mock-name'
+      },
+      'ui:onHandleChange': jest.fn()
     },
-    errorSchema: {},
-    onBlur: jest.fn(),
-    onFocus: jest.fn(),
-    onChange: jest.fn(),
-    disabled: false,
-    readonly: false,
     ...overrideProps
   }
 
-  const component = render(
+  render(
     <GridLayout {...props} />
   )
-  const { container } = component
 
   return {
-    container,
     props,
     user: userEvent.setup()
   }
@@ -122,6 +115,7 @@ describe('GridLayout', () => {
   describe('when provided a ui schema layout initially', () => {
     test('renders the row or column in root of the ui schema', () => {
       const { props } = setup({})
+
       expect(GridRow).toHaveBeenCalledWith(expect.objectContaining({
         layout: props.uiSchema['ui:layout_grid']
       }), {})
@@ -138,7 +132,9 @@ describe('GridLayout', () => {
           children: ['Name']
         }
       }
+
       setup({ layout })
+
       expect(GridCol).toHaveBeenCalledWith(expect.objectContaining({
         layout
       }), {})
@@ -159,7 +155,9 @@ describe('GridLayout', () => {
           }
         ]
       }
+
       setup({ layout })
+
       expect(GridRow).toHaveBeenCalledWith(expect.objectContaining({
         layout
       }), {})
@@ -174,12 +172,13 @@ describe('GridLayout', () => {
         controlName: 'mock-name',
         layout: 'Name'
       })
+
       expect(GridControlledField).toHaveBeenCalledWith(expect.objectContaining({
         controlName: 'mock-name',
-        uiSchema: props.uiSchema.Name,
+        mapping: props.uiSchema['ui:controlled'],
         name: 'Name',
         onSelectValue: props.uiSchema['ui:onHandleChange'],
-        mapping: props.uiSchema['ui:controlled']
+        uiSchema: props.uiSchema.Name
       }), {})
 
       expect(GridControlledField).toHaveBeenCalledTimes(1)
@@ -191,9 +190,10 @@ describe('GridLayout', () => {
       const { props } = setup({
         layout: 'Name'
       })
+
       expect(GridField).toHaveBeenCalledWith(expect.objectContaining({
-        uiSchema: props.uiSchema,
-        layout: 'Name'
+        layout: 'Name',
+        uiSchema: props.uiSchema
       }), {})
 
       expect(GridField).toHaveBeenCalledTimes(1)

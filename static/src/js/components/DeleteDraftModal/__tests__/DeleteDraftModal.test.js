@@ -6,9 +6,9 @@ import DeleteDraftModal from '../DeleteDraftModal'
 
 const setup = () => {
   const props = {
-    show: true,
     closeModal: jest.fn(),
-    onDelete: jest.fn()
+    onDelete: jest.fn(),
+    show: true
   }
 
   render(<DeleteDraftModal {...props} />)

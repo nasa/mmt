@@ -11,11 +11,11 @@ import './StreetAddressField.scss'
 /**
  * StreetAddressField
  * @typedef {Object} StreetAddressField
+ * @property {Object} formData An Object with the saved metadata
  * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Object} schema A UMM Schema for the widget being previewed.
  * @property {Object} uiSchema A uiSchema for the field being shown.
- * @property {Object} formData An Object with the saved metadata
  */
 
 /**
@@ -23,17 +23,12 @@ import './StreetAddressField.scss'
  * @param {StreetAddressField} props
  */
 const StreetAddressField = ({
+  formData,
   onChange,
   registry,
   schema,
-  uiSchema = {},
-  formData,
-  noLines
+  uiSchema
 }) => {
-  for (let i = 0; i <= noLines - formData.length; i += 1) {
-    formData.push('')
-  }
-
   const [lines, setLines] = useState(formData)
 
   const { description } = schema
@@ -54,7 +49,7 @@ const StreetAddressField = ({
       <span className="street-address-field__description-box">
         {description}
 
-        <For each={[...new Array(noLines)]}>
+        <For each={[...new Array(3)]}>
           {
             (_value, index) => (
               <Col
@@ -63,17 +58,17 @@ const StreetAddressField = ({
                 className="street-address-field__address-line"
               >
                 <CustomTextWidget
-                  name={`address_line_${index}`}
-                  label={`Address Line ${index + 1}`}
-                  schema={clonedSchema}
-                  value={lines[index]}
-                  required={false}
-                  id={`${id}_${index}`}
                   disabled={false}
+                  id={`${id}_${index}`}
+                  label={`Address Line ${index + 1}`}
+                  name={`address_line_${index}`}
                   onChange={(value) => { handleUpdateAddressLine(value, index) }}
-                  registry={registry}
-                  uiSchema={uiSchema}
                   placeholder=""
+                  registry={registry}
+                  required={false}
+                  schema={clonedSchema}
+                  uiSchema={uiSchema}
+                  value={lines[index]}
                 />
               </Col>
             )
@@ -85,13 +80,11 @@ const StreetAddressField = ({
 }
 
 StreetAddressField.defaultProps = {
-  formData: [],
-  noLines: 3
+  formData: []
 }
 
 StreetAddressField.propTypes = {
   formData: PropTypes.arrayOf(PropTypes.string),
-  noLines: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({

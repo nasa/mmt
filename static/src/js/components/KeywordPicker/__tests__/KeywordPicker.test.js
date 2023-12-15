@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+
 import useControlledKeywords from '../../../hooks/useControlledKeywords'
+
 import parseCmrResponse from '../../../utils/parseCmrResponse'
+
 import KeywordPicker from '../KeywordPicker'
 
 jest.mock('../../../hooks/useControlledKeywords')
@@ -142,27 +144,25 @@ const setup = (overrideProps = {}) => {
   }
 
   const uiSchema = {
-    'ui:title': 'Tool Keyword',
     'ui:field': 'keywordPicker',
-    'ui:keyword_scheme': 'science_keywords',
-    'ui:picker_title': 'TOOL KEYWORD',
-    'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
     'ui:filter': 'EARTH SCIENCE SERVICES',
-    'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm']
+    'ui:keyword_scheme': 'science_keywords',
+    'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+    'ui:picker_title': 'TOOL KEYWORD',
+    'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
+    'ui:title': 'Tool Keyword'
   }
   const props = {
     formData: [],
+    onChange,
+    required: false,
     schema,
     uiSchema,
-    required: false,
-    onChange,
     ...overrideProps
   }
 
   render(
-    <BrowserRouter>
-      <KeywordPicker {...props} />
-    </BrowserRouter>
+    <KeywordPicker {...props} />
   )
 
   return {

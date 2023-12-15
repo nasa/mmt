@@ -15,14 +15,15 @@ import {
 } from '@edsc/metadata-preview'
 import pluralize from 'pluralize'
 
+import DeleteDraftModal from '../DeleteDraftModal/DeleteDraftModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
-
-import DeleteDraftModal from '../DeleteDraftModal/DeleteDraftModal'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'
 
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+import useAppContext from '../../hooks/useAppContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import formConfigurations from '../../schemas/uiForms'
 
@@ -35,12 +36,7 @@ import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-
 import './DraftPreview.scss'
-
-// TODO Needs tests
 
 /**
  * Renders a DraftPreview component
@@ -293,6 +289,7 @@ const DraftPreview = () => {
               {' '}
               {startCase(conceptType)}
             </span>
+
             <DeleteDraftModal
               show={showDeleteModal}
               closeModal={() => setShowDeleteModal(false)}
@@ -308,6 +305,7 @@ const DraftPreview = () => {
                 Metadata Fields
               </Col>
             </Row>
+
             <Row>
               <Col>
                 <PreviewProgress

@@ -25,13 +25,13 @@ import Modal from 'react-bootstrap/Modal'
  * )
  */
 const DeleteDraftModal = ({
-  show,
   closeModal,
-  onDelete
+  onDelete,
+  show
 }) => (
   <Modal
-    show={show}
     onHide={closeModal}
+    show={show}
   >
     <Modal.Body>Are you sure you want to delete this draft?</Modal.Body>
 
@@ -42,6 +42,7 @@ const DeleteDraftModal = ({
       >
         No
       </Button>
+
       <Button
         variant="primary"
         onClick={onDelete}
@@ -53,9 +54,9 @@ const DeleteDraftModal = ({
 )
 
 DeleteDraftModal.propTypes = {
-  show: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired
 }
 
 export default DeleteDraftModal

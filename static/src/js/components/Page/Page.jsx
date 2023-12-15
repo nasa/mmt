@@ -6,8 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
-import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import For from '../For/For'
+import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 
 import { getUmmVersionsConfig } from '../../utils/getConfig'
 
@@ -48,8 +48,8 @@ import './Page.scss'
  */
 const Page = ({
   children,
-  headerActions = [],
-  pageType = 'primary',
+  headerActions,
+  pageType,
   title
 }) => {
   const {

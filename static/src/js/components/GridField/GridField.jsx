@@ -1,5 +1,5 @@
 import { kebabCase } from 'lodash'
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import ObjectField from '../ObjectField/ObjectField'
@@ -7,18 +7,18 @@ import ObjectField from '../ObjectField/ObjectField'
 /**
  * GridField
  * @typedef {Object} GridField
- * @property {Object} uiSchema A uiSchema for the field being shown.
- * @property {Object} layout A layout schema with ui option defined.
- * @property {Object} registry An Object that has all the props that are in registry.
- * @property {Object} formData An Object with the saved metadata
- * @property {Object} schema A UMM Schema for the widget being previewed.
- * @property {Object} idSchema A idSchema for the field being shown.
- * @property {Object} errorSchema A Object with the list of errors
- * @property {Function} onChange A callback function triggered when the user inputs a text.
- * @property {Boolean} onBlur Should blur a field.
- * @property {Boolean} onFocus Should focus a field.
  * @property {Boolean} disabled Should field be disabled.
+ * @property {Object} errorSchema A Object with the list of errors
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Object} idSchema A idSchema for the field being shown.
+ * @property {Object} layout A layout schema with ui option defined.
+ * @property {Boolean} onBlur Should blur a field.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Boolean} onFocus Should focus a field.
  * @property {Boolean} readonly Is the field readonly.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {Object} schema A UMM Schema for the widget being previewed.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
  */
 
 /**
@@ -34,17 +34,17 @@ class GridField extends ObjectField {
   render() {
     const { props } = this
     const {
-      uiSchema,
-      layout,
-      registry,
-      formData,
-      schema,
-      idSchema,
+      disabled,
       errorSchema,
+      formData,
+      idSchema,
+      layout,
       onBlur,
       onFocus,
-      disabled,
-      readonly
+      readonly,
+      registry,
+      schema,
+      uiSchema
     } = props
 
     const { fields, schemaUtils } = registry
@@ -80,19 +80,19 @@ class GridField extends ObjectField {
       return (
         <span>
           <SchemaField
+            disabled={disabled}
+            errorSchema={errorSchema[layoutName]}
+            formData={(formData)[layoutName]}
+            idSchema={idSchema[layoutName]}
             name={layoutName}
+            onBlur={onBlur}
+            onChange={this.onPropertyChange(layoutName)}
+            onFocus={onFocus}
+            readonly={readonly}
+            registry={registry}
             required={this.isRequired(layoutName)}
             schema={retrievedSchema.properties[layoutName]}
             uiSchema={uiSchema[layoutName]}
-            errorSchema={errorSchema[layoutName]}
-            idSchema={idSchema[layoutName]}
-            formData={(formData)[layoutName]}
-            onChange={this.onPropertyChange(layoutName)}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            registry={registry}
-            disabled={disabled}
-            readonly={readonly}
           />
         </span>
       )
@@ -104,6 +104,7 @@ class GridField extends ObjectField {
     //
     // Handle auto scroll based on focus field.
 
+    // TODO should we remove?
     // const { formContext } = registry
     // const {
     //   focusField
@@ -138,12 +139,12 @@ class GridField extends ObjectField {
         <span data-testid={`layout-grid-field__schema-field--${kebabCase(layoutName)}`}>
           <UIComponent
             {...props}
-            name={layoutName}
-            formData={formData}
             errorSchema={errorSchema}
-            uiSchema={uiSchema}
-            schema={schema}
+            formData={formData}
+            name={layoutName}
             registry={registry}
+            schema={schema}
+            uiSchema={uiSchema}
           />
         </span>
       )

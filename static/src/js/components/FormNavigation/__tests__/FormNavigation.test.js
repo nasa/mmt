@@ -9,6 +9,7 @@ import {
 
 import FormNavigation from '../FormNavigation'
 import NavigationItem from '../../NavigationItem/NavigationItem'
+
 import saveTypes from '../../../constants/saveTypes'
 
 jest.mock('../../NavigationItem/NavigationItem')
@@ -24,15 +25,15 @@ const setup = (overrideProps = {}) => {
       properties: ['Field2']
     }],
     loading: false,
-    schema: {},
-    validationErrors: [],
-    visitedFields: [],
     onCancel: jest.fn(),
     onSave: jest.fn(),
+    schema: {},
     setFocusField: jest.fn(),
     uiSchema: {
       'section-1': {}
     },
+    validationErrors: [],
+    visitedFields: [],
     ...overrideProps
   }
 
@@ -64,7 +65,6 @@ describe('FormNavigation', () => {
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
-      required: false,
       section: {
         displayName: 'Section 1',
         properties: ['Field1']
@@ -76,7 +76,6 @@ describe('FormNavigation', () => {
 
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
-      required: false,
       section: {
         displayName: 'Section 2',
         properties: ['Field2']

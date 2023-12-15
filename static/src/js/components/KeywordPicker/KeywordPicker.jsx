@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
 import { cloneDeep, isEmpty } from 'lodash'
 import { Typeahead } from 'react-bootstrap-typeahead'
+import Button from 'react-bootstrap/Button'
 
 import removeEmpty from '../../utils/removeEmpty'
+import parseCmrResponse from '../../utils/parseCmrResponse'
+
+import useControlledKeywords from '../../hooks/useControlledKeywords'
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.scss'
-import useControlledKeywords from '../../hooks/useControlledKeywords'
-import parseCmrResponse from '../../utils/parseCmrResponse'
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
-
 /**
  * KeywordPicker
  * @typedef {Object} KeywordPicker
@@ -28,10 +28,10 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
  */
 const KeywordPicker = ({
   formData,
-  schema,
-  uiSchema,
   onChange,
-  required
+  required,
+  schema,
+  uiSchema
 }) => {
   const { description } = schema
   const title = uiSchema['ui:title']
@@ -275,13 +275,14 @@ const KeywordPicker = ({
     const childrenAccessibleEventProps = useAccessibleEvent(() => {
       handleSelectChildren(item)
     })
+
     if (isLeafNode) {
       if (item === finalSelectedValue) {
         return (
-        // Renders a child element that is selected
+          // Renders a child element that is selected
           <span
-            className="final-option-selected"
             aria-label={item}
+            className="final-option-selected"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...childrenAccessibleEventProps}
           >
@@ -292,10 +293,10 @@ const KeywordPicker = ({
       }
 
       return (
-      // Renders a child element that is not selected
+        // Renders a child element that is not selected
         <span
-          className="final-option"
           aria-label={item}
+          className="final-option"
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...childrenAccessibleEventProps}
 
@@ -344,14 +345,15 @@ const KeywordPicker = ({
           {
             required ? (
               <i
+                aria-label="Required"
                 className="eui-icon eui-required-o text-success ps-1"
                 role="img"
-                aria-label="Required"
               />
             ) : ''
           }
         </span>
       </div>
+
       <div className="mb-2">
         <span className="description-box">
           {description}
@@ -364,14 +366,15 @@ const KeywordPicker = ({
           Object.values(removeEmpty(formData)).map((item, index) => (
             <li key={JSON.stringify(Object.values(item))}>
               {Object.values(item).join(' > ')}
+
               <Button
-                variant="link"
                 onClick={() => handleRemove(index)}
+                variant="link"
               >
                 <i
+                  aria-label="Remove"
                   className="fa fa-times-circle remove-button text-red ps-1"
                   role="img"
-                  aria-label="Remove"
                 />
               </Button>
             </li>
@@ -387,18 +390,20 @@ const KeywordPicker = ({
             ))
           }
         </ul>
+
         {/* Renders the search field */}
         <div className="eui-item-list-pane" style={{ marginTop }}>
           <div className="keyword-picker__search-keywords">
             <Typeahead
-              id="keyword-picker-search"
-              placeholder="Search for Keywords..."
-              options={searchResult}
               clearButton
-              onChange={(e) => { handleSearch(e) }}
+              id="keyword-picker-search"
               isLoading={isLoading}
+              onChange={handleSearch}
+              options={searchResult}
+              placeholder="Search for Keywords..."
             />
           </div>
+
           {/* Renders the items */}
           <ul>
             {
@@ -409,10 +414,11 @@ const KeywordPicker = ({
           </ul>
         </div>
       </div>
+
       <Button
         className="mt-2"
         disabled={disableButton}
-        onClick={() => handleSubmit()}
+        onClick={handleSubmit}
       >
         <i className="fa-solid fa-circle-plus fa-sm" />
         {' '}

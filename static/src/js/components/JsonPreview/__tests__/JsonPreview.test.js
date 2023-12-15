@@ -1,62 +1,57 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import JSONPretty from 'react-json-pretty'
+
 import JsonPreview from '../JsonPreview'
+import AppContext from '../../../context/AppContext'
 
-// Mocking useAppContext hook
-jest.mock('../../../hooks/useAppContext', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({}))
-}))
+jest.mock('react-json-pretty')
 
-// Mocking lodash's cloneDeep function
-jest.mock('lodash', () => ({
-  ...jest.requireActual('lodash'),
-  cloneDeep: jest.fn((obj) => ({ ...obj }))
-}))
-
-// Mocking removeEmpty function
-jest.mock('../../../utils/removeEmpty', () => jest.fn((obj) => obj))
+const setup = (draft = undefined) => {
+  render(
+    <AppContext.Provider value={{ draft }}>
+      <JsonPreview />
+    </AppContext.Provider>
+  )
+}
 
 describe('JsonPreview Component', () => {
   describe('when draft is not present in the context', () => {
-    it('renders without crashing', () => {
-      render(
-        <BrowserRouter>
-          <JsonPreview />
-        </BrowserRouter>
-      )
+    it('renders JSONPretty', () => {
+      setup()
 
-      expect(screen.queryByText(/UMM-T/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/Web User Interface/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/Hello from the other side/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/https:\/\/cdn\.earthdata\.nasa\.gov\/umm\/tool\/v1\.1/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/v1\.1/)).not.toBeInTheDocument()
-
-      // Check if the JSON content is an empty object
-      expect(screen.getByText(/{}/)).toBeInTheDocument()
+      expect(JSONPretty).toHaveBeenCalledTimes(1)
+      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
+        data: {}
+      }), {})
     })
   })
 
   describe('when ummMetadata is not present in draft', () => {
-    it('renders without crashing', () => {
-      // Override the context to simulate the absence of 'ummMetadata' in 'draft'
-      jest.mock('../../../hooks/useAppContext', () => ({
-        __esModule: true,
-        default: jest.fn(() => ({ draft: {} }))
-      }))
+    it('renders JSONPretty', () => {
+      setup({})
 
-      render(
-        <BrowserRouter>
-          <JsonPreview />
-        </BrowserRouter>
-      )
+      expect(JSONPretty).toHaveBeenCalledTimes(1)
+      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
+        data: {}
+      }), {})
+    })
+  })
 
-      expect(screen.queryByText(/UMM-T/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/Web User Interface/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/Hello from the other side/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/https:\/\/cdn\.earthdata\.nasa\.gov\/umm\/tool\/v1\.1/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/v1\.1/)).not.toBeInTheDocument()
+  describe('when draft metadata exists', () => {
+    it('renders JSONPretty', () => {
+      setup({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      expect(JSONPretty).toHaveBeenCalledTimes(1)
+      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
+        data: {
+          Name: 'Mock Name'
+        }
+      }), {})
     })
   })
 })

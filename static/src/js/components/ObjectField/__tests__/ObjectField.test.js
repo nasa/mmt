@@ -19,10 +19,11 @@ class TestComponent extends ObjectField {
     )
   }
 }
-const onChange = jest.fn()
+
 describe('ObjectField', () => {
   describe('calling onPropertyChange', () => {
     test('updated the formData', async () => {
+      const onChange = jest.fn()
       render(
         <TestComponent
           onChange={onChange}
@@ -50,6 +51,7 @@ describe('ObjectField', () => {
 
   describe('when a field is required', () => {
     test('return the required attribute', () => {
+      const onChange = jest.fn()
       render(
         <TestComponent
           onChange={onChange}
@@ -88,6 +90,7 @@ describe('ObjectField', () => {
 
   describe('when a field is not required', () => {
     test('return no required attribute', () => {
+      const onChange = jest.fn()
       render(
         <TestComponent
           onChange={onChange}

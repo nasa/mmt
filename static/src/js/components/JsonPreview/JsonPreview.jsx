@@ -1,13 +1,8 @@
 import React from 'react'
 import Accordion from 'react-bootstrap/Accordion'
-import { cloneDeep } from 'lodash'
 import JSONPretty from 'react-json-pretty'
 
-import removeEmpty from '../../utils/removeEmpty'
-
 import useAppContext from '../../hooks/useAppContext'
-
-// TODO Needs tests
 
 const JsonPreview = () => {
   const {
@@ -15,8 +10,6 @@ const JsonPreview = () => {
   } = useAppContext()
 
   const { ummMetadata = {} } = draft
-
-  const data = removeEmpty(cloneDeep(ummMetadata))
 
   return (
     <Accordion
@@ -28,7 +21,7 @@ const JsonPreview = () => {
           JSON
         </Accordion.Header>
         <Accordion.Body>
-          <JSONPretty data={data} />
+          <JSONPretty data={ummMetadata} />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

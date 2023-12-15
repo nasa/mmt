@@ -11,6 +11,7 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
 /**
  * @typedef {Object} ProgressFieldProps
  * @property {Object} fieldInfo Status of the field being displayed.
+ * @property {Object} formName Name of the form the where the field is located.
  */
 
 /**
@@ -21,6 +22,7 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
  * return (
  *   <ProgressField
  *      fieldInfo={fieldInfo}
+ *      formName={formName}
  *   />
  * )
  */
@@ -32,8 +34,8 @@ const ProgressField = ({
 
   const {
     fieldName,
-    message,
     isRequired,
+    message,
     status
   } = fieldInfo
 
@@ -44,10 +46,10 @@ const ProgressField = ({
       case progressCircleTypes.Invalid:
         return (
           <i
-            title={message}
+            aria-label={message}
             className="eui-icon eui-fa-minus-circle progress-field__icon--invalid-circle"
             role="img"
-            aria-label={message}
+            title={message}
           />
         )
 
@@ -55,20 +57,20 @@ const ProgressField = ({
         if (isRequired) {
           return (
             <i
-              title={message}
+              aria-label={message}
               className="eui-icon eui-required-o progress-field__icon--not-started-required-circle"
               role="img"
-              aria-label={message}
+              title={message}
             />
           )
         }
 
         return (
           <i
-            title={fieldName}
+            aria-label={fieldName}
             className="eui-icon eui-fa-circle-o progress-field__icon--not-started-not-required-circle"
             role="img"
-            aria-label={fieldName}
+            title={fieldName}
           />
         )
 
@@ -76,30 +78,30 @@ const ProgressField = ({
         if (isRequired) {
           return (
             <i
-              title={`${fieldName} - Required field complete`}
+              aria-label={`${fieldName} - Required field complete`}
               className="eui-icon eui-required icon-green progress-field__icon--pass-required-circle"
               role="img"
-              aria-label={`${fieldName} - Required field complete`}
+              title={`${fieldName} - Required field complete`}
             />
           )
         }
 
         return (
           <i
-            title={message}
+            aria-label={message}
             className="eui-icon eui-fa-circle icon-grey progress-field__icon--pass-not-required-circle"
             role="img"
-            aria-label={message}
+            title={message}
           />
         )
 
       case progressCircleTypes.Error:
         return (
           <i
-            title={message}
+            aria-label={message}
             className="eui-icon eui-fa-minus-circle progress-field__icon--error-circle"
             role="img"
-            aria-label={message}
+            title={message}
           />
         )
 
@@ -112,8 +114,6 @@ const ProgressField = ({
 
   // Handle clicking on a field icon
   const handleCircleClick = () => {
-    // TODO navigate to form field
-    // console.log(`Navigate to ${formName} - ${fieldName}`)
     navigate(`${toLowerKebabCase(formName)}/${fieldName}`)
   }
 

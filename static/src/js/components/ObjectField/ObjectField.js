@@ -15,7 +15,11 @@ class ObjectField extends React.Component {
   onPropertyChange = (
     name
   ) => (value, newErrorSchema, id) => {
-    const { formData, onChange, errorSchema } = this.props
+    const {
+      errorSchema,
+      formData,
+      onChange
+    } = this.props
 
     const newFormData = {
       ...formData,
@@ -90,14 +94,14 @@ class ObjectField extends React.Component {
 }
 
 ObjectField.propTypes = {
+  errorSchema: PropTypes.shape({}).isRequired,
+  formData: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired,
   schema: PropTypes.shape({
     required: PropTypes.arrayOf(
       PropTypes.string
     )
-  }).isRequired,
-  formData: PropTypes.shape({}).isRequired,
-  onChange: PropTypes.func.isRequired,
-  errorSchema: PropTypes.shape({}).isRequired
+  }).isRequired
 }
 
 export default ObjectField

@@ -5,25 +5,25 @@ import pluralize from 'pluralize'
 import { capitalize } from 'lodash'
 import { FaFileDownload } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import Table from 'react-bootstrap/Table'
 import Placeholder from 'react-bootstrap/Placeholder'
 import PlaceholderButton from 'react-bootstrap/PlaceholderButton'
-
+import Row from 'react-bootstrap/Row'
+import Table from 'react-bootstrap/Table'
 import { useLazyQuery } from '@apollo/client'
+
 import useAppContext from '../../hooks/useAppContext'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
+
 import parseError from '../../utils/parseError'
-
-import Page from '../Page/Page'
-import For from '../For/For'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import draftConceptTypes from '../../constants/draftConceptTypes'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
-import Button from '../Button/Button'
-import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 
-// TODO Needs tests
+import Button from '../Button/Button'
+import draftConceptTypes from '../../constants/draftConceptTypes'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import For from '../For/For'
+import Page from '../Page/Page'
+
+import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 
 const DraftList = ({ draftType }) => {
   const currentDraftType = draftConceptTypes[draftConceptTypes[capitalize(draftType)]]
@@ -59,8 +59,6 @@ const DraftList = ({ draftType }) => {
 
   return (
     <Page
-      title={`${providerId} ${currentDraftType} Drafts`}
-      pageType="secondary"
       headerActions={
         [
           {
@@ -69,6 +67,8 @@ const DraftList = ({ draftType }) => {
           }
         ]
       }
+      pageType="secondary"
+      title={`${providerId} ${currentDraftType} Drafts`}
     >
       <Row>
         <Col sm={12}>
@@ -99,6 +99,7 @@ const DraftList = ({ draftType }) => {
                       </span>
                     )
                 }
+
                 <Table striped>
                   <thead>
                     <tr>
@@ -108,6 +109,7 @@ const DraftList = ({ draftType }) => {
                       <th className="text-center">Download</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {
                       loading
@@ -183,6 +185,7 @@ const DraftList = ({ draftType }) => {
                                       </div>
                                     </Link>
                                   </td>
+
                                   <td className="col-md-4">
                                     <Link
                                       className="text-decoration-none text-primary"
@@ -193,7 +196,11 @@ const DraftList = ({ draftType }) => {
                                       </div>
                                     </Link>
                                   </td>
-                                  <td className="col-auto text-center">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</td>
+
+                                  <td className="col-auto text-center">
+                                    {new Date(revisionDate).toLocaleString('en-US', { hour12: false })}
+                                  </td>
+
                                   <td className="col-auto text-center">
                                     <Button
                                       variant="secondary"

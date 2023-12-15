@@ -7,7 +7,6 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
 import validator from '@rjsf/validator-ajv8'
 
-import { kebabCase } from 'lodash'
 import NavigationItem from '../NavigationItem/NavigationItem'
 import For from '../For/For'
 
@@ -21,11 +20,11 @@ import './FormNavigation.scss'
  * @property {Object} draft A save version of the umm metadata.
  * @property {Object} formSections A list of form sections.
  * @property {Boolean} loading A boolean value that represent if a page is loading.
- * @property {Object[]} validationErrors An object array with a list of errors.
  * @property {Function} onCancel A function that cancels unsaved draft.
  * @property {Function} onSave A function that saves the draft.
  * @property {Object} schema UMM Schema.
  * @property {Function} setFocusField A function that sets the focus field.
+ * @property {Object} uiSchema A uiSchema for the field being shown.
  * @property {Array} visitedFields An array with a list of visited fields.
  */
 
@@ -41,8 +40,9 @@ const FormNavigation = ({
   onSave,
   schema,
   setFocusField,
-  visitedFields,
-  uiSchema
+  // TODO MMT-####
+  // uiSchema,
+  visitedFields
 }) => {
   const { errors } = validator.validateFormData(draft, schema)
 
@@ -51,19 +51,19 @@ const FormNavigation = ({
       <div className="mb-4">
         <Dropdown as={ButtonGroup}>
           <Button
-            onClick={() => onSave(saveTypes.saveAndContinue)}
-            variant="success"
             className="text-white"
             disabled={loading}
+            onClick={() => onSave(saveTypes.saveAndContinue)}
+            variant="success"
           >
             {
               loading && (
                 <Spinner
-                  className="me-2"
-                  as="span"
                   animation="border"
-                  size="sm"
+                  as="span"
+                  className="me-2"
                   role="status"
+                  size="sm"
                 />
               )
             }
@@ -77,11 +77,11 @@ const FormNavigation = ({
           </Button>
 
           <Dropdown.Toggle
+            aria-label="Save Options"
+            className="text-white"
+            id="dropdown-split-basic"
             split
             variant="success"
-            id="dropdown-split-basic"
-            className="text-white"
-            aria-label="Save Options"
           />
 
           <Dropdown.Menu>
@@ -118,9 +118,9 @@ const FormNavigation = ({
         </Dropdown>
 
         <Button
+          className="link-button ms-2"
           onClick={onCancel}
           type="button"
-          className="link-button ms-2"
           variant="link-secondary"
         >
           Cancel
@@ -132,19 +132,21 @@ const FormNavigation = ({
           {
             (section, i) => {
               const { displayName } = section
-              const ui = uiSchema[kebabCase(displayName)]
-              // TODO look into why this does not seem to account for all required forms
-              const required = ui?.['ui:layout_grid']?.['ui:row'][0]['ui:required'] || false
+
+              // TODO MMT-####
+              // const ui = uiSchema[kebabCase(displayName)]
+              // const required = ui?.['ui:layout_grid']?.['ui:row'][0]['ui:required'] || false
 
               return (
                 <NavigationItem
-                  key={`section_${displayName}_${i}`}
                   draft={draft}
+                  key={`section_${displayName}_${i}`}
+                  // TODO MMT-####
+                  // required={required}
                   section={section}
+                  setFocusField={setFocusField}
                   validationErrors={errors}
                   visitedFields={visitedFields}
-                  setFocusField={setFocusField}
-                  required={required}
                 />
               )
             }

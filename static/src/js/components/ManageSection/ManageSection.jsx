@@ -17,8 +17,8 @@ import For from '../For/For'
 /**
  * @typedef {Object} ManageSectionProps
  * @property {String} [className] An optional string representing the title of the section.
- * @property {String} title A required string representing the title of the section.
  * @property {Array.<SectionEntry>} sections The page content.
+ * @property {String} title A required string representing the title of the section.
  */
 
 /**
@@ -36,9 +36,6 @@ const ManageSection = ({
   title
 }) => (
   <Col
-    key={title}
-    md={6}
-    lg={4}
     className={
       classNames([
         'd-flex row-height position-relative mb-4 mb-lg-0',
@@ -47,6 +44,9 @@ const ManageSection = ({
         }
       ])
     }
+    key={title}
+    lg={4}
+    md={6}
   >
     <section className="bg-white p-3 w-100">
       <h2
@@ -64,6 +64,7 @@ const ManageSection = ({
       >
         {title}
       </h2>
+
       <Container>
         <Row>
           <For each={sections}>
@@ -108,9 +109,9 @@ ManageSection.defaultProps = {
 }
 
 ManageSection.propTypes = {
-  title: PropTypes.string.isRequired,
+  className: PropTypes.string,
   sections: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  className: PropTypes.string
+  title: PropTypes.string.isRequired
 }
 
 export default ManageSection

@@ -94,9 +94,9 @@ const Notifications = () => {
 
                   <Button
                     className="ms-2"
-                    variant="outline-secondary"
                     onClick={() => hideNotification(id)}
                     size="sm"
+                    variant="outline-secondary"
                   >
                     Close
                   </Button>

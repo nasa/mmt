@@ -44,9 +44,9 @@ const ProgressSection = ({
       case progressCircleTypes.Pass:
         return (
           <i
+            aria-label={displayName}
             className="eui-icon eui-check progress-section__section-icon--pass-circle"
             role="img"
-            aria-label={displayName}
           />
         )
       case progressCircleTypes.NotStarted:
@@ -54,9 +54,9 @@ const ProgressSection = ({
       case progressCircleTypes.Invalid:
         return (
           <i
+            aria-label={displayName}
             className="eui-icon eui-fa-circle-o progress-section__section-icon--invalid-circle"
             role="img"
-            aria-label={displayName}
           />
         )
       default:

@@ -29,50 +29,53 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    uiSchema: {},
-    layout: 'LongName',
-    registry: {
-      formContext: {},
-      schemaUtils: {
-        retrieveSchema: () => schema
-      },
-      fields: {
-        TitleField: jest.fn(),
-        SchemaField: jest.fn()
-      }
-    },
+    disabled: false,
+    errorSchema: {},
     formData: {
       LongName: 'mock long name',
       URL: {
         Description: 'mock url description'
       }
     },
-    schema,
     idSchema: {
       $id: 'root',
-      Name: { $id: 'root_Name' },
-      LongName: { $id: 'root_LongName' },
+      LongName: {
+        $id: 'root_LongName'
+      },
+      Name: {
+        $id: 'root_Name'
+      },
       URL: {
         $id: 'root_URL',
-        Description:
-        { $id: 'root_URL_Description' }
+        Description: {
+          $id: 'root_URL_Description'
+        }
       }
     },
-    errorSchema: {},
+    layout: 'LongName',
     onBlur: jest.fn(),
     onFocus: jest.fn(),
-    disabled: false,
     readonly: false,
+    registry: {
+      fields: {
+        SchemaField: jest.fn(),
+        TitleField: jest.fn()
+      },
+      formContext: {},
+      schemaUtils: {
+        retrieveSchema: () => schema
+      }
+    },
+    schema,
+    uiSchema: {},
     ...overrideProps
   }
 
-  const component = render(
+  render(
     <GridField {...props} />
   )
-  const { container } = component
 
   return {
-    container,
     props,
     user: userEvent.setup()
   }
@@ -81,7 +84,8 @@ const setup = (overrideProps = {}) => {
 describe('GridField', () => {
   describe('when there is valid field name', () => {
     test('renders the field', () => {
-      const { props } = setup({})
+      const { props } = setup()
+
       expect(props.registry.fields.SchemaField).toBeCalledWith(
         expect.objectContaining({
           name: 'LongName',
@@ -121,20 +125,21 @@ describe('GridField', () => {
         },
         layout: 'IllegalFieldName'
       })
+
       expect(props.registry.fields.SchemaField).toBeCalledTimes(0)
     })
   })
 
   describe('when there is custom component', () => {
     test('renders the custom component', () => {
-      const { container } = setup({
+      setup({
         layout: {
           name: 'Custom Component',
           render: () => (<div>My Mock Component</div>)
         }
       })
 
-      expect(container).toHaveTextContent('My Mock Component')
+      expect(screen.getByText('My Mock Component')).toBeInTheDocument()
     })
   })
 
@@ -146,19 +151,19 @@ describe('GridField', () => {
 
       expect(props.registry.fields.SchemaField).toBeCalledWith(
         expect.objectContaining({
-          name: 'URL',
-          required: false,
-          schema: props.schema.properties.URL,
-          idSchema:
-          {
-            $id: 'URL',
-            Description:
-            { $id: 'URL_Description' }
-          },
-          formData: props.formData.URL,
-          registry: props.registry,
           disabled: false,
-          readonly: false
+          formData: props.formData.URL,
+          idSchema: {
+            $id: 'URL',
+            Description: {
+              $id: 'URL_Description'
+            }
+          },
+          name: 'URL',
+          readonly: false,
+          registry: props.registry,
+          required: false,
+          schema: props.schema.properties.URL
         }),
         {}
       )

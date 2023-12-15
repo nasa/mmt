@@ -15,14 +15,14 @@ import './GridLayout.scss'
 /**
  * GridLayout
  * @typedef {Object} GridLayout
+ * @property {String} controlName A name that is defined in the schema
+ * @property {Object} errorSchema A Object with the list of errors
+ * @property {Object} formData An Object with the saved metadata
+ * @property {Object} idSchema A idSchema for the field being shown.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} registry An Object that has all the props that are in registry.
  * @property {Object} schema A UMM Schema for the widget being previewed.
  * @property {Object} uiSchema A uiSchema for the field being shown.
- * @property {Object} idSchema A idSchema for the field being shown.
- * @property {Object} formData An Object with the saved metadata
- * @property {Object} errorSchema A Object with the list of errors
- * @property {String} controlName A name that is defined in the schema
  */
 
 /**
@@ -31,10 +31,11 @@ import './GridLayout.scss'
  */
 const GridLayout = (props) => {
   const {
+    controlName,
     registry,
-    uiSchema,
-    controlName
+    uiSchema
   } = props
+
   let { layout } = props
   if (!layout) {
     layout = uiSchema['ui:layout_grid']
@@ -65,13 +66,13 @@ const GridLayout = (props) => {
     return (
       <GridControlledField
         {...props}
-        layout={layout}
-        registry={registry}
         controlName={controlName}
-        uiSchema={fieldUiSchema}
+        layout={layout}
+        mapping={uiSchema['ui:controlled']}
         name={fieldName}
         onSelectValue={uiSchema['ui:onHandleChange']}
-        mapping={uiSchema['ui:controlled']}
+        registry={registry}
+        uiSchema={fieldUiSchema}
       />
     )
   }
@@ -82,22 +83,25 @@ const GridLayout = (props) => {
   //  ]
   return (
     <div>
-      <GridField {...props} uiSchema={uiSchema} layout={layout} />
+      <GridField
+        {...props}
+        layout={layout}
+        uiSchema={uiSchema}
+      />
     </div>
   )
 }
 
 GridLayout.defaultProps = {
-  layout: null,
-  required: false,
-  onChange: null,
   controlName: null,
-  formData: {}
+  formData: {},
+  layout: null,
+  onChange: null,
+  required: false
 }
 
 GridLayout.propTypes = {
   controlName: PropTypes.string,
-  onChange: PropTypes.func,
   errorSchema: PropTypes.shape({}).isRequired,
   formData: PropTypes.shape({}),
   idSchema: PropTypes.shape({
@@ -107,6 +111,7 @@ GridLayout.propTypes = {
     PropTypes.shape({}),
     PropTypes.string
   ]),
+  onChange: PropTypes.func,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
       focusField: PropTypes.string,

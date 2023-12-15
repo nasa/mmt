@@ -37,30 +37,35 @@ const Header = () => (
           <span className="header__brand-earthdata d-block text-uppercase">Earthdata</span>
           Metadata Management Tool
         </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="primary-navigation" />
+
         <Navbar.Collapse id="primary-navigation" className="flex-column align-items-end pt-3">
           <Badge className="header__user-info mb-3" bg="blue-light">
             Hi, User
           </Badge>
+
           <Form>
             <FormGroup>
               <InputGroup>
                 <FormControl type="text" placeholder="Search MMT" />
+
                 <Button
-                  variant="indigo"
                   className="d-flex align-items-center"
+                  variant="indigo"
                 >
                   <FaSearch className="me-2" />
                   Search Collections
                 </Button>
+
                 <Dropdown align="end">
                   <DropdownButton
+                    align="end"
                     className="header__dropdown-button-title"
                     title={(
                       <span className="visually-hidden">Search Options</span>
                     )}
                     variant="indigo"
-                    align="end"
                   >
                     Search collections
                   </DropdownButton>
@@ -71,7 +76,6 @@ const Header = () => (
         </Navbar.Collapse>
       </Navbar>
     </Container>
-
   </header>
 )
 

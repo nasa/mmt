@@ -29,6 +29,7 @@ const Footer = () => {
             v
             {version}
           </Badge>
+
           <ul className="list-unstyled m-0 p-0 pt-2 pt-md-0 d-flex flex-column flex-md-row align-items-center">
             <For
               each={

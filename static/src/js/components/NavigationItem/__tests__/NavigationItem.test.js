@@ -27,9 +27,9 @@ const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
       displayName: 'Mock Section Name',
       properties: ['Name', 'URL', 'RelatedURLs']
     },
+    setFocusField: jest.fn(),
     validationErrors: [],
     visitedFields: [],
-    setFocusField: jest.fn(),
     ...overrideProps
   }
 
@@ -40,8 +40,8 @@ const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
           path="/tool-drafts"
         >
           <Route
-            path=":conceptId/:sectionName"
             element={<NavigationItem {...props} />}
+            path=":conceptId/:sectionName"
           />
         </Route>
       </Routes>
@@ -81,17 +81,17 @@ describe('NavigationItem', () => {
     describe('when the error is on a top level field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          visitedFields: ['Name'],
           validationErrors: [{
-            name: 'required',
-            property: 'Name',
             message: "must have required property 'Name'",
+            name: 'required',
             params: {
               missingProperty: 'Name'
             },
-            stack: "must have required property 'Name'",
-            schemaPath: '#/required'
-          }]
+            property: 'Name',
+            schemaPath: '#/required',
+            stack: "must have required property 'Name'"
+          }],
+          visitedFields: ['Name']
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -103,7 +103,9 @@ describe('NavigationItem', () => {
           error: {
             message: "must have required property 'Name'",
             name: 'required',
-            params: { missingProperty: 'Name' },
+            params: {
+              missingProperty: 'Name'
+            },
             property: 'Name',
             schemaPath: '#/required',
             stack: "must have required property 'Name'"
@@ -117,17 +119,17 @@ describe('NavigationItem', () => {
     describe('when the error is in a nested field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          visitedFields: ['URL'],
           validationErrors: [{
-            name: 'required',
-            property: '.URL.Type',
             message: "must have required property ' Type'",
+            name: 'required',
             params: {
               missingProperty: 'Type'
             },
-            stack: "must have required property ' Type'",
-            schemaPath: '#/properties/URL/required'
-          }]
+            property: '.URL.Type',
+            schemaPath: '#/properties/URL/required',
+            stack: "must have required property ' Type'"
+          }],
+          visitedFields: ['URL']
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -140,7 +142,9 @@ describe('NavigationItem', () => {
             errors: [{
               message: "must have required property ' Type'",
               name: 'required',
-              params: { missingProperty: 'Type' },
+              params: {
+                missingProperty: 'Type'
+              },
               property: '.URL.Type',
               schemaPath: '#/properties/URL/required',
               stack: "must have required property ' Type'"
@@ -156,7 +160,6 @@ describe('NavigationItem', () => {
     describe('when the error is in an array field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          visitedFields: ['RelatedURLs'],
           validationErrors: [{
             message: "must have required property 'URLContentType'",
             name: 'required',
@@ -166,7 +169,8 @@ describe('NavigationItem', () => {
             property: '.RelatedURLs.0.URLContentType',
             schemaPath: '#/properties/RelatedURLs/items/required',
             stack: "must have required property 'URLContentType'"
-          }]
+          }],
+          visitedFields: ['RelatedURLs']
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -201,17 +205,17 @@ describe('NavigationItem', () => {
             displayName: 'Mock Section Name 2',
             properties: ['Mock Field']
           },
-          visitedFields: ['Name'],
           validationErrors: [{
-            name: 'required',
-            property: 'Name',
             message: "must have required property 'Name'",
+            name: 'required',
             params: {
               missingProperty: 'Name'
             },
-            stack: "must have required property 'Name'",
-            schemaPath: '#/required'
-          }]
+            property: 'Name',
+            schemaPath: '#/required',
+            stack: "must have required property 'Name'"
+          }],
+          visitedFields: ['Name']
         }, 'mock-section-name-2')
 
         expect(screen.getByText('Mock Section Name 2')).toBeInTheDocument()

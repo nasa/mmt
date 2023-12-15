@@ -13,6 +13,7 @@ import './NavigationItemError.scss'
  * @property {String} className Class name to be applied to the component.
  * @property {Object} error Validation error to be displayed.
 = * @property {Function} setFocusField A callback function to set a field as focused.
+= * @property {String[]} visitedFields List of visited fields in the form.
  */
 
 /**
@@ -124,9 +125,9 @@ const NavigationItemError = ({
 
                 return (
                   <NavigationItemError
-                    key={key}
                     className="ps-3"
                     error={nestedError}
+                    key={key}
                     setFocusField={setFocusField}
                     visitedFields={visitedFields}
                   />

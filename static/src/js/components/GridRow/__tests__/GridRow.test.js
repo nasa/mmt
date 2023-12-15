@@ -1,11 +1,11 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import GridRow from '../GridRow'
-import GridLayout from '../../GridLayout/GridLayout'
-import GridGroupedSinglePanel from '../../GridGroupedSinglePanel/GridGroupedSinglePanel'
 import GridCheckboxPanel from '../../GridCheckboxPanel/GridCheckboxPanel'
+import GridGroupedSinglePanel from '../../GridGroupedSinglePanel/GridGroupedSinglePanel'
+import GridLayout from '../../GridLayout/GridLayout'
+import GridRow from '../GridRow'
 
 jest.mock('../../GridLayout/GridLayout')
 jest.mock('../../GridGroupedSinglePanel/GridGroupedSinglePanel')
@@ -47,55 +47,59 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    uiSchema: {},
-    layout: {
-      'ui:row': [
-        {
-          'ui:col': {
-            md: 12,
-            children: [
-              'Name'
-            ]
-          }
-        }
-      ]
-    },
-    registry: {
-      formContext: {},
-      schemaUtils: {
-        retrieveSchema: () => schema
-      },
-      fields: {
-        TitleField: jest.fn(),
-        SchemaField: jest.fn()
-      }
-    },
+    disabled: false,
+    errorSchema: {},
     formData: {
-      Name: 'mock name',
       LongName: 'mock long name',
+      Name: 'mock name',
       Type: 'mock type',
       URL: {
         Description: 'mock url description'
       }
     },
-    schema,
     idSchema: {
       $id: 'root',
-      Name: { $id: 'root_Name' },
-      LongName: { $id: 'root_LongName' },
-      Type: { $id: 'root_Type' },
+      LongName: {
+        $id: 'root_LongName'
+      },
+      Name: {
+        $id: 'root_Name'
+      },
+      Type: {
+        $id: 'root_Type'
+      },
       URL: {
         $id: 'root_URL',
-        Description:
-        { $id: 'root_URL_Description' }
+        Description: {
+          $id: 'root_URL_Description'
+        }
       }
     },
-    errorSchema: {},
+    layout: {
+      'ui:row': [{
+        'ui:col': {
+          children: ['Name'],
+          md: 12
+        }
+      }]
+    },
     onBlur: jest.fn(),
-    onFocus: jest.fn(),
     onChange: jest.fn(),
-    disabled: false,
+    onFocus: jest.fn(),
     readonly: false,
+    required: false,
+    registry: {
+      fields: {
+        SchemaField: jest.fn(),
+        TitleField: jest.fn()
+      },
+      formContext: {},
+      schemaUtils: {
+        retrieveSchema: () => schema
+      }
+    },
+    schema,
+    uiSchema: {},
     ...overrideProps
   }
 
@@ -115,26 +119,25 @@ describe('GridRow', () => {
   describe('when row data is in the layout', () => {
     test('renders the row', () => {
       const { props } = setup({})
+
       expect(GridLayout).toHaveBeenCalledTimes(1)
       expect(GridLayout).toHaveBeenCalledWith(expect.objectContaining({
         layout: {
           'ui:col': {
-            md: 12,
-            children: [
-              'Name'
-            ]
+            children: ['Name'],
+            md: 12
           }
         },
-        schema: props.schema,
-        onChange: props.onChange
+        onChange: props.onChange,
+        schema: props.schema
       }), {})
     })
   })
 })
 
-describe('does not render anything if hide returns true', () => {
-  test('renders null', () => {
-    const { container } = setup({
+describe('when ui:hide is true', () => {
+  test('renders nothing', () => {
+    setup({
       layout: {
         'ui:hide': () => (true),
         'ui:row': [
@@ -149,32 +152,30 @@ describe('does not render anything if hide returns true', () => {
         ]
       }
     })
-    expect(container.childElementCount).toEqual(0)
+
     expect(GridLayout).toHaveBeenCalledTimes(0)
   })
 })
 
 describe('when there is a group title', () => {
   test('renders the title, description, and then the rows', () => {
-    const { container, props } = setup({
+    const { props } = setup({
       layout: {
         'ui:group': 'mock group',
-        'ui:group-description': true,
-        'ui:group-classname': 'mock-group-class-name',
         'ui:group-box-classname': 'mock-group-box-classname',
+        'ui:group-classname': 'mock-group-class-name',
+        'ui:group-description': true,
         'ui:required': true,
-        'ui:row': [
-          {
-            'ui:col': {
-              md: 12,
-              children: [
-                'Name'
-              ]
-            }
+        'ui:row': [{
+          'ui:col': {
+            children: ['Name'],
+            md: 12
           }
-        ]
+        }]
       }
     })
+
+    expect(props.registry.fields.TitleField).toHaveBeenCalledTimes(1)
     expect(props.registry.fields.TitleField).toHaveBeenCalledWith(expect.objectContaining({
       name: 'mock group',
       title: 'mock group',
@@ -183,36 +184,32 @@ describe('when there is a group title', () => {
       requiredUI: true
     }), {})
 
-    expect(container).toHaveTextContent('mock tool description')
+    expect(screen.getByText('mock tool description')).toBeInTheDocument()
   })
 
   describe('when it should render the row as a single panel', () => {
     test('renders the collapsible single panel', () => {
-      setup({
+      const { props } = setup({
         layout: {
           'ui:group': 'mock group name',
           'ui:group-single-panel': 'mock single panel title',
-          'ui:row': [
-            {
-              'ui:col': {
-                md: 12,
-                children: [
-                  'Name'
-                ]
-              }
+          'ui:row': [{
+            'ui:col': {
+              children: ['Name'],
+              md: 12
             }
-          ]
+          }]
         }
       })
 
-      // We are just passing through all the props, so need to check.
       expect(GridGroupedSinglePanel).toHaveBeenCalledTimes(1)
+      expect(GridGroupedSinglePanel).toHaveBeenCalledWith(props, {})
     })
   })
 
   describe('when it should render the row as a checkbox panel', () => {
     test('renders the checkbox panel', () => {
-      setup({
+      const { props } = setup({
         layout: {
           'ui:group-checkbox': 'mock checkbox title',
           'ui:row': [
@@ -228,8 +225,10 @@ describe('when there is a group title', () => {
         }
       })
 
-      // We are just passing through all the props, so need to check.
       expect(GridCheckboxPanel).toHaveBeenCalledTimes(1)
+      expect(GridCheckboxPanel).toHaveBeenCalledWith({
+        layoutGridSchema: props.uiSchema
+      }, {})
     })
   })
 })

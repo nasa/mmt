@@ -11,8 +11,8 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import * as router from 'react-router'
 import Form from '@rjsf/core'
+import * as router from 'react-router'
 
 import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 
@@ -21,8 +21,6 @@ import errorLogger from '../../../utils/errorLogger'
 import relatedUrlsUiSchema from '../../../schemas/uiSchemas/tools/relatedUrls'
 import toolInformationUiSchema from '../../../schemas/uiSchemas/tools/toolInformation'
 import ummTSchema from '../../../schemas/umm/ummTSchema'
-
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 
 import BoundingRectangleField from '../../BoundingRectangleField/BoundingRectangleField'
 import CustomArrayFieldTemplate from '../../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
@@ -35,14 +33,16 @@ import CustomTextareaWidget from '../../CustomTextareaWidget/CustomTextareaWidge
 import CustomTextWidget from '../../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import FormNavigation from '../../FormNavigation/FormNavigation'
 import GridLayout from '../../GridLayout/GridLayout'
+import JsonPreview from '../../JsonPreview/JsonPreview'
 import KeywordPicker from '../../KeywordPicker/KeywordPicker'
 import MetadataForm from '../MetadataForm'
 import Providers from '../../../providers/Providers/Providers'
 import StreetAddressField from '../../StreetAddressField/StreetAddressField'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
-import JsonPreview from '../../JsonPreview/JsonPreview'
+
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 jest.mock('@rjsf/core', () => jest.fn(({

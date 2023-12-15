@@ -7,8 +7,8 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import * as router from 'react-router'
 import { ToolPreview } from '@edsc/metadata-preview'
+import * as router from 'react-router'
 
 import ummTSchema from '../../../schemas/umm/ummTSchema'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
@@ -20,8 +20,8 @@ import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 import errorLogger from '../../../utils/errorLogger'
 
 import DraftPreview from '../DraftPreview'
-import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
+import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
 
 jest.mock('@edsc/metadata-preview')
