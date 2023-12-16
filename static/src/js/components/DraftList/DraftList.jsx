@@ -197,7 +197,7 @@ const DraftList = ({ draftType }) => {
                                     </td>
 
                                     <td className="col-auto text-center">
-                                      {new Date(revisionDate).toLocaleString('en-US', { hour12: false })}
+                                      {new Date(revisionDate).toISOString().split('T')[0]}
                                     </td>
 
                                     <td className="col-auto text-center">
