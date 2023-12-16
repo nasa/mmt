@@ -61,14 +61,14 @@ For more information, see one of these links
 
 ##### 4. Running the CMR npm scripts
 
-To start the local CMR:
+To start the local CMR and load the test data:
+_Note: This command can be ran as two separate commands if needed:_
+
+    npm run cmr:start_and_setup
+
+    < or >
 
     npm run cmr:start
-
-<!-- TODO update to mention start_and_setup -->
-
-To load data into the local CMR:
-
     npm run cmr:setup
 
 After you see "Done!", you can load the app in your browser and use the local CMR. After you have started CMR, to just reload the data:
