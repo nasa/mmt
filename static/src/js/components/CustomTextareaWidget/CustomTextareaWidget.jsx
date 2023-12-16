@@ -65,14 +65,6 @@ const CustomTextareaWidget = ({
     }
   }, [shouldFocus])
 
-  if (shouldFocus) {
-    textareaScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-
-    if (focusRef.current) {
-      focusRef.current.focus()
-    }
-  }
-
   const handleChange = (event) => {
     const { value: newValue } = event.target
 

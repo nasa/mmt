@@ -37,6 +37,7 @@ const CustomRadioWidget = ({
   uiSchema,
   value
 }) => {
+  console.log('🚀 ~ file: CustomRadioWidget.jsx:40 ~ id:', id)
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
   const { formContext } = registry
@@ -100,23 +101,23 @@ const CustomRadioWidget = ({
         </div>
 
         <input
-          id="trueRadio"
+          id={`${id}-true`}
           name="true"
           onChange={handleChange}
           type="radio"
           checked={value === true}
           ref={focusRef}
         />
-        <label htmlFor="trueRadio">True</label>
+        <label htmlFor={`${id}-true`}>True</label>
         <br />
         <input
-          id="falseRadio"
+          id={`${id}-false`}
           name="false"
           onChange={handleChange}
           type="radio"
           checked={value === false}
         />
-        <label htmlFor="falseRadio">False</label>
+        <label htmlFor={`${id}-false`}>False</label>
       </div>
     </CustomWidgetWrapper>
   )

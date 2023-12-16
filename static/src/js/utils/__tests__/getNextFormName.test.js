@@ -19,7 +19,7 @@ describe('getNextFormName', () => {
 
   describe('When current form is in the form list', () => {
     test('returns next form name', () => {
-      const currentForm = 'related-ur-ls'
+      const currentForm = 'related-urls'
 
       expect(getNextFormName(formConfiguration, currentForm)).toEqual('Compatibility And Usability')
     })

@@ -6,11 +6,14 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
 import validator from '@rjsf/validator-ajv8'
+import { cloneDeep } from 'lodash-es'
 
 import NavigationItem from '../NavigationItem/NavigationItem'
 import For from '../For/For'
 
 import saveTypes from '../../constants/saveTypes'
+
+import removeEmpty from '../../utils/removeEmpty'
 
 import './FormNavigation.scss'
 
@@ -44,7 +47,8 @@ const FormNavigation = ({
   // uiSchema,
   visitedFields
 }) => {
-  const { errors } = validator.validateFormData(draft, schema)
+  const cleanedDraft = cloneDeep(removeEmpty(draft))
+  const { errors } = validator.validateFormData(cleanedDraft, schema)
 
   return (
     <>
@@ -130,7 +134,7 @@ const FormNavigation = ({
       <ListGroup className="form-navigation__sections p-3 bg-light">
         <For each={formSections}>
           {
-            (section, i) => {
+            (section, index) => {
               const { displayName } = section
 
               // TODO MMT-####
@@ -140,7 +144,7 @@ const FormNavigation = ({
               return (
                 <NavigationItem
                   draft={draft}
-                  key={`section_${displayName}_${i}`}
+                  key={`section_${displayName}_${index}`}
                   // TODO MMT-####
                   // required={required}
                   section={section}

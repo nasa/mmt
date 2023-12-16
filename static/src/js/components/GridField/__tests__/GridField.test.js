@@ -86,7 +86,8 @@ describe('GridField', () => {
     test('renders the field', () => {
       const { props } = setup()
 
-      expect(props.registry.fields.SchemaField).toBeCalledWith(
+      expect(props.registry.fields.SchemaField).toHaveBeenCalledTimes(1)
+      expect(props.registry.fields.SchemaField).toHaveBeenCalledWith(
         expect.objectContaining({
           name: 'LongName',
           required: false,
@@ -149,7 +150,8 @@ describe('GridField', () => {
         layout: 'URL'
       })
 
-      expect(props.registry.fields.SchemaField).toBeCalledWith(
+      expect(props.registry.fields.SchemaField).toHaveBeenCalledTimes(1)
+      expect(props.registry.fields.SchemaField).toHaveBeenCalledWith(
         expect.objectContaining({
           disabled: false,
           formData: props.formData.URL,

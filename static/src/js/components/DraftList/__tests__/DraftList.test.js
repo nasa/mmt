@@ -1,17 +1,27 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-
 import { MockedProvider } from '@apollo/client/testing'
+import Placeholder from 'react-bootstrap/Placeholder'
+import * as router from 'react-router'
+
 import DraftList from '../DraftList'
 
-import useAppContext from '../../../hooks/useAppContext'
+import AppContext from '../../../context/AppContext'
+
 import useDraftsQuery from '../../../hooks/useDraftsQuery'
-import { DOWNLOAD_DRAFT } from '../../../operations/queries/getDownloadDraft'
+
 import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 
-jest.mock('../../../hooks/useAppContext')
+import { DOWNLOAD_DRAFT } from '../../../operations/queries/getDownloadDraft'
+
+jest.mock('react-bootstrap/Placeholder', () => jest.fn())
+
 jest.mock('../../../hooks/useDraftsQuery')
 jest.mock('../../../utils/constructDownloadableFile')
 
@@ -28,9 +38,8 @@ const mockDraft = {
   },
   __typename: 'Draft'
 }
-const setup = (overrideProps = {}) => {
-  useAppContext.mockReturnValue({ user: { providerId: 'MMT_2' } })
 
+const setup = (overrideProps = {}) => {
   const mocks = [{
     request: {
       query: DOWNLOAD_DRAFT,
@@ -53,18 +62,26 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
-  const component = render(
-    <MockedProvider
-      mocks={mocks}
+  render(
+    <AppContext.Provider value={
+      {
+        user: {
+          providerId: 'MMT_2'
+        }
+      }
+    }
     >
-      <BrowserRouter>
-        <DraftList {...props} />
-      </BrowserRouter>
-    </MockedProvider>
+      <MockedProvider
+        mocks={mocks}
+      >
+        <BrowserRouter>
+          <DraftList {...props} />
+        </BrowserRouter>
+      </MockedProvider>
+    </AppContext.Provider>
   )
 
   return {
-    component,
     props,
     user: userEvent.setup()
   }
@@ -110,21 +127,29 @@ describe('DraftList', () => {
         }
       })
 
-      const { component } = setup()
-      expect(component.container).toHaveTextContent('Showing all 3 Tool Drafts')
-      expect(component.container).toHaveTextContent('Short Name')
-      expect(component.container).toHaveTextContent('Entry Title')
-      expect(component.container).toHaveTextContent('Last Modified')
-      expect(component.container).toHaveTextContent('Download')
-      expect(component.container).toHaveTextContent('12/8/2023')
-      expect(component.container).toHaveTextContent('Tool TD1200000092 short name')
-      expect(component.container).toHaveTextContent('Tool TD1200000092 long name')
-      expect(component.container).toHaveTextContent('11/8/2023')
-      expect(component.container).toHaveTextContent('No name provided')
-      expect(component.container).toHaveTextContent('No longname provided')
-      expect(component.container).toHaveTextContent('10/8/2023')
-      expect(component.container).toHaveTextContent('Tool TD1200000094 short name')
-      expect(component.container).toHaveTextContent('Tool TD1200000094 long name')
+      setup()
+
+      expect(screen.getByRole('heading', {
+        level: 2,
+        value: 'MMT_2 Tool Drafts'
+      })).toBeInTheDocument()
+
+      const rows = screen.getAllByRole('row')
+
+      expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 short name' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 long name' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: '12/8/2023, 12:56:09' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
+
+      expect(within(rows[2]).getByRole('cell', { name: 'No name provided' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: 'No longname provided' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '11/8/2023, 12:56:09' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
+
+      expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 short name' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 long name' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: '10/8/2023, 13:56:09' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
     })
   })
 
@@ -139,8 +164,13 @@ describe('DraftList', () => {
         }
       })
 
-      const { component } = setup()
-      expect(component.container).toHaveTextContent('No Tool drafts exist for the provider MMT_2.')
+      setup()
+
+      const rows = screen.getAllByRole('row')
+
+      expect(within(rows[1]).getByRole('cell', {
+        name: 'No Tool drafts exist for the provider MMT_2 .'
+      })).toBeInTheDocument()
     })
   })
 
@@ -151,9 +181,9 @@ describe('DraftList', () => {
         loading: true
       })
 
-      const { component } = setup()
-      const number = component.container.querySelectorAll('.placeholder-glow')
-      expect(number.length).toBe(21)
+      setup()
+
+      expect(Placeholder).toHaveBeenCalledTimes(21)
     })
   })
 
@@ -166,11 +196,28 @@ describe('DraftList', () => {
             message: 'Mock Network Error'
           }
         },
-        loading: true
+        loading: false
       })
 
-      const { component } = setup()
-      expect(component.container).toHaveTextContent('Mock Network Error')
+      setup()
+      expect(screen.getByText('Mock Network Error')).toBeInTheDocument()
+    })
+  })
+
+  describe('when clicking the New Tool Draft button', () => {
+    test('navigates to the new tool form', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup()
+
+      const button = screen.getByRole('link', { name: 'New Tool Draft' })
+      await user.click(button)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('new', {
+        replace: false
+      })
     })
   })
 
@@ -195,16 +242,16 @@ describe('DraftList', () => {
         }
       })
 
-      const { user, component } = setup()
+      const { user } = setup()
 
-      const button = component.getByRole('button', { name: 'JSON' })
+      const button = screen.getByRole('button', { name: 'JSON' })
       await user.click(button)
 
-      expect(constructDownloadableFile)
-        .toBeCalledWith(
-          JSON.stringify(mockDraft.ummMetadata, null, 2),
-          'TD1000000-MMT'
-        )
+      expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
+      expect(constructDownloadableFile).toHaveBeenCalledWith(
+        JSON.stringify(mockDraft.ummMetadata, null, 2),
+        'TD1000000-MMT'
+      )
     })
   })
 })

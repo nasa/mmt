@@ -17,15 +17,13 @@ const setup = (overrideProps = {}) => {
     className: 'array-item',
     key: 'mock-key',
     length: '1',
-    onDropIndexClick: jest.fn()
+    onDropIndexClick: jest.fn(() => jest.fn())
   }]
-
-  const onAddClick = jest.fn()
 
   const props = {
     canAdd: true,
     items,
-    onAddClick,
+    onAddClick: jest.fn(),
     required: false,
     schema: {
       description: 'Test Description'
@@ -85,7 +83,7 @@ describe('CustomArrayFieldTemplate', () => {
     test('adds another array field', async () => {
       const { props } = setup()
 
-      const addButton = screen.getAllByRole('button')[1]
+      const addButton = screen.getByRole('button', { name: 'Add Another Array Field Test' })
 
       await waitFor(async () => {
         addButton.click()
@@ -102,10 +100,10 @@ describe('CustomArrayFieldTemplate', () => {
     test('removes a array field', async () => {
       const { props } = setup()
 
-      const addButton = screen.getAllByRole('button')[0]
+      const remove = screen.getByRole('button', { name: 'Remove' })
 
       await waitFor(async () => {
-        addButton.click()
+        remove.click()
       })
 
       expect(props.items[0].onDropIndexClick).toHaveBeenCalledTimes(1)

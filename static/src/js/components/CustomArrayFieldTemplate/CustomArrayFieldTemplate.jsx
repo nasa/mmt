@@ -130,7 +130,7 @@ const CustomArrayFieldTemplate = ({
                         className="custom-array-field-template__remove-button text-danger px-0"
                         Icon={FaMinusCircle}
                         naked
-                        onClick={() => onDropIndexClick(elementIndex)}
+                        onClick={onDropIndexClick(elementIndex)}
                       >
                         Remove
                       </Button>

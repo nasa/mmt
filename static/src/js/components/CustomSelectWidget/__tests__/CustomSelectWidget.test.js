@@ -85,8 +85,7 @@ beforeEach(() => {
 
 describe('CustomSelectWidget', () => {
   describe('when the field is given schema enums for options', () => {
-    // TODO Matthew help!
-    test.skip('renders a select element', async () => {
+    test('renders a select element', async () => {
       const { user } = setup({
         schema: {
           description: 'Test Description',
@@ -107,8 +106,7 @@ describe('CustomSelectWidget', () => {
 
       // First call is loading the page
       // Second call is setting the options
-      // Third call is clicking the select
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -121,7 +119,7 @@ describe('CustomSelectWidget', () => {
   })
 
   describe('when the field is given selectOptions props', () => {
-    test.skip('renders a select element', async () => {
+    test('renders a select element', async () => {
       const { user } = setup({
         selectOptions: [
           'Select Options Enum 1',
@@ -137,7 +135,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Select Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Select Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -150,7 +148,7 @@ describe('CustomSelectWidget', () => {
   })
 
   describe('when the field is given ui:options', () => {
-    test.skip('renders a select element', async () => {
+    test('renders a select element', async () => {
       const { user } = setup({
         uiSchema: {
           'ui:options': {
@@ -170,7 +168,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -183,7 +181,7 @@ describe('CustomSelectWidget', () => {
   })
 
   describe('when the field uses controlled keywords', () => {
-    test.skip('renders a select element', async () => {
+    test('renders a select element', async () => {
       const { user } = setup()
 
       expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
@@ -195,7 +193,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'application/gzip' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'application/json' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,

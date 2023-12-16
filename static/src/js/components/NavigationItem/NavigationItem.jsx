@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
+import { cloneDeep } from 'lodash-es'
 
 import For from '../For/For'
 import NavigationItemError from '../NavigationItemError/NavigationItemError'
 
 import buildValidationErrors from '../../utils/buildValidationErrors'
 import createPath from '../../utils/createPath'
+import removeEmpty from '../../utils/removeEmpty'
 import prefixProperty from '../../utils/prefixProperty'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
@@ -55,7 +57,10 @@ const NavigationItem = ({
 
   // Does the form section have values
   const hasValues = sectionProperties.some((propertyPrefix) => {
-    const value = draft[propertyPrefix]
+    const value = cloneDeep(removeEmpty(draft[propertyPrefix]))
+
+    // If the value is an empty array, return false
+    if (value && value.length === 0) return false
 
     return value !== undefined
   })

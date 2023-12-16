@@ -185,7 +185,7 @@ const MetadataForm = () => {
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
-        metadata: ummMetadata,
+        metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId,
         // TODO pull this version number from a config
@@ -263,7 +263,7 @@ const MetadataForm = () => {
 
     setDraft({
       ...draft,
-      ummMetadata: removeEmpty(formData)
+      ummMetadata: formData
     })
   }
 

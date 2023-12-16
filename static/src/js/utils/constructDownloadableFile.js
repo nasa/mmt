@@ -4,10 +4,10 @@
  * @param {String} name What to name the file
  * @param {String} type The filetype of the file to create
  */
-export const constructDownloadableFile = (contents, name, type = 'text/plain;charset:utf-8') => {
-  // TODO: Ensure that downloads work on supported versions of IE
+export const constructDownloadableFile = (contents, name, type = 'application/json;charset:utf-8') => {
   const clickableElement = document.createElement('a')
   const fileObject = new Blob([contents], { type })
+
   clickableElement.href = URL.createObjectURL(fileObject)
   clickableElement.download = name
 

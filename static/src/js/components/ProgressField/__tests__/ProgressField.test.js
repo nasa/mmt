@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+import * as router from 'react-router'
 
 import ProgressField from '../ProgressField'
 
@@ -15,6 +17,10 @@ const setup = (fieldInfo) => {
       />
     </BrowserRouter>
   )
+
+  return {
+    user: userEvent.setup()
+  }
 }
 
 describe('ProgressField', () => {
@@ -110,6 +116,26 @@ describe('ProgressField', () => {
       })
 
       expect(screen.getByText('Status Unknown')).toBeInTheDocument()
+    })
+  })
+
+  describe('when clicking on the field', () => {
+    test('navigates to the form', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        fieldName: 'Test Field',
+        message: 'mock message',
+        isRequired: false,
+        status: progressCircleTypes.Invalid
+      })
+
+      const icon = screen.getByRole('img', { name: 'mock message' })
+      await user.click(icon)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('test-form/Test Field')
     })
   })
 })

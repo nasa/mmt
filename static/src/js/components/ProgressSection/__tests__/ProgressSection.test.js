@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+import * as router from 'react-router'
 
 import ProgressSection from '../ProgressSection'
 import ProgressField from '../../ProgressField/ProgressField'
@@ -22,6 +24,10 @@ const setup = (overrideProps = {}) => {
       <ProgressSection {...props} />
     </BrowserRouter>
   )
+
+  return {
+    user: userEvent.setup()
+  }
 }
 
 describe('ProgressSection', () => {
@@ -108,5 +114,20 @@ describe('ProgressSection', () => {
       },
       formName: 'Test Section'
     }, {})
+  })
+
+  describe('when clicking on the label', () => {
+    test('navigates to the form', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup()
+
+      const label = screen.getByText('Test Section')
+      await user.click(label)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('test-section')
+    })
   })
 })

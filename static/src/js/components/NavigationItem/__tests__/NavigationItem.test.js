@@ -64,6 +64,19 @@ describe('NavigationItem', () => {
     })
   })
 
+  describe('when there is only an empty array in the form', () => {
+    test('displays the form name', () => {
+      setup({
+        draft: {
+          RelatedURLs: []
+        }
+      })
+
+      expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
+      expect(screen.getByRole('img', { name: 'Mock Section Name' }).className).toContain('eui-fa-circle-o')
+    })
+  })
+
   describe('when there are no errors on the form', () => {
     test('displays the form name', () => {
       setup({

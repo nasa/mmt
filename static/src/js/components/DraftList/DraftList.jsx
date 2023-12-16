@@ -1,15 +1,14 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import pluralize from 'pluralize'
-import { capitalize } from 'lodash-es'
+import { Link, useParams } from 'react-router-dom'
+import { useLazyQuery } from '@apollo/client'
 import { FaFileDownload } from 'react-icons/fa'
+import pluralize from 'pluralize'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import PlaceholderButton from 'react-bootstrap/PlaceholderButton'
 import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
-import { useLazyQuery } from '@apollo/client'
 
 import useAppContext from '../../hooks/useAppContext'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
@@ -18,7 +17,6 @@ import parseError from '../../utils/parseError'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
 import Button from '../Button/Button'
-import draftConceptTypes from '../../constants/draftConceptTypes'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import For from '../For/For'
 import Page from '../Page/Page'
@@ -26,9 +24,8 @@ import Page from '../Page/Page'
 import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 
 const DraftList = ({ draftType }) => {
-  const currentDraftType = draftConceptTypes[draftConceptTypes[capitalize(draftType)]]
-
-  const { user: { providerId } } = useAppContext()
+  const { user } = useAppContext()
+  const { providerId } = user
   const { draftType: paramDraftType } = useParams()
 
   const { drafts, error, loading } = useDraftsQuery({ draftType })
@@ -39,32 +36,35 @@ const DraftList = ({ draftType }) => {
       const { draft: fetchedDraft } = getDraftData
       const { conceptId } = fetchedDraft
       const { ummMetadata } = fetchedDraft
+
       const contents = JSON.stringify(ummMetadata, null, 2)
       constructDownloadableFile(contents, conceptId)
     }
   })
 
-  const createDownloadDraftParams = (conceptId) => ({
-    variables: {
-      params: {
-        conceptId,
-        conceptType: draftType
+  const handleDownloadClick = (conceptId) => {
+    downloadDraft({
+      variables: {
+        params: {
+          conceptId,
+          conceptType: draftType
+        }
       }
-    }
-  })
+    })
+  }
 
   return (
     <Page
       headerActions={
         [
           {
-            label: `New ${currentDraftType} Draft`,
+            label: `New ${draftType} Draft`,
             to: 'new'
           }
         ]
       }
       pageType="secondary"
-      title={`${providerId} ${currentDraftType} Drafts`}
+      title={`${providerId} ${draftType} Drafts`}
     >
       <Row>
         <Col sm={12}>
@@ -89,7 +89,7 @@ const DraftList = ({ draftType }) => {
                         {' '}
                         {count}
                         {' '}
-                        {currentDraftType}
+                        {draftType}
                         {' '}
                         {pluralize('Draft', count)}
                       </span>
@@ -148,7 +148,7 @@ const DraftList = ({ draftType }) => {
                                   <td colSpan={4}>
                                     No
                                     {' '}
-                                    {currentDraftType}
+                                    {draftType}
                                     {' '}
                                     drafts exist for the provider
                                     {' '}
@@ -169,50 +169,50 @@ const DraftList = ({ draftType }) => {
                                   },
                                   revisionDate
                                 }
-                              ) => (
-                                <tr key={conceptId}>
-                                  <td className="col-md-4">
-                                    <Link
-                                      className="text-decoration-none text-primary"
-                                      to={`/drafts/${`${paramDraftType}`}/${conceptId}`}
-                                    >
-                                      <div>
-                                        <span>{name || 'No name provided'}</span>
-                                      </div>
-                                    </Link>
-                                  </td>
+                              ) => {
+                                const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
-                                  <td className="col-md-4">
-                                    <Link
-                                      className="text-decoration-none text-primary"
-                                      to={`/drafts/${`${paramDraftType}`}/${conceptId}`}
-                                    >
-                                      <div>
-                                        <span>{longName || 'No longname provided'}</span>
-                                      </div>
-                                    </Link>
-                                  </td>
+                                return (
+                                  <tr key={conceptId}>
+                                    <td className="col-md-4">
+                                      <Link
+                                        className="text-decoration-none text-primary"
+                                        to={draftLink}
+                                      >
+                                        <div>
+                                          <span>{name || 'No name provided'}</span>
+                                        </div>
+                                      </Link>
+                                    </td>
 
-                                  <td className="col-auto text-center">
-                                    {new Date(revisionDate).toLocaleString('en-US', { hour12: false })}
-                                  </td>
+                                    <td className="col-md-4">
+                                      <Link
+                                        className="text-decoration-none text-primary"
+                                        to={draftLink}
+                                      >
+                                        <div>
+                                          <span>{longName || 'No longname provided'}</span>
+                                        </div>
+                                      </Link>
+                                    </td>
 
-                                  <td className="col-auto text-center">
-                                    <Button
-                                      variant="secondary"
-                                      className="d-flex align-items-center justify-content-center"
-                                      onClick={
-                                        () => {
-                                          downloadDraft(createDownloadDraftParams(conceptId))
-                                        }
-                                      }
-                                      Icon={FaFileDownload}
-                                    >
-                                      JSON
-                                    </Button>
-                                  </td>
-                                </tr>
-                              )
+                                    <td className="col-auto text-center">
+                                      {new Date(revisionDate).toLocaleString('en-US', { hour12: false })}
+                                    </td>
+
+                                    <td className="col-auto text-center">
+                                      <Button
+                                        className="d-flex align-items-center justify-content-center"
+                                        Icon={FaFileDownload}
+                                        onClick={() => handleDownloadClick(conceptId)}
+                                        variant="secondary"
+                                      >
+                                        JSON
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                )
+                              }
                             }
                           </For>
                         )
