@@ -37,7 +37,6 @@ const CustomRadioWidget = ({
   uiSchema,
   value
 }) => {
-  console.log('🚀 ~ file: CustomRadioWidget.jsx:40 ~ id:', id)
   const selectScrollRef = useRef(null)
   const focusRef = useRef(null)
   const { formContext } = registry
