@@ -240,13 +240,13 @@ describe 'Publishing collection draft records', js: true do
       click_on 'Publish'
     end
 
-    it 'fails to publish and displays the error returned from CMR and a generic error message', skip:true do
+    it 'fails to publish and displays the error returned from CMR and a generic error message', js:true do
       expect(page).to have_content('Collection Draft was not published successfully')
 
       within 'section.errors' do
         expect(page).to have_content('This draft has the following errors:')
         expect(page).to have_link('Spatial Extent', href: edit_collection_draft_path(draft, 'spatial_information'))
-        expect(page).to have_content('Orbit Parameters must be defined for a collection whose granule spatial representation is ORBIT.')
+        expect(page).to have_content('required key [OrbitParameters] not found')
       end
     end
   end
