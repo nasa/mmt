@@ -43,7 +43,7 @@ const FormNavigation = ({
   onSave,
   schema,
   setFocusField,
-  // TODO MMT-####
+  // TODO MMT-3479
   // uiSchema,
   visitedFields
 }) => {
@@ -137,7 +137,7 @@ const FormNavigation = ({
             (section, index) => {
               const { displayName } = section
 
-              // TODO MMT-####
+              // TODO MMT-3479
               // const ui = uiSchema[kebabCase(displayName)]
               // const required = ui?.['ui:layout_grid']?.['ui:row'][0]['ui:required'] || false
 
@@ -145,7 +145,7 @@ const FormNavigation = ({
                 <NavigationItem
                   draft={draft}
                   key={`section_${displayName}_${index}`}
-                  // TODO MMT-####
+                  // TODO MMT-3479
                   // required={required}
                   section={section}
                   setFocusField={setFocusField}

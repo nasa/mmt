@@ -37,7 +37,7 @@ import './NavigationItem.scss'
  */
 const NavigationItem = ({
   draft,
-  // TODO MMT-####
+  // TODO MMT-3479
   // required,
   section,
   setFocusField,
@@ -172,7 +172,7 @@ const NavigationItem = ({
           />
           {displayName}
 
-          {/* // TODO MMT-#### */}
+          {/* // TODO MMT-3479 */}
           {/* {
             required && (
               <i className="eui-icon eui-required-o required-icon text-success ms-1" />
