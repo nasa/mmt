@@ -267,7 +267,6 @@ const DraftPreview = () => {
           <Col md={12}>
             <Button
               className="eui-btn--blue display-modal"
-              data-testid="detailed-progress-view-publish-draft-btn"
               onClick={
                 () => {
                   // TODO MMT-3411

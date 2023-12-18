@@ -15,7 +15,7 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
 
 /**
  * CustomSelectWidget
- * @typedef {Object} CustomArrayFieldTemplate
+ * @typedef {Object} CustomSelectWidget
  * @property {Boolean} disable A boolean value to disable the select field.
  * @property {String} label The label of the widget.
  * @property {String} id The id of the widget.
@@ -32,7 +32,7 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
 
 /**
  * Renders Custom Select Widget
- * @param {CustomArrayFieldTemplate} props
+ * @param {CustomSelectWidget} props
  */
 const CustomSelectWidget = ({
   disabled,

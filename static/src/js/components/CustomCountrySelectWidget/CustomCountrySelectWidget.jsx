@@ -1,8 +1,15 @@
-import React, { useMemo, useState } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { startCase } from 'lodash-es'
 import countryList from 'react-select-country-list'
+import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+import shouldFocusField from '../../utils/shouldFocusField'
 
 /**
  * CustomCountrySelectWidget
@@ -21,11 +28,26 @@ import countryList from 'react-select-country-list'
 const CustomCountrySelectWidget = ({
   id,
   label,
+  onBlur,
   onChange,
+  registry,
   required,
+  schema,
   uiSchema,
   value
 }) => {
+  const selectScrollRef = useRef(null)
+  const focusRef = useRef(null)
+
+  const { description } = schema
+
+  const { formContext } = registry
+
+  const {
+    focusField,
+    setFocusField
+  } = formContext
+
   // Pull the data from countryList once
   const countryData = useMemo(() => countryList().getData(), [])
 
@@ -73,6 +95,11 @@ const CustomCountrySelectWidget = ({
     })
   }
 
+  const handleBlur = () => {
+    setFocusField(null)
+    onBlur(id)
+  }
+
   // Uses label for title
   let title = startCase(label.split(/-/)[0])
 
@@ -81,31 +108,37 @@ const CustomCountrySelectWidget = ({
     title = uiSchema['ui:title']
   }
 
+  const shouldFocus = shouldFocusField(focusField, id)
+
+  useEffect(() => {
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    if (shouldFocus) {
+      selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      focusRef.current?.focus()
+    }
+  }, [shouldFocus])
+
   return (
-    <div>
-      <div>
-        <span>
-          {title}
-        </span>
-
-        <span>
-          {/* // TODO This should be an icon */}
-          {required ? '*' : ''}
-        </span>
-      </div>
-
-      <div>
-        <Select
-          id={id}
-          isClearable
-          name={`Select-${label}`}
-          onChange={handleChange}
-          options={listOfCountries}
-          placeholder={`Select ${label}`}
-          value={selectedCountry}
-        />
-      </div>
-    </div>
+    <CustomWidgetWrapper
+      description={description}
+      id={id}
+      label={label}
+      required={required}
+      scrollRef={selectScrollRef}
+      title={title}
+    >
+      <Select
+        id={id}
+        isClearable
+        name={`Select-${label}`}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        options={listOfCountries}
+        placeholder={`Select ${label}`}
+        ref={focusRef}
+        value={selectedCountry}
+      />
+    </CustomWidgetWrapper>
   )
 }
 
@@ -117,8 +150,18 @@ CustomCountrySelectWidget.defaultProps = {
 CustomCountrySelectWidget.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
+  onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  registry: PropTypes.shape({
+    formContext: PropTypes.shape({
+      focusField: PropTypes.string,
+      setFocusField: PropTypes.func
+    }).isRequired
+  }).isRequired,
   required: PropTypes.bool.isRequired,
+  schema: PropTypes.shape({
+    description: PropTypes.string
+  }).isRequired,
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.string
   }).isRequired,

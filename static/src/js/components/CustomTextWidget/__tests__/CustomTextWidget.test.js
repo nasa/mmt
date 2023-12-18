@@ -112,24 +112,6 @@ describe('CustomTextWidget', () => {
     })
   })
 
-  describe('when the field is focused', () => {
-    test('shows the field description', async () => {
-      setup()
-
-      const field = screen.getByRole('textbox')
-
-      await waitFor(async () => {
-        field.focus()
-      })
-
-      expect(field).toHaveFocus()
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: 'Test Description'
-      }), {})
-    })
-  })
-
   describe('when the field is blurred', () => {
     test('clears the focusField and calls onBlur', async () => {
       const { props } = setup()

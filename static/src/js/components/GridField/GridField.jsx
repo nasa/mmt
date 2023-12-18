@@ -1,4 +1,3 @@
-import { kebabCase } from 'lodash-es'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -136,7 +135,7 @@ class GridField extends ObjectField {
       const UIComponent = render
 
       return (
-        <span data-testid={`layout-grid-field__schema-field--${kebabCase(layoutName)}`}>
+        <span>
           <UIComponent
             {...props}
             errorSchema={errorSchema}

@@ -6,12 +6,22 @@ import CustomCountrySelectWidget from '../CustomCountrySelectWidget'
 
 const setup = (overrideProps = {}) => {
   const props = {
-    id: 'the-widget',
+    id: 'mock-id',
     label: 'MyTestDataLabel',
-    required: false,
+    onBlur: jest.fn(),
     onChange: jest.fn(),
-    value: 'TZ',
+    registry: {
+      formContext: {
+        focusField: '',
+        setFocusField: jest.fn()
+      }
+    },
+    required: false,
+    schema: {
+      description: 'Test Description'
+    },
     uiSchema: {},
+    value: 'TZ',
     ...overrideProps
   }
 
@@ -76,6 +86,22 @@ describe('CustomCountrySelectWidget', () => {
       await user.click(option)
 
       expect(props.onChange).toHaveBeenCalledWith('US')
+    })
+  })
+
+  describe('when the field should be focused', () => {
+    test('focuses the field', async () => {
+      setup({
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
+          }
+        }
+      })
+
+      const field = screen.getByRole('combobox')
+
+      expect(field).toHaveFocus()
     })
   })
 })

@@ -7,7 +7,7 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 /**
  * CustomMultiSelectWidget
- * @typedef {Object} CustomArrayFieldTemplate
+ * @typedef {Object} CustomMultiSelectWidget
  * @property {String} id The id of the widget.
  * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.

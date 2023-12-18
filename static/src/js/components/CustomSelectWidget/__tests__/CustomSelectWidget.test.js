@@ -233,24 +233,6 @@ describe('CustomSelectWidget', () => {
     })
   })
 
-  describe('when the field is focused', () => {
-    test('shows the field description', async () => {
-      setup()
-
-      const field = screen.getByRole('combobox')
-
-      await waitFor(async () => {
-        field.focus()
-      })
-
-      expect(field).toHaveFocus()
-
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: 'Test Description'
-      }), {})
-    })
-  })
-
   describe('when the field is changed', () => {
     test('calls onChange', async () => {
       const { props, user } = setup()

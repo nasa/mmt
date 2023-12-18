@@ -20,10 +20,7 @@ const CustomFieldTemplate = ({
   errors,
   children
 }) => (
-  <div
-    data-testid="custom-field-template"
-    className={`custom-field-template ${classNames}`}
-  >
+  <div className={`custom-field-template ${classNames}`}>
     {children}
     {errors}
     {help}
