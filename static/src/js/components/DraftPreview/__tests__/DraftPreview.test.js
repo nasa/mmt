@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -9,6 +13,7 @@ import {
 } from 'react-router-dom'
 import { ToolPreview } from '@edsc/metadata-preview'
 import * as router from 'react-router'
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 
 import ummTSchema from '../../../schemas/umm/ummTSchema'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
@@ -24,6 +29,7 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
 
+// jest.mock('react-bootstrap/Breadcrumb')
 jest.mock('@edsc/metadata-preview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../PreviewProgress/PreviewProgress')
@@ -155,6 +161,19 @@ describe('DraftPreview', () => {
         tool: mockDraft.previewMetadata
       }, {})
     })
+  })
+
+  test('renders the breadcrumbs', async () => {
+    setup({})
+
+    await waitForResponse()
+
+    const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
+    const breadcrumbOne = within(breadcrumbs).getByText('Tool Drafts')
+    const breadcrumbTwo = within(breadcrumbs).getByText('<Blank Name>')
+
+    expect(breadcrumbOne.href).toEqual('http://localhost/drafts/tools')
+    expect(breadcrumbTwo).toHaveClass('active')
   })
 
   test('renders a PreviewProgress component', async () => {

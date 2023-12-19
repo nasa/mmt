@@ -36,8 +36,6 @@ import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 
-import './DraftPreview.scss'
-
 /**
  * Renders a DraftPreview component
  *
@@ -90,6 +88,8 @@ const DraftPreview = () => {
         // If the fetchedDraft doesn't exist, doesn't have previewMetadata or doesn't matched the savedRevisionId (if avaiable),
         // then call getDraft again
         setRetries(retries + 1)
+        setDraft()
+        setOriginalDraft()
       } else {
         // The correct version of the draft has been fetched, update the context and set loading to false
         setDraft(fetchedDraft)
@@ -109,6 +109,11 @@ const DraftPreview = () => {
       errorLogger(getDraftError, 'DraftPreview: getDraft Query')
     }
   })
+
+  useEffect(() => {
+    setLoading(true)
+    getDraft()
+  }, [])
 
   useEffect(() => {
     // Also check that revision id matches the revision saved from the mutation result
@@ -261,10 +266,25 @@ const DraftPreview = () => {
   })
 
   return (
-    <Page title={name || '<Blank Name>'}>
-      <Container id="metadata-form">
+    <Page
+      title={name || '<Blank Name>'}
+      pageType="secondary"
+      breadcrumbs={
+        [
+          {
+            label: `${derivedConceptType} Drafts`,
+            to: `/drafts/${derivedConceptType.toLowerCase()}s`,
+          },
+          {
+            label: name || '<Blank Name>',
+            active: true
+          }
+        ]
+      }
+    >
+      <Container id="metadata-form" className="px-0">
         <Row>
-          <Col md={12}>
+          <Col className="mb-5" md={12}>
             <Button
               className="eui-btn--blue display-modal"
               onClick={
@@ -279,15 +299,16 @@ const DraftPreview = () => {
               {startCase(conceptType)}
             </Button>
 
-            <span
-              className="draft-preview__delete-draft"
+            <Button
+              className="draft-preview__delete-draft ms-2"
+              variant="outline-danger"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...accessibleEventProps}
             >
               Delete
               {' '}
               {startCase(conceptType)}
-            </span>
+            </Button>
 
             <DeleteDraftModal
               show={showDeleteModal}
@@ -299,14 +320,9 @@ const DraftPreview = () => {
 
         <Row>
           <Col md={12}>
-            <Row className="draft-preview__header">
-              <Col md={12} className="draft-preview__header--col">
-                Metadata Fields
-              </Col>
-            </Row>
-
             <Row>
               <Col>
+                <h3 className="sr-only">Metadata Fields</h3>
                 <PreviewProgress
                   draftJson={ummMetadata}
                   schema={schema}

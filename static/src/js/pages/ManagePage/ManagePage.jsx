@@ -134,10 +134,10 @@ const ManagePage = () => {
                                               <div>
                                                 <span className="text-black d-block d-xl-inline">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</span>
                                                 <span className="d-none d-xl-inline"> | </span>
-                                                <span>{name || 'No name provided'}</span>
+                                                <span>{name || '<Blank Name>'}</span>
                                               </div>
                                               <div>
-                                                <span className="text-secondary">{longName || 'No long name provided'}</span>
+                                                <span className="text-secondary">{longName || '<Untitled Record>'}</span>
                                               </div>
                                             </Link>
                                           </ListGroup.Item>
