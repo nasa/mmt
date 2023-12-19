@@ -273,7 +273,7 @@ const DraftPreview = () => {
         [
           {
             label: `${derivedConceptType} Drafts`,
-            to: `/drafts/${derivedConceptType.toLowerCase()}s`,
+            to: `/drafts/${derivedConceptType.toLowerCase()}s`
           },
           {
             label: name || '<Blank Name>',

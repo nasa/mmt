@@ -128,16 +128,20 @@ const Page = ({
                   <Breadcrumb>
                     <For each={breadcrumbs}>
                       {
-                        ({ active, label, to }, i) => (
-                          <Breadcrumb.Item
-                            key={`breadcrumb-link_${to}_${i}`}
-                            active={active}
-                            linkProps={{ to }}
-                            linkAs={Link}
-                          >
-                            {label}
-                          </Breadcrumb.Item>
-                        )
+                        ({ active, label, to }, i) => {
+                          if (!label) return null
+
+                          return (
+                            <Breadcrumb.Item
+                              key={`breadcrumb-link_${to}_${i}`}
+                              active={active}
+                              linkProps={{ to }}
+                              linkAs={Link}
+                            >
+                              {label}
+                            </Breadcrumb.Item>
+                          )
+                        }
                       }
                     </For>
                   </Breadcrumb>
@@ -174,12 +178,16 @@ const Page = ({
 }
 
 Page.defaultProps = {
+  breadcrumbs: [],
   headerActions: [],
   pageType: 'primary',
   title: null
 }
 
 Page.propTypes = {
+  // Disabling the following rule to allow undefined to be passed as a value in the array
+  // eslint-disable-next-line react/forbid-prop-types
+  breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
   headerActions: PropTypes.arrayOf(
     PropTypes.shape({

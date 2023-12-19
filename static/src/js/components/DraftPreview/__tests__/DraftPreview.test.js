@@ -13,7 +13,6 @@ import {
 } from 'react-router-dom'
 import { ToolPreview } from '@edsc/metadata-preview'
 import * as router from 'react-router'
-import Breadcrumb from 'react-bootstrap/Breadcrumb'
 
 import ummTSchema from '../../../schemas/umm/ummTSchema'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
@@ -29,7 +28,6 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
 
-// jest.mock('react-bootstrap/Breadcrumb')
 jest.mock('@edsc/metadata-preview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../PreviewProgress/PreviewProgress')

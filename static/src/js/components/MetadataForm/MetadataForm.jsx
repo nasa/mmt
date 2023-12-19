@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client'
-import { kebabCase } from 'lodash'
+import { kebabCase } from 'lodash-es'
 import validator from '@rjsf/validator-ajv8'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
@@ -287,7 +287,7 @@ const MetadataForm = () => {
     ])])
   }
 
-  const { name = '<Blank Name>' } = draft || {}
+  const name = draft?.name || '<Blank Name>'
   const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${name}`
 
   return (
@@ -300,10 +300,12 @@ const MetadataForm = () => {
             label: `${derivedConceptType} Drafts`,
             to: `/drafts/${draftType}`
           },
-          {
-            label: name,
-            to: `/drafts/${draftType}/${conceptId}`
-          },
+          (
+            conceptId !== 'new' && {
+              label: name,
+              to: `/drafts/${draftType}/${conceptId}`
+            }
+          ),
           {
             label: pageTitle,
             active: true
