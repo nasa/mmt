@@ -131,5 +131,40 @@ describe('Page component', () => {
         expect(screen.getByText('Test Active Breadcrumb').href).toEqual(undefined)
       })
     })
+
+    describe('when breadcrumbs contain an undefined value', () => {
+      test('displays the breadcrumbs', () => {
+        render(
+          <BrowserRouter>
+            <Page
+              title="Test page"
+              breadcrumbs={
+                [
+                  {
+                    label: 'Test Breadcrumb',
+                    to: '/test-breadcrumb'
+                  },
+                  (
+                    false && {
+                      label: 'Conditional Breadcrumb',
+                      to: '/conditional-breadcrumb'
+                    }
+                  ),
+                  {
+                    label: 'Test Active Breadcrumb',
+                    to: '/test-active-breadcrumb',
+                    active: true
+                  }
+                ]
+              }
+            >
+              This is some page content
+            </Page>
+          </BrowserRouter>
+        )
+
+        expect(screen.getAllByText('Breadcrumb', { exact: false }).length).toEqual(2)
+      })
+    })
   })
 })

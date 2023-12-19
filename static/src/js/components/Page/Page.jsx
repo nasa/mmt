@@ -48,7 +48,7 @@ import './Page.scss'
  * )
  */
 const Page = ({
-  breadcrumbs = [],
+  breadcrumbs,
   children,
   headerActions,
   pageType,
