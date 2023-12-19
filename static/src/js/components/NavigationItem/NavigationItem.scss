@@ -1,0 +1,27 @@
+.navigation-item {
+  &__item {
+    &--is-focused {
+      // background-color: #f5f5f5;
+      background-color: var(--bs-light);
+    }
+
+    &--is-active {
+      border: none;
+      font-weight: bold;
+    }
+  }
+
+  &__icon {
+    &--not-started {
+      color: var(--bs-gray);
+    }
+
+    &--error {
+      color: var(--bs-danger);
+    }
+
+    &--pass {
+      color: var(--bs-green);
+    }
+  }
+}

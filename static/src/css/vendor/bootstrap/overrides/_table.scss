@@ -1,0 +1,47 @@
+@use "sass:map";
+
+@import '../variables';
+
+.table > :not(caption) > * > * {
+  padding: 0.75rem;
+}
+
+.table > thead > tr,
+.table > tbody > tr,
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  border: 0;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  border: 0;
+}
+
+.table > thead > tr > th {
+  color: map.get($theme-colors, "gray");
+  font-weight: 400;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.table > tbody > tr > td:first-child,
+.table > tbody > tr > td:last-child {
+  border-radius: 0.325rem;
+}
+
+.table > tbody > tr > td:first-child:not(.table > tbody > tr > td:last-child) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.table > tbody > tr > td:last-child:not(.table > tbody > tr > td:first-child) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.table-bordered > :not(caption) > * > * {
+  border: 0;
+}

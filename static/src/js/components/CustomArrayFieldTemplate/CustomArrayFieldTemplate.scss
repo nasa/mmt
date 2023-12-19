@@ -1,0 +1,15 @@
+.custom-array-field-template{
+  &__title {
+    font-weight: 700;
+  }
+
+  &__field-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+legend {
+  display: none
+}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash-es'
 
 /**
  * @typedef {Object} ForProps
@@ -31,8 +32,15 @@ import PropTypes from 'prop-types'
  */
 export const For = ({
   children,
-  each
-}) => each.map((item, i) => children(item, i))
+  each,
+  empty
+}) => {
+  const items = each.map((item, index) => children(item, index))
+
+  if (isEmpty(items) && empty) return empty
+
+  return items
+}
 
 For.propTypes = {
   children: PropTypes.func.isRequired,

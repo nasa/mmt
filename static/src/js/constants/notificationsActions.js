@@ -1,0 +1,7 @@
+const notificationsActions = {
+  NOTIFICATIONS_ADD: 'NOTIFICATIONS_ADD',
+  NOTIFICATIONS_HIDE: 'NOTIFICATIONS_HIDE',
+  NOTIFICATION_REMOVE: 'NOTIFICATION_REMOVE'
+}
+
+export default notificationsActions

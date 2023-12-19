@@ -1,3 +1,4 @@
+@use "sass:map";
 
 /*
  * This file pulls in all the Bootstrap variables and customizations. This file is
@@ -46,8 +47,8 @@ $custom-colors: (
   "info": #7ab5da,
   "warning": #f2d029,
   "danger": #b3241c,
-  "light": #f8f9fa,
-  "dark": #212529
+  "light": #f4f4f4,
+  "dark": #313438
 );
 
 /* stylelint-disable-next-line function-no-unknown */
@@ -62,10 +63,37 @@ $font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue"
 $font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 /*
+ * Forms
+ */
+
+ $input-btn-focus-color: map.get($theme-colors, "primary");
+
+/*
+ * Links
+*/
+
+$link-color: map.get($theme-colors, "blue-light");
+$link-hover-color: map.get($theme-colors, "blue");
+
+/*
  * Badge
 */
 
+$btn-padding-y: 0.5rem;
+$btn-padding-x: 1rem;
+$btn-border-radius: 0.125rem;
+
+/*
+ * Button
+*/
+
 $badge-border-radius: 0.25rem;
+
+/*
+ * Accordion
+*/
+
+$accordion-button-active-bg: lighten(map.get($theme-colors, "blue-light"), 45%);
 
 /*
  * Navbar
@@ -74,6 +102,15 @@ $badge-border-radius: 0.25rem;
 $navbar-padding-y: 0.75rem;
 $navbar-brand-padding-y: 0.75rem;
 $navbar-brand-font-size: calc(1.285rem + 0.42vw);
+
+/*
+ * Nav Pills
+*/
+
+$nav-link-color: map.get($theme-colors, "blue-light");
+$nav-link-hover-color: map.get($theme-colors, "blue");
+$nav-pills-link-active-bg: map.get($theme-colors, "blue");
+$nav-pills-border-radius: 0;
 
 /*
  * Bootstrap utilities

@@ -1,0 +1,24 @@
+.rbt-menu>.dropdown-item {
+  white-space: pre-wrap;
+}
+
+.rbt-menu>.dropdown-item::after {
+  display: none;
+}
+
+.keyword-picker {
+  &__search-keywords {
+    border-style: hidden;
+    margin: 0;
+  }
+}
+
+.rbt-aux .rbt-close {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.rbt-close-content::after {
+  display: none;
+}

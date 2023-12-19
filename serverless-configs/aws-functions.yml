@@ -1,8 +1,8 @@
-example:
-  handler: serverless/src/example/handler.default
+errorLogger:
+  handler: serverless/src/errorLogger/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
   events:
     - http:
-        method: get
+        method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
-        path: example
+        path: error-logger

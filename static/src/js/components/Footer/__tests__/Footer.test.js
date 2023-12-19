@@ -7,8 +7,8 @@ describe('Footer component', () => {
   test('displays the version badge', async () => {
     render(<Footer />)
 
-    expect(screen.getByText('Version 2')).toBeInTheDocument()
-    expect(screen.getByText('Version 2')).toHaveClass('badge bg-dark')
+    expect(screen.getByText('vdevelopment')).toBeInTheDocument()
+    expect(screen.getByText('vdevelopment')).toHaveClass('badge bg-dark')
   })
 
   describe('when an item does not have an href defined', () => {

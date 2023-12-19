@@ -1,0 +1,39 @@
+.progress-field {
+  &__field-circle {
+    padding: 0 0.25em;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  &__icon {
+    &--invalid-circle {
+      // color: rgb(231,  76,  60)
+      color: var(--bs-danger);
+    }
+
+    &--not-started-required-circle {
+      // color: rgb(24, 156, 84)
+      color: var(--bs-green);
+    }
+
+    &--not-started-not-required-circle {
+      // color: rgb(140, 140, 140)
+      color: var(--bs-gray);
+    }
+
+    &--pass-required-circle {
+      // color: rgb(24, 156, 84)
+      color: var(--bs-green);
+    }
+
+    &--pass-not-required-circle {
+      // color: rgb(149, 165, 166)
+      color: var(--bs-gray);
+    }
+
+    &--error-circle {
+      // color: rgb(231,  76,  60)
+      color: var(--bs-danger);
+    }
+  }
+}

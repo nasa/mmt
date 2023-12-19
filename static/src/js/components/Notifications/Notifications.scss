@@ -1,0 +1,30 @@
+.notifications-list {
+  &__icon-background {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+
+  &__icon {
+    font-size: 1.2rem;
+  }
+
+  &__timer {
+    --timer-duration: 3000ms;
+
+    width: 0%;
+    height: 0.325rem;
+    animation: timer var(--timer-duration) linear;
+    background-color: var(--bs-gray-500);
+  }
+
+  @keyframes timer {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+  }
+}

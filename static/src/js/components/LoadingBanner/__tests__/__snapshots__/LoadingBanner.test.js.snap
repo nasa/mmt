@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Banner Component Provided a message it renders a loading banner 1`] = `
+<div>
+  <div
+    class="justify-content-center mt-5 row"
+  >
+    <div
+      class="spinner-border text-primary"
+      data-testid="loading-banner__spinner"
+    />
+  </div>
+</div>
+`;
+
+exports[`Error Banner Component Provided a test id it renders a loading banner 1`] = `
+<div>
+  <div
+    class="justify-content-center mt-5 row"
+  >
+    <div
+      class="spinner-border text-primary"
+      data-testid="test-spinner"
+    />
+  </div>
+</div>
+`;

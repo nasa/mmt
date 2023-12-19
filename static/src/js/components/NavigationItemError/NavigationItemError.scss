@@ -1,0 +1,23 @@
+.navigation-item-error {
+  &__item {
+    &--isFocused {
+      background-color: var(--bs-light);
+    }
+  }
+
+  &__icon {
+    // padding-right: 1rem;
+
+    &--not-started {
+      color: var(--bs-gray);
+    }
+
+    &--error {
+      color: var(--bs-danger);
+    }
+
+    &--pass {
+      color: var(--bs-green);
+    }
+  }
+}

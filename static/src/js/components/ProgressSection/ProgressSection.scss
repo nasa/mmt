@@ -1,0 +1,27 @@
+.progress-section {
+  &__section-circle {
+    display: block;
+    margin-right: 10px;
+    float: left;
+    font-size: 2em;
+  }
+
+  &__section-label {
+    padding-left: 4px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+
+  &__section-icon {
+    &--pass-circle {
+      // color: rgb(24, 156, 84)
+      color: var(--bs-green);
+    }
+
+    &--invalid-circle {
+      // color: rgb(24, 156, 84)
+      color: var(--bs-green);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.draft-preview {
+  &__header {
+    font-size: 21px;
+    font-weight: bold;
+
+    &--col {
+      padding: 1rem;
+    }
+  }
+
+  &__delete-draft {
+    margin-left: 25px;
+    color: #2276ac;
+    cursor: pointer;
+  }
+}

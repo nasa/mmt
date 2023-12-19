@@ -9,18 +9,16 @@
   ],
   "rules": {
     "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": true,
     "import-notation": "string",
     "keyframes-name-pattern": "[a-zA-Z]",
+    "no-invalid-position-at-import-rule": null,
     "property-no-unknown": [
       true,
       {
-        "ignoreProperties": [
-          "composes",
-          "compose-with"
-        ]
+        "ignoreProperties": ["composes", "compose-with"]
       }
     ],
+    "scss/at-rule-no-unknown": true,
     "selector-class-pattern": "[a-zA-Z]",
     "selector-pseudo-class-no-unknown": [
       true,
@@ -31,9 +29,7 @@
     "value-keyword-case": [
       "lower",
       {
-        "ignoreKeywords": [
-          "/[a-zA-Z]/"
-        ]
+        "ignoreKeywords": ["/[a-zA-Z]/"]
       }
     ]
   }

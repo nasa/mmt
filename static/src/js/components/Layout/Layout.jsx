@@ -16,11 +16,11 @@ import Footer from '../Footer/Footer'
  * )
  */
 const Layout = () => (
-  <>
+  <div className="d-flex flex-column w-100">
     <Header />
     <Outlet />
     <Footer />
-  </>
+  </div>
 )
 
 export default Layout

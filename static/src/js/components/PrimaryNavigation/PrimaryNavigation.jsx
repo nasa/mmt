@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { Badge } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
 
 import { For } from '../For/For'
 
@@ -60,9 +60,9 @@ const PrimaryNavigation = ({
               <NavLink
                 className={
                   ({ isActive }) => classNames([
-                    'd-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-0 text-white primary-navigation__item ',
+                    'd-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-0 text-white primary-navigation__item border-bottom border-4',
                     {
-                      'border-bottom border-pink border-4': isActive
+                      'border-pink ': isActive
                     }
                   ])
                 }
