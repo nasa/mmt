@@ -47,7 +47,6 @@ import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
-import removeEmpty from '../../utils/removeEmpty'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './MetadataForm.scss'
@@ -275,7 +274,7 @@ const MetadataForm = () => {
 
     setDraft({
       ...draft,
-      ummMetadata: removeEmpty(formData)
+      ummMetadata: formData
     })
   }
 
