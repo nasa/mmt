@@ -21,7 +21,15 @@ import './Page.scss'
  */
 
 /**
+ * @typedef {Object} Breadcrumb
+ * @property {String} label The label for the header action.
+ * @property {String} to The location to be set when clicked.
+ * @property {Boolean} active A boolean flag to trigger the active state
+ */
+
+/**
  * @typedef {Object} PageProps
+ * @property {Array.<Breadcrumb>} breadcrumbs The page content.
  * @property {ReactNode} children The page content.
  * @property {Array.<HeaderAction>} headerActions The page content.
  * @property {String} pageType A string representing the type of page.
