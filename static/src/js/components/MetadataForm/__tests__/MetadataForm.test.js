@@ -2,7 +2,8 @@ import React from 'react'
 import {
   render,
   screen,
-  waitFor
+  waitFor,
+  within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
@@ -95,7 +96,7 @@ const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',
   deleted: false,
-  name: null,
+  name: 'Test Name',
   nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
   providerId: 'MMT_2',
   revisionDate: '2023-12-08T16:14:28.177Z',
@@ -306,6 +307,21 @@ describe('MetadataForm', () => {
           }
         }), {})
       })
+    })
+
+    test('renders the breadcrumbs', async () => {
+      setup({
+        pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
+      })
+
+      await waitForResponse()
+
+      const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbOne = within(breadcrumbs).getByText('Tool Drafts')
+      const breadcrumbTwo = within(breadcrumbs).getByText('Edit Test Name')
+
+      expect(breadcrumbOne.href).toEqual('http://localhost/drafts/tools')
+      expect(breadcrumbTwo).toHaveClass('active')
     })
 
     test('renders a FormNavigation component', async () => {

@@ -44,15 +44,9 @@ export const For = ({
 
 For.propTypes = {
   children: PropTypes.func.isRequired,
-  each: PropTypes.arrayOf(
-    PropTypes.oneOfType(
-      [
-        PropTypes.shape(),
-        PropTypes.string,
-        PropTypes.number
-      ]
-    )
-  ).isRequired
+  // Disabling the following rule to allow undefined to be passed as a value in the array
+  // eslint-disable-next-line react/forbid-prop-types
+  each: PropTypes.array.isRequired
 }
 
 export default For
