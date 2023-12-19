@@ -29,7 +29,6 @@ import Page from '../Page/Page'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 import formConfigurations from '../../schemas/uiForms'
-import toolsUiSchema from '../../schemas/uiSchemas/tools'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
@@ -48,6 +47,7 @@ import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import getUiSchema from '../../utils/getUiSchema'
 
 import './MetadataForm.scss'
 
@@ -146,7 +146,8 @@ const MetadataForm = () => {
   const [firstFormSection] = formSections
   const firstSectionName = kebabCase(firstFormSection.displayName)
   const currentSection = sectionName || firstSectionName
-  const uiSchema = toolsUiSchema[currentSection]
+  const uiSchemaType = getUiSchema(derivedConceptType)
+  const uiSchema = uiSchemaType[currentSection]
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
@@ -156,7 +157,7 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // AnyOfField: () => null,
+    AnyOfField: () => null,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
     layout: GridLayout,
@@ -302,7 +303,7 @@ const MetadataForm = () => {
                 onSave={handleSave}
                 schema={schema}
                 setFocusField={setFocusField}
-                uiSchema={toolsUiSchema}
+                uiSchema={uiSchema}
                 visitedFields={visitedFields}
               />
             </div>

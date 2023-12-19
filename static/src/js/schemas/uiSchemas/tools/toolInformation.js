@@ -120,6 +120,7 @@ const toolInformationUiSchema = {
     'ui:widget': CustomSelectWidget
   },
   URL: {
+    'ui:heading-level': 'h4',
     'ui:root': 'URL',
     'ui:field': 'layout',
     'ui:controlled': {
@@ -135,8 +136,8 @@ const toolInformationUiSchema = {
         {
           'ui:group': 'URL',
           'ui:group-description': true,
-          'ui:group-classname': 'h2-title',
-          'ui:group-box-classname': 'h2-box',
+          // 'ui:group-classname': 'h2-title',
+          // 'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [

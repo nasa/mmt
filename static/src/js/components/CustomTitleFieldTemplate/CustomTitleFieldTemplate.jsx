@@ -52,7 +52,7 @@ const CustomTitleFieldTemplate = ({
                 (required || requiredUI) && (
                   <i
                     aria-label="Required"
-                    className="eui-icon eui-required-o required-icon"
+                    className="eui-icon eui-required-o required-icon text-success ms-1"
                     role="img"
                     title={heading}
                   />

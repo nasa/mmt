@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { uniqueId } from 'lodash-es'
 
+// eslint-disable-next-line import/no-cycle
 import GridCheckboxPanel from '../GridCheckboxPanel/GridCheckboxPanel'
 import GridGroupedSinglePanel from '../GridGroupedSinglePanel/GridGroupedSinglePanel'
 
@@ -34,6 +35,8 @@ const GridRow = (
     registry,
     required,
     schema,
+    idSchema,
+    errorSchema,
     uiSchema
   } = props
 
@@ -123,8 +126,15 @@ const GridRow = (
   if (groupCheckbox) {
     return (
       <GridCheckboxPanel
-        layoutGridSchema={uiSchema}
-        key={`checkboxpanel--' ${JSON.stringify(uiSchema)}`}
+        key={`checkboxpanel--' ${JSON.stringify(layout)}`}
+        layoutGridSchema={layout}
+        errorSchema={errorSchema}
+        registry={registry}
+        idSchema={idSchema}
+        uiSchema={uiSchema}
+        schema={schema}
+        formData={formData}
+        onChange={onChange}
       />
     )
   }
@@ -177,7 +187,9 @@ GridRow.propTypes = {
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
     properties: PropTypes.shape({})
   }).isRequired,
-  uiSchema: PropTypes.shape({}).isRequired
+  uiSchema: PropTypes.shape({}).isRequired,
+  idSchema: PropTypes.shape({}).isRequired,
+  errorSchema: PropTypes.shape({}).isRequired
 }
 
 export default GridRow
