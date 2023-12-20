@@ -28,13 +28,14 @@ const CustomFieldTemplate = ({
 )
 
 CustomFieldTemplate.defaultProps = {
-  classNames: ''
+  classNames: '',
+  errors: null
 }
 
 CustomFieldTemplate.propTypes = {
   children: PropTypes.shape({}).isRequired,
   classNames: PropTypes.string,
-  errors: PropTypes.shape({}).isRequired,
+  errors: PropTypes.shape({}),
   help: PropTypes.shape({}).isRequired
 }
 

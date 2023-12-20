@@ -104,8 +104,8 @@ export default GridCheckboxPanel
 
 GridCheckboxPanel.propTypes = {
   layoutGridSchema: PropTypes.shape({
-    'ui:row': PropTypes.arrayOf(),
-    'ui:group-checkbox': PropTypes.bool
+    'ui:row': PropTypes.arrayOf(PropTypes.shape({})),
+    'ui:group-checkbox': PropTypes.string
   }).isRequired,
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,

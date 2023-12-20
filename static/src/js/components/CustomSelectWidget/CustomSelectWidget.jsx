@@ -46,6 +46,7 @@ const CustomSelectWidget = ({
   schema,
   selectOptions: propsSelectOptions,
   uiSchema,
+  options: oneOfEnums = { enumOptions: null },
   value
 }) => {
   const { items = {} } = schema
@@ -113,6 +114,10 @@ const CustomSelectWidget = ({
     if (enumOptions) {
       setSelectOptions(buildOptions(enumOptions))
     }
+
+    if (oneOfEnums) {
+      setSelectOptions((oneOfEnums.enumOptions))
+    }
   }, [propsSelectOptions])
 
   useEffect(() => {
@@ -143,10 +148,16 @@ const CustomSelectWidget = ({
     onBlur(id)
   }
 
-  const existingValue = value != null ? {
+  let existingValue = value != null ? {
     value,
     label: value
   } : null
+
+  // For oneOf the value coming in as an index value from OneOfField.
+  // This will match the index value to the enums obj and set it to existingValue
+  if (typeof value === 'number') {
+    existingValue = value >= 0 ? oneOfEnums.enumOptions[value] : null
+  }
 
   return (
     <CustomWidgetWrapper
@@ -189,7 +200,8 @@ CustomSelectWidget.defaultProps = {
   placeholder: null,
   selectOptions: null,
   uiSchema: {},
-  value: undefined
+  value: undefined,
+  options: null
 }
 
 CustomSelectWidget.propTypes = {
@@ -226,7 +238,11 @@ CustomSelectWidget.propTypes = {
       controlName: PropTypes.string.isRequired
     })
   }),
-  value: PropTypes.string
+  options: PropTypes.shape({}),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 }
 
 export default CustomSelectWidget

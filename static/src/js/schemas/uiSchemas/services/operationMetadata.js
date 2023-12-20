@@ -285,11 +285,6 @@ const operationMetadataUiSchema = {
                       'ui:row': [
                         {
                           'ui:col': {
-                            style: {
-                              marginLeft: '10px',
-                              marginBottom: '10px',
-                              borderLeft: 'solid 5px rgb(240,240,240)'
-                            },
                             md: 12,
                             children: ['DataResourceSpatialExtent']
                           }
@@ -367,73 +362,7 @@ const operationMetadataUiSchema = {
             ]
           },
           DataResourceSpatialExtent: {
-            'ui:hide-header': true,
-            'ui:field': 'layout',
-            'ui:layout_grid': {
-              'ui:row': [
-                {
-                  'ui:group': 'Data Resource Spatial Extent',
-                  'ui:group-classname': 'h2-title',
-                  'ui:group-box-classname': 'h2-box',
-                  className: 'field-left-border',
-                  md: 12,
-                  'ui:col': {
-                    children: [
-                      {
-                        'ui:row': [
-                          {
-                            'ui:col': {
-                              md: 12,
-                              children: ['SpatialPoints']
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        'ui:row': [
-                          {
-                            'ui:col': {
-                              md: 12,
-                              children: ['SpatialLineStrings']
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        'ui:row': [
-                          {
-                            'ui:col': {
-                              md: 12,
-                              children: ['SpatialBoundingBox']
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        'ui:row': [
-                          {
-                            'ui:col': {
-                              md: 12,
-                              children: ['GeneralGrid']
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        'ui:row': [
-                          {
-                            'ui:col': {
-                              md: 12,
-                              children: ['SpatialPolygons']
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
+            'ui:heading-level': 'h6',
             SpatialPoints: {
               items: {
                 'ui:field': 'layout',

@@ -27,6 +27,7 @@ import KeywordPicker from '../KeywordPicker/KeywordPicker'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
+import OneOfField from '../OneOfField/OneOfField'
 
 import formConfigurations from '../../schemas/uiForms'
 
@@ -161,13 +162,13 @@ const MetadataForm = () => {
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
     layout: GridLayout,
-    // OneOfField,
+    OneOfField,
     streetAddresses: StreetAddressField,
     TitleField: CustomTitleField
   }
   const widgets = {
     CheckboxWidget: CustomRadioWidget,
-    CountrySelectWiget: CustomCountrySelectWidget,
+    CountrySelectWidget: CustomCountrySelectWidget,
     DateTimeWidget: CustomDateTimeWidget,
     RadioWidget: CustomRadioWidget,
     SelectWidget: CustomSelectWidget,
