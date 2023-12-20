@@ -9,7 +9,6 @@ const setup = (overrideProps = {}) => {
     charactersUsed: null,
     children: (<div>Children</div>),
     description: null,
-    headerClassName: null,
     id: 'mock-id',
     maxLength: null,
     required: false,

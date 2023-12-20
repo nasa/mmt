@@ -53,7 +53,6 @@ const CustomTextWidget = ({
   const { maxLength, description } = schema
 
   const fieldType = uiSchema['ui:type']
-  const headerClassName = uiSchema['ui:header-classname']
 
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
@@ -88,7 +87,6 @@ const CustomTextWidget = ({
     <CustomWidgetWrapper
       charactersUsed={value?.length}
       description={description}
-      headerClassName={headerClassName}
       id={id}
       label={label}
       maxLength={maxLength}
@@ -140,7 +138,6 @@ CustomTextWidget.propTypes = {
     maxLength: PropTypes.number
   }).isRequired,
   uiSchema: PropTypes.shape({
-    'ui:header-classname': PropTypes.string,
     'ui:title': PropTypes.string,
     'ui:type': PropTypes.string
   }).isRequired,

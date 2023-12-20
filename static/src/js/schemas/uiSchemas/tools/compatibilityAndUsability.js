@@ -280,14 +280,12 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   UseConstraints: {
-    'ui:header-classname': 'h3-title',
     LicenseText: {
       'ui:widget': 'textarea'
     }
   },
   AccessConstraints: {
-    'ui:widget': 'textarea',
-    'ui:header-classname': 'h3-title'
+    'ui:widget': 'textarea'
   }
 }
 

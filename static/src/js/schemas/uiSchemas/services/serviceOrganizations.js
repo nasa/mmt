@@ -7,8 +7,6 @@ const organizationUiSchema = {
   },
   ServiceOrganizations: {
     'ui:heading-level': 'h3',
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {

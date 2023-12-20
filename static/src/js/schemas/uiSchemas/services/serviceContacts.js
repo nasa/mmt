@@ -154,7 +154,6 @@ const serviceContactsUiSchema = {
         },
         ContactMechanisms: {
           'ui:title': 'Contact Mechanism',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -191,7 +190,6 @@ const serviceContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Contact Address',
-          // 'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -267,7 +265,6 @@ const serviceContactsUiSchema = {
         },
         OnlineResources: {
           'ui:title': 'Online Resources',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -494,7 +491,6 @@ const serviceContactsUiSchema = {
         },
         ContactMechanisms: {
           'ui:title': 'Contact Mechanism',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -531,7 +527,6 @@ const serviceContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Contact Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -606,7 +601,6 @@ const serviceContactsUiSchema = {
         },
         OnlineResources: {
           'ui:title': 'Online Resources',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {

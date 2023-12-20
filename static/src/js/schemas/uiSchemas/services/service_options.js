@@ -64,16 +64,6 @@ const serviceOptionsUiSchema = {
         }
       ]
     },
-    SupportedInputProjections: {
-      items: {
-        'ui:header-classname': 'h3-title'
-      }
-    },
-    SupportedOutputProjections: {
-      items: {
-        'ui:header-classname': 'h3-title'
-      }
-    },
     SupportedReformattings: {
       items: {
         'ui:field': 'layout',
@@ -103,9 +93,6 @@ const serviceOptionsUiSchema = {
               }
             }
           ]
-        },
-        SupportedOutputFormats: {
-          'ui:header-classname': 'h3-title'
         }
       }
     },
@@ -255,10 +242,7 @@ const serviceOptionsUiSchema = {
           'ui:hide-header': true
         },
         Shapefile: {
-          'ui:hide-header': true,
-          items: {
-            'ui:header-classname': 'h3-title'
-          }
+          'ui:hide-header': true
         }
       },
       TemporalSubset: {
@@ -269,8 +253,6 @@ const serviceOptionsUiSchema = {
       }
     },
     MaxGranules: {
-      'ui:header-classname': 'h2-title',
-      'ui:header-box-classname': 'h2-box',
       'ui:group-description': true,
       items: {
         'ui:field': 'layout',

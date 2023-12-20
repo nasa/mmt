@@ -44,6 +44,7 @@ import StreetAddressField from '../../StreetAddressField/StreetAddressField'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
+import OneOfField from '../../OneOfField/OneOfField'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -218,6 +219,7 @@ describe('MetadataForm', () => {
           fields: {
             BoundingRectangle: BoundingRectangleField,
             TitleField: CustomTitleField,
+            OneOfField,
             keywordPicker: KeywordPicker,
             layout: GridLayout,
             streetAddresses: StreetAddressField
@@ -251,7 +253,7 @@ describe('MetadataForm', () => {
           },
           widgets: {
             CheckboxWidget: CustomRadioWidget,
-            CountrySelectWiget: CustomCountrySelectWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
             DateTimeWidget: CustomDateTimeWidget,
             RadioWidget: CustomRadioWidget,
             SelectWidget: CustomSelectWidget,
@@ -273,6 +275,7 @@ describe('MetadataForm', () => {
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
           fields: {
             BoundingRectangle: BoundingRectangleField,
+            OneOfField,
             TitleField: CustomTitleField,
             keywordPicker: KeywordPicker,
             layout: GridLayout,
@@ -297,7 +300,7 @@ describe('MetadataForm', () => {
           },
           widgets: {
             CheckboxWidget: CustomRadioWidget,
-            CountrySelectWiget: CustomCountrySelectWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
             DateTimeWidget: CustomDateTimeWidget,
             RadioWidget: CustomRadioWidget,
             SelectWidget: CustomSelectWidget,

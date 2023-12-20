@@ -76,7 +76,6 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         charactersUsed: 0,
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: true,
@@ -103,7 +102,6 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         charactersUsed: 10,
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -176,7 +174,6 @@ describe('CustomTextWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         charactersUsed: 0,
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,

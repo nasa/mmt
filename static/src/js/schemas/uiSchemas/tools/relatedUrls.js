@@ -7,7 +7,6 @@ const relatedUrlsUiSchema = {
   RelatedURLs: {
     'ui:title': 'Related URLs',
     'ui:heading-level': 'h3',
-    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {

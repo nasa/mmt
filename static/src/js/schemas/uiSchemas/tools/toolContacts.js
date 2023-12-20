@@ -140,7 +140,6 @@ const toolContactsUiSchema = {
           ]
         },
         ContactMechanisms: {
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -177,7 +176,6 @@ const toolContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -368,7 +366,6 @@ const toolContactsUiSchema = {
           'ui:group': 'ContactPersons'
         },
         ContactMechanisms: {
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -405,7 +402,6 @@ const toolContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
