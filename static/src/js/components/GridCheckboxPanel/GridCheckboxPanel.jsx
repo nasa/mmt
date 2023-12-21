@@ -20,19 +20,16 @@ const GridCheckboxPanel = ({
   const [showCheckboxPanel, setShowCheckboxPanel] = useState(false)
   const isDataForCheckboxPanel = () => {
     const rows = layoutGridSchema['ui:row']
-    if (formData) {
-      return rows.some((row) => {
-        const col = row['ui:col']
-        const { children } = col
 
-        return children.some((field) => (
-          formData[field] ? Object.keys(
-            removeEmpty(cloneDeep(formData[field]))
-          ).length > 0 : false))
-      })
-    }
+    return rows.some((row) => {
+      const col = row['ui:col']
+      const { children } = col
 
-    return false
+      return children.some((field) => (
+        formData[field] ? Object.keys(
+          removeEmpty(cloneDeep(formData[field]))
+        ).length > 0 : false))
+    })
   }
 
   const rows = layoutGridSchema['ui:row']

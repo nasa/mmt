@@ -207,28 +207,30 @@ describe('when there is a group title', () => {
     })
   })
 
-  // describe('when it should render the row as a checkbox panel', () => {
-  //   test('renders the checkbox panel', () => {
-  //     const { props } = setup({
-  //       layout: {
-  //         'ui:group-checkbox': 'mock checkbox title',
-  //         'ui:row': [
-  //           {
-  //             'ui:col': {
-  //               md: 12,
-  //               children: [
-  //                 'Name'
-  //               ]
-  //             }
-  //           }
-  //         ]
-  //       }
-  //     })
+  describe('when it should render the row as a checkbox panel', () => {
+    test('renders the checkbox panel', () => {
+      const { props } = setup({
+        layout: {
+          'ui:group-checkbox': 'mock checkbox title',
+          'ui:row': [
+            {
+              'ui:col': {
+                md: 12,
+                children: [
+                  'Name'
+                ]
+              }
+            }
+          ]
+        }
+      })
 
-  //     expect(GridCheckboxPanel).toHaveBeenCalledTimes(1)
-  //     expect(GridCheckboxPanel).toHaveBeenCalledWith({
-  //       layoutGridSchema: props.uiSchema
-  //     }, {})
-  //   })
-  // })
+      expect(GridCheckboxPanel).toHaveBeenCalledTimes(1)
+      expect(GridCheckboxPanel).toHaveBeenCalledWith(expect.objectContaining({
+        idSchema: props.idSchema,
+        onChange: props.onChange,
+        schema: props.schema
+      }), {})
+    })
+  })
 })
