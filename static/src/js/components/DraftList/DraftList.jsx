@@ -55,6 +55,17 @@ const DraftList = ({ draftType }) => {
 
   return (
     <Page
+      title={`${providerId} ${draftType} Drafts`}
+      pageType="secondary"
+      breadcrumbs={
+        [
+          {
+            label: `${draftType} Drafts`,
+            to: `/drafts/${draftType}s`,
+            active: true
+          }
+        ]
+      }
       headerActions={
         [
           {
@@ -63,8 +74,6 @@ const DraftList = ({ draftType }) => {
           }
         ]
       }
-      pageType="secondary"
-      title={`${providerId} ${draftType} Drafts`}
     >
       <Row>
         <Col sm={12}>
@@ -102,7 +111,7 @@ const DraftList = ({ draftType }) => {
                       <th>Short Name</th>
                       <th>Entry Title</th>
                       <th className="text-center">Last Modified</th>
-                      <th className="text-center">Download</th>
+                      <th className="text-center"><span className="sr-only">Actions</span></th>
                     </tr>
                   </thead>
 
@@ -124,7 +133,7 @@ const DraftList = ({ draftType }) => {
                                       <Placeholder xs={8} />
                                     </Placeholder>
                                   </td>
-                                  <td className="col-auto">
+                                  <td className="col-md-2">
                                     <Placeholder animation="glow">
                                       <Placeholder xs={8} />
                                     </Placeholder>
@@ -175,40 +184,28 @@ const DraftList = ({ draftType }) => {
                                 return (
                                   <tr key={conceptId}>
                                     <td className="col-md-4">
-                                      <Link
-                                        className="text-decoration-none text-primary"
-                                        to={draftLink}
-                                      >
-                                        <div>
-                                          <span>{name || 'No name provided'}</span>
-                                        </div>
+                                      <Link to={draftLink}>
+                                        {name || '<Blank Name>'}
                                       </Link>
                                     </td>
-
                                     <td className="col-md-4">
-                                      <Link
-                                        className="text-decoration-none text-primary"
-                                        to={draftLink}
-                                      >
-                                        <div>
-                                          <span>{longName || 'No longname provided'}</span>
-                                        </div>
-                                      </Link>
+                                      {longName || '<Untitled Record>'}
                                     </td>
-
                                     <td className="col-auto text-center">
                                       {new Date(revisionDate).toISOString().split('T')[0]}
                                     </td>
-
                                     <td className="col-auto text-center">
-                                      <Button
-                                        className="d-flex align-items-center justify-content-center"
-                                        Icon={FaFileDownload}
-                                        onClick={() => handleDownloadClick(conceptId)}
-                                        variant="secondary"
-                                      >
-                                        JSON
-                                      </Button>
+                                      <div className="d-flex align-items-center justify-content-center">
+                                        <Button
+                                          className="d-flex align-items-center justify-content-center"
+                                          Icon={FaFileDownload}
+                                          onClick={() => handleDownloadClick(conceptId)}
+                                          variant="secondary"
+                                          size="sm"
+                                        >
+                                          Download JSON
+                                        </Button>
+                                      </div>
                                     </td>
                                   </tr>
                                 )

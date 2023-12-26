@@ -46,7 +46,6 @@ import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
-import removeEmpty from '../../utils/removeEmpty'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import getUiSchema from '../../utils/getUiSchema'
 
@@ -152,9 +151,9 @@ const MetadataForm = () => {
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
+    fullSchema: schema,
     formConfigurations: formSections,
-    formName: currentSection,
-    fullSchema: schema
+    formName: currentSection
   })
 
   const fields = {
@@ -187,7 +186,7 @@ const MetadataForm = () => {
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
-        metadata: removeEmpty(ummMetadata),
+        metadata: ummMetadata,
         nativeId,
         providerId,
         // TODO pull this version number from a config
@@ -198,7 +197,21 @@ const MetadataForm = () => {
         const { conceptId: savedConceptId } = ingestDraft
 
         // Update the original draft with the newly saved draft
-        setOriginalDraft(draft)
+        setOriginalDraft({
+          ...draft,
+          name: ummMetadata.Name,
+          longName: ummMetadata.LongName
+        })
+
+        // Update the name and longname with the ummMetadata
+        setDraft({
+          ...draft,
+          name: ummMetadata.Name,
+          longName: ummMetadata.LongName
+        })
+
+        // Set savedDraft so the preview page can request the correct version
+        setSavedDraft(ingestDraft)
 
         // Add a success notification
         addNotification({
@@ -223,12 +236,9 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPreview) {
-          // Set savedDraft so the preview page can request the correct version
-          setSavedDraft(ingestDraft)
-
           // Clear out the draft and originalDraft so that the preview page will refetch the draft
-          setDraft()
-          setOriginalDraft()
+          // setDraft()
+          // setOriginalDraft()
 
           // Navigate to preview page
           window.scroll(0, 0)
@@ -277,51 +287,77 @@ const MetadataForm = () => {
     ])])
   }
 
-  // TODO use name here
-  const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${conceptId}`
+  const name = draft?.name || '<Blank Name>'
+  const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${name}`
 
   return (
-    <Page title={pageTitle} pageType="secondary">
+    <Page
+      title={pageTitle}
+      pageType="secondary"
+      breadcrumbs={
+        [
+          {
+            label: `${derivedConceptType} Drafts`,
+            to: `/drafts/${draftType}`
+          },
+          (
+            conceptId !== 'new' && {
+              label: name,
+              to: `/drafts/${draftType}/${conceptId}`
+            }
+          ),
+          {
+            label: pageTitle,
+            active: true
+          }
+        ]
+      }
+    >
       <Container className="metadata-form__container mx-0">
         <Row className="metadata-form__row">
           <Col
             className="mb-5"
+            xs="auto"
             md={
               {
                 span: 4,
                 order: 2
               }
             }
-            xs="auto"
           >
             <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
               <FormNavigation
                 draft={ummMetadata}
-                formSections={formSections}
                 fullSchema={schema}
+                formSections={formSections}
                 loading={ingestDraftLoading}
-                onCancel={handleCancel}
+                visitedFields={visitedFields}
                 onSave={handleSave}
+                onCancel={handleCancel}
                 schema={schema}
                 setFocusField={setFocusField}
                 uiSchema={uiSchema}
-                visitedFields={visitedFields}
               />
             </div>
           </Col>
-
           <Col
-            className="p-md-0"
+            xs="auto"
             md={
               {
                 span: 8,
                 order: 1
               }
             }
-            xs="auto"
+            className="p-md-0"
           >
             <Form
               fields={fields}
+              formContext={
+                {
+                  focusField,
+                  setFocusField
+                }
+              }
               formData={ummMetadata}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -330,13 +366,11 @@ const MetadataForm = () => {
               uiSchema={uiSchema}
               validator={validator}
               widgets={widgets}
-              formContext={
-                {
-                  focusField,
-                  setFocusField
-                }
-              }
-            />
+            >
+              {/* Pass an empty fragment as a child to hide the submit button */}
+              {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
+              <></>
+            </Form>
           </Col>
         </Row>
 
