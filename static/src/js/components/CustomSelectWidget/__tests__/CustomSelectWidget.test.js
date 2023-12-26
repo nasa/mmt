@@ -279,4 +279,62 @@ describe('CustomSelectWidget', () => {
       }), {})
     })
   })
+
+  describe('when the field uses oneOf enums options', () => {
+    test('renders a select element', async () => {
+      const { user } = setup({
+        options: {
+          enumOptions: [
+            {
+              label: 'oneOf value 1',
+              value: 0
+            },
+            {
+              label: 'oneOf value 2',
+              value: 1
+            }
+          ]
+        }
+      }, false)
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'oneOf value 1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'oneOf value 2' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description',
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when an integer value is selected', () => {
+    test('render', () => {
+      setup({
+        options: {
+          enumOptions: [
+            {
+              label: 'oneOf value 1',
+              value: 0
+            },
+            {
+              label: 'oneOf value 2',
+              value: 1
+            }
+          ]
+        },
+        value: 1
+      }, false)
+
+      expect(screen.getByText('oneOf value 2').className).toContain('singleValue')
+    })
+  })
 })

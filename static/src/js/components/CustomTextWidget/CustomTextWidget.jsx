@@ -141,7 +141,10 @@ CustomTextWidget.propTypes = {
     'ui:title': PropTypes.string,
     'ui:type': PropTypes.string
   }).isRequired,
-  value: PropTypes.string
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 }
 
 export default CustomTextWidget
