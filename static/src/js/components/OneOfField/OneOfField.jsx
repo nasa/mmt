@@ -291,7 +291,7 @@ OneOfField.propTypes = {
       getDefaultFormState: PropTypes.func,
       getDisplayLabel: PropTypes.func
     }),
-    widgets: PropTypes.shape({}).isRequired,
+    widgets: PropTypes.shape({}),
     fields: PropTypes.shape({
       SchemaField: PropTypes.func
     }).isRequired,
