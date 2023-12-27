@@ -140,8 +140,10 @@ const variableInformationUiSchema = {
     'ui:widget': 'textarea'
   },
   AdditionalIdentifiers: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
+      'ui:title': 'Additional Identifier',
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -188,8 +190,10 @@ const variableInformationUiSchema = {
     'ui:widget': CustomSelectWidget
   },
   ValidRanges: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
+      'ui:title': 'Valid Range',
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -246,12 +250,9 @@ const variableInformationUiSchema = {
     }
   },
   IndexRanges: {
-    'ui:title': 'Index Ranges',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:group': 'Index Ranges',
-      'ui:group-classname': 'h2-title',
-      'ui:group-box-classname': 'h2-box',
       'ui:group-description': true,
       'ui:group-single-panel': true,
       'ui:row': [

@@ -6,6 +6,7 @@ const measurementIdentifiersUiSchema = {
     'ui:title': 'Measurement Identifiers',
     items: {
       'ui:field': 'layout',
+      'ui:title': 'Measurement Identifier',
       'ui:controlled': {
         name: 'measurement_name',
         map: {

@@ -6,8 +6,8 @@ const fillValuesUiSchema = {
   FillValues: {
     'ui:heading-level': 'h3',
     items: {
-      'ui:title': 'Fill Values',
       'ui:field': 'layout',
+      'ui:title': 'Fill Value',
       'ui:layout_grid': {
         'ui:row': [
           {

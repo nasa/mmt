@@ -62,6 +62,7 @@ const CustomArrayFieldTemplate = ({
   }
 
   const fieldTitle = uiSchema['ui:title'] || startCase(title)
+  const itemTitle = uiSchema.items['ui:title'] || fieldTitle
 
   // This handleAdd adds a new array,
   // sets the scrollRef so the autoScroll executes
@@ -122,7 +123,7 @@ const CustomArrayFieldTemplate = ({
                   addElement && (
                     <div className="h5 custom-array-field-template__field-title">
                       <span>
-                        {fieldTitle}
+                        {itemTitle}
                         {items.length > 0 && ` (${index + 1} of ${items.length})`}
                       </span>
 
@@ -164,7 +165,7 @@ const CustomArrayFieldTemplate = ({
             naked
             onClick={handleAdd}
           >
-            {`Add ${items.length > 0 ? 'Another' : ''} ${fieldTitle}`}
+            {`Add ${items.length > 0 ? 'Another' : ''} ${itemTitle}`}
           </Button>
         )
       }
@@ -189,7 +190,10 @@ CustomArrayFieldTemplate.propTypes = {
     'ui:hide-header': PropTypes.bool,
     'ui:required': PropTypes.bool,
     'ui:title': PropTypes.string,
-    'ui:heading-level': PropTypes.string
+    'ui:heading-level': PropTypes.string,
+    items: PropTypes.shape({
+      'ui:title': PropTypes.string
+    })
   }).isRequired
 }
 

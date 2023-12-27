@@ -1,33 +1,9 @@
-import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-
-const dimensionsUiSchema = {
-  'ui:field': 'layout',
-  'ui:layout_grid': {
-    'ui:row': [
-      {
-        'ui:col': {
-          md: 12,
-          children: [
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 12,
-                    children: ['Dimensions']
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
-    ]
-  },
-  Dimensions: {
+const SetsUiSchema = {
+  Sets: {
     'ui:heading-level': 'h3',
     items: {
       'ui:field': 'layout',
-      'ui:title': 'Dimension',
+      'ui:title': 'Set',
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -45,17 +21,6 @@ const dimensionsUiSchema = {
                   ]
                 },
                 {
-                  'ui:group': 'Size',
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['Size']
-                      }
-                    }
-                  ]
-                },
-                {
                   'ui:row': [
                     {
                       'ui:col': {
@@ -64,16 +29,29 @@ const dimensionsUiSchema = {
                       }
                     }
                   ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['Size']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['Index']
+                      }
+                    }
+                  ]
                 }
               ]
             }
           }
         ]
-      },
-      Type: {
-        'ui:widget': CustomSelectWidget
       }
     }
   }
 }
-export default dimensionsUiSchema
+export default SetsUiSchema

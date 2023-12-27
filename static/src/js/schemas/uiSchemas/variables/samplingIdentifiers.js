@@ -3,6 +3,7 @@ const SamplingIdentifiersUiSchema = {
     'ui:heading-level': 'h3',
     items: {
       'ui:field': 'layout',
+      'ui:title': 'Sampling Identifier',
       'ui:layout_grid': {
         'ui:row': [
           {
