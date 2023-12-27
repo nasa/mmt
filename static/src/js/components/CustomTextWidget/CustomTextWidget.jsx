@@ -114,7 +114,8 @@ CustomTextWidget.defaultProps = {
   disabled: false,
   onBlur: null,
   placeholder: null,
-  value: ''
+  value: '',
+  required: false
 }
 
 CustomTextWidget.propTypes = {
@@ -130,7 +131,7 @@ CustomTextWidget.propTypes = {
       setFocusField: PropTypes.func
     }).isRequired
   }).isRequired,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   schema: PropTypes.shape({
     description: PropTypes.string,
     maxLength: PropTypes.number,

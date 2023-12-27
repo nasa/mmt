@@ -180,7 +180,7 @@ class OneOfField extends React.Component {
       onFocus,
       registry,
       schema,
-      uiSchema
+      uiSchema = {}
     } = this.props
 
     const {
@@ -278,7 +278,8 @@ class OneOfField extends React.Component {
 OneOfField.defaultProps = {
   baseType: null,
   errorSchema: null,
-  formData: {}
+  formData: {},
+  uiSchema: {}
 }
 
 OneOfField.propTypes = {
