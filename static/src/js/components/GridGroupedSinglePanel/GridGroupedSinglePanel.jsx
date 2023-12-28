@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 import './GridGroupedSinglePanel.scss'
@@ -20,22 +20,24 @@ const GridGroupedSinglePanel = ({
   // Use state hook for showSinglePanel flag
   const [showSinglePanel, setShowSinglePanel] = useState()
 
+  // Checks if any of the field in the formData is undefined
+  const checkFields = () => Object.values(formData).some((fields) => (fields.includes(undefined)))
+
   // When Remove group button clicked
   const removeGroup = () => {
     setShowSinglePanel(false)
-    Object.getOwnPropertyNames(formData).map((field) => (
-      // eslint-disable-next-line no-param-reassign
-      delete formData[field]
-    ))
+    if (!checkFields) {
+      Object.getOwnPropertyNames(formData).map((field) => (
+        // eslint-disable-next-line no-param-reassign
+        delete formData[field]
+        // }
+      ))
+    }
 
     // eslint-disable-next-line no-param-reassign
     formData = {}
     onChange(formData)
   }
-
-  useEffect(() => {
-    console.log(Object.values(formData))
-  }, [formData])
 
   // Create Remove button
   const createGroupRemoveHeader = () => {
@@ -100,8 +102,8 @@ const GridGroupedSinglePanel = ({
     <div>
       {
         !showSinglePanel
-        && Object.values(formData).some((field) => (
-          field.includes(undefined)))
+        && Object.values(formData).some((fields) => (
+          fields.includes(undefined)))
           ? (
             createGroupAddHeader()
           )
