@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-// eslint-disable-next-line import/no-cycle
-import GridLayout from '../GridLayout/GridLayout'
 import './GridGroupedSinglePanel.scss'
 import Button from '../Button/Button'
+
+// eslint-disable-next-line import/no-cycle
+import GridLayout from '../GridLayout/GridLayout'
 
 const GridGroupedSinglePanel = ({
   uiSchema,
@@ -17,7 +18,7 @@ const GridGroupedSinglePanel = ({
   errorSchema
 }) => {
   // Use state hook for showSinglePanel flag
-  const [showSinglePanel, setShowSinglePanel] = useState(false)
+  const [showSinglePanel, setShowSinglePanel] = useState()
 
   // When Remove group button clicked
   const removeGroup = () => {
@@ -29,9 +30,12 @@ const GridGroupedSinglePanel = ({
 
     // eslint-disable-next-line no-param-reassign
     formData = {}
-    // OnChange(formData)
-    onChange(() => (onChange(formData)))
+    onChange(formData)
   }
+
+  useEffect(() => {
+    console.log(Object.values(formData))
+  }, [formData])
 
   // Create Remove button
   const createGroupRemoveHeader = () => {
@@ -92,15 +96,12 @@ const GridGroupedSinglePanel = ({
 
   const rows = layoutGridSchema['ui:row']
 
-  console.log('component formData:', JSON.stringify(formData))
-
-  const isNotNull = (value) => (value !== null)
-
   return (
     <div>
       {
-        !showSinglePanel && Object.values(formData).every((field) => (
-          field.includes(null)))
+        !showSinglePanel
+        && Object.values(formData).some((field) => (
+          field.includes(undefined)))
           ? (
             createGroupAddHeader()
           )
