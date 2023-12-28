@@ -62,7 +62,7 @@ const CustomArrayFieldTemplate = ({
   }
 
   const fieldTitle = uiSchema['ui:title'] || startCase(title)
-  const itemTitle = uiSchema.items['ui:title'] || fieldTitle
+  const itemTitle = uiSchema.items ? uiSchema.items['ui:title'] : fieldTitle
 
   // This handleAdd adds a new array,
   // sets the scrollRef so the autoScroll executes
