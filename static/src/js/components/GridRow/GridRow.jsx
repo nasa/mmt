@@ -111,7 +111,18 @@ const GridRow = (
 
           {
             groupSinglePanel
-              ? (<GridGroupedSinglePanel {...props} />)
+              ? (
+                <GridGroupedSinglePanel
+                  layoutGridSchema={layout}
+                  registry={registry}
+                  idSchema={idSchema}
+                  uiSchema={uiSchema}
+                  schema={schema}
+                  formData={formData || {}}
+                  onChange={onChange}
+                  errorSchema={errorSchema}
+                />
+              )
               : (
                 <div className="row">
                   {renderChildren()}
