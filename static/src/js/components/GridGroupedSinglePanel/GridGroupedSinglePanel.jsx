@@ -20,13 +20,21 @@ const GridGroupedSinglePanel = ({
   // Use state hook for showSinglePanel flag
   const [showSinglePanel, setShowSinglePanel] = useState()
 
-  // Checks if any of the field in the formData is undefined
-  const checkFields = () => Object.values(formData).some((fields) => (fields.includes(undefined)))
+  // Check if a value is null or undefined
+  const isNullOrUndefined = (value) => value === undefined || value === null
+
+  // Check if the form arrays don't have anything other than null or undefined
+  const checkEmpty = (formDataParam) => {
+    const formArrays = Object.values(formDataParam)
+
+    // eslint-disable-next-line max-len
+    return formArrays.every((formArray) => formArray.filter(isNullOrUndefined).length === formArray.length)
+  }
 
   // When Remove group button clicked
   const removeGroup = () => {
     setShowSinglePanel(false)
-    if (!checkFields) {
+    if (!checkEmpty(formData)) {
       Object.getOwnPropertyNames(formData).map((field) => (
         // eslint-disable-next-line no-param-reassign
         delete formData[field]
@@ -102,8 +110,7 @@ const GridGroupedSinglePanel = ({
     <div>
       {
         !showSinglePanel
-        && Object.values(formData).some((fields) => (
-          fields.includes(undefined)))
+        && checkEmpty(formData)
           ? (
             createGroupAddHeader()
           )

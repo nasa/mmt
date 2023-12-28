@@ -96,20 +96,9 @@ const setup = (overrideProps = {}) => {
     required: ['LatRange', 'LonRange']
   }
 
-  const formData = {
-    LatRange: [
-      undefined,
-      undefined
-    ],
-    LonRange: [
-      undefined,
-      undefined
-    ]
-  }
-
   const props = {
     layoutGridSchema,
-    formData,
+    formData: {},
     onChange,
     registry: {
       fields: {
@@ -173,8 +162,11 @@ describe('GridGroupedSinglePanel', () => {
         ]
       }
 
-      setup({ formData })
+      const { user } = setup({ formData })
       expect(screen.getByText('Remove Index Ranges')).toBeInTheDocument()
+      const removeButton = screen.getByRole('button', { name: 'Remove Index Ranges' })
+      await user.click(removeButton)
+      expect(screen.getByText('Add Index Ranges')).toBeInTheDocument()
     })
   })
 })
