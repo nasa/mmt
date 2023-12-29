@@ -73,7 +73,7 @@ const organizationUiSchema = {
       ShortName: { 'ui:title': 'Short Name' },
       LongName: { 'ui:widget': CustomTextWidget },
       OnlineResource: {
-        'ui:heading-level': 'h5',
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [

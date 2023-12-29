@@ -8,12 +8,12 @@ const serviceOptionsUiSchema = {
     'ui:layout_grid': {
       'ui:row': [
         {
+          'ui:group': 'Service Options',
+          'ui:group-description': true,
           'ui:col': {
             md: 12,
             children: [
               {
-                'ui:group': 'Service Options',
-                'ui:group-description': true,
                 'ui:row': [
                   {
                     'ui:col': {
@@ -64,7 +64,20 @@ const serviceOptionsUiSchema = {
         }
       ]
     },
+    VariableAggregationSupportedMethods: {
+      'ui:heading-level': 'h4'
+    },
+    SupportedInputProjections: {
+      'ui:heading-level': 'h4'
+    },
+    SupportedOutputProjections: {
+      'ui:heading-level': 'h4'
+    },
+    InterpolationTypes: {
+      'ui:heading-level': 'h4'
+    },
     SupportedReformattings: {
+      'ui:heading-level': 'h4',
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -97,14 +110,14 @@ const serviceOptionsUiSchema = {
       }
     },
     Subset: {
+      'ui:heading-level': 'h4',
       'ui:field': 'layout',
       'ui:layout_grid': {
-        'ui:group': 'Subset',
-        'ui:group-description': true,
-        'ui:group-classname': 'h2-title',
-        'ui:group-box-classname': 'h2-box',
+
         'ui:row': [
           {
+            'ui:group': 'Subset',
+            'ui:group-description': true,
             'ui:col': {
               md: 12,
               children: [
