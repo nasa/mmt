@@ -1,16 +1,30 @@
 .draft-preview {
-  &__header {
-    font-size: 21px;
-    font-weight: bold;
+  // &__header {
+  //   font-size: 21px;
+  //   font-weight: bold;
 
-    &--col {
-      padding: 1rem;
-    }
+  //   &--col {
+  //     padding: 1rem;
+  //   }
+  // }
+
+  // &__delete-draft {
+  //   margin-left: 25px;
+  //   color: #2276ac;
+  //   cursor: pointer;
+  // }
+
+  &__collection-association-circle {
+    display: block;
+    margin-right: 10px;
+    float: left;
+    font-size: 2em;
   }
 
-  &__delete-draft {
-    margin-left: 25px;
-    color: #2276ac;
+  &__collection-association-label {
+    padding-left: 4px;
     cursor: pointer;
+    font-family: sans-serif;
+    font-size: 16px;
   }
 }
