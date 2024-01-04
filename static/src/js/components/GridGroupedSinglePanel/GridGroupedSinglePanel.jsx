@@ -74,7 +74,7 @@ const GridGroupedSinglePanel = ({
 
     return (
       <Button
-        className="grid-grouped-single-panel__add-button"
+        className="text-primary"
         Icon={FaPlusCircle}
         naked
         onClick={addGroup}
