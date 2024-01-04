@@ -36,8 +36,6 @@ import parseError from '../../utils/parseError'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import './DraftPreview.scss'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 /**
  * Renders a DraftPreview component
  *
