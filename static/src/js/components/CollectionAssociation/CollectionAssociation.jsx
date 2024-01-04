@@ -9,15 +9,23 @@ import Row from 'react-bootstrap/Row'
 import Select from 'react-select'
 import { useLazyQuery } from '@apollo/client'
 import { camelCase, kebabCase } from 'lodash-es'
+import Form from '@rjsf/core'
+import validator from '@rjsf/validator-ajv8'
 import Page from '../Page/Page'
 import For from '../For/For'
 import useCollectionsQuery from '../../hooks/useCollectionsQuery'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import useAppContext from '../../hooks/useAppContext'
+import collectionAssociation from '../../schemas/collectionAssociation'
+import OneOfField from '../OneOfField/OneOfField'
+import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 
 const CollectionAssociation = () => {
-  const { user } = useAppContext()
+  const { user, draft } = useAppContext()
   const { providerId } = user
+  console.log('🚀 ~ file: CollectionAssociation.jsx:20 ~ CollectionAssociation ~ draft:', draft)
 
   const [selectedOption, setSelectedOption] = useState()
   const [searchField, setSearchField] = useState()
@@ -35,6 +43,22 @@ const CollectionAssociation = () => {
     {
       label: 'Short Name',
       value: 'Short Name'
+    },
+    {
+      label: 'Data Center',
+      value: 'Data Center'
+    },
+    {
+      label: 'Platform',
+      value: 'Platform'
+    },
+    {
+      label: 'Processing Level ID',
+      value: 'Processing Level ID'
+    },
+    {
+      label: 'Project',
+      value: 'Project'
     }
   ]
 
@@ -62,6 +86,7 @@ const CollectionAssociation = () => {
   }
 
   const handleSearchSubmit = () => {
+    console.log('search field', camelCase(searchField))
     setLoading(true)
     setShowSelectCollection(true)
     getCollections({
@@ -74,6 +99,15 @@ const CollectionAssociation = () => {
     })
   }
 
+  const fields = {
+    OneOfField
+  }
+
+  const widgets = {
+    TextWidget: CustomTextWidget,
+    DateTimeWidget: CustomDateTimeWidget,
+    SelectWidget: CustomSelectWidget
+  }
   const { items = [], count } = collectionSearch || {}
 
   return (
@@ -95,7 +129,12 @@ const CollectionAssociation = () => {
           </Table>
           <Button>Clear Collection Association</Button>
         </Col>
-
+        <Form
+          schema={collectionAssociation}
+          validator={validator}
+          fields={fields}
+          widgets={widgets}
+        />
         {/* Search Field */}
         <Col className="pb-5">
 
@@ -154,6 +193,13 @@ const CollectionAssociation = () => {
             && (
               <>
                 <h5>Select Collection</h5>
+                <h6>
+                  Showing
+                  {' '}
+                  {count}
+                  {' '}
+                  Collections
+                </h6>
                 <Table striped>
                   <thead>
                     <tr>
@@ -247,61 +293,6 @@ const CollectionAssociation = () => {
               </>
             )
           }
-          {/* <h5>Select Collection</h5>
-          <Table striped>
-            <thead>
-              <tr>
-                <th />
-                <th>Collection</th>
-                <th>Short Name</th>
-                <th>Version</th>
-                <th>Provider</th>
-              </tr>
-            </thead>
-            <tbody>
-              <For
-                each={items}
-                empty={
-                  (
-                    <tr className="text-center">
-                      <td>No Collection Found</td>
-                    </tr>
-                  )
-                }
-              >
-                {
-                  (
-                    {
-                      conceptId,
-                      shortName,
-                      version,
-                      provider,
-                      title
-                    }
-                  ) => (
-                    <tr key={conceptId}>
-                      <td>
-                        <input
-                          id={conceptId}
-                          type="radio"
-                          name="select-collection"
-                          value={conceptId}
-                          onClick={() => { setSelectedOption(conceptId) }}
-                        />
-                      </td>
-                      <td className="col-md-4">{title}</td>
-                      <td className="col-md-4">{shortName}</td>
-                      <td className="col-md-4">{version}</td>
-                      <td className="col-md-4">{provider}</td>
-
-                    </tr>
-                  )
-
-                }
-              </For>
-            </tbody>
-          </Table>
-          <Button>Submit</Button> */}
         </Col>
       </Row>
     </Page>
