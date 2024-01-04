@@ -267,14 +267,6 @@ const DraftPreview = () => {
     setShowDeleteModal(true)
   })
 
-  const handleCircleClick = () => {
-    navigate('collection-association')
-  }
-
-  const collectionAssociationEventProp = useAccessibleEvent((event) => {
-    handleCircleClick(event)
-  })
-
   return (
     <Page
       title={name || '<Blank Name>'}
@@ -293,30 +285,6 @@ const DraftPreview = () => {
       }
     >
       <Container id="metadata-form" className="px-0">
-        <Row>
-          <Col md={12}>
-            <h5>Collection Association</h5>
-            <div className="draft-preview__collection-association-circle">
-              <i aria-label="Collection Association" className="eui-icon eui-fa-circle-o progress-section__section-icon--invalid-circle" role="img" />
-            </div>
-            <div className="draft-preview__collection-association-label">
-              <span {...collectionAssociationEventProp}>
-                Collection Association
-              </span>
-              <div>
-                <span {...collectionAssociationEventProp}>
-                  <i
-                    // Aria-label={message}
-                    className="eui-icon eui-required-o progress-field__icon--not-started-required-circle"
-                    role="img"
-                    // Title={message}
-                  />
-                </span>
-
-              </div>
-            </div>
-          </Col>
-        </Row>
         <Row>
           <Col className="mb-5" md={12}>
             <Button

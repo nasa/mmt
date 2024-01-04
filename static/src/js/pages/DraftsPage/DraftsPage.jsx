@@ -10,7 +10,6 @@ import DraftPreview from '../../components/DraftPreview/DraftPreview'
 import DraftList from '../../components/DraftList/DraftList'
 import MetadataForm from '../../components/MetadataForm/MetadataForm'
 import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
-import CollectionAssociation from '../../components/CollectionAssociation/CollectionAssociation'
 
 /**
  * Renders a `DraftsPage` component
@@ -53,10 +52,6 @@ const DraftsPage = () => {
       <Route
         element={<MetadataForm />}
         path=":conceptId/:sectionName/:fieldName"
-      />
-      <Route
-        element={<CollectionAssociation draftType={currentDraftType} />}
-        path=":conceptId/collection-association"
       />
     </Routes>
   )
