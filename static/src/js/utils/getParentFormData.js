@@ -31,7 +31,7 @@ const getParentFormData = (fullPath, fullData) => {
     const field = part.replace('.', '')
     const regexp = /^(.*[^\\[]+)\[(\d+)\]/
     const match = field.match(regexp)
-    if (match) { // Array case
+    if (data[match[1]]) { // Array case
       data = data[match[1]] // Match field name
       data = data.at(match[2]) // Match the index
     } else { // Object case
