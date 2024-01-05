@@ -428,8 +428,6 @@ const serviceContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -536,8 +534,6 @@ const serviceContactsUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {

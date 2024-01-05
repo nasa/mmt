@@ -277,11 +277,12 @@ class OneOfField extends React.Component {
 
 OneOfField.defaultProps = {
   baseType: null,
-  errorSchema: null
+  errorSchema: null,
+  formData: undefined
 }
 
 OneOfField.propTypes = {
-  formData: PropTypes.shape({}).isRequired,
+  formData: PropTypes.shape({}),
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({

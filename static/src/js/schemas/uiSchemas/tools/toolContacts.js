@@ -98,7 +98,6 @@ const toolContactsUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -168,9 +167,6 @@ const toolContactsUiSchema = {
                   }
                 }
               ]
-            },
-            Type: {
-              // 'ui:widget': CustomSelectWidget
             }
           }
         },
@@ -197,8 +193,6 @@ const toolContactsUiSchema = {
                       },
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -318,7 +312,6 @@ const toolContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
-                    'ui:group-classname': 'h3-title',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -394,9 +387,6 @@ const toolContactsUiSchema = {
                   }
                 }
               ]
-            },
-            Type: {
-              // 'ui:widget': CustomSelectWidget
             }
           }
         },
@@ -412,8 +402,6 @@ const toolContactsUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {

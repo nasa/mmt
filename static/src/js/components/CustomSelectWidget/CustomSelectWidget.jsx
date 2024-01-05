@@ -46,7 +46,7 @@ const CustomSelectWidget = ({
   schema,
   selectOptions: propsSelectOptions,
   uiSchema,
-  options: oneOfEnums = { enumOptions: null },
+  options,
   value
 }) => {
   const { items = {} } = schema
@@ -97,6 +97,8 @@ const CustomSelectWidget = ({
     value: enumValue
   }))
 
+  const { enumOptions: oneOfEnums } = options || {}
+
   useEffect(() => {
     if (propsSelectOptions) {
       setSelectOptions(buildOptions(propsSelectOptions))
@@ -116,7 +118,7 @@ const CustomSelectWidget = ({
     }
 
     if (oneOfEnums) {
-      setSelectOptions((oneOfEnums.enumOptions))
+      setSelectOptions((oneOfEnums))
     }
   }, [propsSelectOptions])
 
@@ -124,7 +126,7 @@ const CustomSelectWidget = ({
     if (!isEmpty(keywords)) {
       const parsedKeywords = parseCmrResponse(keywords, controlName)
 
-      const options = parsedKeywords.map((enumValue) => {
+      const parsedOptions = parsedKeywords.map((enumValue) => {
         const [firstValue] = enumValue
 
         return {
@@ -133,7 +135,7 @@ const CustomSelectWidget = ({
         }
       })
 
-      setSelectOptions(options)
+      setSelectOptions(parsedOptions)
     }
   }, [keywords])
 
@@ -148,16 +150,22 @@ const CustomSelectWidget = ({
     onBlur(id)
   }
 
-  let existingValue = value != null ? {
-    value,
-    label: value
-  } : null
+  const getExistingValue = () => {
+    if (value) {
+      if (typeof value === 'number') {
+        return value >= 0 ? oneOfEnums[value] : null
+      }
 
-  // For oneOf the value coming in as an index value from OneOfField.
-  // This will match the index value to the enums obj and set it to existingValue
-  if (typeof value === 'number') {
-    existingValue = value >= 0 ? oneOfEnums.enumOptions[value] : null
+      return {
+        value,
+        label: value
+      }
+    }
+
+    return null
   }
+
+  const existingValue = getExistingValue()
 
   return (
     <CustomWidgetWrapper
