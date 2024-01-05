@@ -18,22 +18,16 @@ class MiddlewareHealthcheck
         # checks the database health when /status?checkDatabase is passed
         if check_database
           response_output = process_database_check
-        else
-          response_output = response_output
         end
 
         # checks the health of launchpad when /status?checkLaunchpad is passed
         if check_launchpad
           response_output = process_launchpad_check
-        else 
-          response_output = response_output
-        end 
+        end
 
         # checks health of both database and launchpad when /status is passed
         if !check_database && !check_launchpad
           response_output = process_status_check
-        else
-          response_output = response_output
         end
 
         response[2] = response_output
