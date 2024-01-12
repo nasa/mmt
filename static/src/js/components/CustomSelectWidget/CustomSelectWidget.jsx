@@ -97,8 +97,6 @@ const CustomSelectWidget = ({
     value: enumValue
   }))
 
-  const { enumOptions: oneOfEnums } = options || {}
-
   useEffect(() => {
     if (propsSelectOptions) {
       setSelectOptions(buildOptions(propsSelectOptions))
@@ -117,8 +115,10 @@ const CustomSelectWidget = ({
       setSelectOptions(buildOptions(enumOptions))
     }
 
+    const { enumOptions: oneOfEnums } = options || {}
+
     if (oneOfEnums) {
-      setSelectOptions((oneOfEnums))
+      setSelectOptions(oneOfEnums)
     }
   }, [propsSelectOptions])
 
@@ -149,6 +149,8 @@ const CustomSelectWidget = ({
     setFocusField(null)
     onBlur(id)
   }
+
+  const { enumOptions: oneOfEnums } = options || {}
 
   const getExistingValue = () => {
     if (value) {
