@@ -139,17 +139,17 @@ describe('DraftList', () => {
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 short name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 long name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: '2023-12-08' })).toBeInTheDocument()
-      expect(within(rows[1]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
 
-      expect(within(rows[2]).getByRole('cell', { name: 'No name provided' })).toBeInTheDocument()
-      expect(within(rows[2]).getByRole('cell', { name: 'No longname provided' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Name>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '<Untitled Record>' })).toBeInTheDocument()
       expect(within(rows[2]).getByRole('cell', { name: '2023-11-08' })).toBeInTheDocument()
-      expect(within(rows[2]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
 
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 short name' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 long name' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('cell', { name: '2023-10-08' })).toBeInTheDocument()
-      expect(within(rows[3]).getByRole('button', { name: 'JSON' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
     })
   })
 
@@ -244,7 +244,7 @@ describe('DraftList', () => {
 
       const { user } = setup()
 
-      const button = screen.getByRole('button', { name: 'JSON' })
+      const button = screen.getByRole('button', { name: 'Download JSON' })
       await user.click(button)
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)

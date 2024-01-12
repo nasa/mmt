@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -155,6 +159,19 @@ describe('DraftPreview', () => {
         tool: mockDraft.previewMetadata
       }, {})
     })
+  })
+
+  test('renders the breadcrumbs', async () => {
+    setup({})
+
+    await waitForResponse()
+
+    const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
+    const breadcrumbOne = within(breadcrumbs).getByText('Tool Drafts')
+    const breadcrumbTwo = within(breadcrumbs).getByText('<Blank Name>')
+
+    expect(breadcrumbOne.href).toEqual('http://localhost/drafts/tools')
+    expect(breadcrumbTwo).toHaveClass('active')
   })
 
   test('renders a PreviewProgress component', async () => {

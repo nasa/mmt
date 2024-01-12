@@ -6,8 +6,9 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
-import For from '../For/For'
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
+import For from '../For/For'
 
 import { getUmmVersionsConfig } from '../../utils/getConfig'
 
@@ -20,7 +21,15 @@ import './Page.scss'
  */
 
 /**
+ * @typedef {Object} Breadcrumb
+ * @property {String} label The label for the header action.
+ * @property {String} to The location to be set when clicked.
+ * @property {Boolean} active A boolean flag to trigger the active state
+ */
+
+/**
  * @typedef {Object} PageProps
+ * @property {Array.<Breadcrumb>} breadcrumbs The page content.
  * @property {ReactNode} children The page content.
  * @property {Array.<HeaderAction>} headerActions The page content.
  * @property {String} pageType A string representing the type of page.
@@ -47,6 +56,7 @@ import './Page.scss'
  * )
  */
 const Page = ({
+  breadcrumbs,
   children,
   headerActions,
   pageType,
@@ -112,34 +122,60 @@ const Page = ({
               className={
                 classNames(
                   [
-                    'd-flex align-items-center mb-4',
+                    'd-flex flex-column align-items-start mb-4',
                     {
-                      'visually-hidden': pageType === 'primary',
+                      'sr-only': pageType === 'primary',
                       'pb-3 border-bottom border-gray-200': pageType !== 'primary'
                     }
                   ]
                 )
               }
             >
-              <h2 className="m-0 text-gray-200" style={{ fontWeight: 700 }}>
-                {title}
-              </h2>
               {
-                headerActions && headerActions.length > 0 && (
-                  <div className="ms-4">
-                    <For each={headerActions}>
+                breadcrumbs.length > 0 && (
+                  <Breadcrumb>
+                    <For each={breadcrumbs}>
                       {
-                        ({
-                          label,
-                          to
-                        }) => (
-                          <Link className="me-2 btn btn-sm btn-primary" key={label} to={to}>{label}</Link>
-                        )
+                        ({ active, label, to }, i) => {
+                          if (!label) return null
+
+                          return (
+                            <Breadcrumb.Item
+                              key={`breadcrumb-link_${to}_${i}`}
+                              active={active}
+                              linkProps={{ to }}
+                              linkAs={Link}
+                            >
+                              {label}
+                            </Breadcrumb.Item>
+                          )
+                        }
                       }
                     </For>
-                  </div>
+                  </Breadcrumb>
                 )
               }
+              <div className="d-flex align-items-center">
+                <h2 className="m-0 text-gray-200" style={{ fontWeight: 700 }}>
+                  {title}
+                </h2>
+                {
+                  headerActions && headerActions.length > 0 && (
+                    <div className="ms-4">
+                      <For each={headerActions}>
+                        {
+                          ({
+                            label,
+                            to
+                          }) => (
+                            <Link className="me-2 btn btn-sm btn-primary" key={label} to={to}>{label}</Link>
+                          )
+                        }
+                      </For>
+                    </div>
+                  )
+                }
+              </div>
             </header>
             {children}
           </Col>
@@ -150,12 +186,16 @@ const Page = ({
 }
 
 Page.defaultProps = {
+  breadcrumbs: [],
   headerActions: [],
   pageType: 'primary',
   title: null
 }
 
 Page.propTypes = {
+  // Disabling the following rule to allow undefined to be passed as a value in the array
+  // eslint-disable-next-line react/forbid-prop-types
+  breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
   headerActions: PropTypes.arrayOf(
     PropTypes.shape({

@@ -217,8 +217,8 @@ describe('ManagePage component', () => {
       const draftLinks = within(draftsSection.querySelector('.list-group')).queryAllByRole('link')
 
       expect(draftLinks.length).toEqual(1)
-      expect(within(draftLinks[0]).queryByText('No name provided')).toBeInTheDocument()
-      expect(within(draftLinks[0]).queryByText('No long name provided')).toBeInTheDocument()
+      expect(within(draftLinks[0]).queryByText('<Blank Name>')).toBeInTheDocument()
+      expect(within(draftLinks[0]).queryByText('<Untitled Record>')).toBeInTheDocument()
     })
   })
 
