@@ -4,12 +4,14 @@
  * @param {String} id A id for the field
  */
 const shouldFocusField = (focusField, id) => {
-  if (focusField === id) {
+  // Parses out first '_' if present
+  const parsedId = id.replace(/^_/, '')
+  if (focusField === parsedId) {
     return true
   }
 
-  if (focusField && id.match(/^\w+_\d+$/)) {
-    if (id !== '' && id.startsWith(focusField)) {
+  if (focusField && parsedId.match(/^\w+_\d+$/)) {
+    if (parsedId !== '' && parsedId.startsWith(focusField)) {
       return true
     }
   }
