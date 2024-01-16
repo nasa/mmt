@@ -107,14 +107,13 @@ const operationMetadataUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       ConnectPoint: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Connect Point',
               'ui:group-description': true,
-              'ui:group-classname': 'h2-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 className: 'field-left-border',
                 md: 12,
@@ -159,14 +158,13 @@ const operationMetadataUiSchema = {
         }
       },
       OperationChainedMetadata: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Operation Chained Metadata',
               'ui:group-description': true,
-              'ui:group-classname': 'h2-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 className: 'field-left-border',
                 md: 12,
@@ -201,14 +199,13 @@ const operationMetadataUiSchema = {
         }
       },
       CoupledResource: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Coupled Resource',
               'ui:group-description': true,
-              'ui:group-classname': 'h2-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 className: 'field-left-border',
                 md: 12,
@@ -255,14 +252,13 @@ const operationMetadataUiSchema = {
           ]
         },
         DataResource: {
+          'ui:heading-level': 'h4',
           'ui:field': 'layout',
           'ui:layout_grid': {
             'ui:row': [
               {
                 'ui:group': 'Data Resource',
                 'ui:group-description': true,
-                'ui:group-classname': 'h2-title',
-                'ui:group-box-classname': 'h2-box',
                 'ui:col': {
                   children: [
                     {
@@ -309,8 +305,6 @@ const operationMetadataUiSchema = {
                     },
                     {
                       'ui:group': 'Data  Resource Temporal Type',
-                      'ui:group-classname': 'h2-title',
-                      'ui:group-box-classname': 'h2-box',
                       'ui:row': [
                         {
                           'ui:col': {
@@ -362,7 +356,7 @@ const operationMetadataUiSchema = {
             ]
           },
           DataResourceSpatialExtent: {
-            'ui:heading-level': 'h6',
+            'ui:heading-level': 'h5',
             SpatialPoints: {
               items: {
                 'ui:field': 'layout',
@@ -441,7 +435,6 @@ const operationMetadataUiSchema = {
                       {
                         'ui:group': 'Start Point',
                         'ui:group-description': true,
-                        'ui:group-classname': 'h3-title',
                         'ui:col': {
                           children: [
                             {
@@ -482,7 +475,6 @@ const operationMetadataUiSchema = {
                             {
                               'ui:group': 'End Point',
                               'ui:group-description': true,
-                              'ui:group-classname': 'h3-title',
                               'ui:row': [
                                 {
                                   'ui:col': {
@@ -522,7 +514,6 @@ const operationMetadataUiSchema = {
                         {
                           'ui:group': 'Bounding Box',
                           'ui:group-description': true,
-                          'ui:group-classname': 'h3-title',
                           'ui:row': [
                             {
                               'ui:col': {
@@ -580,7 +571,6 @@ const operationMetadataUiSchema = {
                         {
                           'ui:group': 'General Grid',
                           'ui:group-description': true,
-                          'ui:group-classname': 'h3-title',
                           'ui:row': [
                             {
                               'ui:col': {
@@ -656,7 +646,6 @@ const operationMetadataUiSchema = {
                         {
                           'ui:group': 'Extent',
                           'ui:group-description': true,
-                          'ui:group-classname': 'h3-title',
                           'ui:col': {
                             children: [
                               {
@@ -714,7 +703,6 @@ const operationMetadataUiSchema = {
                       'ui:col': {
                         children: [
                           {
-                            'ui:group-classname': 'h3-title',
                             'ui:row': [
                               {
                                 'ui:col': {
@@ -745,7 +733,6 @@ const operationMetadataUiSchema = {
             }
           },
           DataResourceTemporalExtent: {
-            'ui:group-classname': 'h2-title',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -766,18 +753,20 @@ const operationMetadataUiSchema = {
                   }
                 ]
               }
+            },
+            DataResourceTimePoints: {
+              'ui:heading-level': 'h5'
             }
           }
         }
       },
       Parameters: {
+        'ui:heading-level': 'h4',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {
             'ui:row': [
               {
-                'ui:group-classname': 'h2-title',
-                'ui:group-box-classname': 'h2-box',
                 'ui:col': {
                   children: [
                     {

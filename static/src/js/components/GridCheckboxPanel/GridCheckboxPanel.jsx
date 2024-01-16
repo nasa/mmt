@@ -8,7 +8,7 @@ import removeEmpty from '../../utils/removeEmpty'
 import GridLayout from '../GridLayout/GridLayout'
 
 const GridCheckboxPanel = ({
-  layoutGridSchema,
+  layout,
   formData,
   onChange,
   registry,
@@ -19,7 +19,7 @@ const GridCheckboxPanel = ({
 }) => {
   const [showCheckboxPanel, setShowCheckboxPanel] = useState(false)
   const isDataForCheckboxPanel = () => {
-    const rows = layoutGridSchema['ui:row']
+    const rows = layout['ui:row']
 
     return rows.some((row) => {
       const col = row['ui:col']
@@ -32,15 +32,15 @@ const GridCheckboxPanel = ({
     })
   }
 
-  const rows = layoutGridSchema['ui:row']
-  const groupCheckbox = layoutGridSchema['ui:group-checkbox']
+  const rows = layout['ui:row']
+  const groupCheckbox = layout['ui:group-checkbox']
   const showCheckmark = isDataForCheckboxPanel() || showCheckboxPanel
   const id = `gridCheckBoxPanel__${kebabCase(groupCheckbox)}-checkbox`
 
   const handleCheckbox = (event) => {
     const { checked } = event.target
     if (!checked) {
-      const uiRow = layoutGridSchema['ui:row']
+      const uiRow = layout['ui:row']
       uiRow.forEach((row) => {
         const col = row['ui:col']
         const { children } = col
@@ -100,7 +100,7 @@ const GridCheckboxPanel = ({
 export default GridCheckboxPanel
 
 GridCheckboxPanel.propTypes = {
-  layoutGridSchema: PropTypes.shape({
+  layout: PropTypes.shape({
     'ui:row': PropTypes.arrayOf(PropTypes.shape({})),
     'ui:group-checkbox': PropTypes.string
   }).isRequired,

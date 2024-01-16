@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import GridCheckboxPanel from '../GridCheckboxPanel'
 
 import GridLayout from '../../GridLayout/GridLayout'
@@ -9,7 +9,7 @@ jest.mock('../../GridLayout/GridLayout')
 
 const setup = (overrideProps = {}) => {
   const onChange = jest.fn()
-  const layoutGridSchema = {
+  const layout = {
     'ui:group-checkbox': 'Spatial',
     'ui:row': [
       {
@@ -55,8 +55,6 @@ const setup = (overrideProps = {}) => {
     'ui:layout_grid': {
       'ui:group': 'Subset',
       'ui:group-description': true,
-      'ui:group-classname': 'h2-title',
-      'ui:group-box-classname': 'h2-box',
       'ui:row': [
         {
           'ui:col': {
@@ -113,7 +111,7 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    layoutGridSchema,
+    layout,
     formData: {},
     onChange,
     registry: {

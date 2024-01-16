@@ -45,7 +45,7 @@ class OneOfField extends React.Component {
     } = this.props
     // Cache the retrieved options in state in case they have $refs to save doing it later
     const retrievedOptions = options.map((opt) => schemaUtils.retrieveSchema(opt, formData))
-    const data = removeEmpty(cloneDeep(formData)) || {}
+    const data = removeEmpty(cloneDeep(formData))
     let selectedOption = this.getMatchingOption(NaN, data, retrievedOptions)
     if (Object.keys(data).length === 0) {
       selectedOption = NaN
@@ -180,7 +180,7 @@ class OneOfField extends React.Component {
       onFocus,
       registry,
       schema,
-      uiSchema = {}
+      uiSchema
     } = this.props
 
     const {
@@ -227,11 +227,11 @@ class OneOfField extends React.Component {
       value: index
     })))
 
-    // Const { oneOf } = schema
-    // const found = oneOf.some((value) => (value as any).properties)
-    // if (!found) {
-    //   return null
-    // }
+    const { oneOf } = schema
+    const found = oneOf.some((value) => (value).properties)
+    if (!found) {
+      return null
+    }
 
     return (
       <div className="panel panel-default panel-body">
@@ -278,16 +278,11 @@ class OneOfField extends React.Component {
 OneOfField.defaultProps = {
   baseType: null,
   errorSchema: null,
-  formData: undefined,
-  uiSchema: undefined
+  formData: undefined
 }
 
 OneOfField.propTypes = {
-  formData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.shape({})
-  ]),
+  formData: PropTypes.shape({}),
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({
@@ -321,7 +316,7 @@ OneOfField.propTypes = {
   onFocus: PropTypes.func.isRequired,
   uiSchema: PropTypes.shape({
     'ui:required': PropTypes.bool
-  })
+  }).isRequired
 
 }
 
