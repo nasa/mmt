@@ -102,7 +102,7 @@ describe('CustomSelectWidget', () => {
 
       // First call is loading the page
       // Second call is setting the options
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -131,7 +131,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Select Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Select Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -164,7 +164,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,
@@ -189,7 +189,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'application/gzip' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'application/json' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         headerClassName: null,

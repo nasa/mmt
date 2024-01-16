@@ -50,6 +50,7 @@ import parseError from '../../utils/parseError'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './MetadataForm.scss'
+import removeEmpty from '../../utils/removeEmpty'
 
 const MetadataForm = () => {
   const {
@@ -185,7 +186,7 @@ const MetadataForm = () => {
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
-        metadata: ummMetadata,
+        metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId,
         // TODO pull this version number from a config

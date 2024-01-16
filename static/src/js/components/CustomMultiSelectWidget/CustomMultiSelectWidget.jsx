@@ -1,9 +1,14 @@
-import React, { useRef } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+import shouldFocusField from '../../utils/shouldFocusField'
 
 /**
  * CustomMultiSelectWidget
@@ -40,8 +45,10 @@ const CustomMultiSelectWidget = ({
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
-  const selectScrollRef = useRef(null)
+  const multiSelectScrollRef = useRef(null)
   const focusRef = useRef(null)
+
+  const [showMenu, setShowMenu] = useState(false)
 
   const selectOptions = []
   const {
@@ -51,6 +58,7 @@ const CustomMultiSelectWidget = ({
   const { formContext } = registry
 
   const {
+    focusField,
     setFocusField
   } = formContext
 
@@ -58,6 +66,18 @@ const CustomMultiSelectWidget = ({
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
+
+  const shouldFocus = shouldFocusField(focusField, id)
+
+  useEffect(() => {
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    if (shouldFocus) {
+      console.log('in should focus')
+      multiSelectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      setShowMenu(true)
+      focusRef.current?.focus()
+    }
+  }, [shouldFocus])
 
   // Helper function that will add the list of enums to selectedOption
   const selectOptionList = (enums) => {
@@ -79,12 +99,18 @@ const CustomMultiSelectWidget = ({
     })
 
     onChange(result)
+    setShowMenu(false)
+  }
+
+  const handleFocus = () => {
+    setShowMenu(true)
   }
 
   const handleBlur = () => {
     setFocusField(null)
 
     onBlur(id)
+    setShowMenu(false)
   }
 
   // If the value already has data, this will store it as an object for react-select
@@ -99,20 +125,22 @@ const CustomMultiSelectWidget = ({
       id={id}
       label={label}
       required={required}
-      scrollRef={selectScrollRef}
+      scrollRef={multiSelectScrollRef}
       title={title}
     >
       <Select
+        key={`${id}_${focusField}`}
         id={id}
         isClearable
+        autoFocus={shouldFocus}
         isMulti
         onBlur={handleBlur}
         onChange={handleChange}
-        openMenuOnClick
-        openMenuOnFocus
+        menuShouldScrollIntoView
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
-        ref={focusRef}
+        menuIsOpen={showMenu}
+        onFocus={handleFocus}
         value={existingValues}
       />
     </CustomWidgetWrapper>
