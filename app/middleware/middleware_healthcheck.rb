@@ -17,17 +17,36 @@ class MiddlewareHealthcheck
 
         # checks the database health when /status?checkDatabase is passed
         if check_database
-          response_output = process_database_check
+          db_healthy = process_database_check(db_healthy)
+
+          if db_healthy
+            response[0] = 200
+          end
+
+          response_output = ["{\"database\": #{db_healthy}}"]
         end
 
         # checks the health of launchpad when /status?checkLaunchpad is passed
         if check_launchpad
-          response_output = process_launchpad_check
+          launchpad_healthy = process_launchpad_check(launchpad_healthy)
+
+          if launchpad_healthy
+            response[0] = 200
+          end
+
+          response_output = ["{\"launchpad\": #{launchpad_healthy}}"]
         end
 
         # checks health of both database and launchpad when /status is passed
         if !check_database && !check_launchpad
-          response_output = process_status_check
+          db_healthy = process_database_check(db_healthy)
+          launchpad_healthy = process_launchpad_check(launchpad_healthy)
+
+          if db_healthy && launchpad_healthy
+            response[0] = 200
+          end
+
+          response_output = ["{\"database\": #{db_healthy}, \"launchpad\": #{launchpad_healthy}}"]
         end
 
         response[2] = response_output
@@ -45,17 +64,16 @@ class MiddlewareHealthcheck
 
   private 
 
-  def process_database_check
+  def process_database_check(db_healthy)
     begin
       db_healthy = ActiveRecord::Migrator.current_version != 0
     rescue StandardError => e
       Rails.logger.error "Database error: #{e}"
       db_healthy = false
     end
-    response_output = ["{\"database\": #{db_healthy}}"]
   end
 
-  def process_launchpad_check
+  def process_launchpad_check(launchpad_healthy)
     cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
     cmr_client.timeout = 10
     begin
@@ -70,31 +88,5 @@ class MiddlewareHealthcheck
       Rails.logger.error "Other healthcheck error: #{e.class} #{e}"
       launchpad_healthy = false
     end
-    response_output = ["{\"launchpad\": #{launchpad_healthy}}"]
-  end
-
-  def process_status_check
-    begin
-      db_healthy = ActiveRecord::Migrator.current_version != 0
-    rescue StandardError => e
-      Rails.logger.error "Database error: #{e}"
-      db_healthy = false
-    end
-
-    cmr_client = Cmr::Client.client_for_environment(Rails.configuration.cmr_env, Rails.configuration.services)
-    cmr_client.timeout = 10
-    begin
-      launchpad_healthy = cmr_client.launchpad_healthcheck.body == 'OK'.freeze
-    rescue Faraday::TimeoutError
-      Rails.logger.error "Faraday timeout healthcheck error: #{e}"
-      launchpad_healthy = false
-    rescue Faraday::ConnectionFailed
-      Rails.logger.error "Faraday connection failed healthcheck error: #{e}"
-      launchpad_healthy = false
-    rescue StandardError => e
-      Rails.logger.error "Other healthcheck error: #{e.class} #{e}"
-      launchpad_healthy = false
-    end
-    response_output = ["{\"database\": #{db_healthy}, \"launchpad\": #{launchpad_healthy}}"]
   end
 end
