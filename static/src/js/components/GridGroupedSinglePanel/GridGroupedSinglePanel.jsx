@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-import './GridGroupedSinglePanel.scss'
 import Button from '../Button/Button'
 
 // eslint-disable-next-line import/no-cycle
