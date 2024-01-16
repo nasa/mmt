@@ -217,7 +217,8 @@ CustomSelectWidget.defaultProps = {
   selectOptions: null,
   uiSchema: {},
   value: undefined,
-  options: {}
+  options: {},
+  required: false
 }
 
 CustomSelectWidget.propTypes = {
