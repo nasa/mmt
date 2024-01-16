@@ -53,7 +53,7 @@ const GridGroupedSinglePanel = ({
 
     return (
       <Button
-        className="grid-grouped-single-panel__remove-button"
+        className="text-danger px-0"
         Icon={FaMinusCircle}
         naked
         onClick={removeGroup}
