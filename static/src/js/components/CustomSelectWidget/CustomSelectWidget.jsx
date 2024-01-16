@@ -255,7 +255,7 @@ CustomSelectWidget.propTypes = {
     })
   }),
   options: PropTypes.shape({
-    enumOptions: PropTypes.arrayOf(PropTypes.string)
+    enumOptions: PropTypes.arrayOf(PropTypes.shape({}))
   }),
   value: PropTypes.oneOfType([
     PropTypes.string,

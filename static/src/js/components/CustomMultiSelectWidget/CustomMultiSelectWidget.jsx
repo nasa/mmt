@@ -72,7 +72,6 @@ const CustomMultiSelectWidget = ({
   useEffect(() => {
     // This useEffect for shouldFocus lets the refs be in place before trying to use them
     if (shouldFocus) {
-      console.log('in should focus')
       multiSelectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
       setShowMenu(true)
       focusRef.current?.focus()
