@@ -115,7 +115,7 @@ const CustomSelectWidget = ({
       setSelectOptions(buildOptions(enumOptions))
     }
 
-    const { enumOptions: oneOfEnums } = options || {}
+    const { enumOptions: oneOfEnums } = options
 
     if (oneOfEnums) {
       setSelectOptions(oneOfEnums)
@@ -155,7 +155,7 @@ const CustomSelectWidget = ({
   const getExistingValue = () => {
     if (value) {
       if (typeof value === 'number') {
-        return value >= 0 ? oneOfEnums[value] : null
+        return oneOfEnums[value]
       }
 
       return {
@@ -211,7 +211,7 @@ CustomSelectWidget.defaultProps = {
   selectOptions: null,
   uiSchema: {},
   value: undefined,
-  options: null
+  options: {}
 }
 
 CustomSelectWidget.propTypes = {
@@ -248,7 +248,9 @@ CustomSelectWidget.propTypes = {
       controlName: PropTypes.string.isRequired
     })
   }),
-  options: PropTypes.shape({}),
+  options: PropTypes.shape({
+    enumOptions: PropTypes.arrayOf(PropTypes.string)
+  }),
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
