@@ -54,9 +54,9 @@ const CustomSelectWidget = ({
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
   const [selectOptions, setSelectOptions] = useState([])
+  const [showMenu, setShowMenu] = useState(false)
 
   const selectScrollRef = useRef(null)
-  const focusRef = useRef(null)
 
   const controlledField = uiSchema['ui:controlled']
   const { name: keywordType, controlName } = controlledField || {}
@@ -75,7 +75,6 @@ const CustomSelectWidget = ({
     focusField,
     setFocusField
   } = formContext
-
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
@@ -84,10 +83,10 @@ const CustomSelectWidget = ({
   const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
-    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them and sets the showMenu state to true
     if (shouldFocus) {
       selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      focusRef.current?.focus()
+      setShowMenu(true)
     }
   }, [shouldFocus])
 
@@ -143,11 +142,17 @@ const CustomSelectWidget = ({
     const { value: newValue } = event || {}
 
     onChange(newValue)
+    setShowMenu(false)
+  }
+
+  const handleFocus = () => {
+    setShowMenu(true)
   }
 
   const handleBlur = () => {
     setFocusField(null)
     onBlur(id)
+    setShowMenu(false)
   }
 
   const { enumOptions: oneOfEnums } = options || {}
@@ -179,17 +184,18 @@ const CustomSelectWidget = ({
       title={title}
     >
       <Select
+        key={`${id}_${focusField}`}
         id={id}
+        autoFocus={shouldFocus}
         isClearable
         isDisabled={disabled}
         isLoading={isLoading}
         onBlur={handleBlur}
         onChange={handleChange}
-        openMenuOnClick
-        openMenuOnFocus
+        onFocus={handleFocus}
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
-        ref={focusRef}
+        menuIsOpen={showMenu}
         styles={
           {
             control: (baseStyles, { isFocused }) => ({
