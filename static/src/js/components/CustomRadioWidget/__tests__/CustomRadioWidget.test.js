@@ -56,7 +56,6 @@ describe('CustomRadioWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         required: true,
         title: 'Test Field'

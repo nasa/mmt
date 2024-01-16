@@ -16,8 +16,6 @@ const compatibilityAndUsabilityUiSchema = {
           children: [
             {
               'ui:group': 'Supported Formats',
-              'ui:group-classname': 'h2-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:heading-level': 'h4',
               'ui:row': [
                 {
@@ -82,8 +80,6 @@ const compatibilityAndUsabilityUiSchema = {
                     children: [
                       {
                         'ui:group': 'Constraints',
-                        'ui:group-classname': 'h2-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:group-description': false,
                         'ui:row': [
                           {
@@ -233,8 +229,6 @@ const compatibilityAndUsabilityUiSchema = {
       'ui:row': [
         {
           'ui:group': 'Quality',
-          'ui:group-classname': 'h2-title',
-          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             children: [
               {
@@ -280,14 +274,12 @@ const compatibilityAndUsabilityUiSchema = {
     }
   },
   UseConstraints: {
-    'ui:header-classname': 'h3-title',
     LicenseText: {
       'ui:widget': 'textarea'
     }
   },
   AccessConstraints: {
-    'ui:widget': 'textarea',
-    'ui:header-classname': 'h3-title'
+    'ui:widget': 'textarea'
   }
 }
 

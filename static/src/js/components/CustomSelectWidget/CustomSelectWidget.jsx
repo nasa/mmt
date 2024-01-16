@@ -46,6 +46,7 @@ const CustomSelectWidget = ({
   schema,
   selectOptions: propsSelectOptions,
   uiSchema,
+  options,
   value
 }) => {
   const { items = {} } = schema
@@ -112,13 +113,19 @@ const CustomSelectWidget = ({
     if (enumOptions) {
       setSelectOptions(buildOptions(enumOptions))
     }
+
+    const { enumOptions: oneOfEnums } = options
+
+    if (oneOfEnums) {
+      setSelectOptions(oneOfEnums)
+    }
   }, [propsSelectOptions])
 
   useEffect(() => {
     if (!isEmpty(keywords)) {
       const parsedKeywords = parseCmrResponse(keywords, controlName)
 
-      const options = parsedKeywords.map((enumValue) => {
+      const parsedOptions = parsedKeywords.map((enumValue) => {
         const [firstValue] = enumValue
 
         return {
@@ -127,7 +134,7 @@ const CustomSelectWidget = ({
         }
       })
 
-      setSelectOptions(options)
+      setSelectOptions(parsedOptions)
     }
   }, [keywords])
 
@@ -148,10 +155,24 @@ const CustomSelectWidget = ({
     setShowMenu(false)
   }
 
-  const existingValue = value != null ? {
-    value,
-    label: value
-  } : null
+  const { enumOptions: oneOfEnums } = options || {}
+
+  const getExistingValue = () => {
+    if (value) {
+      if (typeof value === 'number') {
+        return oneOfEnums[value]
+      }
+
+      return {
+        value,
+        label: value
+      }
+    }
+
+    return null
+  }
+
+  const existingValue = getExistingValue()
 
   return (
     <CustomWidgetWrapper
@@ -195,7 +216,8 @@ CustomSelectWidget.defaultProps = {
   placeholder: null,
   selectOptions: null,
   uiSchema: {},
-  value: undefined
+  value: undefined,
+  options: {}
 }
 
 CustomSelectWidget.propTypes = {
@@ -232,7 +254,13 @@ CustomSelectWidget.propTypes = {
       controlName: PropTypes.string.isRequired
     })
   }),
-  value: PropTypes.string
+  options: PropTypes.shape({
+    enumOptions: PropTypes.arrayOf(PropTypes.shape({}))
+  }),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 }
 
 export default CustomSelectWidget

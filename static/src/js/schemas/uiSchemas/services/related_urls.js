@@ -5,8 +5,8 @@ const relatedUrlsUiSchema = {
     norender: true
   },
   RelatedURLs: {
-    'ui:title': 'Related URLs',
     'ui:heading-level': 'h3',
+    'ui:title': 'Related URLs',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -102,8 +102,10 @@ const relatedUrlsUiSchema = {
         ]
       },
       Description: {
-        'ui:title': 'Description',
         'ui:widget': 'textarea'
+      },
+      URLContentType: {
+        'ui:title': 'URL Content Type'
       },
       Format: {
         'ui:widget': CustomSelectWidget,
@@ -122,5 +124,4 @@ const relatedUrlsUiSchema = {
     }
   }
 }
-
 export default relatedUrlsUiSchema

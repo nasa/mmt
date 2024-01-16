@@ -14,7 +14,6 @@ import './CustomWidgetWrapper.scss'
  * @property {Number} charactersUsed Number of character used.
  * @property {ReactNode} children The widget content.
  * @property {String} description A description of the field.
- * @property {String} headerClassName A headerClassName defined in the uiSchema.
  * @property {String} id The id of the widget.
  * @property {Number} maxLength Max number of character defined for a field in the schema.
  * @property {Boolean} required Is the field required.
@@ -30,7 +29,6 @@ const CustomWidgetWrapper = ({
   charactersUsed,
   children,
   description,
-  headerClassName,
   id,
   maxLength,
   required,
@@ -58,7 +56,7 @@ const CustomWidgetWrapper = ({
             {
               title && (
                 <label
-                  className={`custom-widget-wrapper__label text-gray-700 ${headerClassName}`}
+                  className="custom-widget-wrapper__label text-gray-700"
                   htmlFor={id}
                 >
                   {title}
@@ -139,7 +137,6 @@ const CustomWidgetWrapper = ({
 CustomWidgetWrapper.defaultProps = {
   charactersUsed: null,
   description: null,
-  headerClassName: null,
   maxLength: null
 }
 
@@ -147,7 +144,6 @@ CustomWidgetWrapper.propTypes = {
   charactersUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
-  headerClassName: PropTypes.string,
   id: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   required: PropTypes.bool.isRequired,

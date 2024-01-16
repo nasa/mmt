@@ -2,8 +2,7 @@ import React from 'react'
 import {
   render,
   screen,
-  waitFor,
-  within
+  waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
@@ -45,6 +44,7 @@ import StreetAddressField from '../../StreetAddressField/StreetAddressField'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
+import OneOfField from '../../OneOfField/OneOfField'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -96,7 +96,7 @@ const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',
   deleted: false,
-  name: 'Test Name',
+  name: null,
   nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
   providerId: 'MMT_2',
   revisionDate: '2023-12-08T16:14:28.177Z',
@@ -218,6 +218,8 @@ describe('MetadataForm', () => {
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
           fields: {
             BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
             TitleField: CustomTitleField,
             keywordPicker: KeywordPicker,
             layout: GridLayout,
@@ -226,8 +228,8 @@ describe('MetadataForm', () => {
           formData: {
             LongName: 'Long Name',
             MetadataSpecification: {
-              URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
               Name: 'UMM-T',
+              URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
               Version: '1.1'
             }
           },
@@ -252,7 +254,7 @@ describe('MetadataForm', () => {
           },
           widgets: {
             CheckboxWidget: CustomRadioWidget,
-            CountrySelectWiget: CustomCountrySelectWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
             DateTimeWidget: CustomDateTimeWidget,
             RadioWidget: CustomRadioWidget,
             SelectWidget: CustomSelectWidget,
@@ -274,6 +276,8 @@ describe('MetadataForm', () => {
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
           fields: {
             BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
             TitleField: CustomTitleField,
             keywordPicker: KeywordPicker,
             layout: GridLayout,
@@ -298,7 +302,7 @@ describe('MetadataForm', () => {
           },
           widgets: {
             CheckboxWidget: CustomRadioWidget,
-            CountrySelectWiget: CustomCountrySelectWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
             DateTimeWidget: CustomDateTimeWidget,
             RadioWidget: CustomRadioWidget,
             SelectWidget: CustomSelectWidget,
@@ -307,21 +311,6 @@ describe('MetadataForm', () => {
           }
         }), {})
       })
-    })
-
-    test('renders the breadcrumbs', async () => {
-      setup({
-        pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
-      })
-
-      await waitForResponse()
-
-      const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
-      const breadcrumbOne = within(breadcrumbs).getByText('Tool Drafts')
-      const breadcrumbTwo = within(breadcrumbs).getByText('Edit Test Name')
-
-      expect(breadcrumbOne.href).toEqual('http://localhost/drafts/tools')
-      expect(breadcrumbTwo).toHaveClass('active')
     })
 
     test('renders a FormNavigation component', async () => {

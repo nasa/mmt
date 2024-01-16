@@ -338,8 +338,8 @@ const KeywordPicker = ({
   }
 
   return (
-    <div className="keyword-picker">
-      <div className="mb-3">
+    <div className="keyword-picker pb-5">
+      <div className="mb-3 h4">
         <span>
           {title}
           {
@@ -361,7 +361,7 @@ const KeywordPicker = ({
       </div>
 
       {/* Renders the list of added keywords with a remove button */}
-      <div className="p-3 mb-5 keyword-picker__added-keywords">
+      <div className="p-3 mb-2 keyword-picker__added-keywords">
         {
           Object.values(removeEmpty(formData)).map((item, index) => (
             <li key={JSON.stringify(Object.values(item))}>

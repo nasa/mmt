@@ -84,7 +84,6 @@ describe('CustomMultiSelectWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: true,
@@ -107,7 +106,6 @@ describe('CustomMultiSelectWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,

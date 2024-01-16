@@ -226,9 +226,11 @@ describe('when there is a group title', () => {
       })
 
       expect(GridCheckboxPanel).toHaveBeenCalledTimes(1)
-      expect(GridCheckboxPanel).toHaveBeenCalledWith({
-        layoutGridSchema: props.uiSchema
-      }, {})
+      expect(GridCheckboxPanel).toHaveBeenCalledWith(expect.objectContaining({
+        idSchema: props.idSchema,
+        onChange: props.onChange,
+        schema: props.schema
+      }), {})
     })
   })
 })

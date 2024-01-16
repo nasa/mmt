@@ -7,8 +7,6 @@ const organizationUiSchema = {
   },
   Organizations: {
     'ui:title': 'Tool Organizations',
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
     'ui:heading-level': 'h3',
     items: {
       'ui:field': 'layout',

@@ -300,7 +300,7 @@ const DraftPreview = () => {
             </Button>
 
             <Button
-              className="draft-preview__delete-draft ms-2"
+              className="ms-2"
               variant="outline-danger"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...accessibleEventProps}
