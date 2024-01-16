@@ -305,7 +305,7 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'oneOf value 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'oneOf value 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         label: 'Test Field',
