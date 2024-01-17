@@ -22,6 +22,7 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import PublishPreview from './components/PublishPreview/PublishPreview'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -101,6 +102,7 @@ const App = () => {
               <Route path="drafts/:draftType/*" element={<DraftsPage />} />
               <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
               <Route path="*" element={<Navigate to="/404" replace />} />
+              <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
             </Route>
           </Routes>
         </BrowserRouter>

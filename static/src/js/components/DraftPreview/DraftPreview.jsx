@@ -35,6 +35,8 @@ import parseError from '../../utils/parseError'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import { PUBLISH_DRAFT } from '../../operations/mutations/publishDraft'
+import getUmmVersion from '../../utils/getUmmVersion'
 
 /**
  * Renders a DraftPreview component
@@ -66,6 +68,7 @@ const DraftPreview = () => {
   const [retries, setRetries] = useState(0)
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
+  const [publishDraftMutation] = useMutation(PUBLISH_DRAFT)
 
   const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -166,6 +169,34 @@ const DraftPreview = () => {
     providerId,
     ummMetadata
   } = draft || {}
+
+  // Handle the user selecting publish draft
+  const handlePublish = () => {
+    publishDraftMutation({
+      variables: {
+        draftConceptId: conceptId,
+        nativeId: `MMT_PUBLISH_${crypto.randomUUID()}`,
+        ummVersion: getUmmVersion(derivedConceptType)
+      },
+      onCompleted: (getPublishedData) => {
+        const { publishDraft } = getPublishedData
+        const { conceptId: publishConceptId, revisionId } = publishDraft
+
+        // Add a success notification
+        addNotification({
+          message: `${publishConceptId} Published`,
+          variant: 'success'
+        })
+
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
+      },
+      onError: (getPublishError) => {
+        // When there is an error from CMR that will be in here
+        // TODO: show the errors to the user
+        console.log('error', getPublishError.message)
+      }
+    })
+  }
 
   // Handle the user selecting delete from the delete draft modal
   const handleDelete = () => {
@@ -290,6 +321,7 @@ const DraftPreview = () => {
               onClick={
                 () => {
                   // TODO MMT-3411
+                  handlePublish()
                   console.log('Publish draft')
                 }
               }
