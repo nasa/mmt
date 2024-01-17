@@ -42,7 +42,8 @@ class MiddlewareHealthcheck
           db_healthy = process_database_check(db_healthy)
           launchpad_healthy = process_launchpad_check(launchpad_healthy)
 
-          if db_healthy && launchpad_healthy
+          # If launchpad is disabled then we will not report a 503 error if launchpad still fails
+          if db_healthy && (ENV['launchpad_login_required'] != 'true' || launchpad_healthy)
             response[0] = 200
           end
 
@@ -50,12 +51,8 @@ class MiddlewareHealthcheck
         end
 
         response[2] = response_output
-
-        # If launchpad is disabled then we will not report a 503 error if launchpad still fails
-        if db_healthy && (ENV['launchpad_login_required'] != 'true' || launchpad_healthy)
-          response[0] = 200
-        end
         response
+        
       end
     else
       @app.call(env)
