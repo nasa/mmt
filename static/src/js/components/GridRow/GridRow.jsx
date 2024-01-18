@@ -113,7 +113,7 @@ const GridRow = (
             groupSinglePanel
               ? (
                 <GridGroupedSinglePanel
-                  layoutGridSchema={layout}
+                  layout={layout}
                   registry={registry}
                   idSchema={idSchema}
                   uiSchema={uiSchema}

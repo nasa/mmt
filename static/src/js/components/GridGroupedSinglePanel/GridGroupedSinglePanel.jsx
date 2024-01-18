@@ -12,7 +12,7 @@ const GridGroupedSinglePanel = ({
   onChange,
   registry,
   schema,
-  layoutGridSchema,
+  layout,
   idSchema,
   errorSchema
 }) => {
@@ -103,7 +103,7 @@ const GridGroupedSinglePanel = ({
     ))
   }
 
-  const rows = layoutGridSchema['ui:row']
+  const rows = layout['ui:row']
 
   return (
     <div>
@@ -126,7 +126,7 @@ const GridGroupedSinglePanel = ({
 }
 
 GridGroupedSinglePanel.propTypes = {
-  layoutGridSchema: PropTypes.shape({
+  layout: PropTypes.shape({
     'ui:row': PropTypes.arrayOf(PropTypes.shape({}))
   }).isRequired,
   uiSchema: PropTypes.shape({

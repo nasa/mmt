@@ -7,7 +7,7 @@ jest.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
 
 const setup = (overrideProps = {}) => {
   const onChange = jest.fn()
-  const layoutGridSchema = {
+  const layout = {
     'ui:group': 'Index Ranges',
     'ui:group-description': true,
     'ui:group-single-panel': true,
@@ -97,7 +97,7 @@ const setup = (overrideProps = {}) => {
   }
 
   const props = {
-    layoutGridSchema,
+    layout,
     formData: {},
     onChange,
     registry: {
