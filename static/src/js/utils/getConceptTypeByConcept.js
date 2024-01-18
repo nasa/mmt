@@ -8,7 +8,6 @@ const getConceptTypeByConceptId = (conceptId) => {
   if (!conceptId) return undefined
 
   const prefix = conceptId.substring(0, 1)
-  console.log("🚀 ~ getConceptTypeByConceptId ~ prefix:", prefix)
 
   return conceptIdTypes[prefix]
 }
