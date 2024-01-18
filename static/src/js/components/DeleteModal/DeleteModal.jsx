@@ -36,7 +36,7 @@ const DeleteModal = ({
     onHide={closeModal}
     show={show}
   >
-    <Modal.Body>Are you sure you want to delete this record ?</Modal.Body>
+    <Modal.Body>Are you sure you want to delete this record?</Modal.Body>
 
     <Modal.Footer>
       <Button

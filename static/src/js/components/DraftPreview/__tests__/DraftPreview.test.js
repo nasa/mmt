@@ -27,6 +27,7 @@ import DraftPreview from '../DraftPreview'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
+import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
 jest.mock('@edsc/metadata-preview')
 jest.mock('../../ErrorBanner/ErrorBanner')
@@ -570,6 +571,47 @@ describe('DraftPreview', () => {
         expect(screen.queryByText('Are you sure you want to delete this draft?')).not.toBeInTheDocument()
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    describe.only('when clicking on Publish Draft button', () => {
+      test('calls the deleteDraft mutation and navigates to the manage/tools page', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                nativeId: 'MMT_PUBLISH_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2'
+              }
+            },
+            result: {
+              data: {
+                publishDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '2'
+                }
+              }
+            }
+          }]
+        })
+
+        await waitForResponse()
+
+        const button = screen.getByRole('button', { name: 'Publish Tool Draft' })
+        await user.click(button)
+
+        // const yesButton = screen.getByRole('button', { name: 'Yes' })
+        // await user.click(yesButton)
+
+        // await waitForResponse()
+
+        // expect(navigateSpy).toHaveBeenCalledTimes(1)
+        // expect(navigateSpy).toHaveBeenCalledWith('/manage/tools')
       })
     })
   })

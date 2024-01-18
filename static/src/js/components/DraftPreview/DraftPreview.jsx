@@ -13,6 +13,7 @@ import {
   ToolPreview,
   VariablePreview
 } from '@edsc/metadata-preview'
+
 import pluralize from 'pluralize'
 
 import DeleteDraftModal from '../DeleteDraftModal/DeleteDraftModal'
@@ -66,7 +67,6 @@ const DraftPreview = () => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
   const [retries, setRetries] = useState(0)
-
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
   const [publishDraftMutation] = useMutation(PUBLISH_DRAFT)
 
@@ -191,9 +191,15 @@ const DraftPreview = () => {
         navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
       },
       onError: (getPublishError) => {
-        // When there is an error from CMR that will be in here
-        // TODO: show the errors to the user
-        console.log('error', getPublishError.message)
+        const { message } = getPublishError
+        const parseErr = message.split(',')
+        // TODO: Trevor said when he has time he will look into how to display this. This is just temporary
+        parseErr.map((err) => (
+          addNotification({
+            message: err,
+            variant: 'danger'
+          })
+        ))
       }
     })
   }
@@ -320,9 +326,7 @@ const DraftPreview = () => {
               className="eui-btn--blue display-modal"
               onClick={
                 () => {
-                  // TODO MMT-3411
                   handlePublish()
-                  console.log('Publish draft')
                 }
               }
             >
@@ -349,7 +353,6 @@ const DraftPreview = () => {
             />
           </Col>
         </Row>
-
         <Row>
           <Col md={12}>
             <Row>

@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import Row from 'react-bootstrap/Row'
 
+import pluralize from 'pluralize'
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
@@ -51,6 +52,8 @@ import getUiSchema from '../../utils/getUiSchema'
 
 import './MetadataForm.scss'
 import removeEmpty from '../../utils/removeEmpty'
+import { PUBLISH_DRAFT } from '../../operations/mutations/publishDraft'
+import getUmmVersion from '../../utils/getUmmVersion'
 
 const MetadataForm = () => {
   const {
@@ -78,6 +81,8 @@ const MetadataForm = () => {
   } else {
     derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
   }
+
+  const [publishDraftMutation] = useMutation(PUBLISH_DRAFT)
 
   useEffect(() => {
     if (conceptId === 'new') {
@@ -247,8 +252,35 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPublish) {
-          // Save and then publish
-          // TODO MMT-3411
+          publishDraftMutation({
+            variables: {
+              draftConceptId: conceptId,
+              nativeId: `MMT_PUBLISH_${crypto.randomUUID()}`,
+              ummVersion: getUmmVersion(derivedConceptType)
+            },
+            onCompleted: (getPublishedData) => {
+              const { publishDraft } = getPublishedData
+              const { conceptId: publishConceptId, revisionId } = publishDraft
+
+              // Add a success notification
+              addNotification({
+                message: `${publishConceptId} Published`,
+                variant: 'success'
+              })
+
+              navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
+            },
+            onError: (getPublishError) => {
+              const { message } = getPublishError
+              const parseErr = message.split(',')
+              parseErr.map((err) => (
+                addNotification({
+                  message: err,
+                  variant: 'danger'
+                })
+              ))
+            }
+          })
         }
       },
       onError: (ingestError) => {
