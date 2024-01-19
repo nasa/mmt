@@ -14,32 +14,18 @@ const setup = (overrideProps = {}) => {
     ],
     loading: false,
     renderRows: [
-      {
-        key: 'tools/TD1200000093-MMT_2',
-        children: [
-          <td key="column1">
-            <Link to="url.com">
-              Sample Text
-            </Link>
-          </td>,
-          <td key="column2">
-            More Sample Text
-          </td>
-        ]
-      },
-      {
-        key: 'tools/TD1200000094-MMT_2',
-        children: [
-          <td key="column1">
-            <Link to="url.com">
-              Sample Text
-            </Link>
-          </td>,
-          <td key="column2">
-            More Sample Text
-          </td>
-        ]
-      }
+      <span key="BEAM-001/col1">
+        Sample Text
+      </span>,
+      <span key="BEAM-001/col2">
+        More Sample Text
+      </span>,
+      <span key="BEAM-001/col1">
+        Sample Text
+      </span>,
+      <span key="BEAM-001/col2">
+        More Sample Text
+      </span>
     ],
     ...overrideProps
   }

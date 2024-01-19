@@ -29,6 +29,8 @@ const DraftList = ({ draftType }) => {
   const { drafts, error, loading } = useDraftsQuery({ draftType })
   const { count, items = [] } = drafts
 
+  const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
+
   const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
     onCompleted: (getDraftData) => {
       const { draft: fetchedDraft } = getDraftData
@@ -52,57 +54,36 @@ const DraftList = ({ draftType }) => {
   }
 
   // Building a Table using Data in items
-  const renderRows = items.length
-    ? (items.map((item) => {
-      const { conceptId, revisionDate, previewMetadata: { name, longName } } = item
-      const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
+  const renderRows = (items.map((item) => {
+    const { conceptId, revisionDate, previewMetadata: { name, longName } } = item
+    const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
-      return (
-        <tr key={`${paramDraftType}/${conceptId}`}>
-          <td className="col-md-4">
-            <Link to={draftLink}>
-              {name || '<Blank Name>'}
-            </Link>
-          </td>
-          <td className="col-md-4">
-            {longName || '<Untitled Record>'}
-          </td>
-          <td className="col-auto">
-            {new Date(revisionDate).toISOString().split('T')[0]}
-          </td>
-          <td className="col-auto">
-            <div className="d-flex">
-              <Button
-                className="d-flex"
-                Icon={FaFileDownload}
-                onClick={() => handleDownloadClick(conceptId)}
-                variant="secondary"
-                size="sm"
-              >
-                Download JSON
-              </Button>
-            </div>
-          </td>
-        </tr>
-      )
-    })
-    )
-    : (
+    return (
       [
-        <tr key={`${paramDraftType}`} className="text-center">
-          <td colSpan={4}>
-            No
-            {' '}
-            {draftType}
-            {' '}
-            drafts exist for the provider
-            {' '}
-            <strong>{providerId}</strong>
-            .
-          </td>
-        </tr>
+        <Link key={`${conceptId}/col1`} to={draftLink}>
+          {name || '<Blank Name>'}
+        </Link>,
+        <span key={`${conceptId}/col2`}>
+          {longName || '<Untitled Record>'}
+        </span>,
+        <span key={`${conceptId}/col3`}>
+          {new Date(revisionDate).toISOString().split('T')[0]}
+        </span>,
+        <div key={`${conceptId}/col4`} className="d-flex">
+          <Button
+            className="d-flex"
+            Icon={FaFileDownload}
+            onClick={() => handleDownloadClick(conceptId)}
+            variant="secondary"
+            size="sm"
+          >
+            Download JSON
+          </Button>
+        </div>
       ]
     )
+  })
+  )
 
   return (
     <Page
@@ -157,8 +138,10 @@ const DraftList = ({ draftType }) => {
                 }
                 <Table
                   headers={['Short Name', 'Entry Title', 'Last Modified', 'Actions']}
+                  classNames={['col-md-4', 'col-md-4', 'col-auto', 'col-auto']}
                   loading={loading}
                   renderRows={renderRows}
+                  error={noDraftsError}
                 />
               </>
             )
