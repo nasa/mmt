@@ -1,7 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { FaStar } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
 import Table from '../Table'
@@ -14,18 +12,22 @@ const setup = (overrideProps = {}) => {
     ],
     loading: false,
     renderRows: [
-      <span key="BEAM-001/col1">
-        Sample Text
-      </span>,
-      <span key="BEAM-001/col2">
-        More Sample Text
-      </span>,
-      <span key="BEAM-001/col1">
-        Sample Text
-      </span>,
-      <span key="BEAM-001/col2">
-        More Sample Text
-      </span>
+      [
+        <span key="BEAM-001/col2">
+          Row 1 Cell 1
+        </span>,
+        <span key="BEAM-001/col2">
+          Row 1 Cell 2
+        </span>
+      ],
+      [
+        <span key="BEAM-001/col2">
+          Row 2 Cell 1
+        </span>,
+        <span key="BEAM-001/col2">
+          Row 2 Cell 2
+        </span>
+      ]
     ],
     ...overrideProps
   }
@@ -46,58 +48,31 @@ describe('Table', () => {
       setup()
 
       expect(screen.getByText('column 1')).toBeInTheDocument()
+      expect(screen.getByRole('table')).toBeInTheDocument()
+      expect(screen.getByText('Row 2 Cell 2')).toBeInTheDocument()
     })
   })
 
-  // Describe('when the button with an icon', () => {
-  //   beforeEach(() => {
-  //     FaStar.mockImplementation(
-  //       jest.requireActual('react-icons/fa').FaStar
-  //     )
-  //   })
+  describe('when the table component is passed a custom error mesage with no data', () => {
+    test('renders custom error message', () => {
+      setup({
+        renderRows: [],
+        error: 'Custom Error Message'
+      })
 
-  //   test('renders the button', () => {
-  //     setup({
-  //       Icon: FaStar
-  //     })
+      expect(screen.getByText('Custom Error Message')).toBeInTheDocument()
+    })
+  })
 
-  //     expect(FaStar).toHaveBeenCalledTimes(1)
-  //   })
-  // })
+  describe('when the table component is passed loading:true', () => {
+    test('renders loading screen', () => {
+      setup({
+        loading: true
+      })
 
-  // describe('when the button is clicked', () => {
-  //   test('executes onClick callback', async () => {
-  //     const { props, user } = setup()
-
-  //     await user.click(screen.getByRole('button'))
-
-  //     expect(props.onClick).toHaveBeenCalledTimes(1)
-  //   })
-  // })
-
-  // describe('when set the specified size and variant to the button', () => {
-  //   test('applies to the button', () => {
-  //     setup({
-  //       size: 'lg',
-  //       variant: 'danger'
-  //     })
-
-  //     const button = screen.getByRole('button')
-
-  //     expect(button).toHaveClass('btn-lg')
-  //     expect(button).toHaveClass('btn-danger')
-  //   })
-  // })
-
-  // describe('when set naked prop is true to the button', () => {
-  //   test('applies naked style to the button', () => {
-  //     setup({
-  //       naked: true
-  //     })
-
-  //     const button = screen.getByRole('button')
-
-  //     expect(button).toHaveClass('button--naked')
-  //   })
-  // })
+      const buttons = screen.queryAllByRole('button', { className: 'btn-sm col-10 placeholder placeholder-sm btn btn-secondary' })
+      expect(screen.getByRole('table', { className: 'table table-striped' })).toBeInTheDocument()
+      expect(buttons).toHaveLength(5)
+    })
+  })
 })
