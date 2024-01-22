@@ -26,4 +26,10 @@ describe('getUmmVersion', () => {
       expect(getUmmVersion('Collection')).toEqual(ummVersion.ummC)
     })
   })
+
+  describe('when the concept type is Collection', () => {
+    test('returns correct UMM-C version', () => {
+      expect(getUmmVersion('bad-name')).toEqual(null)
+    })
+  })
 })
