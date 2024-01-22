@@ -21,7 +21,7 @@ describe('getConfig', () => {
       const expectedUmmVersionConfig = {
         ummC: '1.17.3',
         ummS: '1.4',
-        ummT: '1.1',
+        ummT: '1.2.0',
         ummV: '1.9.0'
       }
 

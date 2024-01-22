@@ -7,12 +7,6 @@ import { useNavigate, useParams } from 'react-router'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash-es'
-import {
-  CollectionPreview,
-  ServicePreview,
-  ToolPreview,
-  VariablePreview
-} from '@edsc/metadata-preview'
 
 import pluralize from 'pluralize'
 
@@ -36,8 +30,8 @@ import parseError from '../../utils/parseError'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import { PUBLISH_DRAFT } from '../../operations/mutations/publishDraft'
-import getUmmVersion from '../../utils/getUmmVersion'
+import usePublishMutation from '../../hooks/usePublishMutation'
+import MetadataPreview from '../MetadataPreview/MetadataPreview'
 
 /**
  * Renders a DraftPreview component
@@ -67,8 +61,9 @@ const DraftPreview = () => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
   const [retries, setRetries] = useState(0)
+
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
-  const [publishDraftMutation] = useMutation(PUBLISH_DRAFT)
+  const publishMutation = usePublishMutation()
 
   const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -172,36 +167,8 @@ const DraftPreview = () => {
 
   // Handle the user selecting publish draft
   const handlePublish = () => {
-    publishDraftMutation({
-      variables: {
-        draftConceptId: conceptId,
-        nativeId: `MMT_PUBLISH_${crypto.randomUUID()}`,
-        ummVersion: getUmmVersion(derivedConceptType)
-      },
-      onCompleted: (getPublishedData) => {
-        const { publishDraft } = getPublishedData
-        const { conceptId: publishConceptId, revisionId } = publishDraft
-
-        // Add a success notification
-        addNotification({
-          message: `${publishConceptId} Published`,
-          variant: 'success'
-        })
-
-        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
-      },
-      onError: (getPublishError) => {
-        const { message } = getPublishError
-        const parseErr = message.split(',')
-        // TODO: Trevor said when he has time he will look into how to display this. This is just temporary
-        parseErr.map((err) => (
-          addNotification({
-            message: err,
-            variant: 'danger'
-          })
-        ))
-      }
-    })
+    // Calls publish mutation hook
+    publishMutation(derivedConceptType, nativeId)
   }
 
   // Handle the user selecting delete from the delete draft modal
@@ -251,51 +218,6 @@ const DraftPreview = () => {
 
   // Pull the formSections out of the formConfigurations
   const formSections = formConfigurations[derivedConceptType]
-
-  // Determine which MetadataPreview component to show
-  const metadataPreviewComponent = () => {
-    if (derivedConceptType === 'Collection') {
-      return (
-        <CollectionPreview
-          collection={previewMetadata}
-          conceptId={conceptId}
-          conceptType="collection-draft"
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Service') {
-      return (
-        <ServicePreview
-          conceptId={conceptId}
-          conceptType="service-draft"
-          service={previewMetadata}
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Tool') {
-      return (
-        <ToolPreview
-          conceptId={conceptId}
-          conceptType="tool-draft"
-          tool={previewMetadata}
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Variable') {
-      return (
-        <VariablePreview
-          conceptId={conceptId}
-          conceptType="variable-draft"
-          variable={previewMetadata}
-        />
-      )
-    }
-
-    return null
-  }
 
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
@@ -369,7 +291,11 @@ const DraftPreview = () => {
           </Col>
           <Row>
             <Col md={12}>
-              {metadataPreviewComponent()}
+              <MetadataPreview
+                previewMetadata={previewMetadata}
+                conceptId={conceptId}
+                conceptType={derivedConceptType}
+              />
             </Col>
           </Row>
         </Row>

@@ -17,6 +17,6 @@ export const DELETE_TOOL = gql`
 
 // Example Variables:
 // {
-//   "conceptId": "T1200000096-MMT_2",",
+//   "nativeId": "T1200000096-MMT_2",",
 //   "providerId": "MMT_2"
 // }

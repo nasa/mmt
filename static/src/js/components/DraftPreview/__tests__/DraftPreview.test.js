@@ -11,7 +11,6 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import { ToolPreview } from '@edsc/metadata-preview'
 import * as router from 'react-router'
 
 import ummTSchema from '../../../schemas/umm/ummTSchema'
@@ -29,7 +28,6 @@ import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
-jest.mock('@edsc/metadata-preview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../PreviewProgress/PreviewProgress')
 jest.mock('../../../utils/errorLogger')
@@ -145,23 +143,6 @@ const setup = ({
 }
 
 describe('DraftPreview', () => {
-  describe('when the concept type is tool', () => {
-    test('renders a ToolPreview component', async () => {
-      setup({})
-
-      await waitForResponse()
-
-      expect(ToolPreview).toHaveBeenCalledTimes(1)
-      expect(ToolPreview).toHaveBeenCalledWith({
-        conceptId: 'TD1000000-MMT',
-        conceptType: 'tool-draft',
-        conceptUrlTemplate: '/{conceptType}/{conceptId}',
-        isPlugin: true,
-        tool: mockDraft.previewMetadata
-      }, {})
-    })
-  })
-
   test('renders the breadcrumbs', async () => {
     setup({})
 
@@ -574,8 +555,8 @@ describe('DraftPreview', () => {
       })
     })
 
-    describe.only('when clicking on Publish Draft button', () => {
-      test('calls the deleteDraft mutation and navigates to the manage/tools page', async () => {
+    describe('when clicking on Publish Draft button with no errors', () => {
+      test('calls the publish mutation and navigates to the conceptId/revisionId page', async () => {
         const navigateSpy = jest.fn()
         jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -584,15 +565,15 @@ describe('DraftPreview', () => {
             request: {
               query: PUBLISH_DRAFT,
               variables: {
-                conceptType: 'Tool',
-                nativeId: 'MMT_PUBLISH_2331e312-cbbc-4e56-9d6f-fe217464be2c',
-                providerId: 'MMT_2'
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
               }
             },
             result: {
               data: {
                 publishDraft: {
-                  conceptId: 'TD1000000-MMT',
+                  conceptId: 'T1000000-MMT',
                   revisionId: '2'
                 }
               }
@@ -604,14 +585,38 @@ describe('DraftPreview', () => {
 
         const button = screen.getByRole('button', { name: 'Publish Tool Draft' })
         await user.click(button)
+        await waitForResponse()
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/2')
+      })
+    })
 
-        // const yesButton = screen.getByRole('button', { name: 'Yes' })
-        // await user.click(yesButton)
+    describe('when clicking on Publish Draft button with errors', () => {
+      test('calls the publish mutation and returns errors', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        // await waitForResponse()
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
+              }
+            },
+            error: new Error('#: required key [Name] not found,#: required key [LongName] not found')
+          }]
+        })
 
-        // expect(navigateSpy).toHaveBeenCalledTimes(1)
-        // expect(navigateSpy).toHaveBeenCalledWith('/manage/tools')
+        await waitForResponse()
+
+        const button = screen.getByRole('button', { name: 'Publish Tool Draft' })
+        await user.click(button)
+        await waitForResponse()
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('#: required key [Name] not found,#: required key [LongName] not found', 'PublishMutation: publishMutation')
       })
     })
   })

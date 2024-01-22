@@ -1,10 +1,4 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import {
-  CollectionPreview,
-  ServicePreview,
-  ToolPreview,
-  VariablePreview
-} from '@edsc/metadata-preview'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
@@ -23,8 +17,18 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import DeleteModal from '../DeleteModal/DeleteModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
 
+/**
+ * Renders a PublishPreview component
+ *
+ * @component
+ * @example <caption>Render a PublishPreview</caption>
+ * return (
+ *   <PublishPreview />
+ * )
+ */
 const PublishPreview = () => {
   const {
     conceptId,
@@ -77,9 +81,8 @@ const PublishPreview = () => {
     onError: (getDraftError) => {
       setError(getDraftError)
       setLoading(false)
-
       // Send the error to the errorLogger
-      errorLogger(getDraftError, 'DraftPreview: getDraft Query')
+      errorLogger(getDraftError, 'PublishPreview getPublish Query')
     }
   })
 
@@ -124,58 +127,13 @@ const PublishPreview = () => {
           variant: 'danger'
         })
 
-        // Hide the modal
-        showDeleteModal(false)
-
         // Send the error to the errorLogger
-        errorLogger(deleteError, 'DraftPreview: deleteDraftMutation')
+        errorLogger(deleteError, 'PublishPreview: deleteMutation')
+
+        // Hide the modal
+        setShowDeleteModal(false)
       }
     })
-  }
-
-  // Determine which MetadataPreview component to show
-  const metadataPreviewComponent = () => {
-    if (derivedConceptType === 'Collection') {
-      return (
-        <CollectionPreview
-          collection={previewMetadata}
-          conceptId={conceptId}
-          conceptType="collection"
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Service') {
-      return (
-        <ServicePreview
-          service={previewMetadata}
-          conceptId={conceptId}
-          conceptType="service"
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Tool') {
-      return (
-        <ToolPreview
-          tool={previewMetadata}
-          conceptId={conceptId}
-          conceptType="tool"
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Variable') {
-      return (
-        <VariablePreview
-          variable={previewMetadata}
-          conceptId={conceptId}
-          conceptType="variable"
-        />
-      )
-    }
-
-    return null
   }
 
   if (error) {
@@ -225,7 +183,11 @@ const PublishPreview = () => {
       </Row>
       <Row>
         <Col md={12}>
-          {metadataPreviewComponent()}
+          <MetadataPreview
+            previewMetadata={previewMetadata}
+            conceptId={conceptId}
+            conceptType={derivedConceptType}
+          />
         </Col>
       </Row>
     </Page>

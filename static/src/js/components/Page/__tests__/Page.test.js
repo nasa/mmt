@@ -41,7 +41,7 @@ describe('Page component', () => {
       {
         to: '/manage/tools',
         title: 'Manage Tools',
-        version: 'v1.1'
+        version: 'v1.2.0'
       },
       {
         to: '/manage/cmr',
