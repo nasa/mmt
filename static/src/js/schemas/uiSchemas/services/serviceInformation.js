@@ -105,6 +105,37 @@ const serviceInformationUiSchema = {
   },
   URL: {
     'ui:heading-level': 'h4',
+    'ui:root': 'URL',
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'URL',
+          'ui:group-description': true,
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Description']
+                    }
+                  },
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['URLValue']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     Description: {
       'ui:widget': 'textarea'
     }
