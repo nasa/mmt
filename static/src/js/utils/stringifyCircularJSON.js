@@ -1,3 +1,10 @@
+/**
+ * This returns a usable string when JSON.stringify can't be used due to
+ * a circular reference.
+ * @param {Object} obj The circular JSON to be modified
+ * @returns {string} stringified circular JSON
+ */
+
 const stringifyCircularJSON = (obj) => {
   const seen = new WeakSet()
 

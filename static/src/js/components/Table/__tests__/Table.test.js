@@ -11,7 +11,7 @@ const setup = (overrideProps = {}) => {
       'column 2'
     ],
     loading: false,
-    renderRows: [
+    data: [
       [
         <span key="BEAM-001/col2">
           Row 1 Cell 1
@@ -56,7 +56,7 @@ describe('Table', () => {
   describe('when the table component is passed a custom error mesage with no data', () => {
     test('renders custom error message', () => {
       setup({
-        renderRows: [],
+        data: [],
         error: 'Custom Error Message'
       })
 
@@ -70,9 +70,8 @@ describe('Table', () => {
         loading: true
       })
 
-      const buttons = screen.queryAllByRole('button', { className: 'btn-sm col-10 placeholder placeholder-sm btn btn-secondary' })
       expect(screen.getByRole('table', { className: 'table table-striped' })).toBeInTheDocument()
-      expect(buttons).toHaveLength(5)
+      expect(screen.queryAllByRole('cell', { className: 'col-md-4' })).toHaveLength(4)
     })
   })
 })

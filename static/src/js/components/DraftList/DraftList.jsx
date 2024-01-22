@@ -54,7 +54,7 @@ const DraftList = ({ draftType }) => {
   }
 
   // Building a Table using Data in items
-  const renderRows = (items.map((item) => {
+  const data = (items.map((item) => {
     const { conceptId, revisionDate, previewMetadata: { name, longName } } = item
     const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
@@ -140,7 +140,7 @@ const DraftList = ({ draftType }) => {
                   headers={['Short Name', 'Entry Title', 'Last Modified', 'Actions']}
                   classNames={['col-md-4', 'col-md-4', 'col-auto', 'col-auto']}
                   loading={loading}
-                  renderRows={renderRows}
+                  data={data}
                   error={noDraftsError}
                 />
               </>

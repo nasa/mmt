@@ -169,7 +169,7 @@ describe('DraftList', () => {
       const rows = screen.getAllByRole('row')
 
       expect(within(rows[1]).getByRole('cell', {
-        name: 'No Tool drafts exist for the provider MMT_2 .'
+        name: 'No Tool drafts exist for the provider MMT_2'
       })).toBeInTheDocument()
     })
   })
@@ -183,7 +183,7 @@ describe('DraftList', () => {
 
       setup()
 
-      expect(Placeholder).toHaveBeenCalledTimes(21)
+      expect(Placeholder).toHaveBeenCalledTimes(17)
     })
   })
 
