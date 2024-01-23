@@ -10,7 +10,6 @@ import { startCase } from 'lodash-es'
 
 import pluralize from 'pluralize'
 
-import DeleteDraftModal from '../DeleteDraftModal/DeleteDraftModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
@@ -32,6 +31,7 @@ import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import usePublishMutation from '../../hooks/usePublishMutation'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
+import CustomModal from '../CustomModal/CustomModal'
 
 /**
  * Renders a DraftPreview component
@@ -268,10 +268,23 @@ const DraftPreview = () => {
               {startCase(conceptType)}
             </Button>
 
-            <DeleteDraftModal
-              show={showDeleteModal}
-              closeModal={() => setShowDeleteModal(false)}
-              onDelete={handleDelete}
+            <CustomModal
+              message="Are you sure you want to delete this draft?"
+              openModal={showDeleteModal}
+              actions={
+                [
+                  {
+                    label: 'No',
+                    variant: 'secondary',
+                    onClick: () => { setShowDeleteModal(false) }
+                  },
+                  {
+                    label: 'Yes',
+                    variant: 'primary',
+                    onClick: handleDelete
+                  }
+                ]
+              }
             />
           </Col>
         </Row>

@@ -14,7 +14,7 @@ import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 import parseError from '../../utils/parseError'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
-import DeleteModal from '../DeleteModal/DeleteModal'
+import CustomModal from '../CustomModal/CustomModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
@@ -174,10 +174,23 @@ const PublishPreview = () => {
             Record
           </Button>
 
-          <DeleteModal
-            show={showDeleteModal}
-            closeModal={() => setShowDeleteModal(false)}
-            onDelete={handleDelete}
+          <CustomModal
+            message="Are you sure you want to delete this record?"
+            openModal={showDeleteModal}
+            actions={
+              [
+                {
+                  label: 'No',
+                  variant: 'secondary',
+                  onClick: () => { setShowDeleteModal(false) }
+                },
+                {
+                  label: 'Yes',
+                  variant: 'primary',
+                  onClick: handleDelete
+                }
+              ]
+            }
           />
         </Col>
       </Row>
