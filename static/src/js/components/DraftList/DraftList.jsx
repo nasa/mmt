@@ -59,28 +59,48 @@ const DraftList = ({ draftType }) => {
     const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
     return (
-      [
-        <Link key={`${conceptId}/col1`} to={draftLink}>
-          {name || '<Blank Name>'}
-        </Link>,
-        <span key={`${conceptId}/col2`}>
-          {longName || '<Untitled Record>'}
-        </span>,
-        <span key={`${conceptId}/col3`}>
-          {new Date(revisionDate).toISOString().split('T')[0]}
-        </span>,
-        <div key={`${conceptId}/col4`} className="d-flex">
-          <Button
-            className="d-flex"
-            Icon={FaFileDownload}
-            onClick={() => handleDownloadClick(conceptId)}
-            variant="secondary"
-            size="sm"
-          >
-            Download JSON
-          </Button>
-        </div>
-      ]
+      {
+        key: `${conceptId}`,
+        cells:
+          [
+            {
+              value:
+              (
+                <Link to={draftLink}>
+                  {name || '<Blank Name>'}
+                </Link>
+              )
+            },
+            {
+              value:
+              (
+                longName || '<Untitled Record>'
+              )
+            },
+            {
+              value:
+              (
+                new Date(revisionDate).toISOString().split('T')[0]
+              )
+            },
+            {
+              value:
+              (
+                <div className="d-flex">
+                  <Button
+                    className="d-flex"
+                    Icon={FaFileDownload}
+                    onClick={() => handleDownloadClick(conceptId)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Download JSON
+                  </Button>
+                </div>
+              )
+            }
+          ]
+      }
     )
   })
   )
