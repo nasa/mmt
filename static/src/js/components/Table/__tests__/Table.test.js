@@ -12,22 +12,29 @@ const setup = (overrideProps = {}) => {
     ],
     loading: false,
     data: [
-      [
-        <span key="BEAM-001/col2">
-          Row 1 Cell 1
-        </span>,
-        <span key="BEAM-001/col2">
-          Row 1 Cell 2
-        </span>
-      ],
-      [
-        <span key="BEAM-001/col2">
-          Row 2 Cell 1
-        </span>,
-        <span key="BEAM-001/col2">
-          Row 2 Cell 2
-        </span>
-      ]
+      {
+        key: 'conceptId001',
+        cells: [
+          {
+            value: ('Row 1 Cell 1')
+          },
+          {
+            value: ('Row 1 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId002',
+        cells: [
+          {
+            value: ('Row 2 Cell 1')
+          },
+          {
+            value: ('Row 2 Cell 2')
+          }
+        ]
+      }
+
     ],
     ...overrideProps
   }

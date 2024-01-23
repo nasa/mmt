@@ -4,7 +4,6 @@ import BootstrapTable from 'react-bootstrap/Table'
 import Placeholder from 'react-bootstrap/Placeholder'
 
 import For from '../For/For'
-import stringifyCircularJSON from '../../utils/stringifyCircularJSON'
 
 /**
  * Table
@@ -54,17 +53,17 @@ const Table = ({
     )
   } else if (data.length > 0) {
     const rowData = data.map((row) => {
-      const rowKey = stringifyCircularJSON(row)
-
+      const { cells, key } = row
+      const rowKey = key
       return (
         <tr key={`${rowKey}`}>
           {
-            row.map((cell, index) => {
-              const cellKey = stringifyCircularJSON(cell)
-
+            cells.map((cell, index) => {
+              const cellKey = `${rowKey}_${headers[index]}`
+              const { value } = cell
               return (
                 <td key={cellKey} className={classNames[index] || 'col-auto'}>
-                  {cell}
+                  {value}
                 </td>
               )
             })
@@ -102,7 +101,10 @@ Table.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
   classNames: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
-  data: PropTypes.node.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    cells: PropTypes.arrayOf(PropTypes.shape({}))
+  })).isRequired,
   error: PropTypes.string
 }
 
