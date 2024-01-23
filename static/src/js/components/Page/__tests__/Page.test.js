@@ -36,7 +36,7 @@ describe('Page component', () => {
       {
         to: '/manage/services',
         title: 'Manage Services',
-        version: 'v1.4'
+        version: 'v1.5.2'
       },
       {
         to: '/manage/tools',
