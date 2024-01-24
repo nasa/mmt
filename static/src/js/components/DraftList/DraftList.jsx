@@ -60,7 +60,7 @@ const DraftList = ({ draftType }) => {
 
     return (
       {
-        key: `${conceptId}`,
+        key: conceptId,
         cells:
           [
             {

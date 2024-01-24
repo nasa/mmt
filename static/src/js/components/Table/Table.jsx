@@ -39,9 +39,9 @@ const Table = ({
 
   useEffect(() => {
     if (!loading) {
-      setRowCount(data.length);
+      setRowCount(data.length)
     }
-  }, [loading, data]);
+  }, [loading, data])
 
   const renderHeaders = headers.map((header) => (
     <th key={header}>{header}</th>
@@ -148,7 +148,6 @@ const Table = ({
     </Pagination>
   )
 
-
   const content = []
 
   if (loading) {
@@ -183,12 +182,14 @@ const Table = ({
     const rowData = pagedRows.map((row) => {
       const { cells, key } = row
       const rowKey = key
+
       return (
         <tr key={`${rowKey}`}>
           {
             cells.map((cell, index) => {
               const cellKey = `${rowKey}_${headers[index]}`
               const { value } = cell
+
               return (
                 <td key={cellKey} className={classNames[index] || 'col-auto'}>
                   {value}
@@ -207,6 +208,7 @@ const Table = ({
 
   console.log(pagedRows)
   console.log(`rowCount: ${rowCount}, defaultPageSize: ${defaultPageSize}, hasPages: ${hasPages}`)
+
   return (
     <div>
       <BootstrapTable striped>
@@ -215,9 +217,9 @@ const Table = ({
             {renderHeaders}
           </tr>
         </thead>
-          <tbody>
-            {content}
-          </tbody>
+        <tbody>
+          {content}
+        </tbody>
       </BootstrapTable>
       <div>
         {hasPages && pagination}
