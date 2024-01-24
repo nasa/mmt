@@ -13,14 +13,14 @@ const setup = () => {
         {
           label: 'Yes',
           variant: 'primary',
-          onClick: onClick
+          onClick
         }
       ]
   }
 
   render(<CustomModal {...props} />)
 
-  return{ 
+  return {
     props
   }
 }
@@ -28,8 +28,8 @@ const setup = () => {
 describe('CustomModal', () => {
   test('render a Modal', () => {
     setup()
-    expect(screen.getByText('Mock message')).toBeInTheDocument()
 
+    expect(screen.getByText('Mock message')).toBeInTheDocument()
   })
 
   describe('when selecting `Yes`', () => {
