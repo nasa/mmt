@@ -39,7 +39,7 @@ const setup = (overrideMocks) => {
             items: [
               {
                 conceptId: 'TD1000000000-TESTPROV',
-                revisionDate: '2024-01-18T16:42:00.111Z',
+                revisionDate: '2023-11-30 00:00:00',
                 previewMetadata: {
                   __typename: 'Tool',
                   name: 'Tool Draft 1 Name',
@@ -48,7 +48,7 @@ const setup = (overrideMocks) => {
               },
               {
                 conceptId: 'TD1000000001-TESTPROV',
-                revisionDate: '2024-01-18T16:42:00.111Z',
+                revisionDate: '2023-11-30 00:00:00',
                 previewMetadata: {
                   __typename: 'Tool',
                   name: 'Tool Draft 2 Name',
@@ -167,10 +167,10 @@ describe('ManagePage component', () => {
         expect(draftLinks.length).toEqual(2)
         expect(within(draftLinks[0]).queryByText('Tool Draft 1 Name')).toBeInTheDocument()
         expect(within(draftLinks[0]).queryByText('Tool Draft 1 Long Name')).toBeInTheDocument()
-        expect(within(draftLinks[0]).queryByText('1/18/2024, 09:42:00')).toBeInTheDocument()
+        expect(within(draftLinks[0]).queryByText('11/30/2023, 24:00:00')).toBeInTheDocument()
         expect(within(draftLinks[1]).queryByText('Tool Draft 2 Name')).toBeInTheDocument()
         expect(within(draftLinks[1]).queryByText('Tool Draft 2 Long Name')).toBeInTheDocument()
-        expect(within(draftLinks[1]).queryByText('1/18/2024, 09:42:00')).toBeInTheDocument()
+        expect(within(draftLinks[1]).queryByText('11/30/2023, 24:00:00')).toBeInTheDocument()
       })
     })
   })
