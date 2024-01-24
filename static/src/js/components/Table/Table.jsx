@@ -55,12 +55,14 @@ const Table = ({
     const rowData = data.map((row) => {
       const { cells, key } = row
       const rowKey = key
+
       return (
         <tr key={`${rowKey}`}>
           {
             cells.map((cell, index) => {
               const cellKey = `${rowKey}_${headers[index]}`
               const { value } = cell
+
               return (
                 <td key={cellKey} className={classNames[index] || 'col-auto'}>
                   {value}
