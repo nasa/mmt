@@ -186,7 +186,6 @@ CustomArrayFieldTemplate.propTypes = {
   title: PropTypes.string.isRequired,
   uiSchema: PropTypes.shape({
     'ui:canAdd': PropTypes.bool,
-    'ui:header-classname': PropTypes.string,
     'ui:hide-header': PropTypes.bool,
     'ui:required': PropTypes.bool,
     'ui:title': PropTypes.string,

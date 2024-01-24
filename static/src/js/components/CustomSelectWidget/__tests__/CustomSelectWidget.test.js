@@ -102,10 +102,9 @@ describe('CustomSelectWidget', () => {
 
       // First call is loading the page
       // Second call is setting the options
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -131,10 +130,9 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Select Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Select Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -164,10 +162,9 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 1' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'UI Schema Options Enum 2' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -189,10 +186,9 @@ describe('CustomSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'application/gzip' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'application/json' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -210,7 +206,6 @@ describe('CustomSelectWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: true,
@@ -277,12 +272,69 @@ describe('CustomSelectWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
         title: 'Schema Title'
       }), {})
+    })
+  })
+
+  describe('when the field uses oneOf enums options', () => {
+    test('renders a select element', async () => {
+      const { user } = setup({
+        options: {
+          enumOptions: [
+            {
+              label: 'oneOf value 1',
+              value: 0
+            },
+            {
+              label: 'oneOf value 2',
+              value: 1
+            }
+          ]
+        }
+      }, false)
+
+      expect(screen.getByText('Test Placeholder').className).toContain('placeholder')
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByRole('option', { name: 'oneOf value 1' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'oneOf value 2' })).toBeInTheDocument()
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description',
+        label: 'Test Field',
+        maxLength: null,
+        required: false,
+        title: 'Test Field'
+      }), {})
+    })
+  })
+
+  describe('when an integer value is selected', () => {
+    test('render', () => {
+      setup({
+        options: {
+          enumOptions: [
+            {
+              label: 'oneOf value 1',
+              value: 0
+            },
+            {
+              label: 'oneOf value 2',
+              value: 1
+            }
+          ]
+        },
+        value: 1
+      }, false)
+
+      expect(screen.getByText('oneOf value 2').className).toContain('singleValue')
     })
   })
 })

@@ -55,20 +55,6 @@ describe('CustomTitleFieldTemplate', () => {
     })
   })
 
-  describe('when a title field with custom header class names', () => {
-    test('renders it with custom header class names', () => {
-      setup({
-        uiSchema: {
-          'ui:header-classname': 'custom-header',
-          'ui:header-box-classname': 'custom-header-box'
-        }
-      })
-
-      expect(screen.getByText('Test Title')).toHaveClass('custom-header')
-      expect(screen.getByText('Test Title').parentElement).toHaveClass('custom-header-box')
-    })
-  })
-
   describe('when a title field with hide-header set to true', () => {
     it('renders it with no header', () => {
       setup({

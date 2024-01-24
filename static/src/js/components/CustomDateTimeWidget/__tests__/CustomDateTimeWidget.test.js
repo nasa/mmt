@@ -64,7 +64,6 @@ describe('CustomDateTimeWidget', () => {
         charactersUsed: null,
         maxLength: null,
         required: true,
-        headerClassName: null,
         label: 'Test field',
         description: 'Test Description'
       }), {})

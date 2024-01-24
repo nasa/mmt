@@ -5,12 +5,18 @@ import userEvent from '@testing-library/user-event'
 import CustomTitleField from '../CustomTitleField'
 
 const setup = (overrideProps = {}) => {
+  const formContext = {
+    focusField: '',
+    setFocusField: jest.fn()
+  }
   const props = {
     required: true,
     title: 'Test field',
+    registry: {
+      formContext
+    },
     ...overrideProps
   }
-
   render(
     <CustomTitleField {...props} />
   )
@@ -66,6 +72,22 @@ describe('CustomTitleField', () => {
       })
 
       expect(screen.queryByText('Test field')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when the field should be focused', () => {
+    test('focuses the title', async () => {
+      setup({
+        title: 'mock-id',
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
+          }
+        }
+      })
+
+      expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledTimes(1)
+      expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
     })
   })
 })

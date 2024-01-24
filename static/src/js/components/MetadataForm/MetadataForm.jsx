@@ -19,18 +19,17 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import FormNavigation from '../FormNavigation/FormNavigation'
 import GridLayout from '../GridLayout/GridLayout'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
-
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import FormNavigation from '../FormNavigation/FormNavigation'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
+import OneOfField from '../OneOfField/OneOfField'
 
 import formConfigurations from '../../schemas/uiForms'
-import toolsUiSchema from '../../schemas/uiSchemas/tools'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
@@ -48,8 +47,10 @@ import getNextFormName from '../../utils/getNextFormName'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import getUiSchema from '../../utils/getUiSchema'
 
 import './MetadataForm.scss'
+import removeEmpty from '../../utils/removeEmpty'
 
 const MetadataForm = () => {
   const {
@@ -60,12 +61,12 @@ const MetadataForm = () => {
   } = useParams()
   const navigate = useNavigate()
   const {
-    user,
     draft,
     originalDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft
+    setSavedDraft,
+    user
   } = useAppContext()
 
   const { providerId } = user
@@ -146,7 +147,8 @@ const MetadataForm = () => {
   const [firstFormSection] = formSections
   const firstSectionName = kebabCase(firstFormSection.displayName)
   const currentSection = sectionName || firstSectionName
-  const uiSchema = toolsUiSchema[currentSection]
+  const uiSchemaType = getUiSchema(derivedConceptType)
+  const uiSchema = uiSchemaType[currentSection]
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
@@ -156,17 +158,17 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    // AnyOfField: () => null,
+    AnyOfField: () => null,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
     layout: GridLayout,
-    // OneOfField,
+    OneOfField,
     streetAddresses: StreetAddressField,
     TitleField: CustomTitleField
   }
   const widgets = {
     CheckboxWidget: CustomRadioWidget,
-    CountrySelectWiget: CustomCountrySelectWidget,
+    CountrySelectWidget: CustomCountrySelectWidget,
     DateTimeWidget: CustomDateTimeWidget,
     RadioWidget: CustomRadioWidget,
     SelectWidget: CustomSelectWidget,
@@ -185,7 +187,7 @@ const MetadataForm = () => {
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
-        metadata: ummMetadata,
+        metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId,
         // TODO pull this version number from a config
@@ -335,7 +337,7 @@ const MetadataForm = () => {
                 onCancel={handleCancel}
                 schema={schema}
                 setFocusField={setFocusField}
-                uiSchema={toolsUiSchema}
+                uiSchema={uiSchema}
               />
             </div>
           </Col>

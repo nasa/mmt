@@ -25,9 +25,7 @@ const CustomTitleFieldTemplate = ({
   const { options = {} } = uiSchema
   const { title: uiTitle } = options
 
-  const headerClassName = uiSchema['ui:header-classname'] ? uiSchema['ui:header-classname'] : 'h2-title'
   const HeadingElement = uiSchema['ui:heading-level'] ? uiSchema['ui:heading-level'] : 'span'
-  const headerBoxClassName = uiSchema['ui:header-box-classname'] ? uiSchema['ui:header-box-classname'] : 'h2-box'
   const requiredUI = uiSchema['ui:required']
   const hideHeader = uiSchema['ui:hide-header']
 
@@ -42,17 +40,17 @@ const CustomTitleFieldTemplate = ({
 
   return (
     <div>
-      <div ref={scrollRef} className={headerBoxClassName}>
+      <div ref={scrollRef}>
         {
           !hideHeader && (
-            <HeadingElement className={headerClassName}>
+            <HeadingElement>
               {heading}
 
               {
                 (required || requiredUI) && (
                   <i
                     aria-label="Required"
-                    className="eui-icon eui-required-o required-icon"
+                    className="eui-icon eui-required-o required-icon text-success ms-1"
                     role="img"
                     title={heading}
                   />
@@ -74,8 +72,6 @@ CustomTitleFieldTemplate.propTypes = {
   required: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   uiSchema: PropTypes.shape({
-    'ui:header-classname': PropTypes.string,
-    'ui:header-box-classname': PropTypes.string,
     'ui:heading-level': PropTypes.string,
     'ui:required': PropTypes.bool,
     'ui:hide-header': PropTypes.bool,

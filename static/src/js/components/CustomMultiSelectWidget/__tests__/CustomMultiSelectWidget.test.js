@@ -81,10 +81,9 @@ describe('CustomMultiSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Option3' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Option4' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: true,
@@ -107,7 +106,6 @@ describe('CustomMultiSelectWidget', () => {
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
-        headerClassName: null,
         label: 'Test Field',
         maxLength: null,
         required: false,
@@ -158,6 +156,25 @@ describe('CustomMultiSelectWidget', () => {
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
       expect(props.onChange).toHaveBeenCalledWith(['Option2'])
+    })
+  })
+
+  describe('when the field should be focused', () => {
+    test('focuses the field', async () => {
+      setup({
+        registry: {
+          formContext: {
+            focusField: 'mock-id'
+          },
+          schemaUtils: {
+            retrieveSchema: jest.fn().mockReturnValue({})
+          }
+        }
+      })
+
+      const field = screen.getByRole('combobox')
+
+      expect(field).toHaveFocus()
     })
   })
 })

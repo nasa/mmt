@@ -46,6 +46,7 @@ const CustomSelectWidget = ({
   schema,
   selectOptions: propsSelectOptions,
   uiSchema,
+  options,
   value
 }) => {
   const { items = {} } = schema
@@ -53,9 +54,9 @@ const CustomSelectWidget = ({
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
   const [selectOptions, setSelectOptions] = useState([])
+  const [showMenu, setShowMenu] = useState(false)
 
   const selectScrollRef = useRef(null)
-  const focusRef = useRef(null)
 
   const controlledField = uiSchema['ui:controlled']
   const { name: keywordType, controlName } = controlledField || {}
@@ -74,7 +75,6 @@ const CustomSelectWidget = ({
     focusField,
     setFocusField
   } = formContext
-
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
@@ -83,10 +83,10 @@ const CustomSelectWidget = ({
   const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
-    // This useEffect for shouldFocus lets the refs be in place before trying to use them
+    // This useEffect for shouldFocus lets the refs be in place before trying to use them and sets the showMenu state to true
     if (shouldFocus) {
       selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      focusRef.current?.focus()
+      setShowMenu(true)
     }
   }, [shouldFocus])
 
@@ -113,13 +113,19 @@ const CustomSelectWidget = ({
     if (enumOptions) {
       setSelectOptions(buildOptions(enumOptions))
     }
+
+    const { enumOptions: oneOfEnums } = options
+
+    if (oneOfEnums) {
+      setSelectOptions(oneOfEnums)
+    }
   }, [propsSelectOptions])
 
   useEffect(() => {
     if (!isEmpty(keywords)) {
       const parsedKeywords = parseCmrResponse(keywords, controlName)
 
-      const options = parsedKeywords.map((enumValue) => {
+      const parsedOptions = parsedKeywords.map((enumValue) => {
         const [firstValue] = enumValue
 
         return {
@@ -128,7 +134,7 @@ const CustomSelectWidget = ({
         }
       })
 
-      setSelectOptions(options)
+      setSelectOptions(parsedOptions)
     }
   }, [keywords])
 
@@ -136,17 +142,37 @@ const CustomSelectWidget = ({
     const { value: newValue } = event || {}
 
     onChange(newValue)
+    setShowMenu(false)
+  }
+
+  const handleFocus = () => {
+    setShowMenu(true)
   }
 
   const handleBlur = () => {
     setFocusField(null)
     onBlur(id)
+    setShowMenu(false)
   }
 
-  const existingValue = value != null ? {
-    value,
-    label: value
-  } : null
+  const { enumOptions: oneOfEnums } = options || {}
+
+  const getExistingValue = () => {
+    if (value) {
+      if (typeof value === 'number') {
+        return oneOfEnums[value]
+      }
+
+      return {
+        value,
+        label: value
+      }
+    }
+
+    return null
+  }
+
+  const existingValue = getExistingValue()
 
   return (
     <CustomWidgetWrapper
@@ -158,17 +184,18 @@ const CustomSelectWidget = ({
       title={title}
     >
       <Select
+        key={`${id}_${focusField}`}
         id={id}
+        autoFocus={shouldFocus}
         isClearable
         isDisabled={disabled}
         isLoading={isLoading}
         onBlur={handleBlur}
         onChange={handleChange}
-        openMenuOnClick
-        openMenuOnFocus
+        onFocus={handleFocus}
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
-        ref={focusRef}
+        menuIsOpen={showMenu}
         styles={
           {
             control: (baseStyles, { isFocused }) => ({
@@ -189,7 +216,8 @@ CustomSelectWidget.defaultProps = {
   placeholder: null,
   selectOptions: null,
   uiSchema: {},
-  value: undefined
+  value: undefined,
+  options: {}
 }
 
 CustomSelectWidget.propTypes = {
@@ -226,7 +254,13 @@ CustomSelectWidget.propTypes = {
       controlName: PropTypes.string.isRequired
     })
   }),
-  value: PropTypes.string
+  options: PropTypes.shape({
+    enumOptions: PropTypes.arrayOf(PropTypes.shape({}))
+  }),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 }
 
 export default CustomSelectWidget

@@ -1,7 +1,4 @@
-import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import urlTypes from '../../kms/urlTypeTool'
-
-const toolInformationUiSchema = {
+const serviceInformationUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
   },
@@ -10,7 +7,7 @@ const toolInformationUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Tool Information',
+        'ui:group': 'Service Information',
         'ui:required': true,
         'ui:col': {
           md: 12,
@@ -90,16 +87,6 @@ const toolInformationUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
-                    children: ['DOI']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 12,
                     children: ['URL']
                   }
                 }
@@ -116,21 +103,10 @@ const toolInformationUiSchema = {
   Description: {
     'ui:widget': 'textarea'
   },
-  Type: {
-    'ui:widget': CustomSelectWidget
-  },
   URL: {
     'ui:heading-level': 'h4',
     'ui:root': 'URL',
     'ui:field': 'layout',
-    'ui:controlled': {
-      keywords: urlTypes,
-      map: {
-        URLContentType: 'url_content_type',
-        Type: 'type',
-        Subtype: 'subtype'
-      }
-    },
     'ui:layout_grid': {
       'ui:row': [
         {
@@ -146,44 +122,7 @@ const toolInformationUiSchema = {
                       md: 12,
                       children: ['Description']
                     }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      controlName: 'url_content_type',
-                      md: 12,
-                      children: ['URLContentType']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      controlName: 'type',
-                      md: 12,
-                      children: ['Type']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      controlName: 'subtype',
-                      md: 12,
-                      children: ['Subtype']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
+                  },
                   {
                     'ui:col': {
                       md: 12,
@@ -198,13 +137,9 @@ const toolInformationUiSchema = {
       ]
     },
     Description: {
-      'ui:title': 'URL Description',
       'ui:widget': 'textarea'
-    },
-    URLContentType: { 'ui:title': 'URL Content Type' },
-    URLValue: { 'ui:title': 'URL Value' },
-    Type: { 'ui:title': ' Type' }
+    }
   }
 }
 
-export default toolInformationUiSchema
+export default serviceInformationUiSchema
