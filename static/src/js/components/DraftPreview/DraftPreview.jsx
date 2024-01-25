@@ -7,15 +7,9 @@ import { useNavigate, useParams } from 'react-router'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash-es'
-import {
-  CollectionPreview,
-  ServicePreview,
-  ToolPreview,
-  VariablePreview
-} from '@edsc/metadata-preview'
+
 import pluralize from 'pluralize'
 
-import DeleteDraftModal from '../DeleteDraftModal/DeleteDraftModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
@@ -35,6 +29,9 @@ import parseError from '../../utils/parseError'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import usePublishMutation from '../../hooks/usePublishMutation'
+import MetadataPreview from '../MetadataPreview/MetadataPreview'
+import CustomModal from '../CustomModal/CustomModal'
 
 /**
  * Renders a DraftPreview component
@@ -66,6 +63,7 @@ const DraftPreview = () => {
   const [retries, setRetries] = useState(0)
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
+  const publishMutation = usePublishMutation()
 
   const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -167,6 +165,12 @@ const DraftPreview = () => {
     ummMetadata
   } = draft || {}
 
+  // Handle the user selecting publish draft
+  const handlePublish = () => {
+    // Calls publish mutation hook
+    publishMutation(derivedConceptType, nativeId)
+  }
+
   // Handle the user selecting delete from the delete draft modal
   const handleDelete = () => {
     deleteDraftMutation({
@@ -215,51 +219,6 @@ const DraftPreview = () => {
   // Pull the formSections out of the formConfigurations
   const formSections = formConfigurations[derivedConceptType]
 
-  // Determine which MetadataPreview component to show
-  const metadataPreviewComponent = () => {
-    if (derivedConceptType === 'Collection') {
-      return (
-        <CollectionPreview
-          collection={previewMetadata}
-          conceptId={conceptId}
-          conceptType="collection-draft"
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Service') {
-      return (
-        <ServicePreview
-          conceptId={conceptId}
-          conceptType="service-draft"
-          service={previewMetadata}
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Tool') {
-      return (
-        <ToolPreview
-          conceptId={conceptId}
-          conceptType="tool-draft"
-          tool={previewMetadata}
-        />
-      )
-    }
-
-    if (derivedConceptType === 'Variable') {
-      return (
-        <VariablePreview
-          conceptId={conceptId}
-          conceptType="variable-draft"
-          variable={previewMetadata}
-        />
-      )
-    }
-
-    return null
-  }
-
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
     setShowDeleteModal(true)
@@ -289,8 +248,7 @@ const DraftPreview = () => {
               className="eui-btn--blue display-modal"
               onClick={
                 () => {
-                  // TODO MMT-3411
-                  console.log('Publish draft')
+                  handlePublish()
                 }
               }
             >
@@ -310,14 +268,26 @@ const DraftPreview = () => {
               {startCase(conceptType)}
             </Button>
 
-            <DeleteDraftModal
-              show={showDeleteModal}
-              closeModal={() => setShowDeleteModal(false)}
-              onDelete={handleDelete}
+            <CustomModal
+              message="Are you sure you want to delete this draft?"
+              openModal={showDeleteModal}
+              actions={
+                [
+                  {
+                    label: 'No',
+                    variant: 'secondary',
+                    onClick: () => { setShowDeleteModal(false) }
+                  },
+                  {
+                    label: 'Yes',
+                    variant: 'primary',
+                    onClick: handleDelete
+                  }
+                ]
+              }
             />
           </Col>
         </Row>
-
         <Row>
           <Col md={12}>
             <Row>
@@ -334,7 +304,11 @@ const DraftPreview = () => {
           </Col>
           <Row>
             <Col md={12}>
-              {metadataPreviewComponent()}
+              <MetadataPreview
+                previewMetadata={previewMetadata}
+                conceptId={conceptId}
+                conceptType={derivedConceptType}
+              />
             </Col>
           </Row>
         </Row>
