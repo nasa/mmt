@@ -35,7 +35,6 @@
     "compact-object-deep": "^1.0.0",
     "cookie": "^0.6.0",
     "esbuild": "^0.19.5",
-    "fs": "^0.0.1-security",
     "graphql": "^16.8.1",
     "json-schema": "^0.4.0",
     "jwt-decode": "^4.0.0",
