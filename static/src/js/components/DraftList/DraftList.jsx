@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import { FaFileDownload } from 'react-icons/fa'
-import pluralize from 'pluralize'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
@@ -135,24 +134,11 @@ const DraftList = ({ draftType }) => {
               <>
                 {
                   loading
-                    ? (
+                    && (
                       <span className="d-block mb-3">
                         <Placeholder as="span" animation="glow">
                           <Placeholder xs={2} />
                         </Placeholder>
-                      </span>
-                    )
-                    : (
-                      <span className="d-block mb-3">
-                        Showing
-                        {' '}
-                        {count > 0 && 'all'}
-                        {' '}
-                        {count}
-                        {' '}
-                        {draftType}
-                        {' '}
-                        {pluralize('Draft', count)}
                       </span>
                     )
                 }
@@ -162,6 +148,7 @@ const DraftList = ({ draftType }) => {
                   loading={loading}
                   data={data}
                   error={noDraftsError}
+                  count={count}
                 />
               </>
             )

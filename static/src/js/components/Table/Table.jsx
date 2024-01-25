@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import commafy from 'commafy-anything'
 import BootstrapTable from 'react-bootstrap/Table'
 import Pagination from 'react-bootstrap/Pagination'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
 import Placeholder from 'react-bootstrap/Placeholder'
 import config from '../../../../../static.config.json'
 
@@ -20,10 +22,11 @@ const { defaultPageSize } = application
  */
 
 const Table = ({
-  headers, classNames, loading, data, error
+  headers, classNames, loading, data, error, count
 }) => {
   const [rowCount, setRowCount] = useState(0)
   const [pageNum, setPageNum] = useState(1)
+  const [currentCount, setCurrentCount] = useState(defaultPageSize)
 
   // Start and end index of the current page of rows
   const startIndex = (pageNum - 1) * defaultPageSize
@@ -37,6 +40,11 @@ const Table = ({
   // // Does this provider have enough Rows to page? We hide the pagination buttons if not
   const hasPages = rowCount > defaultPageSize
 
+  const defaultPaginationStyles = {
+    minWidth: '2.5rem',
+    textAlign: 'center'
+  }
+
   useEffect(() => {
     if (!loading) {
       setRowCount(data.length)
@@ -47,9 +55,9 @@ const Table = ({
     <th key={header}>{header}</th>
   ))
 
-  const defaultPaginationStyles = {
-    minWidth: '2.5rem',
-    textAlign: 'center'
+  const handleItemClick = (currentPage) => {
+    setPageNum(currentPage)
+    setCurrentCount(currentPage * defaultPageSize)
   }
 
   const generatePaginationItems = () => {
@@ -64,9 +72,8 @@ const Table = ({
       returnItems.push(
         <Pagination.Item
           key="page-1"
-          onClick={() => setPageNum(1)}
+          onClick={() => handleItemClick(1)}
           active={pageNum === 1}
-          data-testid="provider-holdings__pagination-button--1"
           style={defaultPaginationStyles}
         >
           {1}
@@ -79,7 +86,6 @@ const Table = ({
           <Pagination.Ellipsis
             key="page-ellipsis-1"
             disabled
-            style={defaultPaginationStyles}
           />
         )
       }
@@ -89,12 +95,11 @@ const Table = ({
       returnItems.push(
         <Pagination.Item
           key={`page-${page}`}
-          onClick={() => setPageNum(page)}
+          onClick={() => handleItemClick(page)}
           active={page === pageNum}
-          data-testid={`provider-holdings__pagination-button--${page}`}
           style={defaultPaginationStyles}
         >
-          {commafy(page, { thousands: true })}
+          {page}
         </Pagination.Item>
       )
     })
@@ -107,7 +112,6 @@ const Table = ({
           <Pagination.Ellipsis
             key="page-ellipsis-2"
             disabled
-            style={defaultPaginationStyles}
           />
         )
       }
@@ -115,12 +119,11 @@ const Table = ({
       returnItems.push(
         <Pagination.Item
           key={`page-${lastPageNum}`}
-          onClick={() => setPageNum(lastPageNum)}
+          onClick={() => handleItemClick(lastPageNum)}
           active={pageNum === lastPageNum}
-          data-testid={`provider-holdings__pagination-button--${lastPageNum}`}
           style={defaultPaginationStyles}
         >
-          {commafy(lastPageNum, { thousands: true })}
+          {lastPageNum}
         </Pagination.Item>
       )
     }
@@ -128,22 +131,26 @@ const Table = ({
     return returnItems
   }
 
+  const handlePageChange = (direction) => {
+    const newPageNum = pageNum + direction
+    const newCurrentCount = currentCount + direction * defaultPageSize
+
+    setPageNum(newPageNum)
+    setCurrentCount(newCurrentCount)
+  }
+
   const pagination = (
     <Pagination>
       <Pagination.Prev
-        onClick={() => setPageNum(pageNum - 1)}
-        disabled={pageNum <= 1}
-        data-testid="provider-holdings__pagination-button--previous"
-        style={defaultPaginationStyles}
+        disabled={pageNum === 1}
+        onClick={() => handlePageChange(-1)}
       />
 
       {generatePaginationItems()}
 
       <Pagination.Next
-        onClick={() => setPageNum(pageNum + 1)}
+        onClick={() => handlePageChange(1)}
         disabled={pageNum >= lastPageNum}
-        data-testid="provider-holdings__pagination-button--next"
-        style={defaultPaginationStyles}
       />
     </Pagination>
   )
@@ -206,32 +213,55 @@ const Table = ({
     content.push(<tr key="error-banner" className="text-center"><td colSpan={4}>{error}</td></tr>)
   }
 
-  console.log(pagedRows)
-  console.log(`rowCount: ${rowCount}, defaultPageSize: ${defaultPageSize}, hasPages: ${hasPages}`)
-
   return (
-    <div>
-      <BootstrapTable striped>
-        <thead>
-          <tr>
-            {renderHeaders}
-          </tr>
-        </thead>
-        <tbody>
-          {content}
-        </tbody>
-      </BootstrapTable>
-      <div>
-        {hasPages && pagination}
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <span className="d-block mb-3">
+            Showing
+            {' '}
+            {count > 0 && (currentCount - defaultPageSize)}
+            -
+            {currentCount}
+            {' '}
+            of
+            {' '}
+            {count}
+            {' '}
+            Results
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BootstrapTable striped>
+            <thead>
+              <tr>
+                {renderHeaders}
+              </tr>
+            </thead>
+            <tbody>
+              {content}
+            </tbody>
+          </BootstrapTable>
+        </Col>
+      </Row>
+      <Row className="mt-2 justify-content-md-center">
+        <Col xs="auto">
+          <div className="mx-auto">
+            {hasPages && pagination}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
 Table.defaultProps = {
   classNames: [],
   loading: null,
-  error: 'No Data to Display'
+  error: 'No Data to Display',
+  count: null
 }
 
 Table.propTypes = {
@@ -242,7 +272,8 @@ Table.propTypes = {
     key: PropTypes.string,
     cells: PropTypes.arrayOf(PropTypes.shape({}))
   })).isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  count: PropTypes.number
 }
 
 export default Table
