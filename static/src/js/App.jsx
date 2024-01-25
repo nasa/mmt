@@ -16,13 +16,13 @@ import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
 import Providers from './providers/Providers/Providers'
 import Page from './components/Page/Page'
+import PublishPreview from './components/PublishPreview/PublishPreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
-import PublishPreview from './components/PublishPreview/PublishPreview'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
