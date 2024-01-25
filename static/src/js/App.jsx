@@ -16,6 +16,7 @@ import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
 import Providers from './providers/Providers/Providers'
 import Page from './components/Page/Page'
+import PublishPreview from './components/PublishPreview/PublishPreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -101,6 +102,7 @@ const App = () => {
               <Route path="drafts/:draftType/*" element={<DraftsPage />} />
               <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
               <Route path="*" element={<Navigate to="/404" replace />} />
+              <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
             </Route>
           </Routes>
         </BrowserRouter>
