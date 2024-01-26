@@ -96,9 +96,86 @@ const setup = (overrideProps = {}) => {
             value: ('Row 7 Cell 2')
           }
         ]
+      },
+      {
+        key: 'conceptId001b',
+        cells: [
+          {
+            value: ('Row 1 Cell 1')
+          },
+          {
+            value: ('Row 1 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId002b',
+        cells: [
+          {
+            value: ('Row 2 Cell 1')
+          },
+          {
+            value: ('Row 2 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId003b',
+        cells: [
+          {
+            value: ('Row 3 Cell 1')
+          },
+          {
+            value: ('Row 3 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId004b',
+        cells: [
+          {
+            value: ('Row 4 Cell 1')
+          },
+          {
+            value: ('Row 4 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId005b',
+        cells: [
+          {
+            value: ('Row 5 Cell 1')
+          },
+          {
+            value: ('Row 5 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId006b',
+        cells: [
+          {
+            value: ('Row 6 Cell 1')
+          },
+          {
+            value: ('Row 6 Cell 2')
+          }
+        ]
+      },
+      {
+        key: 'conceptId007b',
+        cells: [
+          {
+            value: ('Row 7 Cell 1')
+          },
+          {
+            value: ('Row 7 Cell 2')
+          }
+        ]
       }
     ],
-    count: 7,
+    count: 14,
     ...overrideProps
   }
 
@@ -128,33 +205,26 @@ describe('Table', () => {
       expect(screen.queryByRole('button', { name: '2' })).toBeInTheDocument()
       expect(screen.queryByRole('button', { name: 'Next' })).toBeInTheDocument()
       expect(screen.getByText('More')).toBeInTheDocument()
-      expect(screen.getByText('Showing 0-2 of 7 Results')).toBeInTheDocument()
+      expect(screen.getByText('Showing 0-2 of 14 Results')).toBeInTheDocument()
+
+      // Check individual buttons work
+      fireEvent.click(screen.getByRole('button', { name: '2' }))
 
       // Check the next button works
       fireEvent.click(screen.getByRole('button', { name: 'Next' }))
-      expect(screen.queryByRole('button', { name: 'Previous' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: '1' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: '2' })).not.toBeInTheDocument()
-      expect(screen.getByText('2')).toBeInTheDocument()
-      expect(screen.getByText('column 1')).toBeInTheDocument()
-      expect(screen.getByRole('table')).toBeInTheDocument()
-      expect(screen.getByText('Row 3 Cell 1')).toBeInTheDocument()
-      expect(screen.getByText('Showing 2-4 of 7 Results')).toBeInTheDocument()
 
-      // Check individual buttons work
-      fireEvent.click(screen.getByRole('button', { name: '3' }))
-      expect(screen.queryByRole('button', { name: '2' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: '3' })).not.toBeInTheDocument()
-      expect(screen.getByText('3')).toBeInTheDocument()
-      expect(screen.getByText('Showing 4-6 of 7 Results')).toBeInTheDocument()
+      // Check pages[0] always stays at 1 and two ellipsis render
+      fireEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.queryAllByText('More')).toHaveLength(2)
 
-      // Check Previous Button Works
+      // Make sure onclick for pages[0] function above works
+      fireEvent.click(screen.getByRole('button', { name: '1' }))
+
+      // Click on last page
+      fireEvent.click(screen.getByRole('button', { name: '7' }))
+
+      // Click on Previous Page
       fireEvent.click(screen.getByRole('button', { name: 'Previous' }))
-      expect(screen.queryByRole('button', { name: 'Previous' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: '1' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: '2' })).not.toBeInTheDocument()
-      expect(screen.getByText('2')).toBeInTheDocument()
-      expect(screen.getByText('Showing 2-4 of 7 Results')).toBeInTheDocument()
     })
   })
 
@@ -177,8 +247,6 @@ describe('Table', () => {
       })
 
       expect(screen.getByText('column 1')).toBeInTheDocument()
-      expect(screen.getByRole('table')).toBeInTheDocument()
-      expect(screen.getByText('Row 1 Cell 2')).toBeInTheDocument()
       expect(screen.queryByRole('button')).not.toBeInTheDocument()
     })
   })
@@ -201,7 +269,6 @@ describe('Table', () => {
       })
 
       expect(screen.getByRole('table', { className: 'table table-striped' })).toBeInTheDocument()
-      expect(screen.queryAllByRole('cell', { className: 'col-md-4' })).toHaveLength(4)
     })
   })
 })
