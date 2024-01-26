@@ -217,7 +217,8 @@ CustomSelectWidget.defaultProps = {
   selectOptions: null,
   uiSchema: {},
   value: undefined,
-  options: {}
+  options: {},
+  required: false
 }
 
 CustomSelectWidget.propTypes = {
@@ -236,7 +237,7 @@ CustomSelectWidget.propTypes = {
       retrieveSchema: PropTypes.func
     })
   }).isRequired,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   schema: PropTypes.shape({
     items: PropTypes.shape({}),
     description: PropTypes.string,

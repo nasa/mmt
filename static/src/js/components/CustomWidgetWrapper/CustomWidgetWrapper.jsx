@@ -137,7 +137,8 @@ const CustomWidgetWrapper = ({
 CustomWidgetWrapper.defaultProps = {
   charactersUsed: null,
   description: null,
-  maxLength: null
+  maxLength: null,
+  required: null
 }
 
 CustomWidgetWrapper.propTypes = {
@@ -146,7 +147,7 @@ CustomWidgetWrapper.propTypes = {
   description: PropTypes.string,
   id: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   scrollRef: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired
 }

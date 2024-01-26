@@ -185,8 +185,8 @@ describe('CustomTextWidget', () => {
   describe('when the input is a number field', () => {
     test('renders a number field', () => {
       setup({
-        uiSchema: {
-          'ui:type': 'number'
+        schema: {
+          type: 'number'
         }
       })
 

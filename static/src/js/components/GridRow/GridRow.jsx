@@ -111,7 +111,18 @@ const GridRow = (
 
           {
             groupSinglePanel
-              ? (<GridGroupedSinglePanel {...props} />)
+              ? (
+                <GridGroupedSinglePanel
+                  layout={layout}
+                  registry={registry}
+                  idSchema={idSchema}
+                  uiSchema={uiSchema}
+                  schema={schema}
+                  formData={formData || {}}
+                  onChange={onChange}
+                  errorSchema={errorSchema}
+                />
+              )
               : (
                 <div className="row">
                   {renderChildren()}
@@ -165,7 +176,7 @@ GridRow.propTypes = {
     'ui:group-box-classname': PropTypes.string,
     'ui:required': PropTypes.bool,
     'ui:hide': PropTypes.func,
-    'ui:group-single-panel': PropTypes.string
+    'ui:group-single-panel': PropTypes.bool
   }).isRequired,
   onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
