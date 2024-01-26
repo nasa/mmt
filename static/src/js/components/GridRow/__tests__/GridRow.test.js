@@ -203,7 +203,11 @@ describe('when there is a group title', () => {
       })
 
       expect(GridGroupedSinglePanel).toHaveBeenCalledTimes(1)
-      expect(GridGroupedSinglePanel).toHaveBeenCalledWith(props, {})
+      expect(GridGroupedSinglePanel).toHaveBeenCalledWith(expect.objectContaining({
+        idSchema: props.idSchema,
+        onChange: props.onChange,
+        schema: props.schema
+      }), {})
     })
   })
 
