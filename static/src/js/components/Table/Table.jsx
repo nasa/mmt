@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import BootstrapTable from 'react-bootstrap/Table'
 import Pagination from 'react-bootstrap/Pagination'
@@ -6,12 +6,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Placeholder from 'react-bootstrap/Placeholder'
-import config from '../../../../../static.config.json'
 
 import For from '../For/For'
-
-const { application } = config
-const { defaultPageSize } = application
 /**
  * Table
  * @typedef {Object} Table
@@ -22,34 +18,23 @@ const { defaultPageSize } = application
  */
 
 const Table = ({
-  headers, classNames, loading, data, error, count
+  headers, classNames, loading, data, error, count, setOffset, limit, offset
 }) => {
-  const [rowCount, setRowCount] = useState(0)
   const [pageNum, setPageNum] = useState(1)
-  const [currentCount, setCurrentCount] = useState(defaultPageSize)
-
-  // Start and end index of the current page of rows
-  const startIndex = (pageNum - 1) * defaultPageSize
-  const endIndex = Math.min(startIndex + defaultPageSize, rowCount)
+  const [currentCount, setCurrentCount] = useState(limit)
 
   // Current page of rows
-  const pagedRows = data ? data.slice(startIndex, endIndex) : []
+  const pagedRows = data
 
-  const lastPageNum = parseInt(Math.ceil(rowCount / defaultPageSize), 10)
+  const lastPageNum = parseInt(Math.ceil(count / limit), 10)
 
   // // Does this provider have enough Rows to page? We hide the pagination buttons if not
-  const hasPages = rowCount > defaultPageSize
+  const hasPages = count > limit
 
   const defaultPaginationStyles = {
     minWidth: '2.5rem',
     textAlign: 'center'
   }
-
-  useEffect(() => {
-    if (!loading) {
-      setRowCount(data.length)
-    }
-  }, [loading, data])
 
   const renderHeaders = headers.map((header) => (
     <th key={header}>{header}</th>
@@ -57,7 +42,8 @@ const Table = ({
 
   const handleItemClick = (currentPage) => {
     setPageNum(currentPage)
-    setCurrentCount(currentPage * defaultPageSize)
+    setCurrentCount(currentPage * limit)
+    setOffset((currentPage - 1) * limit)
   }
 
   const generatePaginationItems = () => {
@@ -133,10 +119,11 @@ const Table = ({
 
   const handlePageChange = (direction) => {
     const newPageNum = pageNum + direction
-    const newCurrentCount = currentCount + direction * defaultPageSize
+    const newCurrentCount = currentCount + direction * limit
 
     setPageNum(newPageNum)
     setCurrentCount(newCurrentCount)
+    setOffset(newPageNum * limit)
   }
 
   const pagination = (
@@ -185,7 +172,7 @@ const Table = ({
         }
       </For>
     )
-  } else if (rowCount > 0) {
+  } else if (count > 0) {
     const rowData = pagedRows.map((row) => {
       const { cells, key } = row
       const rowKey = key
@@ -220,9 +207,9 @@ const Table = ({
           <span className="d-block mb-3">
             Showing
             {' '}
-            {count > 0 && (currentCount - defaultPageSize)}
+            {count > 0 && offset}
             -
-            {currentCount}
+            {data.length < currentCount ? offset + data.length : currentCount}
             {' '}
             of
             {' '}
@@ -273,7 +260,10 @@ Table.propTypes = {
     cells: PropTypes.arrayOf(PropTypes.shape({}))
   })).isRequired,
   error: PropTypes.string,
-  count: PropTypes.number
+  count: PropTypes.number,
+  offset: PropTypes.number.isRequired,
+  setOffset: PropTypes.func.isRequired,
+  limit: PropTypes.number.isRequired
 }
 
 export default Table

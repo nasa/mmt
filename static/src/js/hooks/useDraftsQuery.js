@@ -6,7 +6,7 @@ import useAppContext from './useAppContext'
 
 import conceptTypeDraftsQueries from '../constants/conceptTypeDraftsQueries'
 
-const useDraftsQuery = ({ draftType, limit }) => {
+const useDraftsQuery = ({ draftType, limit, offset }) => {
   const {
     setDraft,
     setOriginalDraft,
@@ -25,6 +25,7 @@ const useDraftsQuery = ({ draftType, limit }) => {
     variables: {
       params: {
         limit,
+        offset,
         conceptType: draftType,
         provider: providerId,
         sortKey: ['-revision_date']

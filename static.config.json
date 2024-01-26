@@ -5,8 +5,7 @@
     "graphQlHost": "http://localhost:3013/dev/api",
     "cmrHost": "http://localhost:4000",
     "version": "development",
-    "jwtSecret": "jwt_secret",
-    "defaultPageSize": 20
+    "jwtSecret": "jwt_secret"
 
   },
   "ummVersions": {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
@@ -25,7 +25,14 @@ const DraftList = ({ draftType }) => {
   const { providerId } = user
   const { draftType: paramDraftType } = useParams()
 
-  const { drafts, error, loading } = useDraftsQuery({ draftType })
+  const [offset, setOffset] = useState(0)
+  const limit = 10
+
+  const { drafts, error, loading } = useDraftsQuery({
+    draftType,
+    offset,
+    limit
+  })
   const { count, items = [] } = drafts
 
   const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
@@ -154,6 +161,9 @@ const DraftList = ({ draftType }) => {
                   data={data}
                   error={noDraftsError}
                   count={count}
+                  setOffset={setOffset}
+                  limit={limit}
+                  offset={offset}
                 />
               </>
             )
