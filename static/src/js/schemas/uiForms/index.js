@@ -7,7 +7,6 @@ const formConfigurations = {
   Tool: toolsConfiguration,
   Service: servicesConfiguration,
   Collection: collectionsConfiguration,
-  Service: servicesConfiguration,
   Variable: variableConfiguration
 }
 
