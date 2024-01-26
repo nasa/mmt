@@ -50,9 +50,7 @@ const CustomTextWidget = ({
     setFocusField
   } = formContext
 
-  const { maxLength, description } = schema
-
-  const fieldType = uiSchema['ui:type']
+  const { maxLength, description, type } = schema
 
   let title = startCase(label.split(/-/)[0])
   if (uiSchema['ui:title']) {
@@ -105,7 +103,7 @@ const CustomTextWidget = ({
         placeholder={placeholder}
         ref={focusRef}
         tabIndex={0}
-        type={fieldType && fieldType === 'number' ? 'number' : 'text'}
+        type={type && type === 'number' ? 'number' : 'text'}
         value={value}
       />
     </CustomWidgetWrapper>
@@ -116,7 +114,8 @@ CustomTextWidget.defaultProps = {
   disabled: false,
   onBlur: null,
   placeholder: null,
-  value: ''
+  value: '',
+  required: false
 }
 
 CustomTextWidget.propTypes = {
@@ -132,14 +131,14 @@ CustomTextWidget.propTypes = {
       setFocusField: PropTypes.func
     }).isRequired
   }).isRequired,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   schema: PropTypes.shape({
     description: PropTypes.string,
-    maxLength: PropTypes.number
+    maxLength: PropTypes.number,
+    type: PropTypes.string
   }).isRequired,
   uiSchema: PropTypes.shape({
-    'ui:title': PropTypes.string,
-    'ui:type': PropTypes.string
+    'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.oneOfType([
     PropTypes.string,
