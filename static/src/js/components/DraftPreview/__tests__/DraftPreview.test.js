@@ -11,7 +11,6 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import { ToolPreview } from '@edsc/metadata-preview'
 import * as router from 'react-router'
 
 import ummTSchema from '../../../schemas/umm/ummTSchema'
@@ -27,8 +26,8 @@ import DraftPreview from '../DraftPreview'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
+import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
-jest.mock('@edsc/metadata-preview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../PreviewProgress/PreviewProgress')
 jest.mock('../../../utils/errorLogger')
@@ -144,23 +143,6 @@ const setup = ({
 }
 
 describe('DraftPreview', () => {
-  describe('when the concept type is tool', () => {
-    test('renders a ToolPreview component', async () => {
-      setup({})
-
-      await waitForResponse()
-
-      expect(ToolPreview).toHaveBeenCalledTimes(1)
-      expect(ToolPreview).toHaveBeenCalledWith({
-        conceptId: 'TD1000000-MMT',
-        conceptType: 'tool-draft',
-        conceptUrlTemplate: '/{conceptType}/{conceptId}',
-        isPlugin: true,
-        tool: mockDraft.previewMetadata
-      }, {})
-    })
-  })
-
   test('renders the breadcrumbs', async () => {
     setup({})
 
@@ -570,6 +552,71 @@ describe('DraftPreview', () => {
         expect(screen.queryByText('Are you sure you want to delete this draft?')).not.toBeInTheDocument()
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    describe('when clicking on Publish Draft button with no errors', () => {
+      test('calls the publish mutation and navigates to the conceptId/revisionId page', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
+              }
+            },
+            result: {
+              data: {
+                publishDraft: {
+                  conceptId: 'T1000000-MMT',
+                  revisionId: '2'
+                }
+              }
+            }
+          }]
+        })
+
+        await waitForResponse()
+
+        const button = screen.getByRole('button', { name: 'Publish Tool Draft' })
+        await user.click(button)
+        await waitForResponse()
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/2')
+      })
+    })
+
+    describe('when clicking on Publish Draft button with errors', () => {
+      test('calls the publish mutation and returns errors', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
+              }
+            },
+            error: new Error('#: required key [Name] not found,#: required key [LongName] not found')
+          }]
+        })
+
+        await waitForResponse()
+
+        const button = screen.getByRole('button', { name: 'Publish Tool Draft' })
+        await user.click(button)
+        await waitForResponse()
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('#: required key [Name] not found,#: required key [LongName] not found', 'PublishMutation: publishMutation')
       })
     })
   })

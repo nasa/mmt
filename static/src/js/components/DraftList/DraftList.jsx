@@ -55,7 +55,12 @@ const DraftList = ({ draftType }) => {
 
   // Building a Table using Data in items
   const data = (items.map((item) => {
-    const { conceptId, revisionDate, previewMetadata: { name, longName } } = item
+    const {
+      conceptId, revisionDate, previewMetadata: {
+        name, longName, shortName, title
+      }
+    } = item
+
     const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
     return (
@@ -67,14 +72,14 @@ const DraftList = ({ draftType }) => {
               value:
               (
                 <Link to={draftLink}>
-                  {name || '<Blank Name>'}
+                  {name || shortName || '<Blank Name>'}
                 </Link>
               )
             },
             {
               value:
               (
-                longName || '<Untitled Record>'
+                longName || title || '<Untitled Record>'
               )
             },
             {

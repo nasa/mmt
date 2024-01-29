@@ -122,7 +122,9 @@ const ManagePage = () => {
                                           conceptId,
                                           previewMetadata: {
                                             longName,
-                                            name
+                                            name,
+                                            shortName,
+                                            title
                                           },
                                           revisionDate
                                         }) => (
@@ -134,10 +136,10 @@ const ManagePage = () => {
                                               <div>
                                                 <span className="text-black d-block d-xl-inline">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</span>
                                                 <span className="d-none d-xl-inline"> | </span>
-                                                <span>{name || '<Blank Name>'}</span>
+                                                <span>{name || shortName || '<Blank Name>'}</span>
                                               </div>
                                               <div>
-                                                <span className="text-secondary">{longName || '<Untitled Record>'}</span>
+                                                <span className="text-secondary">{longName || title || '<Untitled Record>'}</span>
                                               </div>
                                             </Link>
                                           </ListGroup.Item>
