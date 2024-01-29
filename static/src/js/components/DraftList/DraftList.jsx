@@ -26,7 +26,7 @@ const DraftList = ({ draftType }) => {
   const { draftType: paramDraftType } = useParams()
 
   const [offset, setOffset] = useState(0)
-  const limit = 10
+  const limit = 20
 
   const { drafts, error, loading } = useDraftsQuery({
     draftType,

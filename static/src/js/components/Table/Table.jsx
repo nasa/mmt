@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import BootstrapTable from 'react-bootstrap/Table'
-import Pagination from 'react-bootstrap/Pagination'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Placeholder from 'react-bootstrap/Placeholder'
+import PaginationComponent from '../Pagination/Pagination'
 
 import For from '../For/For'
 /**
@@ -20,127 +20,15 @@ import For from '../For/For'
 const Table = ({
   headers, classNames, loading, data, error, count, setOffset, limit, offset
 }) => {
-  const [pageNum, setPageNum] = useState(1)
-  const [currentCount, setCurrentCount] = useState(limit)
-
   // Current page of rows
   const pagedRows = data
 
-  const lastPageNum = parseInt(Math.ceil(count / limit), 10)
-
-  // // Does this provider have enough Rows to page? We hide the pagination buttons if not
+  // Does this provider have enough Rows to page? We hide the pagination buttons if not
   const hasPages = count > limit
-
-  const defaultPaginationStyles = {
-    minWidth: '2.5rem',
-    textAlign: 'center'
-  }
 
   const renderHeaders = headers.map((header) => (
     <th key={header}>{header}</th>
   ))
-
-  const handleItemClick = (currentPage) => {
-    setPageNum(currentPage)
-    setCurrentCount(currentPage * limit)
-    setOffset((currentPage - 1) * limit)
-  }
-
-  const generatePaginationItems = () => {
-    // Only show 3 pages, the current page and one before or after (within the valid range of pages)
-    const pages = [pageNum - 1, pageNum, pageNum + 1]
-      .filter((page) => page >= 1 && page <= lastPageNum)
-
-    const returnItems = []
-
-    // If the first page is not 1, add the pagination item for page 1
-    if (pages[0] !== 1) {
-      returnItems.push(
-        <Pagination.Item
-          key="page-1"
-          onClick={() => handleItemClick(1)}
-          active={pageNum === 1}
-          style={defaultPaginationStyles}
-        >
-          {1}
-        </Pagination.Item>
-      )
-
-      // And if the first page is not 2, add an ellipsis
-      if (pages[0] !== 2) {
-        returnItems.push(
-          <Pagination.Ellipsis
-            key="page-ellipsis-1"
-            disabled
-          />
-        )
-      }
-    }
-
-    pages.forEach((page) => {
-      returnItems.push(
-        <Pagination.Item
-          key={`page-${page}`}
-          onClick={() => handleItemClick(page)}
-          active={page === pageNum}
-          style={defaultPaginationStyles}
-        >
-          {page}
-        </Pagination.Item>
-      )
-    })
-
-    // If the last page is not lastPageNum, add the pagination item for the lastPageNum
-    if (pages[pages.length - 1] !== lastPageNum) {
-      // And if the last page is not lastPageNum - 1, add an ellipsis
-      if (pages[pages.length - 1] !== lastPageNum - 1) {
-        returnItems.push(
-          <Pagination.Ellipsis
-            key="page-ellipsis-2"
-            disabled
-          />
-        )
-      }
-
-      returnItems.push(
-        <Pagination.Item
-          key={`page-${lastPageNum}`}
-          onClick={() => handleItemClick(lastPageNum)}
-          active={pageNum === lastPageNum}
-          style={defaultPaginationStyles}
-        >
-          {lastPageNum}
-        </Pagination.Item>
-      )
-    }
-
-    return returnItems
-  }
-
-  const handlePageChange = (direction) => {
-    const newPageNum = pageNum + direction
-    const newCurrentCount = currentCount + direction * limit
-
-    setPageNum(newPageNum)
-    setCurrentCount(newCurrentCount)
-    setOffset(newPageNum * limit)
-  }
-
-  const pagination = (
-    <Pagination>
-      <Pagination.Prev
-        disabled={pageNum === 1}
-        onClick={() => handlePageChange(-1)}
-      />
-
-      {generatePaginationItems()}
-
-      <Pagination.Next
-        onClick={() => handlePageChange(1)}
-        disabled={pageNum >= lastPageNum}
-      />
-    </Pagination>
-  )
 
   const content = []
 
@@ -209,7 +97,7 @@ const Table = ({
             {' '}
             {count > 0 && offset}
             -
-            {data.length < currentCount ? offset + data.length : currentCount}
+            {data.length === limit ? offset + limit : offset + data.length}
             {' '}
             of
             {' '}
@@ -217,6 +105,19 @@ const Table = ({
             {' '}
             Results
           </span>
+        </Col>
+        <Col xs="auto">
+          <div className="mx-auto">
+            {
+              hasPages && (
+                <PaginationComponent
+                  setoffset={setOffset}
+                  limit={limit}
+                  count={count}
+                />
+              )
+            }
+          </div>
         </Col>
       </Row>
       <Row>
@@ -231,13 +132,6 @@ const Table = ({
               {content}
             </tbody>
           </BootstrapTable>
-        </Col>
-      </Row>
-      <Row className="mt-2 justify-content-md-center">
-        <Col xs="auto">
-          <div className="mx-auto">
-            {hasPages && pagination}
-          </div>
         </Col>
       </Row>
     </Container>
