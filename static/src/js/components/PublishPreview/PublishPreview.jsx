@@ -122,6 +122,12 @@ const PublishPreview = () => {
         const { ingestDraft } = mutationData
         const { conceptId: draftConceptId } = ingestDraft
         navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${draftConceptId}`)
+      },
+      onError: (getMutationError) => {
+        setError(getMutationError)
+        setLoading(false)
+        // Send the error to the errorLogger
+        errorLogger(getMutationError, 'PublishPreview ingestDraftMutation Query')
       }
     })
   }
