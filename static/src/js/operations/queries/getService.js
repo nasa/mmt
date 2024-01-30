@@ -28,6 +28,7 @@ export const GET_SERVICE = gql`
       supportedReformattings
       serviceQuality
       type
+      ummMetadata
       url
       useConstraints
       version

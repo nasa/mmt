@@ -19,6 +19,8 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
+import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import getUmmVersion from '../../utils/getUmmVersion'
 
 /**
  * Renders a PublishPreview component
@@ -39,6 +41,7 @@ const PublishPreview = () => {
 
   const [previewMetadata, setPreviewMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [ummMetadata, setUmmMetadata] = useState()
   const [error, setError] = useState()
   const [retries, setRetries] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -49,6 +52,7 @@ const PublishPreview = () => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
   // Calls CMR-Graphql to get the record
@@ -63,7 +67,8 @@ const PublishPreview = () => {
       const {
         revisionId: savedRevisionId,
         nativeId: savedNativeId,
-        providerId: savedProviderId
+        providerId: savedProviderId,
+        ummMetadata: savedUmmMetadata
       } = fetchedMetadata || {}
 
       if (!fetchedMetadata || (savedRevisionId && revisionId !== savedRevisionId)) {
@@ -76,6 +81,7 @@ const PublishPreview = () => {
         setNativeId(savedNativeId)
         setProviderId(savedProviderId)
         setLoading(false)
+        setUmmMetadata(savedUmmMetadata)
       }
     },
     onError: (getDraftError) => {
@@ -99,6 +105,26 @@ const PublishPreview = () => {
       setError('Published record could not be loaded.')
     }
   }, [previewMetadata, retries])
+
+  // Calls ingestDraft mutation with the same nativeId and ummMetadata
+  // TODO: Need to check if the record trying to edit is in the same provider
+  const handleEdit = () => {
+    setLoading(true)
+    ingestDraftMutation({
+      variables: {
+        conceptType: derivedConceptType,
+        metadata: ummMetadata,
+        nativeId,
+        providerId,
+        ummVersion: getUmmVersion(derivedConceptType)
+      },
+      onCompleted: (mutationData) => {
+        const { ingestDraft } = mutationData
+        const { conceptId: draftConceptId } = ingestDraft
+        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${draftConceptId}`)
+      }
+    })
+  }
 
   // Handles the user selecting delete from the delete model
   const handleDelete = () => {
@@ -158,6 +184,24 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
+          {/* Edit Publish record link */}
+          <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={
+              () => {
+                handleEdit()
+              }
+            }
+          >
+            Edit
+            {' '}
+            {derivedConceptType}
+            {' '}
+            Record
+          </Button>
+          {/* Delete Publish record button */}
           <Button
             type="button"
             variant="outline-danger"
@@ -173,7 +217,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-
+          {/* Renders the Delete Modal */}
           <CustomModal
             message="Are you sure you want to delete this record?"
             openModal={showDeleteModal}
@@ -196,6 +240,7 @@ const PublishPreview = () => {
       </Row>
       <Row>
         <Col md={12}>
+          {/* Renders the Metadata Preview */}
           <MetadataPreview
             previewMetadata={previewMetadata}
             conceptId={conceptId}
