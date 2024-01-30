@@ -19,8 +19,8 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
-import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
-import getUmmVersion from '../../utils/getUmmVersion'
+import useAppContext from '../../hooks/useAppContext'
+import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 
 /**
  * Renders a PublishPreview component
@@ -37,6 +37,8 @@ const PublishPreview = () => {
     revisionId
   } = useParams()
 
+  const { user } = useAppContext()
+  const { providerId } = user
   const navigate = useNavigate()
 
   const [previewMetadata, setPreviewMetadata] = useState()
@@ -46,13 +48,14 @@ const PublishPreview = () => {
   const [retries, setRetries] = useState(0)
   const [loading, setLoading] = useState(true)
   const [nativeId, setNativeId] = useState()
-  const [providerId, setProviderId] = useState()
+  // Const [providerId, setProviderId] = useState()
 
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
+  const ingestMutation = useIngestDraftMutation()
+
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
   // Calls CMR-Graphql to get the record
@@ -67,7 +70,6 @@ const PublishPreview = () => {
       const {
         revisionId: savedRevisionId,
         nativeId: savedNativeId,
-        providerId: savedProviderId,
         ummMetadata: savedUmmMetadata
       } = fetchedMetadata || {}
 
@@ -79,7 +81,6 @@ const PublishPreview = () => {
         // The correct version of the metadata has been fetched
         setPreviewMetadata(fetchedMetadata)
         setNativeId(savedNativeId)
-        setProviderId(savedProviderId)
         setLoading(false)
         setUmmMetadata(savedUmmMetadata)
       }
@@ -109,27 +110,7 @@ const PublishPreview = () => {
   // Calls ingestDraft mutation with the same nativeId and ummMetadata
   // TODO: Need to check if the record trying to edit is in the same provider
   const handleEdit = () => {
-    setLoading(true)
-    ingestDraftMutation({
-      variables: {
-        conceptType: derivedConceptType,
-        metadata: ummMetadata,
-        nativeId,
-        providerId,
-        ummVersion: getUmmVersion(derivedConceptType)
-      },
-      onCompleted: (mutationData) => {
-        const { ingestDraft } = mutationData
-        const { conceptId: draftConceptId } = ingestDraft
-        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${draftConceptId}`)
-      },
-      onError: (getMutationError) => {
-        setError(getMutationError)
-        setLoading(false)
-        // Send the error to the errorLogger
-        errorLogger(getMutationError, 'PublishPreview ingestDraftMutation Query')
-      }
-    })
+    ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId)
   }
 
   // Handles the user selecting delete from the delete model
