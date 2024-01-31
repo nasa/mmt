@@ -75,7 +75,8 @@ const collectionsConfiguration = [
   {
     displayName: 'Data Contacts',
     properties: [
-      'DataContacts'
+      'ContactPersons',
+      'ContactGroups'
     ]
   },
   {

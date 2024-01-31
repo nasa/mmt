@@ -20,7 +20,6 @@ import './ManagePage.scss'
 
 /**
  * Renders a `ManagePage` component
- *
  * @component
  * @example <caption>Renders a `ManagePage` component</caption>
  * return (
@@ -120,30 +119,43 @@ const ManagePage = () => {
                                       {
                                         ({
                                           conceptId,
-                                          previewMetadata: {
-                                            longName,
-                                            name,
-                                            shortName,
-                                            title
-                                          },
+                                          previewMetadata,
+                                          ummMetadata,
                                           revisionDate
-                                        }) => (
-                                          <ListGroup.Item key={conceptId} action className="mb-0">
-                                            <Link
-                                              className="text-decoration-none text-primary"
-                                              to={`/drafts/${type}/${conceptId}`}
-                                            >
-                                              <div>
-                                                <span className="text-black d-block d-xl-inline">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</span>
-                                                <span className="d-none d-xl-inline"> | </span>
-                                                <span>{name || shortName || '<Blank Name>'}</span>
-                                              </div>
-                                              <div>
-                                                <span className="text-secondary">{longName || title || '<Untitled Record>'}</span>
-                                              </div>
-                                            </Link>
-                                          </ListGroup.Item>
-                                        )
+                                        }) => {
+                                          let title
+                                          let subTitle
+
+                                          if (ummMetadata) {
+                                            const { ShortName, EntryTitle } = ummMetadata
+
+                                            title = ShortName
+                                            subTitle = EntryTitle
+                                          } else {
+                                            const { name, longName } = previewMetadata
+
+                                            title = name
+                                            subTitle = longName
+                                          }
+
+                                          return (
+                                            <ListGroup.Item key={conceptId} action className="mb-0">
+                                              <Link
+                                                className="text-decoration-none text-primary"
+                                                to={`/drafts/${type}/${conceptId}`}
+                                              >
+                                                <div>
+                                                  <span className="text-black d-block d-xl-inline">{new Date(revisionDate).toLocaleString('en-US', { hour12: false })}</span>
+                                                  <span className="d-none d-xl-inline"> | </span>
+                                                  <span>{title || '<Blank Name>'}</span>
+                                                </div>
+                                                <div>
+                                                  <span className="text-secondary">{subTitle || '<Untitled Record>'}</span>
+                                                </div>
+                                              </Link>
+                                            </ListGroup.Item>
+                                          )
+                                        }
                                       }
                                     </For>
                                   )
