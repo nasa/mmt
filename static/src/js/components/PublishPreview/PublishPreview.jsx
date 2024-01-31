@@ -48,7 +48,6 @@ const PublishPreview = () => {
   const [retries, setRetries] = useState(0)
   const [loading, setLoading] = useState(true)
   const [nativeId, setNativeId] = useState()
-  // Const [providerId, setProviderId] = useState()
 
   const { addNotification } = useNotificationsContext()
 
