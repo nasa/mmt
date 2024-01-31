@@ -29,6 +29,12 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
+Object.defineProperty(globalThis, 'crypto', {
+  value: {
+    randomUUID: () => 'mock-uuid'
+  }
+})
+
 const mock = {
   accessConstraints: null,
   ancillaryKeywords: null,
@@ -441,6 +447,46 @@ describe('PublishPreview', () => {
       expect(navigateSpy).toHaveBeenCalledTimes(0)
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview ingestDraftMutation Query')
+    })
+  })
+
+  describe('when clicking on Clone Tool Record button', () => {
+    test('calls ingestDraft Mutation and navigates to /drafts/tool/conceptId page', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: INGEST_DRAFT,
+            variables: {
+              conceptType: 'Tool',
+              metadata: {},
+              nativeId: 'MMT_mock-uuid',
+              providerId: 'MMT_2',
+              ummVersion: '1.2.0'
+            }
+          },
+          result: {
+            data: {
+              ingestDraft: {
+                conceptId: 'TD1000000-MMT',
+                revisionId: '3'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      const editButton = screen.getByRole('button', { name: 'Clone Tool Record' })
+      await user.click(editButton)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
     })
   })
 })
