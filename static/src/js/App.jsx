@@ -23,6 +23,8 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
+import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -97,11 +99,21 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               {Redirects}
-              <Route path="manage/:type/*" element={<ManagePage />} />
+              <Route
+                path="manage/:type/*"
+                element={
+                  (
+                    <AuthRequiredContainer>
+                      <ManagePage />
+                    </AuthRequiredContainer>
+                  )
+                }
+              />
               <Route path="manage/cmr" element={<ManageCmrPage />} />
               <Route path="drafts/:draftType/*" element={<DraftsPage />} />
               <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
               <Route path="*" element={<Navigate to="/404" replace />} />
+              <Route path="/auth_callback2" element={<AuthCallbackContainer />} />
               <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
             </Route>
           </Routes>

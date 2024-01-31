@@ -34,20 +34,21 @@ const samlCallback = async (event) => {
   const path = params.get('RelayState')
   const samlResponse = parser.toObject()
 
-  const data = {
-    path,
-    token: launchpadToken,
-    ...samlResponse
-  }
-  const jwtToken = createJwtToken(data)
+  const jwtToken = createJwtToken(samlResponse)
   const queryParams = { jwt: jwtToken }
   queryParams.jwt = jwtToken
 
-  const location = `${mmtHost}/auth_callback?${stringify(queryParams)}`
+  const location = `${mmtHost}/auth_callback?target=${path}&jwt=${stringify(queryParams)}`
 
   return {
     statusCode: 303,
     headers: {
+      'Set-Cookie': `token=${launchpadToken}; SameSite=None; Secure`,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET, POST',
+      'Access-Control-Allow-Credentials': true,
+      Chris: 'Test',
       Location: location
     }
   }
