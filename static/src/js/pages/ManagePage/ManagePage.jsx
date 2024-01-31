@@ -20,7 +20,6 @@ import './ManagePage.scss'
 
 /**
  * Renders a `ManagePage` component
- *
  * @component
  * @example <caption>Renders a `ManagePage` component</caption>
  * return (
