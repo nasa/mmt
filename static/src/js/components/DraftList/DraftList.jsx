@@ -34,6 +34,7 @@ const DraftList = ({ draftType }) => {
     limit
   })
   const { count, items = [] } = drafts
+  console.log(count)
 
   const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
 

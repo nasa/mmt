@@ -60,7 +60,7 @@ const Table = ({
         }
       </For>
     )
-  } else if (count > 0) {
+  } else if (pagedRows.length > 0) {
     const rowData = pagedRows.map((row) => {
       const { cells, key } = row
       const rowKey = key
@@ -95,7 +95,7 @@ const Table = ({
           <span className="d-block mb-3">
             Showing
             {' '}
-            {count > 0 && offset}
+            {count > 0 ? offset : 0}
             -
             {data.length === limit ? offset + limit : offset + data.length}
             {' '}

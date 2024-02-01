@@ -13,7 +13,9 @@ import Col from 'react-bootstrap/Col'
  */
 
 const PaginationComponent = ({
-  limit, count, setoffset
+  limit,
+  count,
+  setoffset
 }) => {
   const [pageNum, setPageNum] = useState(1)
 
