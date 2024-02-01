@@ -8,6 +8,7 @@ export const GET_SERVICE_DRAFTS = gql`
       items {
         conceptId
         revisionDate
+        ummMetadata
         previewMetadata {
           ... on Service {
             name
