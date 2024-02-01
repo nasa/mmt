@@ -13,36 +13,36 @@ export const SERVICE_DRAFT = gql`
       revisionId
       ummMetadata
       previewMetadata {
-      ... on Service {
-        accessConstraints
-        ancillaryKeywords
-        associationDetails
-        conceptId
-        contactGroups
-        contactPersons
-        description
-        lastUpdatedDate
-        longName
-        maxItemsPerOrder
-        name
-        nativeId
-        operationMetadata
-        providerId
-        relatedUrls
-        serviceKeywords
-        serviceOptions
-        serviceOrganizations
-        supportedInputProjections
-        supportedOutputProjections
-        supportedReformattings
-        serviceQuality
-        type
-        url
-        useConstraints
-        version
-        versionDescription
+        ... on Service {
+          accessConstraints
+          ancillaryKeywords
+          associationDetails
+          conceptId
+          contactGroups
+          contactPersons
+          description
+          lastUpdatedDate
+          longName
+          maxItemsPerOrder
+          name
+          nativeId
+          operationMetadata
+          providerId
+          relatedUrls
+          serviceKeywords
+          serviceOptions
+          serviceOrganizations
+          supportedInputProjections
+          supportedOutputProjections
+          supportedReformattings
+          serviceQuality
+          type
+          url
+          useConstraints
+          version
+          versionDescription
+        }
       }
-    }
     }
   }
 `

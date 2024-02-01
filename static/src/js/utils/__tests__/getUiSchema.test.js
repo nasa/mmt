@@ -1,5 +1,6 @@
 import serviceUiSchema from '../../schemas/uiSchemas/services'
 import toolsUiSchema from '../../schemas/uiSchemas/tools'
+import variableUiSchema from '../../schemas/uiSchemas/variables'
 import getUiSchema from '../getUiSchema'
 
 describe('getUiSchema', () => {
@@ -15,10 +16,9 @@ describe('getUiSchema', () => {
     })
   })
 
-  // TODO MMT-3418
   describe('when the concept type is variable-draft', () => {
-    test.skip('returns the UMM-V schema', () => {
-      expect(getUiSchema('Variable')).toEqual('Replace with Variable uiSchema')
+    test('returns the UMM-V schema', () => {
+      expect(getUiSchema('Variable')).toEqual(variableUiSchema)
     })
   })
 
@@ -26,6 +26,12 @@ describe('getUiSchema', () => {
   describe('when the concept type is collection-draft', () => {
     test.skip('returns the UMM-C schema', () => {
       expect(getUiSchema('Collection')).toEqual('Replace with Collection uiSchema')
+    })
+  })
+
+  describe('when the concept type is not recognized', () => {
+    test('returns null', () => {
+      expect(getUiSchema('bad-draft')).toEqual(null)
     })
   })
 })

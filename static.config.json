@@ -1,14 +1,31 @@
 {
   "application": {
+    "mmtHost": "http://localhost:5173",
     "apiHost": "http://localhost:4001/dev",
     "graphQlHost": "http://localhost:3013/dev/api",
     "cmrHost": "http://localhost:4000",
-    "version": "development"
+    "version": "development",
+    "jwtSecret": "jwt_secret"
   },
   "ummVersions": {
     "ummC": "1.17.3",
-    "ummS": "1.4",
-    "ummT": "1.1",
+    "ummS": "1.5.2",
+    "ummT": "1.2.0",
     "ummV": "1.9.0"
+  },
+  "saml": {
+    "host": "http://localhost:4001",
+    "callbackUrl": "http://localhost:4001/saml-acs",
+    "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
+    "issuer": "http://localhost:4001/saml-acs",
+    "cert": "fake cert",
+    "protocol": "https://",
+    "signatureAlgorithm": "sha256",
+    "digestAlgorithm": "sha256",
+    "authnContext": [
+      "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
+    ],
+    "identifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+    "cookieName": "SBXSESSION"
   }
 }

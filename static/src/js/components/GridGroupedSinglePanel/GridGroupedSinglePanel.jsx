@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-import './GridGroupedSinglePanel.scss'
 import Button from '../Button/Button'
 
 // eslint-disable-next-line import/no-cycle
@@ -13,7 +12,7 @@ const GridGroupedSinglePanel = ({
   onChange,
   registry,
   schema,
-  layoutGridSchema,
+  layout,
   idSchema,
   errorSchema
 }) => {
@@ -53,7 +52,7 @@ const GridGroupedSinglePanel = ({
 
     return (
       <Button
-        className="grid-grouped-single-panel__remove-button"
+        className="text-danger px-0"
         Icon={FaMinusCircle}
         naked
         onClick={removeGroup}
@@ -74,7 +73,7 @@ const GridGroupedSinglePanel = ({
 
     return (
       <Button
-        className="grid-grouped-single-panel__add-button"
+        className="text-primary"
         Icon={FaPlusCircle}
         naked
         onClick={addGroup}
@@ -104,7 +103,7 @@ const GridGroupedSinglePanel = ({
     ))
   }
 
-  const rows = layoutGridSchema['ui:row']
+  const rows = layout['ui:row']
 
   return (
     <div>
@@ -127,7 +126,7 @@ const GridGroupedSinglePanel = ({
 }
 
 GridGroupedSinglePanel.propTypes = {
-  layoutGridSchema: PropTypes.shape({
+  layout: PropTypes.shape({
     'ui:row': PropTypes.arrayOf(PropTypes.shape({}))
   }).isRequired,
   uiSchema: PropTypes.shape({

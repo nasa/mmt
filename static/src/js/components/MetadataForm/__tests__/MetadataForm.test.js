@@ -44,7 +44,8 @@ import Providers from '../../../providers/Providers/Providers'
 import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-// Import OneOfField from '../../OneOfField/OneOfField'
+import OneOfField from '../../OneOfField/OneOfField'
+import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -216,20 +217,15 @@ describe('MetadataForm', () => {
 
         expect(Form).toHaveBeenCalledTimes(2)
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-          // TODO I spent a whole day and a half trying to figure out why adding AnyOfField: () => null
-          // causes the expect block to not match. Both the expected and the received object match but the
-          // the test is still failing. Want to revisit this after the devs get back from holiday
-          // Expected: {"fields": {"AnyOfField": [Function AnyOfField], "BoundingRectangle": [Function BoundingRectangleField], "OneOfField": [Function OneOfField], "TitleField": [Function CustomTitleField], "keywordPicker": [Function KeywordPicker], "layout": [Function GridLayout], "streetAddresses": [Function StreetAddressField]}
-          // Received: {"fields": {"AnyOfField": [Function AnyOfField], "BoundingRectangle": [Function BoundingRectangleField], "OneOfField": [Function OneOfField], "TitleField": [Function CustomTitleField], "keywordPicker": [Function KeywordPicker], "layout": [Function GridLayout], "streetAddresses": [Function StreetAddressField]}
-          // fields: {
-          //   BoundingRectangle: BoundingRectangleField,
-          //   AnyOfField: () => null,
-          //   OneOfField,
-          //   TitleField: CustomTitleField,
-          //   keywordPicker: KeywordPicker,
-          //   layout: GridLayout,
-          //   streetAddresses: StreetAddressField
-          // },
+          fields: {
+            BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
+            TitleField: CustomTitleField,
+            keywordPicker: KeywordPicker,
+            layout: GridLayout,
+            streetAddresses: StreetAddressField
+          },
           formData: {
             LongName: 'Long Name',
             MetadataSpecification: {
@@ -279,20 +275,15 @@ describe('MetadataForm', () => {
 
         expect(Form).toHaveBeenCalledTimes(2)
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-          // TODO I spent a whole day and a half trying to figure out why adding AnyOfField: () => null
-          // causes the expect block to not match. Both the expected and the received object match but the
-          // the test is still failing. Want to revisit this after the devs get back from holiday
-          // Expected: {"fields": {"AnyOfField": [Function AnyOfField], "BoundingRectangle": [Function BoundingRectangleField], "OneOfField": [Function OneOfField], "TitleField": [Function CustomTitleField], "keywordPicker": [Function KeywordPicker], "layout": [Function GridLayout], "streetAddresses": [Function StreetAddressField]}
-          // Received: {"fields": {"AnyOfField": [Function AnyOfField], "BoundingRectangle": [Function BoundingRectangleField], "OneOfField": [Function OneOfField], "TitleField": [Function CustomTitleField], "keywordPicker": [Function KeywordPicker], "layout": [Function GridLayout], "streetAddresses": [Function StreetAddressField]}
-          // fields: {
-          //   BoundingRectangle: BoundingRectangleField,
-          //   AnyOfField: () => null,
-          //   OneOfField,
-          //   TitleField: CustomTitleField,
-          //   keywordPicker: KeywordPicker,
-          //   layout: GridLayout,
-          //   streetAddresses: StreetAddressField
-          // },
+          fields: {
+            BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
+            TitleField: CustomTitleField,
+            keywordPicker: KeywordPicker,
+            layout: GridLayout,
+            streetAddresses: StreetAddressField
+          },
           formData: {},
           schema: expect.objectContaining({
             properties: expect.objectContaining({
@@ -601,6 +592,76 @@ describe('MetadataForm', () => {
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
+      })
+    })
+
+    describe('when the saveType is save and preview', () => {
+      test('it should save the draft and call publish', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                metadata: {
+                  LongName: 'Long Name',
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+                    Name: 'UMM-T',
+                    Version: '1.1'
+                  }
+                },
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2',
+                ummVersion: '1.0.0'
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '1'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
+              }
+            },
+            result: {
+              data: {
+                publishDraft: {
+                  conceptId: 'TL1000000-MMT',
+                  revisionId: '1'
+                }
+              }
+            }
+          }
+          ]
+        })
+
+        await waitForResponse()
+
+        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save & Publish' })
+        await user.click(button)
+
+        await waitForResponse()
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/TL1000000-MMT/1')
       })
     })
 

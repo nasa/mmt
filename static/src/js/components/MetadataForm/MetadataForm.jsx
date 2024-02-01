@@ -50,6 +50,8 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import getUiSchema from '../../utils/getUiSchema'
 
 import './MetadataForm.scss'
+import removeEmpty from '../../utils/removeEmpty'
+import usePublishMutation from '../../hooks/usePublishMutation'
 
 const MetadataForm = () => {
   const {
@@ -77,6 +79,8 @@ const MetadataForm = () => {
   } else {
     derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
   }
+
+  const publishMutation = usePublishMutation()
 
   useEffect(() => {
     if (conceptId === 'new') {
@@ -186,7 +190,7 @@ const MetadataForm = () => {
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
-        metadata: ummMetadata,
+        metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId,
         // TODO pull this version number from a config
@@ -246,8 +250,8 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPublish) {
-          // Save and then publish
-          // TODO MMT-3411
+          // Calls publish mutation
+          publishMutation(derivedConceptType, nativeId)
         }
       },
       onError: (ingestError) => {

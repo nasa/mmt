@@ -88,14 +88,12 @@ const serviceContactsUiSchema = {
         'ui:layout_grid': {
           'ui:row': [
             {
+              'ui:group': 'Contact Information',
+              'ui:group-description': true,
               'ui:col': {
                 md: 12,
                 children: [
                   {
-                    'ui:group': 'Contact Information',
-                    'ui:group-description': true,
-                    // 'ui:group-classname': 'h3-title',
-                    // 'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -153,6 +151,7 @@ const serviceContactsUiSchema = {
           'ui:title': 'Contact Instruction'
         },
         ContactMechanisms: {
+          'ui:heading-level': 'h4',
           'ui:title': 'Contact Mechanism',
           items: {
             'ui:field': 'layout',
@@ -189,6 +188,7 @@ const serviceContactsUiSchema = {
           }
         },
         Addresses: {
+          'ui:heading-level': 'h4',
           'ui:title': 'Contact Address',
           items: {
             'ui:field': 'layout',
@@ -211,8 +211,6 @@ const serviceContactsUiSchema = {
                       },
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -264,6 +262,7 @@ const serviceContactsUiSchema = {
           }
         },
         OnlineResources: {
+          'ui:heading-level': 'h4',
           'ui:title': 'Online Resources',
           items: {
             'ui:field': 'layout',
@@ -429,8 +428,6 @@ const serviceContactsUiSchema = {
                 children: [
                   {
                     'ui:group': 'Contact Information',
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -537,8 +534,6 @@ const serviceContactsUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {

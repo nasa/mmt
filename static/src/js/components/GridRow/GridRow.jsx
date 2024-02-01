@@ -113,7 +113,7 @@ const GridRow = (
             groupSinglePanel
               ? (
                 <GridGroupedSinglePanel
-                  layoutGridSchema={layout}
+                  layout={layout}
                   registry={registry}
                   idSchema={idSchema}
                   uiSchema={uiSchema}
@@ -138,7 +138,7 @@ const GridRow = (
     return (
       <GridCheckboxPanel
         key={`checkboxpanel--' ${JSON.stringify(layout)}`}
-        layoutGridSchema={layout}
+        layout={layout}
         errorSchema={errorSchema}
         registry={registry}
         idSchema={idSchema}

@@ -6,9 +6,8 @@ import { FaFileDownload } from 'react-icons/fa'
 import pluralize from 'pluralize'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
-import PlaceholderButton from 'react-bootstrap/PlaceholderButton'
 import Row from 'react-bootstrap/Row'
-import Table from 'react-bootstrap/Table'
+import Table from '../Table/Table'
 
 import useAppContext from '../../hooks/useAppContext'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
@@ -18,7 +17,6 @@ import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
 import Button from '../Button/Button'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import For from '../For/For'
 import Page from '../Page/Page'
 
 import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
@@ -30,6 +28,8 @@ const DraftList = ({ draftType }) => {
 
   const { drafts, error, loading } = useDraftsQuery({ draftType })
   const { count, items = [] } = drafts
+
+  const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
 
   const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
     onCompleted: (getDraftData) => {
@@ -52,6 +52,63 @@ const DraftList = ({ draftType }) => {
       }
     })
   }
+
+  // Building a Table using Data in items
+  const data = (items.map((item) => {
+    const {
+      conceptId, revisionDate, previewMetadata: {
+        name, longName, shortName, title
+      }
+    } = item
+
+    const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
+
+    return (
+      {
+        key: conceptId,
+        cells:
+          [
+            {
+              value:
+              (
+                <Link to={draftLink}>
+                  {name || shortName || '<Blank Name>'}
+                </Link>
+              )
+            },
+            {
+              value:
+              (
+                longName || title || '<Untitled Record>'
+              )
+            },
+            {
+              value:
+              (
+                new Date(revisionDate).toISOString().split('T')[0]
+              )
+            },
+            {
+              value:
+              (
+                <div className="d-flex">
+                  <Button
+                    className="d-flex"
+                    Icon={FaFileDownload}
+                    onClick={() => handleDownloadClick(conceptId)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Download JSON
+                  </Button>
+                </div>
+              )
+            }
+          ]
+      }
+    )
+  })
+  )
 
   return (
     <Page
@@ -104,118 +161,13 @@ const DraftList = ({ draftType }) => {
                       </span>
                     )
                 }
-
-                <Table striped>
-                  <thead>
-                    <tr>
-                      <th>Short Name</th>
-                      <th>Entry Title</th>
-                      <th className="text-center">Last Modified</th>
-                      <th className="text-center"><span className="sr-only">Actions</span></th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {
-                      loading
-                        ? (
-                          <For each={[...new Array(5)]}>
-                            {
-                              (item, i) => (
-                                <tr key={`placeholder-row_${i}`}>
-                                  <td className="col-md-4">
-                                    <Placeholder animation="glow">
-                                      <Placeholder xs={6} />
-                                    </Placeholder>
-                                  </td>
-                                  <td className="col-md-4">
-                                    <Placeholder animation="glow">
-                                      <Placeholder xs={8} />
-                                    </Placeholder>
-                                  </td>
-                                  <td className="col-md-2">
-                                    <Placeholder animation="glow">
-                                      <Placeholder xs={8} />
-                                    </Placeholder>
-                                  </td>
-                                  <td className="col-auto">
-                                    <Placeholder animation="glow">
-                                      <PlaceholderButton className="btn-sm" xs={10} variant="secondary" size="sm" />
-                                    </Placeholder>
-                                  </td>
-                                </tr>
-                              )
-                            }
-                          </For>
-                        )
-                        : (
-                          <For
-                            each={items}
-                            empty={
-                              (
-                                <tr className="text-center">
-                                  <td colSpan={4}>
-                                    No
-                                    {' '}
-                                    {draftType}
-                                    {' '}
-                                    drafts exist for the provider
-                                    {' '}
-                                    <strong>{providerId}</strong>
-                                    .
-                                  </td>
-                                </tr>
-                              )
-                            }
-                          >
-                            {
-                              (
-                                {
-                                  conceptId,
-                                  previewMetadata: {
-                                    name,
-                                    longName
-                                  },
-                                  revisionDate
-                                }
-                              ) => {
-                                const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
-
-                                return (
-                                  <tr key={conceptId}>
-                                    <td className="col-md-4">
-                                      <Link to={draftLink}>
-                                        {name || '<Blank Name>'}
-                                      </Link>
-                                    </td>
-                                    <td className="col-md-4">
-                                      {longName || '<Untitled Record>'}
-                                    </td>
-                                    <td className="col-auto text-center">
-                                      {new Date(revisionDate).toISOString().split('T')[0]}
-                                    </td>
-                                    <td className="col-auto text-center">
-                                      <div className="d-flex align-items-center justify-content-center">
-                                        <Button
-                                          className="d-flex align-items-center justify-content-center"
-                                          Icon={FaFileDownload}
-                                          onClick={() => handleDownloadClick(conceptId)}
-                                          variant="secondary"
-                                          size="sm"
-                                        >
-                                          Download JSON
-                                        </Button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                )
-                              }
-                            }
-                          </For>
-                        )
-                    }
-                  </tbody>
-                </Table>
+                <Table
+                  headers={['Short Name', 'Entry Title', 'Last Modified', 'Actions']}
+                  classNames={['col-md-4', 'col-md-4', 'col-auto', 'col-auto']}
+                  loading={loading}
+                  data={data}
+                  error={noDraftsError}
+                />
               </>
             )
           }

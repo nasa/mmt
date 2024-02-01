@@ -228,7 +228,7 @@ class OneOfField extends React.Component {
     })))
 
     // Const { oneOf } = schema
-    // const found = oneOf.some((value) => (value as any).properties)
+    // const found = oneOf.some((value) => (value).properties)
     // if (!found) {
     //   return null
     // }
@@ -278,7 +278,7 @@ class OneOfField extends React.Component {
 OneOfField.defaultProps = {
   baseType: null,
   errorSchema: null,
-  formData: {},
+  formData: null,
   uiSchema: {}
 }
 

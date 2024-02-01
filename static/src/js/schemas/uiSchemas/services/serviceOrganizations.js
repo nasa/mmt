@@ -73,15 +73,14 @@ const organizationUiSchema = {
       ShortName: { 'ui:title': 'Short Name' },
       LongName: { 'ui:widget': CustomTextWidget },
       OnlineResource: {
-        'ui:heading-level': 'h5',
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Online Resource',
               'ui:group-description': true,
-              // 'ui:group-classname': 'h3-title',
-              // 'ui:group-box-classname': 'h2-box',
+
               'ui:col': {
                 md: 12,
                 children: [

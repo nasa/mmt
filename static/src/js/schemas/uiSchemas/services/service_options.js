@@ -8,12 +8,12 @@ const serviceOptionsUiSchema = {
     'ui:layout_grid': {
       'ui:row': [
         {
+          'ui:group': 'Service Options',
+          'ui:group-description': true,
           'ui:col': {
             md: 12,
             children: [
               {
-                'ui:group': 'Service Options',
-                'ui:group-description': true,
                 'ui:row': [
                   {
                     'ui:col': {
@@ -64,10 +64,217 @@ const serviceOptionsUiSchema = {
         }
       ]
     },
-    SupportedReformattings: {
+    VariableAggregationSupportedMethods: {
+      'ui:heading-level': 'h4'
+    },
+    SupportedInputProjections: {
+      'ui:heading-level': 'h4',
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
+          'ui:row': [
+            {
+              'ui:group-description': false,
+              'ui:col': {
+                md: 12,
+                children: [
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionName']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionLatitudeOfCenter']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionLongitudeOfCenter']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionFalseEasting']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionFalseNorthing']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionAuthority']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionUnit']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionDatumName']
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    SupportedOutputProjections: {
+      'ui:heading-level': 'h4',
+      items: {
+        'ui:field': 'layout',
+        'ui:layout_grid': {
+          'ui:row': [
+            {
+              'ui:group-description': false,
+              'ui:col': {
+                md: 12,
+                children: [
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionName']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionLatitudeOfCenter']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionLongitudeOfCenter']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionFalseEasting']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionFalseNorthing']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionAuthority']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionUnit']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ProjectionDatumName']
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    InterpolationTypes: {
+      'ui:heading-level': 'h4'
+    },
+    SupportedReformattings: {
+      'ui:heading-level': 'h4',
+      items: {
+        'ui:field': 'layout',
+        'ui:group': 'Subset',
+        'ui:group-description': false,
+        'ui:layout_grid': {
+          'ui:group': 'URL',
+          'ui:group-description': true,
           'ui:row': [
             {
               'ui:col': {
@@ -97,14 +304,14 @@ const serviceOptionsUiSchema = {
       }
     },
     Subset: {
+      'ui:heading-level': 'h4',
       'ui:field': 'layout',
       'ui:layout_grid': {
-        'ui:group': 'Subset',
-        'ui:group-description': true,
-        'ui:group-classname': 'h2-title',
-        'ui:group-box-classname': 'h2-box',
+
         'ui:row': [
           {
+            'ui:group': 'Subset',
+            'ui:group-description': true,
             'ui:col': {
               md: 12,
               children: [
