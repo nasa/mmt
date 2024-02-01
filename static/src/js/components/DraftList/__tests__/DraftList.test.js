@@ -97,9 +97,11 @@ describe('DraftList', () => {
             {
               conceptId: 'TD1200000092-MMT_2',
               revisionDate: '2023-12-08T17:56:09.385Z',
+              ummMetadata: {
+                Name: 'Tool TD1200000092 short name',
+                LongName: 'Tool TD1200000092 long name'
+              },
               previewMetadata: {
-                name: 'Tool TD1200000092 short name',
-                longName: 'Tool TD1200000092 long name',
                 __typename: 'Tool'
               },
               __typename: 'Draft'
@@ -107,6 +109,7 @@ describe('DraftList', () => {
             {
               conceptId: 'TD1200000093-MMT_2',
               revisionDate: '2023-11-08T17:56:09.385Z',
+              ummMetadata: {},
               previewMetadata: {
                 __typename: 'Tool'
               },
@@ -115,9 +118,11 @@ describe('DraftList', () => {
             {
               conceptId: 'TD1200000094-MMT_2',
               revisionDate: '2023-10-08T17:56:09.385Z',
+              ummMetadata: {
+                Name: 'Tool TD1200000094 short name',
+                LongName: 'Tool TD1200000094 long name'
+              },
               previewMetadata: {
-                name: 'Tool TD1200000094 short name',
-                longName: 'Tool TD1200000094 long name',
                 __typename: 'Tool'
               },
               __typename: 'Draft'

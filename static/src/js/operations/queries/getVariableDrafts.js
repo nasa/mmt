@@ -8,6 +8,7 @@ export const GET_VARIABLE_DRAFTS = gql`
       items {
         conceptId
         revisionDate
+        ummMetadata
         previewMetadata {
           ... on Variable {
             name
