@@ -45,7 +45,7 @@ const setup = (overrideMocks) => {
                   LongName: 'Tool Draft 1 Long Name'
                 },
                 previewMetadata: {
-                  __typename: 'Tool',
+                  __typename: 'Tool'
                 }
               },
               {
