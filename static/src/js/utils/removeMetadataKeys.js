@@ -5,12 +5,15 @@
  * @param {Array} keys An array that has all the keys that needs to be removed
  */
 const removeMetadataKeys = (metadata, keys) => {
-  keys.forEach((key) => {
-    // eslint-disable-next-line no-param-reassign
-    delete metadata[key]
+  const modifiedMetadata = metadata
+
+  Object.keys(metadata).forEach((key) => {
+    if (keys.includes(key)) {
+      delete modifiedMetadata[key]
+    }
   })
 
-  return metadata
+  return modifiedMetadata
 }
 
 export default removeMetadataKeys

@@ -180,7 +180,6 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
-          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -197,7 +196,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Clone Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -214,7 +212,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Delete Publish record button */}
           <Button
             type="button"
             variant="outline-danger"
@@ -230,7 +227,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Renders the Delete Modal */}
           <CustomModal
             message="Are you sure you want to delete this record?"
             openModal={showDeleteModal}
@@ -253,7 +249,6 @@ const PublishPreview = () => {
       </Row>
       <Row>
         <Col md={12}>
-          {/* Renders the Metadata Preview */}
           <MetadataPreview
             previewMetadata={previewMetadata}
             conceptId={conceptId}
