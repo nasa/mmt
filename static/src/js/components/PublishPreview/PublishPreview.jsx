@@ -65,23 +65,23 @@ const PublishPreview = () => {
       }
     },
     onCompleted: (getData) => {
-      const fetchedMetadata = getData[toLowerKebabCase(derivedConceptType)]
+      const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
       const {
-        revisionId: savedRevisionId,
-        nativeId: savedNativeId,
-        ummMetadata: savedUmmMetadata
-      } = fetchedMetadata || {}
+        revisionId: fetchedRevisionId,
+        nativeId: fetchedNativeId,
+        ummMetadata: fetchedUmmMetadata
+      } = fetchedPreviewMetadata || {}
 
-      if (!fetchedMetadata || (savedRevisionId && revisionId !== savedRevisionId)) {
+      if (!fetchedPreviewMetadata || (fetchedRevisionId && revisionId !== fetchedRevisionId)) {
         // If fetchedMetadata or the correct revision id does't exist in CMR, then call getMetadata again.
         setRetries(retries + 1)
         setPreviewMetadata()
       } else {
         // The correct version of the metadata has been fetched
-        setPreviewMetadata(fetchedMetadata)
-        setNativeId(savedNativeId)
+        setPreviewMetadata(fetchedPreviewMetadata)
+        setNativeId(fetchedNativeId)
         setLoading(false)
-        setUmmMetadata(savedUmmMetadata)
+        setUmmMetadata(fetchedUmmMetadata)
       }
     },
     onError: (getDraftError) => {
@@ -170,7 +170,6 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
-          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -187,7 +186,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Delete Publish record button */}
           <Button
             type="button"
             variant="outline-danger"
@@ -203,7 +201,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Renders the Delete Modal */}
           <CustomModal
             message="Are you sure you want to delete this record?"
             openModal={showDeleteModal}
@@ -226,7 +223,6 @@ const PublishPreview = () => {
       </Row>
       <Row>
         <Col md={12}>
-          {/* Renders the Metadata Preview */}
           <MetadataPreview
             previewMetadata={previewMetadata}
             conceptId={conceptId}
