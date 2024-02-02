@@ -59,6 +59,7 @@ describe('Table', () => {
       expect(screen.getByText('column 1')).toBeInTheDocument()
       expect(screen.getByRole('table')).toBeInTheDocument()
       expect(screen.getByText('Showing 0-2 of 14 Results')).toBeInTheDocument()
+      expect(screen.getByText('Row 2 Cell 2')).toBeInTheDocument()
     })
   })
 
@@ -67,10 +68,21 @@ describe('Table', () => {
       setup({
         data: [],
         count: 0,
-        error: 'Custom Error Message'
+        noDataError: 'Custom Error Message'
       })
 
       expect(screen.getByText('Custom Error Message')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the table component has an error from useQuery', () => {
+    test('renders error message', () => {
+      setup({
+        data: null,
+        error: 'Error Message'
+      })
+
+      expect(screen.getByText('Error Message')).toBeInTheDocument()
     })
   })
 

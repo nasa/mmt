@@ -15,7 +15,7 @@ import Col from 'react-bootstrap/Col'
 const PaginationComponent = ({
   limit,
   count,
-  setoffset
+  setOffset
 }) => {
   const [pageNum, setPageNum] = useState(1)
 
@@ -28,7 +28,7 @@ const PaginationComponent = ({
 
   const handleItemClick = (currentPage) => {
     setPageNum(currentPage)
-    setoffset((currentPage - 1) * limit)
+    setOffset((currentPage - 1) * limit)
   }
 
   const generatePaginationItems = () => {
@@ -106,22 +106,19 @@ const PaginationComponent = ({
     const newCurrentPage = pageNum + direction
 
     setPageNum(newCurrentPage)
-    setoffset((newCurrentPage - 1) * limit)
+    setOffset((newCurrentPage - 1) * limit)
   }
 
   return (
     <Row>
       <Col xs="auto">
-        {/* <h1>Pagination</h1> */}
         <div className="mx-auto">
           <Pagination>
             <Pagination.Prev
               disabled={pageNum === 1}
               onClick={() => handlePageChange(-1)}
             />
-
             {generatePaginationItems()}
-
             <Pagination.Next
               onClick={() => handlePageChange(1)}
               disabled={pageNum >= lastPageNum}
@@ -138,7 +135,7 @@ PaginationComponent.defaultProps = {
 }
 
 PaginationComponent.propTypes = {
-  setoffset: PropTypes.func.isRequired,
+  setOffset: PropTypes.func.isRequired,
   limit: PropTypes.number.isRequired,
   count: PropTypes.number
 }

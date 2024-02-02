@@ -34,9 +34,8 @@ const DraftList = ({ draftType }) => {
     limit
   })
   const { count, items = [] } = drafts
-  console.log(count)
 
-  const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
+  const noDataError = `No ${draftType} drafts exist for the provider ${providerId}`
 
   const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
     onCompleted: (getDraftData) => {
@@ -161,7 +160,8 @@ const DraftList = ({ draftType }) => {
                   classNames={['col-md-4', 'col-md-4', 'col-auto', 'col-auto']}
                   loading={loading}
                   data={data}
-                  error={noDraftsError}
+                  error={error}
+                  noDataError={noDataError}
                   count={count}
                   setOffset={setOffset}
                   limit={limit}

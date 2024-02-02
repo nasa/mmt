@@ -6,7 +6,6 @@
     "cmrHost": "http://localhost:4000",
     "version": "development",
     "jwtSecret": "jwt_secret"
-
   },
   "ummVersions": {
     "ummC": "1.17.3",

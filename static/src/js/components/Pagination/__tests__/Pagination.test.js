@@ -8,13 +8,13 @@ import userEvent from '@testing-library/user-event'
 
 import PaginationComponent from '../Pagination'
 
-const setoffset = jest.fn()
+const setOffset = jest.fn()
 
 const setup = () => {
   const props = {
     limit: 2,
     count: 14,
-    setoffset
+    setOffset
   }
   render(
     <PaginationComponent {...props} />
