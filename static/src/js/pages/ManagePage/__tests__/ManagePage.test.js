@@ -40,19 +40,23 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'TD1000000000-TESTPROV',
                 revisionDate: '2023-11-30 00:00:00',
+                ummMetadata: {
+                  Name: 'Tool Draft 1 Name',
+                  LongName: 'Tool Draft 1 Long Name'
+                },
                 previewMetadata: {
-                  __typename: 'Tool',
-                  name: 'Tool Draft 1 Name',
-                  longName: 'Tool Draft 1 Long Name'
+                  __typename: 'Tool'
                 }
               },
               {
                 conceptId: 'TD1000000001-TESTPROV',
                 revisionDate: '2023-11-30 00:00:00',
+                ummMetadata: {
+                  Name: 'Tool Draft 2 Name',
+                  LongName: 'Tool Draft 2 Long Name'
+                },
                 previewMetadata: {
-                  __typename: 'Tool',
-                  name: 'Tool Draft 2 Name',
-                  longName: 'Tool Draft 2 Long Name'
+                  __typename: 'Tool'
                 }
               }
             ]
@@ -198,10 +202,12 @@ describe('ManagePage component', () => {
                   {
                     conceptId: 'TD1000000000-TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
+                    ummMetadata: {
+                      Name: null,
+                      LongName: null
+                    },
                     previewMetadata: {
-                      __typename: 'Tool',
-                      name: null,
-                      longName: null
+                      __typename: 'Tool'
                     }
                   }
                 ]
