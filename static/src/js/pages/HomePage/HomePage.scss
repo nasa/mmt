@@ -1,0 +1,11 @@
+.home-page {
+  &__panel-content {
+    --bs-bg-opacity: 0.7;
+
+    text-shadow: 0 0 10px rgb(0 0 0 / 90%);
+  }
+
+  &__intro-text {
+    text-shadow: 0 0 10px rgb(0 0 0 / 80%);
+  }
+}

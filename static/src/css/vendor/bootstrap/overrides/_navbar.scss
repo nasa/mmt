@@ -3,19 +3,26 @@
 }
 
 .navbar-brand {
+  font-size: 1rem;
   font-weight: 100;
 
   &.nasa {
-    padding-left: 4.375rem;
+    padding-left: 2.5rem;
     background: url("@/assets/images/logos/nasa-outline-new.svg") no-repeat;
     background-position: left center;
-    background-size: 3.75rem 3.75rem;
+    background-size: 2rem 2rem;
 
     &:hover {
       background: url("@/assets/images/logos/nasa-meatball-new.svg") no-repeat;
       background-position: left center;
       background-size: 3.75rem 3.75rem;
       cursor: pointer;
+    }
+
+    @include media-breakpoint-up(md) {
+      padding-left: 4.375rem;
+      background-size: 3.75rem 3.75rem;
+      font-size: var(--bs-navbar-brand-font-size);
     }
   }
 }
