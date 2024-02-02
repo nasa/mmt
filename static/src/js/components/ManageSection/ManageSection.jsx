@@ -7,6 +7,8 @@ import Row from 'react-bootstrap/Row'
 
 import For from '../For/For'
 
+import './ManageSection.scss'
+
 /**
  * @typedef {Object} SectionEntry
  * @property {ReactNode} children A required React node to be used as the section content.
@@ -50,17 +52,7 @@ const ManageSection = ({
   >
     <section className="bg-white p-3 w-100">
       <h2
-        className="d-block mb-0 bg-primary text-white h5 py-3 border-5 border-end border-indigo"
-        style={
-          {
-            position: 'relative',
-            paddingLeft: '2rem',
-            paddingRight: '1rem',
-            left: 'calc(-2rem)',
-            width: 'calc(100% + 2rem)',
-            fontWeight: 700
-          }
-        }
+        className="manage-section__heading fw-bold d-block mb-0 bg-primary text-white border-5 border-end border-indigo"
       >
         {title}
       </h2>

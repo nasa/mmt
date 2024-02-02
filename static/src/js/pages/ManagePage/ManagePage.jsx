@@ -50,7 +50,7 @@ const ManagePage = () => {
                 sections: [
                   {
                     key: 'create-record',
-                    children: <Link className="btn btn-primary" to={`/drafts/${type}/new`}>Create New Record</Link>,
+                    children: <Link className="btn btn-primary fw-bold" to={`/drafts/${type}/new`}>Create New Record</Link>,
                     separate: true
                   },
                   {
