@@ -440,7 +440,7 @@ describe('MetadataForm', () => {
     })
 
     describe('when the saveType is save', () => {
-      test.only('navigates to the current form and calls scrolls to the top', async () => {
+      test('navigates to the current form and calls scrolls to the top', async () => {
         const navigateSpy = jest.fn()
         jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -475,8 +475,6 @@ describe('MetadataForm', () => {
         })
 
         await waitForResponse()
-
-        console.log(screen.getByRole('button', { name: 'Save Options' }))
 
         const dropdown = screen.getByRole('button', { name: 'Save Options' })
         await user.click(dropdown)
