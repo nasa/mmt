@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import { FaFileDownload } from 'react-icons/fa'
-import pluralize from 'pluralize'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
@@ -26,10 +25,17 @@ const DraftList = ({ draftType }) => {
   const { providerId } = user
   const { draftType: paramDraftType } = useParams()
 
-  const { drafts, error, loading } = useDraftsQuery({ draftType })
+  const [offset, setOffset] = useState(0)
+  const limit = 20
+
+  const { drafts, error, loading } = useDraftsQuery({
+    draftType,
+    offset,
+    limit
+  })
   const { count, items = [] } = drafts
 
-  const noDraftsError = `No ${draftType} drafts exist for the provider ${providerId}`
+  const noDataError = `No ${draftType} drafts exist for the provider ${providerId}`
 
   const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
     onCompleted: (getDraftData) => {
@@ -56,10 +62,11 @@ const DraftList = ({ draftType }) => {
   // Building a Table using Data in items
   const data = (items.map((item) => {
     const {
-      conceptId, revisionDate, previewMetadata: {
-        name, longName, shortName, title
-      }
+      conceptId, revisionDate, ummMetadata
     } = item
+    const {
+      ShortName, EntryTitle, Name, LongName
+    } = ummMetadata || {}
 
     const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
 
@@ -72,14 +79,14 @@ const DraftList = ({ draftType }) => {
               value:
               (
                 <Link to={draftLink}>
-                  {name || shortName || '<Blank Name>'}
+                  {Name || ShortName || '<Blank Name>'}
                 </Link>
               )
             },
             {
               value:
               (
-                longName || title || '<Untitled Record>'
+                LongName || EntryTitle || '<Untitled Record>'
               )
             },
             {
@@ -140,24 +147,11 @@ const DraftList = ({ draftType }) => {
               <>
                 {
                   loading
-                    ? (
+                    && (
                       <span className="d-block mb-3">
                         <Placeholder as="span" animation="glow">
                           <Placeholder xs={2} />
                         </Placeholder>
-                      </span>
-                    )
-                    : (
-                      <span className="d-block mb-3">
-                        Showing
-                        {' '}
-                        {count > 0 && 'all'}
-                        {' '}
-                        {count}
-                        {' '}
-                        {draftType}
-                        {' '}
-                        {pluralize('Draft', count)}
                       </span>
                     )
                 }
@@ -166,7 +160,12 @@ const DraftList = ({ draftType }) => {
                   classNames={['col-md-4', 'col-md-4', 'col-auto', 'col-auto']}
                   loading={loading}
                   data={data}
-                  error={noDraftsError}
+                  error={error}
+                  noDataError={noDataError}
+                  count={count}
+                  setOffset={setOffset}
+                  limit={limit}
+                  offset={offset}
                 />
               </>
             )

@@ -19,6 +19,8 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
+import useAppContext from '../../hooks/useAppContext'
+import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 
 /**
  * Renders a PublishPreview component
@@ -35,19 +37,23 @@ const PublishPreview = () => {
     revisionId
   } = useParams()
 
+  const { user } = useAppContext()
+  const { providerId } = user
   const navigate = useNavigate()
 
   const [previewMetadata, setPreviewMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [ummMetadata, setUmmMetadata] = useState()
   const [error, setError] = useState()
   const [retries, setRetries] = useState(0)
   const [loading, setLoading] = useState(true)
   const [nativeId, setNativeId] = useState()
-  const [providerId, setProviderId] = useState()
 
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+
+  const ingestMutation = useIngestDraftMutation()
 
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
@@ -59,23 +65,23 @@ const PublishPreview = () => {
       }
     },
     onCompleted: (getData) => {
-      const fetchedMetadata = getData[toLowerKebabCase(derivedConceptType)]
+      const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
       const {
-        revisionId: savedRevisionId,
-        nativeId: savedNativeId,
-        providerId: savedProviderId
-      } = fetchedMetadata || {}
+        revisionId: fetchedRevisionId,
+        nativeId: fetchedNativeId,
+        ummMetadata: fetchedUmmMetadata
+      } = fetchedPreviewMetadata || {}
 
-      if (!fetchedMetadata || (savedRevisionId && revisionId !== savedRevisionId)) {
+      if (!fetchedPreviewMetadata || (fetchedRevisionId && revisionId !== fetchedRevisionId)) {
         // If fetchedMetadata or the correct revision id does't exist in CMR, then call getMetadata again.
         setRetries(retries + 1)
         setPreviewMetadata()
       } else {
         // The correct version of the metadata has been fetched
-        setPreviewMetadata(fetchedMetadata)
-        setNativeId(savedNativeId)
-        setProviderId(savedProviderId)
+        setPreviewMetadata(fetchedPreviewMetadata)
+        setNativeId(fetchedNativeId)
         setLoading(false)
+        setUmmMetadata(fetchedUmmMetadata)
       }
     },
     onError: (getDraftError) => {
@@ -99,6 +105,12 @@ const PublishPreview = () => {
       setError('Published record could not be loaded.')
     }
   }, [previewMetadata, retries])
+
+  // Calls ingestDraft mutation with the same nativeId and ummMetadata
+  // TODO: Need to check if the record trying to edit is in the same provider
+  const handleEdit = () => {
+    ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId)
+  }
 
   // Handles the user selecting delete from the delete model
   const handleDelete = () => {
@@ -159,6 +171,22 @@ const PublishPreview = () => {
       <Row>
         <Col className="mb-5" md={12}>
           <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={
+              () => {
+                handleEdit()
+              }
+            }
+          >
+            Edit
+            {' '}
+            {derivedConceptType}
+            {' '}
+            Record
+          </Button>
+          <Button
             type="button"
             variant="outline-danger"
             onClick={
@@ -173,7 +201,6 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-
           <CustomModal
             message="Are you sure you want to delete this record?"
             openModal={showDeleteModal}

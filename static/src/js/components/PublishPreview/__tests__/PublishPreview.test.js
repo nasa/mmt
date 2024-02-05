@@ -16,6 +16,7 @@ import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
+import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 jest.mock('../../MetadataPreview/MetadataPreview')
 jest.mock('../../ErrorBanner/ErrorBanner')
@@ -76,6 +77,7 @@ const mock = {
     }
   ],
   type: 'Web User Interface',
+  ummMetadata: {},
   url: {
     urlContentType: 'DistributionURL',
     type: 'DOWNLOAD SOFTWARE',
@@ -194,6 +196,7 @@ describe('PublishPreview', () => {
             }
           ],
           type: 'Web User Interface',
+          ummMetadata: {},
           url: {
             subtype: 'MOBILE APP',
             type: 'DOWNLOAD SOFTWARE',
@@ -366,6 +369,78 @@ describe('PublishPreview', () => {
       await user.click(noButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('when clicking on Edit Tool Record button', () => {
+    test('calls the ingestDraftMutation and navigates to /drafts/tool/conceptId page', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: INGEST_DRAFT,
+            variables: {
+              conceptType: 'Tool',
+              metadata: {},
+              nativeId: 'MMT_PUBLISH_8b8a1965-67a5-415c-ae4c-8ecbafd84131',
+              providerId: 'MMT_2',
+              ummVersion: '1.2.0'
+            }
+          },
+          result: {
+            data: {
+              ingestDraft: {
+                conceptId: 'TD1000000-MMT',
+                revisionId: '3'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      const editButton = screen.getByRole('button', { name: 'Edit Tool Record' })
+      await user.click(editButton)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
+    })
+
+    test('when ingest mutation returns an error', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: INGEST_DRAFT,
+            variables: {
+              conceptType: 'Tool',
+              nativeId: 'MMT_PUBLISH_8b8a1965-67a5-415c-ae4c-8ecbafd84131',
+              metadata: {},
+              providerId: 'MMT_2',
+              ummVersion: '1.2.0'
+            }
+          },
+          error: new Error('An error occurred')
+        }]
+      })
+
+      await waitForResponse()
+
+      const editButton = screen.getByRole('button', { name: 'Edit Tool Record' })
+      await user.click(editButton)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(0)
+      expect(errorLogger).toHaveBeenCalledTimes(1)
+      expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview ingestDraftMutation Query')
     })
   })
 })

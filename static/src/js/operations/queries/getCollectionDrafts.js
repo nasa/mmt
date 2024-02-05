@@ -8,12 +8,7 @@ export const GET_COLLECTION_DRAFTS = gql`
       items {
         conceptId
         revisionDate
-        previewMetadata {
-          ... on Collection {
-            shortName
-            title
-          }
-        }
+        ummMetadata
       }
     }
   }

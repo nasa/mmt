@@ -31,6 +31,7 @@ export const GET_TOOL = gql`
       supportedSoftwareLanguages
       toolKeywords
       type
+      ummMetadata
       url
       useConstraints
       version

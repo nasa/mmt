@@ -8,6 +8,7 @@ export const GET_TOOL_DRAFTS = gql`
       items {
         conceptId
         revisionDate
+        ummMetadata
         previewMetadata {
           ... on Tool {
             name

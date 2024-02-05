@@ -26,6 +26,7 @@ export const GET_VARIABLE = gql`
       scienceKeywords
       sets
       standardName
+      ummMetadata
       units
       validRanges
       variableSubType
