@@ -28,20 +28,10 @@ const collectionAssociation = {
         },
         {
           additionalProperties: false,
-          title: 'Short Name',
-          properties: {
-            ShortName: {
-              description: 'Short Name of the collection record',
-              type: 'string'
-            }
-          }
-        },
-        {
-          additionalProperties: false,
           title: 'Data Center',
           properties: {
             DataCenter: {
-              description: 'Data Center of the collection record',
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
               type: 'string'
             }
           }
@@ -51,7 +41,7 @@ const collectionAssociation = {
           title: 'Platform',
           properties: {
             Platform: {
-              description: 'Platform of the collection record',
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
               type: 'string'
             }
           }
@@ -68,38 +58,20 @@ const collectionAssociation = {
         },
         {
           additionalProperties: false,
-          title: 'Revision Date',
+          title: 'Project',
           properties: {
-            RevisionDate: {
-              description: 'Revision Date of the collection record',
-              format: 'date-time',
+            Project: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
               type: 'string'
             }
           }
         },
         {
           additionalProperties: false,
-          title: 'Revision Date',
+          title: 'Short Name',
           properties: {
-            RevisionDate: {
-              description: 'Revision Date of the collection record',
-              format: 'date-time',
-              type: 'string'
-            }
-          }
-        },
-        {
-          additionalProperties: false,
-          title: 'Temporal Extent',
-          properties: {
-            RangeStart: {
-              description: 'Range Start of the collection record',
-              format: 'date-time',
-              type: 'string'
-            },
-            RangeEnd: {
-              description: 'Range End of the collection record',
-              format: 'date-time',
+            ShortName: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
               type: 'string'
             }
           }

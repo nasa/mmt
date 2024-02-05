@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Placeholder,
@@ -6,14 +6,14 @@ import {
 } from 'react-bootstrap'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Select from 'react-select'
-import { useLazyQuery } from '@apollo/client'
-import { camelCase, kebabCase } from 'lodash-es'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
+import camelcaseKeys from 'camelcase-keys'
+import { useNavigate, useParams } from 'react-router'
+import pluralize from 'pluralize'
 import Page from '../Page/Page'
 import For from '../For/For'
-import useCollectionsQuery from '../../hooks/useCollectionsQuery'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import useAppContext from '../../hooks/useAppContext'
 import collectionAssociation from '../../schemas/collectionAssociation'
@@ -21,50 +21,84 @@ import OneOfField from '../OneOfField/OneOfField'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
+import GridLayout from '../GridLayout/GridLayout'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import parseError from '../../utils/parseError'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import errorLogger from '../../utils/errorLogger'
+import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import getUmmVersion from '../../utils/getUmmVersion'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 const CollectionAssociation = () => {
-  const { user, draft } = useAppContext()
-  const { providerId } = user
-  console.log('🚀 ~ file: CollectionAssociation.jsx:20 ~ CollectionAssociation ~ draft:', draft)
+  const { conceptId } = useParams()
+  const navigate = useNavigate()
 
+  const { user } = useAppContext()
+  const { providerId } = user
+
+  const [error, setError] = useState()
   const [selectedOption, setSelectedOption] = useState()
-  const [searchField, setSearchField] = useState()
-  const [searchTermValue, setSearchTermValue] = useState(null)
-  const [providerFilter, setProviderFilter] = useState(providerId)
-  const [collectionSearch, setCollectionSearch] = useState({})
+  const [fetchedDraft, setFetchedDraft] = useState()
+  const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [loading, setLoading] = useState()
 
-  const searchFieldEnums = [
-    {
-      label: 'Concept ID',
-      value: 'Concept ID'
-    },
-    {
-      label: 'Short Name',
-      value: 'Short Name'
-    },
-    {
-      label: 'Data Center',
-      value: 'Data Center'
-    },
-    {
-      label: 'Platform',
-      value: 'Platform'
-    },
-    {
-      label: 'Processing Level ID',
-      value: 'Processing Level ID'
-    },
-    {
-      label: 'Project',
-      value: 'Project'
-    }
-  ]
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
+  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
+  const { addNotification } = useNotificationsContext()
+
+  const fields = {
+    OneOfField,
+    TitleField: CustomTitleField,
+    layout: GridLayout
+  }
+
+  const templates = {
+    FieldTemplate: CustomFieldTemplate
+
+  }
+
+  const widgets = {
+    TextWidget: CustomTextWidget,
+    DateTimeWidget: CustomDateTimeWidget,
+    SelectWidget: CustomSelectWidget
+  }
+
+  const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
+    variables: {
+      params: {
+        conceptId,
+        conceptType: derivedConceptType
+      }
+    },
+    onCompleted: (getDraftData) => {
+      const { draft } = getDraftData
+      setFetchedDraft(draft)
+      setLoading(false)
+    },
+    onError: (getDraftError) => {
+      setLoading(false)
+      errorLogger('Unable to retrieve draft', 'Collection Association: getDraft Query')
+
+      setError(getDraftError)
+    }
+  })
+
+  useEffect(() => {
+    // SetLoading(true)
+    getDraft()
+  }, [])
+
+  // Calls GET_COLLECTION query and
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
     onCompleted: (getCollectionsData) => {
-      setCollectionSearch(getCollectionsData.collections)
+      setCollectionSearchResult(getCollectionsData.collections)
       setLoading(false)
     },
     onError: (getCollectionsError) => {
@@ -73,42 +107,100 @@ const CollectionAssociation = () => {
     }
   })
 
-  const handleSelectChange = (event) => {
-    const { value } = event
+  // Handles on submit from the form. Calls graphQL with a wildcard search
+  // Example:
+  //   "params": {
+  //   "options": {
+  //     "shortName": {
+  //     "pattern": true
+  //     }
+  //   },
+  //   "shortName": "*"
+  const handleCollectionSearch = ({ formData }) => {
+    const formattedFormData = camelcaseKeys(formData, { deep: true })
 
-    setSearchField(value)
-  }
+    const { searchField } = formattedFormData
+    const type = Object.keys(searchField)
+    const value = Object.values(searchField).at(0)
 
-  const handleInputChange = (event) => {
-    const { value } = event.target
-
-    setSearchTermValue(value)
-  }
-
-  const handleSearchSubmit = () => {
-    console.log('search field', camelCase(searchField))
     setLoading(true)
     setShowSelectCollection(true)
+
     getCollections({
       variables: {
         params: {
-          [camelCase(searchField)]: searchTermValue,
-          provider: providerFilter
+          options: {
+            [type]: {
+              pattern: true
+            }
+          },
+          [type]: value
         }
       }
     })
   }
 
-  const fields = {
-    OneOfField
+  const handleSubmit = () => {
+    let associationDetailDraft = fetchedDraft
+    const { ummMetadata } = fetchedDraft
+    const { nativeId } = fetchedDraft
+
+    associationDetailDraft = {
+      ...ummMetadata,
+      __private: { CollectionAssociation: selectedOption }
+    }
+
+    ingestDraftMutation({
+      variables: {
+        conceptType: derivedConceptType,
+        metadata: associationDetailDraft,
+        nativeId,
+        providerId,
+        ummVersion: getUmmVersion(derivedConceptType)
+      },
+      onCompleted: () => {
+        // Console.log('🚀 ~ handleSubmit ~ getIngestData:', getIngestData)
+        // Add a success notification
+        addNotification({
+          message: ` ${conceptId} Associated`,
+          variant: 'success'
+        })
+
+        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`, { replace: true })
+      },
+      onError: (getIngestError) => {
+        console.log('🚀 ~ handleSubmit ~ getIngestError:', getIngestError)
+      }
+    })
   }
 
-  const widgets = {
-    TextWidget: CustomTextWidget,
-    DateTimeWidget: CustomDateTimeWidget,
-    SelectWidget: CustomSelectWidget
+  // If (loading) {
+  //   return (
+  //     <Page>
+  //       <LoadingBanner />
+  //     </Page>
+  //   )
+  // }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
   }
-  const { items = [], count } = collectionSearch || {}
+
+  const { items = [], count } = collectionSearchResult || {}
+  const { ummMetadata } = fetchedDraft || {}
+  const { __private } = ummMetadata || {}
+  const { CollectionAssociation } = __private || 0
+
+  let size = 0
+  if (CollectionAssociation) {
+    size = Object.keys(CollectionAssociation).length
+  }
 
   return (
     <Page>
@@ -134,60 +226,10 @@ const CollectionAssociation = () => {
           validator={validator}
           fields={fields}
           widgets={widgets}
+          templates={templates}
+          onSubmit={handleCollectionSearch}
         />
-        {/* Search Field */}
-        <Col className="pb-5">
-
-          <div className="pb-4">
-            <h5>Search Field</h5>
-            <Select
-              className="col-md-4"
-              placeholder="Collection Data Type"
-              styles={{ width: '50px' }}
-              options={searchFieldEnums}
-              onChange={handleSelectChange}
-            />
-          </div>
-
-          <div className="pb-4">
-            <h5>Search Term</h5>
-            <input
-              className="col-sm-4 pb-4"
-              name="Search Term"
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="pb-4">
-            <h5>Filter</h5>
-            <input
-              type="radio"
-              className=""
-              name="provider"
-              onClick={() => { setProviderFilter(providerId) }}
-            />
-            <label className="m-2">Search only my collections</label>
-
-            <input
-              type="radio"
-              className=""
-              name="provider"
-              onClick={() => { setProviderFilter(null) }}
-            />
-            <label className="m-2">Search all collections</label>
-          </div>
-
-          <div className="pb-5">
-            <Button
-              onClick={handleSearchSubmit}
-            >
-              Search for Collection
-            </Button>
-          </div>
-        </Col>
-
-        {/* Select Collection */}
-        <Col sm={12}>
+        <Col sm={12} className="mt-5">
           {
             showSelectCollection
             && (
@@ -274,7 +316,15 @@ const CollectionAssociation = () => {
                                     type="radio"
                                     name="select-collection"
                                     value={conceptId}
-                                    onClick={() => { setSelectedOption(conceptId) }}
+                                    onClick={
+                                      () => {
+                                        setSelectedOption({
+                                          conceptId,
+                                          shortName,
+                                          version
+                                        })
+                                      }
+                                    }
                                   />
                                 </td>
                                 <td className="col-md-4">{title}</td>
@@ -289,7 +339,11 @@ const CollectionAssociation = () => {
                     }
                   </tbody>
                 </Table>
-                <Button>Submit</Button>
+                <Button
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
               </>
             )
           }
