@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Button,
-  Placeholder,
-  Table
-} from 'react-bootstrap'
+import { Button, Placeholder } from 'react-bootstrap'
+import BootstrapTable from 'react-bootstrap/Table'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useLazyQuery, useMutation } from '@apollo/client'
@@ -13,7 +11,6 @@ import camelcaseKeys from 'camelcase-keys'
 import { useNavigate, useParams } from 'react-router'
 import pluralize from 'pluralize'
 import Page from '../Page/Page'
-import For from '../For/For'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import useAppContext from '../../hooks/useAppContext'
 import collectionAssociation from '../../schemas/collectionAssociation'
@@ -33,6 +30,7 @@ import errorLogger from '../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 import getUmmVersion from '../../utils/getUmmVersion'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
+import Table from '../Table/Table'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -47,6 +45,10 @@ const CollectionAssociation = () => {
   const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [loading, setLoading] = useState()
+  const [savedFormData, setSavedFormData] = useState()
+  const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})
+  const [offset, setOffset] = useState(0)
+  const limit = 20
 
   const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
@@ -79,7 +81,11 @@ const CollectionAssociation = () => {
     },
     onCompleted: (getDraftData) => {
       const { draft } = getDraftData
+      const { ummMetadata } = draft
+      const { __private } = ummMetadata
+      const { CollectionAssociation: savedAssociation } = __private || {}
       setFetchedDraft(draft)
+      setCurrentSelectedAssociation(savedAssociation)
       setLoading(false)
     },
     onError: (getDraftError) => {
@@ -117,6 +123,7 @@ const CollectionAssociation = () => {
   //   },
   //   "shortName": "*"
   const handleCollectionSearch = ({ formData }) => {
+    setSavedFormData(formData)
     const formattedFormData = camelcaseKeys(formData, { deep: true })
 
     const { searchField } = formattedFormData
@@ -129,6 +136,8 @@ const CollectionAssociation = () => {
     getCollections({
       variables: {
         params: {
+          limit,
+          offset,
           options: {
             [type]: {
               pattern: true
@@ -139,6 +148,17 @@ const CollectionAssociation = () => {
       }
     })
   }
+
+  const handleClear = () => {
+    console.log('clear')
+  }
+
+  // Calls
+  useEffect(() => {
+    if (savedFormData) {
+      handleCollectionSearch({ formData: savedFormData })
+    }
+  }, [offset])
 
   const handleSubmit = () => {
     let associationDetailDraft = fetchedDraft
@@ -193,24 +213,71 @@ const CollectionAssociation = () => {
   }
 
   const { items = [], count } = collectionSearchResult || {}
-  const { ummMetadata } = fetchedDraft || {}
-  const { __private } = ummMetadata || {}
-  const { CollectionAssociation } = __private || 0
+  const collectionSearchData = (items.map((item) => {
+    const {
+      conceptId: collectionConceptId,
+      provider,
+      version,
+      shortName
+    } = item
 
-  let size = 0
-  if (CollectionAssociation) {
-    size = Object.keys(CollectionAssociation).length
-  }
+    return (
+      {
+        key: collectionConceptId,
+        cells:
+        [
+          {
+            value: (
+              <input
+                id={collectionConceptId}
+                type="radio"
+                name="select-collection"
+                value={collectionConceptId}
+                onClick={
+                  () => {
+                    setSelectedOption({
+                      collectionConceptId,
+                      shortName,
+                      version
+                    })
+                  }
+                }
+              />
+            )
+          },
+          {
+            value: (
+              collectionConceptId
+            )
+          },
+          {
+            value: (
+              shortName
+            )
+          },
+          {
+            value: (
+              version
+            )
+          },
+          {
+            value: (
+              provider
+            )
+          }
+        ]
+      }
+    )
+  }))
 
   return (
     <Page>
       <h4>Collection Association Search</h4>
       <Row className="m-5">
 
-        {/* Currently Selected Collections */}
         <Col sm={12} className="pb-5">
           <h5>Currently Selected Collection</h5>
-          <Table striped>
+          <BootstrapTable striped borderless>
             <thead>
               <tr>
                 <th>Collection</th>
@@ -218,8 +285,20 @@ const CollectionAssociation = () => {
                 <th>Version</th>
               </tr>
             </thead>
-          </Table>
-          <Button>Clear Collection Association</Button>
+            <tbody>
+              <tr>
+                <td>{currentSelectedAssociation?.conceptId || 'No Collection Selected'}</td>
+                <td>{currentSelectedAssociation?.shortName}</td>
+                <td>{currentSelectedAssociation?.version}</td>
+              </tr>
+            </tbody>
+          </BootstrapTable>
+          <Button
+            onClick={handleClear}
+            variant="outline-danger"
+          >
+            Clear Collection Association
+          </Button>
         </Col>
         <Form
           schema={collectionAssociation}
@@ -229,116 +308,25 @@ const CollectionAssociation = () => {
           templates={templates}
           onSubmit={handleCollectionSearch}
         />
+
         <Col sm={12} className="mt-5">
           {
             showSelectCollection
             && (
               <>
                 <h5>Select Collection</h5>
-                <h6>
-                  Showing
-                  {' '}
-                  {count}
-                  {' '}
-                  Collections
-                </h6>
-                <Table striped>
-                  <thead>
-                    <tr>
-                      <th />
-                      <th>Collection</th>
-                      <th>Short Name</th>
-                      <th>Version</th>
-                      <th>Provider</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      loading ? (
-                        <For each={[...new Array(5)]}>
-                          {
-                            (item, i) => (
-                              <tr key={`placeholder-row_${i}`}>
-                                <td className="col-md-4">
-                                  <Placeholder animation="glow">
-                                    <Placeholder xs={6} />
-                                  </Placeholder>
-                                </td>
-                                <td className="col-md-4">
-                                  <Placeholder animation="glow">
-                                    <Placeholder xs={6} />
-                                  </Placeholder>
-                                </td>
-                                <td className="col-md-4">
-                                  <Placeholder animation="glow">
-                                    <Placeholder xs={6} />
-                                  </Placeholder>
-                                </td>
-                                <td className="col-md-4">
-                                  <Placeholder animation="glow">
-                                    <Placeholder xs={6} />
-                                  </Placeholder>
-                                </td>
-                                <td className="col-md-4">
-                                  <Placeholder animation="glow">
-                                    <Placeholder xs={6} />
-                                  </Placeholder>
-                                </td>
-                              </tr>
-                            )
-                          }
-                        </For>
-                      ) : (
-                        <For
-                          each={items}
-                          empty={
-                            (
-                              <tr>
-                                <td>No collections found.</td>
-                              </tr>
-                            )
-                          }
-                        >
-                          {
-                            (
-                              {
-                                conceptId,
-                                shortName,
-                                version,
-                                provider,
-                                title
-                              }
-                            ) => (
-                              <tr key={conceptId}>
-                                <td>
-                                  <input
-                                    id={conceptId}
-                                    type="radio"
-                                    name="select-collection"
-                                    value={conceptId}
-                                    onClick={
-                                      () => {
-                                        setSelectedOption({
-                                          conceptId,
-                                          shortName,
-                                          version
-                                        })
-                                      }
-                                    }
-                                  />
-                                </td>
-                                <td className="col-md-4">{title}</td>
-                                <td className="col-md-4">{shortName}</td>
-                                <td className="col-md-4">{version}</td>
-                                <td className="col-md-4">{provider}</td>
-                              </tr>
-                            )
-                          }
-                        </For>
-                      )
-                    }
-                  </tbody>
-                </Table>
+                <Table
+                  headers={['', 'Collection', 'Short Name', 'Version', 'Provider']}
+                  classNames={['col-sm-1', 'col-md-4', 'col-md-4', 'col-md-4', 'col-md-4']}
+                  loading={loading}
+                  data={collectionSearchData}
+                  error={error}
+                  noDataError="No Collections Found."
+                  count={count}
+                  setOffset={setOffset}
+                  limit={limit}
+                  offset={offset}
+                />
                 <Button
                   onClick={handleSubmit}
                 >
