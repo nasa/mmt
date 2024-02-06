@@ -90,6 +90,7 @@ export const GET_COLLECTION = gql`
           url
         }
       }
+      ummMetadata
       useConstraints
       variables {
         count

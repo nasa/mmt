@@ -23,6 +23,7 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import HomePage from './pages/HomePage/HomePage'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
 
@@ -99,6 +100,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               {Redirects}
+              <Route path="/" index element={<HomePage />} />
               <Route
                 path="manage/:type/*"
                 element={

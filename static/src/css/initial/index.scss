@@ -37,7 +37,9 @@ body {
   position: absolute;
   z-index: 9999;
   display: flex;
+  overflow: hidden;
   width: 100vw;
+  max-width: 100vw;
   height: 100vh;
   align-items: center;
   justify-content: center;
