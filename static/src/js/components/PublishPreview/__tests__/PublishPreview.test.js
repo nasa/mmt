@@ -14,10 +14,12 @@ import MetadataPreview from '../../MetadataPreview/MetadataPreview'
 import PublishPreview from '../PublishPreview'
 import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
+import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
+jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
@@ -28,6 +30,12 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockedUsedNavigate
 }))
+
+Object.defineProperty(globalThis, 'crypto', {
+  value: {
+    randomUUID: () => 'mock-uuid'
+  }
+})
 
 const mock = {
   accessConstraints: null,
@@ -441,6 +449,65 @@ describe('PublishPreview', () => {
       expect(navigateSpy).toHaveBeenCalledTimes(0)
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview ingestDraftMutation Query')
+    })
+  })
+
+  describe('when clicking on Clone Tool Record button', () => {
+    test('calls ingestDraft Mutation and navigates to /drafts/tool/conceptId page', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: INGEST_DRAFT,
+            variables: {
+              conceptType: 'Tool',
+              metadata: {},
+              nativeId: 'MMT_mock-uuid',
+              providerId: 'MMT_2',
+              ummVersion: '1.2.0'
+            }
+          },
+          result: {
+            data: {
+              ingestDraft: {
+                conceptId: 'TD1000000-MMT',
+                revisionId: '3'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      const editButton = screen.getByRole('button', { name: 'Clone Tool Record' })
+      await user.click(editButton)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
+    })
+  })
+
+  describe('when clicking on Download Tool Record button', () => {
+    test('downloads the Tool Record', async () => {
+      const { user } = setup({})
+
+      await waitForResponse()
+
+      const downloadButton = screen.getByRole('button', { name: 'Download Tool Record' })
+      await user.click(downloadButton)
+
+      await waitForResponse()
+
+      expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
+      expect(constructDownloadableFile).toHaveBeenCalledWith(
+        JSON.stringify(mock.ummMetadata, null, 2),
+        'T1000000-MMT'
+      )
     })
   })
 })
