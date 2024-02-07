@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { FaQuestionCircle, FaSignInAlt } from 'react-icons/fa'
+import { FaQuestionCircle } from 'react-icons/fa'
 
 import Page from '../../components/Page/Page'
 
 import './HomePage.scss'
 import For from '../../components/For/For'
-import Button from '../../components/Button/Button'
 import useAppContext from '../../hooks/useAppContext'
 
 /**
@@ -60,8 +59,6 @@ HomePagePanel.propTypes = {
  * )
  */
 const HomePage = () => {
-  const { login, user } = useAppContext()
-
   const panels = [
     {
       title: 'About the Metadata Management Tool (MMT)',
