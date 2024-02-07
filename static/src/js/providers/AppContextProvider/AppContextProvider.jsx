@@ -34,6 +34,7 @@ const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
 
   const { keywords } = keywordsContext
+
   const [cookies, setCookies] = useCookies(['token', 'name', 'auid'])
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const AppContextProvider = ({ children }) => {
   const logout = useCallback(() => {
     setUser({})
   })
+
 
   const providerValue = useMemo(() => ({
     ...keywordsContext,

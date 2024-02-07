@@ -5,18 +5,6 @@
     background-repeat: no-repeat;
     background-size: auto 20rem;
 
-    &::before {
-      position: absolute;
-      z-index: 0;
-      height: 20rem;
-      background: linear-gradient(
-        rgba(255 255 255 / 0%) 0%,
-        rgba(255 255 255 / 0%) 50%,
-        rgba(244 244 244 / 100%) 100%
-      ),;
-      content: " ";
-      inset: 0;
-    }
 
     .container {
       position: relative;

@@ -22,6 +22,8 @@
  * Included after `variables` and before `maps` as noted in the Bootstrap documentation
 */
 
+$grid-gutter-width: 2rem;
+
 /*
  * Color
 */
@@ -114,6 +116,14 @@ $nav-link-color: map.get($theme-colors, "blue-light");
 $nav-link-hover-color: map.get($theme-colors, "blue");
 $nav-pills-link-active-bg: map.get($theme-colors, "blue");
 $nav-pills-border-radius: 0;
+
+/*
+ * Border Radius
+*/
+
+$border-radius: .25rem;
+$border-radius-sm: 0.125rem;
+$border-radius-lg: 0.2rem;
 
 /*
  * Bootstrap utilities

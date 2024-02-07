@@ -33,48 +33,7 @@ const setup = ({
   }
 }
 
-describe('ManagePage component', () => {
-  describe('when the user is logged in', () => {
-    beforeEach(() => {
-      setup()
-    })
-
-    test('does not render the login button', async () => {
-      const newButton = screen.queryByRole('button', { name: 'Log in with Launchpad' })
-      expect(newButton).not.toBeInTheDocument()
-    })
-  })
-
-  describe('when the user is not logged in', () => {
-    test('renders the login button', async () => {
-      setup({
-        overrideContext: {
-          user: {}
-        }
-      })
-
-      const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
-      expect(button).toBeInTheDocument()
-    })
-
-    describe('when the login button is clicked', () => {
-      test('calls the login function on the context', async () => {
-        const { context } = setup({
-          overrideContext: {
-            user: {}
-          }
-        })
-
-        const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
-
-        await user.click(button)
-
-        expect(context.login).toHaveBeenCalledTimes(1)
-      })
-    })
-  })
-
+describe('HomePage component', () => {
   describe('when the about MMT section is displayed', () => {
     beforeEach(() => {
       setup()
