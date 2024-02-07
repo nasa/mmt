@@ -1,9 +1,9 @@
 {
   "application": {
-    "mmtHost": "https://mmt.localtest.earthdatacloud.nasa.gov",
-    "apiHost": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
-    "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
-    "cmrHost": "https://cmr.sit.earthdata.nasa.gov",
+    "mmtHost": "http://localhost:5173",
+    "apiHost": "http://localhost:4001/dev",
+    "graphQlHost": "http://localhost:3013/dev/api",
+    "cmrHost": "http://localhost:4000",
     "version": "development",
     "jwtSecret": "jwt_secret",
     "cookie": {

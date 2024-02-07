@@ -1,4 +1,3 @@
-import { jwtDecode } from 'jwt-decode'
 import samlCallback from '../handler'
 import * as getConfig from '../../../../static/src/js/utils/getConfig'
 
@@ -26,18 +25,15 @@ describe('samlCallback is called by launchpad after a successful login', () => {
     const response = await samlCallback(event)
     const { headers, statusCode } = response
     const { Location } = headers
-
-    const params = new URLSearchParams(Location.split('?')[1])
-    const jwt = params.get('jwt')
-    const info = jwtDecode(jwt)
+    const cookies = headers['Set-Cookie']
 
     expect(statusCode).toBe(303)
-    expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXRoIjoiL2hvbWUiLCJ0b2tlbiI6ImxhdW5jaHBhZF90b2tlbiIsImF1aWQiOiJjZ29rZXkiLCJlbWFpbCI6ImNocmlzdG9waGVyLmQuZ29rZXlAbmFzYS5nb3YifQ.ObvKP0bkHPPREFJ_iMoK_3GNVMdr25yZv3fEaKpN1G4')
-    expect(info).toStrictEqual({
-      path: '/home',
-      token: 'launchpad_token',
-      auid: 'cgokey',
-      email: 'christopher.d.gokey@nasa.gov'
-    })
+    expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
+    expect(cookies).toEqual([
+      'token=launchpad_token; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
+      'auid=cgokey; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
+      'name=cgokey; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
+      'email=christopher.d.gokey@nasa.gov; Secure;Path=/; Domain=.earthdatacloud.nasa.gov'
+    ])
   })
 })

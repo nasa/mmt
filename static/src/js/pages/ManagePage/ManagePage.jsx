@@ -28,10 +28,8 @@ import './ManagePage.scss'
  * )
  */
 const ManagePage = () => {
-  const { user } = useAppContext()
   const { user: { providerId } } = useAppContext()
   const { type } = useParams()
-  console.log('user=', user)
 
   const currentType = urlValueTypeToConceptTypeMap[type]
 

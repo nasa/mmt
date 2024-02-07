@@ -27,7 +27,6 @@ import '../css/index.scss'
 import HomePage from './pages/HomePage/HomePage'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
-import useAppContext from './hooks/useAppContext'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -117,12 +116,42 @@ const App = () => {
                   )
                 }
               />
-              <Route path="manage/cmr" element={<ManageCmrPage />} />
-              <Route path="drafts/:draftType/*" element={<DraftsPage />} />
+              <Route
+                path="manage/cmr"
+                element={
+                  (
+                    <AuthRequiredContainer>
+                      <ManageCmrPage />
+                    </AuthRequiredContainer>
+                  )
+                }
+              />
+
+              <Route
+                path="drafts/:draftType/*"
+                element={
+                  (
+                    <AuthRequiredContainer>
+                      <DraftsPage />
+                    </AuthRequiredContainer>
+                  )
+                }
+              />
+
               <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
               <Route path="*" element={<Navigate to="/404" replace />} />
               <Route path="/auth_callback" element={<AuthCallbackContainer />} />
-              <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
+
+              <Route
+                path="/:type/:conceptId/:revisionId"
+                element={
+                  (
+                    <AuthRequiredContainer>
+                      <PublishPreview />
+                    </AuthRequiredContainer>
+                  )
+                }
+              />
             </Route>
           </Routes>
         </BrowserRouter>

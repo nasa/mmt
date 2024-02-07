@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router'
-import { useCookies } from 'react-cookie'
 import { getApplicationConfig } from '../../utils/getConfig'
+import useAppContext from '../../hooks/useAppContext'
 
 export const AuthRequiredContainer = ({
   children
 }) => {
-  const [cookies] = useCookies(['token'])
-  const { token } = cookies
+  const { user } = useAppContext()
+  const { token } = user
 
   const location = useLocation()
 
