@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -16,10 +16,6 @@ import Page from '../../components/Page/Page'
 import For from '../../components/For/For'
 import ManageSection from '../../components/ManageSection/ManageSection'
 
-import { Form } from 'react-bootstrap'
-import { GET_ACLS } from '../../operations/queries/getAcls'
-import { useQuery } from '@apollo/client'
-
 import './ManagePage.scss'
 
 /**
@@ -34,14 +30,6 @@ const ManagePage = () => {
   const { user: { providerId } } = useAppContext()
   const { type } = useParams()
 
-   // State to manage selected type
-   const [selectedType, setSelectedType] = useState(type)
-
-   const handleTypeChange = (e) => {
-    // Update selected type when dropdown value changes
-    setSelectedType(e.target.value)
-  }
-
   const currentType = urlValueTypeToConceptTypeMap[type]
 
   const { drafts, loading, error } = useDraftsQuery({
@@ -50,34 +38,6 @@ const ManagePage = () => {
   })
 
   const { items = [] } = drafts || {}
-
-  useEffect(() => {
-    // If selectedType is not set, default to type from URL params
-    if (!selectedType && type) {
-      setSelectedType(type)
-    }
-  }, [selectedType, type])
-
-  // Fetch ACLs using Apollo Client
-  const { data: aclData, loading: aclLoading, error: aclError } = useQuery(GET_ACLS, {
-    variables: {
-      params: {
-      "includeFullAcl": true,
-      "pageNum": 1,
-      "pageSize": 20,
-      "permittedUser": "typical",
-      "target": "PROVIDER_CONTEXT"
-    }
-    }
-  })
-
-  // Extract provider_id from the ACL data
-  const providerIdQuery = !aclLoading && !aclError && aclData?.acls?.items.length > 0
-    ? aclData.acls.items[0].acl.provider_identity?.provider_id
-    : null
-
-  // Use providerId from query if available, otherwise use the one from AppContext
-  const providerIdToUse = providerIdQuery || providerId
 
   return (
     <Page title={`Manage ${currentType}`}>
@@ -90,23 +50,7 @@ const ManagePage = () => {
                 sections: [
                   {
                     key: 'create-record',
-                    children: (
-                      <>
-                        {/* Dropdown Combo Box */}
-                        <div style={{ marginBottom: '10px', width: '61%'}}>
-                          <Form.Select value={selectedType} onChange={handleTypeChange}>
-                            <option value="text">Select Provider</option>
-                            {!aclLoading && !aclError && providerIdToUse && (
-                            <option value={providerIdToUse}>{providerIdToUse}</option>
-                            )}
-                          </Form.Select>
-                        </div>       
-                        {/* "Create New Record" Button */}
-                        <Link className="btn btn-primary" to={`/drafts/${type}/new`}>
-                          Create New Record
-                        </Link>
-                      </>
-                    ),
+                    children: <Link className="btn btn-primary" to={`/drafts/${type}/new`}>Create New Record</Link>,
                     separate: true
                   },
                   {

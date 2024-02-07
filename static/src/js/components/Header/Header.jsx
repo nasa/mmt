@@ -1,8 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useParams  } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
+
+import DropdownButton from 'react-bootstrap/DropdownButton'
+
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
@@ -23,6 +26,9 @@ import Button from '../Button/Button'
 
 import './Header.scss'
 
+import { GET_ACLS } from '../../operations/queries/getAcls'
+import { useQuery } from '@apollo/client'
+
 /**
  * Renders a `Header` component
  *
@@ -34,6 +40,44 @@ import './Header.scss'
  */
 const Header = () => {
   const { user, login, logout } = useAppContext()
+
+  const { type } = useParams()
+
+  // State to manage selected type
+  const [selectedType, setSelectedType] = useState(type)
+
+  const handleTypeChange = (e) => {
+    // Update selected type when dropdown value changes
+    setSelectedType(e.target.value)
+  }
+
+  useEffect(() => {
+    // If selectedType is not set, default to type from URL params
+    if (!selectedType && type) {
+      setSelectedType(type)
+    }
+  }, [selectedType, type])
+
+  // Fetch ACLs using Apollo Client
+  const { data: aclData, loading: aclLoading, error: aclError } = useQuery(GET_ACLS, {
+    variables: {
+      params: {
+      "includeFullAcl": true,
+      "pageNum": 1,
+      "pageSize": 20,
+      "permittedUser": "typical",
+      "target": "PROVIDER_CONTEXT"
+    }
+    }
+  })
+
+  // Extract provider_id from the ACL data
+  const providerIdQuery = !aclLoading && !aclError && aclData?.acls?.items.length > 0
+    ? aclData.acls.items[0].acl.provider_identity?.provider_id
+    : null
+
+  // Use providerId from query if available, otherwise use the one from AppContext
+  const providerIdToUse = providerIdQuery
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -85,16 +129,17 @@ const Header = () => {
             }
             {
               user?.name && (
-                <Dropdown className="mb-2" align="end">
+                <div className="bg-blue-light">
+                  <Dropdown className="mb-2" align="end">
                   <Dropdown.Toggle
                     id="dropdown-basic"
                     as={Badge}
-                    className="bg-blue-light pointer"
+                    className="pointer"
                     role="button"
                   >
                     {`${user.name} `}
                   </Dropdown.Toggle>
-
+                  
                   <Dropdown.Menu
                     className="bg-blue-light border-blue-light shadow text-white"
                   >
@@ -120,9 +165,34 @@ const Header = () => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
+
+            
+
+                <Dropdown className="mb-2" align="end">
+                  <Dropdown.Toggle
+                    id="dropdown-basic"
+                    as={Badge}
+                    className="pointer"
+                    role="button"
+                  >
+                    {`MMT_2 `}
+                  </Dropdown.Toggle>
+                  
+                  <Dropdown.Menu
+                    className="bg-blue-light border-blue-light shadow text-white"
+                  >
+                    <Form.Select value={selectedType} onChange={handleTypeChange}>
+                      <option value="text">Select Provider</option>
+                        {!aclLoading && !aclError && providerIdToUse && (
+                      <option value={providerIdToUse}>{providerIdToUse}</option>
+                        )}
+                    </Form.Select>
+
+                  </Dropdown.Menu>
+                </Dropdown>
+                </div>
               )
             }
-
             {
               user?.name && (
                 <Form className="flex-grow-1 w-100">
