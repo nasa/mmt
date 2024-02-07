@@ -23,6 +23,7 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import { getApplicationConfig } from './utils/getConfig'
 
 import '../css/index.scss'
+import HomePage from './pages/HomePage/HomePage'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -97,6 +98,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               {Redirects}
+              <Route path="/" index element={<HomePage />} />
               <Route path="manage/:type/*" element={<ManagePage />} />
               <Route path="manage/cmr" element={<ManageCmrPage />} />
               <Route path="drafts/:draftType/*" element={<DraftsPage />} />

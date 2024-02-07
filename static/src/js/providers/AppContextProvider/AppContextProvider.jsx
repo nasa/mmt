@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useMemo,
   useState
@@ -32,18 +33,33 @@ const AppContextProvider = ({ children }) => {
   const [savedDraft, setSavedDraft] = useState()
   const [user, setUser] = useState({})
 
+  const { keywords } = keywordsContext
+
   useEffect(() => {
     setUser({
+      name: 'User Name',
       token: 'ABC-1',
       providerId: 'MMT_2'
     })
   }, [])
 
-  const { keywords } = keywordsContext
+  const login = useCallback(() => {
+    setUser({
+      name: 'User Name',
+      token: 'ABC-1',
+      providerId: 'MMT_2'
+    })
+  })
+
+  const logout = useCallback(() => {
+    setUser({})
+  })
 
   const providerValue = useMemo(() => ({
     ...keywordsContext,
     draft,
+    login,
+    logout,
     originalDraft,
     savedDraft,
     setDraft,
@@ -55,7 +71,9 @@ const AppContextProvider = ({ children }) => {
     originalDraft,
     keywords,
     savedDraft,
-    user
+    user,
+    login,
+    logout
   ])
 
   return (
