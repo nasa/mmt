@@ -21,6 +21,8 @@ import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
 import useAppContext from '../../hooks/useAppContext'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
+import removeMetadataKeys from '../../utils/removeMetadataKeys'
+import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
 /**
  * Renders a PublishPreview component
@@ -112,6 +114,22 @@ const PublishPreview = () => {
     ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId)
   }
 
+  // Calls ingestDraft mutation with a new nativeId
+  const handleClone = () => {
+    const cloneNativeId = `MMT_${crypto.randomUUID()}`
+    // Removes the value from the metadata that has to be unique
+    removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName'])
+
+    ingestMutation(derivedConceptType, ummMetadata, cloneNativeId, providerId)
+  }
+
+  // Handles the user selecting download record
+  const handleDownload = () => {
+    const contents = JSON.stringify(ummMetadata)
+
+    constructDownloadableFile(contents, conceptId)
+  }
+
   // Handles the user selecting delete from the delete model
   const handleDelete = () => {
     deleteMutation({
@@ -170,6 +188,7 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
+          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -186,6 +205,41 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
+          {/* Clone Publish record link */}
+          <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={
+              () => {
+                handleClone()
+              }
+            }
+          >
+            Clone
+            {' '}
+            {derivedConceptType}
+            {' '}
+            Record
+          </Button>
+          {/* Download Publish record link */}
+          <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={
+              () => {
+                handleDownload()
+              }
+            }
+          >
+            Download
+            {' '}
+            {derivedConceptType}
+            {' '}
+            Record
+          </Button>
+          {/* Delete Publish record button */}
           <Button
             type="button"
             variant="outline-danger"
