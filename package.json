@@ -47,6 +47,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-bootstrap-typeahead": "^6.3.2",
+    "react-cookie": "^7.0.2",
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
@@ -63,7 +64,6 @@
     "serverless-esbuild": "^1.48.5",
     "serverless-finch": "^4.0.3",
     "serverless-offline": "^13.2.0",
-    "tiny-cookie": "^2.5.1",
     "vite": "^4.5.0"
   },
   "devDependencies": {

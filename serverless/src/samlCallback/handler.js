@@ -1,5 +1,3 @@
-import { stringify } from 'querystring'
-import { createJwtToken } from '../../../static/src/js/utils/createJwtToken'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
 
 const Saml2js = require('saml2js')
@@ -34,21 +32,23 @@ const samlCallback = async (event) => {
   const path = params.get('RelayState')
   const samlResponse = parser.toObject()
 
-  const jwtToken = createJwtToken(samlResponse)
-  const queryParams = { jwt: jwtToken }
-  queryParams.jwt = jwtToken
+  const { auid, email } = samlResponse
 
-  const location = `${mmtHost}/auth_callback?target=${path}&jwt=${stringify(queryParams)}`
+  const location = `${mmtHost}/auth_callback?target=${path}`
 
   return {
     statusCode: 303,
     headers: {
-      'Set-Cookie': `token=${launchpadToken}; SameSite=None; Secure`,
+      'Set-Cookie': [
+        `token=${launchpadToken}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `auid=${auid}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `name=${auid}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `email=${email}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`
+      ],
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',
       'Access-Control-Allow-Credentials': true,
-      Chris: 'Test',
       Location: location
     }
   }

@@ -1,17 +1,11 @@
 {
   "application": {
-    "mmtHost": "https://mmt.localtest.earthdatacloud.nasa.gov",
-    "apiHost": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
-    "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
-    "cmrHost": "https://cmr.sit.earthdata.nasa.gov",
+    "mmtHost": "http://localhost:5173",
+    "apiHost": "http://localhost:4001/dev",
+    "graphQlHost": "http://localhost:3013/dev/api",
+    "cmrHost": "http://localhost:4000",
     "version": "development",
-    "jwtSecret": "jwt_secret",
-    "cookie": {
-      "auid": "dev-user",
-      "name": "dev-user",
-      "token": "ABC-1",
-      "email": "dev-user@nasa.gov"
-    }
+    "jwtSecret": "jwt_secret"
   },
   "ummVersions": {
     "ummC": "1.17.3",
@@ -21,7 +15,7 @@
   },
   "saml": {
     "host": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
-    "callbackUrl": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
+    "callbackUrl": "http://localhost:4001/dev/saml-acs",
     "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
     "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
     "cert": "fake cert",

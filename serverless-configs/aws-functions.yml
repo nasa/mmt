@@ -13,15 +13,7 @@ samlLogin:
     - http:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
-        path: login
-samlTest:
-  handler: serverless/src/samlTest/handler.default
-  timeout: ${env:LAMBDA_TIMEOUT, '30'}
-  events:
-    - http:
-        method: get
-        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
-        path: test  
+        path: saml-login
 samlCallback:
   handler: serverless/src/samlCallback/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -29,4 +21,4 @@ samlCallback:
     - http:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
-        path: acs
+        path: saml-acs
