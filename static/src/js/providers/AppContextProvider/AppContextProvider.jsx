@@ -70,7 +70,6 @@ const AppContextProvider = ({ children }) => {
     setUser({})
   })
 
-
   const providerValue = useMemo(() => ({
     ...keywordsContext,
     draft,
