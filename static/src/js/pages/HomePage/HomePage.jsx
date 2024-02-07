@@ -8,7 +8,6 @@ import Page from '../../components/Page/Page'
 
 import './HomePage.scss'
 import For from '../../components/For/For'
-import useAppContext from '../../hooks/useAppContext'
 
 /**
  * Renders a `HomePagePanel` component.
