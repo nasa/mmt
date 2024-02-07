@@ -32,7 +32,7 @@ const setup = ({
   }
 }
 
-describe('ManagePage component', () => {
+describe('HomePage component', () => {
   describe('when the about MMT section is displayed', () => {
     beforeEach(() => {
       setup()
