@@ -62,7 +62,7 @@ const AppContextProvider = ({ children }) => {
 
   const login = useCallback(() => {
     const { apiHost } = getApplicationConfig()
-    Window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
   })
 
   const logout = useCallback(() => {
