@@ -60,10 +60,14 @@ const setup = (overrideCookie) => {
   )
 }
 
-describe('ManagePage component', () => {
-  describe('when all metadata is provided', () => {
+describe('AppContextProvider component', () => {
+  describe('when app starts up', () => {
     beforeEach(() => {
       jest.resetAllMocks()
+
+      jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        cookie: null
+      }))
     })
 
     describe('when log in is triggered', () => {
@@ -86,10 +90,6 @@ describe('ManagePage component', () => {
       test('logs the user out', async () => {
         delete window.location
         window.location = {}
-
-        jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-          cookie: null
-        }))
 
         setup()
 

@@ -62,8 +62,12 @@ const AppContextProvider = ({ children }) => {
   }, [cookies])
 
   const login = useCallback(() => {
-    const { apiHost } = getApplicationConfig()
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+    const { apiHost, mmtHost, cookie: appCookie } = getApplicationConfig()
+    if (appCookie) {
+      window.location.href = `${mmtHost}/manage/collections`
+    } else {
+      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+    }
   })
 
   const logout = useCallback(() => {

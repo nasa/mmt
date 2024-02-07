@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event'
 import { AuthRequiredContainer } from '../AuthRequiredContainer'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import AppContext from '../../../context/AppContext'
+import * as getConfig from '../../../utils/getConfig'
 
 const setup = (overrideUser, overrideProps) => {
   const context = {
@@ -42,6 +43,10 @@ const setup = (overrideUser, overrideProps) => {
 beforeEach(() => {
   jest.restoreAllMocks()
   jest.clearAllMocks()
+
+  jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    cookie: null
+  }))
 })
 
 describe('AuthRequiredContainer component', () => {
@@ -56,7 +61,7 @@ describe('AuthRequiredContainer component', () => {
     delete window.location
     window.location = {}
 
-    setup()
+    setup(null)
 
     const { apiHost } = getApplicationConfig()
     const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/tools')}`

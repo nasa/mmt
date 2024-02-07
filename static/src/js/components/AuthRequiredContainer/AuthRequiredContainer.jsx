@@ -8,12 +8,16 @@ export const AuthRequiredContainer = ({
   children
 }) => {
   const { user } = useAppContext()
-  const { token } = user
+  let { token } = user
 
   const location = useLocation()
 
   useEffect(() => {
-    const { apiHost } = getApplicationConfig()
+    const { apiHost, cookie: appCookie } = getApplicationConfig()
+
+    if (appCookie) {
+      token = appCookie.token
+    }
 
     if (token === null || token === '' || token === undefined) {
       window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(location.pathname)}`
