@@ -71,6 +71,14 @@ const ManagePage = () => {
     }
   })
 
+  // Extract provider_id from the ACL data
+  const providerIdQuery = !aclLoading && !aclError && aclData?.acls?.items.length > 0
+    ? aclData.acls.items[0].acl.provider_identity?.provider_id
+    : null
+
+  // Use providerId from query if available, otherwise use the one from AppContext
+  const providerIdToUse = providerIdQuery || providerId
+
   return (
     <Page title={`Manage ${currentType}`}>
       <Row className="manage-page__sections">
@@ -88,16 +96,8 @@ const ManagePage = () => {
                         <div style={{ marginBottom: '10px', width: '61%'}}>
                           <Form.Select value={selectedType} onChange={handleTypeChange}>
                             <option value="text">Select Provider</option>
-                            {/* <option value="type1">Type 1</option>
-                            <option value="type2">Type 2</option> */}
-                            {aclLoading ? (
-                            <option value="" disabled>Loading ACLs...</option>
-                            ) : aclError ? (
-                            <option value="" disabled>Error loading ACLs</option>
-                            ) : (
-                            aclData && aclData.acls.items.map((acl) => (
-                            <option key={acl.name} value={acl.name}>{acl.name}</option>
-                            ))
+                            {!aclLoading && !aclError && providerIdToUse && (
+                            <option value={providerIdToUse}>{providerIdToUse}</option>
                             )}
                           </Form.Select>
                         </div>       
@@ -105,6 +105,22 @@ const ManagePage = () => {
                         <Link className="btn btn-primary" to={`/drafts/${type}/new`}>
                           Create New Record
                         </Link>
+                      </>
+                    ),
+                    separate: true
+                  },
+                  {
+                    key: 'or-search',
+                    children: (
+                      <>
+                        <strong>OR</strong>
+                        {' '}
+                        use the
+                        {' '}
+                        {/* TODO need to add the tooltip highlight */}
+                        <Button className="p-0 align-baseline" variant="link">search</Button>
+                        {' '}
+                        in the top right corner to find published tools to clone or edit.
                       </>
                     ),
                     separate: true
