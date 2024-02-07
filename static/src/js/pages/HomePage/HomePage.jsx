@@ -28,9 +28,9 @@ const HomePagePanel = ({
   children,
   title
 }) => (
-  <Col className="d-flex mb-4" sm={12} md={6} lg={5}>
+  <Col className="d-flex mb-4" sm={12} md={6}>
     <div
-      className="home-page__panel-content bg-black text-white p-4 border-start border-4 border-pink"
+      className="home-page__panel-content bg-dark text-white p-4 border-start border-5 border-pink rounded-1"
       style={{ '--bs-text-opacity': 0.95 }}
     >
       <div className="d-flex align-items-center mb-3">
@@ -40,7 +40,7 @@ const HomePagePanel = ({
           {title}
         </h2>
       </div>
-      <p className="mb-0 small">{children}</p>
+      <p className="mb-0">{children}</p>
     </div>
   </Col>
 )
@@ -75,33 +75,7 @@ const HomePage = () => {
 
   return (
     <Page title="Home" navigation={false} hasBackgroundImage>
-      <Row className="mt-4">
-        <Col xs={12} sm={10} lg={5} className="mx-auto">
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <p className="home-page__intro-text text-white fw-bold h4 mb-4 text-center">
-              Manage NASA Common Metadata Repository metadata with the Metadata Management Tool
-            </p>
-            {
-              !user?.name && (
-                <Button
-                  className="shadow"
-                  size="lg"
-                  variant="success text-white"
-                  Icon={FaSignInAlt}
-                  onClick={
-                    () => {
-                      login()
-                    }
-                  }
-                >
-                  Log in with Launchpad
-                </Button>
-              )
-            }
-          </div>
-        </Col>
-      </Row>
-      <Row className="mt-5 justify-content-md-center">
+      <Row className="justify-content-md-center">
         <For each={panels}>
           {
             ({ title, body }) => (

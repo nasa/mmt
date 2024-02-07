@@ -69,7 +69,6 @@ const Button = ({
           'd-flex align-items-center text-nowrap',
           {
             'button--naked': naked,
-            'fw-bold': !naked,
             [className]: className
           }
         ])
