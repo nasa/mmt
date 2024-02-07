@@ -1,6 +1,6 @@
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import parseSaml from '../../../static/src/js/utils/parseSaml'
 
-const Saml2js = require('saml2js')
 const { URLSearchParams } = require('url')
 const cookie = require('cookie')
 
@@ -28,9 +28,8 @@ const samlCallback = async (event) => {
 
   const launchpadToken = getLaunchpadToken(Cookie)
 
-  const parser = new Saml2js(params.get('SAMLResponse'))
+  const samlResponse = parseSaml(params.get('SAMLResponse'))
   const path = params.get('RelayState')
-  const samlResponse = parser.toObject()
 
   const { auid, email } = samlResponse
 
