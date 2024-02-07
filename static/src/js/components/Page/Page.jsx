@@ -58,7 +58,9 @@ import './Page.scss'
 const Page = ({
   breadcrumbs,
   children,
+  hasBackgroundImage,
   headerActions,
+  navigation,
   pageType,
   title
 }) => {
@@ -75,45 +77,50 @@ const Page = ({
         classNames([
           'pb-5 flex-grow-1',
           {
-            'bg-light': pageType === 'primary'
+            'bg-light': pageType === 'primary',
+            'page--has-background-image': hasBackgroundImage
           }
         ])
       }
     >
-      <header className="page__header">
-        <Container>
-          <PrimaryNavigation
-            items={
-              [
-                {
-                  to: '/manage/collections',
-                  title: 'Manage Collections',
-                  version: `v${ummC}`
-                },
-                {
-                  to: '/manage/variables',
-                  title: 'Manage Variables',
-                  version: `v${ummV}`
-                },
-                {
-                  to: '/manage/services',
-                  title: 'Manage Services',
-                  version: `v${ummS}`
-                },
-                {
-                  to: '/manage/tools',
-                  title: 'Manage Tools',
-                  version: `v${ummT}`
-                },
-                {
-                  to: '/manage/cmr',
-                  title: 'Manage CMR'
+      {
+        navigation && (
+          <header className="page__header">
+            <Container>
+              <PrimaryNavigation
+                items={
+                  [
+                    {
+                      to: '/manage/collections',
+                      title: 'Manage Collections',
+                      version: `v${ummC}`
+                    },
+                    {
+                      to: '/manage/variables',
+                      title: 'Manage Variables',
+                      version: `v${ummV}`
+                    },
+                    {
+                      to: '/manage/services',
+                      title: 'Manage Services',
+                      version: `v${ummS}`
+                    },
+                    {
+                      to: '/manage/tools',
+                      title: 'Manage Tools',
+                      version: `v${ummT}`
+                    },
+                    {
+                      to: '/manage/cmr',
+                      title: 'Manage CMR'
+                    }
+                  ]
                 }
-              ]
-            }
-          />
-        </Container>
-      </header>
+              />
+            </Container>
+          </header>
+        )
+      }
 
       <Container className="mt-4">
         <Row>
@@ -187,7 +194,9 @@ const Page = ({
 
 Page.defaultProps = {
   breadcrumbs: [],
+  hasBackgroundImage: false,
   headerActions: [],
+  navigation: true,
   pageType: 'primary',
   title: null
 }
@@ -197,12 +206,14 @@ Page.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
+  hasBackgroundImage: PropTypes.bool,
   headerActions: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired
     }).isRequired
   ),
+  navigation: PropTypes.bool,
   pageType: PropTypes.string,
   title: PropTypes.string
 }

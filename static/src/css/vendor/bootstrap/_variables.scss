@@ -22,6 +22,8 @@
  * Included after `variables` and before `maps` as noted in the Bootstrap documentation
 */
 
+$grid-gutter-width: 2rem;
+
 /*
  * Color
 */
@@ -79,15 +81,18 @@ $link-hover-color: map.get($theme-colors, "blue");
  * Badge
 */
 
-$btn-padding-y: 0.5rem;
-$btn-padding-x: 1rem;
-$btn-border-radius: 0.125rem;
+$badge-border-radius: 0.25rem;
 
 /*
  * Button
 */
 
-$badge-border-radius: 0.25rem;
+$btn-padding-y: 0.5rem;
+$btn-padding-x: 1rem;
+$btn-border-radius: 0.125rem;
+$btn-border-radius-lg: 0.2rem;
+$btn-padding-y-lg: 0.625rem;
+$btn-padding-x-lg: 1.25rem;
 
 /*
  * Accordion
@@ -111,6 +116,14 @@ $nav-link-color: map.get($theme-colors, "blue-light");
 $nav-link-hover-color: map.get($theme-colors, "blue");
 $nav-pills-link-active-bg: map.get($theme-colors, "blue");
 $nav-pills-border-radius: 0;
+
+/*
+ * Border Radius
+*/
+
+$border-radius: .25rem;
+$border-radius-sm: 0.125rem;
+$border-radius-lg: 0.2rem;
 
 /*
  * Bootstrap utilities
