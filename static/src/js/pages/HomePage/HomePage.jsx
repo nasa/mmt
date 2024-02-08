@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
+import { redirect } from 'react-router-dom'
 
 import For from '../../components/For/For'
 import Page from '../../components/Page/Page'
@@ -25,7 +26,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (token) {
-      navigate('/manage/collections')
+      navigate('/manage/collections', { replace: true })
     }
   }, [token])
 
