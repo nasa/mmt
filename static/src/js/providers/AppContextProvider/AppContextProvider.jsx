@@ -5,10 +5,10 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-
+import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
-
 import AppContext from '../../context/AppContext'
+import { getApplicationConfig } from '../../utils/getConfig'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -35,20 +35,39 @@ const AppContextProvider = ({ children }) => {
 
   const { keywords } = keywordsContext
 
+  const [cookies, setCookies] = useCookies(['token', 'name', 'auid'])
+
   useEffect(() => {
-    setUser({
-      name: 'User Name',
-      token: 'ABC-1',
-      providerId: 'MMT_2'
-    })
+    const { cookie: appCookie } = getApplicationConfig()
+
+    // If application config sets a user information, set that at login
+    if (appCookie) {
+      Object.keys(appCookie).forEach((key) => {
+        setCookies(key, appCookie[key])
+      })
+    }
   }, [])
 
-  const login = useCallback(() => {
+  const {
+    token, auid, name
+  } = cookies
+
+  useEffect(() => {
     setUser({
-      name: 'User Name',
-      token: 'ABC-1',
+      auid,
+      name,
+      token,
       providerId: 'MMT_2'
     })
+  }, [cookies])
+
+  const login = useCallback(() => {
+    const { apiHost, mmtHost, cookie: appCookie } = getApplicationConfig()
+    if (appCookie) {
+      window.location.href = `${mmtHost}/manage/collections`
+    } else {
+      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+    }
   })
 
   const logout = useCallback(() => {
@@ -65,6 +84,7 @@ const AppContextProvider = ({ children }) => {
     setDraft,
     setOriginalDraft,
     setSavedDraft,
+    setUser,
     user
   }), [
     draft,
