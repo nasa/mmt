@@ -21,21 +21,34 @@ const getLaunchpadToken = (cookieString) => {
  */
 const samlCallback = async (event) => {
   const { body, headers } = event
+  console.log('🚀 ~ samlCallback ~ headers:', headers)
+  console.log('🚀 ~ samlCallback ~ body:', body)
+
   const { Cookie } = headers
+  console.log('🚀 ~ samlCallback ~ Cookie:', Cookie)
+
   const { mmtHost } = getApplicationConfig()
+  console.log('🚀 ~ samlCallback ~ mmtHost:', mmtHost)
 
   const params = new URLSearchParams(body)
+  console.log('🚀 ~ samlCallback ~ params:', params)
 
   const launchpadToken = getLaunchpadToken(Cookie)
+  console.log('🚀 ~ samlCallback ~ launchpadToken:', launchpadToken)
 
   const samlResponse = parseSaml(params.get('SAMLResponse'))
+  console.log('🚀 ~ samlCallback ~ samlResponse:', samlResponse)
   const path = params.get('RelayState')
+  console.log('🚀 ~ samlCallback ~ path:', path)
 
   const { auid, email } = samlResponse
+  console.log('🚀 ~ samlCallback ~ email:', email)
+  console.log('🚀 ~ samlCallback ~ auid:', auid)
 
   const location = `${mmtHost}/auth_callback?target=${path}`
 
-  return {
+  console.log('🚀 ~ samlCallback ~ location:', location)
+  const response = {
     statusCode: 303,
     headers: {
       'Set-Cookie': [
@@ -51,6 +64,9 @@ const samlCallback = async (event) => {
       Location: location
     }
   }
+  console.log('🚀 ~ samlCallback ~ response:', response)
+
+  return response
 }
 
 export default samlCallback
