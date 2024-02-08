@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
-import { Navigate, useNavigate } from 'react-router'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import For from '../../components/For/For'
 import Page from '../../components/Page/Page'
