@@ -43,10 +43,6 @@ const setup = (overrideUser, overrideProps) => {
 beforeEach(() => {
   jest.restoreAllMocks()
   jest.clearAllMocks()
-
-  jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-    cookie: null
-  }))
 })
 
 describe('AuthRequiredContainer component', () => {
@@ -61,6 +57,10 @@ describe('AuthRequiredContainer component', () => {
     delete window.location
     window.location = {}
 
+    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+      cookie: null
+    }))
+
     setup(null)
 
     const { apiHost } = getApplicationConfig()
@@ -69,12 +69,13 @@ describe('AuthRequiredContainer component', () => {
   })
 
   test('should render children if there is an app context user', () => {
-    setup({
-      token: 'some-token',
-      name: 'some name',
-      auid: 'some-auid',
-      email: 'some-email'
-    })
+    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+      cookie: {
+        token: 'some-token'
+      }
+    }))
+
+    setup(null)
 
     expect(screen.getByText('children')).toBeInTheDocument()
   })
