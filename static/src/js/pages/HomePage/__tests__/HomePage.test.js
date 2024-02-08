@@ -65,7 +65,7 @@ describe('HomePage component', () => {
       })
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/manage/collections')
+      expect(navigateSpy).toHaveBeenCalledWith('/manage/collections', { replace: true })
     })
   })
 
