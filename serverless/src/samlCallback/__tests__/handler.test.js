@@ -30,10 +30,10 @@ describe('samlCallback is called by launchpad after a successful login', () => {
     expect(statusCode).toBe(303)
     expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
     expect(cookies).toEqual([
-      'token=launchpad_token; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
-      'auid=cgokey; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
-      'name=cgokey; Secure;Path=/; Domain=.earthdatacloud.nasa.gov',
-      'email=christopher.d.gokey@nasa.gov; Secure;Path=/; Domain=.earthdatacloud.nasa.gov'
+      'token=launchpad_token; Secure; Path=/; Domain=.earthdatacloud.nasa.gov',
+      'auid=cgokey; Secure; Path=/; Domain=.earthdatacloud.nasa.gov',
+      'name=cgokey; Secure; Path=/; Domain=.earthdatacloud.nasa.gov',
+      'email=christopher.d.gokey@nasa.gov; Secure; Path=/; Domain=.earthdatacloud.nasa.gov'
     ])
   })
 })
