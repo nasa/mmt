@@ -4,8 +4,6 @@ import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-import DropdownButton from 'react-bootstrap/DropdownButton'
-
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
@@ -41,22 +39,11 @@ import { useQuery } from '@apollo/client'
 const Header = () => {
   const { user, login, logout } = useAppContext()
 
-  const { type } = useParams()
-
-  // State to manage selected type
-  const [selectedType, setSelectedType] = useState(type)
-
-  const handleTypeChange = (e) => {
-    // Update selected type when dropdown value changes
-    setSelectedType(e.target.value)
+  const [selectedProvider, setSelectedProvider] = useState("")
+  
+  const handleProviderSelection = (providerId) => {
+    setSelectedProvider(providerId);
   }
-
-  useEffect(() => {
-    // If selectedType is not set, default to type from URL params
-    if (!selectedType && type) {
-      setSelectedType(type)
-    }
-  }, [selectedType, type])
 
   // Fetch ACLs using Apollo Client
   const { data: aclData, loading: aclLoading, error: aclError } = useQuery(GET_ACLS, {
@@ -72,12 +59,9 @@ const Header = () => {
   })
 
   // Extract provider_id from the ACL data
-  const providerIdQuery = !aclLoading && !aclError && aclData?.acls?.items.length > 0
+  const providerId = !aclLoading && !aclError && aclData?.acls?.items.length > 0
     ? aclData.acls.items[0].acl.provider_identity?.provider_id
     : null
-
-  // Use providerId from query if available, otherwise use the one from AppContext
-  const providerIdToUse = providerIdQuery
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -175,18 +159,27 @@ const Header = () => {
                     className="pointer"
                     role="button"
                   >
-                    {`MMT_2 `}
+                     {selectedProvider ? selectedProvider : `MMT`}
                   </Dropdown.Toggle>
                   
                   <Dropdown.Menu
                     className="bg-blue-light border-blue-light shadow text-white"
                   >
-                    <Form.Select value={selectedType} onChange={handleTypeChange}>
-                      <option value="text">Select Provider</option>
-                        {!aclLoading && !aclError && providerIdToUse && (
-                      <option value={providerIdToUse}>{providerIdToUse}</option>
-                        )}
-                    </Form.Select>
+                    <Dropdown.Item
+                      onClick={() => handleProviderSelection("")}
+                      active={!selectedProvider}
+                    >
+                      Select Provider
+                    </Dropdown.Item>
+                    {aclData?.acls?.items.map((aclItem, index) => (
+                      <Dropdown.Item
+                        key={index}
+                        onClick={() => handleProviderSelection(aclItem.acl.provider_identity.provider_id)}
+                        active={selectedProvider === aclItem.acl.provider_identity.provider_id}
+                      >
+                        {aclItem.acl.provider_identity.provider_id}
+                      </Dropdown.Item>
+                    ))}
 
                   </Dropdown.Menu>
                 </Dropdown>
