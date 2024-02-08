@@ -39,10 +39,10 @@ const samlCallback = async (event) => {
     statusCode: 303,
     headers: {
       'Set-Cookie': [
-        `token=${launchpadToken}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `auid=${auid}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `name=${auid}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `email=${email}; Secure;Path=/; Domain=.earthdatacloud.nasa.gov`
+        `token=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `auid=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `name=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `email=${email}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
       ],
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',

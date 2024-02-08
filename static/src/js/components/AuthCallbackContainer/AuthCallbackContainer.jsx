@@ -22,7 +22,4 @@ export const AuthCallbackContainer = () => {
   return <div />
 }
 
-AuthCallbackContainer.propTypes = {
-}
-
 export default AuthCallbackContainer

@@ -5,7 +5,6 @@
     "graphQlHost": "http://localhost:3013/dev/api",
     "cmrHost": "http://localhost:4000",
     "version": "development",
-    "jwtSecret": "jwt_secret",
     "cookie": {
       "auid": "dev-user",
       "name": "dev-user",
