@@ -78,25 +78,37 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'TD1000000000-TESTPROV',
                 revisionDate: '2023-11-30 00:00:00',
+                ummMetadata: {
+                  Name: 'Tool Draft 1',
+                  LongName: 'Tool Draft 1 Long Name'
+                },
                 previewMetadata: {
                   name: 'Tool Draft 1',
-                  longName: 'Tool Draft 1 Long Name'
+                  longname: 'Tool Draft 1 Long Name'
                 }
               },
               {
                 conceptId: 'TD1000000001-TESTPROV',
                 revisionDate: '2023-11-30 01:00:00',
+                ummMetadata: {
+                  Name: 'Tool Draft 2',
+                  LongName: 'Tool Draft 2 Long Name'
+                },
                 previewMetadata: {
                   name: 'Tool Draft 2',
-                  longName: 'Tool Draft 2 Long Name'
+                  longname: 'Tool Draft 2 Long Name'
                 }
               },
               {
                 conceptId: 'TD1000000002-TESTPROV',
                 revisionDate: '2023-11-30 02:00:00',
+                ummMetadata: {
+                  Name: 'Tool Draft 3',
+                  LongName: 'Tool Draft 3 Long Name'
+                },
                 previewMetadata: {
                   name: 'Tool Draft 3',
-                  longName: 'Tool Draft 3 Long Name'
+                  longname: 'Tool Draft 3 Long Name'
                 }
               }
             ]
@@ -219,25 +231,37 @@ describe('useDraftsQuery', () => {
                   {
                     conceptId: 'TD1000000000-TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
+                    ummMetadata: {
+                      Name: 'Tool Draft 1',
+                      LongName: 'Tool Draft 1 Long Name'
+                    },
                     previewMetadata: {
                       name: 'Tool Draft 1',
-                      longName: 'Tool Draft 1 Long Name'
+                      longname: 'Tool Draft 1 Long Name'
                     }
                   },
                   {
                     conceptId: 'TD1000000001-TESTPROV',
                     revisionDate: '2023-11-30 01:00:00',
+                    ummMetadata: {
+                      Name: 'Tool Draft 2',
+                      LongName: 'Tool Draft 2 Long Name'
+                    },
                     previewMetadata: {
                       name: 'Tool Draft 2',
-                      longName: 'Tool Draft 2 Long Name'
+                      longname: 'Tool Draft 2 Long Name'
                     }
                   },
                   {
                     conceptId: 'TD1000000002-TESTPROV',
                     revisionDate: '2023-11-30 02:00:00',
+                    ummMetadata: {
+                      Name: 'Tool Draft 3',
+                      LongName: 'Tool Draft 3 Long Name'
+                    },
                     previewMetadata: {
                       name: 'Tool Draft 3',
-                      longName: 'Tool Draft 3 Long Name'
+                      longname: 'Tool Draft 3 Long Name'
                     }
                   }
                 ]

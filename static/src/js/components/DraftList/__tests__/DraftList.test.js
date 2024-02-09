@@ -235,9 +235,11 @@ describe('DraftList', () => {
             {
               conceptId: 'TD1000000-MMT',
               revisionDate: '2023-12-08T17:56:09.385Z',
+              ummMetadata: {
+                Name: 'Tool TD1000000-MMT short name',
+                LongName: 'Tool TD1000000-MMT long name'
+              },
               previewMetadata: {
-                name: 'Tool TD1000000-MMT short name',
-                longName: 'Tool TD1000000-MMT long name',
                 __typename: 'Tool'
               },
               __typename: 'Draft'
