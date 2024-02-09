@@ -38,15 +38,18 @@ import { useQuery } from '@apollo/client'
  */
 const Header = () => {
   const { user, login, logout } = useAppContext()
+  console.log('🚀~user', JSON.stringify(user))
+  console.log('🚀~login', login)
+  console.log('🚀~logout', logout)
 
   const [selectedProvider, setSelectedProvider] = useState("")
   
   const handleProviderSelection = (providerId) => {
-    setSelectedProvider(providerId);
+    setSelectedProvider(providerId)
   }
 
   // Fetch ACLs using Apollo Client
-  const { data: aclData, loading: aclLoading, error: aclError } = useQuery(GET_ACLS, {
+  const { data: aclData } = useQuery(GET_ACLS, {
     variables: {
       params: {
       "includeFullAcl": true,
@@ -59,9 +62,9 @@ const Header = () => {
   })
 
   // Extract provider_id from the ACL data
-  const providerId = !aclLoading && !aclError && aclData?.acls?.items.length > 0
-    ? aclData.acls.items[0].acl.provider_identity?.provider_id
-    : null
+  // const providerId = !aclLoading && !aclError && aclData?.acls?.items.length > 0
+  //   ? aclData.acls.items[0].acl.provider_identity?.provider_id
+  //   : null
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -159,7 +162,9 @@ const Header = () => {
                     className="pointer"
                     role="button"
                   >
-                     {selectedProvider ? selectedProvider : `MMT`}
+                     {selectedProvider ? selectedProvider : `MMT` }
+                     {/* {selectedProvider ? selectedProvider : `${user.providerId}` } */}
+                     {/* {`${user.providerId}`} */}
                   </Dropdown.Toggle>
                   
                   <Dropdown.Menu
