@@ -30,6 +30,7 @@
     "@rjsf/validator-ajv8": "^5.15.0",
     "@vitejs/plugin-react": "^4.1.0",
     "@xmldom/xmldom": "^0.8.10",
+    "base-64": "^1.0.0",
     "bootstrap": "^5.3.2",
     "classnames": "^2.3.2",
     "commafy": "^0.0.6",
