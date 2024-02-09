@@ -8,7 +8,6 @@ import userEvent from '@testing-library/user-event'
 import { AuthRequiredContainer } from '../AuthRequiredContainer'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import AppContext from '../../../context/AppContext'
-import * as getConfig from '../../../utils/getConfig'
 
 const setup = (overrideUser, overrideProps) => {
   const context = {
@@ -53,14 +52,9 @@ describe('AuthRequiredContainer component', () => {
     window.location.href = href
   })
 
-  test('should redirect if there is no app context user', () => {
+  test('should redirect to authenticate if user has not authenticated', () => {
     delete window.location
     window.location = {}
-
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-      cookie: null
-    }))
-
     setup(null)
 
     const { apiHost } = getApplicationConfig()
@@ -68,14 +62,10 @@ describe('AuthRequiredContainer component', () => {
     expect(window.location.href).toEqual(expectedPath)
   })
 
-  test('should render children if there is an app context user', () => {
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-      cookie: {
-        token: 'some-token'
-      }
-    }))
-
-    setup(null)
+  test('should not redirect if user has authenticated', () => {
+    setup({
+      token: 'ABC-1'
+    })
 
     expect(screen.getByText('children')).toBeInTheDocument()
   })

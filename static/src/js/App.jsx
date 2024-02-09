@@ -27,6 +27,7 @@ import '../css/index.scss'
 import HomePage from './pages/HomePage/HomePage'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
+import decodeCookie from './utils/decodeCookie'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -59,9 +60,13 @@ const App = () => {
 
   const { graphQlHost } = getApplicationConfig()
 
-  const [cookies] = useCookies(['token'])
+  const [cookies] = useCookies(['data'])
 
-  const { token } = cookies
+  let token
+  const { data } = cookies
+  if (data) {
+    token = decodeCookie(data).token
+  }
 
   const httpLink = createHttpLink({
     uri: graphQlHost

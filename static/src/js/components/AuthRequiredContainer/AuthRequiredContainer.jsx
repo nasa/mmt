@@ -8,13 +8,8 @@ export const AuthRequiredContainer = ({
   children
 }) => {
   const { user } = useAppContext()
-  const { cookie: appCookie } = getApplicationConfig()
 
-  let { token } = user
-
-  if (appCookie) {
-    token = appCookie.token
-  }
+  const { token } = user
 
   const location = useLocation()
 
