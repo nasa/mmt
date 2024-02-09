@@ -5,11 +5,19 @@ const collectionAssociation = {
   additionalProperties: false,
   properties: {
     SearchField: {
+      title: 'Search Field',
       $ref: '#/definitions/SearchFieldType'
+    },
+    ProviderFilter: {
+      type: 'boolean',
+      // Title: 'Provider Filter',
+      description: 'This is the radio-description',
+      default: true
     }
   },
   required: [
     'SearchField'
+    // 'ProviderFilter'
   ],
 
   definitions: {

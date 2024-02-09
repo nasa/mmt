@@ -8,15 +8,13 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 const CollectionAssociationPreviewProgress = ({
   draftJson
 }) => {
-  console.log('🚀 ~ draftJson:', draftJson)
   const navigate = useNavigate()
 
-  const { __private } = draftJson || {}
-  console.log('🚀 ~ __private:', __private)
+  const { _private } = draftJson || {}
 
   let status = progressCircleTypes.NotStarted
 
-  if (__private) {
+  if (_private) {
     status = progressCircleTypes.Pass
   }
 

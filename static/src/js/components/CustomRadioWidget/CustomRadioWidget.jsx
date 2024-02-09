@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
@@ -50,6 +51,16 @@ const CustomRadioWidget = ({
     title = uiSchema['ui:title']
   }
 
+  let trueOption = null
+  let falseOption = null
+  let showClear = true
+
+  if (uiSchema['ui:options']) {
+    trueOption = uiSchema['ui:options'].trueOption
+    falseOption = uiSchema['ui:options'].falseOption
+    showClear = uiSchema['ui:options'].showClear
+  }
+
   const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
@@ -91,32 +102,49 @@ const CustomRadioWidget = ({
         className="custom-radio-widget"
         role="radiogroup"
       >
-        <div
-          className="custom-radio-widget-clear-btn"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...accessibleEventProps}
-        >
-          Clear
-        </div>
+        {
+          showClear && (
+            <div
+              className="custom-radio-widget-clear-btn"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...accessibleEventProps}
+            >
+              Clear
+            </div>
+          )
+        }
 
         <input
+          className="form-check-input m-2"
           id={`${id}-true`}
           name="true"
+          defaultChecked
           onChange={handleChange}
           type="radio"
           checked={value === true}
           ref={focusRef}
         />
-        <label htmlFor={`${id}-true`}>True</label>
+        <label
+          className="form-check-label m-1"
+          htmlFor={`${id}-true`}
+        >
+          {trueOption || 'True'}
+        </label>
         <br />
         <input
+          className="form-check-input m-2"
           id={`${id}-false`}
           name="false"
           onChange={handleChange}
           type="radio"
           checked={value === false}
         />
-        <label htmlFor={`${id}-false`}>False</label>
+        <label
+          className="m-1"
+          htmlFor={`${id}-false`}
+        >
+          {falseOption || 'True'}
+        </label>
       </div>
     </CustomWidgetWrapper>
   )

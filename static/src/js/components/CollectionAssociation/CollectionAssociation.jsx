@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Placeholder } from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap/Table'
-
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useLazyQuery, useMutation } from '@apollo/client'
@@ -10,6 +8,9 @@ import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { useNavigate, useParams } from 'react-router'
 import pluralize from 'pluralize'
+import { FaArrowAltCircleRight } from 'react-icons/fa'
+import BootstrapSelect from 'react-bootstrap/Button'
+import Button from '../Button/Button'
 import Page from '../Page/Page'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import useAppContext from '../../hooks/useAppContext'
@@ -31,6 +32,8 @@ import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 import getUmmVersion from '../../utils/getUmmVersion'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import Table from '../Table/Table'
+import removeMetadataKeys from '../../utils/removeMetadataKeys'
+import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -45,16 +48,18 @@ const CollectionAssociation = () => {
   const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [loading, setLoading] = useState()
+  const [collectionLoading, setCollectionLoading] = useState()
   const [savedFormData, setSavedFormData] = useState()
   const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})
+  const [searchFormData, setSearchFormData] = useState({})
   const [offset, setOffset] = useState(0)
   const limit = 20
 
   const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  const [focusField, setFocusField] = useState(null)
 
   const { addNotification } = useNotificationsContext()
-
   const fields = {
     OneOfField,
     TitleField: CustomTitleField,
@@ -82,8 +87,9 @@ const CollectionAssociation = () => {
     onCompleted: (getDraftData) => {
       const { draft } = getDraftData
       const { ummMetadata } = draft
-      const { __private } = ummMetadata
-      const { CollectionAssociation: savedAssociation } = __private || {}
+      const { _private } = ummMetadata
+      const { CollectionAssociation: savedAssociation } = _private || {}
+
       setFetchedDraft(draft)
       setCurrentSelectedAssociation(savedAssociation)
       setLoading(false)
@@ -97,7 +103,7 @@ const CollectionAssociation = () => {
   })
 
   useEffect(() => {
-    // SetLoading(true)
+    setLoading(true)
     getDraft()
   }, [])
 
@@ -105,70 +111,106 @@ const CollectionAssociation = () => {
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
     onCompleted: (getCollectionsData) => {
       setCollectionSearchResult(getCollectionsData.collections)
-      setLoading(false)
+      setCollectionLoading(false)
+      // SetSearchFormData(null)
     },
     onError: (getCollectionsError) => {
-      setLoading(false)
+      setCollectionLoading(false)
       console.log('error:', getCollectionsError)
     }
   })
 
-  // Handles on submit from the form. Calls graphQL with a wildcard search
-  // Example:
-  //   "params": {
-  //   "options": {
-  //     "shortName": {
-  //     "pattern": true
-  //     }
-  //   },
-  //   "shortName": "*"
-  const handleCollectionSearch = ({ formData }) => {
-    setSavedFormData(formData)
-    const formattedFormData = camelcaseKeys(formData, { deep: true })
+  const isWildCardSearch = (type) => {
+    const wildcardSearch = ['dataCenter', 'platform', 'project', 'shortName']
 
-    const { searchField } = formattedFormData
+    return wildcardSearch.includes(type[0])
+  }
+
+  const handleCollectionSearch = () => {
+    setSavedFormData(searchFormData)
+    const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
+
+    const { searchField, providerFilter } = formattedFormData
+
+    let provider = null
+    if (providerFilter) {
+      provider = providerId
+    }
+
     const type = Object.keys(searchField)
+    console.log('🚀 ~ handleCollectionSearch ~ type:', type)
     const value = Object.values(searchField).at(0)
 
-    setLoading(true)
+    setCollectionLoading(true)
     setShowSelectCollection(true)
+
+    let query = {}
+    if (isWildCardSearch(type)) {
+      query = {
+        limit,
+        offset,
+        options: {
+          [type]: {
+            pattern: true
+          }
+        },
+        [type]: value,
+        provider
+      }
+    } else {
+      query = {
+        limit,
+        offset,
+        provider,
+        [type]: value
+      }
+    }
 
     getCollections({
       variables: {
-        params: {
-          limit,
-          offset,
-          options: {
-            [type]: {
-              pattern: true
-            }
-          },
-          [type]: value
-        }
+        params: query
       }
     })
   }
 
-  const handleClear = () => {
-    console.log('clear')
-  }
-
-  // Calls
+  // Calls handleCollectionSearch get the next set of collections for pagination
   useEffect(() => {
     if (savedFormData) {
       handleCollectionSearch({ formData: savedFormData })
     }
   }, [offset])
 
-  const handleSubmit = () => {
-    let associationDetailDraft = fetchedDraft
-    const { ummMetadata } = fetchedDraft
-    const { nativeId } = fetchedDraft
+  // Handle the submit button when the user clicks on a collection and associates the collection to draft
+  const handleSubmit = (
+    collectionConceptId,
+    shortName,
+    version
+  ) => {
+    console.log('🚀 ~ CollectionAssociation ~ collectionConceptId:', collectionConceptId)
+    console.log('🚀 ~ CollectionAssociation ~ version:', version)
+    console.log('🚀 ~ CollectionAssociation ~ shortName:', shortName)
 
-    associationDetailDraft = {
+    setSelectedOption({
+      collectionConceptId,
+      shortName,
+      version
+    })
+
+    // Let associationDetailDraft = fetchedDraft
+    const { nativeId } = fetchedDraft
+    const { ummMetadata } = fetchedDraft
+
+    const associationDetailDraft = {
       ...ummMetadata,
-      __private: { CollectionAssociation: selectedOption }
+      _private: {
+        CollectionAssociation: {
+          collectionConceptId,
+          shortName,
+          version
+        }
+      }
     }
+    console.log('🚀 ~ CollectionAssociation ~ associationDetailDraft:', associationDetailDraft)
 
     ingestDraftMutation({
       variables: {
@@ -179,7 +221,6 @@ const CollectionAssociation = () => {
         ummVersion: getUmmVersion(derivedConceptType)
       },
       onCompleted: () => {
-        // Console.log('🚀 ~ handleSubmit ~ getIngestData:', getIngestData)
         // Add a success notification
         addNotification({
           message: ` ${conceptId} Associated`,
@@ -194,21 +235,39 @@ const CollectionAssociation = () => {
     })
   }
 
-  // If (loading) {
-  //   return (
-  //     <Page>
-  //       <LoadingBanner />
-  //     </Page>
-  //   )
-  // }
+  const handleClear = () => {
+    const { ummMetadata } = fetchedDraft
+    const { nativeId } = fetchedDraft
 
-  if (error) {
-    const message = parseError(error)
+    const modifiedMetadata = removeMetadataKeys(ummMetadata, ['_private'])
+    setLoading(true)
+    ingestDraftMutation({
+      variables: {
+        conceptType: derivedConceptType,
+        metadata: modifiedMetadata,
+        nativeId,
+        providerId,
+        ummVersion: getUmmVersion(derivedConceptType)
+      },
+      onCompleted: () => {
+        setLoading(false)
+        setCollectionLoading({})
+        // Add a success notification
+        addNotification({
+          message: `Cleared ${conceptId} Association`,
+          variant: 'danger'
+        })
+      },
+      onError: (getIngestError) => {
+        console.log('🚀 ~ handleSubmit ~ getIngestError:', getIngestError)
+      }
+    })
+  }
 
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
+  const handleChange = (event) => {
+    const { formData } = event
+    setSearchFormData(
+      formData
     )
   }
 
@@ -226,25 +285,7 @@ const CollectionAssociation = () => {
         key: collectionConceptId,
         cells:
         [
-          {
-            value: (
-              <input
-                id={collectionConceptId}
-                type="radio"
-                name="select-collection"
-                value={collectionConceptId}
-                onClick={
-                  () => {
-                    setSelectedOption({
-                      collectionConceptId,
-                      shortName,
-                      version
-                    })
-                  }
-                }
-              />
-            )
-          },
+
           {
             value: (
               collectionConceptId
@@ -264,20 +305,66 @@ const CollectionAssociation = () => {
             value: (
               provider
             )
+          },
+          {
+            value:
+            (
+              <div className="d-flex">
+                <Button
+                  className="d-flex"
+                  onClick={
+                    () => {
+                      setSelectedOption({
+                        collectionConceptId,
+                        shortName,
+                        version
+                      })
+
+                      handleSubmit(
+                        collectionConceptId,
+                        shortName,
+                        version
+                      )
+                    }
+                  }
+                  variant="secondary"
+                  size="sm"
+                >
+                  Create Association
+                </Button>
+              </div>
+            )
           }
         ]
       }
     )
   }))
 
+  if (loading) {
+    return (
+      <Page>
+        <LoadingBanner />
+      </Page>
+    )
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
+  }
+
   return (
     <Page>
-      <h4>Collection Association Search</h4>
-      <Row className="m-5">
-
-        <Col sm={12} className="pb-5">
-          <h5>Currently Selected Collection</h5>
-          <BootstrapTable striped borderless>
+      <h3>Collection Association Search</h3>
+      <Row className="m-4">
+        <h4>Currently Selected Collection</h4>
+        <Col sm={12} className="bg-white rounded">
+          <BootstrapTable striped>
             <thead>
               <tr>
                 <th>Collection</th>
@@ -287,38 +374,55 @@ const CollectionAssociation = () => {
             </thead>
             <tbody>
               <tr>
-                <td>{currentSelectedAssociation?.conceptId || 'No Collection Selected'}</td>
+                <td>{currentSelectedAssociation?.collectionConceptId || 'No Collection Selected'}</td>
                 <td>{currentSelectedAssociation?.shortName}</td>
                 <td>{currentSelectedAssociation?.version}</td>
               </tr>
             </tbody>
           </BootstrapTable>
-          <Button
+          <BootstrapSelect
+            className="mb-3 m-2"
             onClick={handleClear}
             variant="outline-danger"
           >
             Clear Collection Association
-          </Button>
+          </BootstrapSelect>
         </Col>
-        <Form
-          schema={collectionAssociation}
-          validator={validator}
-          fields={fields}
-          widgets={widgets}
-          templates={templates}
-          onSubmit={handleCollectionSearch}
-        />
 
-        <Col sm={12} className="mt-5">
+        <h4 className="mt-5">Currently Selected Collection</h4>
+        <Col sm={12} className="bg-white rounded">
+          <Form
+            className="bg-white m-2 pt-2"
+            schema={collectionAssociation}
+            validator={validator}
+            fields={fields}
+            uiSchema={collectionAssociationUiSchema}
+            widgets={widgets}
+            templates={templates}
+            onChange={handleChange}
+            formData={searchFormData}
+            formContext={
+              {
+                focusField,
+                setFocusField
+              }
+            }
+          >
+            <BootstrapSelect type="submit" style={{ marginTop: '-100px' }} onClick={handleCollectionSearch}>
+              Search for Collection
+            </BootstrapSelect>
+          </Form>
+        </Col>
+        <Col sm={12} className="mt-5 bg-white rounded">
           {
             showSelectCollection
             && (
               <>
-                <h5>Select Collection</h5>
+                <h5 className="m-2 mt-3">Select Collection</h5>
                 <Table
-                  headers={['', 'Collection', 'Short Name', 'Version', 'Provider']}
-                  classNames={['col-sm-1', 'col-md-4', 'col-md-4', 'col-md-4', 'col-md-4']}
-                  loading={loading}
+                  headers={['Collection', 'Short Name', 'Version', 'Provider', 'Actions']}
+                  classNames={['col-auto', 'col-auto', 'col-auto', 'col-auto', 'col-auto']}
+                  loading={collectionLoading}
                   data={collectionSearchData}
                   error={error}
                   noDataError="No Collections Found."
@@ -327,11 +431,11 @@ const CollectionAssociation = () => {
                   limit={limit}
                   offset={offset}
                 />
-                <Button
+                {/* <BootstrapSelect
                   onClick={handleSubmit}
                 >
                   Submit
-                </Button>
+                </BootstrapSelect> */}
               </>
             )
           }

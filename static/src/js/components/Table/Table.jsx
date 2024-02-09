@@ -99,7 +99,7 @@ const Table = ({
 
     content.push(rowData)
   } else if (dataLengthExists === 0) {
-    content.push(<tr key="error-banner" className="text-center"><td colSpan={4}>{noDataError}</td></tr>)
+    content.push(<tr key="error-banner" className="text-center"><td colSpan={headers.length}>{noDataError}</td></tr>)
   } else {
     content.push(<tr key="error-banner" className="text-center"><td colSpan={4}>{error}</td></tr>)
   }

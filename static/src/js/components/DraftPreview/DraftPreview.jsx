@@ -64,6 +64,7 @@ const DraftPreview = () => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
   const [retries, setRetries] = useState(0)
+  const [collectionAssociation, setCollectionAssociation] = useState(null)
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
   const publishMutation = usePublishMutation()
@@ -76,6 +77,7 @@ const DraftPreview = () => {
       }
     },
     onCompleted: (getDraftData) => {
+      console.log('🚀 ~ DraftPreview ~ getDraftData:', getDraftData)
       const { draft: fetchedDraft } = getDraftData
       const { revisionId } = fetchedDraft || {}
 
@@ -171,8 +173,16 @@ const DraftPreview = () => {
   // Handle the user selecting publish draft
   const handlePublish = () => {
     // Calls publish mutation hook
-    setLoading(true)
-    publishMutation(derivedConceptType, nativeId)
+    // setLoading(true)
+    if (derivedConceptType === 'Variable') {
+      const { _private } = ummMetadata || {}
+      const { CollectionAssociation } = _private || {}
+      const { collectionConceptId } = CollectionAssociation
+      console.log('🚀 ~ handlePublish ~ CollectionAssociation:', collectionConceptId)
+      publishMutation(derivedConceptType, nativeId, collectionConceptId)
+    } else {
+      publishMutation(derivedConceptType, nativeId)
+    }
   }
 
   // Handle the user selecting delete from the delete draft modal
