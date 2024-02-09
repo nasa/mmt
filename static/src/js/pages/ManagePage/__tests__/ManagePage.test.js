@@ -45,6 +45,8 @@ const setup = (overrideMocks) => {
                   LongName: 'Tool Draft 1 Long Name'
                 },
                 previewMetadata: {
+                  name: 'Tool Draft 1 Name',
+                  longName: 'Tool Draft 1 Long Name',
                   __typename: 'Tool'
                 }
               },
@@ -56,6 +58,8 @@ const setup = (overrideMocks) => {
                   LongName: 'Tool Draft 2 Long Name'
                 },
                 previewMetadata: {
+                  name: 'Tool Draft 2 Name',
+                  longName: 'Tool Draft 2 Long Name',
                   __typename: 'Tool'
                 }
               }
@@ -207,6 +211,8 @@ describe('ManagePage component', () => {
                       LongName: null
                     },
                     previewMetadata: {
+                      name: null,
+                      longName: null,
                       __typename: 'Tool'
                     }
                   }
