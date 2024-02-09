@@ -1,3 +1,4 @@
+import encodeCookie from '../../../static/src/js/utils/encodeCookie'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
 import parseSaml from '../../../static/src/js/utils/parseSaml'
 
@@ -10,6 +11,11 @@ const cookie = require('cookie')
  * @returns the launchpad token
  */
 const getLaunchpadToken = (cookieString) => {
+  const { version } = getApplicationConfig()
+  if (version === 'development') {
+    return 'ABC-1'
+  }
+
   const cookies = cookie.parse(cookieString)
 
   return cookies[getSamlConfig().cookieName]
@@ -21,42 +27,34 @@ const getLaunchpadToken = (cookieString) => {
  */
 const samlCallback = async (event) => {
   const { body, headers } = event
-  console.log('🚀 ~ samlCallback ~ headers:', headers)
-  console.log('🚀 ~ samlCallback ~ body:', body)
-
   const { Cookie } = headers
-  console.log('🚀 ~ samlCallback ~ Cookie:', Cookie)
-
-  const { mmtHost } = getApplicationConfig()
-  console.log('🚀 ~ samlCallback ~ mmtHost:', mmtHost)
+  const { mmtHost, version } = getApplicationConfig()
 
   const params = new URLSearchParams(body)
-  console.log('🚀 ~ samlCallback ~ params:', params)
-
-  const launchpadToken = getLaunchpadToken(Cookie)
-  console.log('🚀 ~ samlCallback ~ launchpadToken:', launchpadToken)
-
   const samlResponse = parseSaml(params.get('SAMLResponse'))
-  console.log('🚀 ~ samlCallback ~ samlResponse:', samlResponse)
   const path = params.get('RelayState')
-  console.log('🚀 ~ samlCallback ~ path:', path)
 
-  const { auid, email } = samlResponse
-  console.log('🚀 ~ samlCallback ~ email:', email)
-  console.log('🚀 ~ samlCallback ~ auid:', auid)
+  const { auid } = samlResponse
+  const launchpadToken = getLaunchpadToken(Cookie)
+
+  const encodedCookie = encodeCookie({
+    ...samlResponse,
+    name: auid,
+    token: launchpadToken
+  })
+
+  let setCookie = `data=${encodedCookie}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
+
+  if (version === 'development') {
+    setCookie = `data=${encodedCookie}; Path=/`
+  }
 
   const location = `${mmtHost}/auth_callback?target=${path}`
 
-  console.log('🚀 ~ samlCallback ~ location:', location)
   const response = {
     statusCode: 303,
     headers: {
-      'Set-Cookie': [
-        `token=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `auid=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `name=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
-        `email=${email}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
-      ],
+      'Set-Cookie': setCookie,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',
@@ -64,7 +62,6 @@ const samlCallback = async (event) => {
       Location: location
     }
   }
-  console.log('🚀 ~ samlCallback ~ response:', response)
 
   return response
 }
