@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event'
 
 import Table from '../Table'
 
+jest.mock('../../DraftList/DraftList')
+
 const setup = (overrideProps = {}) => {
   const props = {
     headers: [
@@ -38,6 +40,7 @@ const setup = (overrideProps = {}) => {
     count: 14,
     limit: 2,
     offset: 0,
+    setOffset: jest.fn(),
     ...overrideProps
   }
 
