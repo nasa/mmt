@@ -7,6 +7,7 @@ import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import * as getConfig from '../../../utils/getConfig'
+import encodeCookie from '../../../utils/encodeCookie'
 
 const MockComponent = () => {
   const { user, login, logout } = useAppContext()
@@ -45,7 +46,9 @@ const MockComponent = () => {
 const setup = (overrideCookie) => {
   const cookie = new Cookies(
     overrideCookie || {
-      name: 'User Name'
+      data: encodeCookie({
+        name: 'User Name'
+      })
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
@@ -109,33 +112,6 @@ describe('AppContextProvider component', () => {
         const newUserName = screen.queryByText('User Name: User Name', { exact: true })
 
         expect(newUserName).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when a app cookie is provided ', () => {
-      test('it should bypass saml login', async () => {
-        delete window.location
-        window.location = {}
-
-        jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-          cookie: {
-            auid: 'dev-user',
-            name: 'dev-user',
-            token: 'ABC-1',
-            email: 'dev-user@nasa.gov'
-          }
-        }))
-
-        setup({})
-
-        const user = userEvent.setup()
-        const loginButton = screen.getByRole('button', { name: 'Log in' })
-
-        await user.click(loginButton)
-
-        const userName = screen.getByText('User Name: dev-user', { exact: true })
-
-        expect(userName).toBeInTheDocument()
       })
     })
   })
