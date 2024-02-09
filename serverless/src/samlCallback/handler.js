@@ -1,8 +1,6 @@
-import { stringify } from 'querystring'
-import { createJwtToken } from '../../../static/src/js/utils/createJwtToken'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import parseSaml from '../../../static/src/js/utils/parseSaml'
 
-const Saml2js = require('saml2js')
 const { URLSearchParams } = require('url')
 const cookie = require('cookie')
 
@@ -23,34 +21,52 @@ const getLaunchpadToken = (cookieString) => {
  */
 const samlCallback = async (event) => {
   const { body, headers } = event
+  console.log('🚀 ~ samlCallback ~ headers:', headers)
+  console.log('🚀 ~ samlCallback ~ body:', body)
+
   const { Cookie } = headers
+  console.log('🚀 ~ samlCallback ~ Cookie:', Cookie)
+
   const { mmtHost } = getApplicationConfig()
+  console.log('🚀 ~ samlCallback ~ mmtHost:', mmtHost)
 
   const params = new URLSearchParams(body)
+  console.log('🚀 ~ samlCallback ~ params:', params)
 
   const launchpadToken = getLaunchpadToken(Cookie)
+  console.log('🚀 ~ samlCallback ~ launchpadToken:', launchpadToken)
 
-  const parser = new Saml2js(params.get('SAMLResponse'))
+  const samlResponse = parseSaml(params.get('SAMLResponse'))
+  console.log('🚀 ~ samlCallback ~ samlResponse:', samlResponse)
   const path = params.get('RelayState')
-  const samlResponse = parser.toObject()
+  console.log('🚀 ~ samlCallback ~ path:', path)
 
-  const data = {
-    path,
-    token: launchpadToken,
-    ...samlResponse
-  }
-  const jwtToken = createJwtToken(data)
-  const queryParams = { jwt: jwtToken }
-  queryParams.jwt = jwtToken
+  const { auid, email } = samlResponse
+  console.log('🚀 ~ samlCallback ~ email:', email)
+  console.log('🚀 ~ samlCallback ~ auid:', auid)
 
-  const location = `${mmtHost}/auth_callback?${stringify(queryParams)}`
+  const location = `${mmtHost}/auth_callback?target=${path}`
 
-  return {
+  console.log('🚀 ~ samlCallback ~ location:', location)
+  const response = {
     statusCode: 303,
     headers: {
+      'Set-Cookie': [
+        `token=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `auid=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `name=${auid}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`,
+        `email=${email}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
+      ],
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET, POST',
+      'Access-Control-Allow-Credentials': true,
       Location: location
     }
   }
+  console.log('🚀 ~ samlCallback ~ response:', response)
+
+  return response
 }
 
 export default samlCallback

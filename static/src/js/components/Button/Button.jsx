@@ -4,11 +4,14 @@ import BootstrapButton from 'react-bootstrap/Button'
 import classNames from 'classnames'
 
 import './Button.scss'
+import { FaExternalLinkAlt } from 'react-icons/fa'
 
 /**
  * @typedef {Object} ButtonProps
  * @property {String} className Class name to apply to the button
  * @property {ReactNode} children The children of the button
+ * @property {Boolean} external An optional boolean which sets `target="_blank"` and an external link icon
+ * @property {String} href An optional string which triggers the use of an `<a>` tag with the designated href
  * @property {Function} [Icon] An optional icon `react-icons` icon
  * @property {Boolean} [naked] An optional boolean passed to render a button with no background or border
  * @property {Function} onClick A callback function to be called when the button is clicked
@@ -38,40 +41,73 @@ import './Button.scss'
 const Button = ({
   className,
   children,
+  external,
+  href,
   Icon,
   naked,
   onClick,
   size,
   variant
-}) => (
-  <BootstrapButton
-    className={
-      classNames([
-        'd-flex align-items-center',
-        {
-          'button--naked': naked,
-          [className]: className
-        }
-      ])
-    }
-    onClick={onClick}
-    size={size}
-    variant={variant}
-  >
-    {
-      Icon && (
-        <Icon className="me-1" />
-      )
-    }
+}) => {
+  // Create an object to pass any conditional properties. These are ultimately spread on the component.
+  const conditionalProps = {}
 
-    {children}
-  </BootstrapButton>
-)
+  if (onClick) {
+    conditionalProps.onClick = onClick
+  }
+
+  if (href) {
+    conditionalProps.href = href
+
+    if (external) conditionalProps.target = '_blank'
+  }
+
+  return (
+    <BootstrapButton
+      className={
+        classNames([
+          'd-flex align-items-center text-nowrap',
+          {
+            'button--naked': naked,
+            [className]: className
+          }
+        ])
+      }
+      size={size}
+      variant={variant}
+      {...conditionalProps}
+    >
+      {
+        Icon && (
+          <Icon
+            className={
+              classNames([
+                {
+                  'me-1': size !== 'lg',
+                  'me-2': size === 'lg'
+                }
+              ])
+            }
+          />
+        )
+      }
+      {children}
+      {
+        external && (
+          <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
+        )
+      }
+    </BootstrapButton>
+  )
+}
 
 Button.defaultProps = {
   className: '',
   Icon: null,
+  external: false,
+  href: null,
   naked: false,
+  onClick: null,
   size: '',
   variant: ''
 }
@@ -79,9 +115,11 @@ Button.defaultProps = {
 Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  external: PropTypes.bool,
+  href: PropTypes.string,
   Icon: PropTypes.func,
   naked: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   size: PropTypes.string,
   variant: PropTypes.string
 }

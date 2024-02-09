@@ -1,16 +1,10 @@
 {
   "application": {
-    "mmtHost": "http://localhost:5173",
-    "apiHost": "http://localhost:4001/dev",
-    "graphQlHost": "http://localhost:3013/dev/api",
-    "cmrHost": "http://localhost:4000",
-    "version": "development",
-    "cookie": {
-      "auid": "dev-user",
-      "name": "dev-user",
-      "token": "ABC-1",
-      "email": "dev-user@nasa.gov"
-    }
+    "mmtHost": "https://mmt.localtest.earthdatacloud.nasa.gov",
+    "apiHost": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
+    "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
+    "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
+    "version": "development"
   },
   "ummVersions": {
     "ummC": "1.17.3",
