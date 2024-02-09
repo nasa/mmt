@@ -147,6 +147,7 @@ const Table = ({
 Table.defaultProps = {
   classNames: [],
   loading: null,
+  data: null,
   error: 'Error',
   noDataError: 'No Data to Display',
   count: null
@@ -159,7 +160,7 @@ Table.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     cells: PropTypes.arrayOf(PropTypes.shape({}))
-  })).isRequired,
+  })),
   error: PropTypes.string,
   noDataError: PropTypes.string,
   count: PropTypes.number,
