@@ -147,4 +147,28 @@ describe('CustomRadioWidget', () => {
       }), {})
     })
   })
+
+  describe('when the field has custom options', () => {
+    test('uses the custom options', () => {
+      setup({
+        uiSchema: {
+          'ui:options': {
+            trueOption: 'Custom True',
+            falseOption: 'Custom False',
+            showClear: false
+          }
+        }
+      })
+
+      expect(screen.getByRole('radio', { name: 'Custom True' })).toBeInTheDocument()
+      expect(screen.getByRole('radio', { name: 'Custom False' })).toBeInTheDocument()
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description',
+        label: 'Test Field',
+        required: true,
+        title: 'Test Field'
+      }), {})
+    })
+  })
 })

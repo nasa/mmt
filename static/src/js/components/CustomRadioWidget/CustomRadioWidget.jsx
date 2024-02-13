@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
@@ -139,10 +138,10 @@ const CustomRadioWidget = ({
           checked={value === false}
         />
         <label
-          className="m-1"
+          className="form-check-label m-1"
           htmlFor={`${id}-false`}
         >
-          {falseOption || 'True'}
+          {falseOption || 'False'}
         </label>
       </div>
     </CustomWidgetWrapper>
@@ -168,6 +167,11 @@ CustomRadioWidget.propTypes = {
     description: PropTypes.string
   }).isRequired,
   uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      trueOption: PropTypes.string,
+      falseOption: PropTypes.string,
+      showClear: PropTypes.bool
+    }),
     'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.bool
