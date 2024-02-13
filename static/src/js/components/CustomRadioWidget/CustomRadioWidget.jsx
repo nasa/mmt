@@ -118,7 +118,6 @@ const CustomRadioWidget = ({
           className="form-check-input m-2"
           id={`${id}-true`}
           name="true"
-          defaultChecked
           onChange={handleChange}
           type="radio"
           checked={value === true}

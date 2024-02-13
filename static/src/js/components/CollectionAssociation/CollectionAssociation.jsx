@@ -8,7 +8,6 @@ import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { useNavigate, useParams } from 'react-router'
 import pluralize from 'pluralize'
-import { FaArrowAltCircleRight } from 'react-icons/fa'
 import BootstrapSelect from 'react-bootstrap/Button'
 import Button from '../Button/Button'
 import Page from '../Page/Page'
@@ -34,6 +33,7 @@ import useNotificationsContext from '../../hooks/useNotificationsContext'
 import Table from '../Table/Table'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
+import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -43,7 +43,6 @@ const CollectionAssociation = () => {
   const { providerId } = user
 
   const [error, setError] = useState()
-  const [selectedOption, setSelectedOption] = useState()
   const [fetchedDraft, setFetchedDraft] = useState()
   const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [showSelectCollection, setShowSelectCollection] = useState(false)
@@ -60,6 +59,7 @@ const CollectionAssociation = () => {
   const [focusField, setFocusField] = useState(null)
 
   const { addNotification } = useNotificationsContext()
+
   const fields = {
     OneOfField,
     TitleField: CustomTitleField,
@@ -68,7 +68,6 @@ const CollectionAssociation = () => {
 
   const templates = {
     FieldTemplate: CustomFieldTemplate
-
   }
 
   const widgets = {
@@ -120,55 +119,18 @@ const CollectionAssociation = () => {
     }
   })
 
-  const isWildCardSearch = (type) => {
-    const wildcardSearch = ['dataCenter', 'platform', 'project', 'shortName']
-
-    return wildcardSearch.includes(type[0])
-  }
-
   const handleCollectionSearch = () => {
     setSavedFormData(searchFormData)
-    const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
-
-    const { searchField, providerFilter } = formattedFormData
-
-    let provider = null
-    if (providerFilter) {
-      provider = providerId
-    }
-
-    const type = Object.keys(searchField)
-    console.log('🚀 ~ handleCollectionSearch ~ type:', type)
-    const value = Object.values(searchField).at(0)
-
     setCollectionLoading(true)
     setShowSelectCollection(true)
 
-    let query = {}
-    if (isWildCardSearch(type)) {
-      query = {
-        limit,
-        offset,
-        options: {
-          [type]: {
-            pattern: true
-          }
-        },
-        [type]: value,
-        provider
-      }
-    } else {
-      query = {
-        limit,
-        offset,
-        provider,
-        [type]: value
-      }
-    }
+    const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
+
+    const params = collectionAssociationSearch(formattedFormData, limit, offset, providerId)
 
     getCollections({
       variables: {
-        params: query
+        params
       }
     })
   }
@@ -186,17 +148,6 @@ const CollectionAssociation = () => {
     shortName,
     version
   ) => {
-    console.log('🚀 ~ CollectionAssociation ~ collectionConceptId:', collectionConceptId)
-    console.log('🚀 ~ CollectionAssociation ~ version:', version)
-    console.log('🚀 ~ CollectionAssociation ~ shortName:', shortName)
-
-    setSelectedOption({
-      collectionConceptId,
-      shortName,
-      version
-    })
-
-    // Let associationDetailDraft = fetchedDraft
     const { nativeId } = fetchedDraft
     const { ummMetadata } = fetchedDraft
 
@@ -210,7 +161,6 @@ const CollectionAssociation = () => {
         }
       }
     }
-    console.log('🚀 ~ CollectionAssociation ~ associationDetailDraft:', associationDetailDraft)
 
     ingestDraftMutation({
       variables: {
@@ -223,7 +173,7 @@ const CollectionAssociation = () => {
       onCompleted: () => {
         // Add a success notification
         addNotification({
-          message: ` ${conceptId} Associated`,
+          message: 'Collection Association was Updated Successfully!',
           variant: 'success'
         })
 
@@ -314,12 +264,6 @@ const CollectionAssociation = () => {
                   className="d-flex"
                   onClick={
                     () => {
-                      setSelectedOption({
-                        collectionConceptId,
-                        shortName,
-                        version
-                      })
-
                       handleSubmit(
                         collectionConceptId,
                         shortName,
@@ -431,11 +375,6 @@ const CollectionAssociation = () => {
                   limit={limit}
                   offset={offset}
                 />
-                {/* <BootstrapSelect
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </BootstrapSelect> */}
               </>
             )
           }

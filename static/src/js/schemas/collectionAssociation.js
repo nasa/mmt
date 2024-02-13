@@ -36,6 +36,16 @@ const collectionAssociation = {
         },
         {
           additionalProperties: false,
+          title: 'DOI',
+          properties: {
+            DOI: {
+              description: 'Entry Title of the collection',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
           title: 'Data Center',
           properties: {
             DataCenter: {
@@ -44,6 +54,27 @@ const collectionAssociation = {
             }
           }
         },
+        {
+          additionalProperties: false,
+          title: 'Entry Title',
+          properties: {
+            EntryTitle: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Instrument',
+          properties: {
+            Instrument: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              type: 'string'
+            }
+          }
+        },
+
         {
           additionalProperties: false,
           title: 'Platform',
@@ -76,10 +107,88 @@ const collectionAssociation = {
         },
         {
           additionalProperties: false,
+          title: 'Revision Date',
+          properties: {
+            RevisionDate: {
+              description: 'The last revision date the collection was updated',
+              type: 'string',
+              format: 'date-time'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Science Keywords',
+          properties: {
+            ScienceKeywords: {
+              description: 'Searches for provided search term at all levels of the science keyword hierarchy.',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
           title: 'Short Name',
           properties: {
             ShortName: {
               description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Spatial Keyword',
+          properties: {
+            SpatialKeyword: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Temporal Extent',
+          properties: {
+            RangeStart: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              format: 'date-time',
+              type: 'string'
+            },
+            RangeEnd: {
+              description: 'This field supports wildcard searches. Use an asterisk (*) to find collections that match zero or more characters at the beginning, middle or end of your term.',
+              format: 'date-time',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Tiling Identification Systems',
+          properties: {
+            twoDCoordinateSystemName: {
+              description: 'Tiling Identification System of the collection record.',
+              type: 'string'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Updated Since',
+          properties: {
+            updatedSince: {
+              description: 'Date for the last updated Collections',
+              type: 'string',
+              format: 'date-time'
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Version',
+          properties: {
+            Version: {
+              description: 'The version of the collection',
               type: 'string'
             }
           }
