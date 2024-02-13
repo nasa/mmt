@@ -1,20 +1,18 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import './CollectionAssociationPreviewProgress.scss'
 import { useNavigate } from 'react-router'
 import progressCircleTypes from '../../constants/progressCircleTypes'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 const CollectionAssociationPreviewProgress = ({
-  draftJson
+  collectionAssociationDetails
 }) => {
   const navigate = useNavigate()
 
-  const { _private } = draftJson || {}
-
   let status = progressCircleTypes.NotStarted
 
-  if (_private) {
+  if (collectionAssociationDetails) {
     status = progressCircleTypes.Pass
   }
 
@@ -90,6 +88,14 @@ const CollectionAssociationPreviewProgress = ({
       </span>
     </>
   )
+}
+
+CollectionAssociationPreviewProgress.defaultProps = {
+  collectionAssociationDetails: null
+}
+
+CollectionAssociationPreviewProgress.propTypes = {
+  collectionAssociationDetails: PropTypes.shape({})
 }
 
 export default CollectionAssociationPreviewProgress

@@ -64,7 +64,7 @@ const DraftPreview = () => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
   const [retries, setRetries] = useState(0)
-  const [collectionAssociation, setCollectionAssociation] = useState(null)
+  const [collectionAssociation, setCollectionAssociation] = useState()
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
   const publishMutation = usePublishMutation()
@@ -77,7 +77,6 @@ const DraftPreview = () => {
       }
     },
     onCompleted: (getDraftData) => {
-      console.log('🚀 ~ DraftPreview ~ getDraftData:', getDraftData)
       const { draft: fetchedDraft } = getDraftData
       const { revisionId } = fetchedDraft || {}
 
@@ -100,6 +99,12 @@ const DraftPreview = () => {
 
         // Clear the savedDraft, we don't need it anymore
         setSavedDraft()
+
+        // Sets the Collection Association information if available
+        const { ummMetadata } = fetchedDraft
+        const { _private } = ummMetadata || {}
+        const { CollectionAssociation } = _private || {}
+        setCollectionAssociation(CollectionAssociation)
 
         setLoading(false)
       }
@@ -178,7 +183,6 @@ const DraftPreview = () => {
       const { _private } = ummMetadata || {}
       const { CollectionAssociation } = _private || {}
       const { collectionConceptId } = CollectionAssociation
-      console.log('🚀 ~ handlePublish ~ CollectionAssociation:', collectionConceptId)
       publishMutation(derivedConceptType, nativeId, collectionConceptId)
     } else {
       publishMutation(derivedConceptType, nativeId)
@@ -260,7 +264,7 @@ const DraftPreview = () => {
           derivedConceptType === 'Variable'
           && (
             <CollectionAssociationPreviewProgress
-              draftJson={ummMetadata}
+              collectionAssociationDetails={collectionAssociation}
             />
           )
         }
