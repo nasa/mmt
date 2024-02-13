@@ -12,6 +12,10 @@
     "ummT": "1.2.0",
     "ummV": "1.9.0"
   },
+  "edl": {
+    "host": "https://sit.urs.earthdata.nasa.gov",
+    "uid": "mmt_test"
+  },
   "saml": {
     "host": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
     "callbackUrl": "http://localhost:4001/dev/saml-acs",

@@ -1,5 +1,6 @@
 import encodeCookie from '../../../static/src/js/utils/encodeCookie'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
 import parseSaml from '../../../static/src/js/utils/parseSaml'
 
 const { URLSearchParams } = require('url')
@@ -21,6 +22,15 @@ const getLaunchpadToken = (cookieString) => {
   return cookies[getSamlConfig().cookieName]
 }
 
+const getUserName = async (auid) => {
+  const edlProfile = await fetchEdlProfile(auid)
+  const firstName = edlProfile.first_name
+  const lastName = edlProfile.last_name
+  const name = firstName == null ? edlProfile.uid : `${firstName} ${lastName}`
+
+  return name
+}
+
 /**
  * Handles saml callback during authentication
  * @param {Object} event Details about the HTTP request that it received
@@ -36,10 +46,11 @@ const samlCallback = async (event) => {
 
   const { auid } = samlResponse
   const launchpadToken = getLaunchpadToken(Cookie)
+  const name = await getUserName(auid)
 
   const encodedCookie = encodeCookie({
     ...samlResponse,
-    name: auid,
+    name,
     token: launchpadToken
   })
 
