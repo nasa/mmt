@@ -126,11 +126,25 @@ const CollectionAssociation = () => {
 
     const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
 
-    const params = collectionAssociationSearch(formattedFormData, limit, offset, providerId)
+    const { searchField, providerFilter } = formattedFormData
+
+    let provider = null
+
+    if (providerFilter) {
+      provider = providerId
+    }
+
+    const params = collectionAssociationSearch(searchField)
+    console.log('🚀 ~ handleCollectionSearch ~ params:', params)
 
     getCollections({
       variables: {
-        params
+        params: {
+          limit,
+          offset,
+          provider,
+          ...params
+        }
       }
     })
   }
