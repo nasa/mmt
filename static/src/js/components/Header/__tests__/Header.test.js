@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { useQuery } from '@apollo/client'
@@ -59,7 +63,15 @@ const MockAppContextProvider = ({ children }) => {
   const logout = jest.fn() // Mock logout function
 
   return (
-    <AppContext.Provider value={{ user, login, logout }}>
+    <AppContext.Provider
+      value={
+        {
+          user,
+          login,
+          logout
+        }
+      }
+    >
       {children}
     </AppContext.Provider>
   )
@@ -90,12 +102,10 @@ describe('Header component', () => {
           </MockAppContextProvider>
         </BrowserRouter>
       )
-    
+
       const searchInput = screen.getByPlaceholderText('Enter a search term')
-    
       expect(searchInput).toBeInTheDocument()
       userEvent.type(searchInput, 'test search term')
-    
       // Wait for the value to be updated
       await waitFor(() => {
         expect(searchInput).toHaveValue('test search term')
@@ -108,12 +118,11 @@ describe('Header component', () => {
           user: { name: 'User Name' }
         }
       })
-  
+
       const searchSubmitButton = screen.getByRole('button', { name: 'Search Collections' })
       expect(searchSubmitButton).toBeInTheDocument()
       userEvent.click(searchSubmitButton)
     })
-
 
     describe('when the login button is clicked', () => {
       test('calls the login function on the context', async () => {
@@ -163,7 +172,7 @@ describe('Header component', () => {
     })
 
     test('displays the provider dropdown', () => {
-      expect(screen.getByRole('button', { name: 'MMT_2'})).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
     })
 
     describe('when a provider is selected from the dropdown', () => {

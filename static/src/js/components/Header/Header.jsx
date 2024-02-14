@@ -151,22 +151,22 @@ const Header = () => {
                   >
                     {/* {selectedProvider ? selectedProvider : `MMT` } */}
                     {selectedProvider ? selectedProvider : `${user.providerId}` }
-                  </Dropdown.Toggle>              
-                  <Dropdown.Menu
-                    className="bg-blue-light border-blue-light shadow text-white"
-                  >
-                    {aclData?.acls?.items.map((aclItem, index) => (
-                      <Dropdown.Item
-                        key={index}
-                        onClick={() => handleProviderSelection(aclItem.acl.provider_identity.provider_id)}
-                        active={selectedProvider === aclItem.acl.provider_identity.provider_id}
-                      >
-                        {aclItem.acl.provider_identity.provider_id}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                </Dropdown>
+                   </Dropdown.Toggle>              
+                     <Dropdown.Menu
+                     className="bg-blue-light border-blue-light shadow text-white"
+                     >
+                       {aclData?.acls?.items.map((aclItem, index) => (
+                         <Dropdown.Item
+                          key={index}
+                          onClick={() => handleProviderSelection(aclItem.acl.provider_identity.provider_id)}
+                          active={selectedProvider === aclItem.acl.provider_identity.provider_id}
+                          >
+                            {aclItem.acl.provider_identity.provider_id}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Dropdown>
                 </div>
               )
             }
