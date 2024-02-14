@@ -1,10 +1,33 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-
-import Header from '../Header'
+import { useQuery } from '@apollo/client'
 import AppContext from '../../../context/AppContext'
+import Header from '../Header'
+
+// Mock the useQuery hook
+jest.mock('@apollo/client')
+
+// Mock the response for GET_ACLS
+const mockedAclData = {
+  data: {
+    acls: {
+      items: [
+        { acl: { provider_identity: { provider_id: 'Provider 1' } } },
+        { acl: { provider_identity: { provider_id: 'Provider 2' } } }
+      ]
+    }
+  }
+}
+
+beforeEach(() => {
+  // Reset the mock implementation before each test
+  useQuery.mockClear()
+})
+
+// Set up the mock for useQuery
+useQuery.mockReturnValue({ data: mockedAclData })
 
 const setup = ({
   overrideContext = {}
@@ -29,6 +52,19 @@ const setup = ({
   }
 }
 
+// Mock context provider with necessary values
+const MockAppContextProvider = ({ children }) => {
+  const user = { name: 'Test User' } // Mock user object
+  const login = jest.fn() // Mock login function
+  const logout = jest.fn() // Mock logout function
+
+  return (
+    <AppContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AppContext.Provider>
+  )
+}
+
 describe('Header component', () => {
   test('displays the NASA Earthdata MMT logo', () => {
     setup()
@@ -45,6 +81,39 @@ describe('Header component', () => {
       const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
       expect(button).toBeInTheDocument()
     })
+
+    test('renders and functions the search form', async () => {
+      render(
+        <BrowserRouter>
+          <MockAppContextProvider>
+            <Header />
+          </MockAppContextProvider>
+        </BrowserRouter>
+      )
+    
+      const searchInput = screen.getByPlaceholderText('Enter a search term')
+    
+      expect(searchInput).toBeInTheDocument()
+      userEvent.type(searchInput, 'test search term')
+    
+      // Wait for the value to be updated
+      await waitFor(() => {
+        expect(searchInput).toHaveValue('test search term')
+      })
+    })
+
+    test('renders and functions the search submit button', () => {
+      setup({
+        overrideContext: {
+          user: { name: 'User Name' }
+        }
+      })
+  
+      const searchSubmitButton = screen.getByRole('button', { name: 'Search Collections' })
+      expect(searchSubmitButton).toBeInTheDocument()
+      userEvent.click(searchSubmitButton)
+    })
+
 
     describe('when the login button is clicked', () => {
       test('calls the login function on the context', async () => {
@@ -65,7 +134,8 @@ describe('Header component', () => {
       setup({
         overrideContext: {
           user: {
-            name: 'User Name'
+            name: 'User Name',
+            providerId: 'MMT_2'
           },
           login: jest.fn(),
           logout: jest.fn()
@@ -76,7 +146,7 @@ describe('Header component', () => {
     test('displays the user name badge', () => {
       expect(screen.getByText('User Name')).toBeInTheDocument()
       expect(screen.getByText('User Name').className).toContain('badge')
-      expect(screen.getByText('User Name').className).toContain('bg-blue-light')
+      expect(screen.getByText('User Name').className).toContain('pointer dropdown-toggle badge bg-primary')
     })
 
     test('displays the search form', () => {
@@ -90,6 +160,24 @@ describe('Header component', () => {
 
     test('does not display the search options dropdown', () => {
       expect(screen.getByText('Search Collections')).not.toHaveClass('show')
+    })
+
+    test('displays the provider dropdown', () => {
+      expect(screen.getByRole('button', { name: 'MMT_2'})).toBeInTheDocument()
+    })
+
+    describe('when a provider is selected from the dropdown', () => {
+      test('updates the selected provider in the state', async () => {
+        const providerDropdownButton = screen.getByRole('button', { name: 'MMT_2' })
+        userEvent.click(providerDropdownButton)
+
+        const providerOption = await screen.findByText('MMT_2')
+        userEvent.click(providerOption)
+
+        await waitFor(() => {
+          expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
+        })
+      })
     })
 
     describe('when the search submit dropdown button is clicked', () => {

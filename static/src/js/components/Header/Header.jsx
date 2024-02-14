@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams  } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -18,12 +18,9 @@ import {
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa'
-
 import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
-
 import './Header.scss'
-
 import { GET_ACLS } from '../../operations/queries/getAcls'
 import { useQuery } from '@apollo/client'
 
@@ -38,10 +35,7 @@ import { useQuery } from '@apollo/client'
  */
 const Header = () => {
   const { user, login, logout } = useAppContext()
-  console.log('🚀~user', JSON.stringify(user))
-  console.log('🚀~login', login)
-  console.log('🚀~logout', logout)
-
+ 
   const [selectedProvider, setSelectedProvider] = useState("")
   
   const handleProviderSelection = (providerId) => {
@@ -60,11 +54,6 @@ const Header = () => {
     }
     }
   })
-
-  // Extract provider_id from the ACL data
-  // const providerId = !aclLoading && !aclError && aclData?.acls?.items.length > 0
-  //   ? aclData.acls.items[0].acl.provider_identity?.provider_id
-  //   : null
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -116,8 +105,8 @@ const Header = () => {
             }
             {
               user?.name && (
-                <div className="bg-blue-light">
-                  <Dropdown className="mb-2" align="end">
+                <div className="d-flex p-1 mb-2 rounded bg-blue-light">
+                  <Dropdown className="me-1" align="end">
                   <Dropdown.Toggle
                     id="dropdown-basic"
                     as={Badge}
@@ -151,31 +140,21 @@ const Header = () => {
                       Logout
                     </Dropdown.Item>
                   </Dropdown.Menu>
-                </Dropdown>
-
-            
-
+                </Dropdown>       
                 <Dropdown className="mb-2" align="end">
+                <Dropdown align="end">
                   <Dropdown.Toggle
                     id="dropdown-basic"
                     as={Badge}
                     className="pointer"
                     role="button"
                   >
-                     {selectedProvider ? selectedProvider : `MMT` }
-                     {/* {selectedProvider ? selectedProvider : `${user.providerId}` } */}
-                     {/* {`${user.providerId}`} */}
-                  </Dropdown.Toggle>
-                  
+                    {/* {selectedProvider ? selectedProvider : `MMT` } */}
+                    {selectedProvider ? selectedProvider : `${user.providerId}` }
+                  </Dropdown.Toggle>              
                   <Dropdown.Menu
                     className="bg-blue-light border-blue-light shadow text-white"
                   >
-                    <Dropdown.Item
-                      onClick={() => handleProviderSelection("")}
-                      active={!selectedProvider}
-                    >
-                      Select Provider
-                    </Dropdown.Item>
                     {aclData?.acls?.items.map((aclItem, index) => (
                       <Dropdown.Item
                         key={index}
@@ -185,8 +164,8 @@ const Header = () => {
                         {aclItem.acl.provider_identity.provider_id}
                       </Dropdown.Item>
                     ))}
-
                   </Dropdown.Menu>
+                </Dropdown>
                 </Dropdown>
                 </div>
               )
