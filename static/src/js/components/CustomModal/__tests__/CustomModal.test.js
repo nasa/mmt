@@ -3,19 +3,20 @@ import { userEvent } from '@testing-library/user-event'
 import React from 'react'
 import CustomModal from '../CustomModal'
 
-const setup = () => {
+const setup = (overrideProps) => {
   const onClick = jest.fn()
   const props = {
-    openModal: true,
+    show: true,
     message: 'Mock message',
-    actions:
-      [
-        {
-          label: 'Yes',
-          variant: 'primary',
-          onClick
-        }
-      ]
+    toggleModal: jest.fn(),
+    actions: [
+      {
+        label: 'Yes',
+        variant: 'primary',
+        onClick
+      }
+    ],
+    ...overrideProps
   }
 
   render(<CustomModal {...props} />)
@@ -41,6 +42,24 @@ describe('CustomModal', () => {
 
       const onClickProp = props.actions.at(0).onClick
       expect(onClickProp).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when provided a header', () => {
+    test('renders the header', () => {
+      setup({
+        header: 'Header content'
+      })
+
+      expect(screen.getByText('Header content')).toBeInTheDocument()
+    })
+
+    test('renders the close button', () => {
+      setup({
+        header: 'Header content'
+      })
+
+      expect(screen.getByRole('button', { name: 'Close Close' })).toBeInTheDocument()
     })
   })
 })

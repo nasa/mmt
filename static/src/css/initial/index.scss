@@ -10,8 +10,8 @@
 
 html,
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
 }
@@ -19,7 +19,7 @@ body {
 body {
   display: flex;
   background-color: #FEFEFE;
-  font-family: $font-family-sans-serif;
+  font-family: 'Inter', sans-serif;
 
   &.is-loading {
     .text-primary {
@@ -38,7 +38,7 @@ body {
   z-index: 9999;
   display: flex;
   overflow: hidden;
-  width: 100vw;
+  width: 100vm;
   max-width: 100vw;
   height: 100vh;
   align-items: center;

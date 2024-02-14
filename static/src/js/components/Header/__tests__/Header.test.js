@@ -1,10 +1,15 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, useNavigate } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
 import Header from '../Header'
 import AppContext from '../../../context/AppContext'
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn()
+}))
 
 const setup = ({
   overrideContext = {}
@@ -42,7 +47,7 @@ describe('Header component', () => {
     test('shows the log in button', () => {
       setup()
 
-      const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
+      const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
       expect(button).toBeInTheDocument()
     })
 
@@ -51,7 +56,7 @@ describe('Header component', () => {
         const { context } = setup()
 
         const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
+        const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
 
         await user.click(button)
 
@@ -62,6 +67,8 @@ describe('Header component', () => {
 
   describe('when the user is logged in', () => {
     beforeEach(async () => {
+      jest.clearAllMocks()
+
       setup({
         overrideContext: {
           user: {
@@ -102,6 +109,85 @@ describe('Header component', () => {
 
         expect(searchOptionsButton).toHaveAttribute('aria-expanded', 'true')
       })
+    })
+
+    describe('when the user types a search query', () => {
+      test('updates the input', async () => {
+        const user = userEvent.setup()
+        const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+
+        await user.type(searchInput, 'search query')
+
+        expect(searchInput).toHaveValue('search query')
+      })
+
+      describe('when the user submits search query using the input', () => {
+        test('updates the input', async () => {
+          const navigateMock = jest.fn()
+
+          useNavigate.mockReturnValue(navigateMock)
+
+          const user = userEvent.setup()
+          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+          const searchSubmitButton = await screen.getByRole('button', { name: 'Search Collections' })
+
+          await user.type(searchInput, 'search query')
+
+          expect(searchInput).toHaveValue('search query')
+
+          await user.click(searchSubmitButton)
+
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
+        })
+      })
+
+      describe('when the user submits search query using the enter key', () => {
+        test('updates the input', async () => {
+          const navigateMock = jest.fn()
+
+          useNavigate.mockReturnValue(navigateMock)
+
+          const user = userEvent.setup()
+          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+
+          await user.type(searchInput, 'search query')
+
+          expect(searchInput).toHaveValue('search query')
+
+          await user.type(searchInput, '{enter}')
+
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
+        })
+      })
+    })
+  })
+
+  describe('when the clicks log out', () => {
+    test('displays the search submit button', async () => {
+      const { context } = setup({
+        overrideContext: {
+          user: {
+            name: 'User Name'
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
+      const user = userEvent.setup()
+
+      const userDropdownButton = screen.queryByRole('button', { name: 'User Name' })
+
+      await user.click(userDropdownButton)
+
+      const logoutButton = screen.queryByRole('button', { name: 'Logout' })
+
+      await user.click(logoutButton)
+
+      expect(context.logout).toHaveBeenCalledTimes(1)
+      expect(context.logout).toHaveBeenCalledWith()
     })
   })
 })

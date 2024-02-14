@@ -58,6 +58,7 @@ import './Page.scss'
 const Page = ({
   breadcrumbs,
   children,
+  className,
   hasBackgroundImage,
   headerActions,
   navigation,
@@ -77,8 +78,10 @@ const Page = ({
         classNames([
           'pb-5 flex-grow-1',
           {
-            'bg-light': pageType === 'primary',
             'page--has-background-image': hasBackgroundImage
+          },
+          {
+            [className]: className
           }
         ])
       }
@@ -122,7 +125,7 @@ const Page = ({
         )
       }
 
-      <Container className="mt-4">
+      <Container className="mt-4 g-0">
         <Row>
           <Col>
             <header
@@ -194,6 +197,7 @@ const Page = ({
 
 Page.defaultProps = {
   breadcrumbs: [],
+  className: null,
   hasBackgroundImage: false,
   headerActions: [],
   navigation: true,
@@ -206,6 +210,7 @@ Page.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
   hasBackgroundImage: PropTypes.bool,
   headerActions: PropTypes.arrayOf(
     PropTypes.shape({

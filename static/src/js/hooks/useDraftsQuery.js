@@ -18,7 +18,7 @@ const useDraftsQuery = ({ draftType, limit, offset }) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState()
 
-  const [getDrafts] = useLazyQuery(conceptTypeDraftsQueries[draftType], {
+  const [getDrafts, { loading: queryLoading }] = useLazyQuery(conceptTypeDraftsQueries[draftType], {
     // If the draft has already been loaded, skip this query
     skip: !isEmpty(drafts),
     notifyOnNetworkStatusChange: true,
@@ -51,6 +51,10 @@ const useDraftsQuery = ({ draftType, limit, offset }) => {
       }
     }
   })
+
+  useEffect(() => {
+    setLoading(queryLoading)
+  }, [queryLoading])
 
   useEffect(() => {
     setLoading(true)
