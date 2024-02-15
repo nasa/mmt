@@ -34,6 +34,7 @@ import Table from '../Table/Table'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
 import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
+import removeEmpty from '../../utils/removeEmpty'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -106,16 +107,15 @@ const CollectionAssociation = () => {
     getDraft()
   }, [])
 
-  // Calls GET_COLLECTION query and
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
     onCompleted: (getCollectionsData) => {
       setCollectionSearchResult(getCollectionsData.collections)
       setCollectionLoading(false)
-      // SetSearchFormData(null)
     },
     onError: (getCollectionsError) => {
       setCollectionLoading(false)
-      console.log('error:', getCollectionsError)
+      errorLogger('Unable to get Collections', 'Collection Association: getCollections Query')
+      setError(getCollectionsError)
     }
   })
 
@@ -135,7 +135,6 @@ const CollectionAssociation = () => {
     }
 
     const params = collectionAssociationSearch(searchField)
-    console.log('🚀 ~ handleCollectionSearch ~ params:', params)
 
     getCollections({
       variables: {
@@ -191,10 +190,12 @@ const CollectionAssociation = () => {
           variant: 'success'
         })
 
-        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`, { replace: true })
+        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
       },
       onError: (getIngestError) => {
-        console.log('🚀 ~ handleSubmit ~ getIngestError:', getIngestError)
+        setLoading(false)
+        errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+        setError(getIngestError)
       }
     })
   }
@@ -215,15 +216,18 @@ const CollectionAssociation = () => {
       },
       onCompleted: () => {
         setLoading(false)
-        setCollectionLoading({})
+        setCollectionLoading()
+
         // Add a success notification
         addNotification({
           message: `Cleared ${conceptId} Association`,
-          variant: 'danger'
+          variant: 'success'
         })
       },
       onError: (getIngestError) => {
-        console.log('🚀 ~ handleSubmit ~ getIngestError:', getIngestError)
+        setLoading(false)
+        errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+        setError(getIngestError)
       }
     })
   }
@@ -231,11 +235,11 @@ const CollectionAssociation = () => {
   const handleChange = (event) => {
     const { formData } = event
     setSearchFormData(
-      formData
+      removeEmpty(formData)
     )
   }
 
-  const { items = [], count } = collectionSearchResult || {}
+  const { items = [], count } = collectionSearchResult
   const collectionSearchData = (items.map((item) => {
     const {
       conceptId: collectionConceptId,

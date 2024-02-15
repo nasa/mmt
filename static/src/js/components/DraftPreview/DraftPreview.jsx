@@ -178,7 +178,7 @@ const DraftPreview = () => {
   // Handle the user selecting publish draft
   const handlePublish = () => {
     // Calls publish mutation hook
-    // setLoading(true)
+    setLoading(true)
     if (derivedConceptType === 'Variable') {
       const { _private } = ummMetadata || {}
       const { CollectionAssociation } = _private || {}
