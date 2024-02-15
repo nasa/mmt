@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
 import { useSearchParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
@@ -31,12 +32,11 @@ import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
  *   <SearchPage />
  * )
  */
-const SearchPage = () => {
+const SearchPage = ({ limit }) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
 
-  const limit = 20
   const formattedType = capitalize(searchParams.get('type'))
   const keyword = searchParams.get('keyword')
   const sortKey = searchParams.get('sortKey')
@@ -161,7 +161,6 @@ const SearchPage = () => {
       }
     })
   }, [])
-
   const [columns] = useState([
     {
       dataKey: 'shortName',
@@ -294,21 +293,21 @@ const SearchPage = () => {
           }
         </Col>
       </Row>
-      <Row>
-        <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-          <div>
-            {
-              totalPages > 1 && (
+      {
+        totalPages > 1 && (
+          <Row>
+            <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+              <div>
                 <Pagination
                   setPage={setPage}
                   activePage={activePage}
                   totalPages={totalPages}
                 />
-              )
-            }
-          </div>
-        </Col>
-      </Row>
+              </div>
+            </Col>
+          </Row>
+        )
+      }
       <CustomModal
         show={showTagModal}
         toggleModal={toggleTagModal}
@@ -349,6 +348,14 @@ const SearchPage = () => {
       />
     </Page>
   )
+}
+
+SearchPage.defaultProps = {
+  limit: 20
+}
+
+SearchPage.propTypes = {
+  limit: PropTypes.number
 }
 
 export default SearchPage

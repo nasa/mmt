@@ -41,6 +41,8 @@ const Pagination = ({
           onClick={() => handleItemClick(1)}
           active={activePage === 1}
           style={defaultPaginationStyles}
+          aria-label={activePage === 1 ? 'Current Page, Page 1' : 'Goto Page 1'}
+          aria-current={activePage === 1}
         >
           1
         </BootstrapPagination.Item>
@@ -64,6 +66,8 @@ const Pagination = ({
           onClick={() => handleItemClick(page)}
           active={page === activePage}
           style={defaultPaginationStyles}
+          aria-label={page === activePage ? `Current Page, Page ${page}` : `Goto Page ${page}`}
+          aria-current={page === activePage}
         >
           {page}
         </BootstrapPagination.Item>
@@ -89,6 +93,8 @@ const Pagination = ({
           onClick={() => handleItemClick(lastPageNum)}
           active={activePage === lastPageNum}
           style={defaultPaginationStyles}
+          aria-label={activePage === lastPageNum ? `Current Page, Page ${lastPageNum}` : `Goto Page ${lastPageNum}`}
+          aria-current={lastPageNum === activePage}
         >
           {lastPageNum}
         </BootstrapPagination.Item>
@@ -104,17 +110,23 @@ const Pagination = ({
   }
 
   return (
-    <BootstrapPagination className="mb-0">
-      <BootstrapPagination.Prev
-        disabled={activePage === 1}
-        onClick={() => handlePageChange(-1)}
-      />
-      {generatePaginationItems()}
-      <BootstrapPagination.Next
-        onClick={() => handlePageChange(1)}
-        disabled={activePage >= lastPageNum}
-      />
-    </BootstrapPagination>
+    <nav role="navigation" aria-label="Pagination Navigation">
+      <BootstrapPagination className="mb-0">
+        <BootstrapPagination.Prev
+          aria-label="Goto Previous Page"
+          disabled={activePage === 1}
+          aria-disabled={activePage === 1}
+          onClick={() => handlePageChange(-1)}
+        />
+        {generatePaginationItems()}
+        <BootstrapPagination.Next
+          aria-label="Goto Next Page"
+          onClick={() => handlePageChange(1)}
+          disabled={activePage >= lastPageNum}
+          aria-disabled={activePage >= lastPageNum}
+        />
+      </BootstrapPagination>
+    </nav>
   )
 }
 

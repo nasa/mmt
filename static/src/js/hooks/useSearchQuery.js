@@ -27,7 +27,6 @@ const useSearchQuery = ({
     // If the search results has already been loaded, skip this query
     skip: !isEmpty(results),
     notifyOnNetworkStatusChange: true,
-
     variables: {
       params: {
         limit,
