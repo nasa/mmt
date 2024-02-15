@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
@@ -18,11 +18,11 @@ import {
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa'
+import { useQuery } from '@apollo/client'
 import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
 import './Header.scss'
 import { GET_ACLS } from '../../operations/queries/getAcls'
-import { useQuery } from '@apollo/client'
 
 /**
  * Renders a `Header` component
@@ -35,9 +35,9 @@ import { useQuery } from '@apollo/client'
  */
 const Header = () => {
   const { user, login, logout } = useAppContext()
- 
-  const [selectedProvider, setSelectedProvider] = useState("")
-  
+
+  const [selectedProvider, setSelectedProvider] = useState('')
+
   const handleProviderSelection = (providerId) => {
     setSelectedProvider(providerId)
   }
@@ -46,12 +46,12 @@ const Header = () => {
   const { data: aclData } = useQuery(GET_ACLS, {
     variables: {
       params: {
-      "includeFullAcl": true,
-      "pageNum": 1,
-      "pageSize": 20,
-      "permittedUser": "typical",
-      "target": "PROVIDER_CONTEXT"
-    }
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 20,
+        permittedUser: 'typical',
+        target: 'PROVIDER_CONTEXT'
+      }
     }
   })
 
@@ -107,63 +107,69 @@ const Header = () => {
               user?.name && (
                 <div className="d-flex p-1 mb-2 rounded bg-blue-light">
                   <Dropdown className="me-1" align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-basic"
-                    as={Badge}
-                    className="pointer"
-                    role="button"
-                  >
-                    {`${user.name} `}
-                  </Dropdown.Toggle>
-                  
-                  <Dropdown.Menu
-                    className="bg-blue-light border-blue-light shadow text-white"
-                  >
-                    <Dropdown.Item
-                      className="text-white bg-blue-light d-flex align-items-center"
-                      href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
-                      target="_blank"
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      as={Badge}
+                      className="pointer"
+                      role="button"
                     >
-                      <FaQuestionCircle className="me-2" />
-                      User Guide
-                      <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="text-white bg-blue-light"
-                      onClick={
-                        () => {
-                          logout()
+                      {`${user.name} `}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu
+                      className="bg-blue-light border-blue-light shadow text-white"
+                    >
+                      <Dropdown.Item
+                        className="text-white bg-blue-light d-flex align-items-center"
+                        href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
+                        target="_blank"
+                      >
+                        <FaQuestionCircle className="me-2" />
+                        User Guide
+                        <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className="text-white bg-blue-light"
+                        onClick={
+                          () => {
+                            logout()
+                          }
                         }
-                      }
-                    >
-                      <FaSignOutAlt className="me-2" />
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>       
-                <Dropdown className="mb-2" align="end">
-                <Dropdown align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-basic"
-                    as={Badge}
-                    className="pointer"
-                    role="button"
-                  >
-                    {/* {selectedProvider ? selectedProvider : `MMT` } */}
-                    {selectedProvider ? selectedProvider : `${user.providerId}` }
-                   </Dropdown.Toggle>              
-                     <Dropdown.Menu
-                     className="bg-blue-light border-blue-light shadow text-white"
-                     >
-                       {aclData?.acls?.items.map((aclItem, index) => (
-                         <Dropdown.Item
-                          key={index}
-                          onClick={() => handleProviderSelection(aclItem.acl.provider_identity.provider_id)}
-                          active={selectedProvider === aclItem.acl.provider_identity.provider_id}
-                          >
-                            {aclItem.acl.provider_identity.provider_id}
-                          </Dropdown.Item>
-                        ))}
+                      >
+                        <FaSignOutAlt className="me-2" />
+                        Logout
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown className="mb-2" align="end">
+                    <Dropdown align="end">
+                      <Dropdown.Toggle
+                        id="dropdown-basic"
+                        as={Badge}
+                        className="pointer"
+                        role="button"
+                      >
+                        {/* {selectedProvider ? selectedProvider : `MMT` } */}
+                        {selectedProvider || `${user.providerId}` }
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu
+                        className="bg-blue-light border-blue-light shadow text-white"
+                      >
+                        {
+                          aclData?.acls?.items.map(({ acl }) => {
+                            const { provider_identity: { provider_id: providerId } } = acl
+
+                            return (
+                              <Dropdown.Item
+                                key={`aclItem_${providerId}`}
+                                onClick={() => handleProviderSelection(providerId)}
+                                active={selectedProvider === providerId}
+                              >
+                                {providerId}
+                              </Dropdown.Item>
+                            )
+                          })
+                        }
                       </Dropdown.Menu>
                     </Dropdown>
                   </Dropdown>

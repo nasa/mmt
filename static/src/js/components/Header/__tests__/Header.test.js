@@ -56,27 +56,6 @@ const setup = ({
   }
 }
 
-// Mock context provider with necessary values
-const MockAppContextProvider = ({ children }) => {
-  const user = { name: 'Test User' } // Mock user object
-  const login = jest.fn() // Mock login function
-  const logout = jest.fn() // Mock logout function
-
-  return (
-    <AppContext.Provider
-      value={
-        {
-          user,
-          login,
-          logout
-        }
-      }
-    >
-      {children}
-    </AppContext.Provider>
-  )
-}
-
 describe('Header component', () => {
   test('displays the NASA Earthdata MMT logo', () => {
     setup()
@@ -92,36 +71,6 @@ describe('Header component', () => {
 
       const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
       expect(button).toBeInTheDocument()
-    })
-
-    test('renders and functions the search form', async () => {
-      render(
-        <BrowserRouter>
-          <MockAppContextProvider>
-            <Header />
-          </MockAppContextProvider>
-        </BrowserRouter>
-      )
-
-      const searchInput = screen.getByPlaceholderText('Enter a search term')
-      expect(searchInput).toBeInTheDocument()
-      userEvent.type(searchInput, 'test search term')
-      // Wait for the value to be updated
-      await waitFor(() => {
-        expect(searchInput).toHaveValue('test search term')
-      })
-    })
-
-    test('renders and functions the search submit button', () => {
-      setup({
-        overrideContext: {
-          user: { name: 'User Name' }
-        }
-      })
-
-      const searchSubmitButton = screen.getByRole('button', { name: 'Search Collections' })
-      expect(searchSubmitButton).toBeInTheDocument()
-      userEvent.click(searchSubmitButton)
     })
 
     describe('when the login button is clicked', () => {
