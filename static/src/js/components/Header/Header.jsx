@@ -141,7 +141,7 @@ const Header = () => {
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <Dropdown className="mb-2" align="end">
+                  <Dropdown className="me-0.5" align="end">
                     <Dropdown align="end">
                       <Dropdown.Toggle
                         id="dropdown-basic"
@@ -149,7 +149,7 @@ const Header = () => {
                         className="pointer"
                         role="button"
                       >
-                        {/* {selectedProvider ? selectedProvider : `MMT` } */}
+                        {/* {selectedProvider ? selectedProvider : `MMT` } // this is for testing purpose */}
                         {selectedProvider || `${user.providerId}` }
                       </Dropdown.Toggle>
                       <Dropdown.Menu
