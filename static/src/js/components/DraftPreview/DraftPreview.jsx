@@ -35,7 +35,6 @@ import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import CustomModal from '../CustomModal/CustomModal'
 
 import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
-import './DraftPreview.scss'
 /**
  * Renders a DraftPreview component
  *
