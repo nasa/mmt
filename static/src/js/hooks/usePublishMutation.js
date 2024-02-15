@@ -19,7 +19,7 @@ const usePublishMutation = () => {
         draftConceptId: conceptId,
         nativeId,
         collectionConceptId,
-        ummVersion: getUmmVersion(conceptType),
+        ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getPublishedData) => {
         const { publishDraft } = getPublishedData
