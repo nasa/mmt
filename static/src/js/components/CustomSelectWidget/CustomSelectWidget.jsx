@@ -12,6 +12,7 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
 import parseCmrResponse from '../../utils/parseCmrResponse'
 import useControlledKeywords from '../../hooks/useControlledKeywords'
+import LanguageArray from '../../utils/languageArray'
 
 /**
  * CustomSelectWidget
@@ -89,6 +90,16 @@ const CustomSelectWidget = ({
       setShowMenu(true)
     }
   }, [shouldFocus])
+
+  useEffect(() => {
+    // Map LanguageArray to options
+    const parsedOptions = LanguageArray.map((language) => ({
+      value: language,
+      label: language
+    }))
+
+    setSelectOptions(parsedOptions)
+  }, [])
 
   // Maps the list of options into a list of objects with labels and values
   const buildOptions = (enums) => enums.map((enumValue) => ({

@@ -1,7 +1,12 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import LanguageArray from '../../../utils/languageArray'
 
 const collectionInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {
@@ -170,7 +175,10 @@ const collectionInformationUiSchema = {
     'ui:widget': 'textarea'
   },
   DataLanguage: {
-    'ui:widget': CustomSelectWidget
+    'ui:widget': CustomSelectWidget,
+    'ui:options': {
+      enumOptions: LanguageArray
+    }
   }
 }
 
