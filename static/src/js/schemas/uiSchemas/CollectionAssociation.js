@@ -35,8 +35,8 @@ const collectionAssociationUiSchema = {
   ProviderFilter: {
     'ui:widget': CustomRadioWidget,
     'ui:options': {
-      trueOption: 'Search only my collections',
-      falseOption: 'Search all collections',
+      trueOptionLabel: 'Search only my collections',
+      falseOptionLabel: 'Search all collections',
       showClear: false
     }
   }

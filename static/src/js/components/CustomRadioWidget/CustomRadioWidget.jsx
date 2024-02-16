@@ -50,13 +50,13 @@ const CustomRadioWidget = ({
     title = uiSchema['ui:title']
   }
 
-  let trueOption = null
-  let falseOption = null
+  let trueOptionLabel = null
+  let falseOptionLabel = null
   let showClear = true
 
   if (uiSchema['ui:options']) {
-    trueOption = uiSchema['ui:options'].trueOption
-    falseOption = uiSchema['ui:options'].falseOption
+    trueOptionLabel = uiSchema['ui:options'].trueOptionLabel
+    falseOptionLabel = uiSchema['ui:options'].falseOptionLabel
     showClear = uiSchema['ui:options'].showClear
   }
 
@@ -126,7 +126,7 @@ const CustomRadioWidget = ({
           className="form-check-label m-1"
           htmlFor={`${id}-true`}
         >
-          {trueOption || 'True'}
+          {trueOptionLabel || 'True'}
         </label>
         <br />
         <input
@@ -141,7 +141,7 @@ const CustomRadioWidget = ({
           className="form-check-label m-1"
           htmlFor={`${id}-false`}
         >
-          {falseOption || 'False'}
+          {falseOptionLabel || 'False'}
         </label>
       </div>
     </CustomWidgetWrapper>
@@ -168,8 +168,8 @@ CustomRadioWidget.propTypes = {
   }).isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      trueOption: PropTypes.string,
-      falseOption: PropTypes.string,
+      trueOptionLabel: PropTypes.string,
+      falseOptionLabel: PropTypes.string,
       showClear: PropTypes.bool
     }),
     'ui:title': PropTypes.string

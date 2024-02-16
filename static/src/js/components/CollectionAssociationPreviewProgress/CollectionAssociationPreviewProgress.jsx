@@ -68,7 +68,7 @@ const CollectionAssociationPreviewProgress = ({
 
   return (
     <>
-      <h5>Collection Association</h5>
+      <h5 className="mt-4">Collection Association</h5>
       <div className="collection-association-preview-progress__section-circle">
         {progressSectionIcon()}
       </div>

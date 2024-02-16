@@ -153,8 +153,8 @@ describe('CustomRadioWidget', () => {
       setup({
         uiSchema: {
           'ui:options': {
-            trueOption: 'Custom True',
-            falseOption: 'Custom False',
+            trueOptionLabel: 'Custom True',
+            falseOptionLabel: 'Custom False',
             showClear: false
           }
         }

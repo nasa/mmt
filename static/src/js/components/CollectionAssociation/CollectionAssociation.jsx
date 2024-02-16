@@ -35,6 +35,7 @@ import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
 import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
 import removeEmpty from '../../utils/removeEmpty'
+import './CollectionAssociation.scss'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -351,7 +352,7 @@ const CollectionAssociation = () => {
           </BootstrapSelect>
         </Col>
 
-        <h4 className="mt-5">Currently Selected Collection</h4>
+        <h4 className="mt-5">Search for Collections</h4>
         <Col sm={12} className="bg-white rounded">
           <Form
             className="bg-white m-2 pt-2"
@@ -370,9 +371,17 @@ const CollectionAssociation = () => {
               }
             }
           >
-            <BootstrapSelect type="submit" style={{ marginTop: '-100px' }} onClick={handleCollectionSearch}>
-              Search for Collection
-            </BootstrapSelect>
+            <div
+              className="collection-association__search_for_collections mb-3"
+            >
+
+              <Button
+                onClick={handleCollectionSearch}
+                variant="blue-light"
+              >
+                Search for Collection
+              </Button>
+            </div>
           </Form>
         </Col>
         <Col sm={12} className="mt-5 bg-white rounded">

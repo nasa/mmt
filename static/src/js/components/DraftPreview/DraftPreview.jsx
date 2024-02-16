@@ -259,14 +259,6 @@ const DraftPreview = () => {
       }
     >
       <Container id="metadata-form" className="px-0">
-        {
-          derivedConceptType === 'Variable'
-          && (
-            <CollectionAssociationPreviewProgress
-              collectionAssociationDetails={collectionAssociation}
-            />
-          )
-        }
         <Row>
           <Col md={12} className="mb-3" />
         </Row>
@@ -327,6 +319,14 @@ const DraftPreview = () => {
                   sections={formSections}
                   validationErrors={validationErrors}
                 />
+                {
+                  derivedConceptType === 'Variable'
+                && (
+                  <CollectionAssociationPreviewProgress
+                    collectionAssociationDetails={collectionAssociation}
+                  />
+                )
+                }
               </Col>
             </Row>
           </Col>
