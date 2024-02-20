@@ -17,7 +17,10 @@ export const AuthRequiredContainer = ({
     const { apiHost } = getApplicationConfig()
 
     if (token === null || token === '' || token === undefined) {
-      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(location.pathname)}`
+      console.log('🚀 ~ useEffect ~ location:', location)
+      const nextPath = location.pathname + location.search
+      // debugger
+      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
     }
   }, [])
 

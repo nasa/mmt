@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash-es'
 import { useLazyQuery } from '@apollo/client'
 
 import conceptTypeQueries from '../constants/conceptTypeQueries'
+import conceptTypes from '../constants/conceptTypes'
 
 /**
  * Creates a query that can be used to search across the published types.
@@ -23,6 +24,15 @@ const useSearchQuery = ({
   const [error, setError] = useState()
   const [loading, setLoading] = useState()
 
+  let conditionalParams = {}
+
+  if (type === conceptTypes.Collections) {
+    conditionalParams = {
+      ...conditionalParams,
+      includeTags: '*'
+    }
+  }
+
   const [getResults, { loading: queryLoading }] = useLazyQuery(conceptTypeQueries[type], {
     // If the search results has already been loaded, skip this query
     skip: !isEmpty(results),
@@ -32,8 +42,8 @@ const useSearchQuery = ({
         limit,
         offset,
         keyword,
-        includeTags: '*',
-        sortKey
+        sortKey,
+        ...conditionalParams
       }
     },
     onCompleted: (getResultsData) => {

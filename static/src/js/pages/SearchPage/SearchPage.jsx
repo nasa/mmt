@@ -1,6 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, {
+  useEffect,
+  useCallback,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Navigate } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
@@ -8,6 +12,9 @@ import { capitalize, startCase } from 'lodash-es'
 import pluralize from 'pluralize'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
+import commafy from 'commafy'
+
+import conceptTypes from '../../constants/conceptTypes'
 
 import parseError from '../../utils/parseError'
 
@@ -23,6 +30,28 @@ import For from '../../components/For/For'
 import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
 
+const typeParamToHumanizedNameMap = {
+  collections: 'collection',
+  services: 'service',
+  tools: 'tool',
+  variables: 'variable'
+}
+
+/**
+ * Takes a type from the url and returns a humanized singular or plural version
+ * @param {String} type The type from the url.
+ * @param {Boolean} [plural] A boolean that determines whether or not the string should be plural
+ */
+const getHumanizedNameFromTypeParam = (type, plural) => {
+  const humanizedName = typeParamToHumanizedNameMap[type]
+
+  if (humanizedName) {
+    return plural ? `${humanizedName}s` : humanizedName
+  }
+
+  return null
+}
+
 /**
  * Renders a `SearchPage` component
  *
@@ -37,11 +66,27 @@ const SearchPage = ({ limit }) => {
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
 
-  const formattedType = capitalize(searchParams.get('type'))
-  const keyword = searchParams.get('keyword')
-  const sortKey = searchParams.get('sortKey')
+  const typeParam = searchParams.get('type')
+  const keywordParam = searchParams.get('keyword')
+  const sortKeyParam = searchParams.get('sortKey')
+
+  const formattedType = capitalize(typeParam)
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
+
+  if (!typeParamToHumanizedNameMap[typeParam]) {
+    return (
+      <Navigate to="/404" replace />
+    )
+  }
+
+  const { results, loading, error } = useSearchQuery({
+    type: formattedType,
+    keyword: keywordParam,
+    limit,
+    offset,
+    sortKey: sortKeyParam
+  })
 
   const setPage = (nextPage) => {
     setSearchParams((currentParams) => {
@@ -65,14 +110,6 @@ const SearchPage = ({ limit }) => {
     setTagModalActiveCollection(null)
   }
 
-  const { results, loading, error } = useSearchQuery({
-    type: formattedType,
-    keyword,
-    limit,
-    offset,
-    sortKey
-  })
-
   const { count } = results
   const { items = [] } = results
   const currentPageIndex = Math.floor(offset / limit)
@@ -81,14 +118,23 @@ const SearchPage = ({ limit }) => {
   const firstResultIndex = currentPageIndex * limit
   const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
 
-  const paginationMessage = count > 0
-    ? `Showing ${totalPages > 1 ? `${firstResultIndex + 1}-${lastResultIndex} of` : ''} ${count} matching ${pluralize(searchParams.get('type'), results.count)}`
-    : `No matching ${searchParams.get('type')} found`
+  // Checks to see if any filters are provided so that they display in the pagination message
+  const hasFilter = !!keywordParam || !!sortKeyParam
 
-  let queryMessage = `for: Keyword: "${keyword}"`
-  if (sortKey) {
-    const isAscending = sortKey.includes('-')
-    queryMessage += `, sorted by "${startCase(sortKey.replace('-', ''))}" ${isAscending ? '(ascending)' : ''}`
+  const paginationMessage = count > 0
+    ? `Showing ${totalPages > 1 ? `${firstResultIndex + 1}-${lastResultIndex} of` : ''} ${count} `
+      + `${hasFilter ? 'matching ' : ''}${pluralize(typeParam, results.count)}`
+    : `No matching ${typeParam} found`
+
+  let queryMessage = ''
+
+  if (keywordParam) {
+    queryMessage += `for: Keyword: "${keywordParam}"`
+  }
+
+  if (sortKeyParam) {
+    const isAscending = sortKeyParam.includes('-')
+    queryMessage += `${queryMessage.length ? ',' : ''} sorted by "${startCase(sortKeyParam.replace('-', ''))}" ${isAscending ? '(ascending)' : ''}`
   }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
@@ -161,57 +207,100 @@ const SearchPage = ({ limit }) => {
       }
     })
   }, [])
-  const [columns] = useState([
-    {
-      dataKey: 'shortName',
-      title: 'Short Name',
-      className: 'col-auto',
-      dataAccessorFn: buildEllipsisLinkCell,
-      sortFn
-    },
-    {
-      dataKey: 'version',
-      title: 'Version',
-      className: 'col-auto text-nowrap',
-      align: 'end'
-    },
-    {
-      dataKey: 'title',
-      sortKey: 'entryTitle',
-      title: 'Entry Title',
-      className: 'col-auto',
-      dataAccessorFn: buildEllipsisTextCell,
-      sortFn: (_, order) => sortFn('entryTitle', order)
-    },
-    {
-      dataKey: 'provider',
-      title: 'Provider',
-      className: 'col-auto text-nowrap',
-      align: 'center',
-      sortFn
-    },
-    {
-      dataKey: 'granules.count',
-      title: 'Granule Count',
-      className: 'col-auto text-nowrap',
-      align: 'end'
-    },
-    {
-      dataKey: 'tags',
-      title: 'Tags',
-      className: 'col-auto text-nowrap',
-      dataAccessorFn: buildTagCell,
-      align: 'end'
-    },
-    {
-      dataKey: 'revisionDate',
-      title: 'Last Modified',
-      className: 'col-auto text-nowrap',
-      dataAccessorFn: (cellData) => cellData.split('T')[0],
-      align: 'end',
-      sortFn
+
+  const getColumnState = () => {
+    if (formattedType === conceptTypes.Collections) {
+      return [
+        {
+          dataKey: 'shortName',
+          title: 'Short Name',
+          className: 'col-auto',
+          dataAccessorFn: buildEllipsisLinkCell,
+          sortFn
+        },
+        {
+          dataKey: 'version',
+          title: 'Version',
+          className: 'col-auto text-nowrap',
+          align: 'end'
+        },
+        {
+          dataKey: 'title',
+          sortKey: 'entryTitle',
+          title: 'Entry Title',
+          className: 'col-auto',
+          dataAccessorFn: buildEllipsisTextCell,
+          sortFn: (_, order) => sortFn('entryTitle', order)
+        },
+        {
+          dataKey: 'provider',
+          title: 'Provider',
+          className: 'col-auto text-nowrap',
+          align: 'center',
+          sortFn
+        },
+        {
+          dataKey: 'granules.count',
+          title: 'Granule Count',
+          className: 'col-auto text-nowrap',
+          align: 'end'
+        },
+        {
+          dataKey: 'tags',
+          title: 'Tags',
+          className: 'col-auto text-nowrap',
+          dataAccessorFn: buildTagCell,
+          align: 'end'
+        },
+        {
+          dataKey: 'revisionDate',
+          title: 'Last Modified',
+          className: 'col-auto text-nowrap',
+          dataAccessorFn: (cellData) => cellData.split('T')[0],
+          align: 'end',
+          sortFn
+        }
+      ]
     }
-  ])
+
+    return [
+      {
+        dataKey: 'name',
+        title: 'Name',
+        className: 'col-auto',
+        dataAccessorFn: buildEllipsisLinkCell,
+        sortFn
+      },
+      {
+        dataKey: 'longName',
+        title: 'Long Name',
+        className: 'col-auto',
+        dataAccessorFn: buildEllipsisTextCell,
+        sortFn: (_, order) => sortFn('longName', order)
+      },
+      {
+        dataKey: 'providerId',
+        title: 'Provider',
+        className: 'col-auto text-nowrap',
+        align: 'center',
+        sortFn
+      },
+      {
+        dataKey: 'revisionDate',
+        title: 'Last Modified',
+        className: 'col-auto text-nowrap',
+        dataAccessorFn: (cellData) => cellData.split('T')[0],
+        align: 'end',
+        sortFn
+      }
+    ]
+  }
+
+  const [columns, setColumns] = useState(getColumnState())
+
+  useEffect(() => {
+    setColumns(getColumnState())
+  }, [typeParam])
 
   const activeTagModalCollection = items?.find((item) => (
     item.conceptId === tagModalActiveCollection
@@ -219,8 +308,8 @@ const SearchPage = ({ limit }) => {
 
   return (
     <Page
-      pageType="primary"
-      title="Search Results"
+      pageType="secondary"
+      title={`${commafy(count)} ${startCase(getHumanizedNameFromTypeParam(typeParam))} Results`}
       breadcrumbs={
         [
           {
@@ -286,7 +375,7 @@ const SearchPage = ({ limit }) => {
                   setPage={setPage}
                   limit={limit}
                   offset={offset}
-                  sortKey={sortKey}
+                  sortKey={sortKeyParam}
                 />
               </>
             )

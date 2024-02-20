@@ -69,7 +69,7 @@ const CustomModal = ({
               }
             }
             Icon={FaTimes}
-            iconTitle="Close"
+            iconTitle="X icon"
             iconOnly
           >
             Close

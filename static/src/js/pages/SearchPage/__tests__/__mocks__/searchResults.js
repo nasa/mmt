@@ -1,5 +1,8 @@
 import { GraphQLError } from 'graphql'
 import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
+import { GET_SERVICES } from '../../../../operations/queries/getServices'
+import { GET_VARIABLES } from '../../../../operations/queries/getVariables'
+import { GET_TOOLS } from '../../../../operations/queries/getTools'
 
 export const singlePageCollectionSearch = {
   request: {
@@ -452,5 +455,95 @@ export const singlePageCollectionSearchError = {
       }
     },
     errors: [new GraphQLError('An error occurred')]
+  }
+}
+
+export const singlePageServicesSearch = {
+  request: {
+    query: GET_SERVICES,
+    variables: {
+      params: {
+        keyword: '',
+        limit: 20,
+        offset: 0,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      services: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'S1000000000-TESTPROV',
+            name: 'Service Name 1',
+            longName: 'Service Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const singlePageVariablesSearch = {
+  request: {
+    query: GET_VARIABLES,
+    variables: {
+      params: {
+        keyword: '',
+        limit: 20,
+        offset: 0,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      variables: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'V1000000000-TESTPROV',
+            name: 'Variable Name 1',
+            longName: 'Variable Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const singlePageToolsSearch = {
+  request: {
+    query: GET_TOOLS,
+    variables: {
+      params: {
+        keyword: '',
+        limit: 20,
+        offset: 0,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      tools: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'T1000000000-TESTPROV',
+            name: 'Tool Name 1',
+            longName: 'Tool Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00'
+          }
+        ]
+      }
+    }
   }
 }

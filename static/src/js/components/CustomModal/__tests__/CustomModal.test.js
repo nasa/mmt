@@ -59,7 +59,7 @@ describe('CustomModal', () => {
         header: 'Header content'
       })
 
-      expect(screen.getByRole('button', { name: 'Close Close' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'X icon Close' })).toBeInTheDocument()
     })
   })
 })

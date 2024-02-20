@@ -20,7 +20,10 @@ import {
   multiPageCollectionSearchPage1TitleAsc,
   multiPageCollectionSearchPage2,
   singlePageCollectionSearch,
-  singlePageCollectionSearchError
+  singlePageCollectionSearchError,
+  singlePageServicesSearch,
+  singlePageToolsSearch,
+  singlePageVariablesSearch
 } from './__mocks__/searchResults'
 
 import SearchPage from '../SearchPage'
@@ -346,6 +349,129 @@ describe('SearchPage component', () => {
       await waitFor(() => {
         expect(screen.queryByText('Sorry!')).toBeInTheDocument()
         expect(screen.queryByText('An error occurred')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when searching for services', () => {
+    beforeEach(() => {
+      setup([singlePageServicesSearch], {}, ['/search?type=services&keyword='])
+    })
+
+    describe('while the request is loading', () => {
+      test('renders the headers', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+
+        const headerRow = rows[0]
+
+        expect(headerRow.children[0].textContent).toContain('Name')
+        expect(headerRow.children[1].textContent).toContain('Long Name')
+        expect(headerRow.children[2].textContent).toContain('Provider')
+        expect(headerRow.children[3].textContent).toContain('Last Modified')
+      })
+    })
+
+    describe('when the request has loaded', () => {
+      test('renders the data', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+        const row1 = rows[1]
+        const row1Cells = within(row1).queryAllByRole('cell')
+
+        expect(row1Cells).toHaveLength(4)
+        expect(row1Cells[0].textContent).toBe('Service Name 1')
+        expect(row1Cells[1].textContent).toBe('Service Long Name 1')
+        expect(row1Cells[2].textContent).toBe('TESTPROV')
+        expect(row1Cells[3].textContent).toBe('2023-11-30 00:00:00')
+      })
+    })
+  })
+
+  describe('when searching for tools', () => {
+    beforeEach(() => {
+      setup([singlePageToolsSearch], {}, ['/search?type=tools&keyword='])
+    })
+
+    describe('while the request is loading', () => {
+      test('renders the headers', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+
+        const headerRow = rows[0]
+
+        expect(headerRow.children[0].textContent).toContain('Name')
+        expect(headerRow.children[1].textContent).toContain('Long Name')
+        expect(headerRow.children[2].textContent).toContain('Provider')
+        expect(headerRow.children[3].textContent).toContain('Last Modified')
+      })
+    })
+
+    describe('when the request has loaded', () => {
+      test('renders the data', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+        const row1 = rows[1]
+        const row1Cells = within(row1).queryAllByRole('cell')
+
+        expect(row1Cells).toHaveLength(4)
+        expect(row1Cells[0].textContent).toBe('Tool Name 1')
+        expect(row1Cells[1].textContent).toBe('Tool Long Name 1')
+        expect(row1Cells[2].textContent).toBe('TESTPROV')
+        expect(row1Cells[3].textContent).toBe('2023-11-30 00:00:00')
+      })
+    })
+  })
+
+  describe('when searching for variables', () => {
+    beforeEach(() => {
+      setup([singlePageVariablesSearch], {}, ['/search?type=variables&keyword='])
+    })
+
+    describe('while the request is loading', () => {
+      test('renders the headers', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+
+        const headerRow = rows[0]
+
+        expect(headerRow.children[0].textContent).toContain('Name')
+        expect(headerRow.children[1].textContent).toContain('Long Name')
+        expect(headerRow.children[2].textContent).toContain('Provider')
+        expect(headerRow.children[3].textContent).toContain('Last Modified')
+      })
+    })
+
+    describe('when the request has loaded', () => {
+      test('renders the data', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+        const row1 = rows[1]
+        const row1Cells = within(row1).queryAllByRole('cell')
+
+        expect(row1Cells).toHaveLength(4)
+        expect(row1Cells[0].textContent).toBe('Variable Name 1')
+        expect(row1Cells[1].textContent).toBe('Variable Long Name 1')
+        expect(row1Cells[2].textContent).toBe('TESTPROV')
+        expect(row1Cells[3].textContent).toBe('2023-11-30 00:00:00')
       })
     })
   })

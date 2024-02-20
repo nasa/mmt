@@ -21,6 +21,7 @@ import PublishPreview from './components/PublishPreview/PublishPreview'
 import SearchPage from './pages/SearchPage/SearchPage'
 import HomePage from './pages/HomePage/HomePage'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
+import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -150,6 +151,11 @@ const App = () => {
                     </AuthRequiredContainer>
                   )
                 }
+              />
+              <Route
+                exact
+                path="/auth_callback"
+                element={<AuthCallbackContainer />}
               />
               <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
               <Route path="*" element={<Navigate to="/404" replace />} />
