@@ -6,32 +6,8 @@ import {
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-import { useQuery } from '@apollo/client'
 import AppContext from '../../../context/AppContext'
 import Header from '../Header'
-
-// Mock the useQuery hook
-jest.mock('@apollo/client')
-
-// Mock the response for GET_ACLS
-const mockedAclData = {
-  data: {
-    acls: {
-      items: [
-        { acl: { provider_identity: { provider_id: 'Provider 1' } } },
-        { acl: { provider_identity: { provider_id: 'Provider 2' } } }
-      ]
-    }
-  }
-}
-
-beforeEach(() => {
-  // Reset the mock implementation before each test
-  useQuery.mockClear()
-})
-
-// Set up the mock for useQuery
-useQuery.mockReturnValue({ data: mockedAclData })
 
 const setup = ({
   overrideContext = {}

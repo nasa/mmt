@@ -5,6 +5,10 @@ import userEvent from '@testing-library/user-event'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
 
+import { MockedProvider } from '@apollo/client/testing'
+import { act } from 'react-dom/test-utils'
+import { GET_ACLS } from '../../operations/queries/getAcls'
+
 const MockComponent = () => {
   const { user, login, logout } = useAppContext()
 

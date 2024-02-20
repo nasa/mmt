@@ -18,11 +18,9 @@ import {
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa'
-import { useQuery } from '@apollo/client'
 import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
 import './Header.scss'
-import { GET_ACLS } from '../../operations/queries/getAcls'
 
 /**
  * Renders a `Header` component
@@ -34,7 +32,9 @@ import { GET_ACLS } from '../../operations/queries/getAcls'
  * )
  */
 const Header = () => {
-  const { user, login, logout } = useAppContext()
+  const {
+    user, login, logout, aclData
+  } = useAppContext()
 
   const [selectedProvider, setSelectedProvider] = useState('')
 
@@ -42,17 +42,19 @@ const Header = () => {
     setSelectedProvider(providerId)
   }
 
-  // Fetch ACLs using Apollo Client
-  const { data: aclData } = useQuery(GET_ACLS, {
-    variables: {
-      params: {
-        includeFullAcl: true,
-        pageNum: 1,
-        pageSize: 20,
-        permittedUser: 'typical',
-        target: 'PROVIDER_CONTEXT'
-      }
-    }
+  // Function to render ACL dropdown items
+  const renderAclDropdownItems = () => aclData?.acls?.items.map(({ acl }) => {
+    const { provider_identity: { provider_id: providerId } } = acl
+
+    return (
+      <Dropdown.Item
+        key={`aclItem_${providerId}`}
+        onClick={() => handleProviderSelection(providerId)}
+        active={selectedProvider === providerId}
+      >
+        {providerId}
+      </Dropdown.Item>
+    )
   })
 
   return (
@@ -149,27 +151,12 @@ const Header = () => {
                         className="pointer"
                         role="button"
                       >
-                        {/* {selectedProvider ? selectedProvider : `MMT` } // this is for testing purpose */}
                         {selectedProvider || `${user.providerId}` }
                       </Dropdown.Toggle>
                       <Dropdown.Menu
                         className="bg-blue-light border-blue-light shadow text-white"
                       >
-                        {
-                          aclData?.acls?.items.map(({ acl }) => {
-                            const { provider_identity: { provider_id: providerId } } = acl
-
-                            return (
-                              <Dropdown.Item
-                                key={`aclItem_${providerId}`}
-                                onClick={() => handleProviderSelection(providerId)}
-                                active={selectedProvider === providerId}
-                              >
-                                {providerId}
-                              </Dropdown.Item>
-                            )
-                          })
-                        }
+                        {renderAclDropdownItems()}
                       </Dropdown.Menu>
                     </Dropdown>
                   </Dropdown>
