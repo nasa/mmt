@@ -33,29 +33,18 @@ import './Header.scss'
  */
 const Header = () => {
   const {
-    user, login, logout, aclData
+    user, login, logout, providerIds, handleProviderSelection
   } = useAppContext()
 
-  const [selectedProvider, setSelectedProvider] = useState('')
-
-  const handleProviderSelection = (providerId) => {
-    setSelectedProvider(providerId)
-  }
-
-  // Function to render ACL dropdown items
-  const renderAclDropdownItems = () => aclData?.acls?.items.map(({ acl }) => {
-    const { provider_identity: { provider_id: providerId } } = acl
-
-    return (
-      <Dropdown.Item
-        key={`aclItem_${providerId}`}
-        onClick={() => handleProviderSelection(providerId)}
-        active={selectedProvider === providerId}
-      >
-        {providerId}
-      </Dropdown.Item>
-    )
-  })
+  // Define the renderProviderDropdownItems function
+  const renderProviderDropdownItems = () => providerIds.map((providerId) => (
+    <Dropdown.Item
+      key={providerId}
+      onClick={() => handleProviderSelection(providerId)}
+    >
+      {providerId}
+    </Dropdown.Item>
+  ))
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -151,12 +140,12 @@ const Header = () => {
                         className="pointer"
                         role="button"
                       >
-                        {selectedProvider || `${user.providerId}` }
+                        {user.providerId}
                       </Dropdown.Toggle>
                       <Dropdown.Menu
                         className="bg-blue-light border-blue-light shadow text-white"
                       >
-                        {renderAclDropdownItems()}
+                        {renderProviderDropdownItems()}
                       </Dropdown.Menu>
                     </Dropdown>
                   </Dropdown>

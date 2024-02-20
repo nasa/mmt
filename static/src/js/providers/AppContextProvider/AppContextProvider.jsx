@@ -35,7 +35,7 @@ const AppContextProvider = ({ children }) => {
   const [draft, setDraft] = useState()
   const [savedDraft, setSavedDraft] = useState()
   const [user, setUser] = useState({})
-  const [aclData, setAclData] = useState(null) // State to hold ACL data
+  const [providerIds, setProviderIds] = useState([]) // State to hold providerIds
 
   const { keywords } = keywordsContext
 
@@ -43,7 +43,7 @@ const AppContextProvider = ({ children }) => {
     setUser({
       name: 'User Name',
       token: 'ABC-1',
-      providerId: 'MMT_2'
+      providerId: 'MMT_1'
     })
   }, [])
 
@@ -51,7 +51,7 @@ const AppContextProvider = ({ children }) => {
     setUser({
       name: 'User Name',
       token: 'ABC-1',
-      providerId: 'MMT_2'
+      providerId: 'MMT_1'
     })
   })
 
@@ -59,8 +59,15 @@ const AppContextProvider = ({ children }) => {
     setUser({})
   })
 
+  const handleProviderSelection = useCallback((providerId) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      providerId
+    }))
+  }, [])
+
   // Fetch ACLs using useQuery hook
-  useQuery(GET_ACLS, {
+  const { data: aclData } = useQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
@@ -70,31 +77,38 @@ const AppContextProvider = ({ children }) => {
         target: 'PROVIDER_CONTEXT'
       }
     },
-    onCompleted: (data) => {
-      setAclData(data)
-    },
     onError: (error) => {
       console.error('Error fetching ACLs:', error)
     }
   })
 
+  // Extract provider IDs from ACL data and update state
+  useEffect(() => {
+    if (aclData && aclData.acls && aclData.acls.items.length > 0) {
+      const providerList = aclData.acls.items.map(({ acl }) => acl.provider_identity.provider_id)
+      setProviderIds(providerList)
+    }
+  }, [aclData])
+
   const providerValue = useMemo(() => ({
     ...keywordsContext,
-    aclData, // Include ACL data in the context value
     draft,
+    handleProviderSelection, // Include the handleProviderSelection function in the context value
     login,
     logout,
     originalDraft,
+    providerIds, // Include providerIds in the context value
     savedDraft,
     setDraft,
     setOriginalDraft,
     setSavedDraft,
     user
   }), [
-    aclData, // Ensure context updates when ACL data changes
     draft,
+    handleProviderSelection,
     originalDraft,
     keywords,
+    providerIds, // Include providerIds in the context value
     savedDraft,
     user,
     login,
