@@ -62,7 +62,6 @@ const CustomArrayFieldTemplate = ({
   }
 
   const fieldTitle = uiSchema['ui:title'] || startCase(title)
-  const itemTitle = uiSchema.items ? uiSchema.items['ui:title'] : fieldTitle
 
   // This handleAdd adds a new array,
   // sets the scrollRef so the autoScroll executes
@@ -123,7 +122,7 @@ const CustomArrayFieldTemplate = ({
                   addElement && (
                     <div className="h5 custom-array-field-template__field-title">
                       <span>
-                        {itemTitle}
+                        {fieldTitle}
                         {items.length > 0 && ` (${index + 1} of ${items.length})`}
                       </span>
 
@@ -165,7 +164,7 @@ const CustomArrayFieldTemplate = ({
             naked
             onClick={handleAdd}
           >
-            {`Add ${items.length > 0 ? 'Another' : ''} ${itemTitle}`}
+            {`Add ${items.length > 0 ? 'Another' : ''} ${fieldTitle}`}
           </Button>
         )
       }
