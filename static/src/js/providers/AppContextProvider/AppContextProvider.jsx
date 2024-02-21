@@ -1,15 +1,12 @@
 import React, {
   useCallback,
-  useEffect,
   useMemo,
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
 import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -35,22 +32,6 @@ const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
 
   const { keywords } = keywordsContext
-
-  const [cookies] = useCookies(['data'])
-
-  const {
-    data
-  } = cookies
-
-  useEffect(() => {
-    const { auid, name, token } = decodeCookie(data)
-    setUser({
-      auid,
-      name,
-      token,
-      providerId: 'MMT_2'
-    })
-  }, [cookies])
 
   const login = useCallback(() => {
     const { apiHost } = getApplicationConfig()

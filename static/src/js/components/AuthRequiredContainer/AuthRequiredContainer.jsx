@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router'
 import { getApplicationConfig } from '../../utils/getConfig'
+import isTokenExpired from '../../utils/isTokenExpired'
 import useAppContext from '../../hooks/useAppContext'
 
 export const AuthRequiredContainer = ({
@@ -10,18 +11,19 @@ export const AuthRequiredContainer = ({
   const { user } = useAppContext()
 
   const { token } = user
+  const isExpired = isTokenExpired(token)
 
   const location = useLocation()
 
   useEffect(() => {
     const { apiHost } = getApplicationConfig()
 
-    if (token === null || token === '' || token === undefined) {
+    if (isExpired) {
       window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(location.pathname)}`
     }
   }, [])
 
-  if (token) {
+  if (!isExpired) {
     return children
   }
 
