@@ -23,7 +23,12 @@ const getLaunchpadToken = (cookieString) => {
 }
 
 const getUserName = async (auid) => {
+  if (process.env.EDL_PASSWORD === '') {
+    return 'unknown'
+  }
+
   const edlProfile = await fetchEdlProfile(auid)
+
   const firstName = edlProfile.first_name
   const lastName = edlProfile.last_name
   const name = firstName == null ? edlProfile.uid : `${firstName} ${lastName}`
@@ -45,19 +50,31 @@ const samlCallback = async (event) => {
   const path = params.get('RelayState')
 
   const { auid } = samlResponse
+
   const launchpadToken = getLaunchpadToken(Cookie)
   const name = await getUserName(auid)
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  // Create encoded cookie containing json with name, token, and other details
+  // returned by launchpad (name, auid).
   const encodedCookie = encodeCookie({
     ...samlResponse,
     name,
-    token: launchpadToken
+    token: {
+      tokenValue: launchpadToken,
+      tokenExp: expires.valueOf() // Returns long epoch
+    }
   })
 
-  let setCookie = `data=${encodedCookie}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
+  // There appears to be a limitation in AWS to only allow sending 1 cookie, so we are sending
+  // 1 cookie with multiple values in a base 64 encoded json string.
+  let setCookie = `loginInfo=${encodedCookie}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647`
 
   if (version === 'development') {
-    setCookie = `data=${encodedCookie}; Path=/`
+    setCookie = `loginInfo=${encodedCookie}; Path=/`
   }
 
   const location = `${mmtHost}/auth_callback?target=${path}`

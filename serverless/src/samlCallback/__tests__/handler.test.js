@@ -23,6 +23,8 @@ describe('samlCallback is called by launchpad after a successful login in produc
       cmrHost: 'http://localhost:4000',
       version: 'sit'
     }))
+
+    jest.spyOn(Date.prototype, 'valueOf').mockImplementation(() => 1234)
   })
 
   test('returns a redirect to the mmt app and encodes the launchpad token in a cookie', async () => {
@@ -39,7 +41,7 @@ describe('samlCallback is called by launchpad after a successful login in produc
 
     expect(statusCode).toBe(303)
     expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
-    expect(cookies).toEqual('data=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6IlVzZXIgTmFtZSIsInRva2VuIjoibGF1bmNocGFkX3Rva2VuIn0=; Secure; Path=/; Domain=.earthdatacloud.nasa.gov')
+    expect(cookies).toEqual('loginInfo=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6IlVzZXIgTmFtZSIsInRva2VuIjp7InRva2VuVmFsdWUiOiJsYXVuY2hwYWRfdG9rZW4iLCJ0b2tlbkV4cCI6MTIzNH19; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647')
   })
 
   test('returns the first and last name', async () => {
@@ -54,12 +56,12 @@ describe('samlCallback is called by launchpad after a successful login in produc
     const { Location } = headers
     const cookies = headers['Set-Cookie']
 
-    const { name } = decodeCookie(cookie.parse(cookies).data)
+    const { name } = decodeCookie(cookie.parse(cookies).loginInfo)
     expect(name).toEqual('User Name')
 
     expect(statusCode).toBe(303)
     expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
-    expect(cookies).toEqual('data=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6IlVzZXIgTmFtZSIsInRva2VuIjoibGF1bmNocGFkX3Rva2VuIn0=; Secure; Path=/; Domain=.earthdatacloud.nasa.gov')
+    expect(cookies).toEqual('loginInfo=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6IlVzZXIgTmFtZSIsInRva2VuIjp7InRva2VuVmFsdWUiOiJsYXVuY2hwYWRfdG9rZW4iLCJ0b2tlbkV4cCI6MTIzNH19; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647')
   })
 
   test('returns the uid for name if only last name is present', async () => {
@@ -78,13 +80,12 @@ describe('samlCallback is called by launchpad after a successful login in produc
     const { headers, statusCode } = response
     const { Location } = headers
     const cookies = headers['Set-Cookie']
-
-    const { name } = decodeCookie(cookie.parse(cookies).data)
+    const { name } = decodeCookie(cookie.parse(cookies).loginInfo)
     expect(name).toEqual('user.name')
 
     expect(statusCode).toBe(303)
     expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
-    expect(cookies).toEqual('data=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6InVzZXIubmFtZSIsInRva2VuIjoibGF1bmNocGFkX3Rva2VuIn0=; Secure; Path=/; Domain=.earthdatacloud.nasa.gov')
+    expect(cookies).toEqual('loginInfo=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6InVzZXIubmFtZSIsInRva2VuIjp7InRva2VuVmFsdWUiOiJsYXVuY2hwYWRfdG9rZW4iLCJ0b2tlbkV4cCI6MTIzNH19; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647')
   })
 })
 
@@ -111,6 +112,6 @@ describe('samlCallback is called by launchpad after a successful login in dev mo
 
     expect(statusCode).toBe(303)
     expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth_callback?target=/home')
-    expect(cookies).toEqual('data=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6InVzZXIubmFtZSIsInRva2VuIjoiQUJDLTEifQ==; Path=/')
+    expect(cookies).toEqual('loginInfo=eyJhdWlkIjoiY2dva2V5IiwiZW1haWwiOiJjaHJpc3RvcGhlci5kLmdva2V5QG5hc2EuZ292IiwibmFtZSI6InVzZXIubmFtZSIsInRva2VuIjp7InRva2VuVmFsdWUiOiJBQkMtMSIsInRva2VuRXhwIjoxMjM0fX0=; Path=/')
   })
 })

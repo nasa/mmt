@@ -36,6 +36,7 @@
     "commafy": "^0.0.6",
     "compact-object-deep": "^1.0.0",
     "cookie": "^0.6.0",
+    "cross-fetch": "^4.0.0",
     "esbuild": "^0.19.5",
     "graphql": "^16.8.1",
     "json-schema": "^0.4.0",
@@ -65,6 +66,7 @@
     "serverless-esbuild": "^1.48.5",
     "serverless-finch": "^4.0.3",
     "serverless-offline": "^13.2.0",
+    "tiny-cookie": "^2.5.1",
     "vite": "^4.5.0",
     "xpath": "^0.0.34"
   },
