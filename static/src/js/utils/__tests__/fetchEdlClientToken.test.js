@@ -2,6 +2,7 @@ import fetchEdlClientToken from '../fetchEdlClientToken'
 
 beforeEach(() => {
   jest.clearAllMocks()
+  process.env.EDL_PASSWORD = undefined
 })
 
 global.fetch = jest.fn(() => Promise.resolve({
