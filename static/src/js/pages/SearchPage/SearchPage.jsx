@@ -45,9 +45,7 @@ const typeParamToHumanizedNameMap = {
 const getHumanizedNameFromTypeParam = (type, plural) => {
   const humanizedName = typeParamToHumanizedNameMap[type]
 
-  if (humanizedName) {
-    return plural ? `${humanizedName}s` : humanizedName
-  }
+  return plural ? `${humanizedName}s` : humanizedName
 }
 
 /**
