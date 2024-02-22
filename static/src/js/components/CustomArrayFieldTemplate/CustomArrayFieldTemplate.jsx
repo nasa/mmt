@@ -129,6 +129,7 @@ const CustomArrayFieldTemplate = ({
                       <Button
                         className="custom-array-field-template__remove-button text-danger px-0"
                         Icon={FaMinusCircle}
+                        iconTitle="Minus icon in a circle"
                         naked
                         onClick={onDropIndexClick(elementIndex)}
                       >
@@ -161,6 +162,7 @@ const CustomArrayFieldTemplate = ({
           <Button
             className="text-primary"
             Icon={FaPlusCircle}
+            iconTitle="Plus icon in a circle"
             naked
             onClick={handleAdd}
           >

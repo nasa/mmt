@@ -12,7 +12,9 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
  * @property {ReactNode} children The children of the button
  * @property {Boolean} external An optional boolean which sets `target="_blank"` and an external link icon
  * @property {String} href An optional string which triggers the use of an `<a>` tag with the designated href
- * @property {Function} [Icon] An optional icon `react-icons` icon
+ * @property {Function} [Icon] An optional icon `react-icons` icon. A iconTitle should be set when setting an icon.
+ * @property {Function} [iconOnly] An optional boolean that hides the button content
+ * @property {Function} [iconTitle] An optional icon `react-icons` icon
  * @property {Boolean} [naked] An optional boolean passed to render a button with no background or border
  * @property {Function} onClick A callback function to be called when the button is clicked
  * @property {String} [size] An optional string passed to React Bootstrap to change the size of the button
@@ -33,6 +35,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
  *      size="sm"
  *      variant="primary"
  *      Icon={FaStar}
+ *      iconTitle="Star"
  *   >
  *     Click me!
  *   </Button>
@@ -44,6 +47,8 @@ const Button = ({
   external,
   href,
   Icon,
+  iconOnly,
+  iconTitle,
   naked,
   onClick,
   size,
@@ -80,18 +85,27 @@ const Button = ({
       {
         Icon && (
           <Icon
+            title={iconTitle}
+            role="img"
             className={
               classNames([
                 {
-                  'me-1': size !== 'lg',
-                  'me-2': size === 'lg'
+                  'me-0': !children,
+                  'me-1': children && size !== 'lg',
+                  'me-2': children && size === 'lg'
                 }
               ])
             }
           />
         )
       }
-      {children}
+      {
+        iconOnly
+          ? (
+            <span className="visually-hidden">{children}</span>
+          )
+          : children
+      }
       {
         external && (
           <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
@@ -103,8 +117,10 @@ const Button = ({
 
 Button.defaultProps = {
   className: '',
-  Icon: null,
   external: false,
+  Icon: undefined,
+  iconOnly: false,
+  iconTitle: undefined,
   href: null,
   naked: false,
   onClick: null,
@@ -118,6 +134,14 @@ Button.propTypes = {
   external: PropTypes.bool,
   href: PropTypes.string,
   Icon: PropTypes.func,
+  iconOnly: PropTypes.bool,
+  iconTitle: ({ Icon, iconTitle }) => {
+    if (!!Icon && !iconTitle) {
+      return new Error('An iconTitle is required when rendering an Icon. The iconTitle will be used as the <title> on the <svg>')
+    }
+
+    return null
+  },
   naked: PropTypes.bool,
   onClick: PropTypes.func,
   size: PropTypes.string,

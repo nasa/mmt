@@ -83,7 +83,7 @@ describe('CustomArrayFieldTemplate', () => {
     test('adds another array field', async () => {
       const { props } = setup()
 
-      const addButton = screen.getByRole('button', { name: 'Add Another Array Field Test' })
+      const addButton = screen.getByRole('button', { name: 'Plus icon in a circle Add Another Array Field Test' })
 
       await waitFor(async () => {
         addButton.click()
@@ -100,7 +100,7 @@ describe('CustomArrayFieldTemplate', () => {
     test('removes a array field', async () => {
       const { props } = setup()
 
-      const remove = screen.getByRole('button', { name: 'Remove' })
+      const remove = screen.getByRole('button', { name: 'Minus icon in a circle Remove' })
 
       await waitFor(async () => {
         remove.click()

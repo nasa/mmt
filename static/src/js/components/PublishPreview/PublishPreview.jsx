@@ -51,6 +51,10 @@ const PublishPreview = () => {
   const [loading, setLoading] = useState(true)
   const [nativeId, setNativeId] = useState()
 
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
@@ -257,7 +261,8 @@ const PublishPreview = () => {
           </Button>
           <CustomModal
             message="Are you sure you want to delete this record?"
-            openModal={showDeleteModal}
+            show={showDeleteModal}
+            toggleModal={toggleShowDeleteModal}
             actions={
               [
                 {

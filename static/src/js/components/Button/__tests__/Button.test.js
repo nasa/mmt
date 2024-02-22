@@ -26,7 +26,7 @@ const setup = (overrideProps = {}) => {
 }
 
 describe('Button', () => {
-  describe('when the button with children', () => {
+  describe('when the button has children', () => {
     test('renders the button', () => {
       setup()
 
@@ -34,19 +34,44 @@ describe('Button', () => {
     })
   })
 
-  describe('when the button with an icon', () => {
+  describe('when the button has an icon', () => {
     beforeEach(() => {
       FaStar.mockImplementation(
         jest.requireActual('react-icons/fa').FaStar
       )
     })
 
-    test('renders the button', () => {
+    test('renders the icon', () => {
       setup({
-        Icon: FaStar
+        Icon: FaStar,
+        iconTitle: 'Star'
       })
 
       expect(FaStar).toHaveBeenCalledTimes(1)
+      expect(screen.getByRole('img', { name: 'Star' })).toBeInTheDocument()
+    })
+
+    test('has the correct margin', () => {
+      setup({
+        Icon: FaStar,
+        iconTitle: 'Star'
+      })
+
+      const icon = screen.getByRole('img', { name: 'Star' })
+      expect(icon).toHaveClass('me-1')
+    })
+
+    describe('when rendered in a large button', () => {
+      test('has the correct margin', () => {
+        setup({
+          Icon: FaStar,
+          iconTitle: 'Star',
+          size: 'lg'
+        })
+
+        const icon = screen.getByRole('img', { name: 'Star' })
+        expect(icon).toHaveClass('me-2')
+      })
     })
   })
 

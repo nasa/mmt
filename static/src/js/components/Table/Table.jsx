@@ -1,172 +1,284 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BootstrapTable from 'react-bootstrap/Table'
+import BoostrapTable from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
 import Placeholder from 'react-bootstrap/Placeholder'
-import PaginationComponent from '../Pagination/Pagination'
+import {
+  get,
+  random,
+  uniqueId
+} from 'lodash-es'
+import { FaSortDown, FaSortUp } from 'react-icons/fa'
+import classNames from 'classnames'
 
 import For from '../For/For'
+import Button from '../Button/Button'
+
+import './Table.scss'
+
+/**
+ * @typedef ColumnDefs
+ * @property {String} dataKey A string to be used to traverse the search results and identify the source of the data to be displayed in a cell
+ * @property {String} title The title of the column
+ * @property {String} [sortKey] A string representing the CMR sort method for the column
+ * @property {String} [className] An optional string to be used as the class name for the header columns and data columns
+ * @property {Function} [dataAccessorFn] An optional function that take the item data and returns custom JSX for the cell
+ * @property {Function} [sortFn] An optional function that takes the next order to be used to set the state when a sort is changed
+ */
+
 /**
  * Table
  * @typedef {Object} Table
- * @property {Array} headers A list of custom headers
- * @property {Array} classNames A list of classNames for each header
- * @property {Boolean} loading A value provided by whichever useQuery is being used in parent component
- * @property {Array} data An array of formatted rows with data already populated
- * @property {String} error A string that comes from { loading, data, error } = useQuery
- * @property {String} noDataError An option string for custom error if data.length === 0
- * @property {Number} count A number of the total amount of data without limit
- * @property {Function} setOffset A useState function that loads the appropriate data set based on user input
- * @property {limit} limit A number that limits the data set that comes in. **Note this number should always be 20
- * @property {limit} offset A number that dictates where the dataset should start from
+ * @property {Number} count The count of total items in the table.
+ * @property {ColumnDefs[]} columns A list column definitions.
+ * @property {Object[]} data An array of objects containing the data for each row in the table
+ * @property {Function} generateCellKey A function used to generate unique React ids for the columns
+ * @property {Function} generateRowKey A function used to generate unique React ids for the rows
+ * @property {String} id A unique id to be used as the React id for the component
+ * @property {Boolean} [loading] A boolean that designates when the data for the table is being loaded
+ * @property {String} noDataMessage A string that is displayed when the table has no data to display
+ * @property {String} [sortKey] A string representing the current CMR sort
  */
 
 const Table = ({
-  headers,
-  classNames,
-  loading,
+  columns,
   data,
-  error,
-  noDataError,
-  count,
-  setOffset,
+  generateCellKey,
+  generateRowKey,
+  id,
+  loading,
   limit,
-  offset
-}) => {
-  // Does this provider have enough Rows to page? We hide the pagination buttons if not
-  const hasPages = count > limit
+  noDataMessage,
+  sortKey
+}) => (
+  <Row>
+    <Col>
+      <BoostrapTable bordered striped responsive="xl">
+        <thead>
+          <tr className="border-top-0">
+            {
+              columns.map(({
+                align,
+                className,
+                dataKey,
+                sortKey: sortKeyOverride = '',
+                sortFn = null,
+                title
+              }) => {
+                const activeKey = sortKey?.replace('-', '')
+                const hasActiveSort = !!sortKey
+                const isAscendingSortActive = sortKey?.includes('-')
 
-  const renderHeaders = headers.map((header) => (
-    <th key={header}>{header}</th>
-  ))
+                // If a sort key override exists, check against that to determine if an item
+                // is active. Otherwise, use the dataKey for that item.
+                const isActiveSort = sortKeyOverride
+                  ? activeKey === sortKeyOverride
+                  : activeKey === dataKey
 
-  const dataLengthExists = (data && data.length) && data.length
+                const sortAscendingButtonClasses = classNames(
+                  [
+                    'table__sort-button text-secondary d-flex justify-content-center',
+                    {
+                      'table__sort-button--inactive': !isActiveSort || (isActiveSort && !isAscendingSortActive),
+                      'table__sort-button--active': hasActiveSort && isActiveSort && !isAscendingSortActive
+                    }
+                  ]
+                )
 
-  const content = []
+                const sortDescendingButtonClasses = classNames(
+                  [
+                    'table__sort-button text-secondary d-flex justify-content-center',
+                    {
+                      'table__sort-button--inactive': !isActiveSort || (isActiveSort && isAscendingSortActive),
+                      'table__sort-button--active': hasActiveSort && isActiveSort && isAscendingSortActive
+                    }
+                  ]
+                )
 
-  if (loading) {
-    content.push(
-      <For key="for-each-loading-key" each={[...new Array(headers.length)]}>
-        {
-          (item, i) => {
-            const trKey = headers[i]
+                return (
+                  <th
+                    key={`${id}_${dataKey}_column-heading`}
+                    className={
+                      classNames([
+                        'border-start-0',
+                        'border-end-0',
+                        {
+                          [className]: className,
+                          [`text-${align}`]: align
+                        }
+                      ])
+                    }
+                  >
+                    <div className={
+                      classNames([
+                        'd-flex flex-row align-items-center',
+                        {
+                          'w-100': align === 'center',
+                          [`justify-content-${align}`]: align
+                        }
+                      ])
+                    }
+                    >
+                      {title}
+                      {
+                        sortFn && (
+                          <div className="d-flex flex-column align-content-center">
+                            <Button
+                              className={sortAscendingButtonClasses}
+                              naked
+                              Icon={FaSortUp}
+                              iconOnly
+                              iconTitle="Arrow pointing up"
+                              onClick={
+                                () => {
+                                  if (isActiveSort && isAscendingSortActive) {
+                                    sortFn(sortKeyOverride || dataKey)
 
-            return (
-              <tr key={trKey}>
+                                    return
+                                  }
+
+                                  sortFn(sortKeyOverride || dataKey, 'ascending')
+                                }
+                              }
+                            >
+                              {`Sort ${title} in ascending order`}
+                            </Button>
+                            <Button
+                              className={sortDescendingButtonClasses}
+                              naked
+                              Icon={FaSortDown}
+                              iconOnly
+                              iconTitle="Arrow pointing down"
+                              onClick={
+                                () => {
+                                  if (isActiveSort && !isAscendingSortActive) {
+                                    sortFn(sortKeyOverride || dataKey)
+
+                                    return
+                                  }
+
+                                  sortFn(sortKeyOverride || dataKey, 'descending')
+                                }
+                              }
+                            >
+                              {`Sort ${title} in descending order`}
+                            </Button>
+                          </div>
+                        )
+                      }
+                    </div>
+                  </th>
+                )
+              })
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            loading && (
+              <For key="for-each-loading-key" each={Array.from(Array(limit))}>
                 {
-                  headers.map((index) => {
-                    const tdKey = `${trKey}_${index}`
+                  (column, i) => (
+                    <tr key={`${id}_loading_row_${i}`}>
+                      {
+                        columns.map(() => {
+                          // Generate a random number between 4 and 12 to be used as the column size
+                          const randomColumnSize = random(4, 12)
+
+                          return (
+                            // Because rerenders of this componentIt should be safe to generate
+                            // eslint-disable-next-line react/no-array-index-key
+                            <td
+                              key={uniqueId(`${id}_loading_row_`)}
+                              className="col-md-4"
+                              aria-busy={loading}
+                            >
+                              <Placeholder animation="glow" aria-hidden="true">
+                                <Placeholder xs={randomColumnSize} />
+                              </Placeholder>
+                            </td>
+                          )
+                        })
+                      }
+                    </tr>
+                  )
+                }
+              </For>
+            )
+          }
+          {
+            !loading && data.length === 0 && (
+              <tr>
+                <td colSpan={columns.length}>{noDataMessage}</td>
+              </tr>
+            )
+          }
+          {
+            !loading && data.length > 0 && data.map((rowData) => (
+              <tr key={`${id}_${generateRowKey(rowData)}`}>
+                {
+                  columns.map((column) => {
+                    const {
+                      dataKey,
+                      className,
+                      align,
+                      dataAccessorFn = null
+                    } = column
+
+                    const cellData = get(rowData, dataKey)
+
+                    let cellContent
+
+                    if (dataAccessorFn) {
+                      cellContent = dataAccessorFn(cellData, rowData)
+                    } else {
+                      cellContent = cellData
+                    }
 
                     return (
-                      <td key={tdKey} className="col-md-4">
-                        <Placeholder animation="glow">
-                          <Placeholder xs={6} />
-                        </Placeholder>
+                      <td
+                        key={`${id}_${generateCellKey(rowData, dataKey)}`}
+                        aria-busy="false"
+                        className={
+                          classNames([
+                            {
+                              [className]: className,
+                              [`text-${align}`]: align
+                            }
+                          ])
+                        }
+                      >
+                        {cellContent}
                       </td>
                     )
                   })
                 }
               </tr>
-            )
+            ))
           }
-        }
-      </For>
-    )
-  } else if (dataLengthExists > 0) {
-    const rowData = data.map((row) => {
-      const { cells, key } = row
-      const rowKey = key
-
-      return (
-        <tr key={`${rowKey}`}>
-          {
-            cells.map((cell, index) => {
-              const cellKey = `${rowKey}_${headers[index]}`
-              const { value } = cell
-
-              return (
-                <td key={cellKey} className={classNames[index] || 'col-auto'}>
-                  {value}
-                </td>
-              )
-            })
-          }
-        </tr>
-      )
-    })
-
-    content.push(rowData)
-  } else if (dataLengthExists === 0) {
-    content.push(<tr key="error-banner" className="text-center"><td colSpan={headers.length}>{noDataError}</td></tr>)
-  } else {
-    content.push(<tr key="error-banner" className="text-center"><td colSpan={headers.length}>{error}</td></tr>)
-  }
-
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <span className="d-block mb-3">
-            {`Showing ${count > 0 ? offset : 0}-${dataLengthExists === limit ? offset + limit : offset + dataLengthExists} of ${count} Results`}
-          </span>
-        </Col>
-        <Col xs="auto">
-          <div className="mx-auto">
-            {
-              hasPages && (
-                <PaginationComponent
-                  setOffset={setOffset}
-                  limit={limit}
-                  count={count}
-                />
-              )
-            }
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <BootstrapTable striped>
-            <thead>
-              <tr>
-                {renderHeaders}
-              </tr>
-            </thead>
-            <tbody>
-              {content}
-            </tbody>
-          </BootstrapTable>
-        </Col>
-      </Row>
-    </Container>
-  )
-}
+        </tbody>
+      </BoostrapTable>
+    </Col>
+  </Row>
+)
 
 Table.defaultProps = {
-  classNames: [],
   loading: null,
-  data: null,
-  error: 'Error',
-  noDataError: 'No Data to Display',
-  count: null
+  noDataMessage: 'No data to display',
+  sortKey: null
 }
 
 Table.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  classNames: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loading: PropTypes.bool,
-  data: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    cells: PropTypes.arrayOf(PropTypes.shape({}))
-  })),
-  error: PropTypes.string,
-  noDataError: PropTypes.string,
-  count: PropTypes.number,
-  offset: PropTypes.number.isRequired,
-  setOffset: PropTypes.func.isRequired,
-  limit: PropTypes.number.isRequired
+  limit: PropTypes.number.isRequired,
+  noDataMessage: PropTypes.string,
+  sortKey: PropTypes.string,
+  columns: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  generateCellKey: PropTypes.func.isRequired,
+  generateRowKey: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
 }
 
 export default Table

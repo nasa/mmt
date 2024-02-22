@@ -17,7 +17,7 @@ export const AuthCallbackContainer = () => {
     if (path) {
       navigate(path)
     }
-  })
+  }, [])
 
   return <div />
 }

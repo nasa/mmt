@@ -1,16 +1,21 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTIONS = gql`
-  query Collections($params: CollectionsInput) {
+  query GetCollections($params: CollectionsInput) {
     collections(params: $params) {
+      count
       items {
         conceptId
-        provider
-        version
         shortName
+        version
         title
+        provider
+        granules {
+          count
+        }
+        tags
+        revisionDate
       }
-      count
     }
   }
 `
