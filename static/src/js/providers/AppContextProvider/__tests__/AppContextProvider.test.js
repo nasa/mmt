@@ -2,15 +2,16 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 
 import userEvent from '@testing-library/user-event'
+import { MockedProvider } from '@apollo/client/testing'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
 
-import { MockedProvider } from '@apollo/client/testing'
-import { act } from 'react-dom/test-utils'
-import { GET_ACLS } from '../../operations/queries/getAcls'
+import { GET_ACLS } from '../../../operations/queries/getAcls'
 
 const MockComponent = () => {
-  const { user, login, logout } = useAppContext()
+  const {
+    user, login, logout
+  } = useAppContext()
 
   return (
     <div>
@@ -43,15 +44,45 @@ const MockComponent = () => {
   )
 }
 
+console.log('@@@', MockComponent)
+const mocks = [
+  {
+    request: {
+      query: GET_ACLS,
+      variables: {
+        params: {
+          includeFullAcl: true,
+          pageNum: 1,
+          pageSize: 2000,
+          permittedUser: 'ABC-1',
+          target: 'PROVIDER_CONTEXT'
+        }
+      }
+    },
+    result: {
+      data: {
+        acls: {
+          items: [
+            { acl: { provider_identity: { provider_id: 'provider1' } } },
+            { acl: { provider_identity: { provider_id: 'provider2' } } }
+          ]
+        }
+      }
+    }
+  }
+]
+
 const setup = () => {
   render(
-    <AppContextProvider>
-      <MockComponent />
-    </AppContextProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <AppContextProvider>
+        <MockComponent />
+      </AppContextProvider>
+    </MockedProvider>
   )
 }
 
-describe('ManagePage component', () => {
+describe('AppContextProvider component', () => {
   describe('when all metadata is provided', () => {
     beforeEach(() => {
       setup()

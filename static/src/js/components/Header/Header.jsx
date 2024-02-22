@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
@@ -33,18 +33,24 @@ import './Header.scss'
  */
 const Header = () => {
   const {
-    user, login, logout, providerIds, handleProviderSelection
+    user, login, logout, providerIds, setProviderId
   } = useAppContext()
 
   // Define the renderProviderDropdownItems function
-  const renderProviderDropdownItems = () => providerIds.map((providerId) => (
-    <Dropdown.Item
-      key={providerId}
-      onClick={() => handleProviderSelection(providerId)}
-    >
-      {providerId}
-    </Dropdown.Item>
-  ))
+  const renderProviderDropdownItems = () => {
+    if (!providerIds) {
+      return null
+    }
+
+    return providerIds.map((providerId) => (
+      <Dropdown.Item
+        key={providerId}
+        onClick={() => setProviderId(providerId)}
+      >
+        {providerId}
+      </Dropdown.Item>
+    ))
+  }
 
   return (
     <header className="header bg-primary shadow z-1">
