@@ -48,8 +48,6 @@ const getHumanizedNameFromTypeParam = (type, plural) => {
   if (humanizedName) {
     return plural ? `${humanizedName}s` : humanizedName
   }
-
-  return null
 }
 
 /**
@@ -186,9 +184,9 @@ const SearchPage = ({ limit }) => {
           ...Object.fromEntries(currentParams)
         }
       })
-    }
 
-    if (!order) return
+      return
+    }
 
     searchParams.set('sortKey', nextSortKey)
 

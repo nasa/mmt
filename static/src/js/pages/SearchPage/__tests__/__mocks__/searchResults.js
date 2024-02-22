@@ -9,7 +9,7 @@ export const singlePageCollectionSearch = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 20,
         offset: 0,
         sortKey: null,
@@ -68,7 +68,7 @@ export const multiPageCollectionSearchPage1 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 3,
         offset: 0,
         sortKey: null,
@@ -143,7 +143,7 @@ export const multiPageCollectionSearchPage2 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 3,
         offset: 3,
         sortKey: null,
@@ -214,7 +214,7 @@ export const multiPageCollectionSearchPage1Asc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 3,
         offset: 0,
         includeTags: '*',
@@ -289,7 +289,7 @@ export const multiPageCollectionSearchPage1Desc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 3,
         offset: 0,
         includeTags: '*',
@@ -364,7 +364,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 3,
         offset: 0,
         includeTags: '*',
@@ -439,7 +439,7 @@ export const singlePageCollectionSearchError = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: '',
+        keyword: 'test',
         limit: 20,
         offset: 0,
         sortKey: null,

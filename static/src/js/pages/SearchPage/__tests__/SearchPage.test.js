@@ -52,7 +52,7 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
       }
     }
     >
-      <MemoryRouter initialEntries={overrideInitialEntries || ['/search?type=collections&keyword=']}>
+      <MemoryRouter initialEntries={overrideInitialEntries || ['/search?type=collections&keyword=test']}>
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
@@ -60,6 +60,10 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
             <Route
               path="/search"
               element={<SearchPage {...props} />}
+            />
+            <Route
+              path="/404"
+              element={<div>404 page</div>}
             />
           </Routes>
         </MockedProvider>
@@ -294,7 +298,7 @@ describe('SearchPage component', () => {
     test('sorts and shows the button as inactive', async () => {
       const user = userEvent.setup()
 
-      setup([multiPageCollectionSearchPage1Asc, multiPageCollectionSearchPage1], { limit: 3 }, ['/search?type=collections&keyword=&sortKey=-shortName'])
+      setup([multiPageCollectionSearchPage1Asc, multiPageCollectionSearchPage1], { limit: 3 }, ['/search?type=collections&keyword=test&sortKey=-shortName'])
 
       await waitFor(() => {
         const dataRow1 = screen.queryAllByRole('row')[1]
@@ -472,6 +476,18 @@ describe('SearchPage component', () => {
         expect(row1Cells[1].textContent).toBe('Variable Long Name 1')
         expect(row1Cells[2].textContent).toBe('TESTPROV')
         expect(row1Cells[3].textContent).toBe('2023-11-30 00:00:00')
+      })
+    })
+  })
+
+  describe('when an invalid type is passed', () => {
+    beforeEach(() => {
+      setup(null, {}, ['/search?type=asdf&keyword='])
+    })
+
+    test('renders the 404 page', async () => {
+      await waitFor(() => {
+        expect(screen.queryByText('404 page')).toBeInTheDocument()
       })
     })
   })
