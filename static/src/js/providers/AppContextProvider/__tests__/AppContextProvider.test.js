@@ -1,12 +1,9 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
-
-import { GET_ACLS } from '../../../operations/queries/getAcls'
 
 const MockComponent = () => {
   const {
@@ -44,37 +41,9 @@ const MockComponent = () => {
   )
 }
 
-console.log('@@@', MockComponent)
-const mocks = [
-  {
-    request: {
-      query: GET_ACLS,
-      variables: {
-        params: {
-          includeFullAcl: true,
-          pageNum: 1,
-          pageSize: 2000,
-          permittedUser: 'ABC-1',
-          target: 'PROVIDER_CONTEXT'
-        }
-      }
-    },
-    result: {
-      data: {
-        acls: {
-          items: [
-            { acl: { provider_identity: { provider_id: 'provider1' } } },
-            { acl: { provider_identity: { provider_id: 'provider2' } } }
-          ]
-        }
-      }
-    }
-  }
-]
-
 const setup = () => {
   render(
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider>
       <AppContextProvider>
         <MockComponent />
       </AppContextProvider>
