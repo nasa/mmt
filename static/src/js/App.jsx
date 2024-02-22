@@ -62,10 +62,7 @@ const App = () => {
   const { tokenValue } = token || {}
 
   const httpLink = createHttpLink({
-    uri: graphQlHost,
-    fetchOptions: {
-      mode: 'cors' // No-cors, *cors, same-origin
-    }
+    uri: graphQlHost
   })
 
   console.log('using token ', tokenValue)
@@ -73,16 +70,12 @@ const App = () => {
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
-      // Todo pull this from config.
       Authorization: tokenValue
     }
   }))
 
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    fetchOptions: {
-      mode: 'no-cors'
-    },
 
     link: authLink.concat(httpLink),
     defaultOptions: {

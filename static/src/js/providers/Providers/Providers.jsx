@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import AppContextProvider from '../AppContextProvider/AppContextProvider'
 import NotificationsContextProvider from '../NotificationsContextProvider/NotificationsContextProvider'
-// Import ApolloProvider from '../ApolloProvider/ApolloProvider'
 
 /**
  * @typedef {Object} ProvidersProps
@@ -24,7 +23,6 @@ import NotificationsContextProvider from '../NotificationsContextProvider/Notifi
 const Providers = ({ children }) => {
   const providers = [
     <AppContextProvider key="provider_app-context" />,
-    // <ApolloProvider key="apollo_provider-context" />,
     <NotificationsContextProvider key="provider_notifications-context" />
   ]
 
