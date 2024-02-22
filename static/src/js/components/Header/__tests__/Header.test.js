@@ -61,11 +61,19 @@ describe('Header component', () => {
   })
 
   describe('when the user is logged in', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
     beforeEach(async () => {
       setup({
         overrideContext: {
           user: {
-            name: 'User Name'
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires
+            }
           },
           login: jest.fn(),
           logout: jest.fn()

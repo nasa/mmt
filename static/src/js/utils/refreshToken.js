@@ -10,7 +10,14 @@ const refreshToken = async (token) => {
   const { apiHost, version } = getApplicationConfig()
 
   if (version === 'development') {
-    return 'ABC-1'
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
+    return {
+      tokenValue: 'ABC-1',
+      tokenExp: expires.valueOf()
+    }
   }
 
   const options = {
@@ -19,7 +26,6 @@ const refreshToken = async (token) => {
       token
     }
   }
-  console.log('sending ', options)
 
   return fetch(`${apiHost}/saml-refresh-token`, (options)).then((response) => {
     const expires = response.headers.get('expires') * 1000
@@ -30,7 +36,6 @@ const refreshToken = async (token) => {
 
     return refreshTokenValue
   })
-    .catch((err) => err)
 }
 
 export default refreshToken

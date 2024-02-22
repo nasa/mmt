@@ -14,6 +14,7 @@ import {
 import Form from '@rjsf/core'
 import * as router from 'react-router'
 
+import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 
 import errorLogger from '../../../utils/errorLogger'
@@ -46,6 +47,7 @@ import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import OneOfField from '../../OneOfField/OneOfField'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
+import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -171,33 +173,53 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  const cookie = new Cookies(
+    {
+      loginInfo: encodeCookie({
+        name: 'User Name',
+        token: {
+          tokenValue: 'ABC-1',
+          tokenExp: expires
+        }
+      })
+    }
+  )
+  cookie.HAS_DOCUMENT_COOKIE = false
+
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <Providers>
-        <MemoryRouter initialEntries={[pageUrl]}>
-          <Routes>
-            <Route
-              path="/drafts/:draftType"
-            >
+    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <Providers>
+          <MemoryRouter initialEntries={[pageUrl]}>
+            <Routes>
               <Route
-                element={<MetadataForm />}
-                path="new"
-              />
-              <Route
-                path=":conceptId/:sectionName"
-                element={<MetadataForm />}
-              />
-              <Route
-                path=":conceptId/:sectionName/:fieldName"
-                element={<MetadataForm />}
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Providers>
-    </MockedProvider>
+                path="/drafts/:draftType"
+              >
+                <Route
+                  element={<MetadataForm />}
+                  path="new"
+                />
+                <Route
+                  path=":conceptId/:sectionName"
+                  element={<MetadataForm />}
+                />
+                <Route
+                  path=":conceptId/:sectionName/:fieldName"
+                  element={<MetadataForm />}
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </Providers>
+      </MockedProvider>
+
+    </CookiesProvider>
   )
 
   return {

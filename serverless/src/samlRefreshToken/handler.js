@@ -45,6 +45,7 @@ const samlRefreshToken = async (event) => {
       cookie: `${cookieName}=${token}`
     }
   })
+  console.log('response to refresh is ', response)
   const json = await response.json()
   let expires = new Date()
   expires.setMinutes(expires.getMinutes() + 15)

@@ -4,7 +4,7 @@
     "apiHost": "http://localhost:4001/dev",
     "graphQlHost": "http://localhost:3013/dev/api",
     "cmrHost": "http://localhost:4000",
-    "version": "development"
+    "version": "vdevelopment"
   },
   "ummVersions": {
     "ummC": "1.17.3",

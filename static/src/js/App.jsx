@@ -2,12 +2,18 @@ import React, { useLayoutEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink
+} from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
 import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
-import Providers from './providers/Providers/Providers'
 import Page from './components/Page/Page'
 import PublishPreview from './components/PublishPreview/PublishPreview'
 
@@ -17,6 +23,9 @@ import '../css/index.scss'
 import HomePage from './pages/HomePage/HomePage'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
+import { getApplicationConfig } from './utils/getConfig'
+import useAppContext from './hooks/useAppContext'
+import withProviders from './providers/withProviders/withProviders'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -47,8 +56,41 @@ const App = () => {
     document.body.classList.remove('is-loading')
   }, [])
 
+  const { graphQlHost } = getApplicationConfig()
+  const { user } = useAppContext()
+  const { token } = user
+  const { tokenValue } = token || {}
+
+  const httpLink = createHttpLink({
+    uri: graphQlHost
+  })
+
+  console.log('using token ', tokenValue)
+
+  const authLink = setContext((_, { headers }) => ({
+    headers: {
+      ...headers,
+      // Todo pull this from config.
+      Origin: 'https://mmt.sit.earthdata.nasa.gov',
+      Authorization: tokenValue
+    }
+  }))
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache'
+      },
+      watchQuery: {
+        fetchPolicy: 'no-cache'
+      }
+    }
+  })
+
   return (
-    <Providers>
+    <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -104,8 +146,8 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </Providers>
+    </ApolloProvider>
   )
 }
 
-export default App
+export default withProviders(App)

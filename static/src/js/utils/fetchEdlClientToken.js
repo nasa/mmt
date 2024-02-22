@@ -1,9 +1,14 @@
 import base64 from 'base-64'
-import { getEdlConfig } from './getConfig'
+import { getApplicationConfig, getEdlConfig } from './getConfig'
 
 const fetchEdlClientToken = async () => {
+  const { version } = getApplicationConfig()
   const { host, uid } = getEdlConfig()
-  const password = process.env.EDL_PASSWORD
+  let password = process.env.EDL_PASSWORD2
+  if (version === 'development') {
+    password = undefined
+  }
+
   const url = `${host}/oauth/token`
   const authorizationHeader = `Basic ${base64.encode(`${uid}:${password}`)}`
 

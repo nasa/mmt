@@ -51,11 +51,14 @@ const samlCallback = async (event) => {
 
   const { auid } = samlResponse
 
+  console.log('**************** ', Cookie)
+
   const launchpadToken = getLaunchpadToken(Cookie)
+
   const name = await getUserName(auid)
 
   let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
+  expires.setMinutes(expires.getMinutes() + 2)
   expires = new Date(expires)
 
   // Create encoded cookie containing json with name, token, and other details
