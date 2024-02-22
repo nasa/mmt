@@ -8,6 +8,7 @@ import {
   Routes
 } from 'react-router'
 import * as router from 'react-router'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import Providers from '../../../providers/Providers/Providers'
 import MetadataPreview from '../../MetadataPreview/MetadataPreview'
@@ -18,7 +19,6 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('../../../utils/constructDownloadableFile')
