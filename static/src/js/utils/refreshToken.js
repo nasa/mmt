@@ -1,10 +1,8 @@
-/* eslint-disable no-restricted-syntax */
 import { getApplicationConfig } from './getConfig'
 
 /**
- * Calls errorLogger lambda /error-logger to log out any error
- * @param {Object} error An error object with the error message and stacktrace.
- * @param {string} action A string describing the action attempted.
+ * Calls refreshToken lambda to request a new token since the current one is about to expire
+ * @param {Object} token The users existing launchpad token
  */
 const refreshToken = async (token) => {
   const { apiHost, version } = getApplicationConfig()

@@ -62,7 +62,10 @@ const App = () => {
   const { tokenValue } = token || {}
 
   const httpLink = createHttpLink({
-    uri: graphQlHost
+    uri: graphQlHost,
+    fetchOptions: {
+      mode: 'cors' // No-cors, *cors, same-origin
+    }
   })
 
   console.log('using token ', tokenValue)
@@ -71,13 +74,16 @@ const App = () => {
     headers: {
       ...headers,
       // Todo pull this from config.
-      Origin: 'https://mmt.sit.earthdata.nasa.gov',
       Authorization: tokenValue
     }
   }))
 
   const client = new ApolloClient({
     cache: new InMemoryCache(),
+    fetchOptions: {
+      mode: 'no-cors'
+    },
+
     link: authLink.concat(httpLink),
     defaultOptions: {
       query: {

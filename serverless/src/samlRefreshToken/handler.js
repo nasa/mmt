@@ -1,4 +1,4 @@
-import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import { getSamlConfig } from '../../../static/src/js/utils/getConfig'
 
 const cookieParser = require('cookie')
 
@@ -7,11 +7,6 @@ const cookieParser = require('cookie')
  * @param {*} headers the headers are coming from the keep alive response.
  */
 const findLaunchpadTokenInHeaders = (headers) => {
-  const { version } = getApplicationConfig()
-  if (version === 'development') {
-    return 'ABC-1'
-  }
-
   const setCookie = headers.getSetCookie()
   let launchpadToken = null
   setCookie.forEach((cookieString) => {
@@ -25,6 +20,13 @@ const findLaunchpadTokenInHeaders = (headers) => {
   return launchpadToken
 }
 
+const getExpirationDate = () => {
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  return expires
+}
 /**
  * Handles refreshing user's token
  * @param {Object} event Details about the HTTP request that it received
@@ -35,24 +37,21 @@ const samlRefreshToken = async (event) => {
   const { token } = headers
 
   const options = getSamlConfig()
-  const { launchpadRoot, host, cookieName } = options
+  const { launchpadRoot, cookieName } = options
   const path = '/icam/api/pub/sm/v1/keepalive'
   const fetchUrl = `${launchpadRoot}${path}`
+
   const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
-      Origin: host,
+      Origin: 'https://mmt.sit.earthdata.nasa.gov',
       cookie: `${cookieName}=${token}`
     }
   })
-  console.log('response to refresh is ', response)
   const json = await response.json()
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
+  const expires = getExpirationDate()
 
   const launchpadToken = findLaunchpadTokenInHeaders(response.headers)
-
   if (json.status === 'success') {
     return {
       statusCode: 200,

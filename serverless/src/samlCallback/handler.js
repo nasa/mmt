@@ -51,8 +51,6 @@ const samlCallback = async (event) => {
 
   const { auid } = samlResponse
 
-  console.log('**************** ', Cookie)
-
   const launchpadToken = getLaunchpadToken(Cookie)
 
   const name = await getUserName(auid)
