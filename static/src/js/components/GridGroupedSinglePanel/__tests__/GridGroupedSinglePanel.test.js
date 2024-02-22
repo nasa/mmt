@@ -132,7 +132,7 @@ describe('GridGroupedSinglePanel', () => {
     test('renders the add group button', async () => {
       const { user } = setup()
       expect(screen.getByText('Add Index Ranges')).toBeInTheDocument()
-      const addButton = screen.getByRole('button', { name: 'Add Index Ranges' })
+      const addButton = screen.getByRole('button', { name: 'Plus icon in a circle Add Index Ranges' })
       await user.click(addButton)
       expect(screen.getByText('Remove Index Ranges')).toBeInTheDocument()
     })
@@ -141,9 +141,9 @@ describe('GridGroupedSinglePanel', () => {
   describe('when add button clicked', () => {
     test('renders the remove group button', async () => {
       const { user } = setup()
-      const addButton = screen.getByRole('button', { name: 'Add Index Ranges' })
+      const addButton = screen.getByRole('button', { name: 'Plus icon in a circle Add Index Ranges' })
       await user.click(addButton)
-      const removeButton = screen.getByRole('button', { name: 'Remove Index Ranges' })
+      const removeButton = screen.getByRole('button', { name: 'Minus icon in a circle Remove Index Ranges' })
       await user.click(removeButton)
       expect(screen.getByText('Add Index Ranges')).toBeInTheDocument()
     })
@@ -164,7 +164,7 @@ describe('GridGroupedSinglePanel', () => {
 
       const { user } = setup({ formData })
       expect(screen.getByText('Remove Index Ranges')).toBeInTheDocument()
-      const removeButton = screen.getByRole('button', { name: 'Remove Index Ranges' })
+      const removeButton = screen.getByRole('button', { name: 'Minus icon in a circle Remove Index Ranges' })
       await user.click(removeButton)
       expect(screen.getByText('Add Index Ranges')).toBeInTheDocument()
     })

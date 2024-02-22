@@ -3,33 +3,16 @@
 @import '../variables';
 
 .table > :not(caption) > * > * {
-  padding: 0.75rem;
-}
-
-.table > thead > tr,
-.table > tbody > tr,
-.table > thead > tr > th,
-.table > tbody > tr > td {
-  border: 0;
-}
-
-.table > thead > tr > th,
-.table > tbody > tr > td {
-  border: 0;
+  padding: 1.25rem 1rem;
 }
 
 .table > thead > tr > th {
-  color: map.get($theme-colors, "gray");
-  font-weight: 400;
+  color: map.get($theme-colors, "secondary");
+  font-weight: 800;
 }
 
 .table > tbody > tr > td {
   vertical-align: middle;
-}
-
-.table > tbody > tr > td:first-child,
-.table > tbody > tr > td:last-child {
-  border-radius: 0.325rem;
 }
 
 .table > tbody > tr > td:first-child:not(.table > tbody > tr > td:last-child) {

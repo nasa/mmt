@@ -9,6 +9,7 @@ import {
   createHttpLink
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -16,14 +17,16 @@ import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
 import Page from './components/Page/Page'
 import PublishPreview from './components/PublishPreview/PublishPreview'
+import SearchPage from './pages/SearchPage/SearchPage'
+import HomePage from './pages/HomePage/HomePage'
+import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
+import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import '../css/index.scss'
-import HomePage from './pages/HomePage/HomePage'
-import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
-import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
 import { getApplicationConfig } from './utils/getConfig'
+
+import '../css/index.scss'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 
@@ -87,6 +90,11 @@ const App = () => {
       }
     }
   })
+  // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
+  // appContext = {
+  //   statusMessage
+  //   errorMessage
+  // }
 
   return (
     <ApolloProvider client={client}>
@@ -115,7 +123,6 @@ const App = () => {
                 )
               }
             />
-
             <Route
               path="drafts/:draftType/*"
               element={
@@ -126,21 +133,24 @@ const App = () => {
                 )
               }
             />
-
-            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/auth_callback" element={<AuthCallbackContainer />} />
-
             <Route
-              path="/:type/:conceptId/:revisionId"
+              path="search"
               element={
                 (
                   <AuthRequiredContainer>
-                    <PublishPreview />
+                    <SearchPage />
                   </AuthRequiredContainer>
                 )
               }
             />
+            <Route
+              exact
+              path="/auth_callback"
+              element={<AuthCallbackContainer />}
+            />
+            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -54,6 +54,7 @@ const GridGroupedSinglePanel = ({
       <Button
         className="text-danger px-0"
         Icon={FaMinusCircle}
+        iconTitle="Minus icon in a circle"
         naked
         onClick={removeGroup}
       >
@@ -75,6 +76,7 @@ const GridGroupedSinglePanel = ({
       <Button
         className="text-primary"
         Icon={FaPlusCircle}
+        iconTitle="Plus icon in a circle"
         naked
         onClick={addGroup}
       >

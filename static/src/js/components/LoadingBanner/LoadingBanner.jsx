@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 
@@ -18,11 +19,13 @@ export const LoadingBanner = ({
   dataTestId
 }) => (
   <Row className="justify-content-center mt-5">
-    <Spinner
-      animation="border"
-      variant="primary"
-      data-testid={dataTestId}
-    />
+    <Col xs={12} className="d-flex justify-content-center">
+      <Spinner
+        animation="border"
+        variant="primary"
+        data-testid={dataTestId}
+      />
+    </Col>
   </Row>
 )
 

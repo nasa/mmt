@@ -1,39 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Pagination from 'react-bootstrap/Pagination'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import BootstrapPagination from 'react-bootstrap/Pagination'
 
 /**
  * Table
- * @typedef {Object} PaginationComponent
- * @property {Number} limit A number that is set in parent element of table
- * @property {Number} count A number that indicates how many results are in the total query
- * @property {function} setOffset A function that resets the offset of results to come back
+ * @typedef {Object} Pagination
+ * @property {Number} activePage The active page number
+ * @property {Function} setPage A callback to set a new page by number
+ * @property {Number} totalPages The total number of pages
  */
 
-const PaginationComponent = ({
-  limit,
-  count,
-  setOffset
+const Pagination = ({
+  activePage,
+  setPage,
+  totalPages
 }) => {
-  const [pageNum, setPageNum] = useState(1)
-
-  const lastPageNum = parseInt(Math.ceil(count / limit), 10)
+  const lastPageNum = totalPages
 
   const defaultPaginationStyles = {
     minWidth: '2.5rem',
     textAlign: 'center'
   }
 
-  const handleItemClick = (currentPage) => {
-    setPageNum(currentPage)
-    setOffset((currentPage - 1) * limit)
+  const handleItemClick = (page) => {
+    setPage(page)
   }
 
   const generatePaginationItems = () => {
     // Only show 3 pages, the current page and one before or after (within the valid range of pages)
-    const pages = [pageNum - 1, pageNum, pageNum + 1]
+    const pages = [activePage - 1, activePage, activePage + 1]
       .filter((page) => page >= 1 && page <= lastPageNum)
 
     const returnItems = []
@@ -41,20 +36,22 @@ const PaginationComponent = ({
     // If the first page is not 1, add the pagination item for page 1
     if (pages[0] !== 1) {
       returnItems.push(
-        <Pagination.Item
+        <BootstrapPagination.Item
           key="page-1"
           onClick={() => handleItemClick(1)}
-          active={pageNum === 1}
+          active={activePage === 1}
           style={defaultPaginationStyles}
+          aria-label={activePage === 1 ? 'Current Page, Page 1' : 'Goto Page 1'}
+          aria-current={activePage === 1}
         >
-          {1}
-        </Pagination.Item>
+          1
+        </BootstrapPagination.Item>
       )
 
       // And if the first page is not 2, add an ellipsis
       if (pages[0] !== 2) {
         returnItems.push(
-          <Pagination.Ellipsis
+          <BootstrapPagination.Ellipsis
             key="page-ellipsis-1"
             disabled
           />
@@ -64,14 +61,16 @@ const PaginationComponent = ({
 
     pages.forEach((page) => {
       returnItems.push(
-        <Pagination.Item
+        <BootstrapPagination.Item
           key={`page-${page}`}
           onClick={() => handleItemClick(page)}
-          active={page === pageNum}
+          active={page === activePage}
           style={defaultPaginationStyles}
+          aria-label={page === activePage ? `Current Page, Page ${page}` : `Goto Page ${page}`}
+          aria-current={page === activePage}
         >
           {page}
-        </Pagination.Item>
+        </BootstrapPagination.Item>
       )
     })
 
@@ -80,7 +79,7 @@ const PaginationComponent = ({
       // And if the last page is not lastPageNum - 1, add an ellipsis
       if (pages[pages.length - 1] !== lastPageNum - 1) {
         returnItems.push(
-          <Pagination.Ellipsis
+          <BootstrapPagination.Ellipsis
             key="page-ellipsis-2"
             disabled
           />
@@ -88,14 +87,17 @@ const PaginationComponent = ({
       }
 
       returnItems.push(
-        <Pagination.Item
+        <BootstrapPagination.Item
           key={`page-${lastPageNum}`}
+          data-last-page={`page-${lastPageNum}`}
           onClick={() => handleItemClick(lastPageNum)}
-          active={pageNum === lastPageNum}
+          active={activePage === lastPageNum}
           style={defaultPaginationStyles}
+          aria-label={activePage === lastPageNum ? `Current Page, Page ${lastPageNum}` : `Goto Page ${lastPageNum}`}
+          aria-current={lastPageNum === activePage}
         >
           {lastPageNum}
-        </Pagination.Item>
+        </BootstrapPagination.Item>
       )
     }
 
@@ -103,41 +105,35 @@ const PaginationComponent = ({
   }
 
   const handlePageChange = (direction) => {
-    const newCurrentPage = pageNum + direction
-
-    setPageNum(newCurrentPage)
-    setOffset((newCurrentPage - 1) * limit)
+    const newCurrentPage = activePage + direction
+    setPage(newCurrentPage)
   }
 
   return (
-    <Row>
-      <Col xs="auto">
-        <div className="mx-auto">
-          <Pagination>
-            <Pagination.Prev
-              disabled={pageNum === 1}
-              onClick={() => handlePageChange(-1)}
-            />
-            {generatePaginationItems()}
-            <Pagination.Next
-              onClick={() => handlePageChange(1)}
-              disabled={pageNum >= lastPageNum}
-            />
-          </Pagination>
-        </div>
-      </Col>
-    </Row>
+    <nav role="navigation" aria-label="Pagination Navigation">
+      <BootstrapPagination className="mb-0">
+        <BootstrapPagination.Prev
+          aria-label="Goto Previous Page"
+          disabled={activePage === 1}
+          aria-disabled={activePage === 1}
+          onClick={() => handlePageChange(-1)}
+        />
+        {generatePaginationItems()}
+        <BootstrapPagination.Next
+          aria-label="Goto Next Page"
+          onClick={() => handlePageChange(1)}
+          disabled={activePage >= lastPageNum}
+          aria-disabled={activePage >= lastPageNum}
+        />
+      </BootstrapPagination>
+    </nav>
   )
 }
 
-PaginationComponent.defaultProps = {
-  count: null
+Pagination.propTypes = {
+  setPage: PropTypes.func.isRequired,
+  activePage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired
 }
 
-PaginationComponent.propTypes = {
-  setOffset: PropTypes.func.isRequired,
-  limit: PropTypes.number.isRequired,
-  count: PropTypes.number
-}
-
-export default PaginationComponent
+export default Pagination

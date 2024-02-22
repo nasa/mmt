@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -9,6 +9,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import DropdownMenu from 'react-bootstrap/DropdownMenu'
+import FormLabel from 'react-bootstrap/FormLabel'
 import Navbar from 'react-bootstrap/Navbar'
 import {
   FaExternalLinkAlt,
@@ -35,8 +36,21 @@ import isTokenExpired from '../../utils/isTokenExpired'
  */
 const Header = () => {
   const { user, login, logout } = useAppContext()
+  const navigate = useNavigate()
   const { token, name } = user
   const isExpired = isTokenExpired(token)
+
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [searchType] = useState('collections')
+
+  const onSearchChange = (e) => {
+    const { target: { value } } = e
+    setSearchKeyword(value)
+  }
+
+  const onSearchSubmit = () => {
+    navigate(`/search?type=${searchType}&keyword=${searchKeyword}`)
+  }
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -66,6 +80,7 @@ const Header = () => {
                     className="text-white me-1"
                     naked
                     Icon={FaQuestionCircle}
+                    iconTitle="Question mark in a circle"
                     href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
                     external
                   >
@@ -74,6 +89,7 @@ const Header = () => {
                   <Button
                     className="text-white"
                     Icon={FaSignInAlt}
+                    iconTitle="Door with arrow pointing inward"
                     variant="blue-light"
                     onClick={
                       () => {
@@ -127,16 +143,32 @@ const Header = () => {
             }
 
             {
-              name && (
-                <Form className="flex-grow-1 w-100">
+              user?.name && (
+                <Form
+                  className="flex-grow-1 w-100"
+                  onSubmit={
+                    (e) => {
+                      onSearchSubmit()
+                      e.preventDefault()
+                    }
+                  }
+                >
                   <FormGroup>
                     <InputGroup>
-                      <FormControl type="text" placeholder="Enter a search term" size="sm" />
+                      <FormLabel className="visually-hidden" htmlFor="search_mmt">Search</FormLabel>
+                      <FormControl
+                        id="search_mmt"
+                        type="text"
+                        placeholder="Enter a search term"
+                        size="sm"
+                        onChange={onSearchChange}
+                      />
                       <Dropdown align="end" as={ButtonGroup}>
                         <Button
                           size="sm"
                           className="d-flex align-items-center"
                           variant="indigo"
+                          onClick={onSearchSubmit}
                         >
                           <FaSearch className="me-2" />
                           Search Collections

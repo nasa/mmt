@@ -65,6 +65,10 @@ const DraftPreview = () => {
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
   const publishMutation = usePublishMutation()
 
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
   const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
       params: {
@@ -271,7 +275,8 @@ const DraftPreview = () => {
 
             <CustomModal
               message="Are you sure you want to delete this draft?"
-              openModal={showDeleteModal}
+              show={showDeleteModal}
+              toggleModal={toggleShowDeleteModal}
               actions={
                 [
                   {
