@@ -552,6 +552,15 @@ describe('CollectionAssociation', () => {
                 variables: {
                   conceptType: 'Variable',
                   metadata: {
+                    MetadataSpecification: {
+                      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+                      Name: 'UMM-Var',
+                      Version: '1.9.0'
+                    },
+                    Definition: 'A sample variable1 record',
+                    Name: 'Test Collection Association',
+                    LongName: 'A sample record for demo',
+                    VariableType: 'ANCILLARY_VARIABLE',
                     _private: {
                       CollectionAssociation: {
                         collectionConceptId: 'C12000001123-MMT_2',
@@ -560,15 +569,9 @@ describe('CollectionAssociation', () => {
                       }
                     }
                   },
+                  nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                  providerId: 'MMT_2',
                   ummVersion: '1.9.0'
-                }
-              },
-              result: {
-                data: {
-                  ingestDraft: {
-                    conceptId: 'VD120000000-MMT_2',
-                    revisionId: '3'
-                  }
                 }
               }
             }
@@ -592,8 +595,8 @@ describe('CollectionAssociation', () => {
         await user.click(createAssociation)
         await waitForResponse()
 
-        expect(navigateSpy).toHaveBeenCalledTimes(2)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD120000000-MMT_2')
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('?searchField=entryTitle&provider=MMT_2&searchFieldValue=*', undefined)
       })
 
       test('when there is an error associating a collection', async () => {
@@ -625,6 +628,7 @@ describe('CollectionAssociation', () => {
                         shortName: 'Collection Associations Short Name 1',
                         entryTitle: 'Collection Associations Entry Title 1',
                         tags: null,
+                        nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
                         granules: null,
                         revisionDate: null,
                         title: 'Collection Associations Title 1',
@@ -643,6 +647,15 @@ describe('CollectionAssociation', () => {
                 variables: {
                   conceptType: 'Variable',
                   metadata: {
+                    MetadataSpecification: {
+                      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+                      Name: 'UMM-Var',
+                      Version: '1.9.0'
+                    },
+                    Definition: 'A sample variable1 record',
+                    Name: 'Test Collection Association',
+                    LongName: 'A sample record for demo',
+                    VariableType: 'ANCILLARY_VARIABLE',
                     _private: {
                       CollectionAssociation: {
                         collectionConceptId: 'C12000001123-MMT_2',
@@ -651,6 +664,8 @@ describe('CollectionAssociation', () => {
                       }
                     }
                   },
+                  nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                  providerId: 'MMT_2',
                   ummVersion: '1.9.0'
                 }
               },
