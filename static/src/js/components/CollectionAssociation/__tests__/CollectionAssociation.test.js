@@ -15,6 +15,7 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import errorLogger from '../../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
+import AppContext from '../../../context/AppContext'
 
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
@@ -86,8 +87,8 @@ const mockDraft = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
-
+  overrideMocks = false,
+  overrideInitialEntries = []
 }) => {
   const mocks = [{
     request: {
@@ -107,26 +108,54 @@ const setup = ({
   }, ...additionalMocks]
 
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
+    <AppContext.Provider value={
+      {
+        user: {
+          providerId: 'TESTPROV'
+        }
+      }
+    }
     >
-      <Providers>
-        <MemoryRouter initialEntries={['/drafts/variables/VD120000000-MMT_2/collection-association']}>
-          <Routes>
-            <Route
-              path="/drafts/variables"
-            >
+      <MemoryRouter initialEntries={overrideInitialEntries}>
+        <Providers>
+          <MockedProvider
+            mocks={overrideMocks || mocks}
+          >
+            <Routes>
               <Route
-                path=":conceptId/collection-association"
-                element={<CollectionAssociation />}
-              />
-            </Route>
-          </Routes>
+                path="/drafts/variables"
+              >
+                <Route
+                  path=":conceptId/collection-association"
+                  element={<CollectionAssociation />}
+                />
+              </Route>
+            </Routes>
+          </MockedProvider>
+        </Providers>
 
-        </MemoryRouter>
-      </Providers>
+      </MemoryRouter>
+    </AppContext.Provider>
+    // <MockedProvider
+    //   mocks={overrideMocks || mocks}
+    // >
+    //   <Providers>
+    //     <MemoryRouter initialEntries={overrideInitialEntries || ['/drafts/variables/VD120000000-MMT_2/collection-association']}>
+    //       <Routes>
+    //         <Route
+    //           path="/drafts/variables"
+    //         >
+    //           <Route
+    //             path=":conceptId/collection-association"
+    //             element={<CollectionAssociation />}
+    //           />
+    //         </Route>
+    //       </Routes>
 
-    </MockedProvider>
+    //     </MemoryRouter>
+    //   </Providers>
+
+    // </MockedProvider>
   )
 
   return {
@@ -137,7 +166,11 @@ const setup = ({
 describe('CollectionAssociation', () => {
   describe('when the draft has a collection associated', () => {
     test('renders the association details in the Currently Selected Collection table', async () => {
-      setup({})
+      setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association']
+
+      })
+
       await waitForResponse()
 
       expect(screen.getByText('C1200000112-MMT_2')).toBeInTheDocument()
@@ -149,6 +182,7 @@ describe('CollectionAssociation', () => {
   describe('when the request results in an error', () => {
     test('calls errorLogger and returns an ErrorBanner', async () => {
       setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
         overrideMocks: [
           {
             request: {
@@ -177,6 +211,7 @@ describe('CollectionAssociation', () => {
   describe('when removing a collection association', () => {
     test('removes the saved collection association', async () => {
       const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
         additionalMocks: [{
           request: {
             query: INGEST_DRAFT,
@@ -205,13 +240,12 @@ describe('CollectionAssociation', () => {
 
       await waitForResponse()
 
-      expect(screen.getByText('C1200000112-MMT_2')).toBeInTheDocument()
-      expect(screen.getByText('Association 1')).toBeInTheDocument()
-      expect(screen.getByText('1')).toBeInTheDocument()
+      expect(screen.getByText('No Collection Selected')).toBeInTheDocument()
     })
 
     test('error when saving a draft', async () => {
       const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
         additionalMocks: [{
           request: {
             query: INGEST_DRAFT,
@@ -243,6 +277,7 @@ describe('CollectionAssociation', () => {
   describe('when searching for collections', () => {
     test('renders a list of collection', async () => {
       const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
         additionalMocks: [{
           request: {
             query: GET_COLLECTIONS,
@@ -251,6 +286,7 @@ describe('CollectionAssociation', () => {
                 limit: 20,
                 offset: 0,
                 provider: 'MMT_2',
+                sortKey: null,
                 options: { entryTitle: { pattern: true } },
                 entryTitle: '*'
               }
@@ -264,12 +300,16 @@ describe('CollectionAssociation', () => {
                     conceptId: 'C12000001123-MMT_2',
                     provider: 'MMT_2',
                     version: '1',
+                    tags: 1,
+                    granules: null,
                     shortName: 'Collection Associations Short Name 1',
+                    entryTitle: 'Collection Associations Entry Title 1 ',
                     title: 'Collection Associations Title 1',
+                    revisionDate: null,
                     __typename: 'Collection'
                   }
                 ],
-                count: 50,
+                count: 0,
                 __typename: 'CollectionList'
               }
             }
@@ -293,11 +333,11 @@ describe('CollectionAssociation', () => {
       await waitForResponse()
 
       expect(screen.getByText('Collection Associations Short Name 1')).toBeInTheDocument()
-      expect(screen.getByText('C12000001123-MMT_2')).toBeInTheDocument()
     })
 
     test('when there an error to get the list of collections', async () => {
       const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
         additionalMocks: [{
           request: {
             query: GET_COLLECTIONS,
@@ -306,6 +346,7 @@ describe('CollectionAssociation', () => {
                 limit: 20,
                 offset: 0,
                 provider: 'MMT_2',
+                sortKey: null,
                 options: { entryTitle: { pattern: true } },
                 entryTitle: '*'
               }
@@ -315,7 +356,6 @@ describe('CollectionAssociation', () => {
         }]
       })
       await waitForResponse()
-
       const searchField = screen.getByText('Select Search Field')
       await user.click(searchField)
 
@@ -334,11 +374,10 @@ describe('CollectionAssociation', () => {
       expect(ErrorBanner).toHaveBeenCalledTimes(1)
     })
 
-    describe('when associating a collection', () => {
-      test('should associate the collection to the draft and navigate', async () => {
-        const navigateSpy = jest.fn()
-        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+    describe('when searching for temporal extent', () => {
+      test('show fill out temporal extent form', async () => {
         const { user } = setup({
+          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
           additionalMocks: [
             {
               request: {
@@ -348,6 +387,7 @@ describe('CollectionAssociation', () => {
                     limit: 20,
                     offset: 0,
                     provider: 'MMT_2',
+                    sortKey: null,
                     options: { entryTitle: { pattern: true } },
                     entryTitle: '*'
                   }
@@ -361,8 +401,48 @@ describe('CollectionAssociation', () => {
                         conceptId: 'C12000001123-MMT_2',
                         provider: 'MMT_2',
                         version: '1',
+                        tags: 1,
+                        granules: null,
+                        entryTitle: 'Collection Association Entry Title 1',
                         shortName: 'Collection Associations Short Name 1',
                         title: 'Collection Associations Title 1',
+                        revisionDate: null,
+                        __typename: 'Collection'
+                      }
+                    ],
+                    count: 25,
+                    __typename: 'CollectionList'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: {
+                  params: {
+                    limit: 20,
+                    offset: 0,
+                    provider: 'MMT_2',
+                    sortKey: null,
+                    temporal: '1978-01-01T00:00:00.000Z,1978-01-01T00:00:00.000Z'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collections: {
+                    items: [
+                      {
+                        conceptId: 'C12000001123-MMT_2',
+                        provider: 'MMT_2',
+                        version: '1',
+                        tags: 1,
+                        granules: null,
+                        entryTitle: 'Collection Association Entry Title 1',
+                        shortName: 'Collection Associations Short Name 1',
+                        title: 'Collection Associations Title 1',
+                        revisionDate: null,
                         __typename: 'Collection'
                       }
                     ],
@@ -378,15 +458,6 @@ describe('CollectionAssociation', () => {
                 variables: {
                   conceptType: 'Variable',
                   metadata: {
-                    MetadataSpecification: {
-                      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
-                      Name: 'UMM-Var',
-                      Version: '1.9.0'
-                    },
-                    Definition: 'A sample variable1 record',
-                    Name: 'Test Collection Association',
-                    LongName: 'A sample record for demo',
-                    VariableType: 'ANCILLARY_VARIABLE',
                     _private: {
                       CollectionAssociation: {
                         collectionConceptId: 'C12000001123-MMT_2',
@@ -395,8 +466,100 @@ describe('CollectionAssociation', () => {
                       }
                     }
                   },
-                  nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
-                  providerId: 'MMT_2',
+                  ummVersion: '1.9.0'
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'VD120000000-MMT_2',
+                    revisionId: '3'
+                  }
+                }
+              }
+            }
+          ]
+        })
+        await waitForResponse()
+
+        const searchField = screen.getByText('Select Search Field')
+        await user.click(searchField)
+
+        const selectField = screen.getByText('Temporal Extent')
+        await user.click(selectField)
+        await waitForResponse()
+
+        const startField = screen.getByText('Range Start')
+        await user.type(startField, '1978-01-01T00:00:00Z')
+
+        const endField = screen.getByText('Range End')
+        await user.type(endField, '1978-01-01T00:00:00Z')
+
+        const searchForCollections = screen.getByText('Search for Collection')
+        await user.click(searchForCollections)
+
+        expect(screen.getByText('Collection Associations Short Name 1')).toBeInTheDocument()
+      })
+    })
+
+    describe('when associating a collection', () => {
+      test('should associate the collection to the draft and navigate', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { user } = setup({
+          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
+          additionalMocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: {
+                  params: {
+                    limit: 20,
+                    offset: 0,
+                    provider: 'MMT_2',
+                    sortKey: null,
+                    options: { entryTitle: { pattern: true } },
+                    entryTitle: '*'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collections: {
+                    items: [
+                      {
+                        conceptId: 'C12000001123-MMT_2',
+                        provider: 'MMT_2',
+                        version: '1',
+                        tags: 1,
+                        granules: null,
+                        entryTitle: 'Collection Association Entry Title 1',
+                        shortName: 'Collection Associations Short Name 1',
+                        title: 'Collection Associations Title 1',
+                        revisionDate: null,
+                        __typename: 'Collection'
+                      }
+                    ],
+                    count: 25,
+                    __typename: 'CollectionList'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Variable',
+                  metadata: {
+                    _private: {
+                      CollectionAssociation: {
+                        collectionConceptId: 'C12000001123-MMT_2',
+                        shortName: 'Collection Associations Short Name 1',
+                        version: '1'
+                      }
+                    }
+                  },
                   ummVersion: '1.9.0'
                 }
               },
@@ -424,18 +587,18 @@ describe('CollectionAssociation', () => {
 
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
-
         await waitForResponse()
         const createAssociation = screen.getByRole('button', { name: 'Create Association' })
         await user.click(createAssociation)
         await waitForResponse()
 
-        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledTimes(2)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD120000000-MMT_2')
       })
 
       test('when there is an error associating a collection', async () => {
         const { user } = setup({
+          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
           additionalMocks: [
             {
               request: {
@@ -445,6 +608,7 @@ describe('CollectionAssociation', () => {
                     limit: 20,
                     offset: 0,
                     provider: 'MMT_2',
+                    sortKey: null,
                     options: { entryTitle: { pattern: true } },
                     entryTitle: '*'
                   }
@@ -459,11 +623,15 @@ describe('CollectionAssociation', () => {
                         provider: 'MMT_2',
                         version: '1',
                         shortName: 'Collection Associations Short Name 1',
+                        entryTitle: 'Collection Associations Entry Title 1',
+                        tags: null,
+                        granules: null,
+                        revisionDate: null,
                         title: 'Collection Associations Title 1',
                         __typename: 'Collection'
                       }
                     ],
-                    count: 25,
+                    count: 1,
                     __typename: 'CollectionList'
                   }
                 }
@@ -475,15 +643,6 @@ describe('CollectionAssociation', () => {
                 variables: {
                   conceptType: 'Variable',
                   metadata: {
-                    MetadataSpecification: {
-                      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
-                      Name: 'UMM-Var',
-                      Version: '1.9.0'
-                    },
-                    Definition: 'A sample variable1 record',
-                    Name: 'Test Collection Association',
-                    LongName: 'A sample record for demo',
-                    VariableType: 'ANCILLARY_VARIABLE',
                     _private: {
                       CollectionAssociation: {
                         collectionConceptId: 'C12000001123-MMT_2',
@@ -492,8 +651,6 @@ describe('CollectionAssociation', () => {
                       }
                     }
                   },
-                  nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
-                  providerId: 'MMT_2',
                   ummVersion: '1.9.0'
                 }
               },
@@ -531,6 +688,7 @@ describe('CollectionAssociation', () => {
   describe('when paging through the table', () => {
     test('navigate to the next page', async () => {
       const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&searchFieldValue=*&page=2'],
         additionalMocks: [
           {
             request: {
@@ -538,8 +696,9 @@ describe('CollectionAssociation', () => {
               variables: {
                 params: {
                   limit: 20,
-                  offset: 0,
-                  provider: 'MMT_2',
+                  offset: 20,
+                  provider: null,
+                  sortKey: null,
                   options: { entryTitle: { pattern: true } },
                   entryTitle: '*'
                 }
@@ -554,6 +713,10 @@ describe('CollectionAssociation', () => {
                       provider: 'MMT_2',
                       version: '1',
                       shortName: 'Collection Associations Short Name 1',
+                      entryTitle: 'Collection Associations Entry Title 1',
+                      tags: null,
+                      granules: null,
+                      revisionDate: null,
                       title: 'Collection Associations Title 1',
                       __typename: 'Collection'
                     }
@@ -572,6 +735,7 @@ describe('CollectionAssociation', () => {
                   limit: 20,
                   offset: 20,
                   provider: 'MMT_2',
+                  sortKey: null,
                   options: { entryTitle: { pattern: true } },
                   entryTitle: '*'
                 }
@@ -586,6 +750,47 @@ describe('CollectionAssociation', () => {
                       provider: 'MMT_2',
                       version: '1',
                       shortName: 'Collection Associations Short Name 2',
+                      entryTitle: 'Collection Associations Entry Title 2',
+                      revisionDate: null,
+                      tags: null,
+                      granules: null,
+                      title: 'Collection Associations Title 2',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  count: 50,
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTIONS,
+              variables: {
+                params: {
+                  limit: 20,
+                  offset: 40,
+                  provider: 'MMT_2',
+                  sortKey: null,
+                  options: { entryTitle: { pattern: true } },
+                  entryTitle: '*'
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C12000001123-MMT_2',
+                      provider: 'MMT_2',
+                      version: '1',
+                      shortName: 'Collection Associations Short Name 2',
+                      entryTitle: 'Collection Associations Entry Title 2',
+                      revisionDate: null,
+                      tags: null,
+                      granules: null,
                       title: 'Collection Associations Title 2',
                       __typename: 'Collection'
                     }
@@ -611,13 +816,151 @@ describe('CollectionAssociation', () => {
 
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
-
       await waitForResponse()
-      const nextPage = screen.getByRole('button', { name: '2' })
-      await user.click(nextPage)
+      const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
+      await user.click(paginationButton)
 
       expect(screen.getByText('Collection Associations Short Name 2')).toBeInTheDocument()
-      expect(screen.getByText('C12000001123-MMT_2')).toBeInTheDocument()
+    })
+  })
+
+  describe('when clicking an ascending sort button', () => {
+    test('sorts and shows the button as active', async () => {
+      const { user } = setup({
+        overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&searchFieldValue=*&sortKey=-shortName'],
+        additionalMocks: [
+          {
+            request: {
+              query: GET_COLLECTIONS,
+              variables: {
+                params: {
+                  limit: 20,
+                  offset: 0,
+                  provider: null,
+                  sortKey: '-shortName',
+                  options: { entryTitle: { pattern: true } },
+                  entryTitle: '*'
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C12000001123-MMT_2',
+                      provider: 'MMT_2',
+                      version: '1',
+                      shortName: 'Collection Associations Short Name 1',
+                      entryTitle: 'Collection Associations Entry Title 1',
+                      tags: null,
+                      granules: null,
+                      revisionDate: null,
+                      title: 'Collection Associations Title 1',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  count: 50,
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTIONS,
+              variables: {
+                params: {
+                  limit: 20,
+                  offset: 20,
+                  provider: 'MMT_2',
+                  sortKey: null,
+                  options: { entryTitle: { pattern: true } },
+                  entryTitle: '*'
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C12000001123-MMT_2',
+                      provider: 'MMT_2',
+                      version: '1',
+                      shortName: 'Collection Associations Short Name 2',
+                      entryTitle: 'Collection Associations Entry Title 2',
+                      revisionDate: null,
+                      tags: null,
+                      granules: null,
+                      title: 'Collection Associations Title 2',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  count: 50,
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTIONS,
+              variables: {
+                params: {
+                  limit: 20,
+                  offset: 0,
+                  provider: 'MMT_2',
+                  sortKey: '-shortName',
+                  options: { entryTitle: { pattern: true } },
+                  entryTitle: '*'
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C12000001123-MMT_2',
+                      provider: 'MMT_2',
+                      version: '1',
+                      shortName: 'Collection Associations Short Name 2',
+                      entryTitle: 'Collection Associations Entry Title 2',
+                      revisionDate: null,
+                      tags: null,
+                      granules: null,
+                      title: 'Collection Associations Title 2',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  count: 50,
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          }
+        ]
+      })
+      await waitForResponse()
+
+      const searchField = screen.getByText('Select Search Field')
+      await user.click(searchField)
+
+      const selectField = screen.getByText('Entry Title')
+      await user.click(selectField)
+
+      const field = screen.getByRole('textbox')
+      await user.type(field, '*')
+
+      const searchForCollections = screen.getByText('Search for Collection')
+      await user.click(searchForCollections)
+      await waitForResponse()
+
+      const test = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
+      await user.click(test)
+
+      expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })
 })

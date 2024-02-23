@@ -36,12 +36,14 @@ export const singlePageCollectionSearch = {
                 data: 'Tag Data 1'
               }
             },
+            entryTitle: null,
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
             granules: {
@@ -90,6 +92,7 @@ export const multiPageCollectionSearchPage1 = {
             granules: {
               count: 1000
             },
+            entryTitle: null,
             tags: {
               'test.tag.one': {
                 data: 'Tag Data 1'
@@ -103,6 +106,7 @@ export const multiPageCollectionSearchPage1 = {
             version: '2',
             title: 'Collection Title 2',
             provider: 'MMT',
+            entryTitle: null,
             granules: {
               count: 1234
             },
@@ -120,6 +124,7 @@ export const multiPageCollectionSearchPage1 = {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            entryTitle: null,
             title: 'Collection Title 3',
             provider: 'TESTPROV',
             granules: {
@@ -162,6 +167,7 @@ export const multiPageCollectionSearchPage2 = {
             version: '2',
             title: 'Collection Title 4',
             provider: 'MMT',
+            entryTitle: null,
             granules: {
               count: 1234
             },
@@ -181,6 +187,7 @@ export const multiPageCollectionSearchPage2 = {
             version: '1',
             title: 'Collection Title 5',
             provider: 'TESTPROV',
+            entryTitle: null,
             granules: {
               count: 1000
             },
@@ -196,6 +203,7 @@ export const multiPageCollectionSearchPage2 = {
             shortName: 'Collection Short Name 6',
             version: '2',
             title: 'Collection Title 6',
+            entryTitle: null,
             provider: 'MMT',
             granules: {
               count: 1234
@@ -232,6 +240,7 @@ export const multiPageCollectionSearchPage1Asc = {
             shortName: 'Collection Short Name 3',
             version: '3',
             title: 'Collection Title 3',
+            entryTitle: null,
             provider: 'TESTPROV',
             granules: {
               count: 1000
@@ -247,6 +256,7 @@ export const multiPageCollectionSearchPage1Asc = {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
             granules: {
@@ -276,7 +286,8 @@ export const multiPageCollectionSearchPage1Asc = {
                 data: 'Tag Data 1'
               }
             },
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            entryTitle: null
           }
         ]
       }
@@ -322,6 +333,7 @@ export const multiPageCollectionSearchPage1Desc = {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
             granules: {
@@ -342,6 +354,7 @@ export const multiPageCollectionSearchPage1Desc = {
             shortName: 'Collection Short Name 1',
             version: '1',
             title: 'Collection Title 1',
+            entryTitle: null,
             provider: 'TESTPROV',
             granules: {
               count: 1000
@@ -381,6 +394,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            entryTitle: null,
             title: 'Collection Title 3',
             provider: 'TESTPROV',
             granules: {
@@ -397,6 +411,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
             granules: {
@@ -426,7 +441,8 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 data: 'Tag Data 1'
               }
             },
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            entryTitle: null
           }
         ]
       }

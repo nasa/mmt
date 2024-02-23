@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 import BootstrapTable from 'react-bootstrap/Table'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -9,6 +13,8 @@ import { useNavigate, useParams } from 'react-router'
 import pluralize from 'pluralize'
 import BootstrapSelect from 'react-bootstrap/Button'
 import camelcaseKeys from 'camelcase-keys'
+import Placeholder from 'react-bootstrap/Placeholder'
+import { useSearchParams } from 'react-router-dom'
 import Button from '../Button/Button'
 import Page from '../Page/Page'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
@@ -36,6 +42,9 @@ import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAss
 import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
 import removeEmpty from '../../utils/removeEmpty'
 import './CollectionAssociation.scss'
+import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import EllipsisText from '../EllipsisText/EllipsisText'
+import Pagination from '../Pagination/Pagination'
 
 const CollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -50,15 +59,14 @@ const CollectionAssociation = () => {
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [loading, setLoading] = useState()
   const [collectionLoading, setCollectionLoading] = useState()
-  const [savedFormData, setSavedFormData] = useState()
   const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})
-  const [searchFormData, setSearchFormData] = useState({})
-  const [offset, setOffset] = useState(0)
+  const [searchFormData, setSearchFormData] = useState()
   const limit = 20
 
   const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   const [focusField, setFocusField] = useState(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { addNotification } = useNotificationsContext()
 
@@ -103,7 +111,13 @@ const CollectionAssociation = () => {
     }
   })
 
+  let activePage = parseInt(searchParams.get('page'), 10) || 1
+  const sortKeyParam = searchParams.get('sortKey')
+  const page = searchParams.get('page')
+  const offset = (activePage - 1) * limit
+
   useEffect(() => {
+    activePage = 1
     setLoading(true)
     getDraft()
   }, [])
@@ -120,41 +134,21 @@ const CollectionAssociation = () => {
     }
   })
 
-  const handleCollectionSearch = () => {
-    setSavedFormData(searchFormData)
-    setCollectionLoading(true)
-    setShowSelectCollection(true)
+  const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
+    const { conceptId: conceptIdLink } = rowData
 
-    const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
+    return (
+      <EllipsisLink to={`/collections/${conceptIdLink}`}>
+        {cellData}
+      </EllipsisLink>
+    )
+  }, [])
 
-    const { searchField, providerFilter } = formattedFormData
-
-    let provider = null
-
-    if (providerFilter) {
-      provider = providerId
-    }
-
-    const params = collectionAssociationSearch(searchField)
-
-    getCollections({
-      variables: {
-        params: {
-          limit,
-          offset,
-          provider,
-          ...params
-        }
-      }
-    })
-  }
-
-  // Calls handleCollectionSearch get the next set of collections for pagination
-  useEffect(() => {
-    if (savedFormData) {
-      handleCollectionSearch({ formData: savedFormData })
-    }
-  }, [offset])
+  const buildEllipsisTextCell = useCallback((cellData) => (
+    <EllipsisText>
+      {cellData}
+    </EllipsisText>
+  ), [])
 
   // Handle the submit button when the user clicks on a collection and associates the collection to draft
   const handleSubmit = (
@@ -162,8 +156,8 @@ const CollectionAssociation = () => {
     shortName,
     version
   ) => {
-    const { nativeId } = fetchedDraft
-    const { ummMetadata } = fetchedDraft
+    const { nativeId } = fetchedDraft || {}
+    const { ummMetadata } = fetchedDraft || {}
 
     const associationDetailDraft = {
       ...ummMetadata,
@@ -201,6 +195,121 @@ const CollectionAssociation = () => {
     })
   }
 
+  const buildActionsCell = useCallback((cellData, rowData) => {
+    const { conceptId: collectionConceptId, shortName, version } = rowData
+
+    return (
+      <div className="d-flex">
+        <Button
+          className="d-flex"
+          onClick={
+            () => {
+              handleSubmit(
+                collectionConceptId,
+                shortName,
+                version
+              )
+            }
+          }
+          variant="secondary"
+          size="sm"
+        >
+          Create Association
+        </Button>
+      </div>
+    )
+  }, [])
+
+  const sortFn = useCallback((key, order) => {
+    let nextSortKey
+
+    searchParams.set('sortKey', nextSortKey)
+
+    setSearchParams((currentParams) => {
+      if (order === 'ascending') nextSortKey = `-${key}`
+      if (order === 'descending') nextSortKey = key
+
+      // Reset the page parameter
+      currentParams.delete('page')
+
+      // Set the sort key
+      currentParams.set('sortKey', nextSortKey)
+
+      return {
+        ...Object.fromEntries(currentParams)
+      }
+    })
+  }, [])
+
+  const collectionSearch = () => {
+    setCollectionLoading(true)
+    setShowSelectCollection(true)
+
+    const searchField = searchParams.get('searchField')
+    const searchFieldValue = searchParams.get('searchFieldValue')
+    const provider = searchParams.get('provider')
+
+    const params = collectionAssociationSearch(searchField, searchFieldValue)
+
+    getCollections({
+      variables: {
+        params: {
+          limit,
+          offset,
+          provider,
+          sortKey: sortKeyParam,
+          ...params
+        }
+      }
+    })
+  }
+
+  const handleCollectionSearch = () => {
+    const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
+    const { searchField, providerFilter } = formattedFormData
+
+    setSearchParams((currentParams) => {
+      if (providerFilter) {
+        currentParams.set('provider', providerId)
+      }
+
+      if (Object.keys(searchField).includes('rangeStart')) {
+        const rangeStart = Object.values(searchField).at(0)
+        const rangeEnd = Object.values(searchField).at(1)
+        const range = `${rangeStart},${rangeEnd}`
+
+        currentParams.set('searchField', 'temporal')
+        currentParams.set('searchFieldValue', range)
+
+        return {
+          ...Object.fromEntries(currentParams)
+        }
+      }
+
+      currentParams.set('searchField', Object.keys(searchField))
+      currentParams.set('searchFieldValue', Object.values(searchField))
+
+      return {
+        ...Object.fromEntries(currentParams)
+      }
+    })
+
+    collectionSearch()
+  }
+
+  useEffect(() => {
+    if (sortKeyParam) {
+      collectionSearch()
+    }
+  }, [sortKeyParam])
+
+  // Calls handleCollectionSearch get the next set of collections for pagination
+  useEffect(() => {
+    if (page) {
+      collectionSearch()
+    }
+  }, [page])
+
   const handleClear = () => {
     const { ummMetadata } = fetchedDraft
     const { nativeId } = fetchedDraft
@@ -218,7 +327,7 @@ const CollectionAssociation = () => {
       onCompleted: () => {
         setLoading(false)
         setCollectionLoading()
-
+        setCurrentSelectedAssociation(null)
         // Add a success notification
         addNotification({
           message: `Cleared ${conceptId} Association`,
@@ -241,67 +350,7 @@ const CollectionAssociation = () => {
   }
 
   const { items = [], count } = collectionSearchResult
-  const collectionSearchData = (items.map((item) => {
-    const {
-      conceptId: collectionConceptId,
-      provider,
-      version,
-      shortName
-    } = item
-
-    return (
-      {
-        key: collectionConceptId,
-        cells:
-        [
-
-          {
-            value: (
-              collectionConceptId
-            )
-          },
-          {
-            value: (
-              shortName
-            )
-          },
-          {
-            value: (
-              version
-            )
-          },
-          {
-            value: (
-              provider
-            )
-          },
-          {
-            value:
-            (
-              <div className="d-flex">
-                <Button
-                  className="d-flex"
-                  onClick={
-                    () => {
-                      handleSubmit(
-                        collectionConceptId,
-                        shortName,
-                        version
-                      )
-                    }
-                  }
-                  variant="secondary"
-                  size="sm"
-                >
-                  Create Association
-                </Button>
-              </div>
-            )
-          }
-        ]
-      }
-    )
-  }))
+  const totalPages = Math.ceil(count / limit)
 
   if (loading) {
     return (
@@ -320,6 +369,60 @@ const CollectionAssociation = () => {
       </Page>
     )
   }
+
+  const collectionColumns = [
+    {
+      dataKey: 'entryTitle',
+      title: 'Collection',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisLinkCell
+    },
+    {
+      dataKey: 'shortName',
+      title: 'Short Name',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell,
+      sortFn: (_, order) => sortFn('shortName', order)
+    },
+    {
+      dataKey: 'provider',
+      title: 'Provider',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell,
+      align: 'center',
+      sortFn
+    },
+    {
+      dataKey: 'version',
+      title: 'Version',
+      className: 'col-auto',
+      align: 'center'
+    },
+    {
+      title: 'Actions',
+      className: 'col-auto',
+      dataAccessorFn: buildActionsCell
+    }
+  ]
+
+  const setPage = (nextPage) => {
+    setSearchParams((currentParams) => {
+      currentParams.set('page', nextPage)
+
+      return {
+        ...Object.fromEntries(currentParams)
+      }
+    })
+  }
+
+  const currentPageIndex = Math.floor(offset / limit)
+  const firstResultIndex = currentPageIndex * limit
+  const isLastPage = totalPages === activePage
+  const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
+
+  const paginationMessage = count > 0
+    ? `Showing Collections ${totalPages > 1 ? `${firstResultIndex + 1}-${lastResultIndex} of` : ''} ${count}`
+    : 'No matching Collections found'
 
   return (
     <Page>
@@ -384,28 +487,58 @@ const CollectionAssociation = () => {
             </div>
           </Form>
         </Col>
-        <Col sm={12} className="mt-5 bg-white rounded">
-          {
-            showSelectCollection
-            && (
-              <>
-                <h5 className="m-2 mt-3">Select Collection</h5>
-                <Table
-                  headers={['Collection', 'Short Name', 'Version', 'Provider', 'Actions']}
-                  classNames={['col-auto', 'col-auto', 'col-auto', 'col-auto', 'col-auto']}
-                  loading={collectionLoading}
-                  data={collectionSearchData}
-                  error={error}
-                  noDataError="No Collections Found."
-                  count={count}
-                  setOffset={setOffset}
-                  limit={limit}
-                  offset={offset}
-                />
-              </>
-            )
-          }
-        </Col>
+        {
+          showSelectCollection
+          && (
+            <>
+              <Row className="d-flex justify-content-between align-items-center mb-4 mt-5">
+                <Col className="mb-4 flex-grow-1" xs="auto">
+                  {
+                    !count && collectionLoading && (
+                      <div className="w-100">
+                        <span className="d-block">
+                          <Placeholder as="span" animation="glow">
+                            <Placeholder xs={8} />
+                          </Placeholder>
+                        </span>
+                      </div>
+                    )
+                  }
+                  {
+                    (!!count || (!collectionLoading && !count)) && (
+                      <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                    )
+                  }
+                </Col>
+                {
+                  totalPages > 1 && (
+                    <Col xs="auto">
+                      <Pagination
+                        setPage={setPage}
+                        activePage={activePage}
+                        totalPages={totalPages}
+                      />
+                    </Col>
+                  )
+                }
+              </Row>
+              <Table
+                className="m-5"
+                id="collection-association-search"
+                columns={collectionColumns}
+                loading={collectionLoading}
+                data={items}
+                error={error}
+                generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
+                generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
+                noDataMessage="No Collections Found."
+                limit={limit}
+                offset={offset}
+                sortKey={sortKeyParam}
+              />
+            </>
+          )
+        }
       </Row>
     </Page>
   )

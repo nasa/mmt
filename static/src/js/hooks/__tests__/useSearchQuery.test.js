@@ -76,6 +76,7 @@ const setup = (overrideMocks) => {
                 version: '1',
                 title: 'Test Title 1',
                 provider: 'TESTPROV',
+                entryTitle: null,
                 granules: {
                   count: 3
                 },
@@ -88,6 +89,7 @@ const setup = (overrideMocks) => {
                 version: '1',
                 title: 'Test Title 3',
                 provider: 'TESTPROV',
+                entryTitle: null,
                 granules: {
                   count: 3
                 },
@@ -100,6 +102,7 @@ const setup = (overrideMocks) => {
                 version: '3',
                 title: 'Test Title 1',
                 provider: 'TESTPROV',
+                entryTitle: null,
                 granules: {
                   count: 3
                 },
