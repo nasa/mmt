@@ -174,7 +174,7 @@ describe('samlCallback is called by launchpad after a successful login in dev mo
       email: 'christopher.d.gokey@nasa.gov',
       name: 'cgokey',
       token: {
-        tokenValue: 'launchpad_token',
+        tokenValue: 'ABC-1',
         tokenExp: 1234
       }
     })

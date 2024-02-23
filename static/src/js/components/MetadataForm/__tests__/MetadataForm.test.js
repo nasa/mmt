@@ -230,7 +230,7 @@ const setup = ({
 describe('MetadataForm', () => {
   describe('when the concept type is a Tool draft', () => {
     describe('when on the related-urls form', () => {
-      test.only('renders a Form component', async () => {
+      test('renders a Form component', async () => {
         setup({
           pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
         })

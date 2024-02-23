@@ -13,7 +13,7 @@ const checkAndRefreshToken = async (token, user, setUser) => {
   const { tokenValue, tokenExp } = token || {}
 
   if (tokenValue && tokenExp) {
-    console.log('time remaining ', new Date(tokenExp), new Date(), ((tokenExp.valueOf() - new Date().valueOf()) / 1000 / 60))
+    // Console.log('time remaining ', new Date(tokenExp), new Date(), ((tokenExp.valueOf() - new Date().valueOf()) / 1000 / 60))
 
     // Subtract 1 minute from the actual token expiration to decide if we should refresh
     const offsetTokenInfo = { ...token }
@@ -21,7 +21,7 @@ const checkAndRefreshToken = async (token, user, setUser) => {
 
     if (isTokenExpired(offsetTokenInfo)) {
       const newToken = await refreshToken(tokenValue)
-      console.log('new token is ', newToken)
+      console.log('refreshed token to ', newToken)
       setUser({
         ...user,
         token: newToken
