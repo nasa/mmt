@@ -10,14 +10,14 @@ const collectionAssociation = {
     },
     ProviderFilter: {
       type: 'boolean',
-      // Title: 'Provider Filter',
+      title: 'Provider Filter',
       description: 'This is the radio-description',
       default: true
     }
   },
   required: [
-    'SearchField'
-    // 'ProviderFilter'
+    'SearchField',
+    'ProviderFilter'
   ],
 
   definitions: {

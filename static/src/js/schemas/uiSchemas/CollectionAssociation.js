@@ -32,6 +32,9 @@ const collectionAssociationUiSchema = {
       }
     ]
   },
+  SearchField: {
+    'ui:required': true
+  },
   ProviderFilter: {
     'ui:widget': CustomRadioWidget,
     'ui:options': {
