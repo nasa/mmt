@@ -49,7 +49,7 @@ const samlCallback = async (event) => {
     setCookie = `data=${encodedCookie}; Path=/`
   }
 
-  const location = `${mmtHost}/auth_callback?target=${path}`
+  const location = `${mmtHost}/auth_callback?target=${encodeURIComponent(path)}`
 
   const response = {
     statusCode: 303,
