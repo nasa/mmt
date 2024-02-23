@@ -37,14 +37,14 @@ const samlRefreshToken = async (event) => {
   const { token } = headers
 
   const options = getSamlConfig()
-  const { launchpadRoot, cookieName } = options
+  const { launchpadRoot, cookieName, keepAliveOrigin } = options
   const path = '/icam/api/pub/sm/v1/keepalive'
   const fetchUrl = `${launchpadRoot}${path}`
 
   const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
-      Origin: 'https://mmt.sit.earthdata.nasa.gov',
+      Origin: keepAliveOrigin,
       cookie: `${cookieName}=${token}`
     }
   })
