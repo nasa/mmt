@@ -156,8 +156,8 @@ const CollectionAssociation = () => {
     shortName,
     version
   ) => {
-    const { nativeId } = fetchedDraft || {}
-    const { ummMetadata } = fetchedDraft || {}
+    const { nativeId } = fetchedDraft
+    const { ummMetadata } = fetchedDraft
 
     const associationDetailDraft = {
       ...ummMetadata,
@@ -218,7 +218,7 @@ const CollectionAssociation = () => {
         </Button>
       </div>
     )
-  }, [])
+  }, [fetchedDraft])
 
   const sortFn = useCallback((key, order) => {
     let nextSortKey
