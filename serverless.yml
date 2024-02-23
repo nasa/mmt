@@ -16,8 +16,6 @@ provider:
   deploymentBucket:
     skipPolicySetup: true
 
-
-
 # Package each lambda into individual zip files. This reduces the size of
 # each lambda but increases the complexity of the compilation process slightly
 package:
