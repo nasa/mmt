@@ -33,6 +33,7 @@ import usePublishMutation from '../../hooks/usePublishMutation'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import CustomModal from '../CustomModal/CustomModal'
 
+import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
 /**
  * Renders a DraftPreview component
  *
@@ -61,6 +62,7 @@ const DraftPreview = () => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
   const [retries, setRetries] = useState(0)
+  const [collectionAssociation, setCollectionAssociation] = useState()
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
   const publishMutation = usePublishMutation()
@@ -99,6 +101,12 @@ const DraftPreview = () => {
 
         // Clear the savedDraft, we don't need it anymore
         setSavedDraft()
+
+        // Sets the Collection Association information if available
+        const { ummMetadata } = fetchedDraft
+        const { _private } = ummMetadata || {}
+        const { CollectionAssociation } = _private || {}
+        setCollectionAssociation(CollectionAssociation)
 
         setLoading(false)
       }
@@ -173,7 +181,14 @@ const DraftPreview = () => {
   const handlePublish = () => {
     // Calls publish mutation hook
     setLoading(true)
-    publishMutation(derivedConceptType, nativeId)
+    if (derivedConceptType === 'Variable') {
+      const { _private } = ummMetadata || {}
+      const { CollectionAssociation } = _private || {}
+      const { collectionConceptId } = CollectionAssociation
+      publishMutation(derivedConceptType, nativeId, collectionConceptId)
+    } else {
+      publishMutation(derivedConceptType, nativeId)
+    }
   }
 
   // Handle the user selecting delete from the delete draft modal
@@ -248,6 +263,9 @@ const DraftPreview = () => {
     >
       <Container id="metadata-form" className="px-0">
         <Row>
+          <Col md={12} className="mb-3" />
+        </Row>
+        <Row>
           <Col className="mb-5" md={12}>
             <Button
               className="eui-btn--blue display-modal"
@@ -305,6 +323,14 @@ const DraftPreview = () => {
                   sections={formSections}
                   validationErrors={validationErrors}
                 />
+                {
+                  derivedConceptType === 'Variable'
+                && (
+                  <CollectionAssociationPreviewProgress
+                    collectionAssociationDetails={collectionAssociation}
+                  />
+                )
+                }
               </Col>
             </Row>
           </Col>

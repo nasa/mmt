@@ -191,7 +191,10 @@ CustomArrayFieldTemplate.propTypes = {
     'ui:hide-header': PropTypes.bool,
     'ui:required': PropTypes.bool,
     'ui:title': PropTypes.string,
-    'ui:heading-level': PropTypes.string
+    'ui:heading-level': PropTypes.string,
+    items: PropTypes.shape({
+      'ui:title': PropTypes.string
+    })
   }).isRequired
 }
 
