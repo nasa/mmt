@@ -319,6 +319,7 @@ export const multiPageCollectionSearchPage1Desc = {
             version: '3',
             title: 'Collection Title 3',
             provider: 'TESTPROV',
+            entryTitle: null,
             granules: {
               count: 1000
             },
