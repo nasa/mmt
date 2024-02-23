@@ -2,8 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
-  useContext
+  useState
 } from 'react'
 import PropTypes from 'prop-types'
 import { useLazyQuery } from '@apollo/client'
@@ -12,8 +11,8 @@ import useKeywords from '../../hooks/useKeywords'
 
 import { GET_ACLS } from '../../operations/queries/getAcls'
 
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 import AppContext from '../../context/AppContext'
-import NotificationsContext from '../../context/NotificationsContext'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -39,24 +38,21 @@ const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
   const [providerIds, setProviderIds] = useState([]) // State to hold providerIds
 
-  const { keywords } = keywordsContext
+  const { addNotification } = useNotificationsContext() || {}
 
-  const contextValue = useContext(NotificationsContext)
-  const { addNotification } = contextValue || {}
+  const { keywords } = keywordsContext
 
   useEffect(() => {
     setUser({
       name: 'User Name',
-      token: 'ABC-1',
-      providerId: 'MMT_1'
+      token: 'ABC-1'
     })
   }, [])
 
   const login = useCallback(() => {
     setUser({
       name: 'User Name',
-      token: 'ABC-1',
-      providerId: 'MMT_1'
+      token: 'ABC-1'
     })
   })
 
@@ -72,7 +68,7 @@ const AppContextProvider = ({ children }) => {
   }, [])
 
   // Fetch providers using useQuery hook
-  const [getProviders] = useLazyQuery(GET_ACLS, {
+  const [getProvider] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
@@ -82,11 +78,11 @@ const AppContextProvider = ({ children }) => {
         target: 'PROVIDER_CONTEXT'
       }
     },
-    onCompleted: ({ acls }) => {
-      // Check if acls and acls.items are not undefined
-      // and if items array has at least one item
-      if (acls && acls.items && acls.items.length > 0) {
-        const { items } = acls
+    onCompleted: (getProviderData) => {
+      const { acls } = getProviderData
+      const { items } = acls
+
+      if (items.length > 0) {
         const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
         setProviderIds(providerList)
 
@@ -98,14 +94,12 @@ const AppContextProvider = ({ children }) => {
       } else {
         // Display notification for no providers available
         addNotification({
-          message: 'No providers available.',
+          message: 'User is provisioned.  Please contact support.',
           variant: 'warning'
         })
       }
     },
     onError: (getProviderError) => {
-      // Console.error('Error fetching ACLs:', getProviderError)
-      // Add an error notification
       addNotification({
         message: 'An error occurred while fetching providers.',
         variant: 'danger'
@@ -117,7 +111,7 @@ const AppContextProvider = ({ children }) => {
   })
 
   useEffect(() => {
-    getProviders()
+    getProvider()
   }, [])
 
   const providerValue = useMemo(() => ({
@@ -127,7 +121,7 @@ const AppContextProvider = ({ children }) => {
     login,
     logout,
     originalDraft,
-    providerIds, // Include providerIds in the context value
+    providerIds,
     savedDraft,
     setDraft,
     setOriginalDraft,
@@ -137,7 +131,7 @@ const AppContextProvider = ({ children }) => {
     draft,
     originalDraft,
     keywords,
-    providerIds, // Include providerIds in the context value
+    providerIds,
     savedDraft,
     user,
     login,

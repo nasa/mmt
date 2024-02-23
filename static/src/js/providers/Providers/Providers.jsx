@@ -22,8 +22,8 @@ import NotificationsContextProvider from '../NotificationsContextProvider/Notifi
  */
 const Providers = ({ children }) => {
   const providers = [
-    <AppContextProvider key="provider_app-context" />,
-    <NotificationsContextProvider key="provider_notifications-context" />
+    <NotificationsContextProvider key="provider_notifications-context" />,
+    <AppContextProvider key="provider_app-context" />
   ]
 
   // Combine the Providers into a single Provider component
