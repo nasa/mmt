@@ -23,7 +23,7 @@ const getLaunchpadToken = (cookieString) => {
 }
 
 const getUserName = async (auid) => {
-  if (process.env.EDL_PASSWORD === undefined) {
+  if (process.env.EDL_PASSWORD === '') {
     return auid
   }
 
