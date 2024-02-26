@@ -10,6 +10,7 @@ import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
 import { getApplicationConfig } from '../../utils/getConfig'
 import decodeCookie from '../../utils/decodeCookie'
+import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -36,21 +37,36 @@ const AppContextProvider = ({ children }) => {
 
   const { keywords } = keywordsContext
 
-  const [cookies] = useCookies(['data'])
+  const [cookies] = useCookies(['loginInfo'])
+  const { token } = user
 
   const {
-    data
+    loginInfo
   } = cookies
 
   useEffect(() => {
-    const { auid, name, token } = decodeCookie(data)
-    setUser({
-      auid,
-      name,
-      token,
-      providerId: 'MMT_2'
-    })
-  }, [cookies])
+    if (loginInfo) {
+      const {
+        auid, name, token: cookieToken
+      } = decodeCookie(loginInfo)
+
+      setUser({
+        ...user,
+        token: cookieToken,
+        name,
+        auid,
+        providerId: 'MMT_2'
+      })
+    }
+  }, [loginInfo])
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      checkAndRefreshToken(token, user, setUser)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [token])
 
   const login = useCallback(() => {
     const { apiHost } = getApplicationConfig()

@@ -12,11 +12,17 @@
     "ummT": "1.2.0",
     "ummV": "1.9.0"
   },
+  "edl": {
+    "host": "https://sit.urs.earthdata.nasa.gov",
+    "uid": "mmt_test"
+  },
   "saml": {
+    "keepAliveOrigin": "https://mmt.sit.earthdatacloud.nasa.gov",
     "host": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
     "callbackUrl": "http://localhost:4001/dev/saml-acs",
-    "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
     "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
+    "launchpadRoot": "https://auth.launchpad-sbx.nasa.gov",
+    "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
     "cert": "fake cert",
     "protocol": "https://",
     "signatureAlgorithm": "sha256",

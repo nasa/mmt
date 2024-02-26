@@ -8,6 +8,7 @@ import {
   Routes
 } from 'react-router'
 import * as router from 'react-router'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import Providers from '../../../providers/Providers/Providers'
 import MetadataPreview from '../../MetadataPreview/MetadataPreview'
@@ -18,6 +19,7 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
+import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -119,25 +121,44 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  const cookie = new Cookies(
+    {
+      loginInfo: encodeCookie({
+        name: 'User Name',
+        token: {
+          tokenValue: 'ABC-1',
+          tokenExp: expires
+        }
+      })
+    }
+  )
+  cookie.HAS_DOCUMENT_COOKIE = false
+
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <Providers>
-        <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
-          <Routes>
-            <Route
-              path="/tools"
-            >
+    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <Providers>
+          <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
+            <Routes>
               <Route
-                path=":conceptId/:revisionId"
-                element={<PublishPreview />}
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Providers>
-    </MockedProvider>
+                path="/tools"
+              >
+                <Route
+                  path=":conceptId/:revisionId"
+                  element={<PublishPreview />}
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </Providers>
+      </MockedProvider>
+    </CookiesProvider>
   )
 
   return {

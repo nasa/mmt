@@ -66,13 +66,21 @@ describe('Header component', () => {
   })
 
   describe('when the user is logged in', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
     beforeEach(async () => {
       jest.clearAllMocks()
 
       setup({
         overrideContext: {
           user: {
-            name: 'User Name'
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires
+            }
           },
           login: jest.fn(),
           logout: jest.fn()
@@ -166,10 +174,18 @@ describe('Header component', () => {
 
   describe('when the clicks log out', () => {
     test('displays the search submit button', async () => {
+      let expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 15)
+      expires = new Date(expires)
+
       const { context } = setup({
         overrideContext: {
           user: {
-            name: 'User Name'
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            }
           },
           login: jest.fn(),
           logout: jest.fn()
