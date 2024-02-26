@@ -8,6 +8,7 @@ import {
 } from 'react-router'
 import * as router from 'react-router'
 import userEvent from '@testing-library/user-event'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 import CollectionAssociation from '../CollectionAssociation'
 import Providers from '../../../providers/Providers/Providers'
@@ -15,7 +16,8 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import errorLogger from '../../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
-import AppContext from '../../../context/AppContext'
+
+import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
@@ -111,21 +113,21 @@ const setup = ({
   expires.setMinutes(expires.getMinutes() + 15)
   expires = new Date(expires)
 
-  render(
-    <AppContext.Provider value={
-      {
-        user: {
-          name: 'Test User',
-          providerId: 'MMT_2',
-          token: {
-            tokenValue: 'ABC-1',
-            tokenExp: expires.valueOf()
-          }
+  const cookie = new Cookies({
+    loginInfo: encodeCookie({
+      name: 'User Name',
+      token: {
+        tokenValue: 'ABC-1',
+        tokenExp: expires
+      },
+      providerId: 'MMT_2'
+    })
+  })
+  cookie.HAS_DOCUMENT_COOKIE = false
 
-        }
-      }
-    }
-    >
+  render(
+
+    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <MemoryRouter initialEntries={overrideInitialEntries}>
         <Providers>
           <MockedProvider
@@ -145,27 +147,8 @@ const setup = ({
         </Providers>
 
       </MemoryRouter>
-    </AppContext.Provider>
-    // <MockedProvider
-    //   mocks={overrideMocks || mocks}
-    // >
-    //   <Providers>
-    //     <MemoryRouter initialEntries={overrideInitialEntries || ['/drafts/variables/VD120000000-MMT_2/collection-association']}>
-    //       <Routes>
-    //         <Route
-    //           path="/drafts/variables"
-    //         >
-    //           <Route
-    //             path=":conceptId/collection-association"
-    //             element={<CollectionAssociation />}
-    //           />
-    //         </Route>
-    //       </Routes>
+    </CookiesProvider>
 
-    //     </MemoryRouter>
-    //   </Providers>
-
-    // </MockedProvider>
   )
 
   return {
