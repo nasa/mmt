@@ -16,7 +16,6 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import errorLogger from '../../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
-import AppContext from '../../../context/AppContext'
 
 import encodeCookie from '../../../utils/encodeCookie'
 
