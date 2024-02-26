@@ -170,6 +170,26 @@ const PublishPreview = () => {
     })
   }
 
+  // Handles the user selection Create Associated Variable for a Collection
+  // This will create a new variable draft with the collection conceptId
+  const handleCreateAssociatedVariable = () => {
+    setLoading(true)
+
+    const { conceptId: collectionConceptId, shortName, versionId } = previewMetadata
+
+    const variableDraft = {
+      _private: {
+        CollectionAssociation: {
+          conceptId: collectionConceptId,
+          shortName,
+          version: versionId
+        }
+      }
+    }
+
+    ingestMutation('Variable', variableDraft, `MMT_${crypto.randomUUID()}`, providerId)
+  }
+
   if (error) {
     const message = parseError(error)
 
@@ -192,7 +212,6 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
-          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -209,7 +228,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Clone Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -226,7 +245,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Download Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -243,7 +262,23 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Delete Publish record button */}
+
+          {
+            derivedConceptType === 'Collection' && (
+              <Button
+                className="btn btn-link"
+                type="button"
+                variant="link"
+                onClick={
+                  () => {
+                    handleCreateAssociatedVariable()
+                  }
+                }
+              >
+                Create Associated Variable
+              </Button>
+            )
+          }
           <Button
             type="button"
             variant="outline-danger"
