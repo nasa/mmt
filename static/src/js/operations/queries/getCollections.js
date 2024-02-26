@@ -10,6 +10,7 @@ export const GET_COLLECTIONS = gql`
         version
         title
         provider
+        entryTitle
         granules {
           count
         }

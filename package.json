@@ -32,6 +32,7 @@
     "@xmldom/xmldom": "^0.8.10",
     "base-64": "^1.0.0",
     "bootstrap": "^5.3.2",
+    "camelcase-keys": "^7.0.2",
     "classnames": "^2.3.2",
     "commafy": "^0.0.6",
     "compact-object-deep": "^1.0.0",

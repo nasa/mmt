@@ -97,7 +97,9 @@ const mockDraft = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  pageUrl = '/drafts/tools/TD1000000-MMT',
+  path = '/drafts/tools'
 }) => {
   const mocks = [{
     request: {
@@ -121,10 +123,10 @@ const setup = ({
       mocks={overrideMocks || mocks}
     >
       <Providers>
-        <MemoryRouter initialEntries={['/drafts/tools/TD1000000-MMT']}>
+        <MemoryRouter initialEntries={[pageUrl]}>
           <Routes>
             <Route
-              path="/drafts/tools"
+              path={path}
             >
               <Route
                 path=":conceptId"
@@ -617,6 +619,120 @@ describe('DraftPreview', () => {
         await waitForResponse()
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('#: required key [Name] not found,#: required key [LongName] not found', 'PublishMutation: publishMutation')
+      })
+    })
+
+    describe('Variable Draft Publish', () => {
+      describe('some test', () => {
+        test('should something', async () => {
+          const navigateSpy = jest.fn()
+          jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+          const { user } = setup({
+            pageUrl: '/drafts/variables/VD1200000-MMT',
+            path: 'drafts/variables',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeDraftQueries.Variable,
+                  variables: {
+                    params: {
+                      conceptId: 'VD1200000-MMT',
+                      conceptType: 'Variable'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    draft: {
+                      conceptId: 'VD1200000-MMT',
+                      conceptType: 'variable-draft',
+                      deleted: false,
+                      name: 'Mock Variable',
+                      nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                      providerId: 'MMT_2',
+                      revisionDate: '2024-02-15T16:57:09.667Z',
+                      revisionId: '22',
+                      ummMetadata: {
+                        MetadataSpecification: {
+                          URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+                          Name: 'UMM-Var',
+                          Version: '1.9.0'
+                        },
+                        Definition: 'A sample variable record',
+                        Name: 'Mock Variable',
+                        LongName: 'A sample record',
+                        VariableType: 'ANCILLARY_VARIABLE',
+                        _private: {
+                          CollectionAssociation: {
+                            collectionConceptId: 'C1200000033-SEDAC',
+                            shortName: 'CIESIN_SEDAC_ESI_2000',
+                            version: '2000.00'
+                          }
+                        }
+                      },
+                      previewMetadata: {
+                        additionalIdentifiers: null,
+                        associationDetails: null,
+                        conceptId: 'VD1200000-MMT',
+                        dataType: null,
+                        definition: 'A sample variable record',
+                        dimensions: null,
+                        fillValues: null,
+                        indexRanges: null,
+                        instanceInformation: null,
+                        longName: 'A sample record',
+                        measurementIdentifiers: null,
+                        name: 'Demo Collection Association',
+                        nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                        offset: null,
+                        relatedUrls: null,
+                        samplingIdentifiers: null,
+                        scale: null,
+                        scienceKeywords: null,
+                        sets: null,
+                        standardName: null,
+                        units: null,
+                        validRanges: null,
+                        variableSubType: null,
+                        variableType: 'ANCILLARY_VARIABLE',
+                        __typename: 'Variable'
+                      },
+                      __typename: 'Draft'
+                    }
+                  }
+                }
+              },
+              {
+                request: {
+                  query: PUBLISH_DRAFT,
+                  variables: {
+                    draftConceptId: 'VD1200000-MMT',
+                    nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                    collectionConceptId: 'C1200000033-SEDAC',
+                    ummVersion: '1.9.0'
+                  }
+                },
+                result: {
+                  data: {
+                    publishDraft: {
+                      conceptId: 'V1000000-MMT',
+                      revisionId: '2'
+                    }
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+
+          const button = screen.getByRole('button', { name: 'Publish Variable Draft' })
+          await user.click(button)
+          await waitForResponse()
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+          expect(navigateSpy).toHaveBeenCalledWith('/variables/V1000000-MMT/2')
+        })
       })
     })
   })
