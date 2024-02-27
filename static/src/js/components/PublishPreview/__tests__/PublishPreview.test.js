@@ -8,7 +8,7 @@ import {
   Routes
 } from 'react-router'
 import * as router from 'react-router'
-import { Cookies } from 'react-cookie'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import Providers from '../../../providers/Providers/Providers'
 import MetadataPreview from '../../MetadataPreview/MetadataPreview'
@@ -142,24 +142,26 @@ const setup = ({
   cookie.HAS_DOCUMENT_COOKIE = false
 
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <Providers>
-        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
-          <Routes>
-            <Route
-              path={overridePath || '/tools'}
-            >
+    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <Providers>
+          <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
+            <Routes>
               <Route
-                path=":conceptId/:revisionId"
-                element={<PublishPreview />}
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Providers>
-    </MockedProvider>
+                path={overridePath || '/tools'}
+              >
+                <Route
+                  path=":conceptId/:revisionId"
+                  element={<PublishPreview />}
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </Providers>
+      </MockedProvider>
+    </CookiesProvider>
   )
 
   return {

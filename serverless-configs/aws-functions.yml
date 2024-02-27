@@ -22,3 +22,12 @@ samlCallback:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-acs
+samlRefreshToken:
+  handler: serverless/src/samlRefreshToken/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: post
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: saml-refresh-token
+

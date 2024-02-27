@@ -10,6 +10,7 @@ Dockerfile
 node_modules
 secret.config.json
 tmp
+.env
 
 # VSCode Settings
 .vscode

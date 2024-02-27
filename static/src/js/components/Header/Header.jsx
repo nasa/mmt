@@ -23,6 +23,7 @@ import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
 
 import './Header.scss'
+import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `Header` component
@@ -36,6 +37,8 @@ import './Header.scss'
 const Header = () => {
   const { user, login, logout } = useAppContext()
   const navigate = useNavigate()
+  const { token, name } = user
+  const isExpired = isTokenExpired(token)
 
   const [searchKeyword, setSearchKeyword] = useState('')
   const [searchType] = useState('collections')
@@ -71,7 +74,7 @@ const Header = () => {
             className="header__navbar-collapse flex-column align-items-end"
           >
             {
-              !user?.name && (
+              (isExpired) && (
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
                     className="text-white me-1"
@@ -100,7 +103,7 @@ const Header = () => {
               )
             }
             {
-              user?.name && (
+              (!isExpired) && (
                 <Dropdown className="mb-2" align="end">
                   <Dropdown.Toggle
                     id="dropdown-basic"
@@ -108,7 +111,7 @@ const Header = () => {
                     className="bg-blue-light pointer"
                     role="button"
                   >
-                    {`${user.name} `}
+                    {`${name} `}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu

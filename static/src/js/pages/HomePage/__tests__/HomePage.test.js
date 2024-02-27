@@ -54,11 +54,18 @@ describe('HomePage component', () => {
       const navigateSpy = jest.fn()
       jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
+      let expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 15)
+      expires = new Date(expires)
+
       setup({
         overrideContext: {
           user: {
             name: 'User Name',
-            token: 'ABC-1',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires
+            },
             providerId: 'MMT-2'
           }
         }

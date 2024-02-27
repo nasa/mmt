@@ -63,8 +63,15 @@ describe('AuthRequiredContainer component', () => {
   })
 
   test('should not redirect if user has authenticated', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
     setup({
-      token: 'ABC-1'
+      token: {
+        tokenValue: 'ABC-1',
+        tokenExpires: expires
+      }
     })
 
     expect(screen.getByText('children')).toBeInTheDocument()
