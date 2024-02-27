@@ -6,13 +6,15 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
+import { getApplicationConfig } from '../../../utils/getConfig'
+import * as getConfig from '../../../utils/getConfig'
+import encodeCookie from '../../../utils/encodeCookie'
 
 const MockComponent = () => {
-  const {
-    user, login, logout
-  } = useAppContext()
+  const { user, login, logout } = useAppContext()
 
   return (
     <div>
@@ -45,21 +47,44 @@ const MockComponent = () => {
   )
 }
 
-const setup = () => {
+const setup = (overrideCookie) => {
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  const cookie = new Cookies(
+    overrideCookie || {
+      loginInfo: encodeCookie({
+        name: 'User Name',
+        token: {
+          tokenValue: 'ABC-1',
+          tokenExp: expires
+        }
+      })
+    }
+  )
+  cookie.HAS_DOCUMENT_COOKIE = false
+
   render(
-    <MockedProvider>
-      <AppContextProvider>
+    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
+        <MockedProvider>
+        <AppContextProvider>
         <MockComponent />
       </AppContextProvider>
-    </MockedProvider>
+        </MockedProvider>
+    </CookiesProvider>
+
   )
 }
 
 describe('AppContextProvider component', () => {
-  describe('when all metadata is provided', () => {
+  describe('when app starts up', () => {
     beforeEach(() => {
-      setup()
       jest.resetAllMocks()
+
+      jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        cookie: null
+      }))
     })
 
     // Mock useLazyQuery
@@ -72,18 +97,27 @@ describe('AppContextProvider component', () => {
 
     describe('when log in is triggered', () => {
       test('logs the user in', async () => {
+        delete window.location
+        window.location = {}
+
+        setup()
+
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
-
         await user.click(button)
-
-        const userName = screen.getByText('User Name: User Name', { exact: true })
-        expect(userName).toBeInTheDocument()
+        const { apiHost } = getApplicationConfig()
+        const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        expect(window.location.href).toEqual(expectedPath)
       })
     })
 
     describe('when log out is triggered', () => {
       test('logs the user out', async () => {
+        delete window.location
+        window.location = {}
+
+        setup()
+
         const user = userEvent.setup()
         const loginButton = screen.getByRole('button', { name: 'Log in' })
 
@@ -95,40 +129,6 @@ describe('AppContextProvider component', () => {
 
         const logoutButton = screen.getByRole('button', { name: 'Log out' })
 
-        await user.click(logoutButton)
-
-        const newUserName = screen.queryByText('User Name: User Name', { exact: true })
-
-        expect(newUserName).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when initial user state is set', () => {
-      test('renders user name correctly', () => {
-        const userName = screen.getByText('User Name: User Name', { exact: true })
-        expect(userName).toBeInTheDocument()
-      })
-    })
-
-    describe('when login function is called', () => {
-      test('sets user state correctly', async () => {
-        const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in' })
-
-        await user.click(button)
-
-        expect(screen.getByText('User Name: User Name', { exact: true })).toBeInTheDocument()
-      })
-    })
-
-    describe('when logout function is called', () => {
-      test('clears user state correctly', async () => {
-        const user = userEvent.setup()
-        const loginButton = screen.getByRole('button', { name: 'Log in' })
-
-        await user.click(loginButton)
-
-        const logoutButton = screen.getByRole('button', { name: 'Log out' })
         await user.click(logoutButton)
 
         const newUserName = screen.queryByText('User Name: User Name', { exact: true })

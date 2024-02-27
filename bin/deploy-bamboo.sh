@@ -15,7 +15,7 @@ config="`jq '.application.graphQlHost = $newValue' --arg newValue $bamboo_GRAPHQ
 config="`jq '.application.mmtHost = $newValue' --arg newValue $bamboo_MMT_HOST <<< $config`"
 config="`jq '.application.apiHost = $newValue' --arg newValue $bamboo_API_HOST <<< $config`"
 config="`jq '.application.cmrHost = $newValue' --arg newValue $bamboo_CMR_HOST <<< $config`"
-config="`jq '.application.jwtSecret = $newValue' --arg newValue $bamboo_JWT_SECRET <<< $config`"
+config="`jq 'del(.application.cookie)' <<< $config`"
 config="`jq '.saml.host = $newValue' --arg newValue $bamboo_SAML_HOST <<< $config`"
 config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK_URL <<< $config`"
 config="`jq '.saml.issuer = $newValue' --arg newValue $bamboo_SAML_ISSUER <<< $config`"
@@ -23,6 +23,9 @@ config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NA
 
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
+
+# setup .env
+echo "EDL_PASSWORD=$bamboo_EDL_PASSWORD" > .env
 
 # Set up Docker image
 #####################

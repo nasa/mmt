@@ -7,12 +7,16 @@ import React, {
 import PropTypes from 'prop-types'
 import { useLazyQuery } from '@apollo/client'
 import errorLogger from '../../utils/errorLogger'
+import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
 
 import { GET_ACLS } from '../../operations/queries/getAcls'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import AppContext from '../../context/AppContext'
+import { getApplicationConfig } from '../../utils/getConfig'
+import decodeCookie from '../../utils/decodeCookie'
+import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -42,18 +46,39 @@ const AppContextProvider = ({ children }) => {
 
   const { keywords } = keywordsContext
 
+  const [cookies] = useCookies(['loginInfo'])
+  const { token } = user
+
+  const {
+    loginInfo
+  } = cookies
+
   useEffect(() => {
-    setUser({
-      name: 'User Name',
-      token: 'ABC-1'
-    })
-  }, [])
+    if (loginInfo) {
+      const {
+        auid, name, token: cookieToken
+      } = decodeCookie(loginInfo)
+
+      setUser({
+        ...user,
+        token: cookieToken,
+        name,
+        auid
+      })
+    }
+  }, [loginInfo])
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      checkAndRefreshToken(token, user, setUser)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [token])
 
   const login = useCallback(() => {
-    setUser({
-      name: 'User Name',
-      token: 'ABC-1'
-    })
+    const { apiHost } = getApplicationConfig()
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
   })
 
   const logout = useCallback(() => {
@@ -126,6 +151,7 @@ const AppContextProvider = ({ children }) => {
     setDraft,
     setOriginalDraft,
     setSavedDraft,
+    setUser,
     user
   }), [
     draft,

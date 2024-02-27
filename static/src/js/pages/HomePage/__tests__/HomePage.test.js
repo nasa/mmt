@@ -5,6 +5,8 @@ import {
   within
 } from '@testing-library/react'
 
+import { BrowserRouter } from 'react-router-dom'
+import * as router from 'react-router'
 import HomePage from '../HomePage'
 import AppContext from '../../../context/AppContext'
 
@@ -12,18 +14,16 @@ const setup = ({
   overrideContext = {}
 } = {}) => {
   const context = {
-    user: {
-      name: 'User Name',
-      token: 'ABC-1',
-      providerId: 'MMT-2'
-    },
+    user: {},
     login: jest.fn(),
     logout: jest.fn(),
     ...overrideContext
   }
   render(
     <AppContext.Provider value={context}>
-      <HomePage />
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
     </AppContext.Provider>
   )
 
@@ -48,6 +48,31 @@ describe('HomePage component', () => {
 
       const text = within(parent).getByText('The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.')
       expect(text).toBeInTheDocument()
+    })
+
+    test('redirects to /manage/collections if user is logged in with a token', () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      let expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 15)
+      expires = new Date(expires)
+
+      setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires
+            },
+            providerId: 'MMT-2'
+          }
+        }
+      })
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/manage/collections', { replace: true })
     })
   })
 

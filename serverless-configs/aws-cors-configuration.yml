@@ -5,3 +5,5 @@ headers:
   - Authorization
   - Origin
   - User-Agent
+  - token
+  - expires

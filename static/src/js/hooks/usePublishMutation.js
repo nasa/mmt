@@ -13,11 +13,12 @@ const usePublishMutation = () => {
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
 
-  const publishMutation = (conceptType, nativeId) => {
+  const publishMutation = (conceptType, nativeId, collectionConceptId) => {
     publishDraftMutation({
       variables: {
         draftConceptId: conceptId,
         nativeId,
+        collectionConceptId,
         ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getPublishedData) => {

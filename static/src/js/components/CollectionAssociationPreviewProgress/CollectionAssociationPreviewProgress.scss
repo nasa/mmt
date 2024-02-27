@@ -1,0 +1,22 @@
+// TODO: See if we can use Bootstrap classes here this.
+.collection-association-preview-progress {
+  &__section-circle {
+    display: block;
+    margin-right: 10px;
+    float: left;
+    font-size: 2em;
+  }
+
+  &__label {
+    padding-left: 4px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+  
+  &__field-circle {
+    padding: 0 0.25em;
+    cursor: pointer;
+    font-size: 14px;
+  }
+}

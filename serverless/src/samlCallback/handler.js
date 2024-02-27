@@ -1,8 +1,8 @@
-import { stringify } from 'querystring'
-import { createJwtToken } from '../../../static/src/js/utils/createJwtToken'
+import encodeCookie from '../../../static/src/js/utils/encodeCookie'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
+import parseSaml from '../../../static/src/js/utils/parseSaml'
 
-const Saml2js = require('saml2js')
 const { URLSearchParams } = require('url')
 const cookie = require('cookie')
 
@@ -12,9 +12,28 @@ const cookie = require('cookie')
  * @returns the launchpad token
  */
 const getLaunchpadToken = (cookieString) => {
+  const { version } = getApplicationConfig()
+  if (version === 'development') {
+    return 'ABC-1'
+  }
+
   const cookies = cookie.parse(cookieString)
 
   return cookies[getSamlConfig().cookieName]
+}
+
+const getUserName = async (auid) => {
+  if (process.env.EDL_PASSWORD === '') {
+    return auid
+  }
+
+  const edlProfile = await fetchEdlProfile(auid)
+
+  const firstName = edlProfile.first_name
+  const lastName = edlProfile.last_name
+  const name = firstName == null ? edlProfile.uid : `${firstName} ${lastName}`
+
+  return name
 }
 
 /**
@@ -24,33 +43,56 @@ const getLaunchpadToken = (cookieString) => {
 const samlCallback = async (event) => {
   const { body, headers } = event
   const { Cookie } = headers
-  const { mmtHost } = getApplicationConfig()
+  const { mmtHost, version } = getApplicationConfig()
 
   const params = new URLSearchParams(body)
+  const samlResponse = parseSaml(params.get('SAMLResponse'))
+  const path = params.get('RelayState')
+
+  const { auid } = samlResponse
 
   const launchpadToken = getLaunchpadToken(Cookie)
 
-  const parser = new Saml2js(params.get('SAMLResponse'))
-  const path = params.get('RelayState')
-  const samlResponse = parser.toObject()
+  const name = await getUserName(auid)
 
-  const data = {
-    path,
-    token: launchpadToken,
-    ...samlResponse
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  // Create encoded cookie containing json with name, token, and other details
+  // returned by launchpad (name, auid).
+  const encodedCookie = encodeCookie({
+    ...samlResponse,
+    name,
+    token: {
+      tokenValue: launchpadToken,
+      tokenExp: expires.valueOf() // Returns long epoch
+    }
+  })
+
+  // There appears to be a limitation in AWS to only allow sending 1 cookie, so we are sending
+  // 1 cookie with multiple values in a base 64 encoded json string.
+  let setCookie = `loginInfo=${encodedCookie}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647`
+
+  if (version === 'development') {
+    setCookie = `loginInfo=${encodedCookie}; Path=/`
   }
-  const jwtToken = createJwtToken(data)
-  const queryParams = { jwt: jwtToken }
-  queryParams.jwt = jwtToken
 
-  const location = `${mmtHost}/auth_callback?${stringify(queryParams)}`
+  const location = `${mmtHost}/auth_callback?target=${encodeURIComponent(path)}`
 
-  return {
+  const response = {
     statusCode: 303,
     headers: {
+      'Set-Cookie': setCookie,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET, POST',
+      'Access-Control-Allow-Credentials': true,
       Location: location
     }
   }
+
+  return response
 }
 
 export default samlCallback

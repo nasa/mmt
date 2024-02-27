@@ -25,6 +25,11 @@ jest.mock('react-bootstrap/Placeholder', () => jest.fn())
 jest.mock('../../../hooks/useDraftsQuery')
 jest.mock('../../../utils/constructDownloadableFile')
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: jest.fn().mockImplementation(() => ({ draftType: 'tool' }))
+}))
+
 const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',
@@ -74,7 +79,7 @@ const setup = (overrideProps = {}) => {
       <MockedProvider
         mocks={mocks}
       >
-        <BrowserRouter>
+        <BrowserRouter initialEntries="">
           <DraftList {...props} />
         </BrowserRouter>
       </MockedProvider>
@@ -88,6 +93,10 @@ const setup = (overrideProps = {}) => {
 }
 
 describe('DraftList', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('when draft type Tool is given', () => {
     test('renders Tool draft list', () => {
       useDraftsQuery.mockReturnValue({
@@ -144,17 +153,17 @@ describe('DraftList', () => {
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 short name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 long name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: '2023-12-08' })).toBeInTheDocument()
-      expect(within(rows[1]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
 
       expect(within(rows[2]).getByRole('cell', { name: '<Blank Name>' })).toBeInTheDocument()
-      expect(within(rows[2]).getByRole('cell', { name: '<Untitled Record>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Long Name>' })).toBeInTheDocument()
       expect(within(rows[2]).getByRole('cell', { name: '2023-11-08' })).toBeInTheDocument()
-      expect(within(rows[2]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
 
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 short name' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 long name' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('cell', { name: '2023-10-08' })).toBeInTheDocument()
-      expect(within(rows[3]).getByRole('button', { name: 'Download JSON' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
     })
   })
 
@@ -188,7 +197,7 @@ describe('DraftList', () => {
 
       setup()
 
-      expect(Placeholder).toHaveBeenCalledTimes(17)
+      expect(Placeholder).toHaveBeenCalledTimes(122)
     })
   })
 
@@ -213,6 +222,25 @@ describe('DraftList', () => {
     test('navigates to the new tool form', async () => {
       const navigateSpy = jest.fn()
       jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      useDraftsQuery.mockReturnValue({
+        drafts: {
+          count: 1,
+          items: [
+            {
+              conceptId: 'TD1200000092-MMT_2',
+              revisionDate: '2023-12-08T17:56:09.385Z',
+              ummMetadata: {
+                Name: 'Tool TD1200000092 short name',
+                LongName: 'Tool TD1200000092 long name'
+              },
+              previewMetadata: {
+                __typename: 'Tool'
+              },
+              __typename: 'Draft'
+            }
+          ]
+        }
+      })
 
       const { user } = setup()
 
@@ -235,9 +263,11 @@ describe('DraftList', () => {
             {
               conceptId: 'TD1000000-MMT',
               revisionDate: '2023-12-08T17:56:09.385Z',
+              ummMetadata: {
+                Name: 'Tool TD1000000-MMT short name',
+                LongName: 'Tool TD1000000-MMT long name'
+              },
               previewMetadata: {
-                name: 'Tool TD1000000-MMT short name',
-                longName: 'Tool TD1000000-MMT long name',
                 __typename: 'Tool'
               },
               __typename: 'Draft'
@@ -249,7 +279,7 @@ describe('DraftList', () => {
 
       const { user } = setup()
 
-      const button = screen.getByRole('button', { name: 'Download JSON' })
+      const button = screen.getByRole('button', { name: /Download JSON/ })
       await user.click(button)
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)

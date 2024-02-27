@@ -1,5 +1,6 @@
 service: mmt
 frameworkVersion: '3'
+useDotenv: true
 
 provider:
   name: aws
@@ -8,6 +9,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   endpointType: PRIVATE
+  environment:
+    EDL_PASSWORD: ${env:EDL_PASSWORD, ''}
 
   # Prevent Serverless from attempting to modify the deployment bucket policy as NGAP does not allow it
   deploymentBucket:

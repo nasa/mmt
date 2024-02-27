@@ -50,6 +50,16 @@ const CustomRadioWidget = ({
     title = uiSchema['ui:title']
   }
 
+  let trueOptionLabel = null
+  let falseOptionLabel = null
+  let showClear = true
+
+  if (uiSchema['ui:options']) {
+    trueOptionLabel = uiSchema['ui:options'].trueOptionLabel
+    falseOptionLabel = uiSchema['ui:options'].falseOptionLabel
+    showClear = uiSchema['ui:options'].showClear
+  }
+
   const shouldFocus = shouldFocusField(focusField, id)
 
   useEffect(() => {
@@ -91,15 +101,20 @@ const CustomRadioWidget = ({
         className="custom-radio-widget"
         role="radiogroup"
       >
-        <div
-          className="custom-radio-widget-clear-btn"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...accessibleEventProps}
-        >
-          Clear
-        </div>
+        {
+          showClear && (
+            <div
+              className="custom-radio-widget-clear-btn"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...accessibleEventProps}
+            >
+              Clear
+            </div>
+          )
+        }
 
         <input
+          className="form-check-input m-2"
           id={`${id}-true`}
           name="true"
           onChange={handleChange}
@@ -107,16 +122,27 @@ const CustomRadioWidget = ({
           checked={value === true}
           ref={focusRef}
         />
-        <label htmlFor={`${id}-true`}>True</label>
+        <label
+          className="form-check-label m-1"
+          htmlFor={`${id}-true`}
+        >
+          {trueOptionLabel || 'True'}
+        </label>
         <br />
         <input
+          className="form-check-input m-2"
           id={`${id}-false`}
           name="false"
           onChange={handleChange}
           type="radio"
           checked={value === false}
         />
-        <label htmlFor={`${id}-false`}>False</label>
+        <label
+          className="form-check-label m-1"
+          htmlFor={`${id}-false`}
+        >
+          {falseOptionLabel || 'False'}
+        </label>
       </div>
     </CustomWidgetWrapper>
   )
@@ -141,6 +167,11 @@ CustomRadioWidget.propTypes = {
     description: PropTypes.string
   }).isRequired,
   uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      trueOptionLabel: PropTypes.string,
+      falseOptionLabel: PropTypes.string,
+      showClear: PropTypes.bool
+    }),
     'ui:title': PropTypes.string
   }).isRequired,
   value: PropTypes.bool

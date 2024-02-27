@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
+import { useNavigate } from 'react-router'
 
 import For from '../../components/For/For'
 import Page from '../../components/Page/Page'
 import Panel from '../../components/Panel/Panel'
 
 import './HomePage.scss'
+import useAppContext from '../../hooks/useAppContext'
+import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `HomePage` component
@@ -17,6 +20,18 @@ import './HomePage.scss'
  * )
  */
 const HomePage = () => {
+  const navigate = useNavigate()
+
+  const { user } = useAppContext()
+  const { token } = user
+  const isExpired = isTokenExpired(token)
+
+  useEffect(() => {
+    if (!isExpired) {
+      navigate('/manage/collections', { replace: true })
+    }
+  }, [token])
+
   const panels = [
     {
       title: 'About the Metadata Management Tool (MMT)',

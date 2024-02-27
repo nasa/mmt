@@ -1,13 +1,18 @@
 import React from 'react'
+import { BrowserRouter, useNavigate } from 'react-router-dom'
 import {
   render,
   screen,
   waitFor
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import AppContext from '../../../context/AppContext'
 import Header from '../Header'
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn()
+}))
 
 const setup = ({
   overrideContext = {}
@@ -45,7 +50,7 @@ describe('Header component', () => {
     test('shows the log in button', () => {
       setup()
 
-      const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
+      const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
       expect(button).toBeInTheDocument()
     })
 
@@ -54,7 +59,7 @@ describe('Header component', () => {
         const { context } = setup()
 
         const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in with Launchpad' })
+        const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
 
         await user.click(button)
 
@@ -64,12 +69,21 @@ describe('Header component', () => {
   })
 
   describe('when the user is logged in', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
     beforeEach(async () => {
+      jest.clearAllMocks()
+
       setup({
         overrideContext: {
           user: {
             name: 'User Name',
-            providerId: 'MMT_2'
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires
+            }
           },
           login: jest.fn(),
           logout: jest.fn()
@@ -80,7 +94,7 @@ describe('Header component', () => {
     test('displays the user name badge', () => {
       expect(screen.getByText('User Name')).toBeInTheDocument()
       expect(screen.getByText('User Name').className).toContain('badge')
-      expect(screen.getByText('User Name').className).toContain('pointer dropdown-toggle badge bg-primary')
+      expect(screen.getByText('User Name').className).toContain('bg-blue-light')
     })
 
     test('displays the search form', () => {
@@ -124,6 +138,93 @@ describe('Header component', () => {
 
         expect(searchOptionsButton).toHaveAttribute('aria-expanded', 'true')
       })
+    })
+
+    describe('when the user types a search query', () => {
+      test('updates the input', async () => {
+        const user = userEvent.setup()
+        const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+
+        await user.type(searchInput, 'search query')
+
+        expect(searchInput).toHaveValue('search query')
+      })
+
+      describe('when the user submits search query using the input', () => {
+        test('updates the input', async () => {
+          const navigateMock = jest.fn()
+
+          useNavigate.mockReturnValue(navigateMock)
+
+          const user = userEvent.setup()
+          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+          const searchSubmitButton = await screen.getByRole('button', { name: 'Search Collections' })
+
+          await user.type(searchInput, 'search query')
+
+          expect(searchInput).toHaveValue('search query')
+
+          await user.click(searchSubmitButton)
+
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
+        })
+      })
+
+      describe('when the user submits search query using the enter key', () => {
+        test('updates the input', async () => {
+          const navigateMock = jest.fn()
+
+          useNavigate.mockReturnValue(navigateMock)
+
+          const user = userEvent.setup()
+          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+
+          await user.type(searchInput, 'search query')
+
+          expect(searchInput).toHaveValue('search query')
+
+          await user.type(searchInput, '{enter}')
+
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
+        })
+      })
+    })
+  })
+
+  describe('when the clicks log out', () => {
+    test('displays the search submit button', async () => {
+      let expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 15)
+      expires = new Date(expires)
+
+      const { context } = setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            }
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
+      const user = userEvent.setup()
+
+      const userDropdownButton = screen.queryByRole('button', { name: 'User Name' })
+
+      await user.click(userDropdownButton)
+
+      const logoutButton = screen.queryByRole('button', { name: 'Logout' })
+
+      await user.click(logoutButton)
+
+      expect(context.logout).toHaveBeenCalledTimes(1)
+      expect(context.logout).toHaveBeenCalledWith()
     })
   })
 })
