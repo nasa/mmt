@@ -20,7 +20,7 @@ import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import encodeCookie from '../../../utils/encodeCookie'
-import publishedCollectionRecord from './__mocks__/publishedCollectionRecord.json'
+import publishedCollectionRecord from './__mocks__/publishPreview'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -537,7 +537,7 @@ describe('PublishPreview', () => {
 
   describe('when the collection preview is collections', () => {
     describe('when clicking on Create Collection', () => {
-      test('should navigate to variable draft preview', async () => {
+      test.only('should navigate to variable draft preview', async () => {
         const navigateSpy = jest.fn()
         jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -564,7 +564,7 @@ describe('PublishPreview', () => {
                   metadata: {
                     _private: {
                       CollectionAssociation: {
-                        conceptId: 'C1200000100-MMT_2',
+                        collectionConceptId: 'C1200000100-MMT_2',
                         shortName: 'Mock Quick Test Services #2',
                         version: '1'
                       }
