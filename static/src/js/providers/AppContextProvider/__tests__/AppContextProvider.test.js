@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { Cookies, CookiesProvider } from 'react-cookie'
@@ -67,11 +63,11 @@ const setup = (overrideCookie) => {
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-        <MockedProvider>
+      <MockedProvider>
         <AppContextProvider>
-        <MockComponent />
-      </AppContextProvider>
-        </MockedProvider>
+          <MockComponent />
+        </AppContextProvider>
+      </MockedProvider>
     </CookiesProvider>
 
   )

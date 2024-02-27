@@ -119,8 +119,8 @@ const AppContextProvider = ({ children }) => {
       } else {
         // Display notification for no providers available
         addNotification({
-          message: 'User is provisioned.  Please contact support.',
-          variant: 'warning'
+          message: 'User is not provisioned.  Please contact support.',
+          variant: 'danger'
         })
       }
     },

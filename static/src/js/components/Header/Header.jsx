@@ -36,24 +36,25 @@ const Header = () => {
   const {
     user, login, logout, providerIds, setProviderId
   } = useAppContext()
-    const navigate = useNavigate()
-    const { token, name } = user
-    const isExpired = isTokenExpired(token)
+  const navigate = useNavigate()
+  const { token, name } = user
+  const isExpired = isTokenExpired(token)
 
-    const [searchKeyword, setSearchKeyword] = useState('')
-    const [searchType] = useState('collections')
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [searchType] = useState('collections')
 
-    const onSearchChange = (e) => {
-        const { target: { value } } = e
-        setSearchKeyword(value)
-    }
+  const onSearchChange = (e) => {
+    const { target: { value } } = e
+    setSearchKeyword(value)
+  }
 
-    const onSearchSubmit = () => {
-        navigate(`/search?type=${searchType}&keyword=${searchKeyword}`)
-    }
+  const onSearchSubmit = () => {
+    navigate(`/search?type=${searchType}&keyword=${searchKeyword}`)
+  }
 
-    // Define the renderProviderDropdownItems function
+  // Define the renderProviderDropdownItems function
   const renderProviderDropdownItems = () => {
+    console.log('************** provider ids are ', providerIds)
     if (!providerIds) {
       return null
     }
@@ -120,60 +121,62 @@ const Header = () => {
             }
             {
               (!isExpired) && (
-                <Dropdown className="mb-2" align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-basic"
-                    as={Badge}
-                    className="bg-blue-light pointer"
-                    role="button"
-                  >
-                    {`${name} `}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu
-                    className="bg-blue-light border-blue-light shadow text-white"
-                  >
-                    <Dropdown.Item
-                      className="text-white bg-blue-light d-flex align-items-center"
-                      href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
-                      target="_blank"
+                <div className="d-flex p-1 mb-2 rounded bg-blue-light">
+                  <Dropdown className="mb-2" align="end">
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      as={Badge}
+                      className="bg-blue-light pointer"
+                      role="button"
                     >
-                      <FaQuestionCircle className="me-2" />
-                      User Guide
-                      <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="text-white bg-blue-light"
-                      onClick={
-                        () => {
-                          logout()
+                      {`${name} `}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu
+                      className="bg-blue-light border-blue-light shadow text-white"
+                    >
+                      <Dropdown.Item
+                        className="text-white bg-blue-light d-flex align-items-center"
+                        href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
+                        target="_blank"
+                      >
+                        <FaQuestionCircle className="me-2" />
+                        User Guide
+                        <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className="text-white bg-blue-light"
+                        onClick={
+                          () => {
+                            logout()
+                          }
                         }
-                      }
-                    >
-                      <FaSignOutAlt className="me-2" />
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown className="me-0.5" align="end">
-                <Dropdown align="end">
-                <Dropdown.Toggle
-                id="dropdown-basic"
-                as={Badge}
-              className="pointer"
-              role="button"
-          >
-              {user.providerId}
-          </Dropdown.Toggle>
-            <Dropdown.Menu
-                className="bg-blue-light border-blue-light shadow text-white"
-            >
-                {renderProviderDropdownItems()}
-            </Dropdown.Menu>
-        </Dropdown>
-      </Dropdown>
+                      >
+                        <FaSignOutAlt className="me-2" />
+                        Logout
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
 
-        )
+                  <Dropdown className="me-0.5" align="end">
+                    <Dropdown align="end">
+                      <Dropdown.Toggle
+                        id="dropdown-basic"
+                        as={Badge}
+                        className="pointer"
+                        role="button"
+                      >
+                        {user.providerId}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu
+                        className="bg-blue-light border-blue-light shadow text-white"
+                      >
+                        {renderProviderDropdownItems()}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Dropdown>
+                </div>
+              )
             }
 
             {
