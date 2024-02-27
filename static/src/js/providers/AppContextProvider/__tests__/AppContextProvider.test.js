@@ -8,6 +8,7 @@ import AppContextProvider from '../AppContextProvider'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import * as getConfig from '../../../utils/getConfig'
 import encodeCookie from '../../../utils/encodeCookie'
+import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
 
 const MockComponent = () => {
   const { user, login, logout } = useAppContext()
@@ -64,9 +65,11 @@ const setup = (overrideCookie) => {
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <MockedProvider>
-        <AppContextProvider>
-          <MockComponent />
-        </AppContextProvider>
+        <NotificationsContextProvider key="provider_notifications-context">
+          <AppContextProvider>
+            <MockComponent />
+          </AppContextProvider>
+        </NotificationsContextProvider>
       </MockedProvider>
     </CookiesProvider>
 
@@ -81,6 +84,8 @@ describe('AppContextProvider component', () => {
       jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
         cookie: null
       }))
+
+      global.fetch = jest.fn(() => Promise.resolve({}))
     })
 
     // Mock useLazyQuery
