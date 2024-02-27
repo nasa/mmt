@@ -8,6 +8,7 @@ import {
   Routes
 } from 'react-router'
 import * as router from 'react-router'
+import { Cookies } from 'react-cookie'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import Providers from '../../../providers/Providers/Providers'
 import MetadataPreview from '../../MetadataPreview/MetadataPreview'
@@ -18,6 +19,8 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
+import encodeCookie from '../../../utils/encodeCookie'
+import publishedCollectionRecord from './__mocks__/publishedCollectionRecord.json'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -101,7 +104,9 @@ const mock = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  overrideInitialEntries,
+  overridePath
 }) => {
   const mocks = [{
     request: {
@@ -119,15 +124,32 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
+  const cookie = new Cookies(
+    {
+      loginInfo: encodeCookie({
+        name: 'User Name',
+        token: {
+          tokenValue: 'ABC-1',
+          tokenExp: expires
+        }
+      })
+    }
+  )
+  cookie.HAS_DOCUMENT_COOKIE = false
+
   render(
     <MockedProvider
       mocks={overrideMocks || mocks}
     >
       <Providers>
-        <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
+        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
           <Routes>
             <Route
-              path="/tools"
+              path={overridePath || '/tools'}
             >
               <Route
                 path=":conceptId/:revisionId"
@@ -508,6 +530,70 @@ describe('PublishPreview', () => {
         JSON.stringify(mock.ummMetadata, null, 2),
         'T1000000-MMT'
       )
+    })
+  })
+
+  describe('when the collection preview is collections', () => {
+    describe('when clicking on Create Collection', () => {
+      test('should navigate to variable draft preview', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+          overridePath: '/collections',
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeQueries.Collection,
+                variables: { params: { conceptId: 'C1000000-MMT' } }
+              },
+              result: {
+                data: {
+                  collection: publishedCollectionRecord
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Variable',
+                  metadata: {
+                    _private: {
+                      CollectionAssociation: {
+                        conceptId: 'C1200000100-MMT_2',
+                        shortName: 'Mock Quick Test Services #2',
+                        version: '1'
+                      }
+                    }
+                  },
+                  nativeId: 'MMT_mock-uuid',
+                  providerId: 'MMT_2',
+                  ummVersion: '1.9.0'
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'VD1000000-MMT',
+                    revisionId: '1'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        await waitForResponse()
+
+        const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
+
+        await user.click(createVariableAssociationBtn)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD1000000-MMT')
+      })
     })
   })
 })
