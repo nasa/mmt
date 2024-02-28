@@ -1,5 +1,6 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-import CustomTextareaWidget from '../../../../components/widgets/CustomTextareaWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
+import processingLevel from '../../../utils/processingLevel'
 
 const dataIdentificationUiSchema = {
   'ui:field': 'layout',
@@ -189,7 +190,10 @@ const dataIdentificationUiSchema = {
     },
     Id: {
       'ui:title': 'ID',
-      'ui:widget': CustomSelectWidget
+      'ui:widget': CustomSelectWidget,
+      'ui:options': {
+        enumOptions: processingLevel
+      }
     },
     ProcessingLevelDescription: {
       'ui:widget': CustomTextareaWidget

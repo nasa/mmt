@@ -59,7 +59,7 @@ const collectionInformationUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
-                    className: 'field-left-border',
+                    // ClassName: 'field-left-border',
                     md: 12,
                     children: ['DOI']
                   }
