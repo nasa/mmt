@@ -537,7 +537,7 @@ describe('PublishPreview', () => {
 
   describe('when the collection preview is collections', () => {
     describe('when clicking on Create Collection', () => {
-      test.only('should navigate to variable draft preview', async () => {
+      test('should navigate to variable draft preview', async () => {
         const navigateSpy = jest.fn()
         jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
