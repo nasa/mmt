@@ -68,8 +68,6 @@ const App = () => {
     uri: graphQlHost
   })
 
-  console.log('using token ', tokenValue)
-
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
@@ -90,6 +88,28 @@ const App = () => {
       }
     }
   })
+
+  const retrieveKeywords = async () => {
+    const abstract = 'cloud cover is the ozone'
+    const query = {
+      description: abstract
+    }
+    const url = 'http://localhost:4001/dev/gkr-request'
+
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(query)
+    })
+    const gkrResponse = await response.json()
+    const { recommendations } = gkrResponse
+
+    return recommendations
+  }
+
+  retrieveKeywords().then((keywords) => {
+    console.log('keywords are ', keywords)
+  })
+
   // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
   // appContext = {
   //   statusMessage

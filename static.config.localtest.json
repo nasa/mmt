@@ -4,6 +4,7 @@
     "apiHost": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
     "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
     "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
+    "gkrHost": "https://gkr.sit.earthdatacloud.nasa.gov",
     "version": "vdevelopment"
   },
   "ummVersions": {
