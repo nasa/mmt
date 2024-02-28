@@ -44,10 +44,18 @@ const MockComponent = () => {
 }
 
 const setup = (overrideCookie) => {
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
   const cookie = new Cookies(
     overrideCookie || {
-      data: encodeCookie({
-        name: 'User Name'
+      loginInfo: encodeCookie({
+        name: 'User Name',
+        token: {
+          tokenValue: 'ABC-1',
+          tokenExp: expires
+        }
       })
     }
   )

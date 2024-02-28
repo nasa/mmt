@@ -169,7 +169,7 @@ const CustomSelectWidget = ({
   const { enumOptions: oneOfEnums } = options || {}
 
   const getExistingValue = () => {
-    if (value) {
+    if (value !== null) {
       if (typeof value === 'number') {
         return oneOfEnums[value]
       }
@@ -227,7 +227,7 @@ CustomSelectWidget.defaultProps = {
   placeholder: null,
   selectOptions: null,
   uiSchema: {},
-  value: undefined,
+  value: null,
   options: {},
   required: false
 }

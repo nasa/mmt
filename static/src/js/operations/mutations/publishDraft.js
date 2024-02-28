@@ -5,11 +5,13 @@ export const PUBLISH_DRAFT = gql`
     $draftConceptId: String!
     $nativeId: String!
     $ummVersion: String!
+    $collectionConceptId: String
   ) {
     publishDraft (
       draftConceptId: $draftConceptId
       nativeId: $nativeId
       ummVersion: $ummVersion
+      collectionConceptId: $collectionConceptId
     ) {
       conceptId
       revisionId

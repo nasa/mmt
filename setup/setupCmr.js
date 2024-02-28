@@ -361,6 +361,28 @@ const createAcls = async (groupConceptIds) => {
         console.log(`Add ${users} to ${providerId} group:`, jsonData)
       })
   }))
+
+  // ACL for admin and typical user to create tags
+  await fetch('http://localhost:3011/acls', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: systemToken
+    },
+    body: JSON.stringify({
+      group_permissions: [{
+        group_id: groupConceptIds.MMT_2,
+        permissions: ['create', 'update', 'delete']
+      }, {
+        group_id: groupConceptIds.Administrators_2,
+        permissions: ['create', 'update', 'delete']
+      }],
+      system_identity: { target: 'TAG_GROUP' }
+    })
+  }).then((response) => response.json())
+    .then((jsonData) => {
+      console.log('ACL for tags for MMT_2 and Administrators_2 in access control:', jsonData)
+    })
 }
 
 // ACL to manage Provider Identity ACLs (PROVIDER_OBJECT_ACL)

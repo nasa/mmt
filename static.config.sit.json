@@ -1,0 +1,36 @@
+{
+  "application": {
+    "mmtHost": "https://mmt.sit.earthdatacloud.nasa.gov",
+    "apiHost": "https://api.mmt.sit.earthdatacloud.nasa.gov",
+    "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
+    "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
+    "version": "vdevelopment"
+  },
+  "ummVersions": {
+    "ummC": "1.17.3",
+    "ummS": "1.5.2",
+    "ummT": "1.2.0",
+    "ummV": "1.9.0"
+  },
+  "edl": {
+    "host": "https://sit.urs.earthdata.nasa.gov",
+    "uid": "mmt_test"
+  },
+  "saml": {
+    "keepAliveOrigin": "https://mmt.sit.earthdatacloud.nasa.gov",
+    "host": "https://api.mmt.sit.earthdatacloud.nasa.gov",
+    "callbackUrl": "https://api.mmt.sit.earthdatacloud.nasa.gov/saml-acs",
+    "issuer": "https://api.mmt.sit.earthdatacloud.nasa.gov/saml-acs",
+    "launchpadRoot": "https://auth.launchpad-sbx.nasa.gov",
+    "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
+    "cert": "fake cert",
+    "protocol": "https://",
+    "signatureAlgorithm": "sha256",
+    "digestAlgorithm": "sha256",
+    "authnContext": [
+      "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
+    ],
+    "identifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+    "cookieName": "SBXSESSION"
+  }
+}

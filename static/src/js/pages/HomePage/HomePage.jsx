@@ -8,6 +8,7 @@ import Panel from '../../components/Panel/Panel'
 
 import './HomePage.scss'
 import useAppContext from '../../hooks/useAppContext'
+import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `HomePage` component
@@ -20,11 +21,13 @@ import useAppContext from '../../hooks/useAppContext'
  */
 const HomePage = () => {
   const navigate = useNavigate()
+
   const { user } = useAppContext()
   const { token } = user
+  const isExpired = isTokenExpired(token)
 
   useEffect(() => {
-    if (token) {
+    if (!isExpired) {
       navigate('/manage/collections', { replace: true })
     }
   }, [token])

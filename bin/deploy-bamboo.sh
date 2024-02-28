@@ -24,6 +24,9 @@ config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NA
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
+# setup .env
+echo "EDL_PASSWORD=$bamboo_EDL_PASSWORD" > .env
+
 # Set up Docker image
 #####################
 

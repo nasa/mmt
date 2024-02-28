@@ -1,7 +1,7 @@
 import constructDownloadableFile from '../constructDownloadableFile'
 
 describe('constructDownloadableFile', () => {
-  test.only('downloads a json file', () => {
+  test('downloads a json file', () => {
     global.URL.createObjectURL = jest.fn().mockReturnValue('mock-url')
 
     const mockBlob = {
