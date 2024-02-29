@@ -1,6 +1,10 @@
-import CustomTextareaWidget from '../../../../components/widgets/CustomTextareaWidget'
+import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 
 const descriptiveKeywordsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
+  'ui:heading-level': 'h3',
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -38,9 +42,15 @@ const descriptiveKeywordsUiSchema = {
   },
   ScienceKeywords: {
     'ui:title': 'Science Keyword',
-    'ui:field': 'keywordPicker'
+    'ui:field': 'keywordPicker',
+    'ui:keyword_scheme': 'science_keywords',
+    'ui:picker_title': 'SERVICE KEYWORD',
+    'ui:keyword_scheme_column_names': ['servicekeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+    'ui:filter': 'EARTH SCIENCE SERVICES',
+    'ui:scheme_values': ['ServiceCategory', 'ServiceTopic', 'ServiceTerm', 'ServiceSpecificTerm']
   },
   AncillaryKeywords: {
+    'ui:heading-level': 'h4',
     'ui:default': ''
   },
   AdditionalAttributes: {

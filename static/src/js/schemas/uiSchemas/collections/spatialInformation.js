@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-import PreviewMapLink from '../../../../components/fields/PreviewMapLink'
-import '../../../../components/fields/PreviewMapLink.css'
+import PreviewMapLink from '../../../components/PreviewMapLink/PreviewMapLink'
+import '../../../components/PreviewMapLink/PreviewMapLink.scss'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const spatialInformationUiSchema = {
   'ui:field': 'layout',
@@ -269,18 +269,18 @@ const spatialInformationUiSchema = {
                             }
                           }
                         ]
-                      },
-                      {
-                        'ui:row': [
-                          {
-                            md: 12,
-                            render: (props) => (
-                              <div className="preview-map-link__icon-label">
-                                <PreviewMapLink {...props} type="point" />
-                              </div>
-                            )
-                          }]
                       }
+                      // {
+                      //   'ui:row': [
+                      //     {
+                      //       md: 12,
+                      //       render: (props) => (
+                      //         <div className="preview-map-link__icon-label">
+                      //           <PreviewMapLink {...props} type="point" />
+                      //         </div>
+                      //       )
+                      //     }]
+                      // }
                     ]
                   }
                 }
@@ -315,17 +315,17 @@ const spatialInformationUiSchema = {
                           }
                         ]
                       },
-                      {
-                        'ui:row': [
-                          {
-                            md: 12,
-                            render: (props) => (
-                              <div className="preview-map-link__icon-label pb-4 pl-3">
-                                <PreviewMapLink {...props} type="polygon" />
-                              </div>
-                            )
-                          }]
-                      },
+                      // {
+                      //   'ui:row': [
+                      //     {
+                      //       md: 12,
+                      //       render: (props) => (
+                      //         <div className="preview-map-link__icon-label pb-4 pl-3">
+                      //           <PreviewMapLink {...props} type="polygon" />
+                      //         </div>
+                      //       )
+                      //     }]
+                      // },
                       {
                         'ui:row': [
                           {

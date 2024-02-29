@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 // Private function used to traverse through the cmr keywords response and build a multidimensional array of keywords, see exported/public interface below.
 function traverse(

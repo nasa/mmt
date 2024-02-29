@@ -1,7 +1,7 @@
-import React from 'react'
+// Import React from 'react'
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
-import PlatformField from '../../../components/PlatformField/PlatformField'
+// Import PlatformField from '../../../components/PlatformField/PlatformField'
 
 const acquisitionInformationUiSchema = {
   'ui:field': 'layout',
@@ -48,21 +48,22 @@ const acquisitionInformationUiSchema = {
               children: [
                 {
                   'ui:row': [
-                    {
-                      md: 12,
-                      // Rendering custom component for ShortName, Type and LongName
-                      render: (props) => (
-                        <div style={
-                          {
-                            padding: '15px',
-                            paddingTop: '0px'
-                          }
-                        }
-                        >
-                          <PlatformField {...props} />
-                        </div>
-                      )
-                    },
+                    // Pending on a ticket for platforms
+                    // {
+                    //   md: 12,
+                    //   // Rendering custom component for ShortName, Type and LongName
+                    //   render: (props) => (
+                    //     <div style={
+                    //       {
+                    //         padding: '15px',
+                    //         paddingTop: '0px'
+                    //       }
+                    //     }
+                    //     >
+                    //       <PlatformField {...props} />
+                    //     </div>
+                    //   )
+                    // },
                     {
                       'ui:col': {
                         md: 12,

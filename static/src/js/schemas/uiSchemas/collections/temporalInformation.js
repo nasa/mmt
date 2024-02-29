@@ -1,4 +1,5 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import temporalKeywords from '../../../utils/temporalKeywords'
 
 const temporalInformationUiSchema = {
   'ui:field': 'layout',
@@ -241,7 +242,10 @@ const temporalInformationUiSchema = {
   },
   TemporalKeywords: {
     items: {
-      'ui:widget': CustomSelectWidget
+      'ui:widget': CustomSelectWidget,
+      'ui:options': {
+        enumOptions: temporalKeywords
+      }
     }
 
   },
