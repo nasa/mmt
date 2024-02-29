@@ -1,13 +1,11 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Cookies } from 'react-cookie'
 
 import Providers from '../Providers'
 
 import AppContextProvider from '../../AppContextProvider/AppContextProvider'
 import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
 
-import encodeCookie from '../../../utils/encodeCookie'
 import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
 import GraphQLProvider from '../../GraphQLProvider/GraphQLProvider'
 
