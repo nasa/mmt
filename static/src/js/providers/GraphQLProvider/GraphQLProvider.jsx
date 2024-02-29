@@ -17,10 +17,10 @@ import useAppContext from '../../hooks/useAppContext'
  * @property {ReactNode} children The children to be rendered.
 
 /**
- * Renders any children wrapped with Auth.
+ * Renders any children wrapped with access to the Apollo context.
  * @param {GraphQLProviderProps} props
  *
- * @example <caption>Renders children wrapped with Auth.</caption>
+ * @example <caption>Renders children wrapped with access to the Apollo context.</caption>
  *
  * return (
  *   <GraphQLProvider>

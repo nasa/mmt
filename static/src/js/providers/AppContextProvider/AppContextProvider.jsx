@@ -9,10 +9,10 @@ import useAuthContext from '../../hooks/useAuthContext'
  * @property {ReactNode} children The children to be rendered.
 
 /**
- * Renders any children wrapped with AppContext.
+ * Renders any children wrapped with access to AppContext.
  * @param {AppContextProviderProps} props
  *
- * @example <caption>Renders children wrapped with AppContext.</caption>
+ * @example <caption>Renders children wrapped with access to AppContext.</caption>
  *
  * return (
  *   <AppContextProvider>

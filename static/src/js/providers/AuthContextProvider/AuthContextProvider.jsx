@@ -18,10 +18,10 @@ const { apiHost } = getApplicationConfig()
  * @property {ReactNode} children The children to be rendered.
 
 /**
- * Renders any children wrapped with Auth.
+ * Renders any children and provides access to AuthContext.
  * @param {AuthContextProviderProps} props
  *
- * @example <caption>Renders children wrapped with Auth.</caption>
+ * @example <caption>Renders any children and provides access to AuthContext.</caption>
  *
  * return (
  *   <AuthContextProvider>
