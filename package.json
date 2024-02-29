@@ -42,6 +42,7 @@
     "json-schema": "^0.4.0",
     "jwt-decode": "^4.0.0",
     "jwt-encode": "^1.0.1",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "pluralize": "^8.0.0",

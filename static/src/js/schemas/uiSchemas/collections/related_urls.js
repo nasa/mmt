@@ -1,6 +1,5 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-
-const { shouldHideGetData, shouldHideGetService } = require('../../../../utils/collections_utils')
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import { shouldHideGetData, shouldHideGetService } from '../../../utils/collectionsUtils'
 
 const relatedUrlsUiSchema = {
   RelatedUrls: {
