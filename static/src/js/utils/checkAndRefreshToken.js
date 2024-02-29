@@ -13,7 +13,7 @@ const checkAndRefreshToken = async (token, prevLoginInfo, setCookie) => {
   const { tokenValue, tokenExp } = token || {}
 
   if (tokenValue && tokenExp) {
-    // console.log('time remaining ', new Date(tokenExp), new Date(), ((tokenExp.valueOf() - new Date().valueOf()) / 1000 / 60))
+    // Console.log('time remaining ', new Date(tokenExp), new Date(), ((tokenExp.valueOf() - new Date().valueOf()) / 1000 / 60))
 
     // Subtract 1 minute from the actual token expiration to decide if we should refresh
     const offsetTokenInfo = { ...token }
