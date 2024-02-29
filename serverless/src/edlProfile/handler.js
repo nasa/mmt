@@ -29,6 +29,8 @@ const edlProfile = async (event) => {
     profile.name = getUserName(profile)
   }
 
+  delete profile.user_groups
+
   const returnValue = {
     statusCode: 200,
     body: JSON.stringify(profile)
