@@ -7,7 +7,6 @@ import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import * as getConfig from '../../../utils/getConfig'
-import encodeCookie from '../../../utils/encodeCookie'
 
 const MockComponent = () => {
   const { user, login, logout } = useAppContext()
@@ -50,13 +49,13 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
+      loginInfo: {
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
           tokenExp: expires
         }
-      })
+      }
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false

@@ -9,7 +9,6 @@ import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
 import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 
 /**
@@ -37,7 +36,7 @@ const AppContextProvider = ({ children }) => {
 
   const { keywords } = keywordsContext
 
-  const [cookies] = useCookies(['loginInfo'])
+  const [cookies, setCookie] = useCookies(['loginInfo'])
   const { token } = user
 
   const {
@@ -48,21 +47,21 @@ const AppContextProvider = ({ children }) => {
     if (loginInfo) {
       const {
         auid, name, token: cookieToken
-      } = decodeCookie(loginInfo)
+      } = loginInfo
 
-      setUser({
-        ...user,
+      setUser((prevUser) => ({
+        ...prevUser,
         token: cookieToken,
         name,
         auid,
         providerId: 'MMT_2'
-      })
+      }))
     }
   }, [loginInfo])
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      checkAndRefreshToken(token, user, setUser)
+      checkAndRefreshToken(token, loginInfo, setCookie)
     }, 1000)
 
     return () => clearInterval(interval)

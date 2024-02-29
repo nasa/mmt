@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
+import { getApplicationConfig } from '../../utils/getConfig'
 
 /**
  * This class handles the authenticated redirect from our saml lambda function.
@@ -9,15 +11,40 @@ import { useSearchParams } from 'react-router-dom'
 
 export const AuthCallbackContainer = () => {
   const [searchParams] = useSearchParams()
-  const path = searchParams.get('target')
+  const { apiHost } = getApplicationConfig()
 
+  const path = searchParams.get('target')
+  const auid = searchParams.get('auid')
+
+  const [cookie, setCookie] = useCookies(['launchpadToken', 'loginInfo'])
+
+  const { launchpadToken } = cookie
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (path) {
-      navigate(path)
+    const fetchData = async () => {
+      const response = await fetch(`${apiHost}/edl-profile?auid=${auid}`)
+      const edlProfile = await response.json()
+
+      let expires = new Date()
+      expires.setMinutes(expires.getMinutes() + 2)
+      expires = new Date(expires)
+      setCookie('loginInfo', {
+        name: edlProfile.name,
+        auid,
+        token: {
+          tokenValue: launchpadToken,
+          tokenExp: expires.valueOf()
+        }
+      })
     }
-  }, [])
+
+    fetchData()
+  }, [launchpadToken])
+
+  if (path) {
+    navigate(path)
+  }
 
   return <div />
 }

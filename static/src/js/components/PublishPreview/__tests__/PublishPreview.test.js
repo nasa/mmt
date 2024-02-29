@@ -19,7 +19,6 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -127,7 +126,7 @@ const setup = ({
 
   const cookie = new Cookies(
     {
-      loginInfo: encodeCookie({
+      loginInfo: ({
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',

@@ -12,12 +12,19 @@ const setup = (overrideSearchParams, overrideProps) => {
     children: 'children',
     ...overrideProps
   }
+  global.fetch = jest.fn(() => Promise.resolve({
+    json: () => Promise.resolve({
+      ok: true,
+      statusCode: 200,
+      status: 'success'
+    })
+  }))
 
   act(() => {
     render(
       <MemoryRouter initialEntries={
         [{
-          pathname: '/auth_callbac',
+          pathname: '/auth_callback',
           search: `?${createSearchParams(overrideSearchParams || ({
             target: '/manage/services'
           }))}`
@@ -35,7 +42,7 @@ describe('AuthCallbackContainer component', () => {
     jest.clearAllMocks()
   })
 
-  test('sets the user and redirects', () => {
+  test('sets the user and redirects', async () => {
     const navigateSpy = jest.fn()
     jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
