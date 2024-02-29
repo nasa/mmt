@@ -27,7 +27,7 @@ export const AuthCallbackContainer = () => {
       const edlProfile = await response.json()
 
       let expires = new Date()
-      expires.setMinutes(expires.getMinutes() + 2)
+      expires.setMinutes(expires.getMinutes() + 15)
       expires = new Date(expires)
       setCookie('loginInfo', {
         name: edlProfile.name,
