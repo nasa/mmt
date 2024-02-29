@@ -22,7 +22,7 @@ export const AuthCallbackContainer = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProfileAndSetLoginCookie = async () => {
       const response = await fetch(`${apiHost}/edl-profile?auid=${auid}`)
       const edlProfile = await response.json()
 
@@ -39,7 +39,7 @@ export const AuthCallbackContainer = () => {
       })
     }
 
-    fetchData()
+    fetchProfileAndSetLoginCookie()
   }, [launchpadToken])
 
   if (path) {
