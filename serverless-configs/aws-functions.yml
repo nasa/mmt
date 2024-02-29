@@ -30,12 +30,20 @@ samlRefreshToken:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-refresh-token
-gkrRequest:
-  handler: serverless/src/gkrRequest/handler.default
+gkrKeywordRecommendations:
+  handler: serverless/src/gkrKeywordRecommendations/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
   events:
     - http:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
-        path: gkr-request
+        path: gkr-keyword-recommendations
+gkrSendFeedback:
+  handler: serverless/src/gkrSendFeedback/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: post
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: gkr-send-feedback
 
