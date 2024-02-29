@@ -49,6 +49,17 @@ import OneOfField from '../../OneOfField/OneOfField'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 import encodeCookie from '../../../utils/encodeCookie'
 
+jest.mock('@apollo/client', () => ({
+  ...jest.requireActual('@apollo/client'),
+  __esModule: true,
+  ApolloClient: jest.fn(),
+  InMemoryCache: jest.fn(() => ({ mockCache: {} })),
+  ApolloProvider: jest.fn(({ children }) => children),
+  createHttpLink: jest.fn(
+    (args) => jest.requireActual('@apollo/client').createHttpLink(args)
+  )
+}))
+
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
   onBlur,
@@ -81,6 +92,8 @@ jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../JsonPreview/JsonPreview')
 jest.mock('../../FormNavigation/FormNavigation')
 jest.mock('../../../utils/errorLogger')
+
+global.fetch = jest.fn()
 
 const mockedUsedNavigate = jest.fn()
 
@@ -192,33 +205,34 @@ const setup = ({
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <Providers>
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
-              <Route
-                path="/drafts/:draftType"
-              >
+      <Providers>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+          <Providers>
+            <MemoryRouter initialEntries={[pageUrl]}>
+              <Routes>
                 <Route
-                  element={<MetadataForm />}
-                  path="new"
-                />
-                <Route
-                  path=":conceptId/:sectionName"
-                  element={<MetadataForm />}
-                />
-                <Route
-                  path=":conceptId/:sectionName/:fieldName"
-                  element={<MetadataForm />}
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </Providers>
-      </MockedProvider>
-
+                  path="/drafts/:draftType"
+                >
+                  <Route
+                    element={<MetadataForm />}
+                    path="new"
+                  />
+                  <Route
+                    path=":conceptId/:sectionName"
+                    element={<MetadataForm />}
+                  />
+                  <Route
+                    path=":conceptId/:sectionName/:fieldName"
+                    element={<MetadataForm />}
+                  />
+                </Route>
+              </Routes>
+            </MemoryRouter>
+          </Providers>
+        </MockedProvider>
+      </Providers>
     </CookiesProvider>
   )
 

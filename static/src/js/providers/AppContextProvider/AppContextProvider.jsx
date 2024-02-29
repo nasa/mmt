@@ -1,16 +1,8 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
-import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
-import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
+import useAuthContext from '../../hooks/useAuthContext'
 
 /**
  * @typedef {Object} AppContextProviderProps
@@ -29,74 +21,30 @@ import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
  * )
  */
 const AppContextProvider = ({ children }) => {
-  const keywordsContext = useKeywords()
+  const { login, logout, user } = useAuthContext()
+  const { addKeywordsData, keywords } = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
   const [savedDraft, setSavedDraft] = useState()
-  const [user, setUser] = useState({})
-
-  const { keywords } = keywordsContext
-
-  const [cookies] = useCookies(['loginInfo'])
-  const { token } = user
-
-  const {
-    loginInfo
-  } = cookies
-
-  useEffect(() => {
-    if (loginInfo) {
-      const {
-        auid, name, token: cookieToken
-      } = decodeCookie(loginInfo)
-
-      setUser({
-        ...user,
-        token: cookieToken,
-        name,
-        auid,
-        providerId: 'MMT_2'
-      })
-    }
-  }, [loginInfo])
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      checkAndRefreshToken(token, user, setUser)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [token])
-
-  const login = useCallback(() => {
-    const { apiHost } = getApplicationConfig()
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
-  })
-
-  const logout = useCallback(() => {
-    setUser({})
-  })
 
   const providerValue = useMemo(() => ({
-    ...keywordsContext,
-    draft,
+    user,
     login,
     logout,
+    addKeywordsData,
+    keywords,
+    draft,
     originalDraft,
     savedDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    setUser,
-    user
+    setSavedDraft
   }), [
+    user,
     draft,
     originalDraft,
     keywords,
-    savedDraft,
-    user,
-    login,
-    logout
+    savedDraft
   ])
 
   return (
