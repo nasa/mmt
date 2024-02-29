@@ -4,12 +4,13 @@ import refreshToken from './refreshToken'
 /**
  * Checks the specified token to see if it is expired.  If it is expired,
  * it will invoke lambda to retrieve a new token and call the provided
- * setCookie function to update the token.
+ * setUser function to update the token.
  * @param {*} token the token currently being  used
  * @param {*} user the user object
- * @param {*} setCookie the setCookie function to be used to update the token
+ * @param {*} setUser the setUser function to be used to update the token
  */
-const checkAndRefreshToken = async (token, prevLoginInfo, setCookie) => {
+const checkAndRefreshToken = async (user, setUser) => {
+  const { token } = user
   const { tokenValue, tokenExp } = token || {}
 
   if (tokenValue && tokenExp) {
@@ -21,8 +22,9 @@ const checkAndRefreshToken = async (token, prevLoginInfo, setCookie) => {
 
     if (isTokenExpired(offsetTokenInfo)) {
       const newToken = await refreshToken(tokenValue)
-      setCookie('loginInfo', {
-        ...prevLoginInfo,
+
+      setUser({
+        ...user,
         token: newToken
       })
     }

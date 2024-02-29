@@ -26,25 +26,18 @@ describe('check and refresh token', () => {
       }),
       json: () => Promise.resolve({
         ok: true,
-        status: 200,
-        json: () => (
-          {
-            auid: 'cgokey',
-            email: 'christopher.d.gokey@nasa.gov',
-            name: 'Christopher Gokey'
-          }
-        )
+        status: 200
       })
     }))
 
-    const setCookieFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    const setUserFn = jest.fn()
+    await checkAndRefreshToken({
       name: 'mock name',
       token
-    }, setCookieFn)
+    }, setUserFn)
 
-    expect(setCookieFn).toBeCalledTimes(1)
-    expect(setCookieFn).toBeCalledWith('loginInfo', {
+    expect(setUserFn).toBeCalledTimes(1)
+    expect(setUserFn).toBeCalledWith({
       name: 'mock name',
       token: {
         tokenExp: 1234000,
@@ -64,7 +57,7 @@ describe('check and refresh token', () => {
     }
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)
@@ -80,7 +73,7 @@ describe('check and refresh token', () => {
     const token = null
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)
