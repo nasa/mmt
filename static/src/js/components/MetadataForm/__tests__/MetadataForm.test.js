@@ -49,17 +49,6 @@ import OneOfField from '../../OneOfField/OneOfField'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 import encodeCookie from '../../../utils/encodeCookie'
 
-jest.mock('@apollo/client', () => ({
-  ...jest.requireActual('@apollo/client'),
-  __esModule: true,
-  ApolloClient: jest.fn(),
-  InMemoryCache: jest.fn(() => ({ mockCache: {} })),
-  ApolloProvider: jest.fn(({ children }) => children),
-  createHttpLink: jest.fn(
-    (args) => jest.requireActual('@apollo/client').createHttpLink(args)
-  )
-}))
-
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
   onBlur,
@@ -209,28 +198,26 @@ const setup = ({
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
-          <Providers>
-            <MemoryRouter initialEntries={[pageUrl]}>
-              <Routes>
+          <MemoryRouter initialEntries={[pageUrl]}>
+            <Routes>
+              <Route
+                path="/drafts/:draftType"
+              >
                 <Route
-                  path="/drafts/:draftType"
-                >
-                  <Route
-                    element={<MetadataForm />}
-                    path="new"
-                  />
-                  <Route
-                    path=":conceptId/:sectionName"
-                    element={<MetadataForm />}
-                  />
-                  <Route
-                    path=":conceptId/:sectionName/:fieldName"
-                    element={<MetadataForm />}
-                  />
-                </Route>
-              </Routes>
-            </MemoryRouter>
-          </Providers>
+                  element={<MetadataForm />}
+                  path="new"
+                />
+                <Route
+                  path=":conceptId/:sectionName"
+                  element={<MetadataForm />}
+                />
+                <Route
+                  path=":conceptId/:sectionName/:fieldName"
+                  element={<MetadataForm />}
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
         </MockedProvider>
       </Providers>
     </CookiesProvider>

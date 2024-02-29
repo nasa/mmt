@@ -66,11 +66,11 @@ const AuthContextProvider = ({ children }) => {
 
   const login = useCallback(() => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
-  })
+  }, [])
 
   const logout = useCallback(() => {
     setUser({})
-  })
+  }, [])
 
   const providerValue = useMemo(() => ({
     login,

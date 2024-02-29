@@ -39,22 +39,6 @@ jest.mock('../../NotificationsContextProvider/NotificationsContextProvider', () 
 
 describe('Providers', () => {
   test('renders all providers', () => {
-    let expires = new Date()
-    expires.setMinutes(expires.getMinutes() + 15)
-    expires = new Date(expires)
-
-    const cookie = new Cookies({
-      loginInfo: encodeCookie({
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires
-        },
-        providerId: 'MMT_2'
-      })
-    })
-    cookie.HAS_DOCUMENT_COOKIE = false
-
     render(
       <Providers>
         Test
