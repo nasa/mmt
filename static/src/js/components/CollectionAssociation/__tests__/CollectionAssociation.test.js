@@ -23,6 +23,8 @@ jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
 jest.mock('../../../utils/removeMetadataKeys')
 
+global.fetch = jest.fn()
+
 const mockedUsedNavigate = jest.fn()
 
 jest.mock('react-router-dom', () => ({
@@ -126,7 +128,6 @@ const setup = ({
   cookie.HAS_DOCUMENT_COOKIE = false
 
   render(
-
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <MemoryRouter initialEntries={overrideInitialEntries}>
         <Providers>
@@ -145,10 +146,8 @@ const setup = ({
             </Routes>
           </MockedProvider>
         </Providers>
-
       </MemoryRouter>
     </CookiesProvider>
-
   )
 
   return {

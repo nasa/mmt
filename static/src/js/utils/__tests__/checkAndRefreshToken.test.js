@@ -31,7 +31,7 @@ describe('check and refresh token', () => {
     }))
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)
@@ -57,7 +57,7 @@ describe('check and refresh token', () => {
     }
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)
@@ -73,7 +73,7 @@ describe('check and refresh token', () => {
     const token = null
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)
