@@ -35,7 +35,7 @@ const GraphQLProvider = ({ children }) => {
   const { token } = user
   const { tokenValue } = token || {}
 
-  console.log('using ', token)
+  // Console.log('using ', token)
 
   const httpLink = createHttpLink({
     uri: graphQlHost

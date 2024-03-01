@@ -54,7 +54,7 @@ const AuthContextProvider = ({ children }) => {
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    console.log('refreshing token ', refreshToken)
+    // Console.log('refreshing token ', refreshToken)
     setCookie('loginInfo', {
       ...loginInfo,
       token: refreshToken

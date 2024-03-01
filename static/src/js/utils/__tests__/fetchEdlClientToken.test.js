@@ -2,7 +2,7 @@ import fetchEdlClientToken from '../fetchEdlClientToken'
 
 beforeEach(() => {
   jest.clearAllMocks()
-  process.env.EDL_PASSWORD = ''
+  process.env.EDL_PASSWORD = 'test'
 })
 
 global.fetch = jest.fn(() => Promise.resolve({
@@ -21,7 +21,7 @@ describe('Retrieving EDL Client Token', () => {
     expect(fetch).toHaveBeenCalledWith('https://sit.urs.earthdata.nasa.gov/oauth/token', {
       body: 'grant_type=client_credentials',
       headers: {
-        Authorization: 'Basic bW10X3Rlc3Q6',
+        Authorization: 'Basic bW10X3Rlc3Q6dGVzdA==',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
       method: 'POST'

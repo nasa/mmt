@@ -192,7 +192,7 @@ describe('when there is a group title', () => {
       const { props } = setup({
         layout: {
           'ui:group': 'mock group name',
-          'ui:group-single-panel': 'mock single panel title',
+          'ui:group-single-panel': true,
           'ui:row': [{
             'ui:col': {
               children: ['Name'],

@@ -17,17 +17,9 @@ const edlProfile = async (event) => {
     return name
   }
 
-  let profile
-  if (process.env.EDL_PASSWORD === '') {
-    profile = {
-      auid,
-      name: auid
-    }
-  } else {
-    profile = await fetchEdlProfile(auid)
-    profile.auid = auid
-    profile.name = getUserName(profile)
-  }
+  const profile = await fetchEdlProfile(auid)
+  profile.auid = auid
+  profile.name = getUserName(profile)
 
   delete profile.user_groups
 

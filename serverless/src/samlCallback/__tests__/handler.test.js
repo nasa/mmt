@@ -24,7 +24,6 @@ describe('samlCallback is called by launchpad after a successful login in produc
     }))
 
     jest.spyOn(Date.prototype, 'valueOf').mockImplementation(() => 1234)
-    process.env.EDL_PASSWORD = 'mock_password'
   })
 
   test('returns a redirect to the mmt app and encodes the launchpad token in a cookie', async () => {

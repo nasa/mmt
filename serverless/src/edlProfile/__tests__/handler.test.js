@@ -63,23 +63,3 @@ describe('edlProfile when edl password is provided', () => {
     expect(response.statusCode).toBe(200)
   })
 })
-
-describe('edlProfile when edl password is NOT provided', () => {
-  test('returns a 200 status code', async () => {
-    process.env.EDL_PASSWORD = ''
-    const event = {
-      queryStringParameters: {
-        auid: 'cgokey'
-      }
-    }
-
-    const response = await edlProfile(event)
-    const profile = await response.body
-    expect(JSON.parse(profile)).toEqual({
-      auid: 'cgokey',
-      name: 'cgokey'
-    })
-
-    expect(response.statusCode).toBe(200)
-  })
-})
