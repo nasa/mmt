@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import AppContextProvider from '../AppContextProvider/AppContextProvider'
 import NotificationsContextProvider from '../NotificationsContextProvider/NotificationsContextProvider'
+import AuthContextProvider from '../AuthContextProvider/AuthContextProvider'
+import GraphQLProvider from '../GraphQLProvider/GraphQLProvider'
 
 /**
  * @typedef {Object} ProvidersProps
@@ -22,7 +24,9 @@ import NotificationsContextProvider from '../NotificationsContextProvider/Notifi
  */
 const Providers = ({ children }) => {
   const providers = [
-    <AppContextProvider key="provider_app-context" />,
+    <AuthContextProvider key="provider_auth-context-provider" />,
+    <AppContextProvider key="provider_app-context-provider" />,
+    <GraphQLProvider key="provider_graphql-provider" />,
     <NotificationsContextProvider key="provider_notifications-context" />
   ]
 

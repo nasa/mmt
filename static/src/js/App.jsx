@@ -2,14 +2,6 @@ import React, { useLayoutEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink
-} from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -24,11 +16,9 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import { getApplicationConfig } from './utils/getConfig'
+import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
-import useAppContext from './hooks/useAppContext'
-import withProviders from './providers/withProviders/withProviders'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -54,50 +44,13 @@ const Redirects = redirectKeys.map(
  *   <App />
  * )
  */
-const App = () => {
+export const App = () => {
   useLayoutEffect(() => {
     document.body.classList.remove('is-loading')
   }, [])
 
-  const { graphQlHost } = getApplicationConfig()
-  const { user } = useAppContext()
-  const { token } = user
-  const { tokenValue } = token || {}
-
-  const httpLink = createHttpLink({
-    uri: graphQlHost
-  })
-
-  console.log('using token ', tokenValue)
-
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      Authorization: tokenValue
-    }
-  }))
-
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-
-    link: authLink.concat(httpLink),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache'
-      },
-      watchQuery: {
-        fetchPolicy: 'no-cache'
-      }
-    }
-  })
-  // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
-  // appContext = {
-  //   statusMessage
-  //   errorMessage
-  // }
-
   return (
-    <ApolloProvider client={client}>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -155,7 +108,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </ApolloProvider>
+    </>
   )
 }
 

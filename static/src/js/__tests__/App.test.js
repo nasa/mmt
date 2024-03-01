@@ -4,23 +4,32 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { ApolloClient } from '@apollo/client'
 
-import App from '../App'
-
-jest.mock('@apollo/client', () => ({
-  ...jest.requireActual('@apollo/client'),
-  __esModule: true,
-  ApolloClient: jest.fn(),
-  InMemoryCache: jest.fn(() => ({ mockCache: {} })),
-  ApolloProvider: jest.fn(({ children }) => children),
-  createHttpLink: jest.fn()
-}))
+import { App } from '../App'
+import ManageCmrPage from '../pages/ManageCmrPage/ManageCmrPage'
 
 jest.mock('../pages/ManagePage/ManagePage', () => ({
   __esModule: true,
+  default: jest.fn(() => {
+    const { type } = jest.requireActual('react-router-dom').useParams()
+
+    return (
+      <div data-testid={`mock-manage-${type}-page`}>Manage Page</div>
+    )
+  })
+}))
+
+jest.mock('../pages/HomePage/HomePage', () => ({
+  __esModule: true,
   default: jest.fn(() => (
-    <div data-testid="mock-manage-page">Manage Page</div>
+    <div data-testid="mock-home-page">Home Page</div>
+  ))
+}))
+
+jest.mock('../pages/DraftsPage/DraftsPage', () => ({
+  __esModule: true,
+  default: jest.fn(() => (
+    <div data-testid="mock-manage-drafts-page">Drafts Page</div>
   ))
 }))
 
@@ -31,228 +40,208 @@ jest.mock('../pages/ManageCmrPage/ManageCmrPage', () => ({
   ))
 }))
 
-// TODO debug the issues with the createHttpLink mock
+jest.mock('../providers/Providers/Providers', () => ({
+  __esModule: true,
+  default: jest.fn(() => (
+    <div data-testid="mock-providers" />
+  ))
+}))
 
-describe.skip('App component', () => {
-  test('initializes Apollo with the correct options', async () => {
-    render(<App />)
+jest.mock('../components/Notifications/Notifications', () => ({
+  __esModule: true,
+  default: jest.fn(() => (
+    <div data-testid="mock-notifications" />
+  ))
+}))
 
-    expect(ApolloClient).toHaveBeenCalledTimes(1)
-    expect(ApolloClient).toHaveBeenCalledWith({
-      cache: { mockCache: {} },
-      uri: 'http://localhost:3013/dev/api'
-    })
+jest.mock('../providers/Providers/Providers', () => ({
+  __esModule: true,
+  default: jest.fn(({ children }) => (
+    <div data-testid="mock-providers">{children}</div>
+  ))
+}))
+
+jest.mock('../components/AuthRequiredContainer/AuthRequiredContainer', () => ({
+  __esModule: true,
+  default: jest.fn(({ children }) => (
+    <div data-testid="mock-auth-required-container">{children}</div>
+  ))
+}))
+
+jest.mock('../components/Layout/Layout', () => {
+  const { Outlet } = jest.requireActual('react-router-dom')
+
+  return ({
+    __esModule: true,
+    default: jest.fn(() => (
+      <div data-testid="mock-layout"><Outlet /></div>
+    ))
+  })
+})
+
+describe('App component', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
-  describe('when rendering the default route', () => {
-    test('renders the manage variables page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the manage collection route', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage-collections')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('renders the manage variables page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the manage variables route', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage-variables')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('renders the manage variables page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-variables-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the manage services route', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage-services')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('renders the manage services page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-services-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the manage tools route', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage-tools')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('renders the manage tools page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-tools-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the manage CMR route', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage-cmr')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('renders the manage CMR page', async () => {
-      render(<App />)
-      expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
-    })
-  })
-
-  describe('when visiting /', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('redirects to /manage-collections', () => {
+  describe('when rendering the "/" route', () => {
+    test('renders the notifications', async () => {
+      window.history.pushState({}, '', '/')
       render(<App />)
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost/manage-collections')
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-notifications')).toBeInTheDocument()
       })
+
+      window.history.pushState({}, '', '/')
+    })
+
+    test('renders the home page', async () => {
+      window.history.pushState({}, '', '/')
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-home-page')).toBeInTheDocument()
+      })
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/manage/collections" route', () => {
+    test('renders the manage collections page', async () => {
+      window.history.pushState({}, '', '/manage/collections')
+
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
+      })
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/manage/variables" route', () => {
+    test('renders the manage variables page', async () => {
+      window.history.pushState({}, '', '/manage/variables')
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-manage-variables-page')).toBeInTheDocument()
+      })
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/manage/services" route', () => {
+    test('renders the manage services page', async () => {
+      window.history.pushState({}, '', '/manage/services')
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-manage-services-page')).toBeInTheDocument()
+      })
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/manage/tools" route', () => {
+    test('renders the manage tools page', async () => {
+      window.history.pushState({}, '', '/manage/tools')
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-manage-tools-page')).toBeInTheDocument()
+      })
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/manage/cmr" route', () => {
+    test('renders the manage cmr page', async () => {
+      window.history.pushState({}, '', '/manage/cmr')
+      render(<App />)
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
+        expect(ManageCmrPage).toHaveBeenCalledTimes(1)
+      })
+
+      window.history.pushState({}, '', '/')
     })
   })
 
   describe('when visiting /manage_collections', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage_collections')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
     test('redirects to /manage-collections', () => {
+      window.history.pushState({}, '', '/manage_collections')
+
       render(<App />)
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-collections')
       })
+
+      window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when visiting /manage_variable', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage_variable')
-    })
+  describe('when visiting /manage_variables', () => {
+    test('redirects to /manage-variables', () => {
+      window.history.pushState({}, '', '/manage_variables')
 
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('redirects to /manage-variable', () => {
       render(<App />)
 
       waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost/manage-variable')
+        expect(window.location.href).toEqual('http://localhost/manage-variables')
       })
+
+      window.history.pushState({}, '', '/')
     })
   })
 
   describe('when visiting /manage_services', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage_services')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
     test('redirects to /manage-services', () => {
+      window.history.pushState({}, '', '/manage_services')
+
       render(<App />)
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-services')
       })
+
+      window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when visiting /manage_tools', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage_tools')
-    })
-
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
+  describe('when visiting /manage-tools', () => {
     test('redirects to /manage-tools', () => {
+      window.history.pushState({}, '', '/manage_tools')
+
       render(<App />)
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-tools')
       })
+
+      window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when visiting /manage_cmr', () => {
-    beforeEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/manage_cmr')
-    })
+  describe('when visiting /manage-cmr', () => {
+    test('redirects to /manage-tools', () => {
+      window.history.pushState({}, '', '/manage-cmr')
 
-    afterEach(() => {
-      delete window.location
-      window.location = new URL('http://localhost/')
-    })
-
-    test('redirects to /manage-cmr', () => {
       render(<App />)
 
       waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost/manage-cmr')
+        expect(window.location.href).toEqual('http://localhost/manage/cmr')
       })
+
+      window.history.pushState({}, '', '/')
     })
   })
 })
