@@ -8,7 +8,6 @@ import {
 import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import AuthContextProvider from '../AuthContextProvider'
-import encodeCookie from '../../../utils/encodeCookie'
 import useAuthContext from '../../../hooks/useAuthContext'
 import checkAndRefreshToken from '../../../utils/checkAndRefreshToken'
 
@@ -66,14 +65,14 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
+      loginInfo: {
         auid: 'username',
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
-      })
+      }
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
@@ -133,18 +132,23 @@ describe('AuthContextProvider component', () => {
           const userName = screen.getByText('User Name: User Name', { exact: true })
           expect(userName).toBeInTheDocument()
 
+          let expires = new Date()
+          expires.setMinutes(expires.getMinutes() + 15)
+          expires = new Date(expires)
+
           act(() => {
             jest.advanceTimersByTime(1500)
           })
 
           expect(checkAndRefreshToken).toHaveBeenCalledTimes(1)
+
           expect(checkAndRefreshToken).toHaveBeenCalledWith(
             expect.objectContaining({
               name: 'User Name',
               auid: 'username',
               providerId: 'MMT_2',
               token: {
-                tokenExp: '2024-01-01T00:15:00.000Z',
+                tokenExp: expires.valueOf(),
                 tokenValue: 'ABC-1'
               }
             }),

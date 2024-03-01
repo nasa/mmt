@@ -118,7 +118,7 @@ const setup = ({
       name: 'User Name',
       token: {
         tokenValue: 'ABC-1',
-        tokenExp: expires
+        tokenExp: expires.valueOf()
       },
       providerId: 'MMT_2'
     })

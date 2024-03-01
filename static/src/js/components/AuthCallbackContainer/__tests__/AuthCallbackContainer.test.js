@@ -1,13 +1,14 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 
 import { MemoryRouter } from 'react-router'
 import { createSearchParams } from 'react-router-dom'
+import { Cookies, CookiesProvider } from 'react-cookie'
 import * as router from 'react-router'
 import AuthCallbackContainer from '../AuthCallbackContainer'
 
-const setup = (overrideSearchParams, overrideProps) => {
+const setup = (changeCookieFn, overrideSearchParams, overrideProps) => {
   const props = {
     children: 'children',
     ...overrideProps
@@ -16,46 +17,90 @@ const setup = (overrideSearchParams, overrideProps) => {
     json: () => Promise.resolve({
       ok: true,
       statusCode: 200,
-      status: 'success'
+      status: 'success',
+      name: 'mock_name'
     })
   }))
 
+  const cookie = new Cookies({
+    launchpadToken: 'mock-token'
+  })
+  cookie.HAS_DOCUMENT_COOKIE = false
+  cookie.addChangeListener(changeCookieFn)
+
   act(() => {
     render(
-      <MemoryRouter initialEntries={
-        [{
-          pathname: '/auth_callback',
-          search: `?${createSearchParams(overrideSearchParams || ({
-            target: '/manage/services'
-          }))}`
-        }]
-      }
-      >
-        <AuthCallbackContainer {...props} />
-      </MemoryRouter>
+      <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
+        <MemoryRouter initialEntries={
+          [{
+            pathname: '/auth_callback',
+            search: `?${createSearchParams(overrideSearchParams || ({
+              target: '/manage/services',
+              auid: 'mock_user'
+            }))}`
+          }]
+        }
+        >
+          <AuthCallbackContainer {...props} />
+        </MemoryRouter>
+      </CookiesProvider>
     )
   })
 }
 
 describe('AuthCallbackContainer component', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2024-01-01'))
+  })
+
   afterEach(() => {
-    jest.clearAllMocks()
+    jest.useRealTimers()
   })
 
   test('sets the user and redirects', async () => {
+    const changeCookieFn = jest.fn()
     const navigateSpy = jest.fn()
     jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-    setup()
-    expect(navigateSpy).toHaveBeenCalledTimes(1)
+    setup(changeCookieFn)
+
+    await waitFor(() => {
+      expect(changeCookieFn).toHaveBeenCalledTimes(1)
+    })
+
+    expect(changeCookieFn).toHaveBeenCalledTimes(1)
+
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
+    expect(changeCookieFn).toHaveBeenCalledWith({
+      name: 'loginInfo',
+      options: {},
+      value: {
+        auid: 'mock_user',
+        name: 'mock_name',
+        token: {
+          tokenExp: expires.valueOf(),
+          tokenValue: 'mock-token'
+        }
+      }
+    })
+
     expect(navigateSpy).toHaveBeenCalledWith('/manage/services')
   })
 
-  test('does not redirect if no target is provided', () => {
+  test('does not redirect if no target is provided', async () => {
+    const changeCookieFn = jest.fn()
     const navigateSpy = jest.fn()
     jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-    setup({}) // No target search param
+    setup(changeCookieFn, {}) // No target search param
+    await waitFor(() => {
+      expect(changeCookieFn).toHaveBeenCalledTimes(1)
+    })
+
     expect(navigateSpy).toHaveBeenCalledTimes(0)
   })
 })

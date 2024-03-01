@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 import AuthContext from '../../context/AuthContext'
 import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 
 const { apiHost } = getApplicationConfig()
@@ -32,7 +31,7 @@ const { apiHost } = getApplicationConfig()
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
 
-  const [cookies] = useCookies(['loginInfo'])
+  const [cookies, setCookie] = useCookies(['loginInfo'])
   const { token } = user
   const { loginInfo } = cookies
 
@@ -42,7 +41,7 @@ const AuthContextProvider = ({ children }) => {
         auid,
         name,
         token: cookieToken
-      } = decodeCookie(loginInfo)
+      } = loginInfo
 
       setUser({
         ...user,
@@ -54,9 +53,17 @@ const AuthContextProvider = ({ children }) => {
     }
   }, [loginInfo])
 
+  const handleRefreshToken = (refreshToken) => {
+    console.log('refreshing token ', refreshToken)
+    setCookie('loginInfo', {
+      ...loginInfo,
+      token: refreshToken
+    })
+  }
+
   useEffect(() => {
     const interval = setInterval(async () => {
-      checkAndRefreshToken(user, setUser)
+      checkAndRefreshToken(user, handleRefreshToken)
     }, 1000)
 
     return () => {

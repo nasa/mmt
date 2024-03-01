@@ -20,13 +20,6 @@ const findLaunchpadTokenInHeaders = (headers) => {
   return launchpadToken
 }
 
-const getExpirationDate = () => {
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  return expires
-}
 /**
  * Handles refreshing user's token
  * @param {Object} event Details about the HTTP request that it received
@@ -49,20 +42,18 @@ const samlRefreshToken = async (event) => {
     }
   })
   const json = await response.json()
-  const expires = getExpirationDate()
 
   const launchpadToken = findLaunchpadTokenInHeaders(response.headers)
   if (json.status === 'success') {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Expose-Headers': 'token, expires',
+        'Access-Control-Expose-Headers': 'token',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'GET, POST',
         'Access-Control-Allow-Credentials': true,
-        token: launchpadToken,
-        expires: expires.valueOf() / 1000
+        token: launchpadToken
       }
     }
   }

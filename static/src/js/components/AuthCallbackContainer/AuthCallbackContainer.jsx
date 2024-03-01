@@ -17,7 +17,6 @@ export const AuthCallbackContainer = () => {
   const auid = searchParams.get('auid')
 
   const [cookie, setCookie] = useCookies(['launchpadToken', 'loginInfo'])
-
   const { launchpadToken } = cookie
   const navigate = useNavigate()
 
@@ -29,6 +28,7 @@ export const AuthCallbackContainer = () => {
       let expires = new Date()
       expires.setMinutes(expires.getMinutes() + 15)
       expires = new Date(expires)
+
       setCookie('loginInfo', {
         name: edlProfile.name,
         auid,

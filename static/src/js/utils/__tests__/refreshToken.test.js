@@ -5,6 +5,10 @@ import * as getConfig from '../getConfig'
 describe('refreshToken in production mode', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2024-01-01'))
+
     jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       version: 'sit'
     }))
@@ -13,10 +17,13 @@ describe('refreshToken in production mode', () => {
     config.version = 'test'
   })
 
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
   global.fetch = jest.fn(() => Promise.resolve({
     headers: new Headers({
-      token: 'new_token',
-      expires: 1708608183570 / 1000
+      token: 'new_token'
     }),
     json: () => Promise.resolve({
       ok: true,
@@ -27,7 +34,7 @@ describe('refreshToken in production mode', () => {
   test('in production given a valid token, returns a new token', async () => {
     const newToken = await refreshToken('mock_token')
     expect(newToken.tokenValue).toEqual('new_token')
-    expect(newToken.tokenExp).toEqual(1708608183570)
+    expect(newToken.tokenExp).toEqual(1704068100000)
   })
 
   test('in development given a valid token, returns a new token', async () => {
