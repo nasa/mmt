@@ -54,7 +54,11 @@ const AuthContextProvider = ({ children }) => {
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    // Console.log('refreshing token ', refreshToken)
+    if (process.env.NODE_ENV === 'production') {
+      const { tokenValue } = refreshToken
+      console.log('refreshing token ', tokenValue)
+    }
+
     setCookie('loginInfo', {
       ...loginInfo,
       token: refreshToken
