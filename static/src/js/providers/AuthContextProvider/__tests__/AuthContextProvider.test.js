@@ -2,14 +2,15 @@ import React from 'react'
 import {
   act,
   render,
-  screen
+  screen,
+  waitFor
 } from '@testing-library/react'
 
 import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import AuthContextProvider from '../AuthContextProvider'
 import useAuthContext from '../../../hooks/useAuthContext'
-import checkAndRefreshToken from '../../../utils/checkAndRefreshToken'
+import refreshToken from '../../../utils/refreshToken'
 
 jest.mock('../../../utils/getConfig', () => ({
   __esModule: true,
@@ -19,7 +20,7 @@ jest.mock('../../../utils/getConfig', () => ({
   }))
 }))
 
-jest.mock('../../../utils/checkAndRefreshToken', () => ({
+jest.mock('../../../utils/refreshToken', () => ({
   __esModule: true,
   default: jest.fn()
 }))
@@ -118,7 +119,7 @@ describe('AuthContextProvider component', () => {
           jest.useRealTimers()
         })
 
-        test('logs the user out', async () => {
+        test('refreshes token', async () => {
           delete window.location
           window.location = {}
 
@@ -132,28 +133,16 @@ describe('AuthContextProvider component', () => {
           const userName = screen.getByText('User Name: User Name', { exact: true })
           expect(userName).toBeInTheDocument()
 
-          let expires = new Date()
-          expires.setMinutes(expires.getMinutes() + 15)
-          expires = new Date(expires)
+          jest.setSystemTime(new Date('2024-02-01'))
 
           act(() => {
             jest.advanceTimersByTime(1500)
           })
 
-          expect(checkAndRefreshToken).toHaveBeenCalledTimes(1)
-
-          expect(checkAndRefreshToken).toHaveBeenCalledWith(
-            expect.objectContaining({
-              name: 'User Name',
-              auid: 'username',
-              providerId: 'MMT_2',
-              token: {
-                tokenExp: expires.valueOf(),
-                tokenValue: 'ABC-1'
-              }
-            }),
-            expect.any(Function)
-          )
+          await waitFor(() => {
+            expect(refreshToken).toHaveBeenCalledTimes(1)
+            expect(refreshToken).toHaveBeenCalledWith('ABC-1')
+          })
         })
       })
 
