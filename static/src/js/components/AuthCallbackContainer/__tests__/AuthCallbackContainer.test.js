@@ -7,6 +7,7 @@ import { createSearchParams } from 'react-router-dom'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import * as router from 'react-router'
 import AuthCallbackContainer from '../AuthCallbackContainer'
+import Providers from '../../../providers/Providers/Providers'
 
 const setup = (changeCookieFn, overrideSearchParams, overrideProps) => {
   const props = {
@@ -31,18 +32,20 @@ const setup = (changeCookieFn, overrideSearchParams, overrideProps) => {
   act(() => {
     render(
       <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-        <MemoryRouter initialEntries={
-          [{
-            pathname: '/auth_callback',
-            search: `?${createSearchParams(overrideSearchParams || ({
-              target: '/manage/services',
-              auid: 'mock_user'
-            }))}`
-          }]
-        }
-        >
-          <AuthCallbackContainer {...props} />
-        </MemoryRouter>
+        <Providers>
+          <MemoryRouter initialEntries={
+            [{
+              pathname: '/auth_callback',
+              search: `?${createSearchParams(overrideSearchParams || ({
+                target: '/manage/services',
+                auid: 'mock_user'
+              }))}`
+            }]
+          }
+          >
+            <AuthCallbackContainer {...props} />
+          </MemoryRouter>
+        </Providers>
       </CookiesProvider>
     )
   })

@@ -1,8 +1,7 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo,
-  useState
+  useMemo
 } from 'react'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
@@ -29,37 +28,52 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({})
+  const [cookies, setCookie] = useCookies(['loginInfo', 'launchpadToken'])
+  const { loginInfo = {}, launchpadToken } = cookies
 
-  const [cookies, setCookie] = useCookies(['loginInfo'])
-  const { token } = user
-  const { loginInfo } = cookies
+  const setUser = (info) => {
+    setCookie('loginInfo', info)
+  }
 
+  const updateLoginInfo = (auid) => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+    const info = {
+      providerId: 'MMT_2',
+      auid,
+      token: {
+        tokenValue: launchpadToken,
+        tokenExp: expires.valueOf()
+      }
+    }
+    setUser(info)
+  }
+
+  // UseEffect(() => { console.log('user changed ', user) }, [user])
   useEffect(() => {
-    if (loginInfo) {
-      const {
-        auid,
-        name,
-        token: cookieToken
-      } = loginInfo
+    if (!loginInfo || !loginInfo.auid) return
 
-      setUser({
-        ...user,
-        token: cookieToken,
-        name,
-        auid,
-        providerId: 'MMT_2'
+    const { name, auid } = loginInfo
+    const fetchProfileAndSetLoginCookie = async () => {
+      const response = await fetch(`${apiHost}/edl-profile?auid=${auid}`)
+      const { name: profileName } = await response.json()
+      setCookie('loginInfo', {
+        ...loginInfo,
+        name: profileName
       })
+    }
+
+    if (!name) {
+      fetchProfileAndSetLoginCookie()
     }
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    if (process.env.NODE_ENV === 'production') {
-      const { tokenValue } = refreshToken
-      console.log('refreshing token ', tokenValue)
-    }
+    const { tokenValue } = refreshToken
+    console.log('refreshing token ', tokenValue)
 
-    setCookie('loginInfo', {
+    setUser({
       ...loginInfo,
       token: refreshToken
     })
@@ -67,13 +81,13 @@ const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      checkAndRefreshToken(user, handleRefreshToken)
+      checkAndRefreshToken(loginInfo, handleRefreshToken)
     }, 1000)
 
     return () => {
       clearInterval(interval)
     }
-  }, [token])
+  }, [loginInfo])
 
   const login = useCallback(() => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
@@ -87,9 +101,10 @@ const AuthContextProvider = ({ children }) => {
     login,
     logout,
     setUser,
-    user
+    updateLoginInfo,
+    user: loginInfo
   }), [
-    user,
+    loginInfo,
     login,
     logout
   ])
