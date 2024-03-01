@@ -1,5 +1,5 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-import CustomTextareaWidget from '../../../../components/widgets/CustomTextareaWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 
 const collectionCitationUiSchema = {
   CollectionCitations: {
@@ -122,7 +122,6 @@ const collectionCitationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        className: 'field-left-border',
                         children: ['OnlineResource']
                       }
                     }

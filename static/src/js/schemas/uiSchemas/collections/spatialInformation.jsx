@@ -1,9 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import PreviewMapLink from '../../../components/PreviewMapLink/PreviewMapLink'
 import '../../../components/PreviewMapLink/PreviewMapLink.scss'
-import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const spatialInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -183,7 +187,6 @@ const spatialInformationUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          className: 'field-left-border',
                           md: 12,
                           children: ['CoordinateSystem']
                         }
@@ -194,7 +197,6 @@ const spatialInformationUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          className: 'field-left-border',
                           md: 12,
                           children: ['Points']
                         }
@@ -205,7 +207,6 @@ const spatialInformationUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          className: 'field-left-border',
                           md: 12,
                           children: ['BoundingRectangles']
                         }
@@ -216,7 +217,6 @@ const spatialInformationUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          className: 'field-left-border',
                           md: 12,
                           children: ['GPolygons']
                         }
@@ -227,7 +227,6 @@ const spatialInformationUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          className: 'field-left-border',
                           md: 12,
                           children: ['Lines']
                         }
@@ -269,18 +268,18 @@ const spatialInformationUiSchema = {
                             }
                           }
                         ]
+                      },
+                      {
+                        'ui:row': [
+                          {
+                            md: 12,
+                            render: (props) => (
+                              <div className="preview-map-link__icon-label">
+                                <PreviewMapLink {...props} type="point" />
+                              </div>
+                            )
+                          }]
                       }
-                      // {
-                      //   'ui:row': [
-                      //     {
-                      //       md: 12,
-                      //       render: (props) => (
-                      //         <div className="preview-map-link__icon-label">
-                      //           <PreviewMapLink {...props} type="point" />
-                      //         </div>
-                      //       )
-                      //     }]
-                      // }
                     ]
                   }
                 }
@@ -315,17 +314,17 @@ const spatialInformationUiSchema = {
                           }
                         ]
                       },
-                      // {
-                      //   'ui:row': [
-                      //     {
-                      //       md: 12,
-                      //       render: (props) => (
-                      //         <div className="preview-map-link__icon-label pb-4 pl-3">
-                      //           <PreviewMapLink {...props} type="polygon" />
-                      //         </div>
-                      //       )
-                      //     }]
-                      // },
+                      {
+                        'ui:row': [
+                          {
+                            md: 12,
+                            render: (props) => (
+                              <div className="preview-map-link__icon-label pb-4 pl-3">
+                                <PreviewMapLink {...props} type="polygon" />
+                              </div>
+                            )
+                          }]
+                      },
                       {
                         'ui:row': [
                           {
@@ -1227,7 +1226,6 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      className: 'field-left-border',
                       md: 12,
                       children: ['SpatialCoverageType']
                     }
@@ -1238,7 +1236,6 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      className: 'field-left-border',
                       md: 12,
                       children: ['VerticalCoordinateSystem']
                     }
@@ -1265,7 +1262,6 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        className: 'field-left-border',
                         md: 12,
                         children: ['AltitudeSystemDefinition']
                       }
@@ -1276,7 +1272,6 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        className: 'field-left-border',
                         md: 12,
                         children: ['DepthSystemDefinition']
                       }

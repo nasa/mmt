@@ -1,8 +1,8 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
-import CustomMultiSelectWidget from '../../../../components/widgets/CustomMultiSelectWidget'
-import CustomCountrySelectWidget from '../../../../components/widgets/CustomCountrySelectWidget'
-import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
-import { shouldHideGetData, shouldHideGetService } from '../../../../utils/collections_utils'
+import { shouldHideGetData, shouldHideGetService } from '../../../utils/collectionsUtils'
+import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget/CustomMultiSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const dataContactsUiSchema = {
   ContactPersons: {

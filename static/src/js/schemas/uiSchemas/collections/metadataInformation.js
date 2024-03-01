@@ -1,4 +1,5 @@
-import CustomSelectWidget from '../../../../components/widgets/CustomSelectWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+import LanguageArray from '../../../utils/languageArray'
 
 const metadataInformationUiSchema = {
   'ui:field': 'layout',
@@ -36,7 +37,10 @@ const metadataInformationUiSchema = {
   },
 
   MetadataLanguage: {
-    'ui:widget': CustomSelectWidget
+    'ui:widget': CustomSelectWidget,
+    'ui:options': {
+      enumOptions: LanguageArray
+    }
   },
   MetadataDates: {
     'ui:header-classname': 'field-label',

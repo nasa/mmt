@@ -1,8 +1,12 @@
-import CustomTextareaWidget from '../../../../components/widgets/CustomTextareaWidget'
-import CustomTextWidget from '../../../../components/widgets/CustomTextWidget'
+import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
+import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 
 const archiveDistributionInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {
@@ -76,21 +80,18 @@ const archiveDistributionInformationUiSchema = {
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSize']
                         }
                       },
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSizeUnit']
                         }
                       },
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSizeBeginDate']
                         }
                       },
@@ -160,21 +161,18 @@ const archiveDistributionInformationUiSchema = {
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSize']
                         }
                       },
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSizeUnit']
                         }
                       },
                       {
                         'ui:col': {
                           md: 12,
-                          className: 'field-left-border',
                           children: ['TotalCollectionFileSizeBeginDate']
                         }
                       },
