@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter, useNavigate } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
@@ -105,6 +105,24 @@ describe('Header component', () => {
 
     test('does not display the search options dropdown', () => {
       expect(screen.getByText('Search Collections')).not.toHaveClass('show')
+    })
+
+    test.skip('displays the provider dropdown', () => {
+      expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
+    })
+
+    describe('when a provider is selected from the dropdown', () => {
+      test.skip('updates the selected provider in the state', async () => {
+        const providerDropdownButton = screen.getByRole('button', { name: 'MMT_2' })
+        userEvent.click(providerDropdownButton)
+
+        const providerOption = await screen.findByText('MMT_2')
+        userEvent.click(providerOption)
+
+        await waitFor(() => {
+          expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
+        })
+      })
     })
 
     describe('when the search submit dropdown button is clicked', () => {

@@ -1,7 +1,13 @@
-import React, { useLayoutEffect } from 'react'
+import React, {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useCallback
+} from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
+import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -19,6 +25,11 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
+
+import errorLogger from './utils/errorLogger'
+import useNotificationsContext from './hooks/useNotificationsContext'
+import { GET_ACLS } from './operations/queries/getAcls'
+import useAppContext from './hooks/useAppContext'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -47,6 +58,58 @@ const Redirects = redirectKeys.map(
 export const App = () => {
   useLayoutEffect(() => {
     document.body.classList.remove('is-loading')
+  }, [])
+
+  const { addNotification } = useNotificationsContext() || {}
+  const { user } = useAppContext()
+  const [setProviderIds] = useState([])
+
+  // Fetch providers using useQuery hook
+  const [getProviders] = useLazyQuery(GET_ACLS, {
+    variables: {
+      params: {
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 2000,
+        permittedUser: user.id,
+        target: 'PROVIDER_CONTEXT'
+      }
+    },
+    onCompleted: (getProviderData) => {
+      console.log('@@@getProvidersData', getProviderData)
+      const { acls } = getProviderData
+      const { items } = acls
+
+      if (items.length > 0) {
+        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+        setProviderIds(providerList)
+
+        // Check if user does not have providerId
+        // and set it to the first providerId if available
+        if (!user.providerId && providerList.length > 0) {
+          setProviderIds(providerList[0])
+        }
+      } else {
+        // Display notification for no providers available
+        addNotification({
+          message: 'User is not provisioned.  Please contact support.',
+          variant: 'danger'
+        })
+      }
+    },
+    onError: (getProviderError) => {
+      addNotification({
+        message: 'An error occurred while fetching providers.',
+        variant: 'danger'
+      })
+
+      // Send the error to the errorLogger
+      errorLogger(getProviderError, 'Error fetching providers')
+    }
+  })
+
+  useEffect(() => {
+    getProviders()
   }, [])
 
   return (
