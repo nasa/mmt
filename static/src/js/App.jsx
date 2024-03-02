@@ -17,6 +17,7 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
+import Providers from './providers/Providers/Providers'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -48,7 +49,7 @@ export const App = () => {
   }, [])
 
   return (
-    <>
+    <Providers>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -106,7 +107,7 @@ export const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </>
+    </Providers>
   )
 }
 
