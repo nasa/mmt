@@ -50,7 +50,6 @@ const AuthContextProvider = ({ children }) => {
     setUser(info)
   }
 
-  // UseEffect(() => { console.log('user changed ', user) }, [user])
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return
 
@@ -58,7 +57,7 @@ const AuthContextProvider = ({ children }) => {
     const fetchProfileAndSetLoginCookie = async () => {
       const response = await fetch(`${apiHost}/edl-profile?auid=${auid}`)
       const { name: profileName } = await response.json()
-      setCookie('loginInfo', {
+      setUser({
         ...loginInfo,
         name: profileName
       })
@@ -70,9 +69,6 @@ const AuthContextProvider = ({ children }) => {
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    const { tokenValue } = refreshToken
-    console.log('refreshing token ', tokenValue)
-
     setUser({
       ...loginInfo,
       token: refreshToken

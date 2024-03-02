@@ -26,7 +26,9 @@ jest.mock('../../../utils/refreshToken', () => ({
 }))
 
 const MockComponent = () => {
-  const { user, login, logout } = useAuthContext()
+  const {
+    user, login, logout, updateLoginInfo
+  } = useAuthContext()
 
   return (
     <div>
@@ -40,6 +42,7 @@ const MockComponent = () => {
         onClick={
           () => {
             login()
+            updateLoginInfo('mock_user')
           }
         }
       >
@@ -66,14 +69,7 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: {
-        auid: 'username',
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires.valueOf()
-        }
-      }
+      launchpadToken: 'mock-launchpad-token'
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
@@ -98,7 +94,19 @@ describe('AuthContextProvider component', () => {
         delete window.location
         window.location = {}
 
-        setup({})
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'christopher.d.gokey@nasa.gov',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'cgokey'
+          })
+        }))
+
+        setup({
+          launchpadToken: 'mock-launchpad-token'
+        })
 
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
@@ -109,67 +117,126 @@ describe('AuthContextProvider component', () => {
     })
 
     describe('when logged in', () => {
-      describe('when log out is triggered', () => {
-        beforeEach(() => {
-          jest.useFakeTimers()
-          jest.setSystemTime(new Date('2024-01-01'))
+      test('shows the name', async () => {
+        delete window.location
+        window.location = {}
+
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'christopher.d.gokey@nasa.gov',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'cgokey'
+          })
+        }))
+
+        setup({
+          launchpadToken: 'mock-launchpad-token'
         })
 
-        afterEach(() => {
-          jest.useRealTimers()
-        })
+        const user = userEvent.setup()
+        const button = screen.getByRole('button', { name: 'Log in' })
+        await user.click(button)
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        expect(window.location.href).toEqual(expectedPath)
 
-        test('refreshes token', async () => {
-          delete window.location
-          window.location = {}
-
-          setup()
-
-          const user = userEvent.setup({ delay: null })
-          const loginButton = screen.getByRole('button', { name: 'Log in' })
-
-          await user.click(loginButton)
-
+        await waitFor(() => {
           const userName = screen.getByText('User Name: User Name', { exact: true })
           expect(userName).toBeInTheDocument()
-
-          jest.setSystemTime(new Date('2024-02-01'))
-
-          act(() => {
-            jest.advanceTimersByTime(1500)
-          })
-
-          await waitFor(() => {
-            expect(refreshToken).toHaveBeenCalledTimes(1)
-            expect(refreshToken).toHaveBeenCalledWith('ABC-1')
-          })
         })
       })
+    })
 
-      describe('when log out is triggered', () => {
-        test('logs the user out', async () => {
-          delete window.location
-          window.location = {}
+    describe('when refresh token', () => {
+      beforeEach(() => {
+        jest.useFakeTimers()
+        jest.setSystemTime(new Date('2024-01-01'))
+      })
 
-          setup()
+      afterEach(() => {
+        jest.useRealTimers()
+      })
 
-          const user = userEvent.setup()
-          const loginButton = screen.getByRole('button', { name: 'Log in' })
+      test('calls refresh token lambda to exchange for a new token', async () => {
+        delete window.location
+        window.location = {}
 
-          await user.click(loginButton)
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'christopher.d.gokey@nasa.gov',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'cgokey'
+          })
+        }))
 
-          const userName = screen.getByText('User Name: User Name', { exact: true })
+        jest.setSystemTime(new Date('2024-02-01'))
 
-          expect(userName).toBeInTheDocument()
+        let expires = new Date()
+        expires.setMinutes(expires.getMinutes() - 2)
+        expires = new Date(expires)
 
-          const logoutButton = screen.getByRole('button', { name: 'Log out' })
+        setup({
+          launchpadToken: 'mock-launchpad-token',
+          loginInfo: {
+            auid: 'username',
+            name: 'User Name',
+            token: {
+              tokenValue: 'mock-token',
+              tokenExp: expires.valueOf()
+            }
+          }
 
-          await user.click(logoutButton)
-
-          const newUserName = screen.queryByText('User Name: User Name', { exact: true })
-
-          expect(newUserName).not.toBeInTheDocument()
         })
+
+        act(() => {
+          jest.advanceTimersByTime(1500)
+        })
+
+        await waitFor(() => {
+          expect(refreshToken).toHaveBeenCalledTimes(1)
+          expect(refreshToken).toHaveBeenCalledWith('mock-token')
+        })
+      })
+    })
+
+    describe('when log out is triggered', () => {
+      test('logs the user out', async () => {
+        delete window.location
+        window.location = {}
+
+        let expires = new Date()
+        expires.setMinutes(expires.getMinutes() + 15)
+        expires = new Date(expires)
+
+        setup({
+          launchpadToken: 'mock-launchpad-token',
+          loginInfo: {
+            auid: 'username',
+            name: 'User Name',
+            token: {
+              tokenValue: 'mock-token',
+              tokenExp: expires.valueOf()
+            }
+          }
+        })
+
+        const user = userEvent.setup()
+
+        await waitFor(() => {
+          const userName = screen.getByText('User Name: User Name', { exact: true })
+          expect(userName).toBeInTheDocument()
+        })
+
+        const logoutButton = screen.getByRole('button', { name: 'Log out' })
+
+        await user.click(logoutButton)
+
+        const newUserName = screen.queryByText('User Name: User Name', { exact: true })
+
+        expect(newUserName).not.toBeInTheDocument()
       })
     })
   })

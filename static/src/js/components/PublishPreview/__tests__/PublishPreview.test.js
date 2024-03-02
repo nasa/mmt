@@ -129,6 +129,7 @@ const setup = ({
   const cookie = new Cookies(
     {
       loginInfo: ({
+        providerId: 'MMT_2',
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',

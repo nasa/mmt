@@ -16,8 +16,6 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import withProviders from './providers/withProviders/withProviders'
-
 import '../css/index.scss'
 
 const redirectKeys = Object.keys(REDIRECTS)
@@ -112,4 +110,4 @@ export const App = () => {
   )
 }
 
-export default withProviders(App)
+export default App
