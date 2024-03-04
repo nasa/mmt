@@ -249,8 +249,14 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPublish) {
-          // Calls publish mutation
-          publishMutation(derivedConceptType, nativeId)
+          if (derivedConceptType === 'Variable') {
+            const { _private } = ummMetadata
+            const { CollectionAssociation } = _private
+            const { collectionConceptId } = CollectionAssociation
+            publishMutation(derivedConceptType, nativeId, collectionConceptId)
+          } else {
+            publishMutation(derivedConceptType, nativeId)
+          }
         }
       },
       onError: (ingestError) => {

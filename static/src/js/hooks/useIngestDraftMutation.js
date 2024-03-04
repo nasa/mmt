@@ -1,20 +1,17 @@
 import { useMutation } from '@apollo/client'
-import pluralize from 'pluralize'
-import { useNavigate } from 'react-router'
+import { useCallback, useState } from 'react'
 import { INGEST_DRAFT } from '../operations/mutations/ingestDraft'
 import getUmmVersion from '../utils/getUmmVersion'
-import errorLogger from '../utils/errorLogger'
-import useNotificationsContext from './useNotificationsContext'
 
 const useIngestDraftMutation = () => {
+  const [ingestDraft, setIngestDraft] = useState()
+  const [loading, setLoading] = useState()
+  const [error, setError] = useState()
+
   const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
 
-  const navigate = useNavigate()
-
-  const { addNotification } = useNotificationsContext()
-
-  const ingestMutation = (conceptType, metadata, nativeId, providerId) => {
-    ingestDraftMutation({
+  const ingestMutation = useCallback(async (conceptType, metadata, nativeId, providerId) => {
+    await ingestDraftMutation({
       variables: {
         conceptType,
         metadata,
@@ -23,26 +20,22 @@ const useIngestDraftMutation = () => {
         ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getDraftData) => {
-        const { ingestDraft } = getDraftData
-        const { conceptId } = ingestDraft
-        navigate(`/drafts/${pluralize(conceptType).toLowerCase()}/${conceptId}`)
-        addNotification({
-          message: 'Draft created successfully',
-          variant: 'success'
-        })
+        setIngestDraft(getDraftData)
+        setLoading(false)
       },
-      onError: (getMutationError) => {
-        // Send the error to the errorLogger
-        errorLogger(getMutationError, 'PublishPreview ingestDraftMutation Query')
-        addNotification({
-          message: 'Error creating draft',
-          variant: 'danger'
-        })
+      onError: (fetchError) => {
+        setError(fetchError)
+        setLoading(false)
       }
     })
-  }
+  }, [ingestDraftMutation])
 
-  return ingestMutation
+  return {
+    ingestMutation,
+    ingestDraft,
+    error,
+    loading
+  }
 }
 
 export default useIngestDraftMutation

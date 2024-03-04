@@ -11,6 +11,7 @@ export const GET_COLLECTIONS = gql`
         title
         provider
         entryTitle
+        revisionId
         granules {
           count
         }

@@ -74,6 +74,7 @@ const setup = (overrideMocks) => {
                 conceptId: 'C10000000000-TESTPROV',
                 shortName: 'Test Short Name 1',
                 version: '1',
+                revisionId: 1,
                 title: 'Test Title 1',
                 provider: 'TESTPROV',
                 entryTitle: null,
@@ -87,6 +88,7 @@ const setup = (overrideMocks) => {
                 conceptId: 'C10000000001-TESTPROV',
                 shortName: 'Test Short Name 2',
                 version: '1',
+                revisionId: 1,
                 title: 'Test Title 3',
                 provider: 'TESTPROV',
                 entryTitle: null,
@@ -99,6 +101,7 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'C10000000002-TESTPROV',
                 shortName: 'Test Short Name 3',
+                revisionId: 1,
                 version: '3',
                 title: 'Test Title 1',
                 provider: 'TESTPROV',
