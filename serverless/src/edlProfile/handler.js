@@ -1,4 +1,5 @@
 import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
+import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
 
 /**
  * Handles refreshing user's token
@@ -8,6 +9,7 @@ import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
 const edlProfile = async (event) => {
   const { queryStringParameters } = event
   const { auid } = queryStringParameters
+  const { defaultResponseHeaders } = getApplicationConfig()
 
   const getUserName = (profile) => {
     const firstName = profile.first_name
@@ -17,18 +19,31 @@ const edlProfile = async (event) => {
     return name
   }
 
-  const profile = await fetchEdlProfile(auid)
-  profile.auid = auid
-  profile.name = getUserName(profile)
+  try {
+    const profile = await fetchEdlProfile(auid)
+    profile.auid = auid
+    profile.name = getUserName(profile)
 
-  delete profile.user_groups
+    delete profile.user_groups
 
-  const returnValue = {
-    statusCode: 200,
-    body: JSON.stringify(profile)
+    const returnValue = {
+      headers: defaultResponseHeaders,
+      statusCode: 200,
+      body: JSON.stringify(profile)
+    }
+
+    return returnValue
+  } catch (error) {
+    console.error(`Error retrieving edl profile for ${auid}, error=${error.toString()}`)
+
+    return {
+      headers: defaultResponseHeaders,
+      statusCode: 500,
+      body: JSON.stringify({
+        error: error.toString()
+      })
+    }
   }
-
-  return returnValue
 }
 
 export default edlProfile

@@ -11,7 +11,10 @@ import { Cookies, CookiesProvider } from 'react-cookie'
 import AuthContextProvider from '../AuthContextProvider'
 import useAuthContext from '../../../hooks/useAuthContext'
 import refreshToken from '../../../utils/refreshToken'
+import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
+import errorLogger from '../../../utils/errorLogger'
 
+jest.mock('../../../utils/errorLogger')
 jest.mock('../../../utils/getConfig', () => ({
   __esModule: true,
   ...jest.requireActual('../../../utils/getConfig'),
@@ -77,7 +80,9 @@ const setup = (overrideCookie) => {
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <AuthContextProvider>
-        <MockComponent />
+        <NotificationsContextProvider>
+          <MockComponent />
+        </NotificationsContextProvider>
       </AuthContextProvider>
     </CookiesProvider>
   )
@@ -96,11 +101,11 @@ describe('AuthContextProvider component', () => {
 
         global.fetch = jest.fn(() => Promise.resolve({
           json: () => Promise.resolve({
-            email: 'christopher.d.gokey@nasa.gov',
+            email: 'test.user@localhost',
             first_name: 'User',
             last_name: 'Name',
             name: 'User Name',
-            uid: 'cgokey'
+            uid: 'mock_user'
           })
         }))
 
@@ -123,11 +128,11 @@ describe('AuthContextProvider component', () => {
 
         global.fetch = jest.fn(() => Promise.resolve({
           json: () => Promise.resolve({
-            email: 'christopher.d.gokey@nasa.gov',
+            email: 'test.user@localhost',
             first_name: 'User',
             last_name: 'Name',
             name: 'User Name',
-            uid: 'cgokey'
+            uid: 'mock_user'
           })
         }))
 
@@ -145,6 +150,24 @@ describe('AuthContextProvider component', () => {
           const userName = screen.getByText('User Name: User Name', { exact: true })
           expect(userName).toBeInTheDocument()
         })
+      })
+
+      test('shows errors if can not retrieve name from urs', async () => {
+        delete window.location
+        window.location = {}
+
+        global.fetch = jest.fn(() => Promise.reject(new Error('URS is down')))
+
+        setup({
+          launchpadToken: 'mock-launchpad-token'
+        })
+
+        const user = userEvent.setup()
+        const button = screen.getByRole('button', { name: 'Log in' })
+        await user.click(button)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toBeCalledWith('Error retrieving profile for mock_user, message=Error: URS is down', 'AuthContextProvider')
       })
     })
 
@@ -164,11 +187,11 @@ describe('AuthContextProvider component', () => {
 
         global.fetch = jest.fn(() => Promise.resolve({
           json: () => Promise.resolve({
-            email: 'christopher.d.gokey@nasa.gov',
+            email: 'test.user@localhost',
             first_name: 'User',
             last_name: 'Name',
             name: 'User Name',
-            uid: 'cgokey'
+            uid: 'mock_user'
           })
         }))
 

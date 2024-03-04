@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie'
 import AuthContext from '../../context/AuthContext'
 import { getApplicationConfig } from '../../utils/getConfig'
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
+import errorLogger from '../../utils/errorLogger'
 
 const { apiHost } = getApplicationConfig()
 
@@ -28,6 +29,7 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
+  jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
   const [cookies, setCookie] = useCookies(['loginInfo', 'launchpadToken'])
   const { loginInfo = {}, launchpadToken } = cookies
 
@@ -55,11 +57,14 @@ const AuthContextProvider = ({ children }) => {
 
     const { name, auid } = loginInfo
     const fetchProfileAndSetLoginCookie = async () => {
-      const response = await fetch(`${apiHost}/edl-profile?auid=${auid}`)
-      const { name: profileName } = await response.json()
-      setUser({
-        ...loginInfo,
-        name: profileName
+      await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
+        const { name: profileName } = await response.json()
+        setUser({
+          ...loginInfo,
+          name: profileName
+        })
+      }).catch((error) => {
+        errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
       })
     }
 
