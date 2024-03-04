@@ -19,6 +19,7 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
+import publishedCollectionRecord from './__mocks__/publishPreview'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -104,7 +105,9 @@ const mock = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  overrideInitialEntries,
+  overridePath
 }) => {
   const mocks = [{
     request: {
@@ -146,10 +149,10 @@ const setup = ({
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
-          <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
+          <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
             <Routes>
               <Route
-                path="/tools"
+                path={overridePath || '/tools'}
               >
                 <Route
                   path=":conceptId/:revisionId"
@@ -531,6 +534,70 @@ describe('PublishPreview', () => {
         JSON.stringify(mock.ummMetadata, null, 2),
         'T1000000-MMT'
       )
+    })
+  })
+
+  describe('when the collection preview is collections', () => {
+    describe('when clicking on Create Collection', () => {
+      test('should navigate to variable draft preview', async () => {
+        const navigateSpy = jest.fn()
+        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+          overridePath: '/collections',
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeQueries.Collection,
+                variables: { params: { conceptId: 'C1000000-MMT' } }
+              },
+              result: {
+                data: {
+                  collection: publishedCollectionRecord
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Variable',
+                  metadata: {
+                    _private: {
+                      CollectionAssociation: {
+                        collectionConceptId: 'C1200000100-MMT_2',
+                        shortName: 'Mock Quick Test Services #2',
+                        version: '1'
+                      }
+                    }
+                  },
+                  nativeId: 'MMT_mock-uuid',
+                  providerId: 'MMT_2',
+                  ummVersion: '1.9.0'
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'VD1000000-MMT',
+                    revisionId: '1'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        await waitForResponse()
+
+        const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
+
+        await user.click(createVariableAssociationBtn)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD1000000-MMT')
+      })
     })
   })
 })
