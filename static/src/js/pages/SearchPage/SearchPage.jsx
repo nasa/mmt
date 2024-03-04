@@ -134,10 +134,10 @@ const SearchPage = ({ limit }) => {
   }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
-    const { conceptId } = rowData
+    const { conceptId, revisionId } = rowData
 
     return (
-      <EllipsisLink to={`/collections/${conceptId}`}>
+      <EllipsisLink to={`/collections/${conceptId}/${revisionId}`}>
         {cellData}
       </EllipsisLink>
     )
