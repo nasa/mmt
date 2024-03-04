@@ -9,7 +9,8 @@ import refreshToken from './refreshToken'
  * @param {*} user the user object
  * @param {*} setUser the setUser function to be used to update the token
  */
-const checkAndRefreshToken = async (token, user, setUser) => {
+const checkAndRefreshToken = async (user, setUser) => {
+  const { token } = user
   const { tokenValue, tokenExp } = token || {}
 
   if (tokenValue && tokenExp) {
@@ -21,7 +22,7 @@ const checkAndRefreshToken = async (token, user, setUser) => {
 
     if (isTokenExpired(offsetTokenInfo)) {
       const newToken = await refreshToken(tokenValue)
-      console.log('refreshed token to ', newToken)
+
       setUser({
         ...user,
         token: newToken

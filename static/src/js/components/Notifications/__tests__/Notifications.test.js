@@ -11,6 +11,8 @@ import Notifications from '../Notifications'
 import Providers from '../../../providers/Providers/Providers'
 import useNotificationsContext from '../../../hooks/useNotificationsContext'
 
+global.fetch = jest.fn()
+
 const MockComponent = () => {
   const { addNotification } = useNotificationsContext()
 

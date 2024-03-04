@@ -120,7 +120,6 @@ const MetadataForm = () => {
       setDraft(fetchedDraft)
     }
   })
-
   if (loading) {
     return (
       <Page>
