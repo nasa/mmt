@@ -1,13 +1,12 @@
 import React, {
   useLayoutEffect,
   useEffect,
-  useState,
-  useCallback
+  useState
 } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -60,12 +59,17 @@ export const App = () => {
     document.body.classList.remove('is-loading')
   }, [])
 
-  const { addNotification } = useNotificationsContext() || {}
-  const { user } = useAppContext()
-  const [setProviderIds] = useState([])
+  const { addNotification } = useNotificationsContext()
+  const {
+    user, setProviderIds
+  } = useAppContext()
+
+  // Const {
+  //   user, providerIds, setProviderId, setProviderIds
+  // } = useAppContext()
 
   // Fetch providers using useQuery hook
-  const [getProviders] = useLazyQuery(GET_ACLS, {
+  useQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
@@ -76,7 +80,7 @@ export const App = () => {
       }
     },
     onCompleted: (getProviderData) => {
-      console.log('@@@getProvidersData', getProviderData)
+      console.log('@getProviderData', getProviderData)
       const { acls } = getProviderData
       const { items } = acls
 
@@ -108,9 +112,55 @@ export const App = () => {
     }
   })
 
-  useEffect(() => {
-    getProviders()
-  }, [])
+  // Const [getProviders] = useLazyQuery(GET_ACLS, {
+  //   variables: {
+  //     params: {
+  //       includeFullAcl: true,
+  //       pageNum: 1,
+  //       pageSize: 2000,
+  //       permittedUser: user.id,
+  //       target: 'PROVIDER_CONTEXT'
+  //     }
+  //   },
+  //   onCompleted: (getProviderData) => {
+  //     console.log('@getProviderData', getProviderData)
+  //     const { acls } = getProviderData
+  //     const { items } = acls
+
+  //     if (items.length > 0) {
+  //       const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+  //       setProviderIds(providerList)
+
+  //       // Check if user does not have providerId
+  //       // and set it to the first providerId if available
+  //       if (!user.providerId && providerList.length > 0) {
+  //         setProviderIds(providerList[0])
+  //       }
+  //     } else {
+  //       // Display notification for no providers available
+  //       addNotification({
+  //         message: 'User is not provisioned.  Please contact support.',
+  //         variant: 'danger'
+  //       })
+  //     }
+  //   },
+  //   onError: (getProviderError) => {
+  //     addNotification({
+  //       message: 'An error occurred while fetching providers.',
+  //       variant: 'danger'
+  //     })
+
+  //     // Send the error to the errorLogger
+  //     errorLogger(getProviderError, 'Error fetching providers')
+  //   }
+  // })
+
+  // useEffect(() => {
+  //   if (!providerIds.length > 0) {
+  //     console.log('here')
+  //     getProviders()
+  //   }
+  // }, [providerIds])
 
   return (
     <>

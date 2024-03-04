@@ -28,6 +28,15 @@ const AppContextProvider = ({ children }) => {
   const [savedDraft, setSavedDraft] = useState()
   const [providerIds, setProviderIds] = useState([])
 
+  console.log('list of providersIds', providerIds)
+
+  // const setProviderId = useCallback((providerId) => {
+  //   user((prevUser) => ({
+  //     ...prevUser,
+  //     providerId
+  //   }))
+  // }, [])
+
   const providerValue = useMemo(() => ({
     user,
     login,
@@ -40,6 +49,7 @@ const AppContextProvider = ({ children }) => {
     setDraft,
     setOriginalDraft,
     setSavedDraft,
+    // setProviderId,
     setProviderIds,
     providerIds
   }), [
