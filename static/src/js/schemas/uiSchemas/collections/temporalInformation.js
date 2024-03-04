@@ -2,6 +2,10 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import temporalKeywords from '../../../utils/temporalKeywords'
 
 const temporalInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
+  'ui:heading-level': 'h3',
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -38,14 +42,13 @@ const temporalInformationUiSchema = {
     ]
   },
   TemporalExtents: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [
           {
             'ui:group': 'Temporal Range Type',
-            'ui:group-classname': 'h3-title',
-            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -109,10 +112,9 @@ const temporalInformationUiSchema = {
         ]
       },
       SingleDateTimes: {
-        'ui:header-classname': 'h3-title'
       },
       RangeDateTimes: {
-        'ui:header-classname': 'h3-title',
+        'ui:heading-level': 'h5',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {
@@ -150,7 +152,7 @@ const temporalInformationUiSchema = {
         }
       },
       PeriodicDateTimes: {
-        'ui:header-classname': 'h3-title',
+        'ui:heading-level': 'h5',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {
@@ -241,6 +243,7 @@ const temporalInformationUiSchema = {
     }
   },
   TemporalKeywords: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:widget': CustomSelectWidget,
       'ui:options': {
@@ -250,6 +253,7 @@ const temporalInformationUiSchema = {
 
   },
   PaleoTemporalCoverages: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -290,7 +294,7 @@ const temporalInformationUiSchema = {
         ]
       },
       ChronostratigraphicUnits: {
-        'ui:header-classname': 'h3-title',
+        'ui:heading-level': 'h3',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {

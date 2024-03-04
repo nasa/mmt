@@ -44,16 +44,17 @@ const descriptiveKeywordsUiSchema = {
     'ui:title': 'Science Keyword',
     'ui:field': 'keywordPicker',
     'ui:keyword_scheme': 'science_keywords',
-    'ui:picker_title': 'SERVICE KEYWORD',
-    'ui:keyword_scheme_column_names': ['servicekeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
-    'ui:filter': 'EARTH SCIENCE SERVICES',
-    'ui:scheme_values': ['ServiceCategory', 'ServiceTopic', 'ServiceTerm', 'ServiceSpecificTerm']
+    'ui:picker_title': 'SCIENCE KEYWORD',
+    'ui:keyword_scheme_column_names': ['science_keywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+    'ui:filter': 'EARTH SCIENCE',
+    'ui:scheme_values': ['Category', 'Topic', 'Term', 'Variable Level 1', 'Variable Level 2', 'Variable Level 3']
   },
   AncillaryKeywords: {
     'ui:heading-level': 'h4',
     'ui:default': ''
   },
   AdditionalAttributes: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

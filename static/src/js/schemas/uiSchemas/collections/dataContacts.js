@@ -21,8 +21,6 @@ const dataContactsUiSchema = {
         'ui:row': [
           {
             'ui:group-description': true,
-            'ui:group-classname': 'h3-title',
-            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -105,8 +103,6 @@ const dataContactsUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -165,7 +161,6 @@ const dataContactsUiSchema = {
           'ui:group': 'ContactPersons'
         },
         ContactMechanisms: {
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -202,7 +197,6 @@ const dataContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -212,8 +206,6 @@ const dataContactsUiSchema = {
                     md: 12,
                     children: [
                       {
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -273,7 +265,6 @@ const dataContactsUiSchema = {
         },
         RelatedUrls: {
           'ui:title': 'Related URLs',
-          'ui:header-classname': 'h3-title',
           'ui:header-box-classname': 'h3-box',
           items: {
             'ui:field': 'layout',
@@ -552,7 +543,6 @@ const dataContactsUiSchema = {
               },
               URI: {
                 items: {
-                  'ui:header-classname': 'h3-title'
                 }
               }
             }
@@ -646,8 +636,6 @@ const dataContactsUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -702,7 +690,6 @@ const dataContactsUiSchema = {
           'ui:title': 'Contact Instructions'
         },
         ContactMechanisms: {
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -736,7 +723,6 @@ const dataContactsUiSchema = {
         },
         Addresses: {
           'ui:title': 'Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -746,7 +732,6 @@ const dataContactsUiSchema = {
                     md: 12,
                     children: [
                       {
-                        'ui:group-classname': 'h3-title',
                         'ui:group-box-classname': 'h3-box',
                         'ui:row': [
                           {
@@ -808,7 +793,6 @@ const dataContactsUiSchema = {
         },
         RelatedUrls: {
           'ui:title': 'Related URLs',
-          'ui:header-classname': 'h3-title',
           'ui:header-box-classname': 'h3-box',
           items: {
             'ui:field': 'layout',
@@ -1087,7 +1071,6 @@ const dataContactsUiSchema = {
               },
               URI: {
                 items: {
-                  'ui:header-classname': 'h3-title'
                 }
               }
             }

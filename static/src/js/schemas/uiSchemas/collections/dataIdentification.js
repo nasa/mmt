@@ -3,6 +3,10 @@ import CustomTextareaWidget from '../../../components/CustomTextareaWidget/Custo
 import processingLevel from '../../../utils/processingLevel'
 
 const dataIdentificationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
+  'ui:heading-level': 'h3',
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -117,7 +121,7 @@ const dataIdentificationUiSchema = {
     ]
   },
   DataDates: {
-    'ui:header-classname': 'h2-title',
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -150,12 +154,11 @@ const dataIdentificationUiSchema = {
     }
   },
   CollectionDataType: {
-    'ui:header-classname': 'h3-title'
   },
   StandardProduct: {
-    'ui:header-classname': 'h3-title'
   },
   ProcessingLevel: {
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -163,7 +166,6 @@ const dataIdentificationUiSchema = {
           'ui:group': 'Processing Level',
           'ui:group-classname': 'h2-title',
           'ui:group-description': true,
-          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [
@@ -204,6 +206,7 @@ const dataIdentificationUiSchema = {
   },
   UseConstraints: {
     'ui:widget': CustomSelectWidget,
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -294,10 +297,10 @@ const dataIdentificationUiSchema = {
       'ui:widget': CustomTextareaWidget
     },
     LicenseURL: {
+      'ui:heading-level': 'h4',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:group': 'License URL',
-        'ui:group-classname': 'h3-title',
         'ui:required': 'false',
         'ui:row': [
           {
@@ -394,6 +397,7 @@ const dataIdentificationUiSchema = {
     }
   },
   AccessConstraints: {
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -430,7 +434,7 @@ const dataIdentificationUiSchema = {
     }
   },
   MetadataAssociations: {
-    'ui:header-classname': 'h2-title',
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -478,7 +482,7 @@ const dataIdentificationUiSchema = {
     }
   },
   PublicationReferences: {
-    'ui:header-classname': 'h2-title',
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -603,6 +607,7 @@ const dataIdentificationUiSchema = {
         'ui:widget': CustomTextareaWidget
       },
       DOI: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
@@ -654,11 +659,11 @@ const dataIdentificationUiSchema = {
         'ui:widget': CustomTextareaWidget
       },
       OnlineResource: {
+        'ui:heading-level': 'h5',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:group': 'Online Resource',
           'ui:group-description': true,
-          'ui:group-classname': 'h3-title',
           'ui:required': 'false',
           'ui:row': [
             {

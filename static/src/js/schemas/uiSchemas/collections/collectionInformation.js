@@ -121,7 +121,7 @@ const collectionInformationUiSchema = {
   },
   AssociatedDOIs: {
     'ui:title': 'Associated DOIs',
-    'ui:header-classname': 'h2-title',
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

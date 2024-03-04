@@ -4,6 +4,10 @@ import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWid
 // Import PlatformField from '../../../components/PlatformField/PlatformField'
 
 const acquisitionInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
+  'ui:heading-level': 'h3',
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -34,6 +38,7 @@ const acquisitionInformationUiSchema = {
     ]
   },
   Platforms: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -84,7 +89,7 @@ const acquisitionInformationUiSchema = {
         ]
       },
       Characteristics: {
-        'ui:header-classname': 'h2-title',
+        'ui:heading-level': 'h4',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {
@@ -138,7 +143,7 @@ const acquisitionInformationUiSchema = {
         }
       },
       Instruments: {
-        'ui:header-classname': 'h2-title',
+        'ui:heading-level': 'h4',
         items: {
           'ui:field': 'layout',
           'ui:controlled': {
@@ -241,6 +246,7 @@ const acquisitionInformationUiSchema = {
             'ui:place-holder': 'No available Long Name'
           },
           Characteristics: {
+            'ui:heading-level': 'h4',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -297,6 +303,7 @@ const acquisitionInformationUiSchema = {
             'ui:widget': CustomTextareaWidget
           },
           ComposedOf: {
+            'ui:heading-level': 'h4',
             items: {
               'ui:field': 'layout',
               'ui:controlled': {
@@ -399,6 +406,7 @@ const acquisitionInformationUiSchema = {
                 'ui:place-holder': 'No available Long Name'
               },
               Characteristics: {
+                'ui:heading-level': 'h4',
                 items: {
                   'ui:field': 'layout',
                   'ui:layout_grid': {
@@ -461,6 +469,7 @@ const acquisitionInformationUiSchema = {
     }
   },
   Projects: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {

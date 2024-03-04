@@ -8,6 +8,7 @@ const spatialInformationUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
   },
+  'ui:heading-level': 'h3',
   'ui:field': 'layout',
   'ui:layout_grid': {
     'ui:row': [
@@ -63,11 +64,11 @@ const spatialInformationUiSchema = {
     ]
   },
   SpatialExtent: {
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:group': 'Spatial Extent',
       'ui:group-classname': 'h2-title',
-      'ui:group-box-classname': 'h2-box',
       'ui:group-description': true,
       'ui:row': [
         {
@@ -99,7 +100,6 @@ const spatialInformationUiSchema = {
               },
               {
                 'ui:group-checkbox': 'Orbital',
-                'ui:group-box-classname': 'h2-box',
                 'ui:row': [
                   {
                     'ui:col': {
@@ -126,13 +126,12 @@ const spatialInformationUiSchema = {
       ]
     },
     HorizontalSpatialDomain: {
+      'ui:heading-level': 'h5',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [
           {
             'ui:group': 'Horizontal Spatial Domain',
-            'ui:group-classname': 'h3-title',
-            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -172,13 +171,12 @@ const spatialInformationUiSchema = {
         ]
       },
       Geometry: {
+        'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Geometry',
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 style: { 'margin-bottom': '15px' },
                 md: 12,
@@ -239,7 +237,7 @@ const spatialInformationUiSchema = {
           ]
         },
         Points: {
-          'ui:header-classname': 'h3-title',
+          'ui:heading-level': 'h6',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -288,13 +286,13 @@ const spatialInformationUiSchema = {
           }
         },
         BoundingRectangles: {
-          'ui:header-classname': 'h3-title',
+          'ui:heading-level': 'h6',
           items: {
             'ui:field': 'boundingRectangle'
           }
         },
         GPolygons: {
-          'ui:header-classname': 'h3-title',
+          'ui:heading-level': 'h6',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -341,13 +339,12 @@ const spatialInformationUiSchema = {
               ]
             },
             ExclusiveZone: {
+              'ui:heading-level': 'h6',
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [
                   {
                     'ui:group': 'Exclusive Zone',
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:group-description': true,
                     'ui:col': {
                       md: 12,
@@ -368,8 +365,8 @@ const spatialInformationUiSchema = {
                 ]
               },
               Boundaries: {
+                'ui:heading-level': 'h6',
                 'ui:title': 'Boundary',
-                'ui:header-classname': 'h3-title',
                 items: {
                   'ui:field': 'layout',
                   'ui:layout_grid': {
@@ -394,7 +391,7 @@ const spatialInformationUiSchema = {
                     ]
                   },
                   Points: {
-                    'ui:header-classname': 'h3-title',
+                    'ui:heading-level': 'h6',
                     items: {
                       'ui:field': 'layout',
                       'ui:layout_grid': {
@@ -435,9 +432,8 @@ const spatialInformationUiSchema = {
               }
             },
             Boundary: {
-              'ui:header-classname': 'h3-title',
               Points: {
-                'ui:header-classname': 'h3-title',
+                'ui:heading-level': 'h6',
                 items: {
                   'ui:field': 'layout',
                   'ui:layout_grid': {
@@ -478,7 +474,7 @@ const spatialInformationUiSchema = {
           }
         },
         Lines: {
-          'ui:header-classname': 'h3-title',
+          'ui:heading-level': 'h6',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -503,7 +499,7 @@ const spatialInformationUiSchema = {
               ]
             },
             Points: {
-              'ui:header-classname': 'h3-title',
+              'ui:heading-level': 'h6',
               items: {
                 'ui:field': 'layout',
                 'ui:layout_grid': {
@@ -545,12 +541,11 @@ const spatialInformationUiSchema = {
       },
       ResolutionAndCoordinateSystem: {
         'ui:widget': CustomSelectWidget,
+        'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:group-description': true,
               'ui:col': {
                 md: 12,
@@ -593,16 +588,15 @@ const spatialInformationUiSchema = {
           ]
         },
         GeodeticModel: {
-          'ui:header-classname': 'h3-title'
+          'ui:heading-level': 'h6'
         },
         HorizontalDataResolution: {
+          'ui:heading-level': 'h6',
           'ui:field': 'layout',
           'ui:layout_grid': {
             'ui:row': [
               {
                 'ui:group': 'Horizontal Data Resolution',
-                'ui:group-classname': 'h3-title',
-                'ui:group-box-classname': 'h2-box',
                 'ui:col': {
                   md: 12,
                   children: [
@@ -668,8 +662,7 @@ const spatialInformationUiSchema = {
             ]
           },
           NonGriddedResolutions: {
-            'ui:header-classname': 'h3-title',
-            'ui:header-box-classname': 'h2-box',
+            'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -727,8 +720,7 @@ const spatialInformationUiSchema = {
             }
           },
           NonGriddedRangeResolutions: {
-            'ui:header-classname': 'h3-title',
-            'ui:header-box-classname': 'h2-box',
+            'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -802,8 +794,7 @@ const spatialInformationUiSchema = {
             }
           },
           GriddedResolutions: {
-            'ui:header-classname': 'h3-title',
-            'ui:header-box-classname': 'h2-box',
+            'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -845,8 +836,7 @@ const spatialInformationUiSchema = {
             }
           },
           GriddedRangeResolutions: {
-            'ui:header-classname': 'h3-title',
-            'ui:header-box-classname': 'h2-box',
+            'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -904,8 +894,7 @@ const spatialInformationUiSchema = {
             }
           },
           GenericResolutions: {
-            'ui:header-classname': 'h3-title',
-            'ui:header-box-classname': 'h2-box',
+            'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
               'ui:layout_grid': {
@@ -948,12 +937,12 @@ const spatialInformationUiSchema = {
           }
         },
         LocalCoordinateSystem: {
-          'ui:header-classname': 'h3-title'
+          'ui:heading-level': 'h6'
         }
       }
     },
     VerticalSpatialDomains: {
-      'ui:header-classname': 'h3-title',
+      'ui:heading-level': 'h5',
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -991,6 +980,7 @@ const spatialInformationUiSchema = {
       }
     },
     OrbitParameters: {
+      'ui:heading-level': 'h5',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [
@@ -1115,6 +1105,7 @@ const spatialInformationUiSchema = {
         ]
       },
       Footprints: {
+        'ui:heading-level': 'h6',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {
@@ -1164,6 +1155,7 @@ const spatialInformationUiSchema = {
     }
   },
   TilingIdentificationSystems: {
+    'ui:heading-level': 'h5',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -1203,14 +1195,15 @@ const spatialInformationUiSchema = {
         ]
       },
       Coordinate1: {
-        'ui:header-classname': 'h3-title'
+        'ui:heading-level': 'h6'
       },
       Coordinate2: {
-        'ui:header-classname': 'h3-title'
+        'ui:heading-level': 'h6'
       }
     }
   },
   SpatialInformation: {
+    'ui:heading-level': 'h5',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -1218,7 +1211,6 @@ const spatialInformationUiSchema = {
           'ui:group': 'Spatial Representation Information',
           'ui:group-description': true,
           'ui:group-classname': 'h2-title',
-          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [
@@ -1248,13 +1240,12 @@ const spatialInformationUiSchema = {
       ]
     },
     VerticalCoordinateSystem: {
+      'ui:heading-level': 'h6',
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:row': [
           {
             'ui:group': 'Vertical Coordinate System',
-            'ui:group-classname': 'h3-title',
-            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -1284,13 +1275,12 @@ const spatialInformationUiSchema = {
         ]
       },
       AltitudeSystemDefinition: {
+        'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Altitude System Definition',
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -1330,17 +1320,15 @@ const spatialInformationUiSchema = {
           ]
         },
         Resolutions: {
-          'ui:header-classname': 'h3-title'
         }
       },
       DepthSystemDefinition: {
+        'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Depth System Definition',
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -1380,7 +1368,7 @@ const spatialInformationUiSchema = {
           ]
         },
         Resolutions: {
-          'ui:header-classname': 'h3-title'
+          'ui:heading-level': 'h6'
         }
       }
     }

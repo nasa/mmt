@@ -10,8 +10,6 @@ import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWid
 
 const dataCentersUiSchema = {
   DataCenters: {
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -119,8 +117,6 @@ const dataCentersUiSchema = {
                   {
                     'ui:group': 'Contact Information',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:row': [
                       {
                         'ui:col': {
@@ -181,7 +177,6 @@ const dataCentersUiSchema = {
           'ui:title': 'Contact Instructions'
         },
         ContactMechanisms: {
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -218,7 +213,6 @@ const dataCentersUiSchema = {
         },
         Addresses: {
           'ui:title': 'Address',
-          'ui:header-classname': 'h3-title',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -229,8 +223,6 @@ const dataCentersUiSchema = {
                     children: [
                       {
                         'ui:group': 'Street Addresses',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -291,8 +283,6 @@ const dataCentersUiSchema = {
         },
         RelatedUrls: {
           'ui:title': 'Related URLs',
-          'ui:header-classname': 'h3-title',
-          'ui:header-box-classname': 'h2-box',
           items: {
             'ui:field': 'layout',
             'ui:controlled': {
@@ -399,8 +389,6 @@ const dataCentersUiSchema = {
                   {
                     'ui:group': 'Get Data',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:col': {
                       md: 12,
                       children: [
@@ -483,8 +471,6 @@ const dataCentersUiSchema = {
                   {
                     'ui:group': 'Get Service',
                     'ui:group-description': true,
-                    'ui:group-classname': 'h3-title',
-                    'ui:group-box-classname': 'h2-box',
                     'ui:col': {
                       md: 12,
                       children: [
@@ -572,7 +558,6 @@ const dataCentersUiSchema = {
               },
               URI: {
                 items: {
-                  'ui:header-classname': 'h3-title'
                 }
               }
             }
@@ -591,8 +576,6 @@ const dataCentersUiSchema = {
                     {
                       'ui:group': 'Contact Groups',
                       'ui:group-description': true,
-                      'ui:group-classname': 'h3-title',
-                      'ui:group-box-classname': 'h2-box',
                       'ui:row': [
                         {
                           'ui:col': {
@@ -651,8 +634,6 @@ const dataCentersUiSchema = {
                       {
                         'ui:group': 'Contact Information',
                         'ui:group-description': true,
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -704,7 +685,6 @@ const dataCentersUiSchema = {
               ]
             },
             ContactMechanisms: {
-              'ui:header-classname': 'h3-title',
               items: {
                 'ui:field': 'layout',
                 'ui:layout_grid': {
@@ -738,7 +718,6 @@ const dataCentersUiSchema = {
             },
             Addresses: {
               'ui:title': 'Address',
-              'ui:header-classname': 'h3-title',
               items: {
                 'ui:field': 'layout',
                 'ui:layout_grid': {
@@ -749,7 +728,6 @@ const dataCentersUiSchema = {
                         children: [
                           {
                             'ui:group': 'Street Addresses',
-                            'ui:group-classname': 'h3-title',
                             'ui:group-box-classname': 'h3-box',
                             'ui:row': [
                               {
@@ -811,7 +789,6 @@ const dataCentersUiSchema = {
             },
             RelatedUrls: {
               'ui:title': 'Related URLs',
-              'ui:header-classname': 'h3-title',
               'ui:header-box-classname': 'h3-box',
               items: {
                 'ui:field': 'layout',
@@ -1090,7 +1067,6 @@ const dataCentersUiSchema = {
                   },
                   URI: {
                     items: {
-                      'ui:header-classname': 'h3-title'
                     }
                   }
                 }
@@ -1107,8 +1083,6 @@ const dataCentersUiSchema = {
               {
                 'ui:group': 'Contact Persons',
                 'ui:group-description': true,
-                'ui:group-classname': 'h3-title',
-                'ui:group-box-classname': 'h2-box',
                 'ui:col': {
                   md: 12,
                   children: [
@@ -1182,8 +1156,6 @@ const dataCentersUiSchema = {
                     children: [
                       {
                         'ui:group': 'Contact Information',
-                        'ui:group-classname': 'h3-title',
-                        'ui:group-box-classname': 'h2-box',
                         'ui:row': [
                           {
                             'ui:col': {
@@ -1241,7 +1213,6 @@ const dataCentersUiSchema = {
               'ui:group': 'ContactPersons'
             },
             ContactMechanisms: {
-              'ui:header-classname': 'h3-title',
               items: {
                 'ui:field': 'layout',
                 'ui:layout_grid': {
@@ -1278,7 +1249,6 @@ const dataCentersUiSchema = {
             },
             Addresses: {
               'ui:title': 'Address',
-              'ui:header-classname': 'h3-title',
               items: {
                 'ui:field': 'layout',
                 'ui:layout_grid': {
@@ -1289,8 +1259,6 @@ const dataCentersUiSchema = {
                         children: [
                           {
                             'ui:group': 'Street Addresses',
-                            'ui:group-classname': 'h3-title',
-                            'ui:group-box-classname': 'h2-box',
                             'ui:row': [
                               {
                                 'ui:col': {
@@ -1350,7 +1318,6 @@ const dataCentersUiSchema = {
             },
             RelatedUrls: {
               'ui:title': 'Related URLs',
-              'ui:header-classname': 'h3-title',
               'ui:header-box-classname': 'h3-box',
               items: {
                 'ui:field': 'layout',
@@ -1629,7 +1596,6 @@ const dataCentersUiSchema = {
                   },
                   URI: {
                     items: {
-                      'ui:header-classname': 'h3-title'
                     }
                   }
                 }

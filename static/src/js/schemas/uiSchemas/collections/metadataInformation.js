@@ -43,7 +43,6 @@ const metadataInformationUiSchema = {
     }
   },
   MetadataDates: {
-    'ui:header-classname': 'field-label',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

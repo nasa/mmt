@@ -2,10 +2,12 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import { shouldHideGetData, shouldHideGetService } from '../../../utils/collectionsUtils'
 
 const relatedUrlsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   RelatedUrls: {
     'ui:title': 'Related URLs',
-    'ui:header-classname': 'h1-title',
-    'ui:header-box-classname': 'h1-box',
+    'ui:heading-level': 'h3',
     items: {
       'ui:field': 'layout',
       'ui:controlled': {
@@ -106,14 +108,13 @@ const relatedUrlsUiSchema = {
         'ui:widget': 'textarea'
       },
       GetData: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Get Data',
               'ui:group-description': true,
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -198,14 +199,13 @@ const relatedUrlsUiSchema = {
         }
       },
       GetService: {
+        'ui:heading-level': 'h3',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
             {
               'ui:group': 'Get Service',
               'ui:group-description': true,
-              'ui:group-classname': 'h3-title',
-              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -300,7 +300,6 @@ const relatedUrlsUiSchema = {
           }
         },
         URI: {
-          'ui:header-classname': 'h3-title'
         }
       }
     }

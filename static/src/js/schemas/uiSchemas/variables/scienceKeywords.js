@@ -29,7 +29,7 @@ const scienceKeywordsUiSchema = {
     'ui:picker_title': 'SERVICE KEYWORD',
     'ui:keyword_scheme_column_names': ['sciencekeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
     'ui:filter': 'EARTH SCIENCE',
-    'ui:scheme_values': ['Category', 'Topic', 'Term', 'VariableLevel1', 'VariableLevel2', 'VariableLevel3']
+    'ui:scheme_values': ['Category', 'Topic', 'Term']
   }
 }
 export default scienceKeywordsUiSchema
