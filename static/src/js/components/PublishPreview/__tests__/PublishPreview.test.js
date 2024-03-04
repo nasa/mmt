@@ -589,7 +589,6 @@ describe('PublishPreview', () => {
           ]
         })
 
-        screen.debug(undefined, 300000)
         await waitForResponse()
 
         const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
