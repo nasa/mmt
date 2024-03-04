@@ -309,7 +309,6 @@ describe('SearchPage component', () => {
       const row1 = rows[0]
       const ascendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })
 
-      // Screen.debug(ascendingButton)
       user.click(ascendingButton)
 
       await waitFor(() => {

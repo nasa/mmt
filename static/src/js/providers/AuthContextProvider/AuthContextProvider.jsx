@@ -1,15 +1,14 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo,
-  useState
+  useMemo
 } from 'react'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 import AuthContext from '../../context/AuthContext'
 import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
+import errorLogger from '../../utils/errorLogger'
 
 const { apiHost } = getApplicationConfig()
 
@@ -30,39 +29,65 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({})
+  const [cookies, setCookie] = useCookies(['loginInfo', 'launchpadToken'])
+  const { loginInfo = {}, launchpadToken } = cookies
 
-  const [cookies] = useCookies(['loginInfo'])
-  const { token } = user
-  const { loginInfo } = cookies
+  const setUser = (info) => {
+    setCookie('loginInfo', info)
+  }
+
+  const updateLoginInfo = (auid) => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+    const info = {
+      providerId: 'MMT_2',
+      auid,
+      token: {
+        tokenValue: launchpadToken,
+        tokenExp: expires.valueOf()
+      }
+    }
+    setUser(info)
+  }
 
   useEffect(() => {
-    if (loginInfo) {
-      const {
-        auid,
-        name,
-        token: cookieToken
-      } = decodeCookie(loginInfo)
+    if (!loginInfo || !loginInfo.auid) return
 
-      setUser({
-        ...user,
-        token: cookieToken,
-        name,
-        auid,
-        providerId: 'MMT_2'
+    const { name, auid } = loginInfo
+    const fetchProfileAndSetLoginCookie = async () => {
+      await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
+        const { name: profileName } = await response.json()
+        setUser({
+          ...loginInfo,
+          name: profileName
+        })
+      }).catch((error) => {
+        errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
       })
+    }
+
+    if (!name) {
+      fetchProfileAndSetLoginCookie()
     }
   }, [loginInfo])
 
+  const handleRefreshToken = (refreshToken) => {
+    setUser({
+      ...loginInfo,
+      token: refreshToken
+    })
+  }
+
   useEffect(() => {
     const interval = setInterval(async () => {
-      checkAndRefreshToken(user, setUser)
+      checkAndRefreshToken(loginInfo, handleRefreshToken)
     }, 1000)
 
     return () => {
       clearInterval(interval)
     }
-  }, [token])
+  }, [loginInfo])
 
   const login = useCallback(() => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
@@ -76,9 +101,10 @@ const AuthContextProvider = ({ children }) => {
     login,
     logout,
     setUser,
-    user
+    updateLoginInfo,
+    user: loginInfo
   }), [
-    user,
+    loginInfo,
     login,
     logout
   ])
