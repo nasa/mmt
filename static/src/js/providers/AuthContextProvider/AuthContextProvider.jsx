@@ -29,7 +29,6 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
   const [cookies, setCookie] = useCookies(['loginInfo', 'launchpadToken'])
   const { loginInfo = {}, launchpadToken } = cookies
 

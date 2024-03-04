@@ -35,10 +35,6 @@ const GraphQLProvider = ({ children }) => {
   const { token } = user
   const { tokenValue } = token || {}
 
-  if (process.env.NODE_ENV === 'production') {
-    console.log('using ', tokenValue)
-  }
-
   const httpLink = createHttpLink({
     uri: graphQlHost
   })
