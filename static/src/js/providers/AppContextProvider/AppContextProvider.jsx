@@ -21,7 +21,9 @@ import useAuthContext from '../../hooks/useAuthContext'
  * )
  */
 const AppContextProvider = ({ children }) => {
-  const { login, logout, user } = useAuthContext()
+  const {
+    login, logout, user, updateLoginInfo
+  } = useAuthContext()
   const { addKeywordsData, keywords } = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
@@ -38,7 +40,8 @@ const AppContextProvider = ({ children }) => {
     savedDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft
+    setSavedDraft,
+    updateLoginInfo
   }), [
     user,
     draft,

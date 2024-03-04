@@ -17,8 +17,6 @@ import errorLogger from '../../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
 
-import encodeCookie from '../../../utils/encodeCookie'
-
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
 jest.mock('../../../utils/removeMetadataKeys')
@@ -116,11 +114,11 @@ const setup = ({
   expires = new Date(expires)
 
   const cookie = new Cookies({
-    loginInfo: encodeCookie({
+    loginInfo: ({
       name: 'User Name',
       token: {
         tokenValue: 'ABC-1',
-        tokenExp: expires
+        tokenExp: expires.valueOf()
       },
       providerId: 'MMT_2'
     })

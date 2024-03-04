@@ -9,7 +9,6 @@ import { Cookies, CookiesProvider } from 'react-cookie'
 import useControlledKeywords from '../useControlledKeywords'
 import Providers from '../../providers/Providers/Providers'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
-import encodeCookie from '../../utils/encodeCookie'
 
 jest.mock('../../utils/fetchCmrKeywords')
 global.fetch = jest.fn()
@@ -48,14 +47,14 @@ const setup = (keywordType, schemaKeywords, controlledKeywordsMap) => {
   expires = new Date(expires)
 
   const cookie = new Cookies({
-    loginInfo: encodeCookie({
+    loginInfo: {
       name: 'User Name',
       token: {
         tokenValue: 'ABC-1',
-        tokenExp: expires
+        tokenExp: expires.valueOf()
       },
       providerId: 'MMT_2'
-    })
+    }
   })
   cookie.HAS_DOCUMENT_COOKIE = false
 
