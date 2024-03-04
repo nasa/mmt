@@ -149,7 +149,7 @@ const setup = ({
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
-          <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
+          <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
             <Routes>
               <Route
                 path={overridePath || '/tools'}
@@ -589,6 +589,7 @@ describe('PublishPreview', () => {
           ]
         })
 
+        screen.debug(undefined, 300000)
         await waitForResponse()
 
         const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })

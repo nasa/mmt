@@ -8,7 +8,7 @@ export const publishPreview = {
       dataType: 'STRING',
       parameterValueAccuracy: 'centimeter',
       valueAccuracyExplanation: 'Mock Text ',
-      description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long',
+      description: 'Lorem Ipsum',
       updateDate: '2020-07-02T00:00:00.000Z',
       measurementResolution: 'Measurement Resolution test',
       name: 'Mock additional attribute 1',
@@ -27,7 +27,7 @@ export const publishPreview = {
         averageFileSizeUnit: 'TB',
         totalCollectionFileSize: 2,
         totalCollectionFileSizeUnit: 'TB',
-        description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long TextMock Very Long Text Mock Very Text Mock Very Long Text '
+        description: 'Lorem Ipsum'
       }
     ],
     fileDistributionInformation: [
@@ -40,8 +40,8 @@ export const publishPreview = {
         averageFileSizeUnit: 'GB',
         totalCollectionFileSize: 10,
         totalCollectionFileSizeUnit: 'GB',
-        description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text',
-        fees: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long T'
+        description: 'Lorem Ipsum',
+        fees: 'Lorem Ipsum'
       }
     ]
   },
@@ -267,7 +267,7 @@ export const publishPreview = {
         DataType: 'STRING',
         ParameterValueAccuracy: 'centimeter',
         ValueAccuracyExplanation: 'Mock Text ',
-        Description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long',
+        Description: 'Lorem Ipsum',
         UpdateDate: '2020-07-02T00:00:00.000Z',
         MeasurementResolution: 'Measurement Resolution test',
         Name: 'Mock additional attribute 1',
@@ -464,7 +464,7 @@ export const publishPreview = {
           AverageFileSizeUnit: 'TB',
           TotalCollectionFileSize: 2,
           TotalCollectionFileSizeUnit: 'TB',
-          Description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long TextMock Very Long Text Mock Very Text Mock Very Long Text '
+          Description: 'Lorem Ipsum'
         }
       ],
       FileDistributionInformation: [
@@ -477,8 +477,8 @@ export const publishPreview = {
           AverageFileSizeUnit: 'GB',
           TotalCollectionFileSize: 10,
           TotalCollectionFileSizeUnit: 'GB',
-          Description: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Long Text Mock Very Text Mock Very Long Text',
-          Fees: 'Mock Very Long Text Mock Very Text Mock Very Long Text Mock Very Long Text Mock Very LongText Mock Very Long Text Mock Very Long Text Mock Very Long Text  Mock Very Long Text Mock Very Long Text Mock Very Long T'
+          Description: 'Lorem Ipsum',
+          Fees: 'Lorem Ipsum'
         }
       ]
     }
