@@ -2,7 +2,11 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 
 const collectionCitationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   CollectionCitations: {
+    'ui:heading-level': 'h3',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
@@ -154,6 +158,7 @@ const collectionCitationUiSchema = {
         'ui:widget': CustomTextareaWidget
       },
       OnlineResource: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:group': 'Online Resource',

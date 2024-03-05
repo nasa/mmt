@@ -5,7 +5,11 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 
 const dataContactsUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   ContactPersons: {
+    'ui:heading-level': 'h3',
     'ui:hide-header': true,
     items: {
       'ui:field': 'layout',
@@ -93,6 +97,7 @@ const dataContactsUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       ContactInformation: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
@@ -161,6 +166,7 @@ const dataContactsUiSchema = {
           'ui:group': 'ContactPersons'
         },
         ContactMechanisms: {
+          'ui:heading-level': 'h5',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -196,6 +202,7 @@ const dataContactsUiSchema = {
           }
         },
         Addresses: {
+          'ui:heading-level': 'h5',
           'ui:title': 'Address',
           items: {
             'ui:field': 'layout',
@@ -264,8 +271,8 @@ const dataContactsUiSchema = {
           }
         },
         RelatedUrls: {
+          'ui:heading-level': 'h5',
           'ui:title': 'Related URLs',
-          'ui:header-box-classname': 'h3-box',
           items: {
             'ui:field': 'layout',
             'ui:controlled': {
@@ -366,6 +373,7 @@ const dataContactsUiSchema = {
               'ui:widget': 'textarea'
             },
             GetData: {
+              'ui:heading-level': 'h6',
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [
@@ -449,6 +457,7 @@ const dataContactsUiSchema = {
               }
             },
             GetService: {
+              'ui:heading-level': 'h6',
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [
@@ -552,6 +561,7 @@ const dataContactsUiSchema = {
     }
   },
   ContactGroups: {
+    'ui:heading-level': 'h3',
     'ui:hide-header': true,
     items: {
       'ui:field': 'layout',
@@ -626,6 +636,7 @@ const dataContactsUiSchema = {
         'ui:widget': CustomMultiSelectWidget
       },
       ContactInformation: {
+        'ui:heading-level': 'h4',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
@@ -690,6 +701,7 @@ const dataContactsUiSchema = {
           'ui:title': 'Contact Instructions'
         },
         ContactMechanisms: {
+          'ui:heading-level': 'h5',
           items: {
             'ui:field': 'layout',
             'ui:layout_grid': {
@@ -722,6 +734,7 @@ const dataContactsUiSchema = {
           }
         },
         Addresses: {
+          'ui:heading-level': 'h5',
           'ui:title': 'Address',
           items: {
             'ui:field': 'layout',
@@ -792,8 +805,8 @@ const dataContactsUiSchema = {
           }
         },
         RelatedUrls: {
+          'ui:heading-level': 'h5',
           'ui:title': 'Related URLs',
-          'ui:header-box-classname': 'h3-box',
           items: {
             'ui:field': 'layout',
             'ui:controlled': {
@@ -894,6 +907,7 @@ const dataContactsUiSchema = {
               'ui:widget': 'textarea'
             },
             GetData: {
+              'ui:heading-level': 'h6',
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [
@@ -977,6 +991,7 @@ const dataContactsUiSchema = {
               }
             },
             GetService: {
+              'ui:heading-level': 'h6',
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [
@@ -1079,6 +1094,5 @@ const dataContactsUiSchema = {
       }
     }
   }
-
 }
 export default dataContactsUiSchema

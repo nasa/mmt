@@ -2,7 +2,11 @@ import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSel
 import LanguageArray from '../../../utils/languageArray'
 
 const metadataInformationUiSchema = {
+  'ui:submitButtonOptions': {
+    norender: true
+  },
   'ui:field': 'layout',
+  'ui:heading-level': 'h3',
   'ui:layout_grid': {
     'ui:row': [
       {
@@ -35,7 +39,6 @@ const metadataInformationUiSchema = {
       }
     ]
   },
-
   MetadataLanguage: {
     'ui:widget': CustomSelectWidget,
     'ui:options': {
@@ -43,6 +46,7 @@ const metadataInformationUiSchema = {
     }
   },
   MetadataDates: {
+    'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

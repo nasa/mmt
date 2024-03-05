@@ -1376,6 +1376,11 @@ const spatialInformationUiSchema = {
   LocationKeywords: {
     'ui:title': 'Location Keywords',
     'ui:field': 'keywordPicker'
+    // 'ui:keyword_scheme': 'location_keywords',
+    // 'ui:picker_title': 'LOCATION KEYWORD',
+    // 'ui:keyword_scheme_column_names': ['location_keywords', 'category', 'type', 'subregion_1', 'subregion_2', 'subregion_3'],
+    // 'ui:filter': 'LOCATIONS',
+    // 'ui:scheme_values': ['Category', 'Type', 'Subregion1', 'Subregion1', 'Subregion1']
   }
 }
 
