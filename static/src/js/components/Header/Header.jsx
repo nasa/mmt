@@ -37,7 +37,7 @@ import isTokenExpired from '../../utils/isTokenExpired'
 const Header = () => {
   const { user, login, logout } = useAppContext()
   const navigate = useNavigate()
-  const { token, name } = user
+  const { token, name = '' } = user
   const isExpired = isTokenExpired(token)
 
   const [searchKeyword, setSearchKeyword] = useState('')
