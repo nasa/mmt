@@ -299,6 +299,15 @@ describe('CollectionAssociation', () => {
                     entryTitle: 'Collection Associations Entry Title 1 ',
                     title: 'Collection Associations Title 1',
                     revisionDate: null,
+                    tagDefinitions: {
+                      items: [{
+                        conceptId: 'C100000',
+                        description: 'Mock tag description',
+                        originatorId: 'test.user',
+                        revisionId: '1',
+                        tagKey: 'Mock tag key'
+                      }]
+                    },
                     __typename: 'Collection'
                   }
                 ],
@@ -411,6 +420,15 @@ describe('CollectionAssociation', () => {
                         shortName: 'Collection Associations Short Name 1',
                         title: 'Collection Associations Title 1',
                         revisionDate: null,
+                        tagDefinitions: {
+                          items: [{
+                            conceptId: 'C100000',
+                            description: 'Mock tag description',
+                            originatorId: 'test.user',
+                            revisionId: '1',
+                            tagKey: 'Mock tag key'
+                          }]
+                        },
                         __typename: 'Collection'
                       }
                     ],
@@ -448,6 +466,15 @@ describe('CollectionAssociation', () => {
                         shortName: 'Collection Associations Short Name 1',
                         title: 'Collection Associations Title 1',
                         revisionDate: null,
+                        tagDefinitions: {
+                          items: [{
+                            conceptId: 'C100000',
+                            description: 'Mock tag description',
+                            originatorId: 'test.user',
+                            revisionId: '1',
+                            tagKey: 'Mock tag key'
+                          }]
+                        },
                         __typename: 'Collection'
                       }
                     ],
@@ -543,6 +570,15 @@ describe('CollectionAssociation', () => {
                         shortName: 'Collection Associations Short Name 1',
                         title: 'Collection Associations Title 1',
                         revisionDate: null,
+                        tagDefinitions: {
+                          items: [{
+                            conceptId: 'C100000',
+                            description: 'Mock tag description',
+                            originatorId: 'test.user',
+                            revisionId: '1',
+                            tagKey: 'Mock tag key'
+                          }]
+                        },
                         __typename: 'Collection'
                       }
                     ],
@@ -639,6 +675,15 @@ describe('CollectionAssociation', () => {
                         granules: null,
                         revisionDate: null,
                         title: 'Collection Associations Title 1',
+                        tagDefinitions: {
+                          items: [{
+                            conceptId: 'C100000',
+                            description: 'Mock tag description',
+                            originatorId: 'test.user',
+                            revisionId: '1',
+                            tagKey: 'Mock tag key'
+                          }]
+                        },
                         __typename: 'Collection'
                       }
                     ],
@@ -741,6 +786,15 @@ describe('CollectionAssociation', () => {
                       granules: null,
                       revisionDate: null,
                       title: 'Collection Associations Title 1',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],
@@ -779,6 +833,15 @@ describe('CollectionAssociation', () => {
                       tags: null,
                       granules: null,
                       title: 'Collection Associations Title 2',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],
@@ -817,6 +880,15 @@ describe('CollectionAssociation', () => {
                       tags: null,
                       granules: null,
                       title: 'Collection Associations Title 2',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],
@@ -883,6 +955,15 @@ describe('CollectionAssociation', () => {
                       granules: null,
                       revisionDate: null,
                       title: 'Collection Associations Title 1',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],
@@ -921,6 +1002,15 @@ describe('CollectionAssociation', () => {
                       tags: null,
                       granules: null,
                       title: 'Collection Associations Title 2',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],
@@ -959,6 +1049,15 @@ describe('CollectionAssociation', () => {
                       tags: null,
                       granules: null,
                       title: 'Collection Associations Title 2',
+                      tagDefinitions: {
+                        items: [{
+                          conceptId: 'C100000',
+                          description: 'Mock tag description',
+                          originatorId: 'test.user',
+                          revisionId: '1',
+                          tagKey: 'Mock tag key'
+                        }]
+                      },
                       __typename: 'Collection'
                     }
                   ],

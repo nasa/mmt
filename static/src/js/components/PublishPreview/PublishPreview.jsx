@@ -62,7 +62,7 @@ const PublishPreview = () => {
   }
 
   const toggleTagModal = (nextState) => {
-    setShowDeleteModal(nextState)
+    setShowTagModal(nextState)
   }
 
   const { addNotification } = useNotificationsContext()
@@ -86,7 +86,6 @@ const PublishPreview = () => {
       }
     },
     onCompleted: (getData) => {
-      console.log('🚀 ~ PublishPreview ~ getData:', getData)
       const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
       const {
         revisionId: fetchedRevisionId,
@@ -205,7 +204,7 @@ const PublishPreview = () => {
         })
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
 
         // Navigate to the manage page
         navigate(`/manage/${pluralize(derivedConceptType).toLowerCase()}`)
@@ -221,7 +220,7 @@ const PublishPreview = () => {
         errorLogger(deleteError, 'PublishPreview: deleteMutation')
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
       }
     })
   }
@@ -318,12 +317,12 @@ const PublishPreview = () => {
                   variant="link"
                   onClick={
                     () => {
-                      setShowTagModal(true)
+                      toggleTagModal(true)
                     }
                   }
                 >
                   Tags (
-                  { getTagCount()}
+                  { getTagCount() }
                   )
                 </Button>
                 <Button
@@ -346,7 +345,7 @@ const PublishPreview = () => {
             variant="outline-danger"
             onClick={
               () => {
-                setShowDeleteModal(true)
+                toggleShowDeleteModal(true)
               }
             }
           >
@@ -366,7 +365,7 @@ const PublishPreview = () => {
                 {
                   label: 'No',
                   variant: 'secondary',
-                  onClick: () => { setShowDeleteModal(false) }
+                  onClick: () => { toggleShowDeleteModal(false) }
                 },
                 {
                   label: 'Yes',
@@ -384,7 +383,7 @@ const PublishPreview = () => {
                 {
                   label: 'Close',
                   variant: 'primary',
-                  onClick: () => { setShowTagModal(false) }
+                  onClick: () => { toggleTagModal(false) }
                 }
               ]
             }
