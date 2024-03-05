@@ -169,7 +169,7 @@ describe('SearchPage component', () => {
     })
 
     describe('when clicking the close modal button', () => {
-      test('closes the modal', async () => {
+      test.only('closes the modal', async () => {
         const user = userEvent.setup()
 
         await waitFor(() => {

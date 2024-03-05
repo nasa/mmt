@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import {
   Button,
   Col,
+  ListGroup,
+  ListGroupItem,
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
@@ -25,6 +27,7 @@ import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import For from '../For/For'
 
 /**
  * Renders a PublishPreview component
@@ -47,6 +50,7 @@ const PublishPreview = () => {
 
   const [previewMetadata, setPreviewMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showTagModal, setShowTagModal] = useState(false)
   const [ummMetadata, setUmmMetadata] = useState()
   const [error, setError] = useState()
   const [retries, setRetries] = useState(0)
@@ -54,6 +58,10 @@ const PublishPreview = () => {
   const [nativeId, setNativeId] = useState()
 
   const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
+  const toggleTagModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
 
@@ -73,10 +81,12 @@ const PublishPreview = () => {
   const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
-        conceptId
+        conceptId,
+        includeTags: '*'
       }
     },
     onCompleted: (getData) => {
+      console.log('🚀 ~ PublishPreview ~ getData:', getData)
       const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
       const {
         revisionId: fetchedRevisionId,
@@ -216,6 +226,16 @@ const PublishPreview = () => {
     })
   }
 
+  const getTagCount = () => {
+    const { tagDefinitions } = previewMetadata
+
+    if (!tagDefinitions) return 0
+
+    const { items: tagItems } = tagDefinitions
+
+    return tagItems.length
+  }
+
   if (error) {
     const message = parseError(error)
 
@@ -291,18 +311,34 @@ const PublishPreview = () => {
 
           {
             derivedConceptType === conceptTypes.Collection && (
-              <Button
-                className="btn btn-link"
-                type="button"
-                variant="link"
-                onClick={
-                  () => {
-                    handleCreateAssociatedVariable()
+              <>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      setShowTagModal(true)
+                    }
                   }
-                }
-              >
-                Create Associated Variable
-              </Button>
+                >
+                  Tags (
+                  { getTagCount()}
+                  )
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      handleCreateAssociatedVariable()
+                    }
+                  }
+                >
+                  Create Associated Variable
+                </Button>
+              </>
             )
           }
           <Button
@@ -323,6 +359,7 @@ const PublishPreview = () => {
           <CustomModal
             message="Are you sure you want to delete this record?"
             show={showDeleteModal}
+            size="lg"
             toggleModal={toggleShowDeleteModal}
             actions={
               [
@@ -337,6 +374,47 @@ const PublishPreview = () => {
                   onClick: handleDelete
                 }
               ]
+            }
+          />
+          <CustomModal
+            show={showTagModal}
+            toggleModal={toggleTagModal}
+            actions={
+              [
+                {
+                  label: 'Close',
+                  variant: 'primary',
+                  onClick: () => { setShowTagModal(false) }
+                }
+              ]
+            }
+            header={previewMetadata.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+            message={
+              previewMetadata.tagDefinitions
+                ? (
+                  <>
+                    <h3 className="fw-bolder h5">{}</h3>
+                    <ListGroup>
+                      <For each={previewMetadata.tagDefinitions.items}>
+                        {
+                          (tagItems) => (
+                            <ListGroupItem key={tagItems.tagKey}>
+                              <dl>
+                                <dt>Tag Key:</dt>
+                                <dd>{tagItems.tagKey}</dd>
+                                <dt>Description:</dt>
+                                <dd>
+                                  {tagItems.description}
+                                </dd>
+                              </dl>
+                            </ListGroupItem>
+                          )
+                        }
+                      </For>
+                    </ListGroup>
+                  </>
+                )
+                : 'There are no tags associated with this collection'
             }
           />
         </Col>

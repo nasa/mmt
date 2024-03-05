@@ -152,8 +152,9 @@ const SearchPage = ({ limit }) => {
   const buildTagCell = useCallback((cellData, rowData) => {
     if (!cellData) return <span className="p-1 d-block text-end w-100">0</span>
 
-    const tagKeys = Object.keys(cellData)
-    const tagCount = tagKeys.length
+    const { items: tagItems } = cellData
+
+    const tagCount = tagItems.length
 
     return (
       <Button
@@ -242,7 +243,7 @@ const SearchPage = ({ limit }) => {
           align: 'end'
         },
         {
-          dataKey: 'tags',
+          dataKey: 'tagDefinitions',
           title: 'Tags',
           className: 'col-auto text-nowrap',
           dataAccessorFn: buildTagCell,
@@ -406,13 +407,15 @@ const SearchPage = ({ limit }) => {
                 <ListGroup>
                   <For each={Object.keys(activeTagModalCollection.tags)}>
                     {
-                      (tagKey) => (
+                      (tagKey, index) => (
                         <ListGroupItem key={tagKey}>
                           <dl>
                             <dt>Tag Key:</dt>
                             <dd>{tagKey}</dd>
-                            <dt>Data:</dt>
-                            <dd>{activeTagModalCollection.tags[tagKey].data}</dd>
+                            <dt>Description:</dt>
+                            <dd>
+                              {activeTagModalCollection.tagDefinitions.items[index].description}
+                            </dd>
                           </dl>
                         </ListGroupItem>
                       )
