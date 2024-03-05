@@ -118,8 +118,7 @@ const setup = ({
       query: conceptTypeQueries.Tool,
       variables: {
         params: {
-          conceptId: 'T1000000-MMT',
-          includeTags: '*'
+          conceptId: 'T1000000-MMT'
         }
       }
     },
@@ -259,8 +258,7 @@ describe('PublishPreview', () => {
               query: GET_TOOL,
               variables: {
                 params: {
-                  conceptId: 'T1000000-MMT',
-                  includeTags: '*'
+                  conceptId: 'T1000000-MMT'
                 }
               }
             },
@@ -287,8 +285,7 @@ describe('PublishPreview', () => {
               query: conceptTypeQueries.Tool,
               variables: {
                 params: {
-                  conceptId: 'T1000000-MMT',
-                  includeTags: '*'
+                  conceptId: 'T1000000-MMT'
                 }
               }
             },

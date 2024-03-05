@@ -77,13 +77,21 @@ const PublishPreview = () => {
 
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
-  // Calls CMR-Graphql to get the record
-  const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
-    variables: {
-      params: {
+  const getMetadataVariables = () => {
+    if (derivedConceptType === conceptTypes.Collection) {
+      return {
         conceptId,
         includeTags: '*'
       }
+    }
+
+    return { conceptId }
+  }
+
+  // Calls CMR-Graphql to get the record
+  const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
+    variables: {
+      params: getMetadataVariables()
     },
     onCompleted: (getData) => {
       const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
