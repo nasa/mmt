@@ -4,7 +4,12 @@
     "apiHost": "https://api.mmt.sit.earthdatacloud.nasa.gov",
     "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
     "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
-    "version": "vdevelopment"
+    "version": "vdevelopment",
+    "defaultResponseHeaders": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Credentials": true
+    }
   },
   "ummVersions": {
     "ummC": "1.17.3",

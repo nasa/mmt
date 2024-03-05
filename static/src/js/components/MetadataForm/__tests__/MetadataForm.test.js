@@ -47,7 +47,6 @@ import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import OneOfField from '../../OneOfField/OneOfField'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
-import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -181,11 +180,12 @@ const setup = ({
 
   const cookie = new Cookies(
     {
-      loginInfo: encodeCookie({
+      loginInfo: ({
+        providerId: 'MMT_2',
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
       })
     }

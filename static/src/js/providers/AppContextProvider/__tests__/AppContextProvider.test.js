@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
-import encodeCookie from '../../../utils/encodeCookie'
 import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
 
 jest.mock('../../../utils/getConfig', () => ({
@@ -57,13 +56,13 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
+      loginInfo: {
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
-      })
+      }
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false

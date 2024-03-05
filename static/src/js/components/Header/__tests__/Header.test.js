@@ -79,7 +79,7 @@ describe('Header component', () => {
             name: 'User Name',
             token: {
               tokenValue: 'ABC-1',
-              tokenExp: expires
+              tokenExp: expires.valueOf()
             }
           },
           login: jest.fn(),

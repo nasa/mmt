@@ -2,16 +2,19 @@ import React from 'react'
 import {
   act,
   render,
-  screen
+  screen,
+  waitFor
 } from '@testing-library/react'
 
 import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import AuthContextProvider from '../AuthContextProvider'
-import encodeCookie from '../../../utils/encodeCookie'
 import useAuthContext from '../../../hooks/useAuthContext'
-import checkAndRefreshToken from '../../../utils/checkAndRefreshToken'
+import refreshToken from '../../../utils/refreshToken'
+import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
+import errorLogger from '../../../utils/errorLogger'
 
+jest.mock('../../../utils/errorLogger')
 jest.mock('../../../utils/getConfig', () => ({
   __esModule: true,
   ...jest.requireActual('../../../utils/getConfig'),
@@ -20,13 +23,15 @@ jest.mock('../../../utils/getConfig', () => ({
   }))
 }))
 
-jest.mock('../../../utils/checkAndRefreshToken', () => ({
+jest.mock('../../../utils/refreshToken', () => ({
   __esModule: true,
   default: jest.fn()
 }))
 
 const MockComponent = () => {
-  const { user, login, logout } = useAuthContext()
+  const {
+    user, login, logout, updateLoginInfo
+  } = useAuthContext()
 
   return (
     <div>
@@ -40,6 +45,7 @@ const MockComponent = () => {
         onClick={
           () => {
             login()
+            updateLoginInfo('mock_user')
           }
         }
       >
@@ -66,14 +72,7 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
-        auid: 'username',
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires
-        }
-      })
+      launchpadToken: 'mock-launchpad-token'
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
@@ -81,7 +80,9 @@ const setup = (overrideCookie) => {
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <AuthContextProvider>
-        <MockComponent />
+        <NotificationsContextProvider>
+          <MockComponent />
+        </NotificationsContextProvider>
       </AuthContextProvider>
     </CookiesProvider>
   )
@@ -98,7 +99,19 @@ describe('AuthContextProvider component', () => {
         delete window.location
         window.location = {}
 
-        setup({})
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'test.user@localhost',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'mock_user'
+          })
+        }))
+
+        setup({
+          launchpadToken: 'mock-launchpad-token'
+        })
 
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
@@ -109,74 +122,144 @@ describe('AuthContextProvider component', () => {
     })
 
     describe('when logged in', () => {
-      describe('when log out is triggered', () => {
-        beforeEach(() => {
-          jest.useFakeTimers()
-          jest.setSystemTime(new Date('2024-01-01'))
+      test('shows the name', async () => {
+        delete window.location
+        window.location = {}
+
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'test.user@localhost',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'mock_user'
+          })
+        }))
+
+        setup({
+          launchpadToken: 'mock-launchpad-token'
         })
 
-        afterEach(() => {
-          jest.useRealTimers()
-        })
+        const user = userEvent.setup()
+        const button = screen.getByRole('button', { name: 'Log in' })
+        await user.click(button)
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        expect(window.location.href).toEqual(expectedPath)
 
-        test('logs the user out', async () => {
-          delete window.location
-          window.location = {}
-
-          setup()
-
-          const user = userEvent.setup({ delay: null })
-          const loginButton = screen.getByRole('button', { name: 'Log in' })
-
-          await user.click(loginButton)
-
+        await waitFor(() => {
           const userName = screen.getByText('User Name: User Name', { exact: true })
           expect(userName).toBeInTheDocument()
-
-          act(() => {
-            jest.advanceTimersByTime(1500)
-          })
-
-          expect(checkAndRefreshToken).toHaveBeenCalledTimes(1)
-          expect(checkAndRefreshToken).toHaveBeenCalledWith(
-            expect.objectContaining({
-              name: 'User Name',
-              auid: 'username',
-              providerId: 'MMT_2',
-              token: {
-                tokenExp: '2024-01-01T00:15:00.000Z',
-                tokenValue: 'ABC-1'
-              }
-            }),
-            expect.any(Function)
-          )
         })
       })
 
-      describe('when log out is triggered', () => {
-        test('logs the user out', async () => {
-          delete window.location
-          window.location = {}
+      test('shows errors if can not retrieve name from urs', async () => {
+        delete window.location
+        window.location = {}
 
-          setup()
+        global.fetch = jest.fn(() => Promise.reject(new Error('URS is down')))
 
-          const user = userEvent.setup()
-          const loginButton = screen.getByRole('button', { name: 'Log in' })
-
-          await user.click(loginButton)
-
-          const userName = screen.getByText('User Name: User Name', { exact: true })
-
-          expect(userName).toBeInTheDocument()
-
-          const logoutButton = screen.getByRole('button', { name: 'Log out' })
-
-          await user.click(logoutButton)
-
-          const newUserName = screen.queryByText('User Name: User Name', { exact: true })
-
-          expect(newUserName).not.toBeInTheDocument()
+        setup({
+          launchpadToken: 'mock-launchpad-token'
         })
+
+        const user = userEvent.setup()
+        const button = screen.getByRole('button', { name: 'Log in' })
+        await user.click(button)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toBeCalledWith('Error retrieving profile for mock_user, message=Error: URS is down', 'AuthContextProvider')
+      })
+    })
+
+    describe('when refresh token', () => {
+      beforeEach(() => {
+        jest.useFakeTimers()
+        jest.setSystemTime(new Date('2024-01-01'))
+      })
+
+      afterEach(() => {
+        jest.useRealTimers()
+      })
+
+      test('calls refresh token lambda to exchange for a new token', async () => {
+        delete window.location
+        window.location = {}
+
+        global.fetch = jest.fn(() => Promise.resolve({
+          json: () => Promise.resolve({
+            email: 'test.user@localhost',
+            first_name: 'User',
+            last_name: 'Name',
+            name: 'User Name',
+            uid: 'mock_user'
+          })
+        }))
+
+        jest.setSystemTime(new Date('2024-02-01'))
+
+        let expires = new Date()
+        expires.setMinutes(expires.getMinutes() - 2)
+        expires = new Date(expires)
+
+        setup({
+          launchpadToken: 'mock-launchpad-token',
+          loginInfo: {
+            auid: 'username',
+            name: 'User Name',
+            token: {
+              tokenValue: 'mock-token',
+              tokenExp: expires.valueOf()
+            }
+          }
+
+        })
+
+        act(() => {
+          jest.advanceTimersByTime(1500)
+        })
+
+        await waitFor(() => {
+          expect(refreshToken).toHaveBeenCalledTimes(1)
+          expect(refreshToken).toHaveBeenCalledWith('mock-token')
+        })
+      })
+    })
+
+    describe('when log out is triggered', () => {
+      test('logs the user out', async () => {
+        delete window.location
+        window.location = {}
+
+        let expires = new Date()
+        expires.setMinutes(expires.getMinutes() + 15)
+        expires = new Date(expires)
+
+        setup({
+          launchpadToken: 'mock-launchpad-token',
+          loginInfo: {
+            auid: 'username',
+            name: 'User Name',
+            token: {
+              tokenValue: 'mock-token',
+              tokenExp: expires.valueOf()
+            }
+          }
+        })
+
+        const user = userEvent.setup()
+
+        await waitFor(() => {
+          const userName = screen.getByText('User Name: User Name', { exact: true })
+          expect(userName).toBeInTheDocument()
+        })
+
+        const logoutButton = screen.getByRole('button', { name: 'Log out' })
+
+        await user.click(logoutButton)
+
+        const newUserName = screen.queryByText('User Name: User Name', { exact: true })
+
+        expect(newUserName).not.toBeInTheDocument()
       })
     })
   })

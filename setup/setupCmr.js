@@ -89,7 +89,7 @@ const createProviders = async () => {
             Roles: ['PUBLISHER'],
             URLValue: 'https://quidditch.example.gov/'
           }],
-        Administrators: ['chris.gokey'],
+        Administrators: ['test.user'],
         Consortiums: ['EOSDIS']
       })
     })
