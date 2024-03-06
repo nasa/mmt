@@ -298,8 +298,6 @@ const relatedUrlsUiSchema = {
             name: 'mime-type',
             controlName: 'mime_type'
           }
-        },
-        URI: {
         }
       }
     }

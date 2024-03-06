@@ -403,7 +403,6 @@ const dataIdentificationUiSchema = {
       'ui:row': [
         {
           'ui:group': 'Access Constraints',
-          'ui:group-classname': 'h2-title',
           'ui:group-description': true,
           'ui:col': {
             md: 12,
@@ -607,7 +606,7 @@ const dataIdentificationUiSchema = {
         'ui:widget': CustomTextareaWidget
       },
       DOI: {
-        'ui:heading-level': 'h4',
+        'ui:heading-level': 'h5',
         'ui:field': 'layout',
         'ui:layout_grid': {
           'ui:row': [
