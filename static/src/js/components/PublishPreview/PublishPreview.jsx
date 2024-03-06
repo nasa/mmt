@@ -28,6 +28,7 @@ import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import For from '../For/For'
+import getTagCount from '../../utils/getTagCount'
 
 /**
  * Renders a PublishPreview component
@@ -233,14 +234,11 @@ const PublishPreview = () => {
     })
   }
 
-  const getTagCount = () => {
-    const { tagDefinitions } = previewMetadata
+  let tagCount = 0
+  if (derivedConceptType === conceptTypes.Collection) {
+    const { tagDefinitions } = previewMetadata || {}
 
-    if (!tagDefinitions) return 0
-
-    const { items: tagItems } = tagDefinitions
-
-    return tagItems.length
+    tagCount = getTagCount(tagDefinitions)
   }
 
   if (error) {
@@ -330,7 +328,7 @@ const PublishPreview = () => {
                   }
                 >
                   Tags (
-                  { getTagCount() }
+                  { tagCount }
                   )
                 </Button>
                 <Button

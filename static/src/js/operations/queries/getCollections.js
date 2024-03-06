@@ -17,10 +17,7 @@ export const GET_COLLECTIONS = gql`
         }
         tagDefinitions {
           items {
-            conceptId
             tagKey
-            revisionId
-            originatorId
             description
           }
         }
