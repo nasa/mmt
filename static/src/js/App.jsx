@@ -2,14 +2,6 @@ import React, { useLayoutEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink
-} from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -24,11 +16,8 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import { getApplicationConfig } from './utils/getConfig'
-
 import '../css/index.scss'
-import useAppContext from './hooks/useAppContext'
-import withProviders from './providers/withProviders/withProviders'
+import Providers from './providers/Providers/Providers'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -54,7 +43,7 @@ const Redirects = redirectKeys.map(
  *   <App />
  * )
  */
-const App = () => {
+export const App = () => {
   useLayoutEffect(() => {
     document.body.classList.remove('is-loading')
   }, [])
@@ -117,7 +106,7 @@ const App = () => {
   // }
 
   return (
-    <ApolloProvider client={client}>
+    <Providers>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -175,8 +164,8 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </ApolloProvider>
+    </Providers>
   )
 }
 
-export default withProviders(App)
+export default App

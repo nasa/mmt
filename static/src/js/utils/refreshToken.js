@@ -7,11 +7,11 @@ import { getApplicationConfig } from './getConfig'
 const refreshToken = async (token) => {
   const { apiHost, version } = getApplicationConfig()
 
-  if (version === 'development') {
-    let expires = new Date()
-    expires.setMinutes(expires.getMinutes() + 15)
-    expires = new Date(expires)
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
 
+  if (version === 'development') {
     return {
       tokenValue: 'ABC-1',
       tokenExp: expires.valueOf()
@@ -26,10 +26,9 @@ const refreshToken = async (token) => {
   }
 
   return fetch(`${apiHost}/saml-refresh-token`, (options)).then((response) => {
-    const expires = response.headers.get('expires') * 1000
     const refreshTokenValue = {
       tokenValue: response.headers.get('token'),
-      tokenExp: expires
+      tokenExp: expires.valueOf()
     }
 
     return refreshTokenValue

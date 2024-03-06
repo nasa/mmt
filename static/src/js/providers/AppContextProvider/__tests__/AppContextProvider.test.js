@@ -5,9 +5,15 @@ import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
-import { getApplicationConfig } from '../../../utils/getConfig'
-import * as getConfig from '../../../utils/getConfig'
-import encodeCookie from '../../../utils/encodeCookie'
+import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
+
+jest.mock('../../../utils/getConfig', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../utils/getConfig'),
+  getApplicationConfig: jest.fn(() => ({
+    apiHost: 'http://test.com/dev'
+  }))
+}))
 
 const MockComponent = () => {
   const { user, login, logout } = useAppContext()
@@ -50,24 +56,25 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
+      loginInfo: {
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
-      })
+      }
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <AppContextProvider>
-        <MockComponent />
-      </AppContextProvider>
+      <AuthContextProvider>
+        <AppContextProvider>
+          <MockComponent />
+        </AppContextProvider>
+      </AuthContextProvider>
     </CookiesProvider>
-
   )
 }
 
@@ -75,10 +82,6 @@ describe('AppContextProvider component', () => {
   describe('when app starts up', () => {
     beforeEach(() => {
       jest.resetAllMocks()
-
-      jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-        cookie: null
-      }))
     })
 
     describe('when log in is triggered', () => {
@@ -91,8 +94,7 @@ describe('AppContextProvider component', () => {
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
         await user.click(button)
-        const { apiHost } = getApplicationConfig()
-        const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
         expect(window.location.href).toEqual(expectedPath)
       })
     })

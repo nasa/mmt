@@ -5,7 +5,13 @@
     "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
     "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
     "gkrHost": "https://gkr.sit.earthdatacloud.nasa.gov",
-    "version": "vdevelopment"
+    "searchUrl": "https://search.sit.earthdata.nasa.gov/search/map",
+    "version": "vdevelopment",
+    "defaultResponseHeaders": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Credentials": true
+    }
   },
   "ummVersions": {
     "ummC": "1.17.3",

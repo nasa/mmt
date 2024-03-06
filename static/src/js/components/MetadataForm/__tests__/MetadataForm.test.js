@@ -47,7 +47,6 @@ import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import OneOfField from '../../OneOfField/OneOfField'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
-import encodeCookie from '../../../utils/encodeCookie'
 
 jest.mock('@rjsf/core', () => jest.fn(({
   onChange,
@@ -81,6 +80,8 @@ jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../JsonPreview/JsonPreview')
 jest.mock('../../FormNavigation/FormNavigation')
 jest.mock('../../../utils/errorLogger')
+
+global.fetch = jest.fn()
 
 const mockedUsedNavigate = jest.fn()
 
@@ -179,11 +180,12 @@ const setup = ({
 
   const cookie = new Cookies(
     {
-      loginInfo: encodeCookie({
+      loginInfo: ({
+        providerId: 'MMT_2',
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
       })
     }
@@ -192,10 +194,10 @@ const setup = ({
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <Providers>
+      <Providers>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
           <MemoryRouter initialEntries={[pageUrl]}>
             <Routes>
               <Route
@@ -216,9 +218,8 @@ const setup = ({
               </Route>
             </Routes>
           </MemoryRouter>
-        </Providers>
-      </MockedProvider>
-
+        </MockedProvider>
+      </Providers>
     </CookiesProvider>
   )
 

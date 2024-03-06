@@ -4,6 +4,10 @@ import * as getConfig from '../getConfig'
 describe('check and refresh token', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2024-01-01'))
+
     jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       version: 'sit'
     }))
@@ -21,8 +25,7 @@ describe('check and refresh token', () => {
 
     global.fetch = jest.fn(() => Promise.resolve({
       headers: new Headers({
-        token: 'refresh_token',
-        expires: 1234
+        token: 'refresh_token'
       }),
       json: () => Promise.resolve({
         ok: true,
@@ -30,19 +33,20 @@ describe('check and refresh token', () => {
       })
     }))
 
-    const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    const callbackFn = jest.fn()
+    await checkAndRefreshToken({
       name: 'mock name',
       token
-    }, setUserFn)
+    }, callbackFn)
 
-    expect(setUserFn).toBeCalledTimes(1)
-    expect(setUserFn).toBeCalledWith({
-      name: 'mock name',
-      token: {
-        tokenExp: 1234000,
-        tokenValue: 'refresh_token'
-      }
+    let newExp = new Date()
+    newExp.setMinutes(newExp.getMinutes() + 15)
+    newExp = new Date(newExp)
+
+    expect(callbackFn).toBeCalledTimes(1)
+    expect(callbackFn).toBeCalledWith({
+      tokenExp: newExp.valueOf(),
+      tokenValue: 'refresh_token'
     })
   })
 
@@ -56,13 +60,13 @@ describe('check and refresh token', () => {
       tokenExp: expires.valueOf()
     }
 
-    const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    const callbackFn = jest.fn()
+    await checkAndRefreshToken({
       name: 'mock name',
       token
-    }, setUserFn)
+    }, callbackFn)
 
-    expect(setUserFn).toBeCalledTimes(0)
+    expect(callbackFn).toBeCalledTimes(0)
   })
 
   test('given a null token', async () => {
@@ -73,7 +77,7 @@ describe('check and refresh token', () => {
     const token = null
 
     const setUserFn = jest.fn()
-    await checkAndRefreshToken(token, {
+    await checkAndRefreshToken({
       name: 'mock name',
       token
     }, setUserFn)

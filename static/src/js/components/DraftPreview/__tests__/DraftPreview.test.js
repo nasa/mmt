@@ -32,6 +32,8 @@ jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../PreviewProgress/PreviewProgress')
 jest.mock('../../../utils/errorLogger')
 
+global.fetch = jest.fn()
+
 const mockedUsedNavigate = jest.fn()
 
 jest.mock('react-router-dom', () => ({
@@ -119,10 +121,10 @@ const setup = ({
   }, ...additionalMocks]
 
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <Providers>
+    <Providers>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
         <MemoryRouter initialEntries={[pageUrl]}>
           <Routes>
             <Route
@@ -135,8 +137,8 @@ const setup = ({
             </Route>
           </Routes>
         </MemoryRouter>
-      </Providers>
-    </MockedProvider>
+      </MockedProvider>
+    </Providers>
   )
 
   return {

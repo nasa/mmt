@@ -70,7 +70,7 @@ describe('AuthRequiredContainer component', () => {
     setup({
       token: {
         tokenValue: 'ABC-1',
-        tokenExpires: expires
+        tokenExp: expires.valueOf()
       }
     })
 

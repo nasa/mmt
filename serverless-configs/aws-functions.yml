@@ -30,6 +30,14 @@ samlRefreshToken:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-refresh-token
+edlProfile:
+  handler: serverless/src/edlProfile/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: get
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: edl-profile
 gkrKeywordRecommendations:
   handler: serverless/src/gkrKeywordRecommendations/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}

@@ -17,11 +17,11 @@ import errorLogger from '../../../utils/errorLogger'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
 
-import encodeCookie from '../../../utils/encodeCookie'
-
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
 jest.mock('../../../utils/removeMetadataKeys')
+
+global.fetch = jest.fn()
 
 const mockedUsedNavigate = jest.fn()
 
@@ -114,11 +114,11 @@ const setup = ({
   expires = new Date(expires)
 
   const cookie = new Cookies({
-    loginInfo: encodeCookie({
+    loginInfo: ({
       name: 'User Name',
       token: {
         tokenValue: 'ABC-1',
-        tokenExp: expires
+        tokenExp: expires.valueOf()
       },
       providerId: 'MMT_2'
     })
@@ -126,7 +126,6 @@ const setup = ({
   cookie.HAS_DOCUMENT_COOKIE = false
 
   render(
-
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <MemoryRouter initialEntries={overrideInitialEntries}>
         <Providers>
@@ -145,10 +144,8 @@ const setup = ({
             </Routes>
           </MockedProvider>
         </Providers>
-
       </MemoryRouter>
     </CookiesProvider>
-
   )
 
   return {
@@ -293,6 +290,7 @@ describe('CollectionAssociation', () => {
                     conceptId: 'C12000001123-MMT_2',
                     provider: 'MMT_2',
                     version: '1',
+                    revisionId: 1,
                     tags: 1,
                     granules: null,
                     shortName: 'Collection Associations Short Name 1',
@@ -404,6 +402,7 @@ describe('CollectionAssociation', () => {
                         conceptId: 'C12000001123-MMT_2',
                         provider: 'MMT_2',
                         version: '1',
+                        revisionId: 1,
                         tags: 1,
                         granules: null,
                         entryTitle: 'Collection Association Entry Title 1',
@@ -441,6 +440,7 @@ describe('CollectionAssociation', () => {
                         provider: 'MMT_2',
                         version: '1',
                         tags: 1,
+                        revisionId: 1,
                         granules: null,
                         entryTitle: 'Collection Association Entry Title 1',
                         shortName: 'Collection Associations Short Name 1',
@@ -535,6 +535,7 @@ describe('CollectionAssociation', () => {
                         provider: 'MMT_2',
                         version: '1',
                         tags: 1,
+                        revisionId: 1,
                         granules: null,
                         entryTitle: 'Collection Association Entry Title 1',
                         shortName: 'Collection Associations Short Name 1',
@@ -628,6 +629,7 @@ describe('CollectionAssociation', () => {
                         conceptId: 'C12000001123-MMT_2',
                         provider: 'MMT_2',
                         version: '1',
+                        revisionId: 1,
                         shortName: 'Collection Associations Short Name 1',
                         entryTitle: 'Collection Associations Entry Title 1',
                         tags: null,
@@ -730,6 +732,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 1',
                       entryTitle: 'Collection Associations Entry Title 1',
                       tags: null,
@@ -767,6 +770,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 2',
                       entryTitle: 'Collection Associations Entry Title 2',
                       revisionDate: null,
@@ -804,6 +808,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 2',
                       entryTitle: 'Collection Associations Entry Title 2',
                       revisionDate: null,
@@ -869,6 +874,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 1',
                       entryTitle: 'Collection Associations Entry Title 1',
                       tags: null,
@@ -906,6 +912,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 2',
                       entryTitle: 'Collection Associations Entry Title 2',
                       revisionDate: null,
@@ -943,6 +950,7 @@ describe('CollectionAssociation', () => {
                       conceptId: 'C12000001123-MMT_2',
                       provider: 'MMT_2',
                       version: '1',
+                      revisionId: 1,
                       shortName: 'Collection Associations Short Name 2',
                       entryTitle: 'Collection Associations Entry Title 2',
                       revisionDate: null,

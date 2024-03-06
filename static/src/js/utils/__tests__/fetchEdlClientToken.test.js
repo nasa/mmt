@@ -1,8 +1,14 @@
 import fetchEdlClientToken from '../fetchEdlClientToken'
+import * as getConfig from '../getConfig'
 
 beforeEach(() => {
   jest.clearAllMocks()
-  process.env.EDL_PASSWORD = ''
+  jest.spyOn(getConfig, 'getEdlConfig').mockImplementation(() => ({
+    host: 'https://localtest.urs.earthdata.nasa.gov',
+    uid: 'mmt_test'
+  }))
+
+  process.env.EDL_PASSWORD = 'test'
 })
 
 global.fetch = jest.fn(() => Promise.resolve({
@@ -18,10 +24,10 @@ describe('Retrieving EDL Client Token', () => {
     const token = await fetchEdlClientToken()
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith('https://sit.urs.earthdata.nasa.gov/oauth/token', {
+    expect(fetch).toHaveBeenCalledWith('https://localtest.urs.earthdata.nasa.gov/oauth/token', {
       body: 'grant_type=client_credentials',
       headers: {
-        Authorization: 'Basic bW10X3Rlc3Q6',
+        Authorization: 'Basic bW10X3Rlc3Q6dGVzdA==',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
       method: 'POST'
