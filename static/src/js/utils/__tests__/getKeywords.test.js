@@ -1,5 +1,5 @@
 import getKeywords from '../getKeywords'
-import relatedUrls from '../__mocks__/relatedUrls.json'
+import relatedUrls from '../__mocks__/relatedUrls'
 
 describe('getKeywords', () => {
   describe('Traverses a CMR facet response and returns a list of keywords for the specified type', () => {

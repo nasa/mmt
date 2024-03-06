@@ -36,8 +36,9 @@ const Header = () => {
   const {
     user, login, logout, providerIds, setProviderId
   } = useAppContext()
+  console.log('Header ProviderIds', providerIds)
   const navigate = useNavigate()
-  const { token, name } = user
+  const { token, name = '' } = user
   const isExpired = isTokenExpired(token)
 
   const [searchKeyword, setSearchKeyword] = useState('')
@@ -121,7 +122,7 @@ const Header = () => {
             {
               (!isExpired) && (
                 <div className="d-flex p-1 mb-2 rounded bg-blue-light">
-                  <Dropdown className="mb-2" align="end">
+                  <Dropdown align="end">
                     <Dropdown.Toggle
                       id="dropdown-basic"
                       as={Badge}

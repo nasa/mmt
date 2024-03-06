@@ -1,5 +1,5 @@
 import parseCmrResponse from '../parseCmrResponse'
-import relatedUrls from '../__mocks__/relatedUrls.json'
+import relatedUrls from '../__mocks__/relatedUrls'
 
 describe('cmrKeywords', () => {
   describe('can return a single list of keywords', () => {

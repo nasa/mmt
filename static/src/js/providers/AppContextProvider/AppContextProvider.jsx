@@ -1,4 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useMemo,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
@@ -21,21 +25,21 @@ import useAuthContext from '../../hooks/useAuthContext'
  * )
  */
 const AppContextProvider = ({ children }) => {
-  const { login, logout, user } = useAuthContext()
+  const {
+    login, logout, user, updateLoginInfo, setUser
+  } = useAuthContext()
   const { addKeywordsData, keywords } = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
   const [savedDraft, setSavedDraft] = useState()
   const [providerIds, setProviderIds] = useState([])
 
-  console.log('list of providersIds', providerIds)
-
-  // const setProviderId = useCallback((providerId) => {
-  //   user((prevUser) => ({
-  //     ...prevUser,
-  //     providerId
-  //   }))
-  // }, [])
+  const setProviderId = useCallback((providerId) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      providerId
+    }))
+  }, [])
 
   const providerValue = useMemo(() => ({
     user,
@@ -49,16 +53,17 @@ const AppContextProvider = ({ children }) => {
     setDraft,
     setOriginalDraft,
     setSavedDraft,
-    // setProviderId,
+    updateLoginInfo,
+    setProviderId,
     setProviderIds,
     providerIds
   }), [
-    user,
-    draft,
-    originalDraft,
-    keywords,
-    savedDraft,
-    providerIds
+    JSON.stringify(user),
+    JSON.stringify(draft),
+    JSON.stringify(originalDraft),
+    JSON.stringify(keywords),
+    JSON.stringify(savedDraft),
+    JSON.stringify(providerIds)
   ])
 
   return (

@@ -21,14 +21,14 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import withProviders from './providers/withProviders/withProviders'
-
 import '../css/index.scss'
+import Providers from './providers/Providers/Providers'
 
 import errorLogger from './utils/errorLogger'
 import useNotificationsContext from './hooks/useNotificationsContext'
 import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
+import withProviders from './providers/withProviders/withProviders'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -60,59 +60,16 @@ export const App = () => {
   }, [])
 
   const { addNotification } = useNotificationsContext()
-  const {
-    user, setProviderIds
-  } = useAppContext()
-
-  // Const {
-  //   user, providerIds, setProviderId, setProviderIds
+  // const {
+  //   user, setProviderIds
   // } = useAppContext()
 
+  const {
+    user, setProviderId, setProviderIds
+  } = useAppContext()
+
   // Fetch providers using useQuery hook
-  useQuery(GET_ACLS, {
-    variables: {
-      params: {
-        includeFullAcl: true,
-        pageNum: 1,
-        pageSize: 2000,
-        permittedUser: user.id,
-        target: 'PROVIDER_CONTEXT'
-      }
-    },
-    onCompleted: (getProviderData) => {
-      console.log('@getProviderData', getProviderData)
-      const { acls } = getProviderData
-      const { items } = acls
-
-      if (items.length > 0) {
-        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
-        setProviderIds(providerList)
-
-        // Check if user does not have providerId
-        // and set it to the first providerId if available
-        if (!user.providerId && providerList.length > 0) {
-          setProviderIds(providerList[0])
-        }
-      } else {
-        // Display notification for no providers available
-        addNotification({
-          message: 'User is not provisioned.  Please contact support.',
-          variant: 'danger'
-        })
-      }
-    },
-    onError: (getProviderError) => {
-      addNotification({
-        message: 'An error occurred while fetching providers.',
-        variant: 'danger'
-      })
-
-      // Send the error to the errorLogger
-      errorLogger(getProviderError, 'Error fetching providers')
-    }
-  })
-
-  // Const [getProviders] = useLazyQuery(GET_ACLS, {
+  // useQuery(GET_ACLS, {
   //   variables: {
   //     params: {
   //       includeFullAcl: true,
@@ -133,9 +90,9 @@ export const App = () => {
 
   //       // Check if user does not have providerId
   //       // and set it to the first providerId if available
-  //       if (!user.providerId && providerList.length > 0) {
-  //         setProviderIds(providerList[0])
-  //       }
+  //       // if (!user.providerId && providerList.length > 0) {
+  //       //   setProviderIds(providerList[0])
+  //       // }
   //     } else {
   //       // Display notification for no providers available
   //       addNotification({
@@ -155,12 +112,51 @@ export const App = () => {
   //   }
   // })
 
-  // useEffect(() => {
-  //   if (!providerIds.length > 0) {
-  //     console.log('here')
-  //     getProviders()
-  //   }
-  // }, [providerIds])
+  const [getProviders] = useLazyQuery(GET_ACLS, {
+    variables: {
+      params: {
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 2000,
+        permittedUser: 'typical',
+        target: 'PROVIDER_CONTEXT'
+      }
+    },
+    onCompleted: (getProviderData) => {
+      const { acls } = getProviderData
+      const { items } = acls
+
+      if (items.length > 0) {
+        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+        setProviderIds(providerList)
+
+        // Check if user does not have providerId
+        // and set it to the first providerId if available
+        if (!user.providerId && providerList.length > 0) {
+          setProviderId(providerList[0])
+        }
+      } else {
+        // Display notification for no providers available
+        addNotification({
+          message: 'User is not provisioned.  Please contact support.',
+          variant: 'danger'
+        })
+      }
+    },
+    onError: (getProviderError) => {
+      addNotification({
+        message: 'An error occurred while fetching providers.',
+        variant: 'danger'
+      })
+
+      // Send the error to the errorLogger
+      errorLogger(getProviderError, 'Error fetching providers')
+    }
+  })
+
+  useEffect(() => {
+    getProviders()
+  }, [])
 
   return (
     <>

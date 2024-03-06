@@ -23,6 +23,8 @@ import useAppContext from '../../hooks/useAppContext'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
+import conceptTypes from '../../constants/conceptTypes'
+import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 
 /**
  * Renders a PublishPreview component
@@ -59,7 +61,11 @@ const PublishPreview = () => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const ingestMutation = useIngestDraftMutation()
+  const {
+    ingestMutation, ingestDraft,
+    error: ingestDraftError,
+    loading: ingestLoading
+  } = useIngestDraftMutation()
 
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
@@ -134,6 +140,46 @@ const PublishPreview = () => {
     constructDownloadableFile(contents, conceptId)
   }
 
+  // Handles the user selection Create Associated Variable for a Collection
+  // This will create a new variable draft with the collection conceptId
+  const handleCreateAssociatedVariable = () => {
+    setLoading(true)
+
+    const { conceptId: collectionConceptId, shortName, versionId } = previewMetadata
+
+    const variableDraft = {
+      _private: {
+        CollectionAssociation: {
+          collectionConceptId,
+          shortName,
+          version: versionId
+        }
+      }
+    }
+
+    ingestMutation('Variable', variableDraft, `MMT_${crypto.randomUUID()}`, providerId)
+  }
+
+  useEffect(() => {
+    if (ingestDraftError) {
+      errorLogger(ingestDraftError, 'PublishPreview ingestDraftMutation Query')
+      addNotification({
+        message: 'Error creating draft',
+        variant: 'danger'
+      })
+    }
+
+    if (ingestDraft) {
+      const { ingestDraft: fetchedIngestDraft } = ingestDraft
+      const { conceptId: ingestConceptId } = fetchedIngestDraft
+      navigate(`/drafts/${pluralize(getConceptTypeByDraftConceptId(ingestConceptId)).toLowerCase()}/${ingestConceptId}`)
+      addNotification({
+        message: 'Draft created successfully',
+        variant: 'success'
+      })
+    }
+  }, [ingestLoading])
+
   // Handles the user selecting delete from the delete model
   const handleDelete = () => {
     deleteMutation({
@@ -192,7 +238,6 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
-          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -209,7 +254,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Clone Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -226,7 +271,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Download Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -243,7 +288,23 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Delete Publish record button */}
+
+          {
+            derivedConceptType === conceptTypes.Collection && (
+              <Button
+                className="btn btn-link"
+                type="button"
+                variant="link"
+                onClick={
+                  () => {
+                    handleCreateAssociatedVariable()
+                  }
+                }
+              >
+                Create Associated Variable
+              </Button>
+            )
+          }
           <Button
             type="button"
             variant="outline-danger"
