@@ -22,7 +22,6 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
-import Providers from './providers/Providers/Providers'
 
 import errorLogger from './utils/errorLogger'
 import useNotificationsContext from './hooks/useNotificationsContext'
@@ -59,58 +58,11 @@ export const App = () => {
     document.body.classList.remove('is-loading')
   }, [])
 
-  const { addNotification } = useNotificationsContext()
-  // const {
-  //   user, setProviderIds
-  // } = useAppContext()
+  const { addNotification } = useNotificationsContext() || {}
 
   const {
     user, setProviderId, setProviderIds
   } = useAppContext()
-
-  // Fetch providers using useQuery hook
-  // useQuery(GET_ACLS, {
-  //   variables: {
-  //     params: {
-  //       includeFullAcl: true,
-  //       pageNum: 1,
-  //       pageSize: 2000,
-  //       permittedUser: user.id,
-  //       target: 'PROVIDER_CONTEXT'
-  //     }
-  //   },
-  //   onCompleted: (getProviderData) => {
-  //     console.log('@getProviderData', getProviderData)
-  //     const { acls } = getProviderData
-  //     const { items } = acls
-
-  //     if (items.length > 0) {
-  //       const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
-  //       setProviderIds(providerList)
-
-  //       // Check if user does not have providerId
-  //       // and set it to the first providerId if available
-  //       // if (!user.providerId && providerList.length > 0) {
-  //       //   setProviderIds(providerList[0])
-  //       // }
-  //     } else {
-  //       // Display notification for no providers available
-  //       addNotification({
-  //         message: 'User is not provisioned.  Please contact support.',
-  //         variant: 'danger'
-  //       })
-  //     }
-  //   },
-  //   onError: (getProviderError) => {
-  //     addNotification({
-  //       message: 'An error occurred while fetching providers.',
-  //       variant: 'danger'
-  //     })
-
-  //     // Send the error to the errorLogger
-  //     errorLogger(getProviderError, 'Error fetching providers')
-  //   }
-  // })
 
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
