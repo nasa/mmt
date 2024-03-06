@@ -18,8 +18,6 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
 import Providers from './providers/Providers/Providers'
-import getKeywordRecommendations from './utils/getKeywordRecommendations'
-import sendKeywordRecommendationsFeedback from './utils/sendKeywordRecommendationsFeedback'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
