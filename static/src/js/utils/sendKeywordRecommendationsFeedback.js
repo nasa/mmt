@@ -4,7 +4,7 @@ import { getApplicationConfig } from './getConfig'
  * Calls gkrSendFeedback lambda /gkr-send-feedback to provide feedback on keyword recommendations
  * in order to help train the model
  * @param {Object} requestUuid the GKR request id
- * @param {Array} recommendations the list of accepted recommendation ids
+ * @param {Object} recommendations of the form {uuid:boolean} telling the API whether the uuid was accepted
  * @param {Array} newKeywords the new keywords not recommended
  */
 const sendKeywordRecommendationsFeedback = async (requestUuid, recommendations, newKeywords) => {
