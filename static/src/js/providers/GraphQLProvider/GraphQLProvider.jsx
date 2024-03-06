@@ -58,7 +58,6 @@ const GraphQLProvider = ({ children }) => {
       }
     }
   })
-  console.log('@@@token =', tokenValue)
 
   return (
     <ApolloProvider client={client}>

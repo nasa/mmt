@@ -36,7 +36,6 @@ const Header = () => {
   const {
     user, login, logout, providerIds, setProviderId
   } = useAppContext()
-  console.log('Header ProviderIds', providerIds)
   const navigate = useNavigate()
   const { token, name = '' } = user
   const isExpired = isTokenExpired(token)
