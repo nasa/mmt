@@ -51,7 +51,7 @@ gkrSendFeedback:
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
   events:
     - http:
-        method: post
+        method: put
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: gkr-send-feedback
 

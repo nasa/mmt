@@ -18,6 +18,8 @@ import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
 import Providers from './providers/Providers/Providers'
+import getKeywordRecommendations from './utils/getKeywordRecommendations'
+import sendKeywordRecommendationsFeedback from './utils/sendKeywordRecommendationsFeedback'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -47,63 +49,6 @@ export const App = () => {
   useLayoutEffect(() => {
     document.body.classList.remove('is-loading')
   }, [])
-
-  const { graphQlHost } = getApplicationConfig()
-  const { user } = useAppContext()
-  const { token } = user
-  const { tokenValue } = token || {}
-
-  const httpLink = createHttpLink({
-    uri: graphQlHost
-  })
-
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      Authorization: tokenValue
-    }
-  }))
-
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-
-    link: authLink.concat(httpLink),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache'
-      },
-      watchQuery: {
-        fetchPolicy: 'no-cache'
-      }
-    }
-  })
-
-  const retrieveKeywords = async () => {
-    const abstract = 'cloud cover is the ozone'
-    const query = {
-      description: abstract
-    }
-    const url = 'http://localhost:4001/dev/gkr-request'
-
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(query)
-    })
-    const gkrResponse = await response.json()
-    const { recommendations } = gkrResponse
-
-    return recommendations
-  }
-
-  retrieveKeywords().then((keywords) => {
-    console.log('keywords are ', keywords)
-  })
-
-  // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
-  // appContext = {
-  //   statusMessage
-  //   errorMessage
-  // }
 
   return (
     <Providers>
