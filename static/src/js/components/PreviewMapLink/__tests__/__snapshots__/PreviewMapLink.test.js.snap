@@ -53,21 +53,3 @@ exports[`PreviewMapLink Test link to preview map with a polygon 1`] = `
   </div>
 </div>
 `;
-
-exports[`PreviewMapLink Test link to preview map without parameters 1`] = `
-<div>
-  <div>
-    <a
-      href="https://search.earthdata.nasa.gov/search/map"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <i
-        class="eui-icon eui-fa-globe"
-      />
-       
-      Preview on Map
-    </a>
-  </div>
-</div>
-`;

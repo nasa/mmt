@@ -12,7 +12,6 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
 import parseCmrResponse from '../../utils/parseCmrResponse'
 import useControlledKeywords from '../../hooks/useControlledKeywords'
-// Import LanguageArray from '../../utils/languageArray'
 
 /**
  * CustomSelectWidget

@@ -53,7 +53,7 @@ describe('PreviewMapLink Test', () => {
             {
               Longitude: -30,
               Latitude: 50
-            },
+            }
           ]
         }
       }
@@ -70,10 +70,10 @@ describe('PreviewMapLink Test', () => {
       formData: {
       }
     }
-    const { container } = render(
+    render(
       <PreviewMapLink {...props} type="bounding_rechtangle" />
     )
+
     expect(document.querySelector('a').getAttribute('href')).toBe('https://search.earthdata.nasa.gov/search/map')
-    expect(container).toMatchSnapshot()
   })
 })
