@@ -4,6 +4,8 @@
     "apiHost": "https://api.mmt.sit.earthdatacloud.nasa.gov",
     "graphQlHost": "https://graphql.sit.earthdata.nasa.gov/api",
     "cmrHost": "https://cmr.sit.earthdata.nasa.gov/api",
+    "gkrHost": "https://gkr.sit.earthdatacloud.nasa.gov",
+    "searchUrl": "https://search.sit.earthdata.nasa.gov/search/map",
     "version": "vdevelopment",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",
