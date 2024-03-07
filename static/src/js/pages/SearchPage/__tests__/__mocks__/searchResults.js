@@ -37,6 +37,15 @@ export const singlePageCollectionSearch = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             entryTitle: null,
             revisionDate: '2023-11-30 00:00:00'
           },
@@ -58,6 +67,15 @@ export const singlePageCollectionSearch = {
               'test.tag.two': {
                 data: 'Tag Data 2'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description 2',
+                originatorId: 'test.user',
+                revisionId: '2',
+                tagKey: 'Mock tag key 2'
+              }]
             },
             revisionDate: '2023-11-31 00:00:00'
           }
@@ -101,6 +119,15 @@ export const multiPageCollectionSearchPage1 = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
@@ -122,6 +149,15 @@ export const multiPageCollectionSearchPage1 = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
@@ -139,6 +175,15 @@ export const multiPageCollectionSearchPage1 = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00'
           }
@@ -185,6 +230,15 @@ export const multiPageCollectionSearchPage2 = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
@@ -203,6 +257,15 @@ export const multiPageCollectionSearchPage2 = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
@@ -217,6 +280,7 @@ export const multiPageCollectionSearchPage2 = {
               count: 1234
             },
             tags: null,
+            tagDefinitions: null,
             revisionDate: '2023-11-31 00:00:00'
           }
         ]
@@ -259,6 +323,15 @@ export const multiPageCollectionSearchPage1Asc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
@@ -280,6 +353,15 @@ export const multiPageCollectionSearchPage1Asc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
@@ -296,6 +378,15 @@ export const multiPageCollectionSearchPage1Asc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00',
             entryTitle: null
@@ -340,6 +431,15 @@ export const multiPageCollectionSearchPage1Desc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
@@ -361,6 +461,15 @@ export const multiPageCollectionSearchPage1Desc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
@@ -378,6 +487,15 @@ export const multiPageCollectionSearchPage1Desc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00'
           }
@@ -421,6 +539,15 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
@@ -442,6 +569,15 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
@@ -458,6 +594,15 @@ export const multiPageCollectionSearchPage1TitleAsc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00',
             entryTitle: null
