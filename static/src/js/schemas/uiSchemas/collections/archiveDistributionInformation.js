@@ -37,6 +37,7 @@ const archiveDistributionInformationUiSchema = {
     ]
   },
   ArchiveAndDistributionInformation: {
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -66,6 +67,7 @@ const archiveDistributionInformationUiSchema = {
       ]
     },
     FileArchiveInformation: {
+      'ui:heading-level': 'h5',
       'ui:required': 'true',
       items: {
         'ui:field': 'layout',
@@ -148,6 +150,7 @@ const archiveDistributionInformationUiSchema = {
       }
     },
     FileDistributionInformation: {
+      'ui:heading-level': 'h5',
       'ui:required': 'true',
       items: {
         'ui:field': 'layout',
@@ -241,6 +244,7 @@ const archiveDistributionInformationUiSchema = {
     }
   },
   DirectDistributionInformation: {
+    'ui:heading-level': 'h4',
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -284,6 +288,7 @@ const archiveDistributionInformationUiSchema = {
       ]
     },
     S3BucketAndObjectPrefixNames: {
+      'ui:heading-level': 'h5',
       'ui:title': 'S3 Bucket and Object Prefix Name',
       items: {
         'ui:title': 'S3 Bucket and Object Prefix Name'

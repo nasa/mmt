@@ -294,7 +294,7 @@ const temporalInformationUiSchema = {
         ]
       },
       ChronostratigraphicUnits: {
-        'ui:heading-level': 'h3',
+        'ui:heading-level': 'h5',
         items: {
           'ui:field': 'layout',
           'ui:layout_grid': {

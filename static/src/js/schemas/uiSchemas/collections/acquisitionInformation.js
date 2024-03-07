@@ -1,4 +1,3 @@
-// Import React from 'react'
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
 // Import PlatformField from '../../../components/PlatformField/PlatformField'

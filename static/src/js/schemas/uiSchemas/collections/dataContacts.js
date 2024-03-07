@@ -549,10 +549,6 @@ const dataContactsUiSchema = {
                   name: 'mime-type',
                   controlName: 'mime_type'
                 }
-              },
-              URI: {
-                items: {
-                }
               }
             }
           }
@@ -1082,10 +1078,6 @@ const dataContactsUiSchema = {
                 'ui:controlled': {
                   name: 'mime-type',
                   controlName: 'mime_type'
-                }
-              },
-              URI: {
-                items: {
                 }
               }
             }
