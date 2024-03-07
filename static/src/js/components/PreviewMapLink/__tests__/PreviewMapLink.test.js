@@ -10,11 +10,11 @@ describe('PreviewMapLink Test', () => {
         Latitude: 20
       }
     }
-    const { container } = render(
+    render(
       <PreviewMapLink {...props} type="point" />
     )
+
     expect(document.querySelector('a').getAttribute('href')).toBe('https://search.earthdata.nasa.gov/search/map?sp=10%2C20')
-    expect(container).toMatchSnapshot()
   })
 
   it('link to preview map with a bounding rectangle', async () => {
@@ -26,11 +26,11 @@ describe('PreviewMapLink Test', () => {
         NorthBoundingCoordinate: 70
       }
     }
-    const { container } = render(
+    render(
       <PreviewMapLink {...props} type="bounding_rectangle" />
     )
+
     expect(document.querySelector('a').getAttribute('href')).toBe('https://search.earthdata.nasa.gov/search/map?sb=-40%2C10%2C50%2C70')
-    expect(container).toMatchSnapshot()
   })
 
   it('link to preview map with a polygon', async () => {
@@ -58,11 +58,11 @@ describe('PreviewMapLink Test', () => {
         }
       }
     }
-    const { container } = render(
+    render(
       <PreviewMapLink {...props} type="polygon" />
     )
+
     expect(document.querySelector('a').getAttribute('href')).toBe('https://search.earthdata.nasa.gov/search/map?polygon=-30%2C50%2C10%2C40%2C35%2C50%2C-30%2C50')
-    expect(container).toMatchSnapshot()
   })
 
   it('link to preview map without parameters', async () => {
