@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import {
   Button,
   Col,
+  ListGroup,
+  ListGroupItem,
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
@@ -25,6 +27,8 @@ import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import For from '../For/For'
+import getTagCount from '../../utils/getTagCount'
 
 /**
  * Renders a PublishPreview component
@@ -47,6 +51,7 @@ const PublishPreview = () => {
 
   const [previewMetadata, setPreviewMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showTagModal, setShowTagModal] = useState(false)
   const [ummMetadata, setUmmMetadata] = useState()
   const [error, setError] = useState()
   const [retries, setRetries] = useState(0)
@@ -55,6 +60,10 @@ const PublishPreview = () => {
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
+  }
+
+  const toggleTagModal = (nextState) => {
+    setShowTagModal(nextState)
   }
 
   const { addNotification } = useNotificationsContext()
@@ -69,12 +78,21 @@ const PublishPreview = () => {
 
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
 
+  const getMetadataVariables = () => {
+    if (derivedConceptType === conceptTypes.Collection) {
+      return {
+        conceptId,
+        includeTags: '*'
+      }
+    }
+
+    return { conceptId }
+  }
+
   // Calls CMR-Graphql to get the record
   const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
-      params: {
-        conceptId
-      }
+      params: getMetadataVariables()
     },
     onCompleted: (getData) => {
       const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
@@ -195,7 +213,7 @@ const PublishPreview = () => {
         })
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
 
         // Navigate to the manage page
         navigate(`/manage/${pluralize(derivedConceptType).toLowerCase()}`)
@@ -211,9 +229,16 @@ const PublishPreview = () => {
         errorLogger(deleteError, 'PublishPreview: deleteMutation')
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
       }
     })
+  }
+
+  let tagCount = 0
+  if (derivedConceptType === conceptTypes.Collection) {
+    const { tagDefinitions } = previewMetadata || {}
+
+    tagCount = getTagCount(tagDefinitions)
   }
 
   if (error) {
@@ -291,18 +316,34 @@ const PublishPreview = () => {
 
           {
             derivedConceptType === conceptTypes.Collection && (
-              <Button
-                className="btn btn-link"
-                type="button"
-                variant="link"
-                onClick={
-                  () => {
-                    handleCreateAssociatedVariable()
+              <>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      toggleTagModal(true)
+                    }
                   }
-                }
-              >
-                Create Associated Variable
-              </Button>
+                >
+                  Tags (
+                  { tagCount }
+                  )
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      handleCreateAssociatedVariable()
+                    }
+                  }
+                >
+                  Create Associated Variable
+                </Button>
+              </>
             )
           }
           <Button
@@ -310,7 +351,7 @@ const PublishPreview = () => {
             variant="outline-danger"
             onClick={
               () => {
-                setShowDeleteModal(true)
+                toggleShowDeleteModal(true)
               }
             }
           >
@@ -323,13 +364,14 @@ const PublishPreview = () => {
           <CustomModal
             message="Are you sure you want to delete this record?"
             show={showDeleteModal}
+            size="lg"
             toggleModal={toggleShowDeleteModal}
             actions={
               [
                 {
                   label: 'No',
                   variant: 'secondary',
-                  onClick: () => { setShowDeleteModal(false) }
+                  onClick: () => { toggleShowDeleteModal(false) }
                 },
                 {
                   label: 'Yes',
@@ -337,6 +379,47 @@ const PublishPreview = () => {
                   onClick: handleDelete
                 }
               ]
+            }
+          />
+          <CustomModal
+            show={showTagModal}
+            toggleModal={toggleTagModal}
+            actions={
+              [
+                {
+                  label: 'Close',
+                  variant: 'primary',
+                  onClick: () => { toggleTagModal(false) }
+                }
+              ]
+            }
+            header={previewMetadata.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+            message={
+              previewMetadata.tagDefinitions
+                ? (
+                  <>
+                    <h3 className="fw-bolder h5">{}</h3>
+                    <ListGroup>
+                      <For each={previewMetadata.tagDefinitions.items}>
+                        {
+                          (tagItems) => (
+                            <ListGroupItem key={tagItems.tagKey}>
+                              <dl>
+                                <dt>Tag Key:</dt>
+                                <dd>{tagItems.tagKey}</dd>
+                                <dt>Description:</dt>
+                                <dd>
+                                  {tagItems.description}
+                                </dd>
+                              </dl>
+                            </ListGroupItem>
+                          )
+                        }
+                      </For>
+                    </ListGroup>
+                  </>
+                )
+                : 'There are no tags associated with this collection'
             }
           />
         </Col>
