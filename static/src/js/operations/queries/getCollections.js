@@ -15,6 +15,12 @@ export const GET_COLLECTIONS = gql`
         granules {
           count
         }
+        tagDefinitions {
+          items {
+            tagKey
+            description
+          }
+        }
         tags
         revisionDate
       }
