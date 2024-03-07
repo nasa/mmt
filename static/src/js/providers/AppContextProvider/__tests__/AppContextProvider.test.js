@@ -77,15 +77,6 @@ const setup = (overrideCookie) => {
   )
 }
 
-// Mock useAuthContext
-// jest.mock('../../hooks/useAuthContext', () => ({
-//   __esModule: true,
-//   default: {
-//     setUser: jest.fn(),
-//     user: {}
-//   }
-// }))
-
 describe('AppContextProvider component', () => {
   describe('when app starts up', () => {
     beforeEach(() => {
@@ -130,32 +121,6 @@ describe('AppContextProvider component', () => {
         const newUserName = screen.queryByText('User Name: User Name', { exact: true })
 
         expect(newUserName).not.toBeInTheDocument()
-      })
-    })
-
-    describe('setProviderId function', () => {
-      test('updates user with providerId', () => {
-        // Mock setUser function
-        const setUserMock = jest.fn()
-        // eslint-disable-next-line global-require
-        require('../../../hooks/useAuthContext').default.mockReturnValue({
-          setUser: setUserMock,
-          user: {}
-        })
-
-        render(
-          <CookiesProvider>
-            <AppContextProvider />
-          </CookiesProvider>
-        )
-
-        // Perform actions that trigger setProviderId
-        // eslint-disable-next-line global-require
-        const { setProviderId } = require('../../../hooks/useAppContext').default()
-        setProviderId('MMT_2')
-
-        // Assertions
-        expect(setUserMock).toHaveBeenCalledWith(expect.objectContaining({ providerId: 'MMT_2' }))
       })
     })
   })

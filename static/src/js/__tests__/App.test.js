@@ -10,6 +10,11 @@ import { App } from '../App'
 import ManageCmrPage from '../pages/ManageCmrPage/ManageCmrPage'
 import { GET_ACLS } from '../operations/queries/getAcls'
 import withProviders from '../providers/withProviders/withProviders'
+import errorLogger from '../utils/errorLogger'
+import ErrorBanner from '../components/ErrorBanner/ErrorBanner'
+
+jest.mock('../components/ErrorBanner/ErrorBanner')
+jest.mock('../utils/errorLogger')
 
 jest.mock('../pages/ManagePage/ManagePage', () => ({
   __esModule: true,
@@ -381,4 +386,39 @@ describe('App component', () => {
       })
     })
   })
+
+  // Describe('when the request results in an error', () => {
+  //   test('call errorLogger and renders an ErrorBanner', async () => {
+  //     const mocks = [
+  //       {
+  //         request: {
+  //           query: GET_ACLS,
+  //           variables: {
+  //             params: {
+  //               includeFullAcl: true,
+  //               pageNum: 1,
+  //               pageSize: 2000,
+  //               permittedUser: 'typical',
+  //               target: 'PROVIDER_CONTEXT'
+  //             }
+  //           }
+  //         },
+  //         error: new Error('An error occurred')
+  //       }
+  //     ]
+
+  //     render(
+  //       <MockedProvider mocks={mocks} addTypename={false}>
+  //         {withProviders(App)()}
+  //       </MockedProvider>
+  //     )
+
+  //     await waitForResponse()
+
+  //     expect(errorLogger).toHaveBeenCalledTimes(1)
+  //     expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'Error fetching providers')
+
+  //     expect(ErrorBanner).toHaveBeenCalledTimes(1)
+  //   })
+  // })
 })

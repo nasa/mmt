@@ -96,13 +96,12 @@ export const App = () => {
       }
     },
     onError: (getProviderError) => {
+      // Send the error to the errorLogger
+      errorLogger(getProviderError, 'Error fetching providers')
       addNotification({
         message: 'An error occurred while fetching providers.',
         variant: 'danger'
       })
-
-      // Send the error to the errorLogger
-      errorLogger(getProviderError, 'Error fetching providers')
     }
   })
 
