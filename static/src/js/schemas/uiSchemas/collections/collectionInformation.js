@@ -1,5 +1,5 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import languageArray from '../../../constants/languageArray'
+import LanguageArray from '../../../constants/languageArray'
 
 const collectionInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -175,7 +175,7 @@ const collectionInformationUiSchema = {
   DataLanguage: {
     'ui:widget': CustomSelectWidget,
     'ui:options': {
-      enumOptions: languageArray
+      enumOptions: LanguageArray
     }
   }
 }
