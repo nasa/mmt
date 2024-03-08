@@ -1,37 +1,4 @@
-/**
- * Function to handle 'handleShortNameChange
- * @param {Object} props An form object from uiSchema
- */
-
 import { getKeywords } from './cmrKeywords'
-
-/**
- * Function to determine whether to hide 'GetData'
- * @param {Object} props An form object from uiSchema
- */
-// export function shouldHideGetData(props) {
-//   const { URLContentType, Type } = props
-
-//   if (URLContentType === 'DistributionURL' && (Type === 'GET DATA' || Type === 'GET CAPABILITIES')) {
-//     return false // Do not hide 'GetData'
-//   }
-
-//   return true // Hide 'GetData'
-// }
-
-/**
- * Function to determine whether to hide 'GetService'
- * @param {Object} props An form object from uiSchema
- */
-// export function shouldHideGetService(props) {
-//   const { URLContentType, Type } = props
-
-//   if (URLContentType === 'DistributionURL' && Type === 'USE SERVICE API') {
-//     return false // Do not hide 'USE SERVICE API'
-//   }
-
-//   return true // Hide 'USE SERVICE API'
-// }
 
 /**
  * Function to handle 'handleShortNameChange
