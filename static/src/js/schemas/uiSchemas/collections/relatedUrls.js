@@ -1,5 +1,6 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import { shouldHideGetData, shouldHideGetService } from '../../../utils/collectionsUtils'
+import shouldHideGetData from '../../../utils/shouldHideGetData'
+import shouldHideGetService from '../../../utils/shouldHideGetService'
 
 const relatedUrlsUiSchema = {
   'ui:submitButtonOptions': {

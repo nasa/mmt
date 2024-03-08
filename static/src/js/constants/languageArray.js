@@ -1,4 +1,4 @@
-const LanguageArray = [
+const languageArray = [
   'English',
   'Abkhazian',
   'Achinese',
@@ -487,4 +487,4 @@ const LanguageArray = [
   'Zuni'
 ]
 
-export default LanguageArray
+export default languageArray

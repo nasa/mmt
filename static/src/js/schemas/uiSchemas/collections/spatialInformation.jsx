@@ -1017,10 +1017,6 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: {
-                          borderLeft: 'solid 6px rgb(240, 240, 240)',
-                          marginLeft: '15px'
-                        },
                         md: 12,
                         children: ['SwathWidthUnit']
                       }

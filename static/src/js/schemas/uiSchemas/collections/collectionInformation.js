@@ -1,5 +1,5 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import LanguageArray from '../../../utils/languageArray'
+import languageArray from '../../../constants/languageArray'
 
 const collectionInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -111,13 +111,12 @@ const collectionInformationUiSchema = {
       }
     ]
   },
-
   VersionDescription: {
     'ui:widget': 'textarea'
   },
   DOI: {
-    'ui:required': true,
-    'ui:hide-header': true
+    'ui:heading-level': 'h4',
+    'ui:required': true
   },
   AssociatedDOIs: {
     'ui:title': 'Associated DOIs',
@@ -176,7 +175,7 @@ const collectionInformationUiSchema = {
   DataLanguage: {
     'ui:widget': CustomSelectWidget,
     'ui:options': {
-      enumOptions: LanguageArray
+      enumOptions: languageArray
     }
   }
 }

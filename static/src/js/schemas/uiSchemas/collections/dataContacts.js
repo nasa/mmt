@@ -1,8 +1,9 @@
-import { shouldHideGetData, shouldHideGetService } from '../../../utils/collectionsUtils'
 import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
 import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget/CustomMultiSelectWidget'
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
+import shouldHideGetData from '../../../utils/shouldHideGetData'
+import shouldHideGetService from '../../../utils/shouldHideGetService'
 
 const dataContactsUiSchema = {
   'ui:submitButtonOptions': {

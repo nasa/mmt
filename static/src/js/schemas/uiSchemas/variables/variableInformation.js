@@ -242,6 +242,7 @@ const variableInformationUiSchema = {
         ]
       },
       CodeSystemIdentifierMeaning: {
+        'ui:header-classname': 'h3-title'
       },
       CodeSystemIdentifierValue: {
       }

@@ -105,7 +105,7 @@ const CustomDateTimeWidget = ({
       title={title}
     >
       <DatePicker
-        className="w-100 p-2 form-control"
+        className="w-100 p-2 form-control, min-heght: 1.5rem"
         dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
         dropdownMode="select"
         id={id}

@@ -1,6 +1,6 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
-import processingLevel from '../../../utils/processingLevel'
+import processingLevel from '../../../constants/processingLevel'
 
 const dataIdentificationUiSchema = {
   'ui:submitButtonOptions': {
@@ -152,10 +152,6 @@ const dataIdentificationUiSchema = {
         ]
       }
     }
-  },
-  CollectionDataType: {
-  },
-  StandardProduct: {
   },
   ProcessingLevel: {
     'ui:heading-level': 'h4',
@@ -506,11 +502,6 @@ const dataIdentificationUiSchema = {
                     },
                     {
                       'ui:col': {
-                        style: {
-                          marginLeft: '10px',
-                          marginBottom: '10px',
-                          borderLeft: 'solid 5px rgb(240,240,240)'
-                        },
                         md: 12,
                         children: ['DOI']
                       }
@@ -583,11 +574,6 @@ const dataIdentificationUiSchema = {
                     },
                     {
                       'ui:col': {
-                        style: {
-                          marginLeft: '10px',
-                          marginBottom: '10px',
-                          borderLeft: 'solid 5px rgb(240,240,240)'
-                        },
                         md: 12,
                         children: ['OnlineResource']
                       }

@@ -1,12 +1,10 @@
-import {
-  shouldHideGetData,
-  shouldHideGetService,
-  handleShortNameChange
-} from '../../../utils/collectionsUtils'
 import CustomCountrySelectWidget from '../../../components/CustomCountrySelectWidget/CustomCountrySelectWidget'
 import CustomMultiSelectWidget from '../../../components/CustomMultiSelectWidget/CustomMultiSelectWidget'
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
+import handleShortNameChange from '../../../utils/handleShortNameChange'
+import shouldHideGetData from '../../../utils/shouldHideGetData'
+import shouldHideGetService from '../../../utils/shouldHideGetService'
 
 const dataCentersUiSchema = {
   'ui:submitButtonOptions': {

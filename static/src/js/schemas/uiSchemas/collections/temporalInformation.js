@@ -1,5 +1,5 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import temporalKeywords from '../../../utils/temporalKeywords'
+import temporalKeywords from '../../../constants/temporalKeywords'
 
 const temporalInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -110,8 +110,6 @@ const temporalInformationUiSchema = {
             }
           }
         ]
-      },
-      SingleDateTimes: {
       },
       RangeDateTimes: {
         'ui:heading-level': 'h5',

@@ -1,5 +1,5 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import LanguageArray from '../../../utils/languageArray'
+import languageArray from '../../../constants/languageArray'
 
 const metadataInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -42,7 +42,7 @@ const metadataInformationUiSchema = {
   MetadataLanguage: {
     'ui:widget': CustomSelectWidget,
     'ui:options': {
-      enumOptions: LanguageArray
+      enumOptions: languageArray
     }
   },
   MetadataDates: {
