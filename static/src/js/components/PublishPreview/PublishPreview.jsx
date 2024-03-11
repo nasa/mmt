@@ -235,10 +235,13 @@ const PublishPreview = () => {
   }
 
   let tagCount = 0
+  let granuleCount = 0
   if (derivedConceptType === conceptTypes.Collection) {
-    const { tagDefinitions } = previewMetadata || {}
+    const { tagDefinitions, granules } = previewMetadata || {}
+    const { count } = granules || {}
 
     tagCount = getTagCount(tagDefinitions)
+    granuleCount = count
   }
 
   if (error) {
@@ -329,6 +332,16 @@ const PublishPreview = () => {
                 >
                   Tags (
                   { tagCount }
+                  )
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  disabled
+                >
+                  Granules (
+                  { granuleCount }
                   )
                 </Button>
                 <Button

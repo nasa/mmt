@@ -124,6 +124,9 @@ export const publishCollectionRecord = {
   doi: {
     missingReason: 'Not Applicable'
   },
+  granules: {
+    count: 1
+  },
   isoTopicCategories: null,
   locationKeywords: null,
   metadataAssociations: null,
@@ -503,7 +506,7 @@ export const publishCollectionRecord = {
   __typename: 'Collection'
 }
 
-export const noTagsCollection = {
+export const noTagsOrGranulesCollection = {
   relatedCollections: null,
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
@@ -620,6 +623,9 @@ export const noTagsCollection = {
   directDistributionInformation: null,
   doi: {
     missingReason: 'Not Applicable'
+  },
+  granules: {
+    count: 0
   },
   isoTopicCategories: null,
   locationKeywords: null,
