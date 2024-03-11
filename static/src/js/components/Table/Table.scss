@@ -1,12 +1,31 @@
 .table {
   &__sort-button {
-    width: 1.75rem;
-    height: 0.325rem;
+    width: 1.5rem;
+    height: 1rem;
     padding: 0.125rem;
+    margin-right: -0.425rem;
 
     svg {
       width: 1rem;
       height: 1rem;
+    }
+
+    &:first-child {
+      position: relative;
+      svg {
+        position: absolute;
+        top: 0.25rem;
+        pointer-events: none;
+      }
+    }
+
+    &:last-child {
+      position: relative;
+      svg {
+        position: absolute;
+        top: -0.25rem;
+        pointer-events: none;
+      }
     }
 
     &:hover {

@@ -47,7 +47,8 @@ const ControlledPaginatedContent = ({
   const totalPages = Math.ceil(count / limit)
   const isLastPage = totalPages === activePage
   const firstResultIndex = (activePage - 1) * limit
-  const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
+  const resultsOnPage = isLastPage ? count - (limit * (activePage - 1)) : limit
+  const lastResultIndex = firstResultIndex + resultsOnPage
 
   const pagination = (
     <Pagination
@@ -71,9 +72,13 @@ const ControlledPaginatedContent = ({
   )
 }
 
+ControlledPaginatedContent.defaultProps = {
+  count: 1
+}
+
 ControlledPaginatedContent.propTypes = {
   activePage: PropTypes.number.isRequired,
-  count: PropTypes.number.isRequired,
+  count: PropTypes.number,
   limit: PropTypes.number.isRequired,
   children: PropTypes.func.isRequired,
   setPage: PropTypes.func.isRequired

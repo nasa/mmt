@@ -1,5 +1,20 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+import {
+  Link,
+  useNavigate,
+  useSearchParams
+} from 'react-router-dom'
+import {
+  capitalize,
+  isNil,
+  omitBy,
+  orderBy
+} from 'lodash-es'
+import { useQuery } from '@apollo/client'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -11,17 +26,26 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import DropdownMenu from 'react-bootstrap/DropdownMenu'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Navbar from 'react-bootstrap/Navbar'
+import FormSelect from 'react-bootstrap/FormSelect'
+import Alert from 'react-bootstrap/Alert'
+import Spinner from 'react-bootstrap/Spinner'
 import {
+  FaExclamationCircle,
   FaExternalLinkAlt,
   FaQuestionCircle,
   FaSearch,
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa'
+
+import { GET_PROVIDERS } from '../../operations/queries/getProviders'
+
 import useAppContext from '../../hooks/useAppContext'
+
 import Button from '../Button/Button'
+import For from '../For/For'
+
 import './Header.scss'
-import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `Header` component
@@ -41,19 +65,51 @@ const Header = () => {
     setProviderId
   } = useAppContext()
   const navigate = useNavigate()
-  const { token, name = '' } = user
-  const isExpired = isTokenExpired(token)
 
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [searchType] = useState('collections')
+  const [searchParams] = useSearchParams()
+  const [searchType, setSearchType] = useState('collections')
+  const [searchProvider, setSearchProvider] = useState()
 
+  // Set the input with the value from the keyword search param if one exists
+  const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
+
+  useEffect(() => {
+    const currentSearchType = searchParams.get('type')
+
+    // If there is a search type defined in the url, use that. Otherwise, "collections"
+    // will be default
+    if (currentSearchType) {
+      setSearchType(searchParams.get('type'))
+    }
+  }, [searchParams])
+
+  const {
+    data: providersData,
+    loading: providersLoading,
+    error: providersError
+  } = useQuery(GET_PROVIDERS)
+
+  // Callback for the search input change
   const onSearchChange = (e) => {
     const { target: { value } } = e
     setSearchKeyword(value)
   }
 
+  // Callback for submitting the search form
   const onSearchSubmit = () => {
-    navigate(`/search?type=${searchType}&keyword=${searchKeyword}`)
+    const allParams = {
+      type: searchType,
+      keyword: searchKeyword,
+      provider: searchProvider
+    }
+
+    // Remove any null search params
+    const prunedParams = omitBy(allParams, isNil)
+
+    const params = new URLSearchParams(prunedParams)
+
+    // Navigate to the search params with any of the defined params in the url
+    navigate(`/search?${params.toString()}`)
   }
 
   // Define the renderProviderDropdownItems function
@@ -71,6 +127,16 @@ const Header = () => {
       </Dropdown.Item>
     ))
   }
+
+  // Callback for the search type change
+  const onSearchTypeChange = useCallback((e) => {
+    setSearchType(e.target.value)
+  }, [])
+
+  // Callback for changing the provider select value
+  const onSearchProviderChange = useCallback((e) => {
+    setSearchProvider(e.target.value)
+  }, [])
 
   return (
     <header className="header bg-primary shadow z-1">
@@ -94,7 +160,7 @@ const Header = () => {
             className="header__navbar-collapse flex-column align-items-end"
           >
             {
-              (isExpired) && (
+              !user?.name && (
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
                     className="text-white me-1"
@@ -123,18 +189,17 @@ const Header = () => {
               )
             }
             {
-              (!isExpired) && (
-                <div className="d-flex p-1 mb-2 rounded bg-blue-light">
-                  <Dropdown align="end">
+              user?.name && (
+                <div className="d-flex">
+                  <Dropdown className="mb-2" align="end">
                     <Dropdown.Toggle
                       id="dropdown-basic"
                       as={Badge}
                       className="bg-blue-light pointer"
                       role="button"
                     >
-                      {`${name} `}
+                      {`${user.name} `}
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu
                       className="bg-blue-light border-blue-light shadow text-white"
                     >
@@ -181,7 +246,6 @@ const Header = () => {
                 </div>
               )
             }
-
             {
               user?.name && (
                 <Form
@@ -198,20 +262,22 @@ const Header = () => {
                       <FormLabel className="visually-hidden" htmlFor="search_mmt">Search</FormLabel>
                       <FormControl
                         id="search_mmt"
+                        className="rounded-start-1 border-0"
                         type="text"
                         placeholder="Enter a search term"
                         size="sm"
+                        value={searchKeyword}
                         onChange={onSearchChange}
                       />
                       <Dropdown align="end" as={ButtonGroup}>
                         <Button
                           size="sm"
-                          className="d-flex align-items-center"
+                          className="d-flex align-items-center col-4 border-0"
                           variant="indigo"
                           onClick={onSearchSubmit}
                         >
                           <FaSearch className="me-2" />
-                          Search Collections
+                          {`Search ${capitalize(searchType)}`}
                         </Button>
                         <Dropdown.Toggle
                           split
@@ -219,14 +285,105 @@ const Header = () => {
                           id="search-options-dropdown"
                           aria-label="Search Options"
                         />
-                        <DropdownMenu id="search-options-dropdown" className="bg-indigo text-white p-3 shadow">
-                          <div className="mb-2">
-                            <h4 className="h6">Choose the metadata type</h4>
-                            [metadata radio selection]
+                        <DropdownMenu id="search-options-dropdown" className="bg-indigo text-light p-3 shadow">
+                          <div className="mb-2 text-align-right">
+                            <FormGroup>
+                              <FormLabel className="d-block fw-bold mb-3" htmlFor="metadata-type">Choose metadata type</FormLabel>
+                              <div className="align-middle mb-4">
+                                <Form.Check
+                                  id="search-type_collections"
+                                  className="d-inline-flex align-items-center gap-2"
+                                  inline
+                                  type="radio"
+                                  name="metadata-type"
+                                  label="Collections"
+                                  value="collections"
+                                  checked={searchType === 'collections'}
+                                  onChange={onSearchTypeChange}
+                                />
+                                <Form.Check
+                                  id="search-type_variables"
+                                  className="d-inline-flex align-items-center gap-2"
+                                  inline
+                                  type="radio"
+                                  label="Variables"
+                                  name="metadata-type"
+                                  value="variables"
+                                  checked={searchType === 'variables'}
+                                  onChange={onSearchTypeChange}
+                                />
+                                <Form.Check
+                                  id="search-type_services"
+                                  className="d-inline-flex align-items-center gap-2"
+                                  inline
+                                  type="radio"
+                                  label="Services"
+                                  name="metadata-type"
+                                  value="services"
+                                  checked={searchType === 'services'}
+                                  onChange={onSearchTypeChange}
+                                />
+                                <Form.Check
+                                  id="search-type_tools"
+                                  className="d-inline-flex align-items-center gap-2"
+                                  inline
+                                  type="radio"
+                                  label="Tools"
+                                  name="metadata-type"
+                                  value="tools"
+                                  checked={searchType === 'tools'}
+                                  onChange={onSearchTypeChange}
+                                />
+                              </div>
+                            </FormGroup>
                           </div>
                           <div>
-                            <h4 className="h6">Select provider</h4>
-                            [provider dropdown selection]
+                            <FormLabel className="d-block fw-bold mb-3">Select a provider</FormLabel>
+                            {
+                              providersLoading && (
+                                <div className="d-flex align-items-center gap-2">
+                                  <Spinner size="sm" />
+                                  Loading available providers...
+                                </div>
+                              )
+                            }
+                            {
+                              !providersLoading && providersError && (
+                                <Alert className="d-flex align-items-center gap-2 mb-0" variant="danger">
+                                  <FaExclamationCircle title="An exclamation point in a circle" />
+                                  There was an error loading available providers
+                                </Alert>
+                              )
+                            }
+                            {
+                              !providersLoading && !providersError && (
+                                <FormSelect
+                                  name="provider"
+                                  size="sm"
+                                  value={searchProvider}
+                                  defaultValue=""
+                                  onChange={onSearchProviderChange}
+                                >
+                                  <option value="">Search all providers</option>
+                                  {
+                                    (!providersLoading && !providersError) && (
+                                      <For each={orderBy(providersData.providers.items, ['providerId'], ['asc'])}>
+                                        {
+                                          ({ providerId, shortName }) => (
+                                            <option
+                                              key={shortName}
+                                              value={providerId}
+                                            >
+                                              {providerId}
+                                            </option>
+                                          )
+                                        }
+                                      </For>
+                                    )
+                                  }
+                                </FormSelect>
+                              )
+                            }
                           </div>
                         </DropdownMenu>
                       </Dropdown>

@@ -66,8 +66,16 @@ $heading-color: #2f3741;
 $font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
+$table-striped-color: #262a2f;
+$table-color: #262a2f;
+$table-color-state: #262a2f;
+
+$pagination-active-bg: map.get($theme-colors, "primary");
+$pagination-active-border-color: map.get($theme-colors, "primary");
+$pagination-color: map.get($theme-colors, "primary");
+
 /*
- * Forms
+* Forms
  */
 
  $input-btn-focus-color: map.get($theme-colors, "primary");
