@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React from 'react'
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import PreviewMapLink from '../../../components/PreviewMapLink/PreviewMapLink'
-import '../../../components/PreviewMapLink/PreviewMapLink.scss'
+import '../../../components/PreviewMapTemplate/PreviewMapTemplate.scss'
+import PreviewMapTemplate from '../../../components/PreviewMapTemplate/PreviewMapTemplate'
 
 const spatialInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -273,7 +273,7 @@ const spatialInformationUiSchema = {
                             md: 12,
                             render: (props) => (
                               <div className="preview-map-link__icon-label">
-                                <PreviewMapLink {...props} type="point" />
+                                <PreviewMapTemplate {...props} type="point" />
                               </div>
                             )
                           }]
@@ -318,7 +318,7 @@ const spatialInformationUiSchema = {
                             md: 12,
                             render: (props) => (
                               <div className="preview-map-link__icon-label pb-4 pl-3">
-                                <PreviewMapLink {...props} type="polygon" />
+                                <PreviewMapTemplate {...props} type="polygon" />
                               </div>
                             )
                           }]
