@@ -1,10 +1,8 @@
-import { getKeywords } from '../cmrKeywords'
+// import { getKeywords } from '../cmrKeywords'
 import { handleShortNameChange } from '../handleShortNameChange'
+import getKeywords from '../getKeywords'
 
-// Mock the getKeywords function
-jest.mock('../cmrKeywords', () => ({
-  getKeywords: jest.fn()
-}))
+jest.mock('../getKeywords')
 
 describe('handleShortNameChange', () => {
   it('should update RelatedUrl properties on short name change', () => {

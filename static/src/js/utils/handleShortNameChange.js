@@ -1,4 +1,4 @@
-import { getKeywords } from './cmrKeywords'
+import getKeywords from './getKeywords'
 
 /**
  * Function to handle 'handleShortNameChange
