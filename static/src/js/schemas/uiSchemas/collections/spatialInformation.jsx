@@ -113,7 +113,6 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      style: { paddingTop: '15px' },
                       md: 12,
                       children: ['GranuleSpatialRepresentation']
                     }
@@ -178,7 +177,6 @@ const spatialInformationUiSchema = {
             {
               'ui:group': 'Geometry',
               'ui:col': {
-                style: { 'margin-bottom': '15px' },
                 md: 12,
                 children: [
                   {
@@ -1002,11 +1000,6 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: {
-                          borderLeft: 'solid 6px rgb(240, 240, 240)',
-                          marginLeft: '15px',
-                          marginTop: '15px'
-                        },
                         md: 12,
                         children: ['SwathWidth']
                       }
@@ -1027,7 +1020,6 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: { marginTop: '15px' },
                         md: 12,
                         children: ['OrbitPeriod']
                       }
