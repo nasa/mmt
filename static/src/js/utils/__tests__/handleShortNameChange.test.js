@@ -1,4 +1,3 @@
-// import { getKeywords } from '../cmrKeywords'
 import { handleShortNameChange } from '../handleShortNameChange'
 import getKeywords from '../getKeywords'
 
