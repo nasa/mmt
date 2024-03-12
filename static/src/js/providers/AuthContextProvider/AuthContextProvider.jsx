@@ -30,14 +30,13 @@ const { apiHost } = getApplicationConfig()
  */
 const AuthContextProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
-  const { loginInfo = {}, launchpadToken } = cookies
+  const { loginInfo = {}, launchpadToken, data } = cookies
 
   const setUser = (info) => {
     setCookie('loginInfo', info)
   }
 
   const updateLoginInfo = (auid) => {
-    console.log('updating login info')
     let expires = new Date()
     expires.setMinutes(expires.getMinutes() + 15)
     expires = new Date(expires)
@@ -57,16 +56,20 @@ const AuthContextProvider = ({ children }) => {
       domain: '.earthdatacloud.nasa.gov',
       secure: true
     })
+  }
 
+  useEffect(() => {
+    if (data) {
     // Todo: https://bugs.earthdata.nasa.gov/browse/MMT-3612
     // Remove this code after about 2 months, prior versions used data and we just need
     // to clean up that cookie for users, as it was causing header size issues.
-    removeCookie('data', {
-      path: '/',
-      domain: '.earthdatacloud.nasa.gov',
-      secure: true
-    })
-  }
+      removeCookie('data', {
+        path: '/',
+        domain: '.earthdatacloud.nasa.gov',
+        secure: true
+      })
+    }
+  }, [data])
 
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return

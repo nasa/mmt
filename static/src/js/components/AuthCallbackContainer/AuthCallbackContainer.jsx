@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 import { isEmpty } from 'lodash-es'
 import useAppContext from '../../hooks/useAppContext'
+import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * This class handles the authenticated redirect from our saml lambda function.
@@ -18,7 +19,7 @@ export const AuthCallbackContainer = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isEmpty(user)) {
+    if (!isEmpty(user) && !isTokenExpired(user.token)) {
       navigate(path, { replace: true })
     } else {
       updateLoginInfo(auid)
