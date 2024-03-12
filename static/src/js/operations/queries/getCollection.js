@@ -18,6 +18,9 @@ export const GET_COLLECTION = gql`
       dataDates
       directDistributionInformation
       doi
+      granules {
+        count
+      }
       isoTopicCategories
       locationKeywords
       metadataAssociations
