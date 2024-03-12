@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
+  Badge,
   Button,
   Col,
   ListGroup,
@@ -330,9 +331,14 @@ const PublishPreview = () => {
                     }
                   }
                 >
-                  Tags (
-                  { tagCount }
-                  )
+                  Tags
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { tagCount }
+                  </Badge>
                 </Button>
                 <Button
                   className="btn btn-link"
@@ -340,9 +346,15 @@ const PublishPreview = () => {
                   variant="link"
                   disabled
                 >
-                  Granules (
-                  { granuleCount }
-                  )
+                  Granules
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { granuleCount }
+                  </Badge>
+
                 </Button>
                 <Button
                   className="btn btn-link"

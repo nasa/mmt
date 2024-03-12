@@ -641,7 +641,7 @@ describe('PublishPreview', () => {
 
           await waitForResponse()
 
-          const tagBtn = screen.getByRole('button', { name: 'Tags (1)' })
+          const tagBtn = screen.getByRole('button', { name: 'Tags 1' })
           await user.click(tagBtn)
 
           const modal = screen.queryByRole('dialog')
@@ -688,7 +688,7 @@ describe('PublishPreview', () => {
 
           await waitForResponse()
 
-          const tagBtn = screen.getByRole('button', { name: 'Tags (0)' })
+          const tagBtn = screen.getByRole('button', { name: 'Tags 0' })
           await user.click(tagBtn)
 
           const modal = screen.queryByRole('dialog')
@@ -727,7 +727,7 @@ describe('PublishPreview', () => {
           })
 
           await waitForResponse()
-          expect(screen.getByRole('button', { name: 'Granules (1)' }))
+          expect(screen.getByRole('button', { name: 'Granules 1' }))
         })
       })
 
@@ -758,7 +758,7 @@ describe('PublishPreview', () => {
           })
 
           await waitForResponse()
-          expect(screen.getByRole('button', { name: 'Granules (0)' }))
+          expect(screen.getByRole('button', { name: 'Granules 0' }))
         })
       })
     })
