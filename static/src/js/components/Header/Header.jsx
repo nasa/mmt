@@ -34,7 +34,11 @@ import isTokenExpired from '../../utils/isTokenExpired'
  */
 const Header = () => {
   const {
-    user, login, logout, providerIds, setProviderId
+    user,
+    login,
+    logout,
+    providerIds,
+    setProviderId
   } = useAppContext()
   const navigate = useNavigate()
   const { token, name = '' } = user

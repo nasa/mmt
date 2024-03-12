@@ -1,12 +1,8 @@
-import React, {
-  useLayoutEffect,
-  useEffect,
-  useState
-} from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -58,7 +54,7 @@ export const App = () => {
     document.body.classList.remove('is-loading')
   }, [])
 
-  const { addNotification } = useNotificationsContext() || {}
+  const { addNotification } = useNotificationsContext()
 
   const {
     user, setProviderId, setProviderIds
@@ -80,6 +76,7 @@ export const App = () => {
 
       if (items.length > 0) {
         const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+
         setProviderIds(providerList)
 
         // Check if user does not have providerId
@@ -87,12 +84,6 @@ export const App = () => {
         if (!user.providerId && providerList.length > 0) {
           setProviderId(providerList[0])
         }
-      } else {
-        // Display notification for no providers available
-        addNotification({
-          message: 'User is not provisioned.  Please contact support.',
-          variant: 'danger'
-        })
       }
     },
     onError: (getProviderError) => {

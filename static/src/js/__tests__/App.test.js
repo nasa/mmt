@@ -6,12 +6,12 @@ import {
 } from '@testing-library/react'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { App } from '../App'
+import App from '../App'
 import ManageCmrPage from '../pages/ManageCmrPage/ManageCmrPage'
 import { GET_ACLS } from '../operations/queries/getAcls'
-import withProviders from '../providers/withProviders/withProviders'
 import errorLogger from '../utils/errorLogger'
-import ErrorBanner from '../components/ErrorBanner/ErrorBanner'
+import AppContext from '../context/AppContext'
+import NotificationsContext from '../context/NotificationsContext'
 
 jest.mock('../components/ErrorBanner/ErrorBanner')
 jest.mock('../utils/errorLogger')
@@ -87,15 +87,58 @@ jest.mock('../components/Layout/Layout', () => {
   })
 })
 
-// Mock the useAppContext hook
-jest.mock('../hooks/useAppContext', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
+const setup = (overrideMocks, overrideAppContext) => {
+  const appContext = {
     user: {}, // Mock the user object
     setProviderId: jest.fn(),
-    setProviderIds: jest.fn()
-  }))
-}))
+    setProviderIds: jest.fn(),
+    ...overrideAppContext
+  }
+
+  const notificationContext = {
+    addNotification: jest.fn()
+  }
+
+  const mocks = [
+    {
+      request: {
+        query: GET_ACLS,
+        variables: {
+          params: {
+            includeFullAcl: true,
+            pageNum: 1,
+            pageSize: 2000,
+            permittedUser: 'typical',
+            target: 'PROVIDER_CONTEXT'
+          }
+        }
+      },
+      result: {
+        data: {
+          acls: {
+            items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+          }
+        }
+      }
+    }
+  ]
+
+  const container = render(
+    <AppContext.Provider value={appContext}>
+      <NotificationsContext.Provider value={notificationContext}>
+        <MockedProvider mocks={overrideMocks || mocks} addTypename={false}>
+          <App />
+        </MockedProvider>
+      </NotificationsContext.Provider>
+    </AppContext.Provider>
+  )
+
+  return {
+    container,
+    appContext,
+    notificationContext
+  }
+}
 
 describe('App component', () => {
   afterEach(() => {
@@ -105,11 +148,8 @@ describe('App component', () => {
   describe('when rendering the "/" route', () => {
     test('renders the notifications', async () => {
       window.history.pushState({}, '', '/')
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-notifications')).toBeInTheDocument()
@@ -121,11 +161,7 @@ describe('App component', () => {
     test('renders the home page', async () => {
       window.history.pushState({}, '', '/')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-home-page')).toBeInTheDocument()
@@ -139,11 +175,7 @@ describe('App component', () => {
     test('renders the manage collections page', async () => {
       window.history.pushState({}, '', '/manage/collections')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
@@ -157,11 +189,7 @@ describe('App component', () => {
     test('renders the manage variables page', async () => {
       window.history.pushState({}, '', '/manage/variables')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-variables-page')).toBeInTheDocument()
@@ -175,11 +203,7 @@ describe('App component', () => {
     test('renders the manage services page', async () => {
       window.history.pushState({}, '', '/manage/services')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-services-page')).toBeInTheDocument()
@@ -193,11 +217,7 @@ describe('App component', () => {
     test('renders the manage tools page', async () => {
       window.history.pushState({}, '', '/manage/tools')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-tools-page')).toBeInTheDocument()
@@ -211,11 +231,7 @@ describe('App component', () => {
     test('renders the manage cmr page', async () => {
       window.history.pushState({}, '', '/manage/cmr')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
@@ -230,11 +246,7 @@ describe('App component', () => {
     test('redirects to /manage-collections', () => {
       window.history.pushState({}, '', '/manage_collections')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-collections')
@@ -248,11 +260,7 @@ describe('App component', () => {
     test('redirects to /manage-variables', () => {
       window.history.pushState({}, '', '/manage_variables')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-variables')
@@ -266,11 +274,7 @@ describe('App component', () => {
     test('redirects to /manage-services', () => {
       window.history.pushState({}, '', '/manage_services')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-services')
@@ -284,11 +288,7 @@ describe('App component', () => {
     test('redirects to /manage-tools', () => {
       window.history.pushState({}, '', '/manage_tools')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-tools')
@@ -302,11 +302,7 @@ describe('App component', () => {
     test('redirects to /manage-tools', () => {
       window.history.pushState({}, '', '/manage-cmr')
 
-      render(
-        <MockedProvider mocks={[]} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage/cmr')
@@ -317,46 +313,150 @@ describe('App component', () => {
   })
 
   // Fetches providers
-  describe('useEffect hook', () => {
-    test('fetches providers data and updates state accordingly', async () => {
-      const mocks = [
-        {
-          request: {
-            query: GET_ACLS,
-            variables: {
-              params: {
-                includeFullAcl: true,
-                pageNum: 1,
-                pageSize: 2000,
-                permittedUser: 'typical',
-                target: 'PROVIDER_CONTEXT'
+  describe('when providers are fetched', () => {
+    describe('when there are provider ids', () => {
+      test('sets the provider ids', async () => {
+        const mocks = [
+          {
+            request: {
+              query: GET_ACLS,
+              variables: {
+                params: {
+                  includeFullAcl: true,
+                  pageNum: 1,
+                  pageSize: 2000,
+                  permittedUser: 'typical',
+                  target: 'PROVIDER_CONTEXT'
+                }
               }
-            }
-          },
-          result: {
-            data: {
-              acls: {
-                items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                }
               }
             }
           }
-        }
-      ]
+        ]
 
-      render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+        const { appContext } = setup(mocks)
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-providers')).toBeInTheDocument()
+        await waitFor(() => {
+          expect(appContext.setProviderIds).toHaveBeenCalledTimes(1)
+          expect(appContext.setProviderIds).toHaveBeenCalledWith(['MMT_2'])
+        })
+      })
+
+      describe('when the user has no provider selected', () => {
+        test('sets the provider id', async () => {
+          const mocks = [
+            {
+              request: {
+                query: GET_ACLS,
+                variables: {
+                  params: {
+                    includeFullAcl: true,
+                    pageNum: 1,
+                    pageSize: 2000,
+                    permittedUser: 'typical',
+                    target: 'PROVIDER_CONTEXT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acls: {
+                    items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                  }
+                }
+              }
+            }
+          ]
+
+          const { appContext } = setup(mocks)
+
+          await waitFor(() => {
+            expect(appContext.setProviderId).toHaveBeenCalledTimes(1)
+            expect(appContext.setProviderId).toHaveBeenCalledWith('MMT_2')
+          })
+        })
+      })
+    })
+
+    describe('when the user has a provider selected', () => {
+      test('does not set the provider id', async () => {
+        const mocks = [
+          {
+            request: {
+              query: GET_ACLS,
+              variables: {
+                params: {
+                  includeFullAcl: true,
+                  pageNum: 1,
+                  pageSize: 2000,
+                  permittedUser: 'typical',
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                }
+              }
+            }
+          }
+        ]
+
+        const user = { providerId: 'MMT_2' }
+
+        const { appContext } = setup(mocks, { user })
+
+        await waitFor(() => {
+          expect(appContext.setProviderId).toHaveBeenCalledTimes(0)
+        })
+      })
+    })
+
+    describe('when there are no provider ids', () => {
+      test('does not set the provider ids', async () => {
+        const mocks = [
+          {
+            request: {
+              query: GET_ACLS,
+              variables: {
+                params: {
+                  includeFullAcl: true,
+                  pageNum: 1,
+                  pageSize: 2000,
+                  permittedUser: 'typical',
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: []
+                }
+              }
+            }
+          }
+        ]
+
+        const { appContext } = setup(mocks)
+
+        await waitFor(() => {
+          expect(appContext.setProviderIds).toHaveBeenCalledTimes(0)
+        })
       })
     })
   })
 
-  describe('useLazyQuery hook', () => {
-    test('displays a notification if no providers are available', async () => {
+  describe('when the request results in an error', () => {
+    test('call errorLogger and triggers a notification', async () => {
       const mocks = [
         {
           request: {
@@ -371,54 +471,18 @@ describe('App component', () => {
               }
             }
           },
-          error: new Error('No providers available')
+          error: new Error('An error occurred')
         }
       ]
 
-      render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          {withProviders(App)()}
-        </MockedProvider>
-      )
+      const { notificationContext } = setup(mocks)
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-notifications')).toBeInTheDocument()
+        expect(notificationContext.addNotification).toHaveBeenCalledTimes(1)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'Error fetching providers')
       })
     })
   })
-
-  // Describe('when the request results in an error', () => {
-  //   test('call errorLogger and renders an ErrorBanner', async () => {
-  //     const mocks = [
-  //       {
-  //         request: {
-  //           query: GET_ACLS,
-  //           variables: {
-  //             params: {
-  //               includeFullAcl: true,
-  //               pageNum: 1,
-  //               pageSize: 2000,
-  //               permittedUser: 'typical',
-  //               target: 'PROVIDER_CONTEXT'
-  //             }
-  //           }
-  //         },
-  //         error: new Error('An error occurred')
-  //       }
-  //     ]
-
-  //     render(
-  //       <MockedProvider mocks={mocks} addTypename={false}>
-  //         {withProviders(App)()}
-  //       </MockedProvider>
-  //     )
-
-  //     await waitForResponse()
-
-  //     expect(errorLogger).toHaveBeenCalledTimes(1)
-  //     expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'Error fetching providers')
-
-  //     expect(ErrorBanner).toHaveBeenCalledTimes(1)
-  //   })
-  // })
 })
