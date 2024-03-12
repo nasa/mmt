@@ -81,6 +81,15 @@ const setup = (overrideMocks) => {
                 granules: {
                   count: 3
                 },
+                tagDefinitions: {
+                  items: [{
+                    conceptId: 'C100000',
+                    description: 'Mock tag description',
+                    originatorId: 'test.user',
+                    revisionId: '1',
+                    tagKey: 'Mock tag key'
+                  }]
+                },
                 tags: { 'test.tag.one': { data: 'Some data' } },
                 revisionDate: '2023-11-30 00:00:00'
               },
@@ -95,6 +104,15 @@ const setup = (overrideMocks) => {
                 granules: {
                   count: 3
                 },
+                tagDefinitions: {
+                  items: [{
+                    conceptId: 'C100000',
+                    description: 'Mock tag description',
+                    originatorId: 'test.user',
+                    revisionId: '1',
+                    tagKey: 'Mock tag key'
+                  }]
+                },
                 tags: { 'test.tag.one': { data: 'Some data' } },
                 revisionDate: '2023-11-30 00:00:00'
               },
@@ -103,6 +121,7 @@ const setup = (overrideMocks) => {
                 shortName: 'Test Short Name 3',
                 revisionId: 1,
                 version: '3',
+                tagDefinitions: null,
                 title: 'Test Title 1',
                 provider: 'TESTPROV',
                 entryTitle: null,

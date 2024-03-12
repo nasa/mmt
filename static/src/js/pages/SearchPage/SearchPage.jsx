@@ -29,6 +29,7 @@ import CustomModal from '../../components/CustomModal/CustomModal'
 import For from '../../components/For/For'
 import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
+import getTagCount from '../../utils/getTagCount'
 
 const typeParamToHumanizedNameMap = {
   collections: 'collection',
@@ -150,10 +151,9 @@ const SearchPage = ({ limit }) => {
   ), [])
 
   const buildTagCell = useCallback((cellData, rowData) => {
-    if (!cellData) return <span className="p-1 d-block text-end w-100">0</span>
+    const tagCount = getTagCount(cellData)
 
-    const tagKeys = Object.keys(cellData)
-    const tagCount = tagKeys.length
+    if (!tagCount) return <span className="p-1 d-block text-end w-100">0</span>
 
     return (
       <Button
@@ -242,7 +242,7 @@ const SearchPage = ({ limit }) => {
           align: 'end'
         },
         {
-          dataKey: 'tags',
+          dataKey: 'tagDefinitions',
           title: 'Tags',
           className: 'col-auto text-nowrap',
           dataAccessorFn: buildTagCell,
@@ -406,16 +406,24 @@ const SearchPage = ({ limit }) => {
                 <ListGroup>
                   <For each={Object.keys(activeTagModalCollection.tags)}>
                     {
-                      (tagKey) => (
-                        <ListGroupItem key={tagKey}>
-                          <dl>
-                            <dt>Tag Key:</dt>
-                            <dd>{tagKey}</dd>
-                            <dt>Data:</dt>
-                            <dd>{activeTagModalCollection.tags[tagKey].data}</dd>
-                          </dl>
-                        </ListGroupItem>
-                      )
+                      (tagKey, index) => {
+                        const { tagDefinitions } = activeTagModalCollection
+                        const { items: tagItems } = tagDefinitions
+                        const { description } = tagItems[index]
+
+                        return (
+                          <ListGroupItem key={tagKey}>
+                            <dl>
+                              <dt>Tag Key:</dt>
+                              <dd>{tagKey}</dd>
+                              <dt>Description:</dt>
+                              <dd>
+                                {description}
+                              </dd>
+                            </dl>
+                          </ListGroupItem>
+                        )
+                      }
                     }
                   </For>
                 </ListGroup>
