@@ -38,7 +38,7 @@ const samlCallback = async (event) => {
 
   // There appears to be a limitation in AWS to only allow sending 1 cookie, so we are sending
   // 1 cookie with multiple values in a base 64 encoded json string.
-  let setCookie = `launchpadToken=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647`
+  let setCookie = `launchpadToken=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
 
   if (version === 'development') {
     setCookie = `launchpadToken=${launchpadToken}; Path=/`
