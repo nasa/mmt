@@ -58,9 +58,9 @@ const AuthContextProvider = ({ children }) => {
       secure: true
     })
 
-    // Remove this code after about 2 months, prior versions used data and we
-    // just need to clean up that cookie for users, as it was causing
-    // header size issues.
+    // Todo: https://bugs.earthdata.nasa.gov/browse/MMT-3612
+    // Remove this code after about 2 months, prior versions used data and we just need 
+    // to clean up that cookie for users, as it was causing header size issues.
     removeCookie('data', {
       path: '/',
       domain: '.earthdatacloud.nasa.gov',
