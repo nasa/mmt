@@ -146,7 +146,7 @@ const PlatformField = (props) => {
       className="platform-field-clear-option"
       onClick={onHandleClear}
     >
-      Select Short Name
+      Clear Short Name
     </button>
   )
 

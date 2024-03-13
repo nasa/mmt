@@ -1,4 +1,4 @@
-import acquisitionInformationUiSchema from './aquitionInformation'
+import acquisitionInformationUiSchema from './acquisitionInformation'
 
 const collectionsUiSchema = {
   'acquisition-information': acquisitionInformationUiSchema
