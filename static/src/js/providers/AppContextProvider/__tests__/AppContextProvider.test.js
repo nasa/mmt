@@ -91,6 +91,8 @@ const setup = (overrideCookie) => {
       </AuthContextProvider>
     </CookiesProvider>
   )
+
+  return cookie
 }
 
 describe('AppContextProvider component', () => {
@@ -156,6 +158,20 @@ describe('AppContextProvider component', () => {
 
         expect(providerId).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('cleans up old cookie causing header length issues', () => {
+    test('clears old data cookie when present', async () => {
+      delete window.location
+      window.location = {}
+      const cookie = setup({
+        launchpadToken: 'mock launchpad token',
+        data: 'encoded cookie'
+      })
+
+      // Only launchpadtoken left
+      expect(cookie.cookies).toEqual({ launchpadToken: 'mock launchpad token' })
     })
   })
 })

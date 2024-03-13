@@ -30,7 +30,7 @@ const { apiHost } = getApplicationConfig()
  */
 const AuthContextProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
-  const { loginInfo = {}, launchpadToken } = cookies
+  const { loginInfo = {}, launchpadToken, data } = cookies
 
   const setUser = useCallback((arg) => {
     if (typeof arg === 'function') {
@@ -61,16 +61,20 @@ const AuthContextProvider = ({ children }) => {
       domain: '.earthdatacloud.nasa.gov',
       secure: true
     })
+  }
 
+  useEffect(() => {
+    if (data) {
     // Todo: https://bugs.earthdata.nasa.gov/browse/MMT-3612
     // Remove this code after about 2 months, prior versions used data and we just need
     // to clean up that cookie for users, as it was causing header size issues.
-    removeCookie('data', {
-      path: '/',
-      domain: '.earthdatacloud.nasa.gov',
-      secure: true
-    })
-  }
+      removeCookie('data', {
+        path: '/',
+        domain: '.earthdatacloud.nasa.gov',
+        secure: true
+      })
+    }
+  }, [data])
 
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return
@@ -78,9 +82,10 @@ const AuthContextProvider = ({ children }) => {
     const { name, auid } = loginInfo
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
-        const { name: profileName } = await response.json()
+        const { name: profileName, uid } = await response.json()
         setUser((prevUser) => ({
           ...prevUser,
+          uid,
           name: profileName
         }))
       }).catch((error) => {

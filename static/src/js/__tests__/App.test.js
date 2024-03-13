@@ -410,7 +410,10 @@ describe('App component', () => {
           }
         ]
 
-        const user = { providerId: 'MMT_2' }
+        const user = {
+          uid: 'typical',
+          providerId: 'MMT_2'
+        }
 
         const { appContext } = setup(mocks, { user })
 
