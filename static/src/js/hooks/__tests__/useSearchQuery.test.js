@@ -52,11 +52,11 @@ const TestComponent = ({ type }) => {
   )
 }
 
-TestComponent.propTypes = {
+TestComponent.defaultProps = {
   type: ''
 }
 
-TestComponent.defaultProps = {
+TestComponent.propTypes = {
   type: PropTypes.string
 }
 
