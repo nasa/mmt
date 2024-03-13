@@ -21,10 +21,10 @@ export const AuthCallbackContainer = () => {
   const { token } = user
 
   useEffect(() => {
-    updateLoginInfo(auid)
-
     if (!isEmpty(user) && !isTokenExpired(token)) {
       navigate(path, { replace: true })
+    } else {
+      updateLoginInfo(auid)
     }
   }, [user])
 
