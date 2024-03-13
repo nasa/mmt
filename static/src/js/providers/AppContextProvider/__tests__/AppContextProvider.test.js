@@ -21,6 +21,12 @@ const MockComponent = () => {
     logout,
     setProviderId
   } = useAppContext()
+  const {
+    user,
+    login,
+    logout,
+    setProviderId
+  } = useAppContext()
 
   return (
     <div>
@@ -49,6 +55,17 @@ const MockComponent = () => {
       >
         Log out
       </button>
+      <button
+        type="button"
+        onClick={() => setProviderId('MMT_TEST')}
+      >
+        Set provider id
+      </button>
+      <div>
+        Provider Id:
+        {' '}
+        {user?.providerId}
+      </div>
       <button
         type="button"
         onClick={() => setProviderId('MMT_TEST')}

@@ -7,7 +7,16 @@ import {
 
 import { MockedProvider } from '@apollo/client/testing'
 import App from '../App'
+import { MockedProvider } from '@apollo/client/testing'
+import App from '../App'
 import ManageCmrPage from '../pages/ManageCmrPage/ManageCmrPage'
+import { GET_ACLS } from '../operations/queries/getAcls'
+import errorLogger from '../utils/errorLogger'
+import AppContext from '../context/AppContext'
+import NotificationsContext from '../context/NotificationsContext'
+
+jest.mock('../components/ErrorBanner/ErrorBanner')
+jest.mock('../utils/errorLogger')
 import { GET_ACLS } from '../operations/queries/getAcls'
 import errorLogger from '../utils/errorLogger'
 import AppContext from '../context/AppContext'
@@ -140,6 +149,59 @@ const setup = (overrideMocks, overrideAppContext) => {
   }
 }
 
+const setup = (overrideMocks, overrideAppContext) => {
+  const appContext = {
+    user: { uid: 'typical' }, // Mock the user object
+    setProviderId: jest.fn(),
+    setProviderIds: jest.fn(),
+    ...overrideAppContext
+  }
+
+  const notificationContext = {
+    addNotification: jest.fn()
+  }
+
+  const mocks = [
+    {
+      request: {
+        query: GET_ACLS,
+        variables: {
+          params: {
+            includeFullAcl: true,
+            pageNum: 1,
+            pageSize: 2000,
+            permittedUser: 'typical',
+            target: 'PROVIDER_CONTEXT'
+          }
+        }
+      },
+      result: {
+        data: {
+          acls: {
+            items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+          }
+        }
+      }
+    }
+  ]
+
+  const container = render(
+    <AppContext.Provider value={appContext}>
+      <NotificationsContext.Provider value={notificationContext}>
+        <MockedProvider mocks={overrideMocks || mocks} addTypename={false}>
+          <App />
+        </MockedProvider>
+      </NotificationsContext.Provider>
+    </AppContext.Provider>
+  )
+
+  return {
+    container,
+    appContext,
+    notificationContext
+  }
+}
+
 describe('App component', () => {
   afterEach(() => {
     jest.clearAllMocks()
@@ -148,6 +210,8 @@ describe('App component', () => {
   describe('when rendering the "/" route', () => {
     test('renders the notifications', async () => {
       window.history.pushState({}, '', '/')
+
+      setup()
 
       setup()
 
@@ -160,6 +224,8 @@ describe('App component', () => {
 
     test('renders the home page', async () => {
       window.history.pushState({}, '', '/')
+
+      setup()
 
       setup()
 
@@ -176,6 +242,7 @@ describe('App component', () => {
       window.history.pushState({}, '', '/manage/collections')
 
       setup()
+      setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
@@ -188,6 +255,8 @@ describe('App component', () => {
   describe('when rendering the "/manage/variables" route', () => {
     test('renders the manage variables page', async () => {
       window.history.pushState({}, '', '/manage/variables')
+
+      setup()
 
       setup()
 
@@ -205,6 +274,8 @@ describe('App component', () => {
 
       setup()
 
+      setup()
+
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-services-page')).toBeInTheDocument()
       })
@@ -216,6 +287,8 @@ describe('App component', () => {
   describe('when rendering the "/manage/tools" route', () => {
     test('renders the manage tools page', async () => {
       window.history.pushState({}, '', '/manage/tools')
+
+      setup()
 
       setup()
 
@@ -233,8 +306,11 @@ describe('App component', () => {
 
       setup()
 
+      setup()
+
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
+        expect(ManageCmrPage).toHaveBeenCalledTimes(3)
         expect(ManageCmrPage).toHaveBeenCalledTimes(3)
       })
 
@@ -246,6 +322,7 @@ describe('App component', () => {
     test('redirects to /manage-collections', () => {
       window.history.pushState({}, '', '/manage_collections')
 
+      setup()
       setup()
 
       waitFor(() => {
@@ -261,6 +338,7 @@ describe('App component', () => {
       window.history.pushState({}, '', '/manage_variables')
 
       setup()
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-variables')
@@ -274,6 +352,7 @@ describe('App component', () => {
     test('redirects to /manage-services', () => {
       window.history.pushState({}, '', '/manage_services')
 
+      setup()
       setup()
 
       waitFor(() => {
@@ -289,6 +368,7 @@ describe('App component', () => {
       window.history.pushState({}, '', '/manage_tools')
 
       setup()
+      setup()
 
       waitFor(() => {
         expect(window.location.href).toEqual('http://localhost/manage-tools')
@@ -302,6 +382,7 @@ describe('App component', () => {
     test('redirects to /manage-tools', () => {
       window.history.pushState({}, '', '/manage-cmr')
 
+      setup()
       setup()
 
       waitFor(() => {
