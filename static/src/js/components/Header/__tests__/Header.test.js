@@ -518,7 +518,7 @@ describe('Header component', () => {
 
         await user.click(variableRadio)
 
-        waitFor(() => {
+        await waitFor(() => {
           expect(variableRadio).toHaveAttribute('checked', true)
           expect(screen.queryByRole('button', { name: 'Search Variables' })).toBeInTheDocument()
         })
