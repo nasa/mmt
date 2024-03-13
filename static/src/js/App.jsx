@@ -81,7 +81,8 @@ export const App = () => {
 
         // Check if user does not have providerId
         // and set it to the first providerId if available
-        if (!user.providerId && providerList.length > 0) {
+        const { providerId } = user
+        if (!providerId && providerList.length > 0) {
           setProviderId(providerList[0])
         }
       }
