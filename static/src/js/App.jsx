@@ -98,7 +98,10 @@ export const App = () => {
   })
 
   useEffect(() => {
-    getProviders()
+    const { uid } = user
+    if (uid) {
+      getProviders()
+    }
   }, [])
 
   return (

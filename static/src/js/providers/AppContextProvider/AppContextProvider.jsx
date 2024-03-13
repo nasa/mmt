@@ -39,7 +39,7 @@ const AppContextProvider = ({ children }) => {
       ...prevUser,
       providerId
     }))
-  }, [])
+  }, [user])
 
   const providerValue = useMemo(() => ({
     user,
