@@ -1,158 +1,183 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
+import parseCmrResponse from '../../utils/parseCmrResponse'
+import './PlatformField.css'
 
 /** This is custom field found with Collections >> acquisitionInformation
  *
  * @typedef {Object} PlatformField
- * @property {Boolean} loading
- * @property {Function} onChange
- * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} uiSchema uiSchema for the field being shown.
+ * @property {Object} formData Saved Draft
  */
-const PlatformField = ({
-  formData,
-  registry,
-  onChange,
-  uiSchema
-}) => {
+const PlatformField = (props) => {
+  const { formData } = props
   const { Type = '', ShortName = '', LongName = '' } = formData
   const [longNameMap, setLongNameMap] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [keyword, setKeyword] = useState([])
-  const [showMenu, setShowMenu] = useState(false)
-  const [shouldFocus, setShouldFocus] = useState(false)
-  const [typeState, setTypeState] = useState(Type)
-  const [shortNameState, setShortNameState] = useState(ShortName)
-  const [longNameState, setLongNameState] = useState(LongName)
-  const [selectOptions, setSelectOptions] = useState([])
+  const [state, setState] = useState({
+    loading: false,
+    type: Type || '',
+    shortName: ShortName || '',
+    longName: LongName || '',
+    keyword: [],
+    showMenu: false,
+    shouldFocus: false
+  })
 
-  const existingValue = {
-    value: shortNameState,
-    label: shortNameState
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const { uiSchema = {} } = props
+      const controlled = uiSchema['ui:controlled'] || {}
+      const { name, controlName } = controlled
 
-  // UseEffect(() => {
-  //   const controlled = uiSchema['ui:controlled'] || {}
-  //   const { name, controlName } = controlled
-  //   if (name && controlName) {
-  //     setLoading(true)
-  //     service.fetchCmrKeywords(name).then((keywords) => {
-  //       const paths = parseCmrResponse(keywords, controlName)
-  //       const newPaths = []
-  //       // Creating a '>' delimiter map for the platform keywords.
-  //       // For example: if the values from the parseCmrResponse are
-  //       //                basis="Air-based Platform",
-  //       //                Category="Jet", shortName="A340-600"
-  //       //                LongName="Airbus A340-600"
-  //       // the '>' delimited path would for this case would be
-  //       //                Air-based Platforms>Jet>A340-600>Airbus A340-600
-  //       // This path is being used in the render to display the Short Names (A340-600)
-  //       // and based on the selected Short Name it will auto populate the Type (JET)
-  //       // and Long Name (Airbus A340-600) field
-  //       paths.forEach((path) => {
-  //         let newPath = ''
-  //         path.forEach((value, index) => {
-  //           newPath += `>${value}`
-  //           if (index === 3) {
-  //             longNameMap[path[2]] = value
-  //           }
+      if (name && controlName) {
+        setState((prevState) => ({
+          ...prevState,
+          loading: true
+        }))
 
-  //           if (!newPaths.includes(newPath.slice(1))) {
-  //             newPaths.push(newPath.slice(1))
-  //           }
-  //         })
-  //       })
+        const keywords = await fetchCmrKeywords(name)
+        const paths = parseCmrResponse(keywords, controlName)
+        const newPaths = []
 
-  //       setLoading(false)
-  //       setKeyword(newPaths)
-  //     })
-  //       .catch(() => {
-  //         const { formContext } = registry
-  //         const { editor } = formContext
-  //         setLoading(false)
-  //         // editor.status = new Status('warning', `Error retrieving ${name} keywords`)
-  //       })
-  //   }
-  // }, [])
+        // Creating a '>' delimiter map for the platform keywords.
+        // For example: if the values from the parseCmrResponse are
+        //                basis="Air-based Platform",
+        //                Category="Jet", shortName="A340-600"
+        //                LongName="Airbus A340-600"
+        // the '>' delimited path would for this case would be
+        //                Air-based Platforms>Jet>A340-600>Airbus A340-600
+        // This path is being used in the render to display the Short Names (A340-600)
+        // and based on the selected Short Name it will auto populate the Type (JET)
+        // and Long Name (Airbus A340-600) field
 
-  const onHandleMouseDown = (values) => {
-    console.log('clicked')
-    const [type, shortName] = values
-    const longName = longNameMap[shortName] || ''
+        paths.forEach((path) => {
+          let newPath = ''
+          path.forEach((value, index) => {
+            newPath += `>${value}`
+            if (index === 3) {
+              setLongNameMap((prevMap) => ({
+                ...prevMap,
+                [path[2]]: value
+              }))
+            }
 
-    const data = {
-      Type: type,
-      ShortName: shortName,
-      LongName: longName
+            if (!newPaths.includes(newPath.slice(1))) {
+              newPaths.push(newPath.slice(1))
+            }
+          })
+        })
+
+        setState((prevState) => ({
+          ...prevState,
+          loading: false,
+          keyword: newPaths
+        }))
+      }
     }
 
-    // OnChange(data)
-    // if (longName === '') {
-    //   this.setState({ longName: 'No available Long Name' })
-    // }
+    fetchData()
+  }, [])
+
+  const onHandleMouseDown = (values) => {
+    const [type, shortName] = values
+    const longName = longNameMap[shortName] || ''
+    setState((prevState) => ({
+      ...prevState,
+      type,
+      shortName,
+      longName,
+      showMenu: false,
+      shouldFocus: false
+    }))
   }
 
   const onHandleFocus = () => {
-    setShowMenu(true)
-    setShouldFocus(true)
+    setState((prevState) => ({
+      ...prevState,
+      showMenu: true,
+      shouldFocus: true
+    }))
   }
 
   const onHandleBlur = () => {
-    setShowMenu(true),
-    setShouldFocus(false)
+    setState((prevState) => ({
+      ...prevState,
+      showMenu: false,
+      shouldFocus: false
+    }))
   }
 
   const onHandleClear = () => {
-    setTypeState('')
-    setShortNameState('')
-    setLongNameState('')
-    setShowMenu(false)
-    setShouldFocus(false)
-    onChange(null)
+    const { onChange } = props
+    setState((prevState) => ({
+      ...prevState,
+      type: '',
+      shortName: '',
+      longName: '',
+      showMenu: false,
+      shouldFocus: false
+    }))
+
+    onChange(state)
   }
 
   const displayTitle = (value) => (
-    <div
-      className="platform-field-select-title"
-      data-testid={`platform-field-select-title__${value}`}
-    >
+    <div className="platform-field-select-title">
       {value}
     </div>
   )
 
   const displaySelectOption = (value) => (
-    <div
+    <button
+      type="button"
       className="platform-field-select-option"
-      data-testid={`platform-field-select-option__${value}`}
-      onMouseDown={() => { onHandleMouseDown(value) }}
+      onMouseDown={() => onHandleMouseDown(value)}
     >
       {value[1]}
-    </div>
+    </button>
   )
 
   const displayClearOption = () => (
-    <div
+    <button
+      type="button"
       className="platform-field-clear-option"
-      data-testid="platform-field-clear-option"
-      onClick={() => { onHandleClear() }}
+      onClick={onHandleClear}
     >
       Select Short Name
-    </div>
+    </button>
   )
 
-  const renderSelectOptions = () => {
-    setLoading(true)
-    const enums = keyword
+  const existingValue = {
+    value: state.shortName,
+    label: state.shortName
   }
 
-  const Option = (props) => {
-    const {
-      ...data
-    } = props
+  const selectOptions = [{
+    value: '',
+    label: ''
+  }, ...state.keyword.map((currentEnum) => ({
+    value: currentEnum,
+    label: currentEnum
+  }))]
+
+  // This is using the react-select components={{ Option }}, this allows us to
+  // render a custom dropdown. For the case of Short Name, we need hierarchical structure
+  // where it has a title (in this case it's the Type) followed by all the Short Name in that Type
+  // For Example: JET
+  //               A340-600
+  //               NASA S-B VIKING
+  // This Option function will render the list of Types and Short Name in this hierarchy
+  // using the > delimited path that was created during useEffect()
+
+  const Option = ({ ...data }) => {
     const paths = data.value.split('>')
     const value = paths.splice(1)
+
     if (paths[0] === '') {
-      return (displayClearOption())
+      return displayClearOption()
     }
 
     if (value.length > 2) {
@@ -160,69 +185,78 @@ const PlatformField = ({
     }
 
     if (value.length === 1) {
-      return (displayTitle(value[0]))
+      return displayTitle(value[0])
     }
 
-    return (displaySelectOption(value))
+    return displaySelectOption(value)
   }
 
   return (
-    <div className="platform-field" data-testid="platform-field">
-      HERERHERHEHRE
+    <div className="platform-field">
       {/* Short Name field */}
-      {/* Short Name
+      Short Name
       <i className="eui-icon eui-required-o required-icon" />
-      <div data-testid="platform-field__short-name--selector">
+      <div>
         <Select
           id="shortName"
-          key={`platform_short-name--${shouldFocus}`}
-          autoFocus={shouldFocus}
+          key={`platform_short-name--${state.shouldFocus}`}
+          autoFocus={state.shouldFocus}
           placeholder="Select Short Name"
           options={selectOptions}
-          isLoading={loading}
+          isLoading={state.loading}
           components={{ Option }}
           value={existingValue.value ? existingValue : null}
           onFocus={onHandleFocus}
           onBlur={onHandleBlur}
-          menuIsOpen={showMenu}
+          menuIsOpen={state.showMenu}
         />
-      </div> */}
+      </div>
 
       {/* Type field */}
-      {/* <div style={{ marginTop: '8px' }}>
+      <div style={{ marginTop: '8px' }}>
         Type
         <input
           className="platForm-field-text-field"
-          data-testid="platform-field__type"
           name="type"
           placeholder="No available Type"
           disabled
-          value={Type}
+          value={state.type}
         />
-      </div> */}
+      </div>
 
       {/* Long Name field */}
-      {/* <div>
+      <div>
         Long Name
         <input
           className="platForm-field-text-field"
-          data-testid="platform-field__long-name"
           name="longName"
           placeholder="No available Long Name"
           disabled
-          value={LongName}
+          value={state.longName}
         />
-    </div> */}
+      </div>
     </div>
   )
 }
 
 PlatformField.defaultProps = {
-
+  formData: {}
 }
 
 PlatformField.propTypes = {
-
+  formData: PropTypes.shape({
+    Type: PropTypes.string,
+    ShortName: PropTypes.string,
+    LongName: PropTypes.string
+  }),
+  uiSchema: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired,
+  registry: PropTypes.shape({
+    formContext: PropTypes.shape({
+      focusField: PropTypes.string,
+      setFocusField: PropTypes.func
+    }).isRequired
+  }).isRequired
 }
 
 export default PlatformField
