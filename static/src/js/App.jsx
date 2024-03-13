@@ -66,7 +66,7 @@ export const App = () => {
         includeFullAcl: true,
         pageNum: 1,
         pageSize: 2000,
-        permittedUser: 'typical',
+        permittedUser: user.uid,
         target: 'PROVIDER_CONTEXT'
       }
     },

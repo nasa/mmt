@@ -89,7 +89,7 @@ jest.mock('../components/Layout/Layout', () => {
 
 const setup = (overrideMocks, overrideAppContext) => {
   const appContext = {
-    user: {}, // Mock the user object
+    user: { uid: 'typical' }, // Mock the user object
     setProviderId: jest.fn(),
     setProviderIds: jest.fn(),
     ...overrideAppContext
