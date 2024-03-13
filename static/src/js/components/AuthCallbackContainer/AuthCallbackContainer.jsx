@@ -18,9 +18,10 @@ export const AuthCallbackContainer = () => {
   const auid = searchParams.get('auid')
 
   const navigate = useNavigate()
+  const { token } = user
 
   useEffect(() => {
-    if (!isEmpty(user) && !isTokenExpired(user.token)) {
+    if (!isEmpty(user) && !isTokenExpired(token)) {
       navigate(path, { replace: true })
     } else {
       updateLoginInfo(auid)
