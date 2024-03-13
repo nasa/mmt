@@ -32,9 +32,14 @@ const AuthContextProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
   const { loginInfo = {}, launchpadToken, data } = cookies
 
-  const setUser = (info) => {
-    setCookie('loginInfo', info)
-  }
+  const setUser = useCallback((arg) => {
+    if (typeof arg === 'function') {
+      const result = arg(loginInfo)
+      setCookie('loginInfo', result)
+    } else {
+      setCookie('loginInfo', arg)
+    }
+  }, [cookies])
 
   const updateLoginInfo = (auid) => {
     let expires = new Date()
@@ -78,10 +83,10 @@ const AuthContextProvider = ({ children }) => {
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
         const { name: profileName } = await response.json()
-        setUser({
-          ...loginInfo,
+        setUser((prevUser) => ({
+          ...prevUser,
           name: profileName
-        })
+        }))
       }).catch((error) => {
         errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
       })
@@ -93,10 +98,10 @@ const AuthContextProvider = ({ children }) => {
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    setUser({
-      ...loginInfo,
+    setUser((prevUser) => ({
+      ...prevUser,
       token: refreshToken
-    })
+    }))
   }
 
   useEffect(() => {

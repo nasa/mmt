@@ -13,6 +13,7 @@ import isTokenExpired from '../../utils/isTokenExpired'
 export const AuthCallbackContainer = () => {
   const [searchParams] = useSearchParams()
   const { updateLoginInfo, user } = useAppContext()
+
   const path = searchParams.get('target')
   const auid = searchParams.get('auid')
 
