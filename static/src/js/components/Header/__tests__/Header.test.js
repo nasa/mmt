@@ -563,7 +563,7 @@ describe('Header component', () => {
 
         await userEvent.selectOptions(providerDropdown, ['TESTPROV2'])
 
-        waitFor(() => {
+        await waitFor(() => {
           expect(screen.getByRole('option', { name: 'TESTPROV2' }).selected).toBe(true)
         })
 
@@ -571,8 +571,10 @@ describe('Header component', () => {
 
         await user.click(button)
 
-        expect(navigateMock).toHaveBeenCalledTimes(1)
-        expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=&provider=TESTPROV2')
+        await waitFor(() => {
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=&provider=TESTPROV2')
+        })
       })
     })
   })
