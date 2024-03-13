@@ -12,6 +12,7 @@
 
     &:first-child {
       position: relative;
+
       svg {
         position: absolute;
         top: 0.25rem;
@@ -21,6 +22,7 @@
 
     &:last-child {
       position: relative;
+
       svg {
         position: absolute;
         top: -0.25rem;
