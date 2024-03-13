@@ -60,13 +60,15 @@ export const App = () => {
     user, setProviderId, setProviderIds
   } = useAppContext()
 
+  const { uid } = user
+
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
         pageNum: 1,
         pageSize: 2000,
-        permittedUser: user.uid,
+        permittedUser: uid,
         target: 'PROVIDER_CONTEXT'
       }
     },
@@ -88,17 +90,20 @@ export const App = () => {
       }
     },
     onError: (getProviderError) => {
-      // Send the error to the errorLogger
-      errorLogger(getProviderError, 'Error fetching providers')
-      addNotification({
-        message: 'An error occurred while fetching providers.',
-        variant: 'danger'
-      })
+      // Todo: Hackish, we really only want to call getProviders if uid is not null
+      // Seems to be re-fetching whenever uid changes
+      if (uid) {
+        // Send the error to the errorLogger
+        errorLogger(getProviderError, 'Error fetching providers')
+        addNotification({
+          message: 'An error occurred while fetching providers.',
+          variant: 'danger'
+        })
+      }
     }
   })
 
   useEffect(() => {
-    const { uid } = user
     if (uid) {
       getProviders()
     }

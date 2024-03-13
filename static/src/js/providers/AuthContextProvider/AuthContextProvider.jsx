@@ -82,9 +82,10 @@ const AuthContextProvider = ({ children }) => {
     const { name, auid } = loginInfo
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
-        const { name: profileName } = await response.json()
+        const { name: profileName, uid } = await response.json()
         setUser((prevUser) => ({
           ...prevUser,
+          uid,
           name: profileName
         }))
       }).catch((error) => {
