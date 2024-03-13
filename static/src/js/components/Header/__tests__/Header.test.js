@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { BrowserRouter, useNavigate } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
@@ -15,9 +19,12 @@ const setup = ({
   overrideContext = {}
 } = {}) => {
   const context = {
-    user: {},
+    user: {
+      providerId: 'MMT_2'
+    },
     login: jest.fn(),
     logout: jest.fn(),
+    setProviderId: jest.fn(),
     ...overrideContext
   }
   render(
@@ -72,7 +79,9 @@ describe('Header component', () => {
 
     beforeEach(async () => {
       jest.clearAllMocks()
+    })
 
+    test('displays the user name badge', () => {
       setup({
         overrideContext: {
           user: {
@@ -80,36 +89,153 @@ describe('Header component', () => {
             token: {
               tokenValue: 'ABC-1',
               tokenExp: expires.valueOf()
-            }
+            },
+            providerId: 'MMT_2'
           },
           login: jest.fn(),
           logout: jest.fn()
         }
       })
-    })
 
-    test('displays the user name badge', () => {
       expect(screen.getByText('User Name')).toBeInTheDocument()
       expect(screen.getByText('User Name').className).toContain('badge')
       expect(screen.getByText('User Name').className).toContain('bg-blue-light')
     })
 
     test('displays the search form', () => {
+      setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            },
+            providerId: 'MMT_2'
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
       expect(screen.getByRole('textbox')).toBeInTheDocument()
       expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Enter a search term')
     })
 
     test('displays the search submit button', () => {
+      setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            },
+            providerId: 'MMT_2'
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
       expect(screen.getByRole('button', { name: 'Search Collections' })).toBeInTheDocument()
     })
 
     test('does not display the search options dropdown', () => {
+      setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            },
+            providerId: 'MMT_2'
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
       expect(screen.getByText('Search Collections')).not.toHaveClass('show')
+    })
+
+    test('displays the provider dropdown', () => {
+      setup({
+        overrideContext: {
+          user: {
+            name: 'User Name',
+            token: {
+              tokenValue: 'ABC-1',
+              tokenExp: expires.valueOf()
+            },
+            providerId: 'MMT_2'
+          },
+          login: jest.fn(),
+          logout: jest.fn()
+        }
+      })
+
+      expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
+    })
+
+    describe('when a provider is selected from the dropdown', () => {
+      test('updates the selected provider in the state', async () => {
+        const { context } = setup({
+          overrideContext: {
+            user: {
+              name: 'User Name',
+              token: {
+                tokenValue: 'ABC-1',
+                tokenExp: expires.valueOf()
+              },
+              providerId: 'MMT_2'
+            },
+            providerIds: [
+              'MMT_TEST',
+              'MMT_3'
+            ],
+            login: jest.fn(),
+            logout: jest.fn()
+          }
+        })
+
+        const providerDropdownButton = screen.getByRole('button', { name: 'MMT_2' })
+        await userEvent.click(providerDropdownButton)
+
+        await waitFor(() => {
+          expect(providerDropdownButton).toHaveAttribute('aria-expanded', 'true')
+        })
+
+        const providerOption = await screen.findByText('MMT_TEST')
+
+        await userEvent.click(providerOption)
+
+        await waitFor(() => {
+          expect(context.setProviderId).toHaveBeenCalledTimes(1)
+          expect(context.setProviderId).toHaveBeenCalledWith('MMT_TEST')
+        })
+      })
     })
 
     describe('when the search submit dropdown button is clicked', () => {
       test('displays the search submit button', async () => {
         const user = userEvent.setup()
+
+        setup({
+          overrideContext: {
+            user: {
+              name: 'User Name',
+              token: {
+                tokenValue: 'ABC-1',
+                tokenExp: expires.valueOf()
+              },
+              providerId: 'MMT_2'
+            },
+            login: jest.fn(),
+            logout: jest.fn()
+          }
+        })
 
         const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
 
@@ -122,6 +248,22 @@ describe('Header component', () => {
     describe('when the user types a search query', () => {
       test('updates the input', async () => {
         const user = userEvent.setup()
+
+        setup({
+          overrideContext: {
+            user: {
+              name: 'User Name',
+              token: {
+                tokenValue: 'ABC-1',
+                tokenExp: expires.valueOf()
+              },
+              providerId: 'MMT_2'
+            },
+            login: jest.fn(),
+            logout: jest.fn()
+          }
+        })
+
         const searchInput = await screen.getByRole('textbox', { name: 'Search' })
 
         await user.type(searchInput, 'search query')
@@ -136,6 +278,22 @@ describe('Header component', () => {
           useNavigate.mockReturnValue(navigateMock)
 
           const user = userEvent.setup()
+
+          setup({
+            overrideContext: {
+              user: {
+                name: 'User Name',
+                token: {
+                  tokenValue: 'ABC-1',
+                  tokenExp: expires.valueOf()
+                },
+                providerId: 'MMT_2'
+              },
+              login: jest.fn(),
+              logout: jest.fn()
+            }
+          })
+
           const searchInput = await screen.getByRole('textbox', { name: 'Search' })
           const searchSubmitButton = await screen.getByRole('button', { name: 'Search Collections' })
 
@@ -157,6 +315,22 @@ describe('Header component', () => {
           useNavigate.mockReturnValue(navigateMock)
 
           const user = userEvent.setup()
+
+          setup({
+            overrideContext: {
+              user: {
+                name: 'User Name',
+                token: {
+                  tokenValue: 'ABC-1',
+                  tokenExp: expires.valueOf()
+                },
+                providerId: 'MMT_2'
+              },
+              login: jest.fn(),
+              logout: jest.fn()
+            }
+          })
+
           const searchInput = await screen.getByRole('textbox', { name: 'Search' })
 
           await user.type(searchInput, 'search query')

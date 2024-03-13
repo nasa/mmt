@@ -12,16 +12,17 @@ import useAppContext from '../../hooks/useAppContext'
 export const AuthCallbackContainer = () => {
   const [searchParams] = useSearchParams()
   const { updateLoginInfo, user } = useAppContext()
+
   const path = searchParams.get('target')
   const auid = searchParams.get('auid')
 
   const navigate = useNavigate()
 
   useEffect(() => {
+    updateLoginInfo(auid)
+
     if (!isEmpty(user)) {
       navigate(path, { replace: true })
-    } else {
-      updateLoginInfo(auid)
     }
   }, [user])
 
