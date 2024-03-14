@@ -28,13 +28,17 @@ const setup = (overrideUser, overrideSearchParams, overrideProps) => {
   })
   cookie.HAS_DOCUMENT_COOKIE = false
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
   const context = {
     updateLoginInfo: jest.fn(),
     user: overrideUser || {
       name: 'Mock User',
       token: {
         tokenValue: 'mock_token',
-        tokenExp: 1234
+        tokenExp: expires
       }
     }
   }
@@ -73,7 +77,7 @@ describe('AuthCallbackContainer component', () => {
     jest.useRealTimers()
   })
 
-  test('sets the user and redirects', async () => {
+  test('sets the user and calls updateLoginInfo', async () => {
     const navigateSpy = jest.fn()
     jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -81,10 +85,21 @@ describe('AuthCallbackContainer component', () => {
     expires.setMinutes(expires.getMinutes() + 15)
     expires = new Date(expires)
 
-    const context = setup()
+    const context = setup({})
 
     expect(context.updateLoginInfo).toHaveBeenCalledTimes(1)
     expect(context.updateLoginInfo).toHaveBeenCalledWith('mock_user')
+  })
+
+  test('if we have user, navigate', async () => {
+    const navigateSpy = jest.fn()
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
+    setup()
     expect(navigateSpy).toHaveBeenCalledWith('/manage/services', { replace: true })
   })
 

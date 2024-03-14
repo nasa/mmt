@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
 import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import useAppContext from '../../../hooks/useAppContext'
@@ -16,7 +15,12 @@ jest.mock('../../../utils/getConfig', () => ({
 }))
 
 const MockComponent = () => {
-  const { user, login, logout } = useAppContext()
+  const {
+    user,
+    login,
+    logout,
+    setProviderId
+  } = useAppContext()
 
   return (
     <div>
@@ -45,6 +49,17 @@ const MockComponent = () => {
       >
         Log out
       </button>
+      <button
+        type="button"
+        onClick={() => setProviderId('MMT_TEST')}
+      >
+        Set provider id
+      </button>
+      <div>
+        Provider Id:
+        {' '}
+        {user?.providerId}
+      </div>
     </div>
   )
 }
@@ -76,6 +91,8 @@ const setup = (overrideCookie) => {
       </AuthContextProvider>
     </CookiesProvider>
   )
+
+  return cookie
 }
 
 describe('AppContextProvider component', () => {
@@ -123,6 +140,38 @@ describe('AppContextProvider component', () => {
 
         expect(newUserName).not.toBeInTheDocument()
       })
+    })
+
+    describe('setProviderId is triggered', () => {
+      test('sets the provider id', async () => {
+        delete window.location
+        window.location = {}
+
+        setup()
+
+        const user = userEvent.setup()
+        const setProviderButton = screen.getByRole('button', { name: 'Set provider id' })
+
+        await user.click(setProviderButton)
+
+        const providerId = screen.getByText('Provider Id: MMT_TEST', { exact: true })
+
+        expect(providerId).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('cleans up old cookie causing header length issues', () => {
+    test('clears old data cookie when present', async () => {
+      delete window.location
+      window.location = {}
+      const cookie = setup({
+        launchpadToken: 'mock launchpad token',
+        data: 'encoded cookie'
+      })
+
+      // Only launchpadtoken left
+      expect(cookie.cookies).toEqual({ launchpadToken: 'mock launchpad token' })
     })
   })
 })

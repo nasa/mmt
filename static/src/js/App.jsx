@@ -1,7 +1,8 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
+import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -17,7 +18,12 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
 import '../css/index.scss'
-import Providers from './providers/Providers/Providers'
+
+import errorLogger from './utils/errorLogger'
+import useNotificationsContext from './hooks/useNotificationsContext'
+import { GET_ACLS } from './operations/queries/getAcls'
+import useAppContext from './hooks/useAppContext'
+import withProviders from './providers/withProviders/withProviders'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -48,8 +54,63 @@ export const App = () => {
     document.body.classList.remove('is-loading')
   }, [])
 
+  const { addNotification } = useNotificationsContext()
+
+  const {
+    user, setProviderId, setProviderIds
+  } = useAppContext()
+
+  const { uid } = user
+
+  const [getProviders] = useLazyQuery(GET_ACLS, {
+    variables: {
+      params: {
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 2000,
+        permittedUser: uid,
+        target: 'PROVIDER_CONTEXT'
+      }
+    },
+    onCompleted: (getProviderData) => {
+      const { acls } = getProviderData
+      const { items } = acls
+
+      if (items.length > 0) {
+        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+
+        setProviderIds(providerList)
+
+        // Check if user does not have providerId
+        // and set it to the first providerId if available
+        const { providerId } = user
+        if (!providerId && providerList.length > 0) {
+          setProviderId(providerList[0])
+        }
+      }
+    },
+    onError: (getProviderError) => {
+      // Todo: Hackish, we really only want to call getProviders if uid is not null
+      // Seems to be re-fetching whenever uid changes
+      if (uid) {
+        // Send the error to the errorLogger
+        errorLogger(getProviderError, 'Error fetching providers')
+        addNotification({
+          message: 'An error occurred while fetching providers.',
+          variant: 'danger'
+        })
+      }
+    }
+  })
+
+  useEffect(() => {
+    if (uid) {
+      getProviders()
+    }
+  }, [user])
+
   return (
-    <Providers>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -107,8 +168,8 @@ export const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </Providers>
+    </>
   )
 }
 
-export default App
+export default withProviders(App)

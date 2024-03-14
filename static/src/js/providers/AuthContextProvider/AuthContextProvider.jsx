@@ -29,12 +29,17 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [cookies, setCookie] = useCookies(['loginInfo', 'launchpadToken'])
-  const { loginInfo = {}, launchpadToken } = cookies
+  const [cookies, setCookie, removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
+  const { loginInfo = {}, launchpadToken, data } = cookies
 
-  const setUser = (info) => {
-    setCookie('loginInfo', info)
-  }
+  const setUser = useCallback((arg) => {
+    if (typeof arg === 'function') {
+      const result = arg(loginInfo)
+      setCookie('loginInfo', result)
+    } else {
+      setCookie('loginInfo', arg)
+    }
+  }, [cookies])
 
   const updateLoginInfo = (auid) => {
     let expires = new Date()
@@ -49,7 +54,27 @@ const AuthContextProvider = ({ children }) => {
       }
     }
     setUser(info)
+
+    // We've moved the launchpad token into the loginInfo, so no need to store it twice.
+    removeCookie('launchpadToken', {
+      path: '/',
+      domain: '.earthdatacloud.nasa.gov',
+      secure: true
+    })
   }
+
+  useEffect(() => {
+    if (data) {
+    // Todo: https://bugs.earthdata.nasa.gov/browse/MMT-3612
+    // Remove this code after about 2 months, prior versions used data and we just need
+    // to clean up that cookie for users, as it was causing header size issues.
+      removeCookie('data', {
+        path: '/',
+        domain: '.earthdatacloud.nasa.gov',
+        secure: true
+      })
+    }
+  }, [data])
 
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return
@@ -57,11 +82,12 @@ const AuthContextProvider = ({ children }) => {
     const { name, auid } = loginInfo
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
-        const { name: profileName } = await response.json()
-        setUser({
-          ...loginInfo,
+        const { name: profileName, uid } = await response.json()
+        setUser((prevUser) => ({
+          ...prevUser,
+          uid,
           name: profileName
-        })
+        }))
       }).catch((error) => {
         errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
       })
@@ -73,10 +99,10 @@ const AuthContextProvider = ({ children }) => {
   }, [loginInfo])
 
   const handleRefreshToken = (refreshToken) => {
-    setUser({
-      ...loginInfo,
+    setUser((prevUser) => ({
+      ...prevUser,
       token: refreshToken
-    })
+    }))
   }
 
   useEffect(() => {
