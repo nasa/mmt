@@ -18,9 +18,9 @@ const PlatformField = (props) => {
   const [longNameMap, setLongNameMap] = useState({})
   const [state, setState] = useState({
     loading: false,
-    type: Type || '',
-    shortName: ShortName || '',
-    longName: LongName || '',
+    type: Type,
+    shortName: ShortName,
+    longName: LongName,
     keyword: [],
     showMenu: false,
     shouldFocus: false
@@ -28,54 +28,52 @@ const PlatformField = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { uiSchema = {} } = props
-      const controlled = uiSchema['ui:controlled'] || {}
+      const { uiSchema } = props
+      const controlled = uiSchema['ui:controlled']
       const { name, controlName } = controlled
 
-      if (name && controlName) {
-        setState((prevState) => ({
-          ...prevState,
-          loading: true
-        }))
+      setState((prevState) => ({
+        ...prevState,
+        loading: true
+      }))
 
-        const keywords = await fetchCmrKeywords(name)
-        const paths = parseCmrResponse(keywords, controlName)
-        const newPaths = []
+      const keywords = await fetchCmrKeywords(name)
+      const paths = parseCmrResponse(keywords, controlName)
+      const newPaths = []
 
-        // Creating a '>' delimiter map for the platform keywords.
-        // For example: if the values from the parseCmrResponse are
-        //                basis="Air-based Platform",
-        //                Category="Jet", shortName="A340-600"
-        //                LongName="Airbus A340-600"
-        // the '>' delimited path would for this case would be
-        //                Air-based Platforms>Jet>A340-600>Airbus A340-600
-        // This path is being used in the render to display the Short Names (A340-600)
-        // and based on the selected Short Name it will auto populate the Type (JET)
-        // and Long Name (Airbus A340-600) field
+      // Creating a '>' delimiter map for the platform keywords.
+      // For example: if the values from the parseCmrResponse are
+      //                basis="Air-based Platform",
+      //                Category="Jet", shortName="A340-600"
+      //                LongName="Airbus A340-600"
+      // the '>' delimited path would for this case would be
+      //                Air-based Platforms>Jet>A340-600>Airbus A340-600
+      // This path is being used in the render to display the Short Names (A340-600)
+      // and based on the selected Short Name it will auto populate the Type (JET)
+      // and Long Name (Airbus A340-600) field
 
-        paths.forEach((path) => {
-          let newPath = ''
-          path.forEach((value, index) => {
-            newPath += `>${value}`
-            if (index === 3) {
-              setLongNameMap((prevMap) => ({
-                ...prevMap,
-                [path[2]]: value
-              }))
-            }
+      paths.forEach((path) => {
+        let newPath = ''
+        path.forEach((value, index) => {
+          newPath += `>${value}`
+          if (index === 3) {
+            setLongNameMap((prevMap) => ({
+              ...prevMap,
+              [path[2]]: value
+            }))
+          }
 
-            if (!newPaths.includes(newPath.slice(1))) {
-              newPaths.push(newPath.slice(1))
-            }
-          })
+          if (!newPaths.includes(newPath.slice(1))) {
+            newPaths.push(newPath.slice(1))
+          }
         })
+      })
 
-        setState((prevState) => ({
-          ...prevState,
-          loading: false,
-          keyword: newPaths
-        }))
-      }
+      setState((prevState) => ({
+        ...prevState,
+        loading: false,
+        keyword: newPaths
+      }))
     }
 
     fetchData()
@@ -249,14 +247,13 @@ PlatformField.propTypes = {
     ShortName: PropTypes.string,
     LongName: PropTypes.string
   }),
-  uiSchema: PropTypes.shape({}).isRequired,
-  onChange: PropTypes.func.isRequired,
-  registry: PropTypes.shape({
-    formContext: PropTypes.shape({
-      focusField: PropTypes.string,
-      setFocusField: PropTypes.func
-    }).isRequired
-  }).isRequired
+  uiSchema: PropTypes.shape({
+    'ui:controlled': PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      controlName: PropTypes.arrayOf(PropTypes.string).isRequired
+    })
+  }).isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default PlatformField

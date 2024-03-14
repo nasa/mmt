@@ -56,6 +56,11 @@ const setup = (overrideProps = {}) => {
       'Jet',
       'A340-600',
       'Airbus A340-600'
+    ],
+    [
+      'Air-based Platforms',
+      'AIRPLANE',
+      'airplane'
     ]
   ])
 
@@ -110,14 +115,13 @@ describe('Platform Field', () => {
     test('the state is cleared', async () => {
       const { user } = setup({
         formData: {
-          Type: 'Jet',
-          ShortName: 'A360-600',
-          LongName: ''
+          Type: 'airplane',
+          ShortName: 'AIRPLANE'
         }
       })
 
-      expect(screen.getByText('A360-600')).toBeInTheDocument()
-      expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
+      expect(screen.getByText('AIRPLANE')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('airplane')).toBeInTheDocument()
       expect(screen.getByPlaceholderText('No available Long Name')).toBeInTheDocument()
 
       const select = screen.getByRole('combobox')
@@ -126,6 +130,31 @@ describe('Platform Field', () => {
       await user.click(screen.getByText('Clear Short Name'))
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a user clicks away from the menu', () => {
+    test('the screen blurs', async () => {
+      const { user } = setup()
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      const blurClick = (screen.getAllByRole('textbox'))
+      await user.click(blurClick[0])
+
+      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a user selects an option with no longName', () => {
+    test('the screen blurs', async () => {
+      const { user } = setup()
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      await user.click(screen.getByText('airplane'))
     })
   })
 })
