@@ -41,17 +41,6 @@ const Redirects = redirectKeys.map(
   )
 )
 
-// const getPermittedUser = () => {
-//   // Logic to determine permittedUser based on environment
-//   // For development environment
-//   if (process.env.NODE_ENV === 'development') {
-//     return 'typical' // Or any other value for development
-//   }
-
-//   // For SIT environment
-//   return process.env.REACT_APP_SIT_PERMITTED_USER
-// }
-
 /**
  * Renders the `App` component
  *
