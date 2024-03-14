@@ -190,12 +190,12 @@ const Header = () => {
             }
             {
               user?.name && (
-                <div className="d-flex">
-                  <Dropdown className="mb-2" align="end">
+                <div className="d-flex mb-2">
+                  <Dropdown align="end">
                     <Dropdown.Toggle
-                      id="dropdown-basic"
+                      id="user-dropdown"
                       as={Badge}
-                      className="bg-blue-light pointer"
+                      className="bg-blue-light pointer me-1"
                       role="button"
                     >
                       {`${user.name} `}
@@ -225,23 +225,20 @@ const Header = () => {
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-
-                  <Dropdown className="me-0.5" align="end">
-                    <Dropdown align="end">
-                      <Dropdown.Toggle
-                        id="dropdown-basic"
-                        as={Badge}
-                        className="pointer"
-                        role="button"
-                      >
-                        {user.providerId}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu
-                        className="bg-blue-light border-blue-light shadow text-white"
-                      >
-                        {renderProviderDropdownItems()}
-                      </Dropdown.Menu>
-                    </Dropdown>
+                  <Dropdown align="end">
+                    <Dropdown.Toggle
+                      id="provider-dropdown"
+                      as={Badge}
+                      className="pointer bg-blue-light"
+                      role="button"
+                    >
+                      {user.providerId}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                      className="bg-blue-light border-blue-light shadow text-white"
+                    >
+                      {renderProviderDropdownItems()}
+                    </Dropdown.Menu>
                   </Dropdown>
                 </div>
               )
@@ -275,6 +272,7 @@ const Header = () => {
                           className="d-flex align-items-center col-4 border-0"
                           variant="indigo"
                           onClick={onSearchSubmit}
+                          type="submit"
                         >
                           <FaSearch className="me-2" />
                           {`Search ${capitalize(searchType)}`}
