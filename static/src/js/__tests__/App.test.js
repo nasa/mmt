@@ -87,9 +87,14 @@ jest.mock('../components/Layout/Layout', () => {
   })
 })
 
+jest.mock('../utils/getPermittedUser', () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue('typical')
+}))
+
 const setup = (overrideMocks, overrideAppContext) => {
   const appContext = {
-    user: { uid: 'typical' }, // Mock the user object
+    user: { uid: 'typical' },
     setProviderId: jest.fn(),
     setProviderIds: jest.fn(),
     ...overrideAppContext
@@ -235,6 +240,7 @@ describe('App component', () => {
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
+        expect(ManageCmrPage).toHaveBeenCalledTimes(3)
         expect(ManageCmrPage).toHaveBeenCalledTimes(3)
       })
 

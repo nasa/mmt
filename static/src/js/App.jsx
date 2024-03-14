@@ -24,6 +24,7 @@ import useNotificationsContext from './hooks/useNotificationsContext'
 import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
+import getPermittedUser from './utils/getPermittedUser'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -39,6 +40,17 @@ const Redirects = redirectKeys.map(
     />
   )
 )
+
+// const getPermittedUser = () => {
+//   // Logic to determine permittedUser based on environment
+//   // For development environment
+//   if (process.env.NODE_ENV === 'development') {
+//     return 'typical' // Or any other value for development
+//   }
+
+//   // For SIT environment
+//   return process.env.REACT_APP_SIT_PERMITTED_USER
+// }
 
 /**
  * Renders the `App` component
@@ -62,13 +74,15 @@ export const App = () => {
 
   const { uid } = user
 
+  const permittedUser = getPermittedUser()
+
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
         pageNum: 1,
         pageSize: 2000,
-        permittedUser: uid,
+        permittedUser,
         target: 'PROVIDER_CONTEXT'
       }
     },
