@@ -30,9 +30,9 @@ const config = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/static/src/js/schemas'
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "babel",

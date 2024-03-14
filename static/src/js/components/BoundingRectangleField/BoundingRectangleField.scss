@@ -1,5 +1,25 @@
-.bounding-rectangle-field {
-  &__coordinate-input {
-      width: 100px;
+.bounding-rectangle-container {
+  display: flex;
+  flex-direction: column;
+
+  .bounding-rectangle-north-row,
+  .bounding-rectangle-south-row {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .bounding-rectangle-east-west-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bounding-rectangle-coordinate-label {
+    text-align: center;
+  }
+
+  .bounding-rectangle-coordinate {
+    text-align: center;
+    width: 200px;  
   }
 }
+

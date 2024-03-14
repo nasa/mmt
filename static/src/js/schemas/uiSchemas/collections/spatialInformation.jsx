@@ -286,7 +286,7 @@ const spatialInformationUiSchema = {
         BoundingRectangles: {
           'ui:heading-level': 'h6',
           items: {
-            'ui:field': 'boundingRectangle'
+            'ui:field': 'BoundingRectangle'
           }
         },
         GPolygons: {
