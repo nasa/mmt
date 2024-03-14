@@ -3,19 +3,19 @@ input[type=text] {
 }
 
 .platform-field-select-title {
-  font-weight: bold;
   margin-left: 8px;
+  font-weight: bold;
   font-size: 1.2rem;
 }
 
 .platform-field-select-option {
-  background: none;
-  border: none;
   padding: 0;
+  border: none;
+  background: none;
   margin: 0;
-  font: inherit;
-  cursor: pointer;
   color: inherit;
+  cursor: pointer;
+  font: inherit;
   margin-top: 0px;
   padding-left: 20px;
   font-size: 1.1rem;

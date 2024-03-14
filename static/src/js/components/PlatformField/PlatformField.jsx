@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 import parseCmrResponse from '../../utils/parseCmrResponse'
-import './PlatformField.css'
+import './PlatformField.scss'
 
 /** This is custom field found with Collections >> acquisitionInformation
  *
