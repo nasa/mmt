@@ -194,7 +194,7 @@ const Header = () => {
             }
             {
               user?.name && (
-                <div className="d-flex mb-2">
+                <div className="d-flex p-1 mb-2 rounded bg-blue-light">
                   <Dropdown align="end">
                     <Dropdown.Toggle
                       id="user-dropdown"
@@ -233,7 +233,7 @@ const Header = () => {
                     <Dropdown.Toggle
                       id="provider-dropdown"
                       as={Badge}
-                      className="pointer bg-blue-light"
+                      className="pointer"
                       role="button"
                     >
                       {user.providerId}
