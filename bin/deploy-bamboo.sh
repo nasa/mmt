@@ -65,7 +65,6 @@ dockerRun() {
         -e "SUBNET_ID_A=$bamboo_SUBNET_ID_A" \
         -e "SUBNET_ID_B=$bamboo_SUBNET_ID_B" \
         -e "SUBNET_ID_C=$bamboo_SUBNET_ID_C" \
-	    -e "LAMBDA_SECURITY_GROUP_ID=$bamboo_LAMBDA_SECURITY_GROUP_ID" \
         -e "VPC_ID=$bamboo_VPC_ID" \
         $dockerTag "$@"
 }

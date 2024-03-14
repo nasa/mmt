@@ -40,13 +40,6 @@ edlProfile:
         path: edl-profile
 gkrKeywordRecommendations:
   handler: serverless/src/gkrKeywordRecommendations/handler.default
-  vpc:
-    securityGroupIds:
-      - ${env:LAMBDA_SECURITY_GROUP_ID}
-    subnetIds:
-      - ${env:SUBNET_ID_A}
-      - ${env:SUBNET_ID_B}
-      - ${env:SUBNET_ID_C}
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
   events:
     - http:
@@ -55,13 +48,6 @@ gkrKeywordRecommendations:
         path: gkr-keyword-recommendations
 gkrSendFeedback:
   handler: serverless/src/gkrSendFeedback/handler.default
-  vpc:
-    securityGroupIds:
-      - ${env:LAMBDA_SECURITY_GROUP_ID}
-    subnetIds:
-      - ${env:SUBNET_ID_A}
-      - ${env:SUBNET_ID_B}
-      - ${env:SUBNET_ID_C}
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
   events:
     - http:
