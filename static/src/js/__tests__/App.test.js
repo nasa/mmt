@@ -87,11 +87,6 @@ jest.mock('../components/Layout/Layout', () => {
   })
 })
 
-jest.mock('../utils/getPermittedUser', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue('typical')
-}))
-
 const setup = (overrideMocks, overrideAppContext) => {
   const appContext = {
     user: { uid: 'typical' },
