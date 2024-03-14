@@ -75,11 +75,15 @@ const Header = () => {
 
   useEffect(() => {
     const currentSearchType = searchParams.get('type')
+    const currentSearchProvider = searchParams.get('provider')
 
-    // If there is a search type defined in the url, use that. Otherwise, "collections"
-    // will be default
+    // If there is a search type or provider defined in the url, use that.
     if (currentSearchType) {
-      setSearchType(searchParams.get('type'))
+      setSearchType(currentSearchType)
+    }
+
+    if (currentSearchProvider) {
+      setSearchProvider(currentSearchProvider)
     }
   }, [searchParams])
 
@@ -359,7 +363,6 @@ const Header = () => {
                                   name="provider"
                                   size="sm"
                                   value={searchProvider}
-                                  defaultValue=""
                                   onChange={onSearchProviderChange}
                                 >
                                   <option value="">Search all providers</option>

@@ -512,6 +512,23 @@ describe('Header component', () => {
   })
 
   describe('when setting the provider', () => {
+    test('selects the search provider select', async () => {
+      const { user } = setup({
+        loggedIn: true,
+        overrideInitalEntries: ['/?provider=TESTPROV']
+      })
+
+      const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+      await user.click(searchOptionsButton)
+
+      const providerDropdown = screen.getByRole('combobox')
+
+      await waitFor(() => {
+        expect(providerDropdown).toHaveValue('TESTPROV')
+      })
+    })
+
     test('selects the provider', async () => {
       const { user } = setup({
         loggedIn: true
