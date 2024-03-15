@@ -12,7 +12,9 @@ const getPermittedUser = (user) => {
   }
 
   // For SIT environment
-  return user?.uid
+  const { uid } = user
+
+  return uid
 }
 
 export default getPermittedUser

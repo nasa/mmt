@@ -236,7 +236,6 @@ describe('App component', () => {
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
         expect(ManageCmrPage).toHaveBeenCalledTimes(3)
-        expect(ManageCmrPage).toHaveBeenCalledTimes(3)
       })
 
       window.history.pushState({}, '', '/')
