@@ -26,6 +26,7 @@ import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import ManageCollectionAssociation from './components/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
+import getPermittedUser from './utils/getPermittedUser'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -64,13 +65,15 @@ export const App = () => {
 
   const { uid } = user
 
+  const permittedUser = getPermittedUser()
+
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
         includeFullAcl: true,
         pageNum: 1,
         pageSize: 2000,
-        permittedUser: uid,
+        permittedUser,
         target: 'PROVIDER_CONTEXT'
       }
     },
