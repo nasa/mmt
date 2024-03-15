@@ -9,6 +9,7 @@ import {
 import DraftPreview from '../../components/DraftPreview/DraftPreview'
 import DraftList from '../../components/DraftList/DraftList'
 import MetadataForm from '../../components/MetadataForm/MetadataForm'
+import ManageCollectionAssociation from '../../components/ManageCollectionAssociation/ManageCollectionAssociation'
 import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
 import CollectionAssociation from '../../components/CollectionAssociation/CollectionAssociation'
 

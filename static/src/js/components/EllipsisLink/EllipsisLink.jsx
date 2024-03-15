@@ -40,6 +40,7 @@ const EllipsisLink = ({ children, to }) => {
 
   const linkContent = (
     <Link
+      target="_blank"
       ref={ref}
       className="d-block col-12 text-truncate fw-bold"
       style={{ maxWidth: '15rem' }}

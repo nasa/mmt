@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_TOOL = gql`
-  query Tool($params: ToolInput){
+  query Tool($params: ToolInput,  $collectionsParams: CollectionsInput){
     tool(params: $params) {
       accessConstraints
       ancillaryKeywords
@@ -36,6 +36,16 @@ export const GET_TOOL = gql`
       useConstraints
       version
       versionDescription
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          entryTitle
+          shortName
+          version
+          provider
+        }
+      }
   }
 }
 `
