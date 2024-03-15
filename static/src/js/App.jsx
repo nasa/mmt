@@ -65,7 +65,7 @@ export const App = () => {
 
   const { uid } = user
 
-  const permittedUser = getPermittedUser()
+  const permittedUser = getPermittedUser(user)
 
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
