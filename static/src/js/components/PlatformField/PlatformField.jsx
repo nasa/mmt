@@ -12,15 +12,17 @@ import './PlatformField.scss'
  * @property {Object} uiSchema uiSchema for the field being shown.
  * @property {Object} formData Saved Draft
  */
-const PlatformField = (props) => {
-  const { formData } = props
+const PlatformField = ({ onChange, uiSchema, formData }) => {
   const { Type = '', ShortName = '', LongName = '' } = formData
+  const [type] = useState(Type)
+  const [shortName] = useState(ShortName)
+  const [longName] = useState(LongName)
   const [longNameMap, setLongNameMap] = useState({})
   const [state, setState] = useState({
     loading: false,
-    type: Type,
-    shortName: ShortName,
-    longName: LongName,
+    type,
+    shortName,
+    longName,
     keyword: [],
     showMenu: false,
     shouldFocus: false
@@ -28,7 +30,6 @@ const PlatformField = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { uiSchema } = props
       const controlled = uiSchema['ui:controlled']
       const { name, controlName } = controlled
 
@@ -80,13 +81,13 @@ const PlatformField = (props) => {
   }, [])
 
   const onHandleMouseDown = (values) => {
-    const [type, shortName] = values
-    const longName = longNameMap[shortName] || ''
+    const [valueType, valueShortName] = values
+    const valueLongName = longNameMap[valueShortName] || ''
     setState((prevState) => ({
       ...prevState,
-      type,
-      shortName,
-      longName,
+      type: valueType,
+      shortName: valueShortName,
+      longName: valueLongName,
       showMenu: false,
       shouldFocus: false
     }))
@@ -109,7 +110,6 @@ const PlatformField = (props) => {
   }
 
   const onHandleClear = () => {
-    const { onChange } = props
     setState((prevState) => ({
       ...prevState,
       type: '',
@@ -194,7 +194,7 @@ const PlatformField = (props) => {
       {/* Short Name field */}
       Short Name
       <i className="eui-icon eui-required-o required-icon" />
-      <div>
+      <div className="mt-1">
         <Select
           id="shortName"
           key={`platform_short-name--${state.shouldFocus}`}
@@ -211,7 +211,7 @@ const PlatformField = (props) => {
       </div>
 
       {/* Type field */}
-      <div style={{ marginTop: '8px' }}>
+      <div className="mt-2">
         Type
         <input
           className="platForm-field-text-field"
@@ -223,7 +223,7 @@ const PlatformField = (props) => {
       </div>
 
       {/* Long Name field */}
-      <div>
+      <div className="mt-2">
         Long Name
         <input
           className="platForm-field-text-field"
