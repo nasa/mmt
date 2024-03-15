@@ -12,6 +12,7 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.scss'
+import KeywordRecommendations from '../KeywordRecommendations/KeywordRecommendations'
 /**
  * KeywordPicker
  * @typedef {Object} KeywordPicker
@@ -339,6 +340,8 @@ const KeywordPicker = ({
 
   return (
     <div className="keyword-picker pb-5">
+
+      <KeywordRecommendations />
       <div className="mb-3 h4">
         <span>
           {title}

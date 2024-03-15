@@ -15,31 +15,28 @@ export const AuthRequiredContainer = ({
 
   const location = useLocation()
   const navigate = useNavigate()
-  useEffect(() => {
-    const { apiHost } = getApplicationConfig()
+  // useEffect(() => {
+  //   const { apiHost } = getApplicationConfig()
 
-    if (isExpired) {
-      const nextPath = location.pathname + location.search
-      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
-    }
-  }, [])
+  //   if (isExpired) {
+  //     const nextPath = location.pathname + location.search
+  //     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (isExpired) {
-      navigate('/', { replace: true })
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (isExpired) {
+  //     navigate('/', { replace: true })
+  //   }
+  // }, [user])
 
-  if (!isExpired) {
-    return children
-  }
+  // If (!isExpired) {
+  return children
+  // }
 
-  return (
-    <div data-testid="auth-required" className="route-wrapper" />
-  )
-}
-
-AuthRequiredContainer.defaultProps = {
+  // return (
+  //   <div data-testid="auth-required" className="route-wrapper" />
+  // )
 }
 
 AuthRequiredContainer.propTypes = {
