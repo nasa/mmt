@@ -9,3 +9,11 @@
   }
 }
 
+/** SCSS to removes up/down arrows when input type=number */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
