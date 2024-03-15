@@ -132,4 +132,31 @@ describe('handleShortNameChange', () => {
     // Ensure that RelatedUrls are not updated
     expect(props.formData.ContactInformation.RelatedUrls.length).toBe(0)
   })
+
+  it('should call onChange after a timeout to avoid formData overwrite', () => {
+    const name = 'ShortName'
+    const value = 'exampleShortName'
+    const props = {
+      formData: {
+        ContactInformation: {
+          RelatedUrls: []
+        }
+      },
+      onChange: jest.fn()
+    }
+    const state = {
+      cmrResponse: {}
+    }
+
+    // Mock getKeywords to return expected values
+    getKeywords.mockReturnValueOnce(['ExampleLongName'])
+    getKeywords.mockReturnValueOnce(['ExampleURL'])
+
+    handleShortNameChange(name, value, props, state)
+
+    // Ensure that the setTimeout callback is executed
+    jest.advanceTimersByTime(1000)
+
+    expect(props.onChange).toHaveBeenCalledTimes(1)
+  })
 })
