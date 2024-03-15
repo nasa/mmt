@@ -11,6 +11,13 @@ provider:
   endpointType: PRIVATE
   environment:
     EDL_PASSWORD: ${env:EDL_PASSWORD, ''}
+  vpc:
+    securityGroupIds:
+      - Fn::ImportValue: ${self:provider.stage}-LambdaSecurityGroup
+    subnetIds:
+      - ${env:SUBNET_ID_A, 'subnetIdA'}
+      - ${env:SUBNET_ID_B, 'subnetIdB'}
+      - ${env:SUBNET_ID_C, 'subnetIdC'}
 
   # Prevent Serverless from attempting to modify the deployment bucket policy as NGAP does not allow it
   deploymentBucket:
