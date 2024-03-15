@@ -27,6 +27,8 @@ import withProviders from './providers/withProviders/withProviders'
 import ManageCollectionAssociation from './components/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 import getPermittedUser from './utils/getPermittedUser'
+import ManageCollectionAssociation from './components/ManageCollectionAssociation/ManageCollectionAssociation'
+import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
