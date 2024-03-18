@@ -103,6 +103,7 @@ const Table = ({
                       classNames([
                         'border-start-0',
                         'border-end-0',
+                        'align-middle',
                         {
                           [className]: className,
                           [`text-${align}`]: align

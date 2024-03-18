@@ -10,8 +10,9 @@ export const singlePageCollectionSearch = {
     variables: {
       params: {
         keyword: 'test',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -93,6 +94,7 @@ export const multiPageCollectionSearchPage1 = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -201,6 +203,7 @@ export const multiPageCollectionSearchPage2 = {
         keyword: 'test',
         limit: 3,
         offset: 3,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -297,6 +300,7 @@ export const multiPageCollectionSearchPage1Asc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: '-shortName'
       }
@@ -405,6 +409,7 @@ export const multiPageCollectionSearchPage1Desc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: 'shortName'
       }
@@ -513,6 +518,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: '-entryTitle'
       }
@@ -619,8 +625,9 @@ export const singlePageCollectionSearchError = {
     variables: {
       params: {
         keyword: 'test',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -643,8 +650,9 @@ export const singlePageServicesSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null
       }
     }
@@ -673,8 +681,9 @@ export const singlePageVariablesSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null
       }
     }
@@ -703,8 +712,40 @@ export const singlePageToolsSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      tools: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'T1000000000-TESTPROV',
+            name: 'Tool Name 1',
+            longName: 'Tool Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const singlePageToolsSearchWithProvider = {
+  request: {
+    query: GET_TOOLS,
+    variables: {
+      params: {
+        keyword: null,
+        limit: 25,
+        offset: 0,
+        provider: 'TESTPROV',
         sortKey: null
       }
     }

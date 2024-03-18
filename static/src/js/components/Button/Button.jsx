@@ -92,9 +92,9 @@ const Button = ({
             className={
               classNames([
                 {
-                  'me-0': !children,
-                  'me-1': children && size !== 'lg',
-                  'me-2': children && size === 'lg'
+                  'me-0': iconOnly,
+                  'me-1': !iconOnly && size !== 'lg',
+                  'me-2': !iconOnly && size === 'lg'
                 }
               ])
             }
