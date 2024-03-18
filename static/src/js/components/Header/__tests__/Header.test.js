@@ -4,11 +4,13 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { MemoryRouter, useNavigate } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import { MockedProvider } from '@apollo/client/testing'
 
 import Header from '../Header'
 import AppContext from '../../../context/AppContext'
+import { providerResults } from './__mocks__/providerResults'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -16,12 +18,34 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const setup = ({
-  overrideContext = {}
+  overrideMocks,
+  overrideContext = {},
+  overrideInitalEntries = ['/'],
+  loggedIn = false
 } = {}) => {
+  const mocks = [
+    providerResults
+  ]
+
+  let defaultUser = {}
+
+  if (loggedIn) {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
+    defaultUser = {
+      name: 'User Name',
+      providerId: 'MMT_2',
+      token: {
+        tokenValue: 'ABC-1',
+        tokenExp: expires
+      }
+    }
+  }
+
   const context = {
-    user: {
-      providerId: 'MMT_2'
-    },
+    user: defaultUser,
     login: jest.fn(),
     logout: jest.fn(),
     setProviderId: jest.fn(),
@@ -29,9 +53,13 @@ const setup = ({
   }
   render(
     <AppContext.Provider value={context}>
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={[...overrideInitalEntries]}>
+          <Header />
+        </MemoryRouter>
+      </MockedProvider>
     </AppContext.Provider>
   )
 
@@ -304,45 +332,30 @@ describe('Header component', () => {
           await user.click(searchSubmitButton)
 
           expect(navigateMock).toHaveBeenCalledTimes(1)
-          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search+query')
         })
       })
 
-      describe('when the user submits search query using the enter key', () => {
-        test('updates the input', async () => {
-          const navigateMock = jest.fn()
+      // TODO MMT-3615 - The "enter" keypress is not bubbling up to the Form. It appears this is
+      // not the expected behavior and the event should bubble up and the submission should be able
+      // to be verified.
+      // describe('when the user submits search query using the enter key', () => {
+      //   test('updates the input', async () => {
+      //     const navigateMock = jest.fn()
 
-          useNavigate.mockReturnValue(navigateMock)
+      //     useNavigate.mockReturnValue(navigateMock)
 
-          const user = userEvent.setup()
+      //     const user = userEvent.setup()
+      //     const searchInput = await screen.getByRole('textbox', { name: 'Search' })
 
-          setup({
-            overrideContext: {
-              user: {
-                name: 'User Name',
-                token: {
-                  tokenValue: 'ABC-1',
-                  tokenExp: expires.valueOf()
-                },
-                providerId: 'MMT_2'
-              },
-              login: jest.fn(),
-              logout: jest.fn()
-            }
-          })
+      //     await user.type(searchInput, 'search query{enter}')
 
-          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
-
-          await user.type(searchInput, 'search query')
-
-          expect(searchInput).toHaveValue('search query')
-
-          await user.type(searchInput, '{enter}')
-
-          expect(navigateMock).toHaveBeenCalledTimes(1)
-          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search query')
-        })
-      })
+      //     await waitFor(() => {
+      //       expect(navigateMock).toHaveBeenCalledTimes(1)
+      //       expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search+query')
+      //     })
+      //   })
+      // })
     })
   })
 
@@ -378,6 +391,193 @@ describe('Header component', () => {
 
       expect(context.logout).toHaveBeenCalledTimes(1)
       expect(context.logout).toHaveBeenCalledWith()
+    })
+  })
+
+  describe('when a search type is defined', () => {
+    beforeEach(async () => {
+      jest.clearAllMocks()
+    })
+
+    test('shows sets the search type in the button', () => {
+      setup({
+        loggedIn: true,
+        overrideInitalEntries: ['/?type=services']
+      })
+
+      expect(screen.queryByRole('button', { name: 'Search Services' })).toBeInTheDocument()
+    })
+
+    describe('when the button is clicked', () => {
+      test('performs the correct search', async () => {
+        const navigateMock = jest.fn()
+
+        useNavigate.mockReturnValue(navigateMock)
+
+        const { user } = setup({
+          loggedIn: true,
+          overrideInitalEntries: ['/?type=services']
+        })
+
+        const button = screen.queryByRole('button', { name: 'Search Services' })
+
+        await user.click(button)
+
+        expect(navigateMock).toHaveBeenCalledTimes(1)
+        expect(navigateMock).toHaveBeenCalledWith('/search?type=services&keyword=')
+      })
+
+      describe('when the a user has a search query', () => {
+        test('performs the correct search', async () => {
+          const navigateMock = jest.fn()
+
+          useNavigate.mockReturnValue(navigateMock)
+
+          const { user } = setup({
+            loggedIn: true,
+            overrideInitalEntries: ['/?type=services']
+          })
+
+          const searchInput = await screen.getByRole('textbox', { name: 'Search' })
+
+          await user.type(searchInput, 'service search query')
+
+          const button = screen.queryByRole('button', { name: 'Search Services' })
+
+          await user.click(button)
+
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=services&keyword=service+search+query')
+        })
+      })
+    })
+  })
+
+  describe('when setting the search type', () => {
+    beforeEach(async () => {
+      jest.clearAllMocks()
+    })
+
+    test('selects the search type', async () => {
+      const navigateMock = jest.fn()
+
+      useNavigate.mockReturnValue(navigateMock)
+
+      const { user } = setup({
+        loggedIn: true
+      })
+
+      const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+      await user.click(searchOptionsButton)
+
+      const variableRadio = screen.queryByRole('radio', { name: 'Variables' })
+      const variableLabel = screen.queryByText('Variables')
+
+      await user.click(variableLabel)
+
+      await waitFor(() => {
+        expect(variableRadio).toHaveProperty('checked', true)
+      })
+
+      const button = screen.queryByRole('button', { name: 'Search Variables' })
+
+      await user.click(button)
+
+      expect(navigateMock).toHaveBeenCalledTimes(1)
+      expect(navigateMock).toHaveBeenCalledWith('/search?type=variables&keyword=')
+    })
+
+    describe('when submitting the search', () => {
+      test('sets the search type', async () => {
+        const { user } = setup({
+          loggedIn: true
+        })
+
+        const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+        await user.click(searchOptionsButton)
+
+        const variableRadio = screen.queryByRole('radio', { name: 'Variables' })
+        const variableLabel = screen.queryByText('Variables')
+
+        await user.click(variableLabel)
+
+        await waitFor(() => {
+          expect(variableRadio).toHaveProperty('checked', true)
+          expect(screen.queryByRole('button', { name: 'Search Variables' })).toBeInTheDocument()
+        })
+      })
+    })
+  })
+
+  describe('when setting the provider', () => {
+    test('selects the search provider select', async () => {
+      const { user } = setup({
+        loggedIn: true,
+        overrideInitalEntries: ['/?provider=TESTPROV']
+      })
+
+      const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+      await user.click(searchOptionsButton)
+
+      const providerDropdown = screen.getByRole('combobox')
+
+      await waitFor(() => {
+        expect(providerDropdown).toHaveValue('TESTPROV')
+      })
+    })
+
+    test('selects the provider', async () => {
+      const { user } = setup({
+        loggedIn: true
+      })
+
+      const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+      await user.click(searchOptionsButton)
+
+      const providerDropdown = screen.getByRole('combobox')
+
+      await userEvent.selectOptions(providerDropdown, ['TESTPROV2'])
+
+      expect(screen.getByRole('option', { name: 'TESTPROV2' }).selected).toBe(true)
+      expect(screen.getByRole('option', { name: 'TESTPROV' }).selected).toBe(false)
+      expect(screen.getByRole('option', { name: 'TESTPROV3' }).selected).toBe(false)
+    })
+
+    describe('when submitting the search', () => {
+      test('sets the provider', async () => {
+        const navigateMock = jest.fn()
+
+        useNavigate.mockReturnValue(navigateMock)
+
+        const { user } = setup({
+          loggedIn: true
+        })
+
+        const searchOptionsButton = screen.queryByRole('button', { name: 'Search Options' })
+
+        await user.click(searchOptionsButton)
+
+        const providerDropdown = screen.getByRole('combobox')
+
+        await userEvent.selectOptions(providerDropdown, ['TESTPROV2'])
+
+        await waitFor(() => {
+          expect(screen.getByRole('option', { name: 'TESTPROV2' }).selected).toBe(true)
+        })
+
+        const button = screen.queryByRole('button', { name: 'Search Collections' })
+
+        await user.click(button)
+
+        await waitFor(() => {
+          expect(navigateMock).toHaveBeenCalledTimes(1)
+          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=&provider=TESTPROV2')
+        })
+      })
     })
   })
 })

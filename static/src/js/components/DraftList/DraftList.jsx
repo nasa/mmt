@@ -19,7 +19,6 @@ import parseError from '../../utils/parseError'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
 import Table from '../Table/Table'
-import Pagination from '../Pagination/Pagination'
 import Button from '../Button/Button'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import Page from '../Page/Page'
@@ -28,6 +27,7 @@ import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 import conceptIdTypes from '../../constants/conceptIdTypes'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import EllipsisText from '../EllipsisText/EllipsisText'
+import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 
 const DraftList = ({ draftType }) => {
   const { user } = useAppContext()
@@ -44,8 +44,6 @@ const DraftList = ({ draftType }) => {
     limit
   })
   const { count, items = [] } = drafts
-
-  const totalPages = Math.ceil(count / limit)
 
   const noDataMessage = `No ${draftType} drafts exist for the provider ${providerId}`
 
@@ -75,68 +73,6 @@ const DraftList = ({ draftType }) => {
     setActivePage(nextPage)
   }
 
-  // // Building a Table using Data in items
-  // const data = (items.map((item) => {
-  //   const {
-  //     conceptId,
-  //     revisionDate,
-  //     ummMetadata
-  //   } = item
-  //   const {
-  //     ShortName,
-  //     EntryTitle,
-  //     Name,
-  //     LongName
-  //   } = ummMetadata || {}
-
-  //   const draftLink = `/drafts/${`${paramDraftType}`}/${conceptId}`
-
-  //   return (
-  //     {
-  //       key: conceptId,
-  //       cells:
-  //         [
-  //           {
-  //             value:
-  //             (
-  //               <Link to={draftLink}>
-  //                 {Name || ShortName || '<Blank Name>'}
-  //               </Link>
-  //             )
-  //           },
-  //           {
-  //             value:
-  //             (
-  //               LongName || EntryTitle || '<Untitled Record>'
-  //             )
-  //           },
-  //           {
-  //             value:
-  //             (
-  //               new Date(revisionDate).toISOString().split('T')[0]
-  //             )
-  //           },
-  //           {
-  //             value:
-  //             (
-  //               <div className="d-flex">
-  //                 <Button
-  //                   className="d-flex"
-  //                   Icon={FaFileDownload}
-  //                   onClick={() => handleDownloadClick(conceptId)}
-  //                   variant="secondary"
-  //                   size="sm"
-  //                 >
-  //                   Download JSON
-  //                 </Button>
-  //               </div>
-  //             )
-  //           }
-  //         ]
-  //     }
-  //   )
-  // })
-  // )
   const buildPrimaryEllipsisLink = useCallback((originalCellData, rowData) => {
     const { conceptId } = rowData
 
@@ -238,15 +174,6 @@ const DraftList = ({ draftType }) => {
     setColumns(newColumns)
   }, [])
 
-  const currentPageIndex = Math.floor(offset / limit)
-  const firstResultIndex = currentPageIndex * limit
-  const isLastPage = totalPages === activePage
-  const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
-
-  const paginationMessage = count > 0
-    ? `Showing ${totalPages > 1 ? `${firstResultIndex + 1}-${lastResultIndex} of` : ''} ${count} ${draftType.toLowerCase()} ${pluralize('draft', count)}`
-    : `No ${pluralize(draftType.toLowerCase(), count)} drafts found`
-
   return (
     <Page
       title={`${providerId} ${draftType} Drafts`}
@@ -274,54 +201,83 @@ const DraftList = ({ draftType }) => {
           {error && <ErrorBanner message={parseError(error)} />}
           {
             !error && (
-              <>
-                <Row className="d-flex justify-content-between align-items-center mb-4">
-                  <Col className="mb-4 flex-grow-1" xs="auto">
-                    {
-                      !count && loading && (
-                        <div className="w-100">
-                          <span className="d-block">
-                            <Placeholder as="span" animation="glow">
-                              <Placeholder xs={8} />
-                            </Placeholder>
-                          </span>
-                        </div>
-                      )
-                    }
-                    {
-                      (!!count || (!loading && !count)) && (
-                        <span className="text-secondary fw-bolder">{paginationMessage}</span>
-                      )
-                    }
-                  </Col>
-                  <Col className="mb-4 flex-grow-1" xs="auto" />
-                  {
-                    totalPages > 1 && (
-                      <Col xs="auto">
-                        <Pagination
+              <ControlledPaginatedContent
+                activePage={activePage}
+                count={count}
+                limit={limit}
+                setPage={setPage}
+              >
+                {
+                  ({
+                    totalPages,
+                    pagination,
+                    firstResultPosition,
+                    lastResultPosition
+                  }) => {
+                    const paginationMessage = count > 0
+                      ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} ${draftType.toLowerCase()} ${pluralize('draft', count)}`
+                      : `No ${pluralize(draftType.toLowerCase(), count)} drafts found`
+
+                    return (
+                      <>
+                        <Row className="d-flex justify-content-between align-items-center mb-4">
+                          <Col className="mb-4 flex-grow-1" xs="auto">
+                            {
+                              !count && loading && (
+                                <div className="w-100">
+                                  <span className="d-block">
+                                    <Placeholder as="span" animation="glow">
+                                      <Placeholder xs={8} />
+                                    </Placeholder>
+                                  </span>
+                                </div>
+                              )
+                            }
+                            {
+                              (!!count || (!loading && !count)) && (
+                                <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                              )
+                            }
+                          </Col>
+                          <Col className="mb-4 flex-grow-1" xs="auto" />
+                          {
+                            totalPages > 1 && (
+                              <Col xs="auto">
+                                {pagination}
+                              </Col>
+                            )
+                          }
+                        </Row>
+                        <Table
+                          id="drafts-table"
+                          columns={columns}
+                          generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                          generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                          loading={loading}
+                          data={items}
+                          error={error}
+                          noDataMessage={noDataMessage}
+                          count={count}
                           setPage={setPage}
-                          activePage={activePage}
-                          totalPages={totalPages}
+                          limit={limit}
+                          offset={offset}
                         />
-                      </Col>
+                        {
+                          totalPages > 1 && (
+                            <Row>
+                              <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                                <div>
+                                  {pagination}
+                                </div>
+                              </Col>
+                            </Row>
+                          )
+                        }
+                      </>
                     )
                   }
-                </Row>
-                <Table
-                  id="drafts-table"
-                  columns={columns}
-                  generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
-                  generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                  loading={loading}
-                  data={items}
-                  error={error}
-                  noDataMessage={noDataMessage}
-                  count={count}
-                  setPage={setPage}
-                  limit={limit}
-                  offset={offset}
-                />
-              </>
+                }
+              </ControlledPaginatedContent>
             )
           }
         </Col>

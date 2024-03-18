@@ -3,7 +3,7 @@
 @import '../variables';
 
 .table > :not(caption) > * > * {
-  padding: 1.25rem 1rem;
+  padding: 0.625rem 1rem;
 }
 
 .table > thead > tr > th {
@@ -15,16 +15,3 @@
   vertical-align: middle;
 }
 
-.table > tbody > tr > td:first-child:not(.table > tbody > tr > td:last-child) {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.table > tbody > tr > td:last-child:not(.table > tbody > tr > td:first-child) {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-}
-
-.table-bordered > :not(caption) > * > * {
-  border: 0;
-}
