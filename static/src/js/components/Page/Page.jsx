@@ -33,7 +33,8 @@ import './Page.scss'
  * @property {ReactNode} children The page content.
  * @property {Array.<HeaderAction>} headerActions The page content.
  * @property {String} pageType A string representing the type of page.
- * @property {String} title A string of visually hidden text to serve as the page title.
+ * @property {String} secondaryTitle A secondary title.
+ * @property {String} title A string of text to serve as the page title.
  */
 
 /*
@@ -63,6 +64,7 @@ const Page = ({
   headerActions,
   navigation,
   pageType,
+  secondaryTitle,
   title
 }) => {
   const {
@@ -166,8 +168,9 @@ const Page = ({
                 )
               }
               <div className="d-flex align-items-center">
-                <h2 className="m-0 text-gray-200" style={{ fontWeight: 700 }}>
+                <h2 className="m-0 text-gray-200 h4" style={{ fontWeight: 700 }}>
                   {title}
+                  {secondaryTitle && <span className="text-secondary h4 fw-lighter">{` ${secondaryTitle}`}</span>}
                 </h2>
                 {
                   headerActions && headerActions.length > 0 && (
@@ -202,6 +205,7 @@ Page.defaultProps = {
   headerActions: [],
   navigation: true,
   pageType: 'primary',
+  secondaryTitle: null,
   title: null
 }
 
@@ -220,6 +224,7 @@ Page.propTypes = {
   ),
   navigation: PropTypes.bool,
   pageType: PropTypes.string,
+  secondaryTitle: PropTypes.string,
   title: PropTypes.string
 }
 
