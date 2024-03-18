@@ -66,8 +66,8 @@ const ManageCollectionAssociation = () => {
     onError: (getDraftError) => {
       setLoading(false)
       setTableLoading(false)
-      errorLogger('Unable to retrieve draft', 'Collection Association: getDraft Query')
 
+      errorLogger('Unable to get draft', 'Manage Collection Association: getMetadata Query')
       setError(getDraftError)
     }
   })
@@ -88,6 +88,16 @@ const ManageCollectionAssociation = () => {
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION)
 
   const handleDeleteAssociation = () => {
+    if (collectionConceptIds.length === 0) {
+      setShowDeleteModal(false)
+      addNotification({
+        message: 'Please select a collection to disassociate',
+        variant: 'danger'
+      })
+
+      return
+    }
+
     deleteAssociationMutation({
       variables: {
         conceptId,
@@ -106,7 +116,13 @@ const ManageCollectionAssociation = () => {
         })
       },
       onError: (deleteAssociationError) => {
-        console.log(deleteAssociationError)
+        addNotification({
+          message: 'Error disassociating collection',
+          variant: 'danger'
+        })
+
+        errorLogger(`Unable to disassociate collection record for ${derivedConceptType}`, 'Manage Collection Association: deleteAssociation Mutation')
+        setError(deleteAssociationError)
       }
     })
   }
@@ -159,7 +175,6 @@ const ManageCollectionAssociation = () => {
     }
   }
 
-  console.log('collectionConceptIds', collectionConceptIds)
   const buildActionsCell = useCallback((cellData, rowData) => {
     const { conceptId: collectionConceptId } = rowData
 
@@ -211,6 +226,36 @@ const ManageCollectionAssociation = () => {
     }
   ]
 
+  const variableCollectionColumns = [
+    {
+      dataKey: 'entryTitle',
+      title: 'Entry Title',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisLinkCell
+    },
+    {
+      dataKey: 'shortName',
+      title: 'Short Name',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell,
+      sortFn: (_, order) => sortFn('shortName', order)
+    },
+    {
+      dataKey: 'version',
+      title: 'Version',
+      className: 'col-auto',
+      align: 'center'
+    },
+    {
+      dataKey: 'provider',
+      title: 'Provider',
+      className: 'col-auto',
+      align: 'center',
+      dataAccessorFn: buildEllipsisTextCell,
+      sortFn: (_, order) => sortFn('provider', order)
+    }
+  ]
+
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
@@ -225,7 +270,7 @@ const ManageCollectionAssociation = () => {
     getMetadata()
   }
 
-  const handleAddingCollectionAssociation = () => {
+  const handleCollectionAssociation = () => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association-search`)
   }
 
@@ -252,19 +297,30 @@ const ManageCollectionAssociation = () => {
   }
 
   const { name, collections: associatedCollections } = fetchedDraft || {}
+
   const { items, count } = associatedCollections || {}
+
+  let associationColumns = associatedCollectionColumns
+  if (derivedConceptType === 'Variable') {
+    associationColumns = variableCollectionColumns
+  }
 
   return (
     <Page
       title={`${name} Collection Associations` || '<Blank Name>'}
       pageType="secondary"
     >
-      <Button
-        onClick={handleAddingCollectionAssociation}
-        variant="blue-light"
-      >
-        Add Collection Associations
-      </Button>
+      {
+        derivedConceptType !== conceptTypes.Variable && (
+          <Button
+            onClick={handleCollectionAssociation}
+            variant="blue-light"
+          >
+            Add Collection Associations
+          </Button>
+        )
+      }
+
       <div className="mt-4">
         <span className="fst-italic fs-6">
           <i className="eui-icon eui-fa-info-circle" />
@@ -298,7 +354,7 @@ const ManageCollectionAssociation = () => {
       <Table
         className="m-5"
         id="associated-collections"
-        columns={associatedCollectionColumns}
+        columns={associationColumns}
         loading={tableLoading}
         data={items || []}
         error={error}
@@ -338,6 +394,16 @@ const ManageCollectionAssociation = () => {
               }
             />
           </>
+        )
+      }
+      {
+        (items && derivedConceptType === conceptTypes.Variable) && (
+          <Button
+            variant="blue-light"
+            onClick={handleCollectionAssociation}
+          >
+            Update Collection Associations
+          </Button>
         )
       }
     </Page>

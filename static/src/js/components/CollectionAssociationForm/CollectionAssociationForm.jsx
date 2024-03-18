@@ -6,14 +6,19 @@ import React, {
 } from 'react'
 import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { useLazyQuery } from '@apollo/client'
-
+import {
+  useNavigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import {
   Col,
   Placeholder,
   Row
 } from 'react-bootstrap'
+import pluralize from 'pluralize'
+
 import collectionAssociation from '../../schemas/collectionAssociation'
 import OneOfField from '../OneOfField/OneOfField'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
@@ -33,12 +38,24 @@ import Pagination from '../Pagination/Pagination'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import EllipsisText from '../EllipsisText/EllipsisText'
 import Table from '../Table/Table'
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import { CREATE_ASSOCIATION } from '../../operations/mutations/createAssociation'
+import parseError from '../../utils/parseError'
+import Page from '../Page/Page'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 const CollectionAssociationForm = () => {
   const { conceptId } = useParams()
   const { user } = useAppContext()
   const { providerId } = user
+
+  const navigate = useNavigate()
+
+  const { addNotification } = useNotificationsContext()
 
   const [searchFormData, setSearchFormData] = useState({})
   const [focusField, setFocusField] = useState(null)
@@ -48,8 +65,10 @@ const CollectionAssociationForm = () => {
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [collectionConceptIds, setCollectionConceptIds] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [fetchedDraft, setFetchedDraft] = useState()
 
-  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const limit = 20
   const activePage = parseInt(searchParams.get('page'), 10) || 1
@@ -79,6 +98,34 @@ const CollectionAssociationForm = () => {
       removeEmpty(formData)
     )
   }
+
+  const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
+    variables: {
+      params: {
+        conceptId
+      },
+      collectionsParams: {
+        limit,
+        sortKey: sortKeyParam
+      }
+    },
+    onCompleted: (getData) => {
+      const fetchedData = getData[toLowerKebabCase(derivedConceptType)]
+
+      setFetchedDraft(fetchedData)
+      setLoading(false)
+    },
+    onError: (getDraftError) => {
+      setLoading(false)
+      errorLogger('Unable to retrieve draft', 'Collection Association: getDraft Query')
+
+      setError(getDraftError)
+    }
+  })
+
+  useEffect(() => {
+    getMetadata()
+  }, [])
 
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
     onCompleted: (getCollectionsData) => {
@@ -191,27 +238,80 @@ const CollectionAssociationForm = () => {
     }
   }
 
-  const handleSelectedCollection = () => {
-    console.log('selected', collectionConceptIds)
+  const [createAssociationMutation] = useMutation(CREATE_ASSOCIATION)
+
+  const handleAssociateSelectedCollection = () => {
+    createAssociationMutation({
+      variables: {
+        conceptId,
+        collectionConceptIds,
+        conceptType: derivedConceptType
+      },
+      onCompleted: () => {
+        setLoading(true)
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
+      }
+    })
+  }
+
+  const handleVariableAssociation = (collectionConceptId) => {
+    createAssociationMutation({
+      variables: {
+        conceptId,
+        collectionConceptIds: [{ conceptId: collectionConceptId }],
+        conceptType: derivedConceptType,
+        metadata: fetchedDraft.ummMetadata,
+        nativeId: fetchedDraft.nativeId
+      },
+      onCompleted: () => {
+        setLoading(true)
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
+        addNotification({
+          message: 'Updated association successfully',
+          variant: 'success'
+        })
+      },
+      onError: () => {
+        setLoading(false)
+        errorLogger('Unable to update association', 'Collection Association Form: createAssociationForm')
+        addNotification({
+          message: 'Error updating association',
+          variant: 'danger'
+        })
+      }
+    })
   }
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { conceptId: collectionConceptId, shortName, version } = rowData
+    const { conceptId: collectionConceptId } = rowData
+
+    const { associationDetails } = fetchedDraft
+
+    const { collections } = associationDetails
+
+    const { conceptId: associatedConceptId } = collections[0]
+
+    let disabled = false
+    let checked = null
+    if (associatedConceptId === collectionConceptId) {
+      console.log('🚀 ~ buildActionsCell ~ collectionConceptId:', collectionConceptId)
+      disabled = true
+      checked = true
+    }
 
     if (derivedConceptType === 'Variable') {
       return (
         <div className="d-flex">
           <Button
             className="d-flex"
-            // OnClick={
-            //   // () => {
-            //   //   handleSubmit(
-            //   //     collectionConceptId,
-            //   //     shortName,
-            //   //     version
-            //   //   )
-            //   // }
-            // }
+            disabled={disabled}
+            onClick={
+              () => {
+                handleVariableAssociation(
+                  collectionConceptId
+                )
+              }
+            }
             variant="secondary"
             size="sm"
           >
@@ -226,7 +326,9 @@ const CollectionAssociationForm = () => {
         <input
           className="form-check-input"
           type="checkbox"
-          id="flexCheckDefault"
+          disabled={disabled}
+          checked={checked}
+          id="flexCheckCheckedDisabled"
           value={collectionConceptId}
           onClick={handleCheckbox}
         />
@@ -299,6 +401,24 @@ const CollectionAssociationForm = () => {
         ...Object.fromEntries(currentParams)
       }
     })
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
+  }
+
+  if (loading) {
+    return (
+      <Page>
+        <LoadingBanner />
+      </Page>
+    )
   }
 
   const { items = [], count } = collectionSearchResult
@@ -381,6 +501,15 @@ const CollectionAssociationForm = () => {
                   )
                 }
               </Row>
+              {
+                (!collectionLoading && items.length > 0) && (
+                  <span className="fst-italic fs-6">
+                    <i className="eui-icon eui-fa-info-circle" />
+                    Disabled rows in the results below represent collections that are
+                    already associated with this record.
+                  </span>
+                )
+              }
               <Table
                 className="m-5"
                 id="collection-association-search"
@@ -401,7 +530,7 @@ const CollectionAssociationForm = () => {
                     className="d-flex"
                     onClick={
                       () => {
-                        handleSelectedCollection()
+                        handleAssociateSelectedCollection()
                       }
                     }
                     variant="primary"

@@ -45,8 +45,6 @@ const PublishPreview = () => {
     conceptId,
     revisionId
   } = useParams()
-  console.log('🚀 ~ PublishPreview ~ revisionId:', revisionId)
-  console.log('🚀 ~ PublishPreview ~ conceptId:', conceptId)
 
   const { user } = useAppContext()
   const { providerId } = user

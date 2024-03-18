@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_VARIABLE = gql`
-  query Variable($params: VariableInput) {
+  query Variable($params: VariableInput, $collectionsParams: CollectionsInput) {
     variable(params: $params) {
       additionalIdentifiers
       associationDetails
@@ -31,6 +31,16 @@ export const GET_VARIABLE = gql`
       validRanges
       variableSubType
       variableType
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          entryTitle
+          shortName
+          version
+          provider
+        }
+      }
     }
   }
 `
