@@ -18,6 +18,7 @@ const useSearchQuery = ({
   keyword,
   limit,
   offset,
+  provider,
   sortKey
 }) => {
   const [results, setResults] = useState({})
@@ -41,6 +42,7 @@ const useSearchQuery = ({
       params: {
         limit,
         offset,
+        provider,
         keyword,
         sortKey,
         ...conditionalParams
