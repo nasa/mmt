@@ -440,9 +440,9 @@ const PublishPreview = () => {
                 }
               ]
             }
-            header={previewMetadata.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+            header={previewMetadata?.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
             message={
-              previewMetadata.tagDefinitions
+              previewMetadata?.tagDefinitions
                 ? (
                   <>
                     <h3 className="fw-bolder h5">{}</h3>

@@ -39,6 +39,7 @@ export const GET_TOOL = gql`
       collections (params: $collectionsParams) {
         count
         items {
+          title
           conceptId
           entryTitle
           shortName
