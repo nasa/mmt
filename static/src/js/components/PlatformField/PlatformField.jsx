@@ -14,29 +14,21 @@ import './PlatformField.scss'
  */
 const PlatformField = ({ onChange, uiSchema, formData }) => {
   const { Type = '', ShortName = '', LongName = '' } = formData
-  const [type] = useState(Type)
-  const [shortName] = useState(ShortName)
-  const [longName] = useState(LongName)
+  const [type, setType] = useState(Type)
+  const [shortName, setShortName] = useState(ShortName)
+  const [longName, setLongName] = useState(LongName)
+  const [loading, setLoading] = useState(false)
+  const [keyword, setKeyword] = useState([])
+  const [showMenu, setShowMenu] = useState(false)
+  const [shouldFocus, setShouldFocus] = useState(false)
   const [longNameMap, setLongNameMap] = useState({})
-  const [state, setState] = useState({
-    loading: false,
-    type,
-    shortName,
-    longName,
-    keyword: [],
-    showMenu: false,
-    shouldFocus: false
-  })
 
   useEffect(() => {
     const fetchData = async () => {
       const controlled = uiSchema['ui:controlled']
       const { name, controlName } = controlled
 
-      setState((prevState) => ({
-        ...prevState,
-        loading: true
-      }))
+      setLoading(true)
 
       const keywords = await fetchCmrKeywords(name)
       const paths = parseCmrResponse(keywords, controlName)
@@ -70,11 +62,8 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
         })
       })
 
-      setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        keyword: newPaths
-      }))
+      setLoading(false)
+      setKeyword(newPaths)
     }
 
     fetchData()
@@ -83,43 +72,44 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   const onHandleMouseDown = (values) => {
     const [valueType, valueShortName] = values
     const valueLongName = longNameMap[valueShortName] || ''
-    setState((prevState) => ({
-      ...prevState,
-      type: valueType,
-      shortName: valueShortName,
-      longName: valueLongName,
-      showMenu: false,
-      shouldFocus: false
-    }))
+    setType(valueType)
+    setShortName(valueShortName)
+    setLongName(valueLongName)
+    setShowMenu(false)
+    setShouldFocus(false)
+
+    const data = {
+      Type: type,
+      ShortName: shortName,
+      LongName: longName
+    }
+
+    onChange(data)
   }
 
   const onHandleFocus = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMenu: true,
-      shouldFocus: true
-    }))
+    setShowMenu(true)
+    setShouldFocus(true)
   }
 
   const onHandleBlur = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMenu: false,
-      shouldFocus: false
-    }))
+    setShowMenu(false)
+    setShouldFocus(false)
   }
 
   const onHandleClear = () => {
-    setState((prevState) => ({
-      ...prevState,
-      type: '',
-      shortName: '',
-      longName: '',
-      showMenu: false,
-      shouldFocus: false
-    }))
+    setType('')
+    setShortName('')
+    setLongName('')
+    setShowMenu(false)
+    setShouldFocus(false)
 
-    onChange(state)
+    const data = {
+      Type: type,
+      ShortName: shortName,
+      LongName: longName
+    }
+    onChange(data)
   }
 
   const displayTitle = (value) => (
@@ -149,14 +139,14 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   )
 
   const existingValue = {
-    value: state.shortName,
-    label: state.shortName
+    value: shortName,
+    label: shortName
   }
 
   const selectOptions = [{
     value: '',
     label: ''
-  }, ...state.keyword.map((currentEnum) => ({
+  }, ...keyword.map((currentEnum) => ({
     value: currentEnum,
     label: currentEnum
   }))]
@@ -197,16 +187,16 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
       <div className="mt-1">
         <Select
           id="shortName"
-          key={`platform_short-name--${state.shouldFocus}`}
-          autoFocus={state.shouldFocus}
+          key={`platform_short-name--${shouldFocus}`}
+          autoFocus={shouldFocus}
           placeholder="Select Short Name"
           options={selectOptions}
-          isLoading={state.loading}
+          isLoading={loading}
           components={{ Option }}
           value={existingValue.value ? existingValue : null}
           onFocus={onHandleFocus}
           onBlur={onHandleBlur}
-          menuIsOpen={state.showMenu}
+          menuIsOpen={showMenu}
         />
       </div>
 
@@ -218,7 +208,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
           name="type"
           placeholder="No available Type"
           disabled
-          value={state.type}
+          value={type}
         />
       </div>
 
@@ -230,7 +220,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
           name="longName"
           placeholder="No available Long Name"
           disabled
-          value={state.longName}
+          value={longName}
         />
       </div>
     </div>
