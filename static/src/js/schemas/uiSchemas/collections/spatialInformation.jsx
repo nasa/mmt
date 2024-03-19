@@ -100,6 +100,7 @@ const spatialInformationUiSchema = {
               },
               {
                 'ui:group-checkbox': 'Orbital',
+                'ui:group-box-classname': 'h2-box',
                 'ui:row': [
                   {
                     'ui:col': {
@@ -131,6 +132,8 @@ const spatialInformationUiSchema = {
         'ui:row': [
           {
             'ui:group': 'Horizontal Spatial Domain',
+            'ui:group-classname': 'h3-title',
+            'ui:group-box-classname': 'h2-box',
             'ui:col': {
               md: 12,
               children: [
@@ -176,6 +179,8 @@ const spatialInformationUiSchema = {
           'ui:row': [
             {
               'ui:group': 'Geometry',
+              'ui:group-classname': 'h3-title',
+              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -270,7 +275,7 @@ const spatialInformationUiSchema = {
                           {
                             md: 12,
                             render: (props) => (
-                              <div className="preview-map-link__icon-label">
+                              <div className="preview-map-template__icon-label">
                                 <PreviewMapTemplate {...props} type="point" />
                               </div>
                             )
@@ -343,6 +348,8 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:group': 'Exclusive Zone',
+                    'ui:group-classname': 'h3-title',
+                    'ui:group-box-classname': 'h2-box',
                     'ui:group-description': true,
                     'ui:col': {
                       md: 12,
@@ -544,6 +551,8 @@ const spatialInformationUiSchema = {
         'ui:layout_grid': {
           'ui:row': [
             {
+              'ui:group-classname': 'h3-title',
+              'ui:group-box-classname': 'h2-box',
               'ui:group-description': true,
               'ui:col': {
                 md: 12,
@@ -595,6 +604,8 @@ const spatialInformationUiSchema = {
             'ui:row': [
               {
                 'ui:group': 'Horizontal Data Resolution',
+                'ui:group-classname': 'h3-title',
+                'ui:group-box-classname': 'h2-box',
                 'ui:col': {
                   md: 12,
                   children: [
@@ -1199,6 +1210,7 @@ const spatialInformationUiSchema = {
           'ui:group': 'Spatial Representation Information',
           'ui:group-description': true,
           'ui:group-classname': 'h2-title',
+          'ui:group-box-classname': 'h2-box',
           'ui:col': {
             md: 12,
             children: [
@@ -1269,6 +1281,8 @@ const spatialInformationUiSchema = {
           'ui:row': [
             {
               'ui:group': 'Altitude System Definition',
+              'ui:group-classname': 'h3-title',
+              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
@@ -1308,6 +1322,7 @@ const spatialInformationUiSchema = {
           ]
         },
         Resolutions: {
+          'ui:heading-level': 'h6'
         }
       },
       DepthSystemDefinition: {
@@ -1317,6 +1332,8 @@ const spatialInformationUiSchema = {
           'ui:row': [
             {
               'ui:group': 'Depth System Definition',
+              'ui:group-classname': 'h3-title',
+              'ui:group-box-classname': 'h2-box',
               'ui:col': {
                 md: 12,
                 children: [
