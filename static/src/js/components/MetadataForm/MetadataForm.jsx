@@ -150,7 +150,7 @@ const MetadataForm = () => {
   const firstSectionName = kebabCase(firstFormSection.displayName)
   const currentSection = sectionName || firstSectionName
   const uiSchemaType = getUiSchema(derivedConceptType)
-  const uiSchema = uiSchemaType[currentSection]
+  const uiSchema = uiSchemaType[currentSection] || {}
 
   // Limit the schema to only the fields present in the displayed form section
   const formSchema = getFormSchema({
