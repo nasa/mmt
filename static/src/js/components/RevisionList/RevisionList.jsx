@@ -71,8 +71,6 @@ const RevisionList = () => {
     sortKey: '-revisionDate'
   })
 
-  console.log('🚀 ~ RevisionList ~ revisions:', revisions)
-
   const setPage = (nextPage) => {
     setSearchParams((currentParams) => {
       currentParams.set('page', nextPage)
@@ -97,9 +95,10 @@ const RevisionList = () => {
         {(isPublishedVersion) ? ' Published' : ' Revision'}
       </EllipsisLink>
     )
-  }, [revisions])
+  }, [])
 
-  const buildActionCell = useCallback((cellData) => (
+  // To be done after GQL-32
+  const buildActionCell = useCallback(() => (
     'Revert to this version'
   ), [])
 
