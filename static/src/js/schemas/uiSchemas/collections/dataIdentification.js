@@ -203,125 +203,13 @@ const dataIdentificationUiSchema = {
   UseConstraints: {
     'ui:widget': CustomSelectWidget,
     'ui:heading-level': 'h4',
-    'ui:field': 'layout',
-    'ui:layout_grid': {
-      'ui:row': [
-        {
-          'ui:col': {
-            children: [
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      style: {
-                        marginLeft: '10px',
-                        marginBottom: '5px',
-                        borderLeft: 'solid 5px rgb(240,240,240)'
-                      },
-                      md: 12,
-                      children: ['Description']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      style: {
-                        marginLeft: '10px',
-                        marginBottom: '5px',
-                        borderLeft: 'solid 5px rgb(240,240,240)'
-                      },
-                      md: 12,
-                      children: ['FreeAndOpenData']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      style: {
-                        marginLeft: '10px',
-                        marginBottom: '5px',
-                        borderLeft: 'solid 5px rgb(240,240,240)'
-                      },
-                      md: 12,
-                      children: ['EULAIdentifiers']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      style: {
-                        marginLeft: '10px',
-                        marginBottom: '5px',
-                        borderLeft: 'solid 5px rgb(240,240,240)'
-                      },
-                      md: 12,
-                      children: ['LicenseURL']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      style: {
-                        marginLeft: '10px',
-                        marginBottom: '5px',
-                        borderLeft: 'solid 5px rgb(240,240,240)'
-                      },
-                      md: 12,
-                      children: ['LicenseText']
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    Description: {
-      'ui:widget': CustomTextareaWidget
-    },
-    LicenseURL: {
-      'ui:heading-level': 'h4',
+    items: {
       'ui:field': 'layout',
       'ui:layout_grid': {
-        'ui:group': 'License URL',
-        'ui:required': 'false',
         'ui:row': [
           {
             'ui:col': {
               children: [
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Name']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Linkage']
-                      }
-                    }
-                  ]
-                },
                 {
                   'ui:row': [
                     {
@@ -337,7 +225,7 @@ const dataIdentificationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['Protocol']
+                        children: ['FreeAndOpenData']
                       }
                     }
                   ]
@@ -347,7 +235,7 @@ const dataIdentificationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['ApplicationProfile']
+                        children: ['EULAIdentifiers']
                       }
                     }
                   ]
@@ -357,7 +245,7 @@ const dataIdentificationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['Function']
+                        children: ['LicenseURL']
                       }
                     }
                   ]
@@ -367,7 +255,7 @@ const dataIdentificationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['MimeType']
+                        children: ['LicenseText']
                       }
                     }
                   ]
@@ -380,16 +268,105 @@ const dataIdentificationUiSchema = {
       Description: {
         'ui:widget': CustomTextareaWidget
       },
-      MimeType: {
-        'ui:widget': CustomSelectWidget,
-        'ui:controlled': {
-          name: 'mime-type',
-          controlName: 'mime_type'
+      LicenseURL: {
+        'ui:heading-level': 'h4',
+        'ui:field': 'layout',
+        'ui:layout_grid': {
+          'ui:group': 'License URL',
+          'ui:required': 'false',
+          'ui:row': [
+            {
+              'ui:col': {
+                children: [
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Name']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Linkage']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Description']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Protocol']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['ApplicationProfile']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Function']
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['MimeType']
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        Description: {
+          'ui:widget': CustomTextareaWidget
+        },
+        MimeType: {
+          'ui:widget': CustomSelectWidget,
+          'ui:controlled': {
+            name: 'mime-type',
+            controlName: 'mime_type'
+          }
         }
+      },
+      LicenseText: {
+        'ui:widget': CustomTextareaWidget
       }
-    },
-    LicenseText: {
-      'ui:widget': CustomTextareaWidget
     }
   },
   AccessConstraints: {

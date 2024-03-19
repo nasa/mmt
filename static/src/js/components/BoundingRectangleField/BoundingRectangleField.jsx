@@ -97,6 +97,7 @@ const BoundingRectangleField = ({
             <input
               className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="north-coordinate"
               onChange={
                 (event) => {
@@ -117,6 +118,7 @@ const BoundingRectangleField = ({
             <input
               className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="west-coordinate"
               onChange={
                 (event) => {
@@ -135,6 +137,7 @@ const BoundingRectangleField = ({
             <input
               className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="east-coordinate"
               onChange={
                 (event) => {
@@ -152,6 +155,7 @@ const BoundingRectangleField = ({
             <input
               className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="south-coordinate"
               width="100px"
               onChange={

@@ -8,13 +8,3 @@
     }
   }
 }
-
-/** CSS to removes up/down arrows when input type=number */
-
-/* Chrome, Safari, Edge, Opera */
-[type="number"]::-webkit-outer-spin-button,
-[type="number"]::-webkit-inner-spin-button {
-  margin: 0;
-  appearance: none;
-
-}
