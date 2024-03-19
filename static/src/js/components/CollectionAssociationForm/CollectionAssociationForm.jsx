@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import PropTypes from 'prop-types'
 import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import {
@@ -13,12 +14,12 @@ import {
 } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import {
+  Alert,
   Col,
   Placeholder,
   Row
 } from 'react-bootstrap'
 import pluralize from 'pluralize'
-
 import collectionAssociation from '../../schemas/collectionAssociation'
 import OneOfField from '../OneOfField/OneOfField'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
@@ -44,11 +45,11 @@ import parseError from '../../utils/parseError'
 import Page from '../Page/Page'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
+import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import getUmmVersion from '../../utils/getUmmVersion'
 
-const CollectionAssociationForm = () => {
+const CollectionAssociationForm = ({ metadata }) => {
   const { conceptId } = useParams()
   const { user } = useAppContext()
   const { providerId } = user
@@ -65,8 +66,13 @@ const CollectionAssociationForm = () => {
   const [showSelectCollection, setShowSelectCollection] = useState(false)
   const [collectionSearchResult, setCollectionSearchResult] = useState({})
   const [collectionConceptIds, setCollectionConceptIds] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [fetchedDraft, setFetchedDraft] = useState()
+
+  useEffect(() => {
+    setFetchedDraft(metadata)
+    setLoading(false)
+  }, [metadata])
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
@@ -99,34 +105,7 @@ const CollectionAssociationForm = () => {
     )
   }
 
-  const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
-    variables: {
-      params: {
-        conceptId
-      },
-      collectionsParams: {
-        limit,
-        sortKey: sortKeyParam
-      }
-    },
-    onCompleted: (getData) => {
-      const fetchedData = getData[toLowerKebabCase(derivedConceptType)]
-
-      setFetchedDraft(fetchedData)
-      setLoading(false)
-    },
-    onError: (getDraftError) => {
-      setLoading(false)
-      errorLogger('Unable to retrieve draft', 'Collection Association: getDraft Query')
-
-      setError(getDraftError)
-    }
-  })
-
-  useEffect(() => {
-    getMetadata()
-  }, [])
-
+  // Query to retrieve collections
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
     onCompleted: (getCollectionsData) => {
       setCollectionSearchResult(getCollectionsData.collections)
@@ -197,12 +176,6 @@ const CollectionAssociationForm = () => {
     collectionSearch()
   }
 
-  useEffect(() => {
-    if (sortKeyParam) {
-      collectionSearch()
-    }
-  }, [sortKeyParam])
-
   // Calls handleCollectionSearch get the next set of collections for pagination
   useEffect(() => {
     if (page) {
@@ -210,22 +183,7 @@ const CollectionAssociationForm = () => {
     }
   }, [page])
 
-  const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
-    const { conceptId: conceptIdLink } = rowData
-
-    return (
-      <EllipsisLink to={`/collections/${conceptIdLink}`}>
-        {cellData}
-      </EllipsisLink>
-    )
-  }, [])
-
-  const buildEllipsisTextCell = useCallback((cellData) => (
-    <EllipsisText>
-      {cellData}
-    </EllipsisText>
-  ), [])
-
+  // Handles checkbox selection. If selected, then adds the value to collectionConceptIds state variable
   const handleCheckbox = (event) => {
     const { target } = event
 
@@ -240,6 +198,7 @@ const CollectionAssociationForm = () => {
 
   const [createAssociationMutation] = useMutation(CREATE_ASSOCIATION)
 
+  // Handles selected collection association button by calling CREATE_ASSOCIATION mutation
   const handleAssociateSelectedCollection = () => {
     createAssociationMutation({
       variables: {
@@ -250,10 +209,23 @@ const CollectionAssociationForm = () => {
       onCompleted: () => {
         setLoading(true)
         navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
+        addNotification({
+          message: 'Created association successfully',
+          variant: 'success'
+        })
+      },
+      onError: () => {
+        setLoading(false)
+        errorLogger('Unable to create association', 'Collection Association Form: createAssociationForm')
+        addNotification({
+          message: 'Error updating association',
+          variant: 'danger'
+        })
       }
     })
   }
 
+  // If the Manage Association is variable this will call CREATE_ASSOCIATION with variable params
   const handleVariableAssociation = (collectionConceptId) => {
     createAssociationMutation({
       variables: {
@@ -282,21 +254,89 @@ const CollectionAssociationForm = () => {
     })
   }
 
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
+
+  const handleVariableDraftAssociation = (
+    collectionConceptId,
+    shortName,
+    version
+  ) => {
+    const { nativeId } = fetchedDraft
+    const { ummMetadata } = fetchedDraft
+
+    const associationDetailDraft = {
+      ...ummMetadata,
+      _private: {
+        CollectionAssociation: {
+          collectionConceptId,
+          shortName,
+          version
+        }
+      }
+    }
+
+    ingestDraftMutation({
+      variables: {
+        conceptType: derivedConceptType,
+        metadata: associationDetailDraft,
+        nativeId,
+        providerId,
+        ummVersion: getUmmVersion(derivedConceptType)
+      },
+      onCompleted: () => {
+        // Add a success notification
+        addNotification({
+          message: 'Collection Association was Updated Successfully!',
+          variant: 'success'
+        })
+
+        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
+      },
+      onError: (getIngestError) => {
+        setLoading(false)
+        errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+        setError(getIngestError)
+      }
+    })
+  }
+
+  const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
+    const { conceptId: conceptIdLink } = rowData
+
+    return (
+      <EllipsisLink to={`/collections/${conceptIdLink}`}>
+        {cellData}
+      </EllipsisLink>
+    )
+  }, [])
+
+  const buildEllipsisTextCell = useCallback((cellData) => (
+    <EllipsisText>
+      {cellData}
+    </EllipsisText>
+  ), [])
+
+  // Creates an action cell based on the current concept type
+  // Tools or services -> Checkboxes
+  // Variables -> Create Association button
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { conceptId: collectionConceptId } = rowData
-
-    const { associationDetails } = fetchedDraft
-
-    const { collections } = associationDetails
-
-    const { conceptId: associatedConceptId } = collections[0]
-
     let disabled = false
     let checked = null
-    if (associatedConceptId === collectionConceptId) {
-      console.log('🚀 ~ buildActionsCell ~ collectionConceptId:', collectionConceptId)
-      disabled = true
-      checked = true
+
+    const { conceptId: collectionConceptId, shortName, version } = rowData
+    const { associationDetails } = fetchedDraft
+    const { collections } = associationDetails || {}
+
+    // Checks if collection is already associated to the record.
+    if (collections) {
+      const associatedCollection = collections.filter(
+        (item) => item.conceptId === collectionConceptId
+      )
+
+      if (associatedCollection[0]?.conceptId === collectionConceptId) {
+        disabled = true
+        checked = true
+      }
     }
 
     if (derivedConceptType === 'Variable') {
@@ -307,9 +347,17 @@ const CollectionAssociationForm = () => {
             disabled={disabled}
             onClick={
               () => {
-                handleVariableAssociation(
-                  collectionConceptId
-                )
+                if (conceptId.startsWith('VD')) {
+                  handleVariableDraftAssociation(
+                    collectionConceptId,
+                    shortName,
+                    version
+                  )
+                } else {
+                  handleVariableAssociation(
+                    collectionConceptId
+                  )
+                }
               }
             }
             variant="secondary"
@@ -336,6 +384,7 @@ const CollectionAssociationForm = () => {
     )
   })
 
+  // Move this into a util
   const sortFn = useCallback((key, order) => {
     let nextSortKey
 
@@ -459,7 +508,7 @@ const CollectionAssociationForm = () => {
 
           <Button
             onClick={handleCollectionSearch}
-            variant="blue-light"
+            variant="primary"
           >
             Search for Collection
           </Button>
@@ -503,11 +552,12 @@ const CollectionAssociationForm = () => {
               </Row>
               {
                 (!collectionLoading && items.length > 0) && (
-                  <span className="fst-italic fs-6">
+                  <Alert className="fst-italic fs-6">
+                    {' '}
                     <i className="eui-icon eui-fa-info-circle" />
                     Disabled rows in the results below represent collections that are
                     already associated with this record.
-                  </span>
+                  </Alert>
                 )
               }
               <Table
@@ -545,6 +595,10 @@ const CollectionAssociationForm = () => {
       </div>
     </>
   )
+}
+
+CollectionAssociationForm.propTypes = {
+  metadata: PropTypes.shape({}).isRequired
 }
 
 export default CollectionAssociationForm

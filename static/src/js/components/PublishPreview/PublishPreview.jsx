@@ -45,8 +45,6 @@ const PublishPreview = () => {
     conceptId,
     revisionId
   } = useParams()
-  console.log('🚀 ~ PublishPreview ~ revisionId:', revisionId)
-  console.log('🚀 ~ PublishPreview ~ conceptId:', conceptId)
 
   const { user } = useAppContext()
   const { providerId } = user
@@ -240,7 +238,7 @@ const PublishPreview = () => {
   }
 
   const handleManageCollectionAssociation = () => {
-    navigate('collection-association')
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
   }
 
   let tagCount = 0

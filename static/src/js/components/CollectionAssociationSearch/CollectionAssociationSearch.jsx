@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { useParams } from 'react-router'
+import pluralize from 'pluralize'
 import Page from '../Page/Page'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
@@ -9,7 +10,6 @@ import errorLogger from '../../utils/errorLogger'
 import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import CollectionAssociation from '../CollectionAssociation/CollectionAssociation'
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
 
 const CollectionAssociationSearch = () => {
@@ -17,7 +17,7 @@ const CollectionAssociationSearch = () => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const [fetchedDraft, setFetchedDraft] = useState()
+  const [fetchedData, setFetchedData] = useState()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
 
@@ -28,15 +28,13 @@ const CollectionAssociationSearch = () => {
       }
     },
     onCompleted: (getData) => {
-      const fetchedData = getData[toLowerKebabCase(derivedConceptType)]
+      const data = getData[toLowerKebabCase(derivedConceptType)]
 
-      setFetchedDraft(fetchedData)
+      setFetchedData(data)
       setLoading(false)
-      // SetTableLoading(false)
     },
     onError: (getDraftError) => {
       setLoading(false)
-      // SetTableLoading(false)
       errorLogger('Unable to retrieve draft', 'Collection Association: getDraft Query')
 
       setError(getDraftError)
@@ -67,14 +65,34 @@ const CollectionAssociationSearch = () => {
     )
   }
 
-  const { name } = fetchedDraft || {}
+  const { name } = fetchedData || {}
 
   return (
     <Page
       title={`${name} Collection Associations` || '<Blank Name>'}
       pageType="secondary"
+      breadcrumbs={
+        [
+          {
+            label: `${derivedConceptType}`,
+            to: `/${derivedConceptType.toLowerCase()}s`
+          },
+          {
+            label: name || '<Blank Name>',
+            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
+          },
+          {
+            label: 'Collection Association',
+            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`
+          },
+          {
+            label: 'Collection Association Search',
+            active: true
+          }
+        ]
+      }
     >
-      <CollectionAssociationForm />
+      <CollectionAssociationForm metadata={fetchedData} />
     </Page>
   )
 }

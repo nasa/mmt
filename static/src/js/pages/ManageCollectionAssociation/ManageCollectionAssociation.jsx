@@ -7,25 +7,27 @@ import React, {
 import { useNavigate, useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 import pluralize from 'pluralize'
+import { Alert } from 'react-bootstrap'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 import errorLogger from '../../utils/errorLogger'
 import parseError from '../../utils/parseError'
-import Page from '../Page/Page'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import Page from '../../components/Page/Page'
+import ErrorBanner from '../../components/ErrorBanner/ErrorBanner'
+import LoadingBanner from '../../components/LoadingBanner/LoadingBanner'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
-import Button from '../Button/Button'
-import Table from '../Table/Table'
+import Button from '../../components/Button/Button'
+import Table from '../../components/Table/Table'
 import conceptTypes from '../../constants/conceptTypes'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import EllipsisText from '../EllipsisText/EllipsisText'
+import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
+import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import { DELETE_ASSOCIATION } from '../../operations/mutations/deleteAssociation'
-import CustomModal from '../CustomModal/CustomModal'
+import CustomModal from '../../components/CustomModal/CustomModal'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 const ManageCollectionAssociation = () => {
+  console.log('in here', useParams())
   const { conceptId } = useParams()
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
@@ -309,12 +311,28 @@ const ManageCollectionAssociation = () => {
     <Page
       title={`${name} Collection Associations` || '<Blank Name>'}
       pageType="secondary"
+      breadcrumbs={
+        [
+          {
+            label: derivedConceptType,
+            to: `/drafts/${derivedConceptType.toLowerCase()}s`
+          },
+          {
+            label: conceptId,
+            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
+          },
+          {
+            label: 'Collection Association',
+            active: true
+          }
+        ]
+      }
     >
       {
         derivedConceptType !== conceptTypes.Variable && (
           <Button
             onClick={handleCollectionAssociation}
-            variant="blue-light"
+            variant="primary"
           >
             Add Collection Associations
           </Button>
@@ -322,8 +340,9 @@ const ManageCollectionAssociation = () => {
       }
 
       <div className="mt-4">
-        <span className="fst-italic fs-6">
+        <Alert className="fst-italic fs-6">
           <i className="eui-icon eui-fa-info-circle" />
+          {' '}
           Association operations may take some time. If you are not seeing what you expect below,
           please
           {' '}
@@ -340,7 +359,8 @@ const ManageCollectionAssociation = () => {
           >
             refresh the page
           </span>
-        </span>
+        </Alert>
+        <span className="fst-italic fs-6" />
       </div>
       <div className="mt-4">
         <span>
@@ -399,7 +419,7 @@ const ManageCollectionAssociation = () => {
       {
         (items && derivedConceptType === conceptTypes.Variable) && (
           <Button
-            variant="blue-light"
+            variant="primary"
             onClick={handleCollectionAssociation}
           >
             Update Collection Associations
