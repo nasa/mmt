@@ -187,6 +187,7 @@ const KeywordPicker = ({
   //          "ToolTopic": "DATA ANALYSIS AND VISUALIZATION",
   //          "ToolTerm": "CALIBRATION/VALIDATION"
   const addKeywords = (keyword) => {
+    console.log('adding ', keyword)
     const found = isKeywordAdded(keyword)
     const map = {}
     if (found) {
@@ -341,7 +342,7 @@ const KeywordPicker = ({
   return (
     <div className="keyword-picker pb-5">
 
-      <KeywordRecommendations />
+      <KeywordRecommendations formData={formData} onChange={onChange} />
       <div className="mb-3 h4">
         <span>
           {title}
@@ -363,7 +364,7 @@ const KeywordPicker = ({
         </span>
       </div>
 
-      {/* Renders the list of added keywords with a remove button */}
+      {/* Renders the list of added keywords with a remove button
       <div className="p-3 mb-2 keyword-picker__added-keywords">
         {
           Object.values(removeEmpty(formData)).map((item, index) => (
@@ -383,7 +384,7 @@ const KeywordPicker = ({
             </li>
           ))
         }
-      </div>
+      </div> */}
 
       <div className="eui-nested-item-picker" style={{ marginLeft }}>
         <ul className="eui-item-path">

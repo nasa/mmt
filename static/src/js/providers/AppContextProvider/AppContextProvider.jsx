@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useEffect,
   useMemo,
   useState
 } from 'react'
@@ -40,6 +41,21 @@ const AppContextProvider = ({ children }) => {
       providerId
     }))
   }, [user])
+
+  useEffect(() => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() + 15)
+    expires = new Date(expires)
+
+    setUser((prevUser) => ({
+      ...prevUser,
+      providerId: 'MMT_2',
+      token: {
+        tokenValue: 'ABC-1',
+        tokenExp: expires
+      }
+    }))
+  }, [])
 
   const providerValue = useMemo(() => ({
     user,
