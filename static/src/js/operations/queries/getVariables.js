@@ -10,6 +10,8 @@ export const GET_VARIABLES = gql`
         longName
         providerId
         revisionDate
+        revisionId
+        userId
       }
     }
   }

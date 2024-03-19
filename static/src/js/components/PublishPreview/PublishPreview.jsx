@@ -10,6 +10,7 @@ import {
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import deleteMutationTypes from '../../constants/deleteMutationTypes'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -70,6 +71,7 @@ const PublishPreview = () => {
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+  const revisionUrlConceptType = `${derivedConceptType.toLowerCase()}s`
 
   const {
     ingestMutation, ingestDraft,
@@ -245,6 +247,10 @@ const PublishPreview = () => {
     granuleCount = count
   }
 
+  const versions = parseInt(revisionId, 10)
+
+  const revisionUrl = `http://localhost:5173/${revisionUrlConceptType}/${conceptId}/revisions`
+
   if (error) {
     const message = parseError(error)
 
@@ -371,6 +377,23 @@ const PublishPreview = () => {
               </>
             )
           }
+
+          <Button
+            as={Link}
+            to={`${revisionUrl}?versions=${versions}`}
+            className="btn btn-link"
+            type="button"
+            variant="link"
+          >
+            Revisions
+            <Badge
+              className="m-1"
+              bg="secondary"
+              pill
+            >
+              { versions }
+            </Badge>
+          </Button>
           <Button
             type="button"
             variant="outline-danger"
@@ -386,6 +409,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
+
           <CustomModal
             message="Are you sure you want to delete this record?"
             show={showDeleteModal}

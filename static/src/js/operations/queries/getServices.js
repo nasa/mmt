@@ -10,6 +10,8 @@ export const GET_SERVICES = gql`
         longName
         providerId
         revisionDate
+        revisionId
+        userId
       }
     }
   }
