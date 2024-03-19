@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
+  Badge,
   Button,
   Col,
   ListGroup,
@@ -235,10 +236,13 @@ const PublishPreview = () => {
   }
 
   let tagCount = 0
+  let granuleCount = 0
   if (derivedConceptType === conceptTypes.Collection) {
-    const { tagDefinitions } = previewMetadata || {}
+    const { tagDefinitions, granules } = previewMetadata || {}
+    const { count } = granules || {}
 
     tagCount = getTagCount(tagDefinitions)
+    granuleCount = count
   }
 
   if (error) {
@@ -327,9 +331,30 @@ const PublishPreview = () => {
                     }
                   }
                 >
-                  Tags (
-                  { tagCount }
-                  )
+                  Tags
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { tagCount }
+                  </Badge>
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  disabled
+                >
+                  Granules
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { granuleCount }
+                  </Badge>
+
                 </Button>
                 <Button
                   className="btn btn-link"

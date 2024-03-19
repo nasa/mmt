@@ -28,13 +28,17 @@ const setup = (overrideUser, overrideSearchParams, overrideProps) => {
   })
   cookie.HAS_DOCUMENT_COOKIE = false
 
+  let expires = new Date()
+  expires.setMinutes(expires.getMinutes() + 15)
+  expires = new Date(expires)
+
   const context = {
     updateLoginInfo: jest.fn(),
     user: overrideUser || {
       name: 'Mock User',
       token: {
         tokenValue: 'mock_token',
-        tokenExp: 1234
+        tokenExp: expires
       }
     }
   }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { getApplicationConfig } from '../../utils/getConfig'
 import isTokenExpired from '../../utils/isTokenExpired'
 import useAppContext from '../../hooks/useAppContext'
@@ -14,7 +14,7 @@ export const AuthRequiredContainer = ({
   const isExpired = isTokenExpired(token)
 
   const location = useLocation()
-
+  const navigate = useNavigate()
   useEffect(() => {
     const { apiHost } = getApplicationConfig()
 
@@ -23,6 +23,12 @@ export const AuthRequiredContainer = ({
       window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
     }
   }, [])
+
+  useEffect(() => {
+    if (isExpired) {
+      navigate('/', { replace: true })
+    }
+  }, [user])
 
   if (!isExpired) {
     return children

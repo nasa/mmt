@@ -23,7 +23,7 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import { noTagsCollection, publishCollectionRecord } from './__mocks__/publishPreview'
+import { noTagsOrGranulesCollection, publishCollectionRecord } from './__mocks__/publishPreview'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
@@ -635,41 +635,13 @@ describe('PublishPreview', () => {
                     collection: publishCollectionRecord
                   }
                 }
-              },
-              {
-                request: {
-                  query: INGEST_DRAFT,
-                  variables: {
-                    conceptType: 'Variable',
-                    metadata: {
-                      _private: {
-                        CollectionAssociation: {
-                          collectionConceptId: 'C1200000100-MMT_2',
-                          shortName: 'Mock Quick Test Services #2',
-                          version: '1'
-                        }
-                      }
-                    },
-                    nativeId: 'MMT_mock-uuid',
-                    providerId: 'MMT_2',
-                    ummVersion: '1.9.0'
-                  }
-                },
-                result: {
-                  data: {
-                    ingestDraft: {
-                      conceptId: 'VD1000000-MMT',
-                      revisionId: '1'
-                    }
-                  }
-                }
               }
             ]
           })
 
           await waitForResponse()
 
-          const tagBtn = screen.getByRole('button', { name: 'Tags (1)' })
+          const tagBtn = screen.getByRole('button', { name: 'Tags 1' })
           await user.click(tagBtn)
 
           const modal = screen.queryByRole('dialog')
@@ -707,7 +679,7 @@ describe('PublishPreview', () => {
                 },
                 result: {
                   data: {
-                    collection: noTagsCollection
+                    collection: noTagsOrGranulesCollection
                   }
                 }
               }
@@ -716,13 +688,77 @@ describe('PublishPreview', () => {
 
           await waitForResponse()
 
-          const tagBtn = screen.getByRole('button', { name: 'Tags (0)' })
+          const tagBtn = screen.getByRole('button', { name: 'Tags 0' })
           await user.click(tagBtn)
 
           const modal = screen.queryByRole('dialog')
 
           expect(modal).toBeInTheDocument()
           expect(within(modal).queryByText('There are no tags associated with this collection')).toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('Granules', () => {
+      describe('when the collection has granules', () => {
+        test('should display the granule count', async () => {
+          setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: publishCollectionRecord
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+          expect(screen.getByRole('button', { name: 'Granules 1' }))
+        })
+      })
+
+      describe('when the collection has no granules', () => {
+        test('should display the granule count with 0', async () => {
+          setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: noTagsOrGranulesCollection
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+          expect(screen.getByRole('button', { name: 'Granules 0' }))
         })
       })
     })
