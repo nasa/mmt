@@ -46,7 +46,7 @@ const DraftCollectionAssociation = () => {
       const { draft } = getDraftData
       const { ummMetadata } = draft
       const { _private } = ummMetadata
-      const { CollectionAssociation: savedAssociation } = _private || {}
+      const { CollectionAssociation: savedAssociation } = _private
 
       setFetchedDraft(draft)
       setCurrentSelectedAssociation(savedAssociation)
@@ -113,8 +113,6 @@ const DraftCollectionAssociation = () => {
       </Page>
     )
   }
-
-  console.log('fetched', fetchedDraft)
 
   const { name } = fetchedDraft || {}
 

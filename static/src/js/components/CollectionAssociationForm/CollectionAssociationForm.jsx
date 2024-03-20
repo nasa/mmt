@@ -597,8 +597,12 @@ const CollectionAssociationForm = ({ metadata }) => {
   )
 }
 
+CollectionAssociationForm.defaultProps = {
+  metadata: {}
+}
+
 CollectionAssociationForm.propTypes = {
-  metadata: PropTypes.shape({}).isRequired
+  metadata: PropTypes.shape({})
 }
 
 export default CollectionAssociationForm
