@@ -27,8 +27,8 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 const ManageCollectionAssociation = () => {
-  console.log('in here', useParams())
   const { conceptId } = useParams()
+
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
 
@@ -80,15 +80,10 @@ const ManageCollectionAssociation = () => {
     setTableLoading(true)
   }, [])
 
-  useEffect(() => {
-    if (sortKeyParam) {
-      setTableLoading(true)
-      getMetadata()
-    }
-  }, [sortKeyParam])
-
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION)
 
+  // Handles deleting selected collection
+  // if no collections selected, returns an error notification
   const handleDeleteAssociation = () => {
     if (collectionConceptIds.length === 0) {
       setShowDeleteModal(false)
@@ -166,6 +161,8 @@ const ManageCollectionAssociation = () => {
     )
   }, [])
 
+  // Handles checkbox selections, if checked add the conceptId to the state variable
+  // and pops the added conceptId from the array.
   const handleCheckbox = (event) => {
     const { target } = event
     const { value } = target
@@ -177,6 +174,7 @@ const ManageCollectionAssociation = () => {
     }
   }
 
+  // Renders a checkbox for each row
   const buildActionsCell = useCallback((cellData, rowData) => {
     const { conceptId: collectionConceptId } = rowData
 
@@ -264,14 +262,16 @@ const ManageCollectionAssociation = () => {
 
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
-    setShowDeleteModal(true)
+    toggleShowDeleteModal(true)
   })
 
+  // Handle refresh, calls getMetadata to get the list of association
   const handleRefreshPage = () => {
     setTableLoading(true)
     getMetadata()
   }
 
+  // Handles navigating to collection association search page
   const handleCollectionAssociation = () => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association-search`)
   }
@@ -338,7 +338,6 @@ const ManageCollectionAssociation = () => {
           </Button>
         )
       }
-
       <div className="mt-4">
         <Alert className="fst-italic fs-6">
           <i className="eui-icon eui-fa-info-circle" />
@@ -360,7 +359,6 @@ const ManageCollectionAssociation = () => {
             refresh the page
           </span>
         </Alert>
-        <span className="fst-italic fs-6" />
       </div>
       <div className="mt-4">
         <span>
@@ -403,7 +401,7 @@ const ManageCollectionAssociation = () => {
                   {
                     label: 'No',
                     variant: 'secondary',
-                    onClick: () => { setShowDeleteModal(false) }
+                    onClick: () => { toggleShowDeleteModal(false) }
                   },
                   {
                     label: 'Yes',
@@ -416,6 +414,7 @@ const ManageCollectionAssociation = () => {
           </>
         )
       }
+      {/* Only render the Update Collection Association button if the concept type is Variable */}
       {
         (items && derivedConceptType === conceptTypes.Variable) && (
           <Button
