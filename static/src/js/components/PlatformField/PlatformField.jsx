@@ -71,7 +71,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
 
   const onHandleMouseDown = (values) => {
     const [valueType, valueShortName] = values
-    const valueLongName = longNameMap[valueShortName] || 'No Long Name Provided'
+    const valueLongName = longNameMap[valueShortName] || ''
     setType(valueType)
     setShortName(valueShortName)
     setLongName(valueLongName)
