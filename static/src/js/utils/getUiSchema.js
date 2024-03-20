@@ -1,3 +1,4 @@
+import collectionsUiSchema from '../schemas/uiSchemas/collections'
 import serviceUiSchema from '../schemas/uiSchemas/services'
 import toolsUiSchema from '../schemas/uiSchemas/tools'
 import variableUiSchema from '../schemas/uiSchemas/variables'
