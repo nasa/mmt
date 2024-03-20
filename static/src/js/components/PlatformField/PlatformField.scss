@@ -1,0 +1,48 @@
+input[type='text'] {
+  border-radius: 5px;
+}
+
+.platform-field-select-title {
+  margin-left: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.platform-field-select-option,
+.platform-field-clear-option {
+  padding: 0;
+  border: none;
+  margin: 0;
+  margin-top: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.1rem;
+}
+
+.platform-field-select-option {
+  display: block;
+  padding-left: 20px;
+}
+
+.platform-field-clear-option {
+  margin-left: 8px;
+  list-style: none;
+}
+
+.platForm-field-text-field {
+  display: flex;
+  min-width: 100%;
+  height: 40px;
+  justify-content: space-between;
+  padding-left: 8px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.platform-field-select-option:hover,
+.platform-field-clear-option:hover {
+  background-color: #EBF2F6;
+}
