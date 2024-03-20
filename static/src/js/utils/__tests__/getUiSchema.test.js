@@ -1,3 +1,4 @@
+import collectionUiSchema from '../../schemas/uiSchemas/collections'
 import serviceUiSchema from '../../schemas/uiSchemas/services'
 import toolsUiSchema from '../../schemas/uiSchemas/tools'
 import variableUiSchema from '../../schemas/uiSchemas/variables'
@@ -22,10 +23,9 @@ describe('getUiSchema', () => {
     })
   })
 
-  // TODO MMT-3422
   describe('when the concept type is collection-draft', () => {
-    test.skip('returns the UMM-C schema', () => {
-      expect(getUiSchema('Collection')).toEqual('Replace with Collection uiSchema')
+    test('returns the UMM-C schema', () => {
+      expect(getUiSchema('Collection')).toEqual(collectionUiSchema)
     })
   })
 
