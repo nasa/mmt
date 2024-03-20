@@ -19,6 +19,7 @@ import Page from '../Page/Page'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import EllipsisText from '../EllipsisText/EllipsisText'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import parseError from '../../utils/parseError'
 
@@ -88,12 +89,15 @@ const RevisionList = () => {
     const isPublishedVersion = (cellData === versions)
 
     return (
-      <EllipsisLink to={`/${type}/${conceptId}/${cellData}`}>
+      <EllipsisText>
         {cellData}
+        {' - '}
+        {(isPublishedVersion) ? 'Published' : 'Revision'}
         {' '}
-        -
-        {(isPublishedVersion) ? ' Published' : ' Revision'}
-      </EllipsisLink>
+        <EllipsisLink to={`/${type}/${conceptId}/${cellData}`} inline>
+          View
+        </EllipsisLink>
+      </EllipsisText>
     )
   }, [])
 

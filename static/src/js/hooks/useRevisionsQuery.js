@@ -12,40 +12,49 @@ const useRevisionsQuery = ({
   offset,
   sortKey
 }) => {
-  console.log('🚀 ~ type:', type)
   const [revisions, setRevisions] = useState({})
   const [error, setError] = useState()
   const [loading, setLoading] = useState()
 
-  // if (type === 'Collections') {
-  //   const [getRevisions, { loading: queryLoading }] = useLazyQuery(
-  //     GET_COLLECTION_REVISIONS,
-  //     {
-  //     // If the revision results have already been loaded, skip this query
-  //       skip: !isEmpty(revisions),
-  //       notifyOnNetworkStatusChange: true,
-  //       variables: {
-  //         params: {
-  //           conceptId: revisionConceptId,
-  //           allRevisions: true,
-  //           limit,
-  //           offset,
-  //           sortKey
-  //         }
-  //       },
-  //       onCompleted: (getRevisionsData) => {
-  //         const { [type.toLowerCase()]: revisionsResult } = getRevisionsData
+  if (type === 'Collections') {
+    const [getRevisions, { loading: queryLoading }] = useLazyQuery(
+      GET_COLLECTION_REVISIONS,
+      {
+      // If the revision results have already been loaded, skip this query
+        skip: !isEmpty(revisions),
+        notifyOnNetworkStatusChange: true,
+        variables: {
+          params: {
+            conceptId: revisionConceptId,
+            allRevisions: true,
+            limit,
+            offset,
+            sortKey
+          }
+        },
+        onCompleted: (getRevisionsData) => {
+          const { [type.toLowerCase()]: revisionsResult } = getRevisionsData
 
-  //         setRevisions(revisionsResult)
-  //         setLoading(false)
-  //       },
-  //       onError: (fetchError) => {
-  //         setError(fetchError)
-  //         setLoading(false)
-  //       }
-  //     }
-  //   )
-  // } else {
+          setRevisions(revisionsResult)
+          setLoading(false)
+        },
+        onError: (fetchError) => {
+          setError(fetchError)
+          setLoading(false)
+        }
+      }
+    )
+    useEffect(() => {
+      setLoading(queryLoading)
+    }, [queryLoading])
+
+    useEffect(() => {
+      setLoading(true)
+
+      // Fetch the search results
+      getRevisions()
+    }, [revisionConceptId])
+  } else {
     const [getRevisions, { loading: queryLoading }] = useLazyQuery(
       conceptTypeQueries[type],
       {
@@ -73,18 +82,18 @@ const useRevisionsQuery = ({
         }
       }
     )
-  // }
 
-  useEffect(() => {
-    setLoading(queryLoading)
-  }, [queryLoading])
+    useEffect(() => {
+      setLoading(queryLoading)
+    }, [queryLoading])
 
-  useEffect(() => {
-    setLoading(true)
+    useEffect(() => {
+      setLoading(true)
 
-    // Fetch the search results
-    getRevisions()
-  }, [revisionConceptId])
+      // Fetch the search results
+      getRevisions()
+    }, [revisionConceptId])
+  }
 
   return {
     loading,
