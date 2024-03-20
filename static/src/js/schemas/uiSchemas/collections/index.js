@@ -12,11 +12,11 @@ import spatialInformationUiSchema from './spatialInformation'
 import temporalInformationUiSchema from './temporalInformation'
 
 const collectionsUiSchema = {
-  'acquisition-information': acquisitionInformationUiSchema,
   'collection-information': collectionInformationUiSchema,
   'data-identification': dataIdentificationUiSchema,
   'related-urls': relatedUrlsUiSchema,
   'descriptive-keywords': descriptiveKeywordsUiSchema,
+  'acquisition-information': acquisitionInformationUiSchema,
   'temporal-information': temporalInformationUiSchema,
   'spatial-information': spatialInformationUiSchema,
   'data-centers': dataCentersUiSchema,
