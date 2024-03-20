@@ -90,13 +90,14 @@ const BoundingRectangleField = ({
         </Button>
       </div>
 
-      <div className="d-flex flex-column">
-        <div className="justify-content-around">
-          <div className="text-center">
+      <div className="bounding-rectangle-container">
+        <div className="bounding-rectangle-north-row">
+          <div className="bounding-rectangle-coordinate-label">
             <label htmlFor="north-coordinate">North</label>
             <input
-              className="form-control bounding-rectangle-field__coordinate-input"
+              className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="north-coordinate"
               onChange={
                 (event) => {
@@ -108,15 +109,16 @@ const BoundingRectangleField = ({
           </div>
         </div>
 
-        <div className="justify-content-between">
+        <div className="bounding-rectangle-east-west-row">
           <div>
-            <div className="text-center">
+            <div className="bounding-rectangle-coordinate-label">
               <label htmlFor="west-coordinate">West</label>
             </div>
 
             <input
-              className="form-control text-center bounding-rectangle-field__coordinate-input"
+              className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="west-coordinate"
               onChange={
                 (event) => {
@@ -128,13 +130,14 @@ const BoundingRectangleField = ({
           </div>
 
           <div>
-            <div className="text-center">
+            <div className="bounding-rectangle-coordinate-label">
               <label htmlFor="east-coordinate">East</label>
             </div>
 
             <input
-              className="form-control bounding-rectangle-field__coordinate-input"
+              className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="east-coordinate"
               onChange={
                 (event) => {
@@ -146,12 +149,13 @@ const BoundingRectangleField = ({
           </div>
         </div>
 
-        <div className="justify-content-around">
-          <div className="text-center">
+        <div className="bounding-rectangle-south-row">
+          <div className="bounding-rectangle-coordinate-label">
             <label htmlFor="south-coordinate">South</label>
             <input
-              className="form-control bounding-rectangle-field__coordinate-input"
+              className="form-control bounding-rectangle-coordinate"
               type="number"
+              step="any"
               id="south-coordinate"
               width="100px"
               onChange={

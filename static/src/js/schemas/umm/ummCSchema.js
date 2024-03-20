@@ -2696,6 +2696,7 @@ const ummCSchema = {
       description: 'This element defines a single archive artifact which a data provider would like to inform an end user that it exists.',
       oneOf: [{
         type: 'object',
+        title: 'Calculate collection file size for archive',
         additionalProperties: false,
         properties: {
           Format: {

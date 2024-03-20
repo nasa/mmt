@@ -81,7 +81,7 @@ class GridField extends ObjectField {
           <SchemaField
             disabled={disabled}
             errorSchema={errorSchema[layoutName]}
-            formData={(formData)[layoutName]}
+            formData={(formData || {})[layoutName]}
             idSchema={idSchema[layoutName]}
             name={layoutName}
             onBlur={onBlur}
