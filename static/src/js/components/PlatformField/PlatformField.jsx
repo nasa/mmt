@@ -13,10 +13,10 @@ import './PlatformField.scss'
  * @property {Object} formData Saved Draft
  */
 const PlatformField = ({ onChange, uiSchema, formData }) => {
-  const { Type = '', ShortName = '', LongName = '' } = formData
-  const [type, setType] = useState(Type)
-  const [shortName, setShortName] = useState(ShortName)
-  const [longName, setLongName] = useState(LongName)
+  const { Type, ShortName, LongName } = formData
+  const [type, setType] = useState(Type || '')
+  const [shortName, setShortName] = useState(ShortName || '')
+  const [longName, setLongName] = useState(LongName || '')
   const [loading, setLoading] = useState(false)
   const [keyword, setKeyword] = useState([])
   const [showMenu, setShowMenu] = useState(false)
@@ -71,7 +71,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
 
   const onHandleMouseDown = (values) => {
     const [valueType, valueShortName] = values
-    const valueLongName = longNameMap[valueShortName] || ''
+    const valueLongName = longNameMap[valueShortName] || 'No Long Name Provided'
     setType(valueType)
     setShortName(valueShortName)
     setLongName(valueLongName)
@@ -79,9 +79,9 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
     setShouldFocus(false)
 
     const data = {
-      Type: type,
-      ShortName: shortName,
-      LongName: longName
+      Type: valueType,
+      ShortName: valueShortName,
+      LongName: valueLongName
     }
 
     onChange(data)
@@ -105,9 +105,9 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
     setShouldFocus(false)
 
     const data = {
-      Type: type,
-      ShortName: shortName,
-      LongName: longName
+      Type: '',
+      ShortName: '',
+      LongName: ''
     }
     onChange(data)
   }

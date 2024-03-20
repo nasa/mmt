@@ -126,8 +126,8 @@ describe('Platform Field', () => {
 
       const select = screen.getByRole('combobox')
       await user.click(select)
-
       await user.click(screen.getByText('Clear Short Name'))
+      screen.debug()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
     })
