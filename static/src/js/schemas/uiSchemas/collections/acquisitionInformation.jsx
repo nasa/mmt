@@ -1,6 +1,7 @@
+import React from 'react'
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
-// Import PlatformField from '../../../components/PlatformField/PlatformField'
+import PlatformField from '../../../components/PlatformField/PlatformField'
 
 const acquisitionInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -52,22 +53,21 @@ const acquisitionInformationUiSchema = {
               children: [
                 {
                   'ui:row': [
-                    // Pending on a ticket for platforms
-                    // {
-                    //   md: 12,
-                    //   // Rendering custom component for ShortName, Type and LongName
-                    //   render: (props) => (
-                    //     <div style={
-                    //       {
-                    //         padding: '15px',
-                    //         paddingTop: '0px'
-                    //       }
-                    //     }
-                    //     >
-                    //       <PlatformField {...props} />
-                    //     </div>
-                    //   )
-                    // },
+                    {
+                      md: 12,
+                      // Rendering custom component for ShortName, Type and LongName
+                      render: (props) => (
+                        <div style={
+                          {
+                            padding: '15px',
+                            paddingTop: '0px'
+                          }
+                        }
+                        >
+                          <PlatformField {...props} />
+                        </div>
+                      )
+                    },
                     {
                       'ui:col': {
                         md: 12,
