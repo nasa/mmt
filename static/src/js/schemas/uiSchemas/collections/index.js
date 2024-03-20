@@ -17,7 +17,6 @@ const collectionsUiSchema = {
   'data-identification': dataIdentificationUiSchema,
   'related-urls': relatedUrlsUiSchema,
   'descriptive-keywords': descriptiveKeywordsUiSchema,
-  'acquisition-information': acquisitionInformationUiSchema,
   'temporal-information': temporalInformationUiSchema,
   'spatial-information': spatialInformationUiSchema,
   'data-centers': dataCentersUiSchema,
