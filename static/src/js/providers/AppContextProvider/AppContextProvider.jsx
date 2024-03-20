@@ -58,12 +58,12 @@ const AppContextProvider = ({ children }) => {
     setProviderIds,
     providerIds
   }), [
-    JSON.stringify(user),
-    JSON.stringify(draft),
-    JSON.stringify(originalDraft),
-    JSON.stringify(keywords),
-    JSON.stringify(savedDraft),
-    JSON.stringify(providerIds)
+    user,
+    draft,
+    originalDraft,
+    keywords,
+    savedDraft,
+    providerIds
   ])
 
   return (
