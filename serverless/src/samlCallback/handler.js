@@ -1,6 +1,4 @@
-import encodeCookie from '../../../static/src/js/utils/encodeCookie'
 import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
-import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
 import parseSaml from '../../../static/src/js/utils/parseSaml'
 
 const { URLSearchParams } = require('url')
@@ -22,20 +20,6 @@ const getLaunchpadToken = (cookieString) => {
   return cookies[getSamlConfig().cookieName]
 }
 
-const getUserName = async (auid) => {
-  if (process.env.EDL_PASSWORD === '') {
-    return auid
-  }
-
-  const edlProfile = await fetchEdlProfile(auid)
-
-  const firstName = edlProfile.first_name
-  const lastName = edlProfile.last_name
-  const name = firstName == null ? edlProfile.uid : `${firstName} ${lastName}`
-
-  return name
-}
-
 /**
  * Handles saml callback during authentication
  * @param {Object} event Details about the HTTP request that it received
@@ -46,39 +30,21 @@ const samlCallback = async (event) => {
   const { mmtHost, version } = getApplicationConfig()
 
   const params = new URLSearchParams(body)
-  const samlResponse = parseSaml(params.get('SAMLResponse'))
   const path = params.get('RelayState')
 
-  const { auid } = samlResponse
-
   const launchpadToken = getLaunchpadToken(Cookie)
-
-  const name = await getUserName(auid)
-
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  // Create encoded cookie containing json with name, token, and other details
-  // returned by launchpad (name, auid).
-  const encodedCookie = encodeCookie({
-    ...samlResponse,
-    name,
-    token: {
-      tokenValue: launchpadToken,
-      tokenExp: expires.valueOf() // Returns long epoch
-    }
-  })
+  const samlResponse = parseSaml(params.get('SAMLResponse'))
+  const { auid } = samlResponse
 
   // There appears to be a limitation in AWS to only allow sending 1 cookie, so we are sending
   // 1 cookie with multiple values in a base 64 encoded json string.
-  let setCookie = `loginInfo=${encodedCookie}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov; Max-Age=2147483647`
+  let setCookie = `launchpadToken=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
 
   if (version === 'development') {
-    setCookie = `loginInfo=${encodedCookie}; Path=/`
+    setCookie = `launchpadToken=${launchpadToken}; Path=/`
   }
 
-  const location = `${mmtHost}/auth_callback?target=${encodeURIComponent(path)}`
+  const location = `${mmtHost}/auth_callback?target=${encodeURIComponent(path)}&auid=${encodeURIComponent(auid)}`
 
   const response = {
     statusCode: 303,

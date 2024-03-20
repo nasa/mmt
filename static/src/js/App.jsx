@@ -1,15 +1,8 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { BrowserRouter, Navigate } from 'react-router-dom'
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink
-} from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-
+import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
 import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
@@ -24,11 +17,14 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import { getApplicationConfig } from './utils/getConfig'
-
 import '../css/index.scss'
+
+import errorLogger from './utils/errorLogger'
+import useNotificationsContext from './hooks/useNotificationsContext'
+import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
+import getPermittedUser from './utils/getPermittedUser'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -54,50 +50,70 @@ const Redirects = redirectKeys.map(
  *   <App />
  * )
  */
-const App = () => {
+export const App = () => {
   useLayoutEffect(() => {
     document.body.classList.remove('is-loading')
   }, [])
 
-  const { graphQlHost } = getApplicationConfig()
-  const { user } = useAppContext()
-  const { token } = user
-  const { tokenValue } = token || {}
+  const { addNotification } = useNotificationsContext()
 
-  const httpLink = createHttpLink({
-    uri: graphQlHost
-  })
+  const {
+    user, setProviderId, setProviderIds
+  } = useAppContext()
 
-  console.log('using token ', tokenValue)
+  const { uid } = user
 
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      Authorization: tokenValue
-    }
-  }))
+  const permittedUser = getPermittedUser(user)
 
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
+  const [getProviders] = useLazyQuery(GET_ACLS, {
+    variables: {
+      params: {
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 2000,
+        permittedUser,
+        target: 'PROVIDER_CONTEXT'
+      }
+    },
+    onCompleted: (getProviderData) => {
+      const { acls } = getProviderData
+      const { items } = acls
 
-    link: authLink.concat(httpLink),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache'
-      },
-      watchQuery: {
-        fetchPolicy: 'no-cache'
+      if (items.length > 0) {
+        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+
+        setProviderIds(providerList)
+
+        // Check if user does not have providerId
+        // and set it to the first providerId if available
+        const { providerId } = user
+        if (!providerId && providerList.length > 0) {
+          setProviderId(providerList[0])
+        }
+      }
+    },
+    onError: (getProviderError) => {
+      // Todo: Hackish, we really only want to call getProviders if uid is not null
+      // Seems to be re-fetching whenever uid changes
+      if (uid) {
+        // Send the error to the errorLogger
+        errorLogger(getProviderError, 'Error fetching providers')
+        addNotification({
+          message: 'An error occurred while fetching providers.',
+          variant: 'danger'
+        })
       }
     }
   })
-  // http://localhost:5173/tool-drafts/TD1200000093-MMT_2/
-  // appContext = {
-  //   statusMessage
-  //   errorMessage
-  // }
+
+  useEffect(() => {
+    if (uid) {
+      getProviders()
+    }
+  }, [user])
 
   return (
-    <ApolloProvider client={client}>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -155,7 +171,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Notifications />
-    </ApolloProvider>
+    </>
   )
 }
 

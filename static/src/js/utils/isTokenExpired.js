@@ -3,7 +3,7 @@ const isTokenExpired = (token) => {
     return true
   }
 
-  const now = new Date().valueOf()
+  const now = new Date()
   const { tokenValue, tokenExp } = token
 
   return (tokenValue === null || tokenValue === undefined || tokenValue === '') || now > tokenExp

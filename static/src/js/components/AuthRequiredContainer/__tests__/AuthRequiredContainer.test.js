@@ -5,6 +5,7 @@ import '@testing-library/jest-dom'
 
 import { MemoryRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import * as router from 'react-router'
 import { AuthRequiredContainer } from '../AuthRequiredContainer'
 import { getApplicationConfig } from '../../../utils/getConfig'
 import AppContext from '../../../context/AppContext'
@@ -70,10 +71,54 @@ describe('AuthRequiredContainer component', () => {
     setup({
       token: {
         tokenValue: 'ABC-1',
-        tokenExpires: expires
+        tokenExp: expires.valueOf()
       }
     })
 
     expect(screen.getByText('children')).toBeInTheDocument()
+  })
+
+  test('should redirect the user to / if token is expired', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() - 2)
+    expires = new Date(expires)
+
+    const navigateSpy = jest.fn()
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+    setup({
+      token: {
+        tokenValue: 'ABC-1',
+        tokenExp: expires.valueOf()
+      }
+    })
+
+    expect(navigateSpy).toHaveBeenCalledWith('/', { replace: true })
+  })
+
+  test('should redirect the user to / if there is no user data', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() - 2)
+    expires = new Date(expires)
+
+    const navigateSpy = jest.fn()
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+    setup({})
+
+    expect(navigateSpy).toHaveBeenCalledWith('/', { replace: true })
+  })
+
+  test('should redirect the user to / if there is user data but no token', () => {
+    let expires = new Date()
+    expires.setMinutes(expires.getMinutes() - 2)
+    expires = new Date(expires)
+
+    const navigateSpy = jest.fn()
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+    setup({ name: 'mock name' })
+
+    expect(navigateSpy).toHaveBeenCalledWith('/', { replace: true })
   })
 })

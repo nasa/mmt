@@ -2,8 +2,11 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
+  Badge,
   Button,
   Col,
+  ListGroup,
+  ListGroupItem,
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
@@ -23,6 +26,10 @@ import useAppContext from '../../hooks/useAppContext'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
+import conceptTypes from '../../constants/conceptTypes'
+import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import For from '../For/For'
+import getTagCount from '../../utils/getTagCount'
 
 /**
  * Renders a PublishPreview component
@@ -45,6 +52,7 @@ const PublishPreview = () => {
 
   const [previewMetadata, setPreviewMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showTagModal, setShowTagModal] = useState(false)
   const [ummMetadata, setUmmMetadata] = useState()
   const [error, setError] = useState()
   const [retries, setRetries] = useState(0)
@@ -55,20 +63,37 @@ const PublishPreview = () => {
     setShowDeleteModal(nextState)
   }
 
+  const toggleTagModal = (nextState) => {
+    setShowTagModal(nextState)
+  }
+
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const ingestMutation = useIngestDraftMutation()
+  const {
+    ingestMutation, ingestDraft,
+    error: ingestDraftError,
+    loading: ingestLoading
+  } = useIngestDraftMutation()
 
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
+
+  const getMetadataVariables = () => {
+    if (derivedConceptType === conceptTypes.Collection) {
+      return {
+        conceptId,
+        includeTags: '*'
+      }
+    }
+
+    return { conceptId }
+  }
 
   // Calls CMR-Graphql to get the record
   const [getMetadata] = useLazyQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
-      params: {
-        conceptId
-      }
+      params: getMetadataVariables()
     },
     onCompleted: (getData) => {
       const fetchedPreviewMetadata = getData[toLowerKebabCase(derivedConceptType)]
@@ -134,6 +159,46 @@ const PublishPreview = () => {
     constructDownloadableFile(contents, conceptId)
   }
 
+  // Handles the user selection Create Associated Variable for a Collection
+  // This will create a new variable draft with the collection conceptId
+  const handleCreateAssociatedVariable = () => {
+    setLoading(true)
+
+    const { conceptId: collectionConceptId, shortName, versionId } = previewMetadata
+
+    const variableDraft = {
+      _private: {
+        CollectionAssociation: {
+          collectionConceptId,
+          shortName,
+          version: versionId
+        }
+      }
+    }
+
+    ingestMutation('Variable', variableDraft, `MMT_${crypto.randomUUID()}`, providerId)
+  }
+
+  useEffect(() => {
+    if (ingestDraftError) {
+      errorLogger(ingestDraftError, 'PublishPreview ingestDraftMutation Query')
+      addNotification({
+        message: 'Error creating draft',
+        variant: 'danger'
+      })
+    }
+
+    if (ingestDraft) {
+      const { ingestDraft: fetchedIngestDraft } = ingestDraft
+      const { conceptId: ingestConceptId } = fetchedIngestDraft
+      navigate(`/drafts/${pluralize(getConceptTypeByDraftConceptId(ingestConceptId)).toLowerCase()}/${ingestConceptId}`)
+      addNotification({
+        message: 'Draft created successfully',
+        variant: 'success'
+      })
+    }
+  }, [ingestLoading])
+
   // Handles the user selecting delete from the delete model
   const handleDelete = () => {
     deleteMutation({
@@ -149,7 +214,7 @@ const PublishPreview = () => {
         })
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
 
         // Navigate to the manage page
         navigate(`/manage/${pluralize(derivedConceptType).toLowerCase()}`)
@@ -165,9 +230,19 @@ const PublishPreview = () => {
         errorLogger(deleteError, 'PublishPreview: deleteMutation')
 
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
       }
     })
+  }
+
+  let tagCount = 0
+  let granuleCount = 0
+  if (derivedConceptType === conceptTypes.Collection) {
+    const { tagDefinitions, granules } = previewMetadata || {}
+    const { count } = granules || {}
+
+    tagCount = getTagCount(tagDefinitions)
+    granuleCount = count
   }
 
   if (error) {
@@ -192,7 +267,6 @@ const PublishPreview = () => {
     <Page>
       <Row>
         <Col className="mb-5" md={12}>
-          {/* Edit Publish record link */}
           <Button
             className="btn btn-link"
             type="button"
@@ -209,7 +283,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Clone Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -226,7 +300,7 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Download Publish record link */}
+
           <Button
             className="btn btn-link"
             type="button"
@@ -243,13 +317,66 @@ const PublishPreview = () => {
             {' '}
             Record
           </Button>
-          {/* Delete Publish record button */}
+
+          {
+            derivedConceptType === conceptTypes.Collection && (
+              <>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      toggleTagModal(true)
+                    }
+                  }
+                >
+                  Tags
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { tagCount }
+                  </Badge>
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  disabled
+                >
+                  Granules
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { granuleCount }
+                  </Badge>
+
+                </Button>
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={
+                    () => {
+                      handleCreateAssociatedVariable()
+                    }
+                  }
+                >
+                  Create Associated Variable
+                </Button>
+              </>
+            )
+          }
           <Button
             type="button"
             variant="outline-danger"
             onClick={
               () => {
-                setShowDeleteModal(true)
+                toggleShowDeleteModal(true)
               }
             }
           >
@@ -262,13 +389,14 @@ const PublishPreview = () => {
           <CustomModal
             message="Are you sure you want to delete this record?"
             show={showDeleteModal}
+            size="lg"
             toggleModal={toggleShowDeleteModal}
             actions={
               [
                 {
                   label: 'No',
                   variant: 'secondary',
-                  onClick: () => { setShowDeleteModal(false) }
+                  onClick: () => { toggleShowDeleteModal(false) }
                 },
                 {
                   label: 'Yes',
@@ -276,6 +404,47 @@ const PublishPreview = () => {
                   onClick: handleDelete
                 }
               ]
+            }
+          />
+          <CustomModal
+            show={showTagModal}
+            toggleModal={toggleTagModal}
+            actions={
+              [
+                {
+                  label: 'Close',
+                  variant: 'primary',
+                  onClick: () => { toggleTagModal(false) }
+                }
+              ]
+            }
+            header={previewMetadata.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+            message={
+              previewMetadata.tagDefinitions
+                ? (
+                  <>
+                    <h3 className="fw-bolder h5">{}</h3>
+                    <ListGroup>
+                      <For each={previewMetadata.tagDefinitions.items}>
+                        {
+                          (tagItems) => (
+                            <ListGroupItem key={tagItems.tagKey}>
+                              <dl>
+                                <dt>Tag Key:</dt>
+                                <dd>{tagItems.tagKey}</dd>
+                                <dt>Description:</dt>
+                                <dd>
+                                  {tagItems.description}
+                                </dd>
+                              </dl>
+                            </ListGroupItem>
+                          )
+                        }
+                      </For>
+                    </ListGroup>
+                  </>
+                )
+                : 'There are no tags associated with this collection'
             }
           />
         </Col>

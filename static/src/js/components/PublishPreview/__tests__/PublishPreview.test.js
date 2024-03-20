@@ -1,5 +1,9 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import React from 'react'
 import {
@@ -19,12 +23,14 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import encodeCookie from '../../../utils/encodeCookie'
+import { noTagsOrGranulesCollection, publishCollectionRecord } from './__mocks__/publishPreview'
 
 jest.mock('../../../utils/constructDownloadableFile')
 jest.mock('../../MetadataPreview/MetadataPreview')
 jest.mock('../../ErrorBanner/ErrorBanner')
 jest.mock('../../../utils/errorLogger')
+
+global.fetch = jest.fn()
 
 const mockedUsedNavigate = jest.fn()
 
@@ -103,7 +109,9 @@ const mock = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  overrideInitialEntries,
+  overridePath
 }) => {
   const mocks = [{
     request: {
@@ -127,11 +135,12 @@ const setup = ({
 
   const cookie = new Cookies(
     {
-      loginInfo: encodeCookie({
+      loginInfo: ({
+        providerId: 'MMT_2',
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
       })
     }
@@ -140,14 +149,14 @@ const setup = ({
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <Providers>
-          <MemoryRouter initialEntries={['/tools/T1000000-MMT/1']}>
+      <Providers>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+          <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
             <Routes>
               <Route
-                path="/tools"
+                path={overridePath || '/tools'}
               >
                 <Route
                   path=":conceptId/:revisionId"
@@ -156,8 +165,8 @@ const setup = ({
               </Route>
             </Routes>
           </MemoryRouter>
-        </Providers>
-      </MockedProvider>
+        </MockedProvider>
+      </Providers>
     </CookiesProvider>
   )
 
@@ -529,6 +538,229 @@ describe('PublishPreview', () => {
         JSON.stringify(mock.ummMetadata, null, 2),
         'T1000000-MMT'
       )
+    })
+  })
+
+  describe('Collection Preview', () => {
+    describe('Create Associated Variable', () => {
+      describe('when clicking on Create Collection', () => {
+        test('should navigate to variable draft preview', async () => {
+          const navigateSpy = jest.fn()
+          jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+          const { user } = setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: publishCollectionRecord
+                  }
+                }
+              },
+              {
+                request: {
+                  query: INGEST_DRAFT,
+                  variables: {
+                    conceptType: 'Variable',
+                    metadata: {
+                      _private: {
+                        CollectionAssociation: {
+                          collectionConceptId: 'C1200000100-MMT_2',
+                          shortName: 'Mock Quick Test Services #2',
+                          version: '1'
+                        }
+                      }
+                    },
+                    nativeId: 'MMT_mock-uuid',
+                    providerId: 'MMT_2',
+                    ummVersion: '1.9.0'
+                  }
+                },
+                result: {
+                  data: {
+                    ingestDraft: {
+                      conceptId: 'VD1000000-MMT',
+                      revisionId: '1'
+                    }
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+
+          const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
+
+          await user.click(createVariableAssociationBtn)
+
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD1000000-MMT')
+        })
+      })
+    })
+
+    describe('Tags', () => {
+      describe('when the collection has tags', () => {
+        test('should display the tag modal and close the modal', async () => {
+          const { user } = setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: publishCollectionRecord
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+
+          const tagBtn = screen.getByRole('button', { name: 'Tags 1' })
+          await user.click(tagBtn)
+
+          const modal = screen.queryByRole('dialog')
+
+          expect(modal).toBeInTheDocument()
+          expect(within(modal).queryByText('1 tag')).toBeInTheDocument()
+          expect(within(modal).queryByText('Tag Key:')).toBeInTheDocument()
+          expect(within(modal).queryByText('Description:')).toBeInTheDocument()
+          expect(within(modal).queryByText('Mock tag description')).toBeInTheDocument()
+
+          const closeButton = within(modal).queryByRole('button', { name: 'Close' })
+
+          await user.click(closeButton)
+
+          expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('when the collection has no tags', () => {
+        test('should display the with no tag message', async () => {
+          const { user } = setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: noTagsOrGranulesCollection
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+
+          const tagBtn = screen.getByRole('button', { name: 'Tags 0' })
+          await user.click(tagBtn)
+
+          const modal = screen.queryByRole('dialog')
+
+          expect(modal).toBeInTheDocument()
+          expect(within(modal).queryByText('There are no tags associated with this collection')).toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('Granules', () => {
+      describe('when the collection has granules', () => {
+        test('should display the granule count', async () => {
+          setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: publishCollectionRecord
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+          expect(screen.getByRole('button', { name: 'Granules 1' }))
+        })
+      })
+
+      describe('when the collection has no granules', () => {
+        test('should display the granule count with 0', async () => {
+          setup({
+            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+            overridePath: '/collections',
+            overrideMocks: [
+              {
+                request: {
+                  query: conceptTypeQueries.Collection,
+
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      includeTags: '*'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collection: noTagsOrGranulesCollection
+                  }
+                }
+              }
+            ]
+          })
+
+          await waitForResponse()
+          expect(screen.getByRole('button', { name: 'Granules 0' }))
+        })
+      })
     })
   })
 })

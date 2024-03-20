@@ -1,16 +1,26 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
 import userEvent from '@testing-library/user-event'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
-import { getApplicationConfig } from '../../../utils/getConfig'
-import * as getConfig from '../../../utils/getConfig'
-import encodeCookie from '../../../utils/encodeCookie'
+import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
+
+jest.mock('../../../utils/getConfig', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../utils/getConfig'),
+  getApplicationConfig: jest.fn(() => ({
+    apiHost: 'http://test.com/dev'
+  }))
+}))
 
 const MockComponent = () => {
-  const { user, login, logout } = useAppContext()
+  const {
+    user,
+    login,
+    logout,
+    setProviderId
+  } = useAppContext()
 
   return (
     <div>
@@ -39,6 +49,17 @@ const MockComponent = () => {
       >
         Log out
       </button>
+      <button
+        type="button"
+        onClick={() => setProviderId('MMT_TEST')}
+      >
+        Set provider id
+      </button>
+      <div>
+        Provider Id:
+        {' '}
+        {user?.providerId}
+      </div>
     </div>
   )
 }
@@ -50,35 +71,34 @@ const setup = (overrideCookie) => {
 
   const cookie = new Cookies(
     overrideCookie || {
-      loginInfo: encodeCookie({
+      loginInfo: {
         name: 'User Name',
         token: {
           tokenValue: 'ABC-1',
-          tokenExp: expires
+          tokenExp: expires.valueOf()
         }
-      })
+      }
     }
   )
   cookie.HAS_DOCUMENT_COOKIE = false
 
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <AppContextProvider>
-        <MockComponent />
-      </AppContextProvider>
+      <AuthContextProvider>
+        <AppContextProvider>
+          <MockComponent />
+        </AppContextProvider>
+      </AuthContextProvider>
     </CookiesProvider>
-
   )
+
+  return cookie
 }
 
 describe('AppContextProvider component', () => {
   describe('when app starts up', () => {
     beforeEach(() => {
       jest.resetAllMocks()
-
-      jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-        cookie: null
-      }))
     })
 
     describe('when log in is triggered', () => {
@@ -91,8 +111,7 @@ describe('AppContextProvider component', () => {
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
         await user.click(button)
-        const { apiHost } = getApplicationConfig()
-        const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
         expect(window.location.href).toEqual(expectedPath)
       })
     })
@@ -121,6 +140,38 @@ describe('AppContextProvider component', () => {
 
         expect(newUserName).not.toBeInTheDocument()
       })
+    })
+
+    describe('setProviderId is triggered', () => {
+      test('sets the provider id', async () => {
+        delete window.location
+        window.location = {}
+
+        setup()
+
+        const user = userEvent.setup()
+        const setProviderButton = screen.getByRole('button', { name: 'Set provider id' })
+
+        await user.click(setProviderButton)
+
+        const providerId = screen.getByText('Provider Id: MMT_TEST', { exact: true })
+
+        expect(providerId).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('cleans up old cookie causing header length issues', () => {
+    test('clears old data cookie when present', async () => {
+      delete window.location
+      window.location = {}
+      const cookie = setup({
+        launchpadToken: 'mock launchpad token',
+        data: 'encoded cookie'
+      })
+
+      // Only launchpadtoken left
+      expect(cookie.cookies).toEqual({ launchpadToken: 'mock launchpad token' })
     })
   })
 })

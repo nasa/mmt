@@ -23,6 +23,7 @@ import {
   singlePageCollectionSearchError,
   singlePageServicesSearch,
   singlePageToolsSearch,
+  singlePageToolsSearchWithProvider,
   singlePageVariablesSearch
 } from './__mocks__/searchResults'
 
@@ -87,7 +88,7 @@ describe('SearchPage component', () => {
         expect(screen.queryAllByRole('cell', {
           busy: true,
           hidden: true
-        })).toHaveLength(140)
+        })).toHaveLength(175)
       })
 
       test('renders the headers', async () => {
@@ -136,7 +137,7 @@ describe('SearchPage component', () => {
         expect(row2Cells[2].textContent).toBe('Collection Title 2')
         expect(row2Cells[3].textContent).toBe('MMT')
         expect(row2Cells[4].textContent).toBe('1234')
-        expect(row2Cells[5].textContent).toBe('2')
+        expect(row2Cells[5].textContent).toBe('1')
         expect(row2Cells[6].textContent).toBe('2023-11-31 00:00:00')
       })
     })
@@ -163,8 +164,8 @@ describe('SearchPage component', () => {
         expect(within(modal).queryByText('1 tag')).toBeInTheDocument()
         expect(within(modal).queryByText('Tag Key:')).toBeInTheDocument()
         expect(within(modal).queryByText('test.tag.one')).toBeInTheDocument()
-        expect(within(modal).queryByText('Data:')).toBeInTheDocument()
-        expect(within(modal).queryByText('Tag Data 1')).toBeInTheDocument()
+        expect(within(modal).queryByText('Description:')).toBeInTheDocument()
+        expect(within(modal).queryByText('Mock tag description')).toBeInTheDocument()
       })
     })
 
@@ -309,7 +310,6 @@ describe('SearchPage component', () => {
       const row1 = rows[0]
       const ascendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })
 
-      // Screen.debug(ascendingButton)
       user.click(ascendingButton)
 
       await waitFor(() => {
@@ -477,6 +477,37 @@ describe('SearchPage component', () => {
         expect(row1Cells[2].textContent).toBe('TESTPROV')
         expect(row1Cells[3].textContent).toBe('2023-11-30 00:00:00')
       })
+    })
+  })
+
+  describe('when a provider is defined', () => {
+    beforeEach(() => {
+      setup([singlePageToolsSearchWithProvider], {}, ['/search?type=tools&provider=TESTPROV'])
+    })
+
+    describe('when the request resolves', () => {
+      test('renders the results', async () => {
+        await waitFor(() => {
+          expect(screen.queryAllByRole('row').length).toEqual(2)
+        })
+
+        const rows = screen.queryAllByRole('row')
+
+        const headerRow = rows[0]
+
+        expect(headerRow.children[0].textContent).toContain('Name')
+        expect(headerRow.children[1].textContent).toContain('Long Name')
+        expect(headerRow.children[2].textContent).toContain('Provider')
+        expect(headerRow.children[3].textContent).toContain('Last Modified')
+      })
+    })
+
+    test('renders the search query', async () => {
+      await waitFor(() => {
+        expect(screen.queryAllByRole('row').length).toEqual(2)
+      })
+
+      expect(screen.queryByText('1 Tool Result for:').textContent).toContain('Provider “TESTPROV”')
     })
   })
 

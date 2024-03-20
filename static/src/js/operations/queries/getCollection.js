@@ -18,6 +18,9 @@ export const GET_COLLECTION = gql`
       dataDates
       directDistributionInformation
       doi
+      granules {
+        count
+      }
       isoTopicCategories
       locationKeywords
       metadataAssociations
@@ -76,6 +79,15 @@ export const GET_COLLECTION = gql`
       spatialInformation
       standardProduct
       tags
+      tagDefinitions {
+        items {
+          conceptId
+          revisionId
+          tagKey
+          description
+          originatorId
+        }
+      }
       temporalExtents
       temporalKeywords
       tilingIdentificationSystems

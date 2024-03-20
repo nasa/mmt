@@ -1,26 +1,22 @@
 import React, {
   useCallback,
-  useEffect,
   useMemo,
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
 import useKeywords from '../../hooks/useKeywords'
 import AppContext from '../../context/AppContext'
-import { getApplicationConfig } from '../../utils/getConfig'
-import decodeCookie from '../../utils/decodeCookie'
-import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
+import useAuthContext from '../../hooks/useAuthContext'
 
 /**
  * @typedef {Object} AppContextProviderProps
  * @property {ReactNode} children The children to be rendered.
 
 /**
- * Renders any children wrapped with AppContext.
+ * Renders any children wrapped with access to AppContext.
  * @param {AppContextProviderProps} props
  *
- * @example <caption>Renders children wrapped with AppContext.</caption>
+ * @example <caption>Renders children wrapped with access to AppContext.</caption>
  *
  * return (
  *   <AppContextProvider>
@@ -29,74 +25,45 @@ import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
  * )
  */
 const AppContextProvider = ({ children }) => {
-  const keywordsContext = useKeywords()
+  const {
+    login, logout, user, updateLoginInfo, setUser
+  } = useAuthContext()
+  const { addKeywordsData, keywords } = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
   const [savedDraft, setSavedDraft] = useState()
-  const [user, setUser] = useState({})
+  const [providerIds, setProviderIds] = useState([])
 
-  const { keywords } = keywordsContext
-
-  const [cookies] = useCookies(['loginInfo'])
-  const { token } = user
-
-  const {
-    loginInfo
-  } = cookies
-
-  useEffect(() => {
-    if (loginInfo) {
-      const {
-        auid, name, token: cookieToken
-      } = decodeCookie(loginInfo)
-
-      setUser({
-        ...user,
-        token: cookieToken,
-        name,
-        auid,
-        providerId: 'MMT_2'
-      })
-    }
-  }, [loginInfo])
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      checkAndRefreshToken(token, user, setUser)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [token])
-
-  const login = useCallback(() => {
-    const { apiHost } = getApplicationConfig()
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/collections')}`
-  })
-
-  const logout = useCallback(() => {
-    setUser({})
-  })
+  const setProviderId = useCallback((providerId) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      providerId
+    }))
+  }, [user])
 
   const providerValue = useMemo(() => ({
-    ...keywordsContext,
-    draft,
+    user,
     login,
     logout,
+    addKeywordsData,
+    keywords,
+    draft,
     originalDraft,
     savedDraft,
     setDraft,
     setOriginalDraft,
     setSavedDraft,
-    setUser,
-    user
+    updateLoginInfo,
+    setProviderId,
+    setProviderIds,
+    providerIds
   }), [
-    draft,
-    originalDraft,
-    keywords,
-    savedDraft,
-    user,
-    login,
-    logout
+    JSON.stringify(user),
+    JSON.stringify(draft),
+    JSON.stringify(originalDraft),
+    JSON.stringify(keywords),
+    JSON.stringify(savedDraft),
+    JSON.stringify(providerIds)
   ])
 
   return (

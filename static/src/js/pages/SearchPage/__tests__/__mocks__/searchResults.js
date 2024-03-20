@@ -10,8 +10,9 @@ export const singlePageCollectionSearch = {
     variables: {
       params: {
         keyword: 'test',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -26,6 +27,7 @@ export const singlePageCollectionSearch = {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 1',
             provider: 'TESTPROV',
             granules: {
@@ -36,6 +38,15 @@ export const singlePageCollectionSearch = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             entryTitle: null,
             revisionDate: '2023-11-30 00:00:00'
           },
@@ -43,6 +54,7 @@ export const singlePageCollectionSearch = {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
@@ -56,6 +68,15 @@ export const singlePageCollectionSearch = {
               'test.tag.two': {
                 data: 'Tag Data 2'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description 2',
+                originatorId: 'test.user',
+                revisionId: '2',
+                tagKey: 'Mock tag key 2'
+              }]
             },
             revisionDate: '2023-11-31 00:00:00'
           }
@@ -73,6 +94,7 @@ export const multiPageCollectionSearchPage1 = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -87,6 +109,7 @@ export const multiPageCollectionSearchPage1 = {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 1',
             provider: 'TESTPROV',
             granules: {
@@ -98,12 +121,22 @@ export const multiPageCollectionSearchPage1 = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            revisionId: 1,
             title: 'Collection Title 2',
             provider: 'MMT',
             entryTitle: null,
@@ -118,12 +151,22 @@ export const multiPageCollectionSearchPage1 = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 3',
             provider: 'TESTPROV',
@@ -134,6 +177,15 @@ export const multiPageCollectionSearchPage1 = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00'
           }
@@ -151,6 +203,7 @@ export const multiPageCollectionSearchPage2 = {
         keyword: 'test',
         limit: 3,
         offset: 3,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -165,6 +218,7 @@ export const multiPageCollectionSearchPage2 = {
             conceptId: 'C1000000003-TESTPROV',
             shortName: 'Collection Short Name 4',
             version: '2',
+            revisionId: 1,
             title: 'Collection Title 4',
             provider: 'MMT',
             entryTitle: null,
@@ -179,12 +233,22 @@ export const multiPageCollectionSearchPage2 = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
             conceptId: 'C1000000004-TESTPROV',
             shortName: 'Collection Short Name 5',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 5',
             provider: 'TESTPROV',
             entryTitle: null,
@@ -196,12 +260,22 @@ export const multiPageCollectionSearchPage2 = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000005-TESTPROV',
             shortName: 'Collection Short Name 6',
             version: '2',
+            revisionId: 1,
             title: 'Collection Title 6',
             entryTitle: null,
             provider: 'MMT',
@@ -209,6 +283,7 @@ export const multiPageCollectionSearchPage2 = {
               count: 1234
             },
             tags: null,
+            tagDefinitions: null,
             revisionDate: '2023-11-31 00:00:00'
           }
         ]
@@ -225,6 +300,7 @@ export const multiPageCollectionSearchPage1Asc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: '-shortName'
       }
@@ -239,6 +315,7 @@ export const multiPageCollectionSearchPage1Asc = {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            revisionId: 1,
             title: 'Collection Title 3',
             entryTitle: null,
             provider: 'TESTPROV',
@@ -250,12 +327,22 @@ export const multiPageCollectionSearchPage1Asc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
@@ -270,12 +357,22 @@ export const multiPageCollectionSearchPage1Asc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 1',
             provider: 'TESTPROV',
             granules: {
@@ -285,6 +382,15 @@ export const multiPageCollectionSearchPage1Asc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00',
             entryTitle: null
@@ -303,6 +409,7 @@ export const multiPageCollectionSearchPage1Desc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: 'shortName'
       }
@@ -317,6 +424,7 @@ export const multiPageCollectionSearchPage1Desc = {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            revisionId: 1,
             title: 'Collection Title 3',
             provider: 'TESTPROV',
             entryTitle: null,
@@ -328,12 +436,22 @@ export const multiPageCollectionSearchPage1Desc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
@@ -348,12 +466,22 @@ export const multiPageCollectionSearchPage1Desc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 1',
             entryTitle: null,
             provider: 'TESTPROV',
@@ -364,6 +492,15 @@ export const multiPageCollectionSearchPage1Desc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00'
           }
@@ -381,6 +518,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
         keyword: 'test',
         limit: 3,
         offset: 0,
+        provider: null,
         includeTags: '*',
         sortKey: '-entryTitle'
       }
@@ -395,6 +533,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
             conceptId: 'C1000000002-TESTPROV',
             shortName: 'Collection Short Name 3',
             version: '3',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 3',
             provider: 'TESTPROV',
@@ -406,12 +545,22 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 data: 'Tag Data 1'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-30 00:00:00'
           },
           {
             conceptId: 'C1000000001-TESTPROV',
             shortName: 'Collection Short Name 2',
             version: '2',
+            revisionId: 1,
             entryTitle: null,
             title: 'Collection Title 2',
             provider: 'MMT',
@@ -426,12 +575,22 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 data: 'Tag Data 2'
               }
             },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
             revisionDate: '2023-11-31 00:00:00'
           },
           {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
+            revisionId: 1,
             title: 'Collection Title 1',
             provider: 'TESTPROV',
             granules: {
@@ -441,6 +600,15 @@ export const multiPageCollectionSearchPage1TitleAsc = {
               'test.tag.one': {
                 data: 'Tag Data 1'
               }
+            },
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
             },
             revisionDate: '2023-11-30 00:00:00',
             entryTitle: null
@@ -457,8 +625,9 @@ export const singlePageCollectionSearchError = {
     variables: {
       params: {
         keyword: 'test',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null,
         includeTags: '*'
       }
@@ -481,8 +650,9 @@ export const singlePageServicesSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null
       }
     }
@@ -511,8 +681,9 @@ export const singlePageVariablesSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
         sortKey: null
       }
     }
@@ -541,8 +712,40 @@ export const singlePageToolsSearch = {
     variables: {
       params: {
         keyword: '',
-        limit: 20,
+        limit: 25,
         offset: 0,
+        provider: null,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      tools: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'T1000000000-TESTPROV',
+            name: 'Tool Name 1',
+            longName: 'Tool Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const singlePageToolsSearchWithProvider = {
+  request: {
+    query: GET_TOOLS,
+    variables: {
+      params: {
+        keyword: null,
+        limit: 25,
+        offset: 0,
+        provider: 'TESTPROV',
         sortKey: null
       }
     }

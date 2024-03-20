@@ -11,8 +11,15 @@ export const GET_COLLECTIONS = gql`
         title
         provider
         entryTitle
+        revisionId
         granules {
           count
+        }
+        tagDefinitions {
+          items {
+            tagKey
+            description
+          }
         }
         tags
         revisionDate
