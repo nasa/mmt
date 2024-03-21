@@ -148,8 +148,6 @@ const CollectionAssociationForm = ({ metadata }) => {
     setSearchParams((currentParams) => {
       if (providerFilter) {
         currentParams.set('provider', providerId)
-      } else {
-        currentParams.set('provider', '')
       }
 
       if (Object.keys(searchField).includes('rangeStart')) {
@@ -274,7 +272,6 @@ const CollectionAssociationForm = ({ metadata }) => {
         }
       }
     }
-
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,
@@ -332,7 +329,6 @@ const CollectionAssociationForm = ({ metadata }) => {
       const associatedCollection = collections.filter(
         (item) => item.conceptId === collectionConceptId
       )
-
       if (associatedCollection[0]?.conceptId === collectionConceptId) {
         disabled = true
         checked = true
