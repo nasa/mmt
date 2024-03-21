@@ -124,6 +124,12 @@ const ManageCollectionAssociation = () => {
     })
   }
 
+  useEffect(() => {
+    if (sortKeyParam) {
+      getMetadata()
+    }
+  }, [sortKeyParam])
+
   const sortFn = useCallback((key, order) => {
     let nextSortKey
 

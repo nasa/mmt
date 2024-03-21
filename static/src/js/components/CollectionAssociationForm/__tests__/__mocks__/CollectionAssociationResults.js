@@ -630,3 +630,73 @@ export const ingestVariableDraftErrorResponse = {
   },
   error: new Error('An error occurred')
 }
+
+export const CollectionSortRequest = {
+  request: {
+    query: GET_COLLECTIONS,
+    variables: {
+      params: {
+        limit: 20,
+        offset: 0,
+        provider: null,
+        sortKey: '-shortName',
+        options: { entryTitle: { pattern: true } },
+        entryTitle: '*'
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        items: [
+          {
+            conceptId: 'C12000001123-MMT_2',
+            provider: 'MMT_2',
+            version: '1',
+            revisionId: 1,
+            tags: 1,
+            granules: null,
+            shortName: 'Collection Associations Short Name 1',
+            entryTitle: 'Collection Associations Entry Title 1 ',
+            title: 'Collection Associations Title 1',
+            revisionDate: null,
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
+            __typename: 'Collection'
+          },
+          {
+            conceptId: 'C12000001124-MMT_2',
+            provider: 'MMT_2',
+            version: '1',
+            revisionId: 1,
+            tags: 1,
+            granules: null,
+            shortName: 'Collection Associations Short Name 2',
+            entryTitle: 'Collection Associations Entry Title 2',
+            title: 'Collection Associations Title 2',
+            revisionDate: null,
+            tagDefinitions: {
+              items: [{
+                conceptId: 'C100000',
+                description: 'Mock tag description',
+                originatorId: 'test.user',
+                revisionId: '1',
+                tagKey: 'Mock tag key'
+              }]
+            },
+            __typename: 'Collection'
+          }
+        ],
+        count: 50,
+        __typename: 'CollectionList'
+      }
+    }
+  }
+}

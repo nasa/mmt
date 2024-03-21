@@ -44,7 +44,6 @@ const CollectionAssociationSearch = () => {
   useEffect(() => {
     getMetadata()
     setLoading(true)
-    // SetTableLoading(true)
   }, [])
 
   if (error) {

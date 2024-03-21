@@ -24,7 +24,8 @@ import {
   mockVariable,
   mockToolWithAssociation,
   ingestVariableDraftResponse,
-  ingestVariableDraftErrorResponse
+  ingestVariableDraftErrorResponse,
+  CollectionSortRequest
 } from './__mocks__/CollectionAssociationResults'
 import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
@@ -532,6 +533,7 @@ describe('CollectionAssociationForm', () => {
         const { user } = setup({
           additionalMocks: [CollectionAssociationRequest, ingestVariableDraftErrorResponse],
           overrideMock: { mockVariableDraft },
+
           overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
           overridePath: '/drafts/variables/:conceptId/collection-association'
         })
@@ -585,6 +587,25 @@ describe('CollectionAssociationForm', () => {
 
       const sortShortName = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
       await user.click(sortShortName)
+      expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+    })
+  })
+
+  describe('when the URL searchParam', () => {
+    test('should search for collection', async () => {
+      const navigateSpy = jest.fn()
+      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      setup({
+        additionalMocks: [CollectionSortRequest],
+        overrideMock: { mockVariable },
+        overridePath: 'variables/:conceptId/collection-association-search',
+        overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search?searchField=entryTitle&searchFieldValue=*&sortKey=-shortName']
+      })
+
+      await waitForResponse()
+
+      screen.debug(undefined, 40000)
       expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })

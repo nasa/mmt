@@ -13,11 +13,11 @@ import ManageCollectionAssociation from '../ManageCollectionAssociation'
 import {
   deleteAssociationResponse,
   deletedAssociationResponse,
-  singleAssociationSearch,
   sortProvider,
   sortVariableRecord,
   toolRecordSearch,
   toolRecordSearchError,
+  toolRecordSortSearch,
   variableRecord
 } from './__mocks__/manageCollectionAssociationResults'
 import AppContext from '../../../context/AppContext'
@@ -215,8 +215,7 @@ describe('ManageCollectionAssociation', () => {
   describe('when clicking on refresh button', () => {
     test('should call getMetadata() again', async () => {
       const { user } = setup({
-        overrideMocks: [toolRecordSearch],
-        additionalMocks: [singleAssociationSearch]
+        overrideMocks: [toolRecordSearch]
       })
 
       await waitForResponse()
@@ -245,6 +244,61 @@ describe('ManageCollectionAssociation', () => {
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/TL1200000-TEST/collection-association-search')
+    })
+  })
+
+  describe('sorting tool record', () => {
+    test('when there is sortKey present in the search param', async () => {
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/TL1200000-TEST/collection-association?sortKey=-provider'],
+        overrideMocks: [toolRecordSortSearch]
+      })
+
+      await waitForResponse()
+
+      await waitForResponse()
+
+      const test = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
+      await user.click(test)
+
+      await waitForResponse()
+
+      expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+    })
+
+    test('when sorting by providerId', async () => {
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/TL1200000-TEST/collection-association']
+        // OverrideMocks: [toolRecordSortSearch]
+      })
+
+      await waitForResponse()
+
+      await waitForResponse()
+
+      const test = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
+      await user.click(test)
+
+      await waitForResponse()
+
+      expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+    })
+
+    test('when sorting by shortName', async () => {
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/TL1200000-TEST/collection-association']
+      })
+
+      await waitForResponse()
+
+      await waitForResponse()
+
+      const test = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
+      await user.click(test)
+
+      await waitForResponse()
+
+      expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })
 

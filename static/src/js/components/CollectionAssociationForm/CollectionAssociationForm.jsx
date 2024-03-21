@@ -72,6 +72,7 @@ const CollectionAssociationForm = ({ metadata }) => {
   useEffect(() => {
     setFetchedDraft(metadata)
     setLoading(false)
+    setCollectionLoading(false)
   }, [metadata])
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
@@ -379,6 +380,12 @@ const CollectionAssociationForm = ({ metadata }) => {
       </div>
     )
   })
+
+  useEffect(() => {
+    if (sortKeyParam) {
+      collectionSearch()
+    }
+  }, [sortKeyParam])
 
   // Move this into a util
   const sortFn = useCallback((key, order) => {
