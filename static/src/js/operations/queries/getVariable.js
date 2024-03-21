@@ -39,6 +39,7 @@ export const GET_VARIABLE = gql`
           shortName
           version
           provider
+          title
         }
       }
     }
