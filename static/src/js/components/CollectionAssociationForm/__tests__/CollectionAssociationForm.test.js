@@ -605,7 +605,6 @@ describe('CollectionAssociationForm', () => {
 
       await waitForResponse()
 
-      screen.debug(undefined, 40000)
       expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })
