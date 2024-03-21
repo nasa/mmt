@@ -82,8 +82,9 @@ const KeywordPicker = ({
       }]
 
       let paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
-
-      paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
+      if (uiSchema['ui:filter']) {
+        paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
+      }
 
       setKeywordList(paths)
     }

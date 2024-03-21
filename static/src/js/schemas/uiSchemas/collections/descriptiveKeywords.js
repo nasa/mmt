@@ -47,8 +47,7 @@ const descriptiveKeywordsUiSchema = {
     'ui:picker_title': 'SCIENCE KEYWORD',
     'ui:keyword_scheme_column_names': ['science_keywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
     'ui:filter': 'EARTH SCIENCE',
-    'ui:scheme_values': ['Category', 'Topic', 'Term', 'VariableLevel1', 'VariableLevel2', 'VariableLevel3', 'DetailedVariable'],
-    'ui:includeRecommendedKeywords': true
+    'ui:scheme_values': ['Category', 'Topic', 'Term', 'VariableLevel1', 'VariableLevel2', 'VariableLevel3', 'DetailedVariable']
   },
   AncillaryKeywords: {
     'ui:heading-level': 'h4',

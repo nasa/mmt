@@ -183,7 +183,7 @@ CustomArrayFieldTemplate.propTypes = {
   onAddClick: PropTypes.func.isRequired,
   required: PropTypes.bool.isRequired,
   schema: PropTypes.shape({
-    description: PropTypes.string.isRequired
+    description: PropTypes.string
   }).isRequired,
   title: PropTypes.string.isRequired,
   uiSchema: PropTypes.shape({

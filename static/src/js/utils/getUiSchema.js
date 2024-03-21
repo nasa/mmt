@@ -1,3 +1,4 @@
+import collectionsUiSchema from '../schemas/uiSchemas/collections'
 import serviceUiSchema from '../schemas/uiSchemas/services'
 import toolsUiSchema from '../schemas/uiSchemas/tools'
 import variableUiSchema from '../schemas/uiSchemas/variables'
@@ -10,7 +11,7 @@ import collectionUiSchema from '../schemas/uiSchemas/collections'
 const getUiSchema = (conceptType) => {
   switch (conceptType) {
     case 'Collection':
-      return collectionUiSchema
+      return collectionsUiSchema
     case 'Service':
       return serviceUiSchema
     case 'Tool':

@@ -259,6 +259,24 @@ describe('KeywordPicker', () => {
       })
     })
   })
+
+  describe('when uiSchema does not have ui:filter option', () => {
+    test('renders all keywords without filtering', () => {
+      setup({
+        uiSchema: {
+          'ui:field': 'keywordPicker',
+          'ui:keyword_scheme': 'science_keywords',
+          'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+          'ui:picker_title': 'TOOL KEYWORD',
+          'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
+          'ui:title': 'Tool Keyword'
+        }
+      })
+
+      expect(screen.getByText('EARTH SCIENCE SERVICES')).toBeInTheDocument()
+      expect(screen.queryByText('DATA ANALYSIS AND VISUALIZATION')).not.toBeInTheDocument()
+    })
+  })
 })
 
 describe('when selecting previous', () => {
