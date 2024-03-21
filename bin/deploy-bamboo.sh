@@ -59,7 +59,6 @@ dockerRun() {
     docker run \
         -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
-        -e "AWS_SESSION_TOKEN=$bamboo_AWS_SESSION_TOKEN" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
         -e "NODE_ENV=production" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \

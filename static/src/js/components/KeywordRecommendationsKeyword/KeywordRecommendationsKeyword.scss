@@ -1,0 +1,23 @@
+.keyword-recommendations-keyword {
+  &__keyword {
+    font-size: .8em;
+  }
+
+  &__add-icon {
+    color: blue;
+    font-size: 1.2em !important;
+    cursor: ‘pointer’
+  }
+
+  &__remove-icon {
+    color: red;
+    font-size: 1.2em !important;
+    cursor: ‘pointer’
+  }
+
+  &__accept-icon {
+    color: green;
+    font-size: 1.2em !important;
+  }
+
+}

@@ -220,6 +220,8 @@ const KeywordPicker = ({
     const addedKeywords = addKeywords(finalSelectedList.splice(1))
     if (addedKeywords) {
       formData.push(addedKeywords)
+    } else {
+      return
     }
 
     setFinalSelectedList([])

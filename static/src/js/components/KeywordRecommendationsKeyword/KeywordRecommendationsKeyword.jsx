@@ -3,6 +3,7 @@ import React from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+import './KeywordRecommendationsKeyword.scss'
 
 const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) => {
   const { keyword: delimitedKeyword, recommended } = keyword
@@ -10,43 +11,41 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
 
   return (
     <ListGroup.Item role="listitem">
-      <div className="small">
-        {delimitedKeyword}
-        {' '}
-        {recommended && (<Badge pill bg="success">Recommended</Badge>)}
-        {' '}
-        {
-          !accepted ? (
-            <i
-              className="keyword-recommendations__add-icon fa fa-plus-circle"
-              {...useAccessibleEvent(() => {
-                addKeyword(delimitedKeyword)
-              })}
-            />
-          ) : null
-        }
-        {' '}
-        {
-          accepted ? (
-            <i
-              role="img"
-              className="keyword-recommendations__accept-icon fa fa-check-square"
-            />
-          ) : null
-        }
-        {' '}
-        {
-          accepted ? (
-            <i
-              className="keyword-recommendations__remove-icon fa fa-times-circle"
-              {...useAccessibleEvent(() => {
-                removeKeyword(delimitedKeyword)
-              })}
-            />
+      <span className="small keyword-recommendations-keyword__keyword">{delimitedKeyword}</span>
+      {' '}
+      {recommended && (<Badge pill bg="success">Recommended</Badge>)}
+      {' '}
+      {
+        !accepted ? (
+          <i
+            className="keyword-recommendations-keyword__add-icon fa fa-plus-circle"
+            {...useAccessibleEvent(() => {
+              addKeyword(delimitedKeyword)
+            })}
+          />
+        ) : null
+      }
+      {' '}
+      {
+        accepted ? (
+          <i
+            role="img"
+            className="keyword-recommendations-keyword__accept-icon fa fa-check-square"
+          />
+        ) : null
+      }
+      {' '}
+      {
+        accepted ? (
+          <i
+            className="keyword-recommendations-keyword__remove-icon fa fa-times-circle"
+            {...useAccessibleEvent(() => {
+              removeKeyword(delimitedKeyword)
+            })}
+          />
 
-          ) : null
-        }
-      </div>
+        ) : null
+      }
     </ListGroup.Item>
 
   )

@@ -101,21 +101,17 @@ jest.mock('../../../utils/sendKeywordRecommendationsFeedback')
 //
 
 // eslint-disable-next-line react/prop-types
-const MockComponent = ({ abstract: draftAbstract, formData }) => {
+const MockComponent = ({ draft: mockDraft }) => {
   const {
     draft, setDraft
   } = useAppContext()
   const { ummMetadata } = draft || {}
   const { Abstract: abstract } = ummMetadata || {}
 
-  // Not really a way to initialize AppContextProvider for testing
+  // Not really a way to initialize AppContextProvider for testing,
+  // so using this mock component
   useEffect(() => {
-    setDraft({
-      ummMetadata: {
-        Abstract: draftAbstract,
-        ScienceKeywords: formData
-      }
-    })
+    setDraft(mockDraft)
   }, [])
 
   // Used to add a test keyword (mimic's what keyword picker would do)
@@ -132,12 +128,9 @@ const MockComponent = ({ abstract: draftAbstract, formData }) => {
       }
     )
 
-    setDraft({
-      ummMetadata: {
-        Abstract: draftAbstract,
-        ScienceKeywords: newKeywords
-      }
-    })
+    const updatedDraft = { ...draft }
+    updatedDraft.ummMetadata.ScienceKeywords = newKeywords
+    setDraft(updatedDraft)
   }
 
   return (
@@ -159,15 +152,12 @@ const MockComponent = ({ abstract: draftAbstract, formData }) => {
         { // Mounts the component once we have a abstract
           abstract && (
             <KeywordRecommendations
-              formData={formData}
+              formData={draft.ummMetadata.ScienceKeywords}
               onChange={
                 (newKeywords) => {
-                  setDraft({
-                    ummMetadata: {
-                      Abstract: draftAbstract,
-                      ScienceKeywords: newKeywords
-                    }
-                  })
+                  const updatedDraft = { ...draft }
+                  updatedDraft.ummMetadata.ScienceKeywords = newKeywords
+                  setDraft(updatedDraft)
                 }
               }
             />
@@ -178,22 +168,16 @@ const MockComponent = ({ abstract: draftAbstract, formData }) => {
   )
 }
 
-const setup = ({
-  overrideAbstract, overrideFormData
-} = {}) => {
-  const formData = overrideFormData || []
-  const abstract = overrideAbstract || 'cloud cover and the ozone'
-
+const setup = ({ draft }) => {
   const { unmount, container } = render(
     <AuthContextProvider>
       <AppContextProvider>
-        <MockComponent abstract={abstract} formData={formData} />
+        <MockComponent draft={draft} />
       </AppContextProvider>
     </AuthContextProvider>
   )
 
   return {
-    formData,
     container,
     user: userEvent.setup(),
     unmount
@@ -204,7 +188,12 @@ describe('KeywordRecommendations component', () => {
   describe('when draft contains a abstract', () => {
     describe('when draft has NO science keywords', () => {
       test('renders a list of recommended keywords', async () => {
-        setup({ overrideFormData: [] })
+        const draft = {
+          ummMetadata: {
+            Abstract: 'cloud cover and the ozone'
+          }
+        }
+        setup({ draft })
 
         await waitFor(() => {
           expect(screen.getAllByRole('listitem').length).toBe(8)
@@ -224,7 +213,12 @@ describe('KeywordRecommendations component', () => {
     })
 
     test('can add a recommended keyword to formdata', async () => {
-      const { user, unmount, container } = setup({ overrideFormData: [] })
+      const draft = {
+        ummMetadata: {
+          Abstract: 'cloud cover and the ozone'
+        }
+      }
+      const { user, unmount, container } = setup({ draft })
 
       await waitFor(() => {
         expect(screen.getAllByRole('listitem').length).toBe(8)
@@ -259,7 +253,12 @@ describe('KeywordRecommendations component', () => {
     })
 
     test('can add a new keyword to formdata', async () => {
-      const { user, unmount } = setup({ overrideFormData: [] })
+      const draft = {
+        ummMetadata: {
+          Abstract: 'cloud cover and the ozone'
+        }
+      }
+      const { user, unmount } = setup({ draft })
 
       await waitFor(() => {
         expect(screen.getAllByRole('listitem').length).toBe(8)
@@ -290,83 +289,109 @@ describe('KeywordRecommendations component', () => {
         }, ['EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > NEW KEYWORD'])
       })
     })
-  })
 
-  test('handles error fetching recommended keywords', async () => {
-    getKeywordRecommendations.mockImplementation(() => Promise.reject(new Error('GKR is down')))
+    test('handles error fetching recommended keywords', async () => {
+      getKeywordRecommendations.mockImplementation(() => Promise.reject(new Error('GKR is down')))
 
-    setup({ overrideFormData: [] })
-
-    await waitFor(() => {
-      expect(errorLogger).toBeCalledWith('error fetching keywords from GKR', 'GKR is down')
-    })
-  })
-
-  describe('when draft HAS science keywords', () => {
-    test('only includes the 2 form data keywords -- should not retreive recommended keywords', async () => {
-      setup({
-        overrideFormData: [
-          {
-            Category: 'EARTH SCIENCE',
-            Topic: 'ATMOSPHERE',
-            Term: 'CLOUDS',
-            VariableLevel1: 'CLOUD PROPERTIES',
-            VariableLevel2: 'CLOUD TOP PRESSURE',
-            VariableLevel3: null
-          },
-          {
-            Category: 'EARTH SCIENCE',
-            Topic: 'ATMOSPHERE',
-            Term: 'CLOUDS',
-            VariableLevel1: 'CLOUD PROPERTIES',
-            VariableLevel2: 'CLOUD TOP PRESSURE',
-            VariableLevel3: 'DELETE ME'
-          }
-        ]
-      })
-
-      await waitForResponse()
-
-      const keywords = screen.getAllByRole('listitem')
-      expect(keywords.length).toBe(2)
-    })
-
-    test('can remove a keyword from the list', async () => {
-      const { user, unmount } = setup({
-        overrideFormData: [
-          {
-            Category: 'EARTH SCIENCE',
-            Topic: 'ATMOSPHERE',
-            Term: 'CLOUDS',
-            VariableLevel1: 'CLOUD PROPERTIES',
-            VariableLevel2: 'CLOUD TOP PRESSURE',
-            VariableLevel3: null
-          },
-          {
-            Category: 'EARTH SCIENCE',
-            Topic: 'ATMOSPHERE',
-            Term: 'CLOUDS',
-            VariableLevel1: 'CLOUD PROPERTIES',
-            VariableLevel2: 'CLOUD TOP PRESSURE',
-            VariableLevel3: 'DELETE ME'
-          }
-        ]
-      })
-      await waitForResponse()
-
-      const keywords = screen.getAllByRole('listitem')
-      expect(keywords.length).toBe(2)
-      expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > DELETE ME')
-      const removeIcon = within(keywords[1]).getByRole('link')
-      await user.click(removeIcon)
+      const draft = {
+        ummMetadata: {
+          Abstract: 'cloud cover and the ozone'
+        }
+      }
+      setup({ draft })
 
       await waitFor(() => {
-        expect(screen.getAllByRole('listitem').length).toBe(1)
+        expect(errorLogger).toBeCalledWith('error fetching keywords from GKR', 'GKR is down')
+      })
+    })
+
+    describe('when draft HAS science keywords', () => {
+      test('only includes the 2 form data keywords -- should not retreive recommended keywords', async () => {
+        const draft = {
+          ummMetadata: {
+            Abstract: 'cloud cover and the ozone',
+            ScienceKeywords: [
+              {
+                Category: 'EARTH SCIENCE',
+                Topic: 'ATMOSPHERE',
+                Term: 'CLOUDS',
+                VariableLevel1: 'CLOUD PROPERTIES',
+                VariableLevel2: 'CLOUD TOP PRESSURE',
+                VariableLevel3: null
+              },
+              {
+                Category: 'EARTH SCIENCE',
+                Topic: 'ATMOSPHERE',
+                Term: 'CLOUDS',
+                VariableLevel1: 'CLOUD PROPERTIES',
+                VariableLevel2: 'CLOUD TOP PRESSURE',
+                VariableLevel3: 'DELETE ME'
+              }
+            ]
+          }
+        }
+        setup({ draft })
+
+        await waitForResponse()
+
+        const keywords = screen.getAllByRole('listitem')
+        expect(keywords.length).toBe(2)
       })
 
-      unmount()
+      test('can remove a keyword from the list', async () => {
+        const draft = {
+          ummMetadata: {
+            Abstract: 'cloud cover and the ozone',
+            ScienceKeywords: [
+              {
+                Category: 'EARTH SCIENCE',
+                Topic: 'ATMOSPHERE',
+                Term: 'CLOUDS',
+                VariableLevel1: 'CLOUD PROPERTIES',
+                VariableLevel2: 'CLOUD TOP PRESSURE',
+                VariableLevel3: null
+              },
+              {
+                Category: 'EARTH SCIENCE',
+                Topic: 'ATMOSPHERE',
+                Term: 'CLOUDS',
+                VariableLevel1: 'CLOUD PROPERTIES',
+                VariableLevel2: 'CLOUD TOP PRESSURE',
+                VariableLevel3: 'DELETE ME'
+              }
+            ]
+          }
+        }
+        const { user, unmount } = setup({ draft })
 
-      expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(0)
+        await waitForResponse()
+
+        const keywords = screen.getAllByRole('listitem')
+        expect(keywords.length).toBe(2)
+        expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > DELETE ME')
+        const removeIcon = within(keywords[1]).getByRole('link')
+        await user.click(removeIcon)
+
+        await waitFor(() => {
+          expect(screen.getAllByRole('listitem').length).toBe(1)
+        })
+
+        unmount()
+
+        expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(0)
+      })
+    })
+  })
+
+  describe('when draft does not contains a abstract', () => {
+    test('renders no recommendations', async () => {
+      const draft = {}
+      setup({ draft })
+
+      await waitForResponse()
+
+      const keywords = screen.queryAllByRole('listitem')
+      expect(keywords.length).toBe(0)
     })
   })
 })

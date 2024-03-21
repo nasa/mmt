@@ -4,7 +4,6 @@ import React, {
   useState
 } from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
-import './KeywordRecommendations.scss'
 import { cloneDeep, uniqBy } from 'lodash-es'
 import PropTypes from 'prop-types'
 import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
@@ -28,9 +27,9 @@ const KeywordRecommendations = ({ formData, onChange }) => {
   const [draftKeywords, setDraftKeywords] = useState([])
   const [requestId, setRequestId] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { draft } = useAppContext()
-  const { ummMetadata } = draft
-  const { ScienceKeywords: scienceKeywords } = ummMetadata
+  const { draft = {} } = useAppContext()
+  const { ummMetadata = {} } = draft
+  const { ScienceKeywords: scienceKeywords = [] } = ummMetadata
   const { Abstract: abstract } = ummMetadata
   const stateRef = useRef({})
 

@@ -7,11 +7,13 @@ import useControlledKeywords from '../../../hooks/useControlledKeywords'
 import parseCmrResponse from '../../../utils/parseCmrResponse'
 
 import KeywordPicker from '../KeywordPicker'
+import KeywordRecommendations from '../../KeywordRecommendations/KeywordRecommendations'
 
 jest.mock('../../../hooks/useControlledKeywords')
 jest.mock('../../../utils/parseCmrResponse')
+jest.mock('../../KeywordRecommendations/KeywordRecommendations')
 
-const setup = (overrideProps = {}) => {
+const setup = (overrideProps = {}, includeRecommendedKeywords = false) => {
   const onChange = jest.fn()
 
   useControlledKeywords.mockReturnValue({
@@ -150,7 +152,8 @@ const setup = (overrideProps = {}) => {
     'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
     'ui:picker_title': 'TOOL KEYWORD',
     'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
-    'ui:title': 'Tool Keyword'
+    'ui:title': 'Tool Keyword',
+    'ui:includeRecommendedKeywords': includeRecommendedKeywords
   }
   const props = {
     formData: [],
@@ -313,5 +316,12 @@ describe('when searching for a keyword', () => {
         ToolSpecificTerm: undefined
       }
     ])
+  })
+
+  describe('when keyword recommender is included', () => {
+    test('keyword picker is rendered', () => {
+      setup({}, true)
+      expect(KeywordRecommendations).toHaveBeenCalled()
+    })
   })
 })
