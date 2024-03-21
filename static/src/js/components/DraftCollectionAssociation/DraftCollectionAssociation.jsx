@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import BootstrapTable from 'react-bootstrap/Table'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import BootstrapSelect from 'react-bootstrap/Button'
 import pluralize from 'pluralize'
@@ -14,11 +14,10 @@ import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import errorLogger from '../../utils/errorLogger'
-import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
-import getUmmVersion from '../../utils/getUmmVersion'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
+import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 
 const DraftCollectionAssociation = () => {
   const { conceptId } = useParams()
@@ -30,10 +29,15 @@ const DraftCollectionAssociation = () => {
   const [fetchedDraft, setFetchedDraft] = useState()
   const [loading, setLoading] = useState()
   const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})
-  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const { addNotification } = useNotificationsContext()
+
+  const {
+    ingestMutation, ingestDraft,
+    error: ingestDraftError,
+    loading: ingestLoading
+  } = useIngestDraftMutation()
 
   const [getDraft] = useLazyQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -71,30 +75,29 @@ const DraftCollectionAssociation = () => {
 
     const modifiedMetadata = removeMetadataKeys(ummMetadata, ['_private'])
     setLoading(true)
-    ingestDraftMutation({
-      variables: {
-        conceptType: derivedConceptType,
-        metadata: modifiedMetadata,
-        nativeId,
-        providerId,
-        ummVersion: getUmmVersion(derivedConceptType)
-      },
-      onCompleted: () => {
-        setLoading(false)
-        setCurrentSelectedAssociation(null)
-        // Add a success notification
-        addNotification({
-          message: `Cleared ${conceptId} Association`,
-          variant: 'success'
-        })
-      },
-      onError: (getIngestError) => {
-        setLoading(false)
-        errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
-        setError(getIngestError)
-      }
-    })
+    ingestMutation(derivedConceptType, modifiedMetadata, nativeId, providerId)
   }
+
+  useEffect(() => {
+    if (ingestDraft) {
+      setLoading(false)
+      setCurrentSelectedAssociation(null)
+      // Add a success notification
+      addNotification({
+        message: `Cleared ${conceptId} Association`,
+        variant: 'success'
+      })
+    }
+
+    if (ingestDraftError) {
+      setLoading(false)
+      errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+      addNotification({
+        message: 'Error removing collection association ',
+        variant: 'danger'
+      })
+    }
+  }, [ingestLoading])
 
   if (loading) {
     return (

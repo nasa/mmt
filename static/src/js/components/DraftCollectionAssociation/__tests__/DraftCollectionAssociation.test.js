@@ -257,8 +257,6 @@ describe('Draft Collection Association', () => {
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
-
-      expect(ErrorBanner).toHaveBeenCalledTimes(1)
     })
   })
 })
