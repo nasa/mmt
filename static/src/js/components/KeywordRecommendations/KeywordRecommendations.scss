@@ -1,6 +1,19 @@
 .keyword-recommendations {
-  &__add-button {
-    display: flex;
-    color: blue,
+  &__add-icon {
+    color: blue;
+    font-size: 21px;
+    cursor: ‘pointer’
   }
+
+  &__remove-icon {
+    color: red;
+    font-size: 21px;
+    cursor: ‘pointer’
+  }
+
+  &__accept-icon {
+    color: green;
+    font-size: 21px;
+  }
+
 }

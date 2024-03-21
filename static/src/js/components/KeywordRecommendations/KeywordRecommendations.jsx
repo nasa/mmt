@@ -1,31 +1,40 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
 import './KeywordRecommendations.scss'
-import { cloneDeep } from 'lodash-es'
-import useAppContext from '../../hooks/useAppContext'
+import { cloneDeep, uniqBy } from 'lodash-es'
+import PropTypes from 'prop-types'
 import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+import sendKeywordRecommendationsFeedback from '../../utils/sendKeywordRecommendationsFeedback'
 import removeEmpty from '../../utils/removeEmpty'
+import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
+import errorLogger from '../../utils/errorLogger'
+import useAppContext from '../../hooks/useAppContext'
 
 /**
- * Renders a `Footer` component
+ * Renders the KeywordRecommendations component
  *
  * @component
- * @example <caption>Renders a `Footer` component</caption>
+ * @example <caption>Renders a `KeywordRecommendations` component</caption>
  * return (
- *   <Footer />
+ *   <KeywordRecommendations formData={formData} onChange={onChange} />
  * )
  */
 const KeywordRecommendations = ({ formData, onChange }) => {
-  const { draft } = useAppContext()
   const [recommendations, setRecommendations] = useState([])
   const [draftKeywords, setDraftKeywords] = useState([])
-  const { ummMetadata } = draft || {}
-  const { ScienceKeywords: scienceKeywords = [] } = ummMetadata
+  const [requestId, setRequestId] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const { draft } = useAppContext()
+  const { ummMetadata } = draft
+  const { ScienceKeywords: scienceKeywords } = ummMetadata
+  const { Abstract: abstract } = ummMetadata
+  const stateRef = useRef({})
 
-  const Instructions = () => (
+  const instructions = (
     <div className="bg-light p-3">
       <strong>
         <i className="fa fa-question-circle" />
@@ -39,21 +48,43 @@ const KeywordRecommendations = ({ formData, onChange }) => {
         {' '}
         for your collection. To associate a recommended keyword to your collection, click the
         {' '}
-        <AddIcon />
+        <i className="keyword-recommendations__add-icon fa fa-plus-circle" />
         {' '}
         icon next to the keyword. Once associated to the collection, the keyword will display a
         green check
         {' '}
-        <AcceptedIcon />
+        <i className="keyword-recommendations__accept-icon fa fa-check-square" />
         . To remove a keyword once it’s been associated, click the
         {' '}
-        <RemoveIcon />
+        <i className="keyword-recommendations__remove-icon fa fa-times-circle" />
         {' '}
         icon next to the keyword.
       </div>
     </div>
   )
 
+  /**
+ * Creates a delimited keyword from the keyword's metadata
+ * @param {*} keywordObject
+ * @returns the keyword delimited with '>'
+ */
+  const createDelimitedKeyword = (keyword) => {
+    const delimitedKeyword = Object.values(keyword).join(' > ')
+
+    return delimitedKeyword
+  }
+
+  /**
+   * Create an array from a delimited keyword
+   * @param (*) keyword the delimited keyword
+   * @returns the keyword as an array
+   */
+  const createArraySeparatedKeyword = (keyword) => keyword.split('>').map((value) => (value.trim()))
+
+  /**
+   * Adds a keyword to the formdata
+   * @param {*} keyword the > delimited keyword
+   */
   const addKeyword = (keyword) => {
     const fields = [
       'Category',
@@ -68,8 +99,8 @@ const KeywordRecommendations = ({ formData, onChange }) => {
       map[field] = null
     })
 
-    console.log('adding ', keyword)
-    keyword.forEach((item, index) => {
+    const arrayKeyword = createArraySeparatedKeyword(keyword)
+    arrayKeyword.forEach((item, index) => {
       map[fields[index]] = item
     })
 
@@ -77,88 +108,30 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     onChange(formData)
   }
 
+  /**
+   * Removes a keyword from form data
+   * @param {*} keyword the > delimited keyword
+   */
   const removeKeyword = (keyword) => {
     const existingKeywords = removeEmpty(cloneDeep(formData))
     const updatedKeywords = existingKeywords.filter((draftKeyword) => {
       const keyword1 = Object.values(draftKeyword).join(' > ')
-      const keyword2 = keyword.join(' > ')
 
-      return keyword1 !== keyword2
+      return keyword !== keyword1
     })
 
     onChange(updatedKeywords)
   }
 
-  const RemoveIcon = ({ recommendation }) => (
-    <i
-      className="fa fa-times-circle"
-      style={
-        {
-          color: 'red',
-          fontSize: 18
-        }
-      }
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...useAccessibleEvent(() => {
-        removeKeyword(recommendation.keyword.split('>').map((keyword) => (keyword.trim())))
-      })}
-    />
-  )
-
-  const AddIcon = ({ recommendation }) => (
-    <i
-      className="fa fa-plus-circle"
-      style={
-        {
-          color: 'blue',
-          fontSize: 18
-        }
-      }
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...useAccessibleEvent(() => {
-        addKeyword(recommendation.keyword.split('>').map((keyword) => (keyword.trim())))
-      })}
-    />
-  )
-
-  const AcceptedIcon = () => (
-    <i
-      className="fa fa-check-square"
-      style={
-        {
-          color: 'green',
-          fontSize: 18
-        }
-      }
-    />
-  )
-
-  const Keyword = ({ keyword }) => {
-    const { keyword: delimitedKeyword, recommended } = keyword
-    const { accepted } = keyword
-
-    return (
-      <ListGroup.Item>
-        <div className="small">
-          {delimitedKeyword}
-          {' '}
-          {recommended && (<Badge pill bg="success">Recommended</Badge>)}
-          {' '}
-          {!accepted ? (<AddIcon recommendation={keyword} />) : null}
-          {' '}
-          {accepted ? (<AcceptedIcon />) : null}
-          {' '}
-          {accepted ? (<RemoveIcon recommendation={keyword} />) : null}
-        </div>
-      </ListGroup.Item>
-
-    )
-  }
-
+  /**
+   * Retrieves out of form data a list of Keyword objects
+   * of the form { keyword: string, recommended: bool, accepted: bool }
+   * @returns list of keyword objects
+   */
   const getDraftKeywords = () => {
     const keywordList = removeEmpty(cloneDeep(scienceKeywords))
     const keywords = keywordList.map((keyword) => {
-      const delimitedKeyword = Object.values(keyword).join(' > ')
+      const delimitedKeyword = createDelimitedKeyword(keyword)
 
       const draftKeyword = {
         keyword: delimitedKeyword,
@@ -172,12 +145,28 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     return keywords
   }
 
-  const isInRecommendedKeywordList = (keyword) => recommendations.some((recommendedKeyword) => {
-    const { keyword: delimitedKeyword } = recommendedKeyword
+  /**
+   * Returns true if the delimited Keyword is in the recommended keyword list.
+   * @param {*} keywordRecommendations the array of recommendations
+   * @param {*} delimitedKeyword the delimited keyword
+   * @returns true if the delimited Keyword is in the recommended keyword list, false if not.
+   */
+  const isInRecommendedKeywordList = (
+    keywordRecommendations,
+    delimitedKeyword
+  ) => keywordRecommendations.some(
+    (recommendedKeyword) => {
+      const { keyword: recommendedDelimitedKeyword } = recommendedKeyword
 
-    return delimitedKeyword === keyword
-  })
+      return delimitedKeyword === recommendedDelimitedKeyword
+    }
+  )
 
+  /**
+   * Returns true if the delimited Keyword is in the draft form data.
+   * @param {*} keyword the delimited keyword
+   * @returns true if the delimited Keyword is in the draft form data, false if not.
+   */
   const isInDraftKeywordList = (keyword) => {
     const keywords = getDraftKeywords()
 
@@ -188,6 +177,11 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     })
   }
 
+  /**
+   * Augments each keyword coming back from GKR to include accepted and recommended properties.
+   * @param {*} keywordRecommendations the list of recommended keywords from GKR
+   * @returns the augmented list
+   */
   // eslint-disable-next-line arrow-body-style
   const createRecommendedKeywords = (keywordRecommendations) => {
     return keywordRecommendations.map((recommendedKeyword) => {
@@ -208,66 +202,144 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     })
   }
 
+  /**
+   * Store state for component dismount
+   */
   useEffect(() => {
-    const { Abstract: abstract } = ummMetadata || {}
+    stateRef.current = {
+      draftKeywords,
+      recommendations,
+      requestId
+    }
+  }, [draftKeywords, recommendations, requestId])
 
+  /**
+   * Report GKR feedback.   Sends a list of new, accepted, and rejected keywords.
+   */
+  const reportFeedback = () => {
+    // eslint-disable-next-line no-shadow
+    const { requestId, draftKeywords, recommendations } = stateRef.current
+    if (requestId) {
+      const recommendationObj = {}
+      recommendations.forEach((recommendation) => {
+        const { uuid, accepted } = recommendation
+        recommendationObj[uuid] = accepted
+      })
+
+      const newKeywords = draftKeywords.filter((keyword) => {
+        const { keyword: delimitedKeyword } = keyword
+
+        return !isInRecommendedKeywordList(recommendations, delimitedKeyword)
+      })
+
+      sendKeywordRecommendationsFeedback(
+        requestId,
+        recommendationObj,
+        newKeywords.map((draftKeyword) => (draftKeyword.keyword))
+      )
+    }
+  }
+
+  /**
+   * Retrieves the initial recommended keywords on component mount.
+   */
+  useEffect(() => {
     const fetchKeywords = async () => {
       const result = await getKeywordRecommendations(abstract)
-      const { recommendations: keywordRecommendations } = result
-      const keywords = createRecommendedKeywords(keywordRecommendations)
+      const { uuid, recommendations: keywordRecommendations } = result
+      const uniqKeywordRecommendations = uniqBy(keywordRecommendations, 'keyword')
+      const keywords = createRecommendedKeywords(uniqKeywordRecommendations)
       setRecommendations(keywords)
+      setRequestId(uuid)
+      setLoading(false)
     }
 
-    if (abstract) {
+    if (abstract && getDraftKeywords().length === 0) {
+      setLoading(true)
       fetchKeywords()
+        .catch((error) => {
+          errorLogger('error fetching keywords from GKR', error.message)
+          setLoading(false)
+        })
     }
 
     return () => {
-      console.log('dismounting component')
+      reportFeedback()
     }
   }, [])
 
+  /**
+   * If the science keyword form data changes, update the draft keywords list.
+   */
   useEffect(() => {
     const keywords = getDraftKeywords()
-    setDraftKeywords(keywords)
-  }, [scienceKeywords])
 
+    setDraftKeywords(keywords)
+  }, [draft])
+
+  /**
+   * If the science keyword form data changes, update the recommended keywords list.
+   */
   useEffect(() => {
     const keywords = createRecommendedKeywords(recommendations)
     setRecommendations(keywords)
-  }, [scienceKeywords])
+  }, [draft])
 
+  //
+  // Create JSX for recommended keywords (first), then science keywords from formdata (next)
+  //
   const keywords = []
-
   recommendations.forEach((keyword) => {
     const { keyword: delimitedKeyword, accepted } = keyword
     keywords.push(
-      <Keyword key={`${delimitedKeyword}-${accepted}`} keyword={keyword} />
+      <KeywordRecommendationsKeyword
+        key={`${delimitedKeyword}-${accepted}`}
+        keyword={keyword}
+        addKeyword={addKeyword}
+        removeKeyword={removeKeyword}
+      />
     )
   })
 
   draftKeywords.forEach((keyword) => {
     const { keyword: delimitedKeyword, accepted } = keyword
 
-    if (!isInRecommendedKeywordList(delimitedKeyword)) {
+    if (!isInRecommendedKeywordList(recommendations, delimitedKeyword)) {
       keywords.push(
-        <Keyword key={`${delimitedKeyword}-${accepted}`} keyword={keyword} />
+        <KeywordRecommendationsKeyword
+          key={`${delimitedKeyword}-${accepted}`}
+          keyword={keyword}
+          addKeyword={addKeyword}
+          removeKeyword={removeKeyword}
+        />
       )
     }
   })
 
+  //
+  // Render the recommended keyword component.
+  //
   return (
     <div className="pb-3">
       <div>
-        <Instructions />
+        {requestId && (instructions)}
       </div>
       <div>
         <ListGroup variant="flush">
-          {keywords}
+          { loading ? (<ListGroup.Item className="font-italic">Loading...</ListGroup.Item>) : keywords }
         </ListGroup>
       </div>
     </div>
   )
+}
+
+KeywordRecommendations.defaultProps = {
+  formData: []
+}
+
+KeywordRecommendations.propTypes = {
+  formData: PropTypes.arrayOf(PropTypes.shape({})),
+  onChange: PropTypes.func.isRequired
 }
 
 export default KeywordRecommendations
