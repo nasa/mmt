@@ -339,7 +339,7 @@ const ManageCollectionAssociation = () => {
         )
       }
       <div className="mt-4">
-        <Alert className="fst-italic fs-6">
+        <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
           {' '}
           Association operations may take some time. If you are not seeing what you expect below,

@@ -548,7 +548,7 @@ const CollectionAssociationForm = ({ metadata }) => {
               </Row>
               {
                 (!collectionLoading && items.length > 0) && (
-                  <Alert className="fst-italic fs-6">
+                  <Alert className="fst-italic fs-6" variant="warning">
                     {' '}
                     <i className="eui-icon eui-fa-info-circle" />
                     Disabled rows in the results below represent collections that are
