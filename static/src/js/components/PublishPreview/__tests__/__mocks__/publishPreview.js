@@ -1,5 +1,6 @@
 export const publishCollectionRecord = {
   relatedCollections: null,
+  nativeId: 'mock native id',
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
   additionalAttributes: [
@@ -508,6 +509,7 @@ export const publishCollectionRecord = {
 
 export const noTagsOrGranulesCollection = {
   relatedCollections: null,
+  nativeId: 'mock native id',
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
   additionalAttributes: [
