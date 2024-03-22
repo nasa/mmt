@@ -24,7 +24,7 @@
     "uid": "mmt_test"
   },
   "saml": {
-    "keepAliveOrigin": "https://mmt.sit.earthdatacloud.nasa.gov",
+    "keepAliveOrigin": "https://api.mmt.sit.earthdatacloud.nasa.gov",
     "host": "https://api.mmt.sit.earthdatacloud.nasa.gov",
     "callbackUrl": "https://api.mmt.sit.earthdatacloud.nasa.gov/saml-acs",
     "issuer": "https://api.mmt.sit.earthdatacloud.nasa.gov/saml-acs",

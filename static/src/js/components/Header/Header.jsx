@@ -46,6 +46,7 @@ import Button from '../Button/Button'
 import For from '../For/For'
 
 import './Header.scss'
+import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `Header` component
@@ -69,6 +70,7 @@ const Header = () => {
   const [searchParams] = useSearchParams()
   const [searchType, setSearchType] = useState('collections')
   const [searchProvider, setSearchProvider] = useState()
+  const { token } = user
 
   // Set the input with the value from the keyword search param if one exists
   const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
@@ -164,7 +166,7 @@ const Header = () => {
             className="header__navbar-collapse flex-column align-items-end"
           >
             {
-              !user?.name && (
+              (isTokenExpired(user?.token) || !user?.name) && (
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
                     className="text-white me-1"
@@ -193,7 +195,7 @@ const Header = () => {
               )
             }
             {
-              user?.name && (
+              !isTokenExpired(user?.token) && user?.name && (
                 <div className="d-flex p-1 mb-2 rounded bg-blue-light">
                   <Dropdown align="end">
                     <Dropdown.Toggle
@@ -248,7 +250,7 @@ const Header = () => {
               )
             }
             {
-              user?.name && (
+              (!isTokenExpired(user?.token) && user?.name) && (
                 <Form
                   className="flex-grow-1 w-100"
                   onSubmit={
