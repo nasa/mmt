@@ -54,7 +54,6 @@ const CustomSelectWidget = ({
   const retrievedSchema = schemaUtils.retrieveSchema(items)
 
   const [selectOptions, setSelectOptions] = useState([])
-  // Const [showMenu, setShowMenu] = useState(false)
 
   const selectScrollRef = useRef(null)
 
@@ -86,7 +85,6 @@ const CustomSelectWidget = ({
     // This useEffect for shouldFocus lets the refs be in place before trying to use them and sets the showMenu state to true
     if (shouldFocus) {
       selectScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      // SetShowMenu(true)
     }
   }, [shouldFocus])
 
@@ -142,17 +140,11 @@ const CustomSelectWidget = ({
     const { value: newValue } = event || {}
 
     onChange(newValue)
-    // SetShowMenu(false)
   }
-
-  // Const handleFocus = () => {
-  //   setShowMenu(true)
-  // }
 
   const handleBlur = () => {
     setFocusField(null)
     onBlur(id)
-    // SetShowMenu(false)
   }
 
   const { enumOptions: oneOfEnums } = options || {}
@@ -192,10 +184,8 @@ const CustomSelectWidget = ({
         isLoading={isLoading}
         onBlur={handleBlur}
         onChange={handleChange}
-        // OnFocus={handleFocus}
         options={selectOptions}
         placeholder={placeholder || `Select ${title}`}
-        // MenuIsOpen={showMenu}
         styles={
           {
             control: (baseStyles, { isFocused }) => ({
