@@ -23,6 +23,7 @@ export const GET_COLLECTION = gql`
       }
       isoTopicCategories
       locationKeywords
+      nativeId
       metadataAssociations
       metadataDates
       paleoTemporalCoverages
