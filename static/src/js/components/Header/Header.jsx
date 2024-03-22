@@ -74,6 +74,8 @@ const Header = () => {
   // Set the input with the value from the keyword search param if one exists
   const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
 
+  const isLoggedIn = !isTokenExpired(user?.token) && user?.name
+
   useEffect(() => {
     const currentSearchType = searchParams.get('type')
     const currentSearchProvider = searchParams.get('provider')
@@ -165,7 +167,7 @@ const Header = () => {
             className="header__navbar-collapse flex-column align-items-end"
           >
             {
-              (isTokenExpired(user?.token) || !user?.name) && (
+              !isLoggedIn && (
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
                     className="text-white me-1"
@@ -194,7 +196,7 @@ const Header = () => {
               )
             }
             {
-              (!isTokenExpired(user?.token) && user?.name) && (
+              isLoggedIn && (
                 <div className="d-flex p-1 mb-2 rounded bg-blue-light">
                   <Dropdown align="end">
                     <Dropdown.Toggle
@@ -249,7 +251,7 @@ const Header = () => {
               )
             }
             {
-              (!isTokenExpired(user?.token) && user?.name) && (
+              isLoggedIn && (
                 <Form
                   className="flex-grow-1 w-100"
                   onSubmit={
