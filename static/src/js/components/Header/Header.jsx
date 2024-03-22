@@ -70,7 +70,6 @@ const Header = () => {
   const [searchParams] = useSearchParams()
   const [searchType, setSearchType] = useState('collections')
   const [searchProvider, setSearchProvider] = useState()
-  const { token } = user
 
   // Set the input with the value from the keyword search param if one exists
   const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
@@ -195,7 +194,7 @@ const Header = () => {
               )
             }
             {
-              !isTokenExpired(user?.token) && user?.name && (
+              (!isTokenExpired(user?.token) && user?.name) && (
                 <div className="d-flex p-1 mb-2 rounded bg-blue-light">
                   <Dropdown align="end">
                     <Dropdown.Toggle
