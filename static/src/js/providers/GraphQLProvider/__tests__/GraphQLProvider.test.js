@@ -60,7 +60,7 @@ const defaultAuthContext = {
 }
 
 const setup = (authContextOverride) => {
-  render(
+  const { rerender } = render(
     <AuthContext.Provider value={
       {
         ...defaultAuthContext,
@@ -75,6 +75,10 @@ const setup = (authContextOverride) => {
       </AppContextProvider>
     </AuthContext.Provider>
   )
+
+  return {
+    rerender
+  }
 }
 
 describe('GraphQLProvider component', () => {
@@ -157,6 +161,75 @@ describe('GraphQLProvider component', () => {
           headers: { Authorization: undefined }
         }
       )
+    })
+  })
+
+  describe('when the component rerenders', () => {
+    describe('when the token does not change', () => {
+      test('does not reinitialize the ApolloClient', () => {
+        const { rerender } = setup()
+
+        expect(ApolloClient).toHaveBeenCalledTimes(1)
+
+        ApolloClient.mockReset()
+
+        rerender(
+          <AuthContext.Provider value={
+            {
+              ...defaultAuthContext,
+              user: {
+                ...defaultAuthContext.user,
+                name: 'New Name'
+              }
+            }
+          }
+          >
+            <AppContextProvider>
+              <GraphQLProvider>
+                <div />
+              </GraphQLProvider>
+            </AppContextProvider>
+          </AuthContext.Provider>
+        )
+
+        expect(ApolloClient).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    describe('when the token does change', () => {
+      test('reinitializes the ApolloClient', () => {
+        const { rerender } = setup()
+
+        expect(ApolloClient).toHaveBeenCalledTimes(1)
+
+        ApolloClient.mockReset()
+
+        expect(ApolloClient).toHaveBeenCalledTimes(0)
+
+        rerender(
+          <AuthContext.Provider value={
+            {
+              ...defaultAuthContext,
+              user: {
+                ...defaultAuthContext.user,
+                token: {
+                  tokenValue: 'new_launchpad_token',
+                  tokenExp: 5678
+                }
+              }
+            }
+          }
+          >
+            <AppContextProvider>
+              <GraphQLProvider>
+                <div />
+              </GraphQLProvider>
+            </AppContextProvider>
+          </AuthContext.Provider>
+        )
+
+        expect(ApolloClient).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })
