@@ -251,21 +251,24 @@ describe('useSearchQuery', () => {
                     name: 'Test Var Short Name 1',
                     longName: 'Test Var Title 1',
                     providerId: 'TESTPROV',
-                    revisionDate: '2023-11-30 00:00:00'
+                    revisionDate: '2023-11-30 00:00:00',
+                    revisionId: '1'
                   },
                   {
                     conceptId: 'V10000000001-TESTPROV',
                     name: 'Test Var Short Name 2',
                     longName: 'Test Var Title 2',
                     providerId: 'TESTPROV',
-                    revisionDate: '2023-11-30 00:00:00'
+                    revisionDate: '2023-11-30 00:00:00',
+                    revisionId: '1'
                   },
                   {
                     conceptId: 'V10000000002-TESTPROV',
                     name: 'Test Var Short Name 3',
                     longName: 'Test Var Title 3',
                     providerId: 'TESTPROV',
-                    revisionDate: '2023-11-30 00:00:00'
+                    revisionDate: '2023-11-30 00:00:00',
+                    revisionId: '1'
                   }
                 ]
               }
