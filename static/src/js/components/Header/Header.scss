@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import '../../../css/vendor/bootstrap/variables';
 
 .header {
@@ -28,5 +30,87 @@
 
   &__user-info {
     font-size: 0.75rem;
+  }
+
+
+  &__prov-dropdown,
+  &__user-dropdown {
+    top: 125%;
+  }
+
+  &__user-dropdown-toggle,
+  &__prov-dropdown-toggle {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &__user-dropdown-toggle {
+    background-color: darken(map.get($theme-colors, "blue-light"), 0) !important;
+
+    &:hover {
+      background-color: darken(map.get($theme-colors, "blue-light"), 5) !important;
+    }
+  }
+
+  &__prov-dropdown {
+    right: -4px;
+  }
+
+  &__prov-dropdown-header {
+    right: -4px;
+  }
+
+  &__prov-dropdown-toggle {
+    background-color: darken(map.get($theme-colors, "primary"), 0) !important;
+
+    &:hover {
+      background-color: darken(map.get($theme-colors, "primary"), 10) !important;
+    }
+  }
+
+  &__prov-dropdown-items-wrapper {
+    max-height: 50vh;
+    overflow-y: auto;
+    scrollbar-color: rgb(255 255 255 / 50%) var(--bs-blue-light);
+    scrollbar-width: auto;
+
+    &::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--bs-blue-light);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 3px solid var(--bs-blue-light);
+      border-radius: 10px;
+      background-color: rgb(255 255 255 / 50%);
+      cursor: pointer;
+    }
+  }
+
+  &__prov-dropdown-item {
+    min-width: 15rem;
+    padding: 0.325rem 1rem;
+    color: var(--bs-white);
+    opacity: 0.9;
+
+    &:hover,
+    &:focus {
+      background-color: var(--bs-blue-light);
+      opacity: 1;
+    }
+
+    &.active {
+      background-color: var(--bs-primary);
+      font-weight: 700;
+      opacity: 1;
+    }
+  }
+
+  &__prov-dropdown-item-icon {
+    width: 0.625rem;
+    background-color: var(--bs-primary);
+    opacity: 0.7;
   }
 }

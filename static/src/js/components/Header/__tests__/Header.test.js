@@ -127,7 +127,6 @@ describe('Header component', () => {
 
       expect(screen.getByText('User Name')).toBeInTheDocument()
       expect(screen.getByText('User Name').className).toContain('badge')
-      expect(screen.getByText('User Name').className).toContain('bg-blue-light')
     })
 
     test('displays the search form', () => {
