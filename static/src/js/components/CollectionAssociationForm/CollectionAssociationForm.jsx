@@ -49,6 +49,15 @@ import useNotificationsContext from '../../hooks/useNotificationsContext'
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 import getUmmVersion from '../../utils/getUmmVersion'
 
+/**
+ * Renders a CollectionAssociationForm component
+ *
+ * @component
+ * @example <caption>Render a CollectionAssociationForm</caption>
+ * return (
+ *   <CollectionAssociationForm />
+ * )
+ */
 const CollectionAssociationForm = ({ metadata }) => {
   const { conceptId } = useParams()
   const { user } = useAppContext()

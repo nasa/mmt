@@ -26,6 +26,15 @@ import CustomModal from '../../components/CustomModal/CustomModal'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
+/**
+ * Renders a ManageCollectionAssociation component
+ *
+ * @component
+ * @example <caption>Render a ManageCollectionAssociation</caption>
+ * return (
+ *   <ManageCollectionAssociation />
+ * )
+ */
 const ManageCollectionAssociation = () => {
   const { conceptId } = useParams()
 

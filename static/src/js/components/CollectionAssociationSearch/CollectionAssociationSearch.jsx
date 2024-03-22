@@ -12,6 +12,15 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
 
+/**
+ * Renders a CollectionAssociationSearch component
+ *
+ * @component
+ * @example <caption>Render a CollectionAssociationSearch</caption>
+ * return (
+ *   <CollectionAssociationSearch />
+ * )
+ */
 const CollectionAssociationSearch = () => {
   const { conceptId } = useParams()
 

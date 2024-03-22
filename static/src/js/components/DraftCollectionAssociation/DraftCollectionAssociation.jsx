@@ -19,6 +19,15 @@ import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 
+/**
+ * Renders a DraftCollectionAssociation component
+ *
+ * @component
+ * @example <caption>Render a DraftCollectionAssociation</caption>
+ * return (
+ *   <DraftCollectionAssociation />
+ * )
+ */
 const DraftCollectionAssociation = () => {
   const { conceptId } = useParams()
 
