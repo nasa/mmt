@@ -30,6 +30,7 @@ import FormSelect from 'react-bootstrap/FormSelect'
 import Alert from 'react-bootstrap/Alert'
 import Spinner from 'react-bootstrap/Spinner'
 import {
+  FaCheck,
   FaExclamationCircle,
   FaExternalLinkAlt,
   FaQuestionCircle,
@@ -119,22 +120,6 @@ const Header = () => {
     navigate(`/search?${params.toString()}`)
   }
 
-  // Define the renderProviderDropdownItems function
-  const renderProviderDropdownItems = () => {
-    if (!providerIds) {
-      return null
-    }
-
-    return providerIds.map((providerId) => (
-      <Dropdown.Item
-        key={providerId}
-        onClick={() => setProviderId(providerId)}
-      >
-        {providerId}
-      </Dropdown.Item>
-    ))
-  }
-
   // Callback for the search type change
   const onSearchTypeChange = useCallback((e) => {
     setSearchType(e.target.value)
@@ -146,7 +131,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="header bg-primary shadow z-1">
+    <header className="header bg-primary shadow z-n3">
       <Container>
         <Navbar
           className="w-100 d-flex align-items-center justify-content-between py-3"
@@ -202,13 +187,14 @@ const Header = () => {
                     <Dropdown.Toggle
                       id="user-dropdown"
                       as={Badge}
-                      className="bg-blue-light pointer me-1"
+                      bg={null}
+                      className="header__user-dropdown-toggle pointer me-1"
                       role="button"
                     >
                       {`${user.name} `}
                     </Dropdown.Toggle>
                     <Dropdown.Menu
-                      className="bg-blue-light border-blue-light shadow text-white"
+                      className="header__user-dropdown bg-blue-light border-blue-light shadow text-white"
                     >
                       <Dropdown.Item
                         className="text-white bg-blue-light d-flex align-items-center"
@@ -236,15 +222,46 @@ const Header = () => {
                     <Dropdown.Toggle
                       id="provider-dropdown"
                       as={Badge}
-                      className="pointer"
+                      bg={null}
+                      className="header__prov-dropdown-toggle pointer"
                       role="button"
                     >
                       {user.providerId}
                     </Dropdown.Toggle>
                     <Dropdown.Menu
-                      className="bg-blue-light border-blue-light shadow text-white"
+                      className="header__prov-dropdown bg-blue-light border-blue-light shadow text-white"
                     >
-                      {renderProviderDropdownItems()}
+                      {
+                        providerIds?.length > 0 && (
+                          <>
+                            <span className="header__prov-dropdown-header d-block px-3 my-2 fw-bold">Choose a provider context</span>
+                            <div className="header__prov-dropdown-items-wrapper">
+                              <For each={providerIds}>
+                                {
+                                  (providerId) => (
+                                    <Dropdown.Item
+                                      key={providerId}
+                                      className="header__prov-dropdown-item d-flex align-items-center justify-content-between text-white"
+                                      active={providerId === user.providerId}
+                                      onClick={() => setProviderId(providerId)}
+                                    >
+                                      {providerId}
+                                      {
+                                        providerId === user.providerId && (
+                                          <Badge className="ms-2 d-flex align-items-center" bg="indigo">
+                                            <FaCheck className="me-1" />
+                                            {' Selected'}
+                                          </Badge>
+                                        )
+                                      }
+                                    </Dropdown.Item>
+                                  )
+                                }
+                              </For>
+                            </div>
+                          </>
+                        )
+                      }
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
