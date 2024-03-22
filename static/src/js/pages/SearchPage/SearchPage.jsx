@@ -117,7 +117,7 @@ const SearchPage = ({ limit }) => {
     const { conceptId, revisionId } = rowData
 
     return (
-      <EllipsisLink to={`/collections/${conceptId}/${revisionId}`}>
+      <EllipsisLink to={`/${typeParam}/${conceptId}/${revisionId}`}>
         {cellData}
       </EllipsisLink>
     )
