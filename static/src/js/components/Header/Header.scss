@@ -44,10 +44,10 @@
   }
 
   &__user-dropdown-toggle {
-    background-color: darken(map.get($theme-colors, "blue-light"), 0) !important;
+    background-color: darken(map.get($theme-colors, "blue-light"), 0);
 
     &:hover {
-      background-color: darken(map.get($theme-colors, "blue-light"), 5) !important;
+      background-color: darken(map.get($theme-colors, "blue-light"), 5);
     }
   }
 
@@ -60,10 +60,10 @@
   }
 
   &__prov-dropdown-toggle {
-    background-color: darken(map.get($theme-colors, "primary"), 0) !important;
+    background-color: darken(map.get($theme-colors, "primary"), 0);
 
     &:hover {
-      background-color: darken(map.get($theme-colors, "primary"), 10) !important;
+      background-color: darken(map.get($theme-colors, "primary"), 10);
     }
   }
 
