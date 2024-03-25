@@ -312,7 +312,7 @@ describe('ManageCollectionAssociation', () => {
 
       await waitForResponse()
 
-      expect(screen.getByText('V1200000104-SEDAC')).toBeInTheDocument()
+      expect(screen.getByText('Testing association')).toBeInTheDocument()
     })
 
     describe('when clicking an ascending sort button for variable', () => {
