@@ -14,7 +14,7 @@ const useRevisionsQuery = ({
 }) => {
   const [revisions, setRevisions] = useState({})
   const [error, setError] = useState()
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(false)
 
   if (type === 'Collections') {
     const [getRevisions, { loading: queryLoading }] = useLazyQuery(
@@ -89,7 +89,6 @@ const useRevisionsQuery = ({
 
     useEffect(() => {
       setLoading(true)
-
       // Fetch the search results
       getRevisions()
     }, [revisionConceptId])

@@ -3,7 +3,7 @@ import React, {
   useState,
   useCallback
 } from 'react'
-// Import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { useSearchParams } from 'react-router-dom'
 import { useParams } from 'react-router'
 import { capitalize, startCase } from 'lodash-es'
@@ -55,9 +55,8 @@ const getHumanizedNameFromTypeParam = (type, plural) => {
  *   <RevisionList />
  * )
  */
-const RevisionList = () => {
+const RevisionList = ({ limit }) => {
   const { conceptId, type } = useParams()
-  const limit = 20
   const [searchParams, setSearchParams] = useSearchParams()
   const versions = searchParams.get('versions')
   const formattedType = capitalize(type)
@@ -86,7 +85,8 @@ const RevisionList = () => {
   const { items = [] } = revisions
 
   const buildDescriptionCell = useCallback((cellData) => {
-    const isPublishedVersion = (cellData === versions)
+    const formattedVersions = parseInt(versions, 10)
+    const isPublishedVersion = (cellData === formattedVersions)
 
     return (
       <EllipsisText>
@@ -254,6 +254,14 @@ const RevisionList = () => {
       </Row>
     </Page>
   )
+}
+
+RevisionList.defaultProps = {
+  limit: 20
+}
+
+RevisionList.propTypes = {
+  limit: PropTypes.number
 }
 
 export default RevisionList
