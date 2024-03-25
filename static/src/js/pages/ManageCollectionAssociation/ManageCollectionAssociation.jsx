@@ -334,7 +334,7 @@ const ManageCollectionAssociation = () => {
             to: `/drafts/${derivedConceptType.toLowerCase()}s`
           },
           {
-            label: conceptId,
+            label: name,
             to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
           },
           {
