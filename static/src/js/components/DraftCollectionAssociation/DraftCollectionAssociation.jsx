@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useLazyQuery } from '@apollo/client'
 import { useParams } from 'react-router'
-import BootstrapSelect from 'react-bootstrap/Button'
 import pluralize from 'pluralize'
 import Page from '../Page/Page'
 import useAppContext from '../../hooks/useAppContext'
@@ -18,6 +17,7 @@ import useNotificationsContext from '../../hooks/useNotificationsContext'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
+import Button from '../Button/Button'
 
 /**
  * Renders a DraftCollectionAssociation component
@@ -38,6 +38,7 @@ const DraftCollectionAssociation = () => {
   const [fetchedDraft, setFetchedDraft] = useState()
   const [loading, setLoading] = useState()
   const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})
+  const [showClearButton, setShowClearButton] = useState(true)
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const { addNotification } = useNotificationsContext()
@@ -60,6 +61,10 @@ const DraftCollectionAssociation = () => {
       const { ummMetadata } = draft
       const { _private } = ummMetadata
       const { CollectionAssociation: savedAssociation } = _private || {}
+
+      if (savedAssociation) {
+        setShowClearButton(false)
+      }
 
       setFetchedDraft(draft)
       setCurrentSelectedAssociation(savedAssociation)
@@ -90,6 +95,7 @@ const DraftCollectionAssociation = () => {
   useEffect(() => {
     if (ingestDraft) {
       setLoading(false)
+      setShowClearButton(true)
       setCurrentSelectedAssociation(null)
       // Add a success notification
       addNotification({
@@ -148,9 +154,9 @@ const DraftCollectionAssociation = () => {
         ]
       }
     >
-      <h3>Collection Association Search</h3>
-      <Row className="m-4">
-        <h4>Currently Selected Collection</h4>
+      {/* <h3>Collection Association Search</h3> */}
+      <Row>
+        <h4>Selected Collection</h4>
         <Col sm={12} className="bg-white rounded">
           <BootstrapTable striped>
             <thead>
@@ -168,13 +174,13 @@ const DraftCollectionAssociation = () => {
               </tr>
             </tbody>
           </BootstrapTable>
-          <BootstrapSelect
-            className="mb-3 m-2"
+          <Button
             onClick={handleClear}
-            variant="outline-danger"
+            variant="danger"
+            disabled={showClearButton}
           >
             Clear Collection Association
-          </BootstrapSelect>
+          </Button>
         </Col>
 
         <h4 className="mt-5">Search for Collections</h4>

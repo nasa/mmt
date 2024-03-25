@@ -259,4 +259,79 @@ describe('Draft Collection Association', () => {
       expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
     })
   })
+
+  describe('when the initial draft does not have a collection associated', () => {
+    test('should show no collection association', async () => {
+      setup({
+        overrideMocks: [{
+          request: {
+            query: conceptTypeDraftQueries.Variable,
+            variables: {
+              params: {
+                conceptId: 'VD120000000-MMT_2',
+                conceptType: 'Variable'
+              }
+            }
+          },
+          result: {
+            data: {
+              draft: {
+                conceptId: 'VD120000000-MMT_2',
+                conceptType: 'variable-draft',
+                deleted: false,
+                name: 'Test Collection Association',
+                nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
+                providerId: 'MMT_2',
+                revisionDate: '2024-02-14T19:39:36.417Z',
+                revisionId: '20',
+                ummMetadata: {
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+                    Name: 'UMM-Var',
+                    Version: '1.9.0'
+                  },
+                  Definition: 'A sample variable1 record',
+                  Name: 'Test Collection Association',
+                  LongName: 'A sample record for demo',
+                  VariableType: 'ANCILLARY_VARIABLE'
+                },
+                previewMetadata: {
+                  additionalIdentifiers: null,
+                  associationDetails: null,
+                  conceptId: 'VD120000000-MMT_2',
+                  dataType: null,
+                  definition: 'A sample variable1 record',
+                  dimensions: null,
+                  fillValues: null,
+                  indexRanges: null,
+                  instanceInformation: null,
+                  longName: 'A sample record for demo',
+                  measurementIdentifiers: null,
+                  name: 'Test Collection Association',
+                  nativeId: 'Mock Native Id',
+                  offset: null,
+                  relatedUrls: null,
+                  samplingIdentifiers: null,
+                  scale: null,
+                  scienceKeywords: null,
+                  sets: null,
+                  standardName: null,
+                  units: null,
+                  validRanges: null,
+                  variableSubType: null,
+                  variableType: 'ANCILLARY_VARIABLE',
+                  __typename: 'Variable'
+                },
+                __typename: 'Draft'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      expect(screen.getByText('No Collection Selected')).toBeInTheDocument()
+    })
+  })
 })

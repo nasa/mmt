@@ -48,6 +48,7 @@ import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
 import getUmmVersion from '../../utils/getUmmVersion'
+import conceptTypes from '../../constants/conceptTypes'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -345,7 +346,7 @@ const CollectionAssociationForm = ({ metadata }) => {
       }
     }
 
-    if (derivedConceptType === 'Variable') {
+    if (derivedConceptType === conceptTypes.Variable) {
       return (
         <div className="d-flex">
           <Button
@@ -587,7 +588,7 @@ const CollectionAssociationForm = ({ metadata }) => {
                 sortKey={sortKeyParam}
               />
               {
-                derivedConceptType !== 'Variable' && (
+                derivedConceptType !== conceptTypes.Variable && (
                   <Button
                     className="d-flex"
                     onClick={

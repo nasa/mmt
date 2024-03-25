@@ -201,7 +201,7 @@ const DraftPreview = () => {
       },
       onCompleted: () => {
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
 
         // Add a success notification
         addNotification({
@@ -241,7 +241,7 @@ const DraftPreview = () => {
 
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
-    setShowDeleteModal(true)
+    toggleShowDeleteModal(true)
   })
 
   return (
@@ -300,7 +300,7 @@ const DraftPreview = () => {
                   {
                     label: 'No',
                     variant: 'secondary',
-                    onClick: () => { setShowDeleteModal(false) }
+                    onClick: () => { toggleShowDeleteModal(false) }
                   },
                   {
                     label: 'Yes',
