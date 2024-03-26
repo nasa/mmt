@@ -28,7 +28,7 @@ export const singlePageCollectionRevisions = {
             version: 'Collection Long Name 1',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 1,
+            revisionId: '1',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           },
@@ -38,7 +38,7 @@ export const singlePageCollectionRevisions = {
             version: 'Collection Long Name 2',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 2,
+            revisionId: '2',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           }
@@ -57,7 +57,7 @@ export const multiPageCollectionRevisionsPage1 = {
         allRevisions: true,
         limit: 3,
         offset: 0,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -72,7 +72,7 @@ export const multiPageCollectionRevisionsPage1 = {
             version: 'Collection Long Name 4',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 4,
+            revisionId: '4',
             revisionDate: '2023-12-30 00:00:00',
             userId: 'admin'
           },
@@ -82,7 +82,7 @@ export const multiPageCollectionRevisionsPage1 = {
             version: 'Collection Long Name 3',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 3,
+            revisionId: '3',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           },
@@ -92,7 +92,7 @@ export const multiPageCollectionRevisionsPage1 = {
             version: 'Collection Long Name 2',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 2,
+            revisionId: '2',
             revisionDate: '2023-10-30 00:00:00',
             userId: 'admin'
           }
@@ -111,7 +111,7 @@ export const multiPageCollectionRevisionsPage2 = {
         allRevisions: true,
         limit: 3,
         offset: 3,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -126,7 +126,7 @@ export const multiPageCollectionRevisionsPage2 = {
             version: 'Collection Long Name 1',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
-            revisionId: 1,
+            revisionId: '1',
             revisionDate: '2023-9-30 00:00:00',
             userId: 'admin'
           }
@@ -184,7 +184,7 @@ export const singlePageVariableRevisions = {
             longName: 'Variable Short Name 2',
             providerId: 'MMT_2',
             revisionDate: '2023-12-30T00:00:00',
-            revisionId: 2,
+            revisionId: '2',
             userId: 'admin'
           },
           {
@@ -193,7 +193,7 @@ export const singlePageVariableRevisions = {
             longName: 'Variable Short Name 1',
             providerId: 'MMT_2',
             revisionDate: '2023-11-30T00:00:00',
-            revisionId: 1,
+            revisionId: '1',
             userId: 'admin'
           }
         ]
@@ -211,7 +211,7 @@ export const multiPageVariableRevisionsPage1 = {
         allRevisions: true,
         limit: 3,
         offset: 0,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -221,32 +221,32 @@ export const multiPageVariableRevisionsPage1 = {
         count: 4,
         items: [
           {
-            conceptId: 'V1000-MMT_2',
-            shortName: 'Variable Short Name 1',
-            version: 'Variable Long Name 1',
+            conceptId: 'V1004-MMT_2',
+            shortName: 'Variable Short Name 4',
+            version: 'Variable Long Name 4',
             title: 'Variable title',
             entryTitle: 'Variable Entry Title',
-            revisionId: 1,
+            revisionId: '4',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           },
           {
-            conceptId: 'V1001-MMT_2',
-            shortName: 'Variable Short Name 2',
-            version: 'Variable Long Name 2',
+            conceptId: 'V1003-MMT_2',
+            shortName: 'Variable Short Name 3',
+            version: 'Variable Long Name 3',
             title: 'Variable title',
             entryTitle: 'Variable Entry Title',
-            revisionId: 2,
+            revisionId: '3',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           },
           {
             conceptId: 'V1002-MMT_2',
-            shortName: 'Variable Short Name 3',
-            version: 'Variable Long Name 3',
+            shortName: 'Variable Short Name 2',
+            version: 'Variable Long Name 2',
             title: 'Variable title',
             entryTitle: 'Variable Entry Title',
-            revisionId: 3,
+            revisionId: '2',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           }
@@ -265,7 +265,7 @@ export const multiPageVariableRevisionsPage2 = {
         allRevisions: true,
         limit: 3,
         offset: 3,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -275,12 +275,12 @@ export const multiPageVariableRevisionsPage2 = {
         count: 4,
         items: [
           {
-            conceptId: 'V1004-MMT_2',
-            shortName: 'Variable Short Name 4',
-            version: 'Variable Long Name 4',
+            conceptId: 'V1001-MMT_2',
+            shortName: 'Variable Short Name 1',
+            version: 'Variable Long Name 1',
             title: 'Variable title',
             entryTitle: 'Variable Entry Title',
-            revisionId: 4,
+            revisionId: '1',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           }

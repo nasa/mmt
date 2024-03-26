@@ -81,12 +81,18 @@ const RevisionList = ({ limit }) => {
     })
   }
 
-  const { count = 0 } = revisions
+  const { count } = revisions
   const { items = [] } = revisions
 
   const buildDescriptionCell = useCallback((cellData) => {
-    const formattedVersions = parseInt(versions, 10)
-    const isPublishedVersion = (cellData === formattedVersions)
+    // The reason I cannot use count, is because it resets to undefined
+    // upon refreshing the page. Even when I put count in as a dependency.
+    // using async and await here doesn't seem to work with the useCallback function.
+    // const convertedCellData = parseInt(cellData, 10)
+    // const isPublishedVersion = (convertedCellData === count)
+    // console.log("🚀 ~ buildDescriptionCell ~ count:", count)
+    // console.log("🚀 ~ buildDescriptionCell ~ convertedcellData:", convertedCellData)
+    const isPublishedVersion = (cellData === versions)
 
     return (
       <EllipsisText>
@@ -135,6 +141,7 @@ const RevisionList = ({ limit }) => {
   const [columns, setColumns] = useState(getColumnState())
 
   useEffect(() => {
+    console.log('setColumnsEffect')
     setColumns(getColumnState())
   }, [type])
 

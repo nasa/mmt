@@ -19,7 +19,9 @@ import {
   multiPageCollectionRevisionsPage2,
   singlePageCollectionRevisionsError,
   singlePageVariableRevisions,
-  singlePageVariableRevisionsError
+  singlePageVariableRevisionsError,
+  multiPageVariableRevisionsPage1,
+  multiPageVariableRevisionsPage2
 } from './__mocks__/revisionResults'
 
 import RevisionList from '../RevisionList'
@@ -99,7 +101,7 @@ describe('RevisionList component', () => {
 
         const row1Cells = within(row1).queryAllByRole('cell')
         const row2Cells = within(row2).queryAllByRole('cell')
-
+        screen.debug()
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('2 - Published View')
         expect(row1Cells[1].textContent).toBe('2023-12-30')
@@ -111,32 +113,42 @@ describe('RevisionList component', () => {
         expect(row2Cells[0].textContent).toBe('1 - Revision View')
         expect(row2Cells[1].textContent).toBe('2023-11-30')
         expect(row2Cells[2].textContent).toBe('admin')
-        // // Change after GQL-32
+        // Change after GQL-32
         expect(row2Cells[3].textContent).toBe('Revert to this version')
       })
     })
 
     describe('with multiple pages of results', () => {
       test('shows the pagination', async () => {
-        setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 })
+        // const user = userEvent.setup()
+
+        setup([multiPageVariableRevisionsPage1, multiPageVariableRevisionsPage2], { limit: 3 })
 
         await waitFor(() => {
-          expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
+          expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
         })
 
         const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
 
         expect(pagination).toHaveLength(2)
 
-        expect(within(pagination[0]).getAllByRole('button')).toHaveLength(3)
+        expect(within(pagination[0]).getAllByRole('button')).toHaveLength(2)
 
         expect(within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
-        expect(within(pagination[0]).getByRole('button', { name: 'Goto Page 3' })).toHaveTextContent('3')
         expect(within(pagination[0]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
 
         expect(within(pagination[1]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
-        expect(within(pagination[1]).getByRole('button', { name: 'Goto Page 3' })).toHaveTextContent('3')
         expect(within(pagination[1]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
+
+        const paginationButton = within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })
+
+        // await user.click(paginationButton)
+
+        // await waitFor(() => {
+        //   expect(screen.queryAllByRole('cell')[0].textContent).toContain('2 - Published View')
+        // })
+
+        // expect(within(pagination[0]).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()
       })
     })
   })
