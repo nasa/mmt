@@ -23,6 +23,10 @@
       padding-left: 4.375rem;
       background-size: 3.75rem 3.75rem;
       font-size: var(--bs-navbar-brand-font-size);
+
+      &:hover {
+        background-size: 3.75rem 3.75rem;
+      }
     }
   }
 }

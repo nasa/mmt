@@ -176,6 +176,7 @@ const DraftPreview = () => {
     providerId,
     ummMetadata
   } = draft || {}
+  const { ShortName: shortName } = ummMetadata || {}
 
   // Handle the user selecting publish draft
   const handlePublish = () => {
@@ -246,7 +247,7 @@ const DraftPreview = () => {
 
   return (
     <Page
-      title={name || '<Blank Name>'}
+      title={name || shortName || '<Blank Name>'}
       pageType="secondary"
       breadcrumbs={
         [
@@ -255,7 +256,7 @@ const DraftPreview = () => {
             to: `/drafts/${derivedConceptType.toLowerCase()}s`
           },
           {
-            label: name || '<Blank Name>',
+            label: name || shortName || '<Blank Name>',
             active: true
           }
         ]

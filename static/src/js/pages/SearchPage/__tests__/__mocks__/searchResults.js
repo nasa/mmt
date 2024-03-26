@@ -667,7 +667,8 @@ export const singlePageServicesSearch = {
             name: 'Service Name 1',
             longName: 'Service Long Name 1',
             providerId: 'TESTPROV',
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1'
           }
         ]
       }
@@ -698,7 +699,8 @@ export const singlePageVariablesSearch = {
             name: 'Variable Name 1',
             longName: 'Variable Long Name 1',
             providerId: 'TESTPROV',
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1'
           }
         ]
       }
@@ -729,7 +731,8 @@ export const singlePageToolsSearch = {
             name: 'Tool Name 1',
             longName: 'Tool Long Name 1',
             providerId: 'TESTPROV',
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1'
           }
         ]
       }
@@ -760,7 +763,8 @@ export const singlePageToolsSearchWithProvider = {
             name: 'Tool Name 1',
             longName: 'Tool Long Name 1',
             providerId: 'TESTPROV',
-            revisionDate: '2023-11-30 00:00:00'
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1'
           }
         ]
       }

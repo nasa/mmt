@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   ApolloClient,
@@ -35,29 +35,31 @@ const GraphQLProvider = ({ children }) => {
   const { token } = user
   const { tokenValue } = token || {}
 
-  const httpLink = createHttpLink({
-    uri: graphQlHost
-  })
+  const client = useMemo(() => {
+    const httpLink = createHttpLink({
+      uri: graphQlHost
+    })
 
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      Authorization: tokenValue
-    }
-  }))
-
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache'
-      },
-      watchQuery: {
-        fetchPolicy: 'no-cache'
+    const authLink = setContext((_, { headers }) => ({
+      headers: {
+        ...headers,
+        Authorization: tokenValue
       }
-    }
-  })
+    }))
+
+    return new ApolloClient({
+      cache: new InMemoryCache(),
+      link: authLink.concat(httpLink),
+      defaultOptions: {
+        query: {
+          fetchPolicy: 'no-cache'
+        },
+        watchQuery: {
+          fetchPolicy: 'no-cache'
+        }
+      }
+    })
+  }, [tokenValue])
 
   return (
     <ApolloProvider client={client}>
