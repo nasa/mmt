@@ -134,6 +134,7 @@ const ManageCollectionAssociation = () => {
   }
 
   useEffect(() => {
+    setTableLoading(true)
     if (sortKeyParam) {
       getMetadata()
     }
@@ -325,7 +326,7 @@ const ManageCollectionAssociation = () => {
 
   return (
     <Page
-      title={`${name} Collection Associations` || '<Blank Name>'}
+      title={`${name} Collection Associations`}
       pageType="secondary"
       breadcrumbs={
         [

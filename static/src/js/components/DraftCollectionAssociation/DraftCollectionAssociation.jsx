@@ -148,7 +148,7 @@ const DraftCollectionAssociation = () => {
             to: `/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
           },
           {
-            label: 'Collection Association',
+            label: 'Collection Associations',
             active: true
           }
         ]

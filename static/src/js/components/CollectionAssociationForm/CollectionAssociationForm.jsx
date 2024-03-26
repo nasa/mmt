@@ -397,7 +397,6 @@ const CollectionAssociationForm = ({ metadata }) => {
     }
   }, [sortKeyParam])
 
-  // Move this into a util
   const sortFn = useCallback((key, order) => {
     let nextSortKey
 
