@@ -3,9 +3,9 @@ import samlLogin from '../handler'
 import * as getConfig from '../../../../static/src/js/utils/getConfig'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 
-  jest.spyOn(getConfig, 'getSamlConfig').mockImplementation(() => ({
+  vi.spyOn(getConfig, 'getSamlConfig').mockImplementation(() => ({
     host: 'https://mmt.localtest.earthdata.nasa.gov',
     callbackUrl: 'https://mmt.localtest.earthdata.nasa.gov/saml/acs',
     path: '/saml/acs',

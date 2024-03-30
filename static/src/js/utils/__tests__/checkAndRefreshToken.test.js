@@ -3,12 +3,12 @@ import * as getConfig from '../getConfig'
 
 describe('check and refresh token', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
-    jest.useFakeTimers()
-    jest.setSystemTime(new Date('2024-01-01'))
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2024-01-01'))
 
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       version: 'sit'
     }))
   })
@@ -23,7 +23,7 @@ describe('check and refresh token', () => {
       tokenExp: expires.valueOf()
     }
 
-    global.fetch = jest.fn(() => Promise.resolve({
+    global.fetch = vi.fn(() => Promise.resolve({
       headers: new Headers({
         token: 'refresh_token'
       }),
@@ -33,7 +33,7 @@ describe('check and refresh token', () => {
       })
     }))
 
-    const callbackFn = jest.fn()
+    const callbackFn = vi.fn()
     await checkAndRefreshToken({
       name: 'mock name',
       token
@@ -60,7 +60,7 @@ describe('check and refresh token', () => {
       tokenExp: expires.valueOf()
     }
 
-    const callbackFn = jest.fn()
+    const callbackFn = vi.fn()
     await checkAndRefreshToken({
       name: 'mock name',
       token
@@ -76,7 +76,7 @@ describe('check and refresh token', () => {
 
     const token = null
 
-    const setUserFn = jest.fn()
+    const setUserFn = vi.fn()
     await checkAndRefreshToken({
       name: 'mock name',
       token

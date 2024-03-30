@@ -2,13 +2,13 @@ import { handleShortNameChange } from '../handleShortNameChange'
 import getKeywords from '../getKeywords'
 
 // Enable fake timers for this test file
-jest.useFakeTimers()
+vi.useFakeTimers()
 
-jest.mock('../getKeywords')
+vi.mock('../getKeywords')
 
 describe('handleShortNameChange', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('should update RelatedUrl properties on short name change', () => {
@@ -20,7 +20,7 @@ describe('handleShortNameChange', () => {
           RelatedUrls: []
         }
       },
-      onChange: jest.fn()
+      onChange: vi.fn()
     }
     const state = {
       cmrResponse: {
@@ -50,7 +50,7 @@ describe('handleShortNameChange', () => {
           RelatedUrls: []
         }
       },
-      onChange: jest.fn()
+      onChange: vi.fn()
     }
     const state = {
       cmrResponse: {}
@@ -63,7 +63,7 @@ describe('handleShortNameChange', () => {
     handleShortNameChange(name, value, props, state)
 
     // Ensure that the setTimeout callback is executed
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
 
     expect(props.onChange).toHaveBeenCalledTimes(1)
 
@@ -86,7 +86,7 @@ describe('handleShortNameChange', () => {
           }]
         }
       },
-      onChange: jest.fn()
+      onChange: vi.fn()
     }
     const state = {
       cmrResponse: {}
@@ -99,7 +99,7 @@ describe('handleShortNameChange', () => {
     handleShortNameChange(name, value, props, state)
 
     // Ensure that the setTimeout callback is executed
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
 
     expect(props.onChange).toHaveBeenCalledTimes(1)
     expect(props.formData.ContactInformation.RelatedUrls.length).toBe(1)
@@ -119,7 +119,7 @@ describe('handleShortNameChange', () => {
           RelatedUrls: []
         }
       },
-      onChange: jest.fn()
+      onChange: vi.fn()
     }
     const state = {
       cmrResponse: {}
@@ -142,7 +142,7 @@ describe('handleShortNameChange', () => {
           RelatedUrls: []
         }
       },
-      onChange: jest.fn()
+      onChange: vi.fn()
     }
     const state = {
       cmrResponse: {}
@@ -155,7 +155,7 @@ describe('handleShortNameChange', () => {
     handleShortNameChange(name, value, props, state)
 
     // Ensure that the setTimeout callback is executed
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
 
     expect(props.onChange).toHaveBeenCalledTimes(1)
   })

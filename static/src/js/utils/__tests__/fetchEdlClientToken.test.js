@@ -2,8 +2,8 @@ import fetchEdlClientToken from '../fetchEdlClientToken'
 import * as getConfig from '../getConfig'
 
 beforeEach(() => {
-  jest.clearAllMocks()
-  jest.spyOn(getConfig, 'getEdlConfig').mockImplementation(() => ({
+  vi.clearAllMocks()
+  vi.spyOn(getConfig, 'getEdlConfig').mockImplementation(() => ({
     host: 'https://localtest.urs.earthdata.nasa.gov',
     uid: 'mmt_test'
   }))
@@ -11,7 +11,7 @@ beforeEach(() => {
   process.env.EDL_PASSWORD = 'test'
 })
 
-global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = vi.fn(() => Promise.resolve({
   json: () => Promise.resolve({
     access_token: 'mock_token',
     token_type: 'Bearer',

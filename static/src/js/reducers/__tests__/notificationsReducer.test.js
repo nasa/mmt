@@ -1,9 +1,9 @@
 import notificationsActions from '../../constants/notificationsActions'
 import { initialState, notificationsReducer } from '../notificationsReducer'
 
-jest.mock('lodash-es', () => ({
-  ...jest.requireActual('lodash-es'),
-  uniqueId: jest.fn().mockImplementation((value) => (`${value}42`))
+vi.mock('lodash-es', async () => ({
+  ...await vi.importActual('lodash-es'),
+  uniqueId: vi.fn().mockImplementation((value) => (`${value}42`))
 }))
 
 describe('notificationsReducer', () => {

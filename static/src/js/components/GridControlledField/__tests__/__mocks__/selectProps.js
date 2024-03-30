@@ -34,15 +34,15 @@ export const selectProps = {
     name: 'related-urls'
   },
   name: 'URLContentType',
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   onSelectValue: null,
   registry: {
     formContext: {
       focusField: '',
-      setFocusField: jest.fn()
+      setFocusField: vi.fn()
     },
     schemaUtils: {
-      retrieveSchema: jest.fn().mockReturnValue({
+      retrieveSchema: vi.fn().mockReturnValue({
         type: 'object',
         additionalProperties: false,
         description: 'Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.',
