@@ -3,10 +3,10 @@ import { getApplicationConfig } from '../getConfig'
 import getKeywordRecommendations from '../getKeywordRecommendations'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = vi.fn(() => Promise.resolve({
   text: () => Promise.resolve()
 }))
 
@@ -14,7 +14,7 @@ describe('getKeywordRecommendation', () => {
   describe('when getKeywordRecommendations is called succesfully', () => {
     test('recommendations are returned', async () => {
       const { defaultResponseHeaders } = getApplicationConfig()
-      global.fetch = jest.fn(() => Promise.resolve({
+      global.fetch = vi.fn(() => Promise.resolve({
         headers: defaultResponseHeaders,
         json: () => Promise.resolve(gkrResponse)
       }))

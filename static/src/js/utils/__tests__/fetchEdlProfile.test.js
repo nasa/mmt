@@ -1,17 +1,17 @@
 import fetchEdlProfile from '../fetchEdlProfile'
 import fetchEdlClientToken from '../fetchEdlClientToken'
 
-jest.mock('../fetchEdlClientToken', () => jest.fn())
+vi.mock('../fetchEdlClientToken', () => ({ default: vi.fn() }))
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 
   fetchEdlClientToken.mockImplementation(() => ('mock_token'))
 })
 
 describe('Fetching EDL Profile', () => {
   test('returns the users profile', async () => {
-    global.fetch = jest.fn(() => Promise.resolve({
+    global.fetch = vi.fn(() => Promise.resolve({
       json: () => Promise.resolve({
         uid: 'user.name',
         first_name: 'User',

@@ -27,15 +27,15 @@ export const textProps = {
     }
   },
   name: 'LongName',
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   onSelectValue: null,
   registry: {
     formContext: {
       focusField: '',
-      setFocusField: jest.fn()
+      setFocusField: vi.fn()
     },
     schemaUtils: {
-      retrieveSchema: jest.fn().mockReturnValue({
+      retrieveSchema: vi.fn().mockReturnValue({
         type: 'object',
         additionalProperties: false,
         description: 'The organization or institution responsible for developing, archiving, and/or hosting the web user interface or downloadable tool.',

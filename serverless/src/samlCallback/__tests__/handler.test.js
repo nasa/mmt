@@ -3,7 +3,7 @@ import samlCallback from '../handler'
 import * as getConfig from '../../../../static/src/js/utils/getConfig'
 import fetchEdlProfile from '../../../../static/src/js/utils/fetchEdlProfile'
 
-jest.mock('../../../../static/src/js/utils/fetchEdlProfile')
+vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
 
 fetchEdlProfile.mockImplementation(() => ({
   first_name: 'Test',
@@ -15,8 +15,8 @@ const cookie = require('cookie')
 
 describe('samlCallback is called by launchpad after a successful login in production mode', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.clearAllMocks()
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       mmtHost: 'https://mmt.localtest.earthdata.nasa.gov',
       apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
       graphQlHost: 'http://localhost:3013/dev/api',
@@ -24,7 +24,7 @@ describe('samlCallback is called by launchpad after a successful login in produc
       version: 'sit'
     }))
 
-    jest.spyOn(Date.prototype, 'valueOf').mockImplementation(() => 1234)
+    vi.spyOn(Date.prototype, 'valueOf').mockImplementation(() => 1234)
   })
 
   test('returns a redirect to the mmt app and encodes the launchpad token in a cookie', async () => {
@@ -58,7 +58,7 @@ describe('when url parameters are provided in the relay state', () => {
         Cookie: 'SBXSESSION=launchpad_token'
       }
     }
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       mmtHost: 'https://mmt.localtest.earthdata.nasa.gov',
       apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
       graphQlHost: 'http://localhost:3013/dev/api',
@@ -88,7 +88,7 @@ describe('samlCallback is called by launchpad after a successful login in dev mo
         Cookie: 'SBXSESSION=launchpad_token'
       }
     }
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       mmtHost: 'https://mmt.localtest.earthdata.nasa.gov',
       apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
       graphQlHost: 'http://localhost:3013/dev/api',

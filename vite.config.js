@@ -36,5 +36,22 @@ export default defineConfig({
   },
   css: {
     devSourcemap: true
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: 'test-setup.js',
+    clearMocks: true,
+    coverage: {
+      enabled: true,
+      include: [
+        'serverless/src/**/*.js',
+        'static/src/**/*.js',
+        'static/src/**/*.jsx'
+      ],
+      provider: 'istanbul',
+      reporter: ['text', 'lcov', 'clover', 'json'],
+      reportOnFailure: true
+    }
   }
 })
