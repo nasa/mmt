@@ -11,17 +11,11 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
 
 import {
-  singlePageCollectionRevisions,
   multiPageCollectionRevisionsPage1,
   multiPageCollectionRevisionsPage2,
-  singlePageCollectionRevisionsError,
-  singlePageVariableRevisions,
-  singlePageVariableRevisionsError,
-  multiPageVariableRevisionsPage1,
-  multiPageVariableRevisionsPage2
+  singlePageVariableRevisions
 } from './__mocks__/revisionResults'
 
 import RevisionList from '../RevisionList'
@@ -120,16 +114,13 @@ describe('RevisionList component', () => {
 
     describe('with multiple pages of results', () => {
       test('shows the pagination', async () => {
-        // const user = userEvent.setup()
-
-        setup([multiPageVariableRevisionsPage1, multiPageVariableRevisionsPage2], { limit: 3 })
+        setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
 
         await waitFor(() => {
-          expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
+          expect(screen.queryAllByRole('cell')[0].textContent).toContain('2 - Published View')
         })
 
         const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
-
         expect(pagination).toHaveLength(2)
 
         expect(within(pagination[0]).getAllByRole('button')).toHaveLength(2)
@@ -139,16 +130,6 @@ describe('RevisionList component', () => {
 
         expect(within(pagination[1]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
         expect(within(pagination[1]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
-
-        const paginationButton = within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })
-
-        // await user.click(paginationButton)
-
-        // await waitFor(() => {
-        //   expect(screen.queryAllByRole('cell')[0].textContent).toContain('2 - Published View')
-        // })
-
-        // expect(within(pagination[0]).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()
       })
     })
   })

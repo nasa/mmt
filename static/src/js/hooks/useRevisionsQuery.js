@@ -77,6 +77,7 @@ const useRevisionsQuery = ({
           setLoading(false)
         },
         onError: (fetchError) => {
+          console.log("🚀 ~ fetchError:", fetchError)
           setError(fetchError)
           setLoading(false)
         }

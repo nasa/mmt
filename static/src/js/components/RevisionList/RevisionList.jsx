@@ -141,7 +141,6 @@ const RevisionList = ({ limit }) => {
   const [columns, setColumns] = useState(getColumnState())
 
   useEffect(() => {
-    console.log('setColumnsEffect')
     setColumns(getColumnState())
   }, [type])
 

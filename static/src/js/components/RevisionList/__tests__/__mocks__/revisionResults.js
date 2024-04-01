@@ -13,7 +13,7 @@ export const singlePageCollectionRevisions = {
         allRevisions: true,
         limit: 3,
         offset: 0,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -23,22 +23,22 @@ export const singlePageCollectionRevisions = {
         count: 2,
         items: [
           {
-            conceptId: 'C1001-MMT_2',
-            shortName: 'Collection Short Name 1',
-            version: 'Collection Long Name 1',
-            title: 'Collection title',
-            entryTitle: 'Collection Entry Title',
-            revisionId: '1',
-            revisionDate: '2023-11-30 00:00:00',
-            userId: 'admin'
-          },
-          {
-            conceptId: 'C1002-MMT_2',
+            conceptId: 'C1004-MMT_2',
             shortName: 'Collection Short Name 2',
             version: 'Collection Long Name 2',
             title: 'Collection title',
             entryTitle: 'Collection Entry Title',
             revisionId: '2',
+            revisionDate: '2023-11-30 00:00:00',
+            userId: 'admin'
+          },
+          {
+            conceptId: 'C1004-MMT_2',
+            shortName: 'Collection Short Name 1',
+            version: 'Collection Long Name 1',
+            title: 'Collection title',
+            entryTitle: 'Collection Entry Title',
+            revisionId: '1',
             revisionDate: '2023-11-30 00:00:00',
             userId: 'admin'
           }
@@ -77,7 +77,7 @@ export const multiPageCollectionRevisionsPage1 = {
             userId: 'admin'
           },
           {
-            conceptId: 'C1003-MMT_2',
+            conceptId: 'C1004-MMT_2',
             shortName: 'Collection Short Name 3',
             version: 'Collection Long Name 3',
             title: 'Collection title',
@@ -87,7 +87,7 @@ export const multiPageCollectionRevisionsPage1 = {
             userId: 'admin'
           },
           {
-            conceptId: 'C1002-MMT_2',
+            conceptId: 'C1004-MMT_2',
             shortName: 'Collection Short Name 2',
             version: 'Collection Long Name 2',
             title: 'Collection title',
@@ -121,7 +121,7 @@ export const multiPageCollectionRevisionsPage2 = {
         count: 4,
         items: [
           {
-            conceptId: 'C1001-MMT_2',
+            conceptId: 'C1004-MMT_2',
             shortName: 'Collection Short Name 1',
             version: 'Collection Long Name 1',
             title: 'Collection title',
@@ -145,7 +145,7 @@ export const singlePageCollectionRevisionsError = {
         allRevisions: true,
         limit: 3,
         offset: 0,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
@@ -217,7 +217,7 @@ export const multiPageVariableRevisionsPage1 = {
   },
   result: {
     data: {
-      Variables: {
+      variables: {
         count: 4,
         items: [
           {
@@ -231,7 +231,7 @@ export const multiPageVariableRevisionsPage1 = {
             userId: 'admin'
           },
           {
-            conceptId: 'V1003-MMT_2',
+            conceptId: 'V1004-MMT_2',
             shortName: 'Variable Short Name 3',
             version: 'Variable Long Name 3',
             title: 'Variable title',
@@ -241,7 +241,7 @@ export const multiPageVariableRevisionsPage1 = {
             userId: 'admin'
           },
           {
-            conceptId: 'V1002-MMT_2',
+            conceptId: 'V1004-MMT_2',
             shortName: 'Variable Short Name 2',
             version: 'Variable Long Name 2',
             title: 'Variable title',
@@ -271,11 +271,11 @@ export const multiPageVariableRevisionsPage2 = {
   },
   result: {
     data: {
-      Variables: {
+      variables: {
         count: 4,
         items: [
           {
-            conceptId: 'V1001-MMT_2',
+            conceptId: 'V1004-MMT_2',
             shortName: 'Variable Short Name 1',
             version: 'Variable Long Name 1',
             title: 'Variable title',
@@ -299,13 +299,13 @@ export const singlePageVariableRevisionsError = {
         allRevisions: true,
         limit: 3,
         offset: 0,
-        sortKey: undefined
+        sortKey: '-revisionDate'
       }
     }
   },
   result: {
     data: {
-      Variables: {
+      variables: {
         count: 0,
         items: []
       }
