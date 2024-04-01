@@ -1,13 +1,13 @@
 import getPermittedUser from '../getPermittedUser'
 import { getApplicationConfig } from '../getConfig'
 
-jest.mock('../getConfig', () => ({
-  getApplicationConfig: jest.fn()
+vi.mock('../getConfig', () => ({
+  getApplicationConfig: vi.fn()
 }))
 
 describe('getPermittedUser function', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('should return "typical" for development environment', () => {

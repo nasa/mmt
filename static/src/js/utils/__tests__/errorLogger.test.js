@@ -1,10 +1,10 @@
 import errorLogger from '../errorLogger'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = vi.fn(() => Promise.resolve({
   text: () => Promise.resolve()
 }))
 

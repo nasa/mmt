@@ -6,7 +6,7 @@ describe('gkrKeywordRecommendations', () => {
   test('returns a gkr response given a query', async () => {
     const { defaultResponseHeaders } = getApplicationConfig()
 
-    global.fetch = jest.fn(() => Promise.resolve({
+    global.fetch = vi.fn(() => Promise.resolve({
       headers: defaultResponseHeaders,
       json: () => Promise.resolve(gkrResponse)
     }))
@@ -27,9 +27,9 @@ describe('gkrKeywordRecommendations', () => {
   })
 
   test('responds correctly on error', async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error('GKR is down')))
+    global.fetch = vi.fn(() => Promise.reject(new Error('GKR is down')))
 
-    const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 
     const body = { description: 'cloud cover and the ozone' }
     const event = { body }

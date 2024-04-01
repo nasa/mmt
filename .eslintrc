@@ -22,6 +22,7 @@
 
   // Define any global variables to avoid no-undef errors
   "globals": {
-    "waitForResponse": "readonly"
+    "waitForResponse": "readonly",
+    "vi": "readonly"
   }
 }

@@ -4,12 +4,12 @@ import * as getConfig from '../getConfig'
 
 describe('refreshToken in production mode', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
-    jest.useFakeTimers()
-    jest.setSystemTime(new Date('2024-01-01'))
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2024-01-01'))
 
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       version: 'sit'
     }))
 
@@ -18,10 +18,10 @@ describe('refreshToken in production mode', () => {
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
-  global.fetch = jest.fn(() => Promise.resolve({
+  global.fetch = vi.fn(() => Promise.resolve({
     headers: new Headers({
       token: 'new_token'
     }),
@@ -38,7 +38,7 @@ describe('refreshToken in production mode', () => {
   })
 
   test('in development given a valid token, returns a new token', async () => {
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       version: 'development'
     }))
 
