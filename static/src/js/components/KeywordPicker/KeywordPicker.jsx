@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Button from 'react-bootstrap/Button'
+
 import removeEmpty from '../../utils/removeEmpty'
 import parseCmrResponse from '../../utils/parseCmrResponse'
 
@@ -11,7 +12,6 @@ import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import './KeywordPicker.scss'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 /**
  * KeywordPicker
  * @typedef {Object} KeywordPicker
@@ -361,91 +361,70 @@ const KeywordPicker = ({
         </span>
       </div>
 
-      {
-        isLoading && currentList && (
-          <div className="w-100">
-            <span className="d-block">
-              <LoadingBanner />
-            </span>
-          </div>
-        )
-      }
-      {
-        !isLoading && (
-          <>
-            {/* Renders the list of added keywords with a remove button */}
-            <div className="p-3 mb-2 keyword-picker__added-keywords">
-              {
-                Object.values(removeEmpty(formData)).map((item, index) => (
-                  <li key={JSON.stringify(Object.values(item))}>
-                    {Object.values(item).join(' > ')}
+      {/* Renders the list of added keywords with a remove button */}
+      <div className="p-3 mb-2 keyword-picker__added-keywords">
+        {
+          Object.values(removeEmpty(formData)).map((item, index) => (
+            <li key={JSON.stringify(Object.values(item))}>
+              {Object.values(item).join(' > ')}
 
-                    <Button
-                      onClick={() => handleRemove(index)}
-                      variant="link"
-                    >
-                      <i
-                        aria-label="Remove"
-                        className="fa fa-times-circle remove-button text-red ps-1"
-                        role="img"
-                      />
-                    </Button>
-                  </li>
-                ))
-              }
-            </div>
-            <div className="eui-nested-item-picker" style={{ marginLeft }}>
-              <ul className="eui-item-path">
-                {
-                  selectedKeywords.map((item) => (
-                    displayPrevious(item)
-                  ))
-                }
-              </ul>
-
-              {/* Renders the search field */}
-              <div
-                className="eui-item-list-pane"
-                style={
-                  {
-                    marginTop,
-                    overflow: 'scroll'
-                  }
-                }
+              <Button
+                onClick={() => handleRemove(index)}
+                variant="link"
               >
-                <div className="keyword-picker__search-keywords">
-                  <Typeahead
-                    clearButton
-                    id="keyword-picker-search"
-                    isLoading={isLoading}
-                    onChange={handleSearch}
-                    options={searchResult}
-                    placeholder="Search for Keywords..."
-                  />
-                </div>
+                <i
+                  aria-label="Remove"
+                  className="fa fa-times-circle remove-button text-red ps-1"
+                  role="img"
+                />
+              </Button>
+            </li>
+          ))
+        }
+      </div>
 
-                {/* Renders the items */}
-                <ul>
-                  {
-                    currentList.map((item) => (
-                      <li key={item}>{displayItems(item)}</li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div>
-            <Button
-              className="mt-2"
-              disabled={disableButton}
-              onClick={handleSubmit}
-            >
-              <i className="fa-solid fa-circle-plus fa-sm" />
-              {' '}
-              Add Keyword
-            </Button>
-          </>
-        )
-      }
+      <div className="eui-nested-item-picker" style={{ marginLeft }}>
+        <ul className="eui-item-path">
+          {
+            selectedKeywords.map((item) => (
+              displayPrevious(item)
+            ))
+          }
+        </ul>
+
+        {/* Renders the search field */}
+        <div className="eui-item-list-pane" style={{ marginTop }}>
+          <div className="keyword-picker__search-keywords">
+            <Typeahead
+              clearButton
+              id="keyword-picker-search"
+              isLoading={isLoading}
+              onChange={handleSearch}
+              options={searchResult}
+              placeholder="Search for Keywords..."
+            />
+          </div>
+
+          {/* Renders the items */}
+          <ul>
+            {
+              currentList.map((item) => (
+                <li key={item}>{displayItems(item)}</li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <Button
+        className="mt-2"
+        disabled={disableButton}
+        onClick={handleSubmit}
+      >
+        <i className="fa-solid fa-circle-plus fa-sm" />
+        {' '}
+        Add Keyword
+      </Button>
     </div>
   )
 }
