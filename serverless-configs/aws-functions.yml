@@ -6,6 +6,7 @@ errorLogger:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: error-logger
+
 samlLogin:
   handler: serverless/src/samlLogin/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -14,6 +15,7 @@ samlLogin:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-login
+
 samlCallback:
   handler: serverless/src/samlCallback/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -22,6 +24,7 @@ samlCallback:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-acs
+
 samlRefreshToken:
   handler: serverless/src/samlRefreshToken/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -30,6 +33,7 @@ samlRefreshToken:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: saml-refresh-token
+
 edlProfile:
   handler: serverless/src/edlProfile/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -38,6 +42,7 @@ edlProfile:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: edl-profile
+
 gkrKeywordRecommendations:
   handler: serverless/src/gkrKeywordRecommendations/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -46,6 +51,7 @@ gkrKeywordRecommendations:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: gkr-keyword-recommendations
+
 gkrSendFeedback:
   handler: serverless/src/gkrSendFeedback/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -55,3 +61,47 @@ gkrSendFeedback:
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: gkr-send-feedback
 
+createTemplate:
+  handler: serverless/src/createTemplate/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: post
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: providers/{providerId}/templates
+
+updateTemplate:
+  handler: serverless/src/updateTemplate/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: put
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: providers/{providerId}/templates/{id}
+
+deleteTemplate:
+  handler: serverless/src/deleteTemplate/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: delete
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: providers/{providerId}/templates/{id}
+
+getTemplates:
+  handler: serverless/src/getTemplates/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: get
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: providers/{providerId}/templates
+
+getTemplate:
+  handler: serverless/src/getTemplate/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  events:
+    - http:
+        method: get
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: providers/{providerId}/templates/{id}
