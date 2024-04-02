@@ -67,9 +67,4 @@ Resources:
       Roles:
         - Ref: IamRoleCustomResourcesLambdaExecution
 
-  TemplatesBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: ${self:custom.collectionTemplatesBucketName}
-
 Outputs:
