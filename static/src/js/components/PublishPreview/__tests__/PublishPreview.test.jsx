@@ -546,8 +546,8 @@ describe('PublishPreview', () => {
 
   describe('when clicking on Manage Collection Association', () => {
     test('should navigate to /collection-association', async () => {
-      const navigateSpy = jest.fn()
-      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({
         overrideInitialEntries: ['/tools/T1000000-MMT'],

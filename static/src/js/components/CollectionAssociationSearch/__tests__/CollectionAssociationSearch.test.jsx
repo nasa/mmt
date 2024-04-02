@@ -14,8 +14,8 @@ import CollectionAssociationSearch from '../CollectionAssociationSearch'
 import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 
-jest.mock('../../ErrorBanner/ErrorBanner')
-jest.mock('../../../utils/errorLogger')
+vi.mock('../../ErrorBanner/ErrorBanner')
+vi.mock('../../../utils/errorLogger')
 
 const mock = {
   accessConstraints: null,
@@ -172,7 +172,7 @@ const setup = ({
   }, ...additionalMocks]
 
   const notificationContext = {
-    addNotification: jest.fn()
+    addNotification: vi.fn()
   }
 
   render(

@@ -31,8 +31,8 @@ import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
-jest.mock('../../ErrorBanner/ErrorBanner')
-jest.mock('../../../utils/errorLogger')
+vi.mock('../../ErrorBanner/ErrorBanner')
+vi.mock('../../../utils/errorLogger')
 
 const setup = ({
   additionalMocks = [],
@@ -41,7 +41,7 @@ const setup = ({
   overrideMock
 }) => {
   const notificationContext = {
-    addNotification: jest.fn()
+    addNotification: vi.fn()
   }
 
   render(
@@ -337,8 +337,8 @@ describe('CollectionAssociationForm', () => {
 
   describe('when associating a collection to a tool', () => {
     test('should associate and redirect to manage association page', async () => {
-      const navigateSpy = jest.fn()
-      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({
         additionalMocks: [CollectionAssociationRequest, createAssociationRequest]
@@ -417,8 +417,8 @@ describe('CollectionAssociationForm', () => {
   describe('when updating a variable collection association', () => {
     describe('updating variable collection association results in a success', () => {
       test('should update and navigate to collection-association', async () => {
-        const navigateSpy = jest.fn()
-        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         const { user } = setup({
           additionalMocks: [CollectionAssociationRequest, ingestVariableRequest],
@@ -493,8 +493,8 @@ describe('CollectionAssociationForm', () => {
   describe('when creating a collection association for variable draft', () => {
     describe('creates an collection association', () => {
       test('should associate the collection to the draft and navigate', async () => {
-        const navigateSpy = jest.fn()
-        jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         const { user } = setup({
           additionalMocks: [CollectionAssociationRequest, ingestVariableDraftResponse],
@@ -593,8 +593,8 @@ describe('CollectionAssociationForm', () => {
 
   describe('when the URL searchParam', () => {
     test('should search for collection', async () => {
-      const navigateSpy = jest.fn()
-      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       setup({
         additionalMocks: [CollectionSortRequest],

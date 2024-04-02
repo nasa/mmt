@@ -16,9 +16,9 @@ import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
-jest.mock('../../ErrorBanner/ErrorBanner')
-jest.mock('../../../utils/errorLogger')
-jest.mock('../../../utils/removeMetadataKeys')
+vi.mock('../../ErrorBanner/ErrorBanner')
+vi.mock('../../../utils/errorLogger')
+vi.mock('../../../utils/removeMetadataKeys')
 
 const mockDraft = {
   conceptId: 'VD120000000-MMT_2',
@@ -115,7 +115,7 @@ const setup = ({
   cookie.HAS_DOCUMENT_COOKIE = false
 
   const notificationContext = {
-    addNotification: jest.fn()
+    addNotification: vi.fn()
   }
 
   render(

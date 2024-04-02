@@ -26,8 +26,8 @@ import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../../components/ErrorBanner/ErrorBanner'
 import { DELETE_ASSOCIATION } from '../../../operations/mutations/deleteAssociation'
 
-jest.mock('../../../utils/errorLogger')
-jest.mock('../../../components/ErrorBanner/ErrorBanner')
+vi.mock('../../../utils/errorLogger')
+vi.mock('../../../components/ErrorBanner/ErrorBanner')
 
 const setup = ({
   additionalMocks = [],
@@ -41,7 +41,7 @@ const setup = ({
   ]
 
   const notificationContext = {
-    addNotification: jest.fn()
+    addNotification: vi.fn()
   }
 
   render(
@@ -232,8 +232,8 @@ describe('ManageCollectionAssociation', () => {
 
   describe('when clicking on Add Collection Associations button', () => {
     test('should navigate to collection-search', async () => {
-      const navigateSpy = jest.fn()
-      jest.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({})
       await waitForResponse()
