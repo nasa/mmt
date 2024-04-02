@@ -65,4 +65,11 @@ Resources:
       Roles:
         - Ref: IamRoleCustomResourcesLambdaExecution
 
+# TODO need a policy for this bucket
+# TODO do I need any encryption setting here?
+  TemplatesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.collectionTemplatesBucketName}
+
 Outputs:

@@ -10,6 +10,7 @@ provider:
   region: us-east-1
   endpointType: PRIVATE
   environment:
+    COLLECTION_TEMPLATES_BUCKET_NAME: ${self:custom.collectionTemplatesBucketName}
     EDL_PASSWORD: ${env:EDL_PASSWORD, ''}
   vpc:
     securityGroupIds:
@@ -45,10 +46,12 @@ plugins:
   - serverless-esbuild
   - serverless-finch
   - serverless-offline
+  - serverless-s3-local
 
 
 custom:
   siteName: mmt-${self:provider.stage}
+  collectionTemplatesBucketName: ${self:custom.siteName}-collection-templates
 
   infrastructureStackName: mmt-infrastructure-${self:provider.stage}
 
@@ -78,6 +81,11 @@ custom:
     httpPort: 4001
     lambdaPort: 4003
     allowCache: true
+
+  s3:
+    host: localhost
+    directory: tmp
+    # cors: ./path/to/cors.xml
 
   # Don't minify the build in development
   minifyBuild:
