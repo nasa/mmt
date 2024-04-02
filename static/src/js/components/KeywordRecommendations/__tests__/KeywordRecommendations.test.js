@@ -383,7 +383,7 @@ describe('KeywordRecommendations component', () => {
     })
   })
 
-  describe('when draft does not contains a abstract', () => {
+  describe('when draft does not contain a abstract', () => {
     test('renders no recommendations', async () => {
       const draft = {}
       setup({ draft })

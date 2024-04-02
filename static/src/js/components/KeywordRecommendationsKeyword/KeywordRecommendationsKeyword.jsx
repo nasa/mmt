@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
 import PropTypes from 'prop-types'
@@ -19,6 +18,7 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
         !accepted ? (
           <i
             className="keyword-recommendations-keyword__add-icon fa fa-plus-circle"
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...useAccessibleEvent(() => {
               addKeyword(delimitedKeyword)
             })}
@@ -39,6 +39,7 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
         accepted ? (
           <i
             className="keyword-recommendations-keyword__remove-icon fa fa-times-circle"
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...useAccessibleEvent(() => {
               removeKeyword(delimitedKeyword)
             })}

@@ -64,25 +64,21 @@ const KeywordRecommendations = ({ formData, onChange }) => {
 
   /**
  * Creates a delimited keyword from the keyword's metadata
- * @param {*} keywordObject
+ * @param {Object} keywordObject
  * @returns the keyword delimited with '>'
  */
-  const createDelimitedKeyword = (keyword) => {
-    const delimitedKeyword = Object.values(keyword).join(' > ')
-
-    return delimitedKeyword
-  }
+  const createDelimitedKeyword = (keyword) => Object.values(keyword).join(' > ')
 
   /**
    * Create an array from a delimited keyword
-   * @param (*) keyword the delimited keyword
+   * @param (String) keyword the delimited keyword
    * @returns the keyword as an array
    */
   const createArraySeparatedKeyword = (keyword) => keyword.split('>').map((value) => (value.trim()))
 
   /**
    * Adds a keyword to the formdata
-   * @param {*} keyword the > delimited keyword
+   * @param {String} keyword the > delimited keyword
    */
   const addKeyword = (keyword) => {
     const fields = [
@@ -109,7 +105,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
 
   /**
    * Removes a keyword from form data
-   * @param {*} keyword the > delimited keyword
+   * @param {String} keyword the > delimited keyword
    */
   const removeKeyword = (keyword) => {
     const existingKeywords = removeEmpty(cloneDeep(formData))
@@ -146,8 +142,8 @@ const KeywordRecommendations = ({ formData, onChange }) => {
 
   /**
    * Returns true if the delimited Keyword is in the recommended keyword list.
-   * @param {*} keywordRecommendations the array of recommendations
-   * @param {*} delimitedKeyword the delimited keyword
+   * @param {Array} keywordRecommendations the array of recommendations
+   * @param {String} delimitedKeyword the delimited keyword
    * @returns true if the delimited Keyword is in the recommended keyword list, false if not.
    */
   const isInRecommendedKeywordList = (
@@ -163,7 +159,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
 
   /**
    * Returns true if the delimited Keyword is in the draft form data.
-   * @param {*} keyword the delimited keyword
+   * @param {String} keyword the delimited keyword
    * @returns true if the delimited Keyword is in the draft form data, false if not.
    */
   const isInDraftKeywordList = (keyword) => {
@@ -178,7 +174,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
 
   /**
    * Augments each keyword coming back from GKR to include accepted and recommended properties.
-   * @param {*} keywordRecommendations the list of recommended keywords from GKR
+   * @param {Array} keywordRecommendations the list of recommended keywords from GKR
    * @returns the augmented list
    */
   // eslint-disable-next-line arrow-body-style
@@ -191,13 +187,11 @@ const KeywordRecommendations = ({ formData, onChange }) => {
         accepted = true
       }
 
-      const newKeyword = {
+      return {
         ...recommendedKeyword,
         recommended: true,
         accepted
       }
-
-      return newKeyword
     })
   }
 
@@ -268,25 +262,18 @@ const KeywordRecommendations = ({ formData, onChange }) => {
   }, [])
 
   /**
-   * If the science keyword form data changes, update the draft keywords list.
+   * If the science keyword form data changes, update the draft and recommended keywords list.
    */
   useEffect(() => {
-    const keywords = getDraftKeywords()
+    const draftKeywordsList = getDraftKeywords()
+    setDraftKeywords(draftKeywordsList)
 
-    setDraftKeywords(keywords)
+    const recommendedKeywordsList = createRecommendedKeywords(recommendations)
+    setRecommendations(recommendedKeywordsList)
   }, [draft])
 
-  /**
-   * If the science keyword form data changes, update the recommended keywords list.
-   */
-  useEffect(() => {
-    const keywords = createRecommendedKeywords(recommendations)
-    setRecommendations(keywords)
-  }, [draft])
 
-  //
   // Create JSX for recommended keywords (first), then science keywords from formdata (next)
-  //
   const keywords = []
   recommendations.forEach((keyword) => {
     const { keyword: delimitedKeyword, accepted } = keyword
@@ -315,9 +302,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     }
   })
 
-  //
   // Render the recommended keyword component.
-  //
   return (
     <div className="pb-3">
       <div>

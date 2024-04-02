@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Button from 'react-bootstrap/Button'
-
 import parseCmrResponse from '../../utils/parseCmrResponse'
-
 import useControlledKeywords from '../../hooks/useControlledKeywords'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
-
 import 'react-bootstrap-typeahead/css/Typeahead.css'
-import './KeywordPicker.scss'
 import KeywordRecommendations from '../KeywordRecommendations/KeywordRecommendations'
 import removeEmpty from '../../utils/removeEmpty'
+
+import './KeywordPicker.scss'
+
 /**
  * KeywordPicker
  * @typedef {Object} KeywordPicker
@@ -219,12 +218,9 @@ const KeywordPicker = ({
 
   const handleSubmit = () => {
     const addedKeywords = addKeywords(finalSelectedList.splice(1))
-    if (addedKeywords) {
-      formData.push(addedKeywords)
-    } else {
-      return
-    }
+    if (!addedKeywords) return
 
+    formData.push(addedKeywords)
     setFinalSelectedList([])
     setFinalSelectedValue('')
     setDisableButton(true)
