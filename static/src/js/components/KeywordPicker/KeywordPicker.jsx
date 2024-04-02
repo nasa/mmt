@@ -406,12 +406,7 @@ const KeywordPicker = ({
               {/* Renders the search field */}
               <div
                 className="eui-item-list-pane"
-                style={
-                  {
-                    marginTop,
-                    overflow: 'scroll'
-                  }
-                }
+                style={{ marginTop }}
               >
                 <div className="keyword-picker__search-keywords">
                   <Typeahead
