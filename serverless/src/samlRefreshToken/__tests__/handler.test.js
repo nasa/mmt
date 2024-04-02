@@ -1,12 +1,12 @@
 import samlRefreshToken from '../handler'
 import * as getConfig from '../../../../static/src/js/utils/getConfig'
 
-jest.mock('../../../../static/src/js/utils/fetchEdlProfile')
+vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
 
 describe('samlRefreshToken', () => {
   const headers = new Headers({})
-  headers.getSetCookie = jest.fn(() => (['SBXSESSION=refresh_token']))
-  global.fetch = jest.fn(() => Promise.resolve({
+  headers.getSetCookie = vi.fn(() => (['SBXSESSION=refresh_token']))
+  global.fetch = vi.fn(() => Promise.resolve({
     headers,
     json: () => Promise.resolve({
       ok: true,
@@ -16,8 +16,8 @@ describe('samlRefreshToken', () => {
   }))
 
   beforeEach(() => {
-    jest.clearAllMocks()
-    jest.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    vi.clearAllMocks()
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
       mmtHost: 'https://mmt.localtest.earthdata.nasa.gov',
       apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
       graphQlHost: 'http://localhost:3013/dev/api',
@@ -36,7 +36,7 @@ describe('samlRefreshToken', () => {
   })
 
   test('return error response', async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error('error')))
+    global.fetch = vi.fn(() => Promise.reject(new Error('error')))
     const event = { headers: { token: 'ABC-1' } }
     const response = await samlRefreshToken(event).catch((error) => {
       expect(error.message).toEqual('error')
@@ -46,8 +46,8 @@ describe('samlRefreshToken', () => {
   })
 
   test('return unsuccesful response', async () => {
-    headers.getSetCookie = jest.fn(() => (['bogus_cookie=bogus_value']))
-    global.fetch = jest.fn(() => Promise.resolve({
+    headers.getSetCookie = vi.fn(() => (['bogus_cookie=bogus_value']))
+    global.fetch = vi.fn(() => Promise.resolve({
       headers,
       json: () => Promise.resolve({
         ok: true,

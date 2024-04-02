@@ -2,10 +2,10 @@ import edlProfile from '../handler'
 
 import fetchEdlProfile from '../../../../static/src/js/utils/fetchEdlProfile'
 
-jest.mock('../../../../static/src/js/utils/fetchEdlProfile')
+vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('edlProfile when edl password is provided', () => {
@@ -64,7 +64,7 @@ describe('edlProfile when edl password is provided', () => {
   })
 
   test('responds correctly on error', async () => {
-    const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 
     fetchEdlProfile.mockImplementation(() => Promise.reject(new Error('URS is down')))
 

@@ -2,13 +2,13 @@ import constructDownloadableFile from '../constructDownloadableFile'
 
 describe('constructDownloadableFile', () => {
   test('downloads a json file', () => {
-    global.URL.createObjectURL = jest.fn().mockReturnValue('mock-url')
+    global.URL.createObjectURL = vi.fn().mockReturnValue('mock-url')
 
     const mockBlob = {
       size: 155,
       type: 'application/json;charset:utf-8'
     }
-    const blobSpy = jest.spyOn(global, 'Blob').mockImplementationOnce(() => mockBlob)
+    const blobSpy = vi.spyOn(global, 'Blob').mockImplementationOnce(() => mockBlob)
 
     const contents = JSON.stringify({
       mock: 'data'

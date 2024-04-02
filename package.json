@@ -9,10 +9,7 @@
     "lint": "eslint . --ext .jsx,.js",
     "lint:css": "npx stylelint './static/src/**/*.(sc|c)ss'",
     "preview": "vite preview",
-    "test": "jest",
-    "test:silent": "jest --silent",
-    "test:watch": "jest --watchAll",
-    "test:watch-lite": "jest --watchAll --collectCoverageFrom='' --coverage=true",
+    "test": "vitest",
     "cmr:setup": "node setup/setupCmr.js",
     "cmr:start": "CMR_URS_PASSWORD=mock-urs-password node setup/startCmr.js",
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
@@ -79,7 +76,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "babel-jest": "^29.7.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-cypress": "^2.15.1",
@@ -91,13 +88,12 @@
     "express": "^4.18.2",
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^22.1.0",
     "start-server-and-test": "^2.0.2",
     "stylelint": "^15.10.3",
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-standard": "^34.0.0",
-    "stylelint-scss": "^5.2.1"
+    "stylelint-scss": "^5.2.1",
+    "vitest": "^1.4.0"
   }
 }
