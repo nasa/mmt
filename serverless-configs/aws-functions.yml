@@ -64,6 +64,7 @@ gkrSendFeedback:
 createTemplate:
   handler: serverless/src/createTemplate/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
   events:
     - http:
         method: post
@@ -73,6 +74,7 @@ createTemplate:
 updateTemplate:
   handler: serverless/src/updateTemplate/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
   events:
     - http:
         method: put
@@ -82,6 +84,7 @@ updateTemplate:
 deleteTemplate:
   handler: serverless/src/deleteTemplate/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
   events:
     - http:
         method: delete
@@ -91,6 +94,7 @@ deleteTemplate:
 getTemplates:
   handler: serverless/src/getTemplates/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
   events:
     - http:
         method: get
@@ -100,6 +104,7 @@ getTemplates:
 getTemplate:
   handler: serverless/src/getTemplate/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
   events:
     - http:
         method: get

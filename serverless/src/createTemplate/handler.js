@@ -28,9 +28,7 @@ const createTemplate = async (event) => {
   const createCommand = new PutObjectCommand({
     Bucket: collectionTemplatesBucketName,
     Body: body,
-    Key: `${providerId}/${guid}/${hashedName}`,
-    // TODO do I need this encryption setting here?
-    ServerSideEncryption: 'AES256'
+    Key: `${providerId}/${guid}/${hashedName}`
   })
 
   const response = await s3Client.send(createCommand)
