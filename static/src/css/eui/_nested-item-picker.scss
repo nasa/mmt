@@ -42,12 +42,14 @@
       .eui-nested-item-picker .eui-item-path > li span:hover {
         background-color: #1e6797; }
         .eui-nested-item-picker .eui-item-list-pane {
+          cursor: pointer;
+          overflow: scroll;
           width: 400px;
           height: 400px;
           border: 1px solid #95a5a6;
           background-color: white;
           position: relative;
-          top: -50px; }
+          top: -49px; }
           .eui-nested-item-picker .eui-item-list-pane ul {
             margin: 0;
             padding: 0;
