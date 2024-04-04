@@ -22,7 +22,6 @@ const getTemplates = async (event) => {
   try {
     const objectList = await s3ListObjects(s3Client, prefix)
 
-    // TODO sort list by LastModified, newest first
     const body = objectList.map((object) => {
       const [guid, hashedName] = object.Key.replace(prefix, '').split('/')
       const name = Buffer.from(hashedName, 'base64').toString()
@@ -34,8 +33,18 @@ const getTemplates = async (event) => {
       }
     })
 
+    const sortedBody = body.sort((a, b) => {
+      const nameA = a.name.toUpperCase()
+      const nameB = b.name.toUpperCase()
+
+      if (nameA < nameB) return -1
+      if (nameA > nameB) return 1
+
+      return 0
+    })
+
     return {
-      body: JSON.stringify(body),
+      body: JSON.stringify(sortedBody),
       statusCode: 200,
       headers: defaultResponseHeaders
     }

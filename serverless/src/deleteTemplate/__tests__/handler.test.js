@@ -46,7 +46,7 @@ describe('deleteTemplate', () => {
   })
 
   describe('when the object is not found', () => {
-    test('returns a status code 200', async () => {
+    test('returns a status code 404', async () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([])
 
       const event = {
@@ -58,7 +58,7 @@ describe('deleteTemplate', () => {
 
       const response = await deleteTemplate(event)
 
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(404)
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
       expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/mock-id')
