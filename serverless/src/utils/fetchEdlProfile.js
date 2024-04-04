@@ -16,7 +16,7 @@ const fetchEdlProfile = async (launchpadToken) => {
 
   const clientToken = await fetchEdlClientToken()
 
-  const response = await fetch(`${host}/api/nams/edl_user`, {
+  return fetch(`${host}/api/nams/edl_user`, {
     body: `token=${launchpadToken}`,
     method: 'POST',
     headers: {
@@ -24,10 +24,12 @@ const fetchEdlProfile = async (launchpadToken) => {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     }
   })
+    .then((response) => response.json())
+    .catch((error) => {
+      console.log('fetchEdlProfile Error: ', error)
 
-  const profile = await response.json()
-
-  return profile
+      return undefined
+    })
 }
 
 export default fetchEdlProfile
