@@ -85,7 +85,6 @@ custom:
   s3:
     host: localhost
     directory: tmp
-    # cors: ./path/to/cors.xml
 
   # Don't minify the build in development
   minifyBuild:

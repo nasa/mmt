@@ -32,9 +32,6 @@ describe('edlAuthorizer', () => {
       const response = await edlAuthorizer(event, {})
 
       expect(response).toEqual({
-        context: {
-          jwtToken: 'mock-token'
-        },
         principalId: 'mock_user'
       })
     })
@@ -53,10 +50,7 @@ describe('edlAuthorizer', () => {
       const response = await edlAuthorizer(event, {})
 
       expect(response).toEqual({
-        context: {
-          jwtToken: 'ABC-1'
-        },
-        principalId: 'user'
+        principalId: 'mock_user'
       })
     })
   })

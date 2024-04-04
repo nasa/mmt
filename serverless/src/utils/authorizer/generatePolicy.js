@@ -1,17 +1,12 @@
 /**
- * Generate AuthPolicy for the Authorizer, and attach the JWT
+ * Generate AuthPolicy for the Authorizer
  * @param {String} username username of authenticated uset
- * @param {Object} jwtToken JWT containing EDL token
  * @param {String} effect
  * @param {Object} resource
  */
-export const generatePolicy = (username, jwtToken, effect, resource) => {
+export const generatePolicy = (username, effect, resource) => {
   const authResponse = {
     principalId: username
-  }
-
-  if (jwtToken) {
-    authResponse.context = { jwtToken }
   }
 
   if (effect && resource) {
