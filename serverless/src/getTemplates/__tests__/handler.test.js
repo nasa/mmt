@@ -51,13 +51,13 @@ describe('getTemplates', () => {
 
       expect(response.statusCode).toBe(200)
       expect(response.body).toBe(JSON.stringify([{
-        id: '34a25a4d-da4e-4ffd-b374-beae7978f689',
-        name: 'Test Template 2',
-        lastModified: '2024-04-01T19:18:11.000Z'
-      }, {
         id: '460bfd33-cad3-46f8-9eee-47664f98038c',
         name: 'Test Template 1',
         lastModified: '2024-04-02T19:18:11.000Z'
+      }, {
+        id: '34a25a4d-da4e-4ffd-b374-beae7978f689',
+        name: 'Test Template 2',
+        lastModified: '2024-04-01T19:18:11.000Z'
       }]))
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)

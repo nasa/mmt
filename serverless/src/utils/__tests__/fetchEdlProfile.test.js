@@ -19,7 +19,7 @@ describe('fetchEdlProfile', () => {
       })
     }))
 
-    const profile = await fetchEdlProfile('mock-token')
+    const profile = await fetchEdlProfile({ Authorization: 'Bearer mock-token' })
 
     expect(profile).toEqual({
       uid: 'user.name',

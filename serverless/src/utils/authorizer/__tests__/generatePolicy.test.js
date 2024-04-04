@@ -3,30 +3,7 @@ import { generatePolicy } from '../generatePolicy'
 describe('generatePolicy', () => {
   describe('when a jwtToken is provided', () => {
     test('policy includes the provided token', () => {
-      const response = generatePolicy('testuser', 'jwtToken', {}, 'test-resource')
-
-      expect(response).toEqual({
-        context: {
-          jwtToken: 'jwtToken'
-        },
-        policyDocument: {
-          Statement: [
-            {
-              Action: 'execute-api:Invoke',
-              Effect: {},
-              Resource: 'test-resource'
-            }
-          ],
-          Version: '2012-10-17'
-        },
-        principalId: 'testuser'
-      })
-    })
-  })
-
-  describe('when a jwtToken is not provided', () => {
-    test('policy does not include the token', () => {
-      const response = generatePolicy('testuser', undefined, {}, 'test-resource')
+      const response = generatePolicy('testuser', {}, 'test-resource')
 
       expect(response).toEqual({
         policyDocument: {

@@ -26,7 +26,7 @@ const deleteTemplate = async (event) => {
   const objectList = await s3ListObjects(s3Client, prefix)
   const [object] = objectList
 
-  let statusCode = 200
+  let statusCode = 404
   if (object) {
     const { Key: key } = object
 

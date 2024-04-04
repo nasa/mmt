@@ -1,5 +1,4 @@
 import { generatePolicy } from '../utils/authorizer/generatePolicy'
-import { downcaseKeys } from '../utils/downcaseKeys'
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 
 /**
@@ -13,21 +12,11 @@ const edlAuthorizer = async (event) => {
     methodArn
   } = event
 
-  const { authorization: authorizationToken = '' } = downcaseKeys(headers)
-
-  // `authorizationToken` comes in as `Bearer asdf.qwer.hjkl` but we only need the actual token
-  const tokenParts = authorizationToken.split(' ')
-  const token = tokenParts[1]
-
-  if (process.env.IS_OFFLINE && token === 'ABC-1') {
-    return generatePolicy('user', token, 'Allow', methodArn)
-  }
-
-  const profile = await fetchEdlProfile()
+  const profile = await fetchEdlProfile(headers)
   const { uid } = profile
 
   if (uid) {
-    return generatePolicy(uid, token, 'Allow', methodArn)
+    return generatePolicy(uid, 'Allow', methodArn)
   }
 
   throw new Error('Unauthorized')
