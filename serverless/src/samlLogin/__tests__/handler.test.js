@@ -1,6 +1,6 @@
 import { escapeRegExp } from 'lodash-es'
 import samlLogin from '../handler'
-import * as getConfig from '../../../../static/src/js/utils/getConfig'
+import * as getConfig from '../../../../sharedUtils/getConfig'
 
 beforeEach(() => {
   vi.clearAllMocks()

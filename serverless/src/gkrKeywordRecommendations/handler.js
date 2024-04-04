@@ -4,7 +4,7 @@
  * @param {Object} event Details about the HTTP request that it received
  */
 
-import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
+import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 
 const gkrKeywordRecommendations = async (event) => {
   const { gkrHost } = getApplicationConfig()

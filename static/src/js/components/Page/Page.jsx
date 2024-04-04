@@ -10,7 +10,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import For from '../For/For'
 
-import { getUmmVersionsConfig } from '../../utils/getConfig'
+import { getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 
 import './Page.scss'
 

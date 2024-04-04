@@ -1,5 +1,5 @@
 import fetchEdlClientToken from '../fetchEdlClientToken'
-import * as getConfig from '../getConfig'
+import * as getConfig from '../../../../sharedUtils/getConfig'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -43,6 +43,7 @@ describe('Retrieving EDL Client Token', () => {
       .catch((error) => {
         expect(error.message).toEqual('Error calling EDL')
       })
+
     expect(token).toEqual(undefined)
   })
 })

@@ -1,5 +1,5 @@
 import gkrSendFeedbackResponse from '../../../../../serverless/src/gkrSendFeedback/__mocks__/gkrSendFeedbackResponse'
-import { getApplicationConfig } from '../getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import sendKeywordRecommendationsFeedback from '../sendKeywordRecommendationsFeedback'
 
 beforeEach(() => {
