@@ -6,8 +6,8 @@ import useAppContext from '../../../hooks/useAppContext'
 import AppContextProvider from '../AppContextProvider'
 import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
 
-vi.mock('../../../utils/getConfig', async () => ({
-  ...await vi.importActual('../../../utils/getConfig'),
+vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev'
   }))
@@ -109,7 +109,9 @@ describe('AppContextProvider component', () => {
 
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
+
         await user.click(button)
+
         const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
         expect(window.location.href).toEqual(expectedPath)
       })

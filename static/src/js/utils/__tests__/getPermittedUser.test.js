@@ -1,25 +1,24 @@
 import getPermittedUser from '../getPermittedUser'
-import { getApplicationConfig } from '../getConfig'
-
-vi.mock('../getConfig', () => ({
-  getApplicationConfig: vi.fn()
-}))
 
 describe('getPermittedUser function', () => {
+  const OLD_ENV = process.env
+
+  beforeEach(() => {
+    process.env = { ...OLD_ENV }
+  })
+
   afterEach(() => {
     vi.clearAllMocks()
   })
 
   it('should return "typical" for development environment', () => {
-    // Mock the application config to return 'development' version
-    getApplicationConfig.mockReturnValue({ version: 'development' })
+    process.env.NODE_ENV = 'development'
 
     expect(getPermittedUser()).toEqual('typical')
   })
 
   it('should return the user\'s uid for non-development environment', () => {
-    // Mock the application config to return 'production' version
-    getApplicationConfig.mockReturnValue({ version: 'production' })
+    process.env.NODE_ENV = 'production'
 
     const user = { uid: 'some_user_uid' }
     expect(getPermittedUser(user)).toEqual('some_user_uid')

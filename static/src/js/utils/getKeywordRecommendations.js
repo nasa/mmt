@@ -1,4 +1,4 @@
-import { getApplicationConfig } from './getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls gkrKeywordRecommendations lambda /gkr-request-keywords to fetch a list of recommended keywords

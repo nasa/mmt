@@ -1,4 +1,4 @@
-import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
+import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
 
@@ -22,6 +22,7 @@ const getTemplates = async (event) => {
   try {
     const objectList = await s3ListObjects(s3Client, prefix)
 
+    // TODO sort list by LastModified, newest first
     const body = objectList.map((object) => {
       const [guid, hashedName] = object.Key.replace(prefix, '').split('/')
       const name = Buffer.from(hashedName, 'base64').toString()
@@ -39,7 +40,7 @@ const getTemplates = async (event) => {
       headers: defaultResponseHeaders
     }
   } catch (error) {
-    console.log('🚀 ~ getTemplates ~ error:', error)
+    console.log('getTemplates Error:', error)
 
     return {
       statusCode: 404,

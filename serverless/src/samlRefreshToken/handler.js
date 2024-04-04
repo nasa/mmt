@@ -1,4 +1,4 @@
-import { getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import { getSamlConfig } from '../../../sharedUtils/getConfig'
 
 const cookieParser = require('cookie')
 

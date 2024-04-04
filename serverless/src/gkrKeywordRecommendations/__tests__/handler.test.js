@@ -1,4 +1,4 @@
-import { getApplicationConfig } from '../../../../static/src/js/utils/getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 import gkrResponse from '../__mocks__/gkrKeywordRecommendationsResponse'
 import gkrKeywordRecommendations from '../handler'
 

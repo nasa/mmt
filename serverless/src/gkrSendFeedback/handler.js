@@ -1,12 +1,11 @@
+import { getApplicationConfig } from '../../../sharedUtils/getConfig'
+
 /**
  * Handles gkr requests for sending feedback regarding recommended keywords
  * in order to better train the machine learning model.
  * See https://gkr.sit.earthdatacloud.nasa.gov/docs/ for JSON values passed in body
  * @param {Object} event Details about the HTTP request that it received
  */
-
-import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
-
 const gkrSendFeedback = async (event) => {
   const { gkrHost } = getApplicationConfig()
   const { body } = event
