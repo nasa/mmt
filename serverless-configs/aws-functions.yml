@@ -1,3 +1,7 @@
+edlAuthorizer:
+    handler: serverless/src/edlAuthorizer/handler.default
+    timeout: ${env:LAMBDA_TIMEOUT, '30'}
+
 errorLogger:
   handler: serverless/src/errorLogger/handler.default
   timeout: ${env:LAMBDA_TIMEOUT, '30'}
@@ -70,6 +74,10 @@ createTemplate:
         method: post
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
 
 updateTemplate:
   handler: serverless/src/updateTemplate/handler.default
@@ -80,6 +88,10 @@ updateTemplate:
         method: put
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates/{id}
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
 
 deleteTemplate:
   handler: serverless/src/deleteTemplate/handler.default
@@ -90,6 +102,10 @@ deleteTemplate:
         method: delete
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates/{id}
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
 
 getTemplates:
   handler: serverless/src/getTemplates/handler.default
@@ -100,6 +116,10 @@ getTemplates:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
 
 getTemplate:
   handler: serverless/src/getTemplate/handler.default
@@ -110,3 +130,7 @@ getTemplate:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates/{id}
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0

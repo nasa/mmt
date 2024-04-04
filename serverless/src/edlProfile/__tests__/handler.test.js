@@ -1,8 +1,7 @@
 import edlProfile from '../handler'
+import fetchEdlProfile from '../../utils/fetchEdlProfile'
 
-import fetchEdlProfile from '../../../../static/src/js/utils/fetchEdlProfile'
-
-vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
+vi.mock('../../utils/fetchEdlProfile')
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -14,23 +13,26 @@ describe('edlProfile when edl password is provided', () => {
       email: 'test.user@localhost',
       first_name: 'Test',
       last_name: 'User',
+      nams_auid: 'mock_user',
       uid: 'mock_user'
     }))
 
     const event = {
-      queryStringParameters: {
-        auid: 'mock_user'
+      headers: {
+        Authorization: 'Bearer mock-token'
       }
     }
 
     const response = await edlProfile(event)
     const profile = await response.body
+
     expect(JSON.parse(profile)).toEqual({
+      auid: 'mock_user',
       email: 'test.user@localhost',
       first_name: 'Test',
       last_name: 'User',
-      auid: 'mock_user',
       name: 'Test User',
+      nams_auid: 'mock_user',
       uid: 'mock_user'
     })
 
@@ -41,22 +43,25 @@ describe('edlProfile when edl password is provided', () => {
     fetchEdlProfile.mockImplementation(() => ({
       email: 'test.user@localhost',
       last_name: 'User',
+      nams_auid: 'mock_user',
       uid: 'mock_user'
     }))
 
     const event = {
-      queryStringParameters: {
-        auid: 'mock_user'
+      headers: {
+        Authorization: 'Bearer mock-token'
       }
     }
 
     const response = await edlProfile(event)
     const profile = await response.body
+
     expect(JSON.parse(profile)).toEqual({
+      auid: 'mock_user',
       email: 'test.user@localhost',
       last_name: 'User',
-      auid: 'mock_user',
       name: 'mock_user',
+      nams_auid: 'mock_user',
       uid: 'mock_user'
     })
 
@@ -69,19 +74,20 @@ describe('edlProfile when edl password is provided', () => {
     fetchEdlProfile.mockImplementation(() => Promise.reject(new Error('URS is down')))
 
     const event = {
-      queryStringParameters: {
-        auid: 'mock_user'
+      headers: {
+        Authorization: 'Bearer mock-token'
       }
     }
 
     const response = await edlProfile(event)
     const profile = await response.body
+
     expect(JSON.parse(profile)).toEqual({
       error: 'Error: URS is down'
     })
 
     expect(consoleMock).toBeCalledTimes(1)
-    expect(consoleMock).toBeCalledWith('Error retrieving edl profile for mock_user, error=Error: URS is down')
+    expect(consoleMock).toBeCalledWith('Error retrieving EDL profile, error=Error: URS is down')
 
     expect(response.statusCode).toBe(500)
   })

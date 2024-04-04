@@ -1,5 +1,5 @@
 import checkAndRefreshToken from '../checkAndRefreshToken'
-import * as getConfig from '../getConfig'
+import * as getConfig from '../../../../../sharedUtils/getConfig'
 
 describe('check and refresh token', () => {
   beforeEach(() => {

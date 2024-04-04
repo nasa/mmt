@@ -1,4 +1,4 @@
-import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
+import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Logs an error reported by a client

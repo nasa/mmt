@@ -6,7 +6,7 @@ import React, {
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 import AuthContext from '../../context/AuthContext'
-import { getApplicationConfig } from '../../utils/getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 import errorLogger from '../../utils/errorLogger'
 
@@ -80,17 +80,24 @@ const AuthContextProvider = ({ children }) => {
     if (!loginInfo || !loginInfo.auid) return
 
     const { name, auid } = loginInfo
+    // TODO No cookie is set here
     const fetchProfileAndSetLoginCookie = async () => {
-      await fetch(`${apiHost}/edl-profile?auid=${auid}`).then(async (response) => {
-        const { name: profileName, uid } = await response.json()
-        setUser((prevUser) => ({
-          ...prevUser,
-          uid,
-          name: profileName
-        }))
-      }).catch((error) => {
-        errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
+      await fetch(`${apiHost}/edl-profile`, {
+        headers: {
+          Authorization: `Bearer ${launchpadToken}`
+        }
       })
+        .then(async (response) => {
+          const { name: profileName, uid } = await response.json()
+
+          setUser((prevUser) => ({
+            ...prevUser,
+            uid,
+            name: profileName
+          }))
+        }).catch((error) => {
+          errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
+        })
     }
 
     if (!name) {
