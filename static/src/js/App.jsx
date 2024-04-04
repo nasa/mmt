@@ -107,10 +107,10 @@ export const App = () => {
   })
 
   useEffect(() => {
-    if (uid) {
+    if (uid && user) {
       getProviders()
     }
-  }, [uid])
+  }, [user])
 
   return (
     <>
