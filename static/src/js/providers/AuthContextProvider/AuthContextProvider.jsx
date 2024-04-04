@@ -6,6 +6,7 @@ import React, {
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 
+
 import AuthContext from '../../context/AuthContext'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
@@ -35,8 +36,7 @@ const AuthContextProvider = ({ children }) => {
   const [
     cookies,
     setCookie,
-    removeCookie
-  ] = useCookies(['loginInfo', 'launchpadToken', 'data'])
+    removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
   const {
     loginInfo = {},
     launchpadToken,

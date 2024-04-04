@@ -22,7 +22,7 @@ const fetchEdlProfile = async (headers) => {
   const clientToken = await fetchEdlClientToken()
 
   return fetch(`${host}/api/nams/edl_user`, {
-    body: `token=${token}`,
+    body: `token=${launchpadToken}`,
     method: 'POST',
     headers: {
       Authorization: `Bearer ${clientToken}`,
