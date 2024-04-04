@@ -68,7 +68,15 @@ const ManagePage = () => {
                       </>
                     ),
                     separate: true
-                  }
+                  },
+                  currentType === 'Collection' ? {
+                    key: 'templates',
+                    children: (
+                      <div className="py-2 m-1">
+                        <Link to={`/templates/${type}`}>Manage Templates</Link>
+                      </div>
+                    )
+                  } : {}
                 ]
               },
               {

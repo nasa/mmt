@@ -25,6 +25,7 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
+import TemplatesPage from './pages/TemplatesPage/TemplatesPage'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -145,6 +146,16 @@ export const App = () => {
                 (
                   <AuthRequiredContainer>
                     <DraftsPage />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/*"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplatesPage />
                   </AuthRequiredContainer>
                 )
               }
