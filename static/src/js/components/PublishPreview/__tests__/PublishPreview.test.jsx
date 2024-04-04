@@ -50,6 +50,7 @@ const mock = {
   ancillaryKeywords: null,
   associationDetails: null,
   conceptId: 'TL1200000180-MMT_2',
+  collections: null,
   contactGroups: null,
   contactPersons: null,
   description: 'asfd',
@@ -111,7 +112,8 @@ const setup = ({
   additionalMocks = [],
   overrideMocks = false,
   overrideInitialEntries,
-  overridePath
+  overridePath,
+  overridePathValue
 }) => {
   const mocks = [{
     request: {
@@ -159,7 +161,7 @@ const setup = ({
                 path={overridePath || '/tools'}
               >
                 <Route
-                  path=":conceptId/:revisionId"
+                  path={overridePathValue || ':conceptId/:revisionId'}
                   element={<PublishPreview />}
                 />
               </Route>
@@ -191,6 +193,7 @@ describe('PublishPreview', () => {
           ancillaryKeywords: null,
           associationDetails: null,
           conceptId: 'TL1200000180-MMT_2',
+          collections: null,
           contactGroups: null,
           contactPersons: null,
           description: 'asfd',
@@ -538,6 +541,28 @@ describe('PublishPreview', () => {
         JSON.stringify(mock.ummMetadata, null, 2),
         'T1000000-MMT'
       )
+    })
+  })
+
+  describe('when clicking on Manage Collection Association', () => {
+    test('should navigate to /collection-association', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/T1000000-MMT'],
+        overridePathValue: ':conceptId'
+      })
+
+      await waitForResponse()
+
+      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Manage Collection Associations' })
+      await user.click(manageCollectionAssociationBtn)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/collection-association')
     })
   })
 

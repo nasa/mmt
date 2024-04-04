@@ -103,17 +103,19 @@ const PublishPreview = () => {
         ummMetadata: fetchedUmmMetadata
       } = fetchedPreviewMetadata || {}
 
-      if (!fetchedPreviewMetadata || (fetchedRevisionId && revisionId !== fetchedRevisionId)) {
-        // If fetchedMetadata or the correct revision id does't exist in CMR, then call getMetadata again.
-        setRetries(retries + 1)
-        setPreviewMetadata()
-      } else {
-        // The correct version of the metadata has been fetched
-        setPreviewMetadata(fetchedPreviewMetadata)
-        setNativeId(fetchedNativeId)
-        setLoading(false)
-        setUmmMetadata(fetchedUmmMetadata)
+      // If revisionId is present in the URL
+      if (revisionId) {
+        if (!fetchedPreviewMetadata || (fetchedRevisionId && revisionId !== fetchedRevisionId)) {
+          // If fetchedMetadata or the correct revision id does't exist in CMR, then call getMetadata again.
+          setRetries(retries + 1)
+          setPreviewMetadata()
+        }
       }
+
+      setPreviewMetadata(fetchedPreviewMetadata)
+      setNativeId(fetchedNativeId)
+      setLoading(false)
+      setUmmMetadata(fetchedUmmMetadata)
     },
     onError: (getDraftError) => {
       setError(getDraftError)
@@ -233,6 +235,10 @@ const PublishPreview = () => {
         toggleShowDeleteModal(false)
       }
     })
+  }
+
+  const handleManageCollectionAssociation = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
   }
 
   let tagCount = 0
@@ -371,6 +377,22 @@ const PublishPreview = () => {
               </>
             )
           }
+          {
+            derivedConceptType !== conceptTypes.Collection && (
+              <Button
+                className="btn btn-link"
+                type="button"
+                variant="link"
+                onClick={
+                  () => {
+                    handleManageCollectionAssociation()
+                  }
+                }
+              >
+                Manage Collection Associations
+              </Button>
+            )
+          }
           <Button
             type="button"
             variant="outline-danger"
@@ -418,9 +440,9 @@ const PublishPreview = () => {
                 }
               ]
             }
-            header={previewMetadata.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+            header={previewMetadata?.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
             message={
-              previewMetadata.tagDefinitions
+              previewMetadata?.tagDefinitions
                 ? (
                   <>
                     <h3 className="fw-bolder h5">{}</h3>
