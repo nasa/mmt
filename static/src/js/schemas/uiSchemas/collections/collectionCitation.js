@@ -163,7 +163,7 @@ const collectionCitationUiSchema = {
         'ui:layout_grid': {
           'ui:group': 'Online Resource',
           'ui:group-description': true,
-          'ui:required': 'false',
+          'ui:required': false,
           'ui:row': [
             {
               'ui:col': {
