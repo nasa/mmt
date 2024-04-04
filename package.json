@@ -63,6 +63,7 @@
     "serverless-esbuild": "^1.48.5",
     "serverless-finch": "^4.0.3",
     "serverless-offline": "^13.2.0",
+    "serverless-s3-local": "^0.8.1",
     "vite": "^4.5.0",
     "xpath": "^0.0.34"
   },
@@ -92,7 +93,6 @@
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
     "jsdom": "^22.1.0",
-    "serverless-s3-local": "^0.8.1",
     "start-server-and-test": "^2.0.2",
     "stylelint": "^15.10.3",
     "stylelint-config-idiomatic-order": "^9.0.0",
