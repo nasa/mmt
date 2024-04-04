@@ -22,6 +22,7 @@ const getTemplates = async (event) => {
   try {
     const objectList = await s3ListObjects(s3Client, prefix)
 
+    // TODO sort list by LastModified, newest first
     const body = objectList.map((object) => {
       const [guid, hashedName] = object.Key.replace(prefix, '').split('/')
       const name = Buffer.from(hashedName, 'base64').toString()
