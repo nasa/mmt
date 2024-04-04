@@ -11,15 +11,13 @@ const getTemplates = async (providerId, token) => {
         Authorization: `Bearer ${tokenValue}`
       }
     })
-    if (!response.ok) {
-      return { error: response.statusText }
+    const data = await response.json()
+
+    return { response: data }
+  } catch (e) {
+    return {
+      error: 'Error retrieving templates'
     }
-
-    const body = await response.json()
-
-    return { response: body }
-  } catch (error) {
-    return { error }
   }
 }
 

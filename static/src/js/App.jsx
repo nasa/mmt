@@ -28,7 +28,6 @@ import getPermittedUser from './utils/getPermittedUser'
 import TemplatesPage from './pages/TemplatesPage/TemplatesPage'
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
-import TemplatesPage from './pages/TemplatesPage/TemplatesPage'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
