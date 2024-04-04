@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Row from 'react-bootstrap/Row'
 import Alert from 'react-bootstrap/Alert'
 import Placeholder from 'react-bootstrap/Placeholder'
-
+import pluralize from 'pluralize'
 import parseError from '../../utils/parseError'
 import useDraftsQuery from '../../hooks/useDraftsQuery'
 import useAppContext from '../../hooks/useAppContext'
@@ -64,7 +64,11 @@ const ManagePage = () => {
                         {/* TODO need to add the tooltip highlight */}
                         <Button className="p-0 align-baseline" variant="link">search</Button>
                         {' '}
-                        in the top right corner to find published tools to clone or edit.
+                        in the top right corner to find published
+                        {' '}
+                        {pluralize(currentType).toLowerCase()}
+                        {' '}
+                        to clone or edit.
                       </>
                     ),
                     separate: true
