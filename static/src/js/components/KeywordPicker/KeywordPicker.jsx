@@ -40,6 +40,7 @@ const KeywordPicker = ({
   const [currentList, setCurrentList] = useState([])
   const [selectedKeywords, setSelectedKeywords] = useState([])
   const [fullPath, setFullPath] = useState([])
+  const [loading, setLoading] = useState(true)
   const [finalSelectedValue, setFinalSelectedValue] = useState(null)
   const [finalSelectedList, setFinalSelectedList] = useState([])
   const [disableButton, setDisableButton] = useState(true)
@@ -64,10 +65,14 @@ const KeywordPicker = ({
     keywords,
     isLoading
   } = useControlledKeywords(keywordScheme)
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [keywordScheme])
 
   // If keywords are available this is create the keyword object and set it to keywordList.
   useEffect(() => {
     if (!isEmpty(keywords)) {
+      setLoading(true)
       const keywordObject = {}
       const initialValue = uiSchema['ui:picker_title']
       const keywordSchemeColumnNames = uiSchema['ui:keyword_scheme_column_names']
@@ -86,6 +91,7 @@ const KeywordPicker = ({
       }
 
       setKeywordList(paths)
+      setLoading(false)
     }
   }, [keywords])
 
@@ -362,7 +368,7 @@ const KeywordPicker = ({
       </div>
 
       {
-        isLoading && currentList && (
+        loading && currentList && (
           <div className="w-100">
             <span className="d-block">
               <LoadingBanner />
@@ -371,7 +377,7 @@ const KeywordPicker = ({
         )
       }
       {
-        !isLoading && (
+        !loading && (
           <>
             {/* Renders the list of added keywords with a remove button */}
             <div className="p-3 mb-2 keyword-picker__added-keywords">
@@ -412,7 +418,7 @@ const KeywordPicker = ({
                   <Typeahead
                     clearButton
                     id="keyword-picker-search"
-                    isLoading={isLoading}
+                    isLoading={loading}
                     onChange={handleSearch}
                     options={searchResult}
                     placeholder="Search for Keywords..."
