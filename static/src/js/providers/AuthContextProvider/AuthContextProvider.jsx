@@ -35,7 +35,8 @@ const AuthContextProvider = ({ children }) => {
   const [
     cookies,
     setCookie,
-    removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
+    removeCookie
+  ] = useCookies(['loginInfo', 'launchpadToken', 'data'])
   const {
     loginInfo = {},
     launchpadToken,
@@ -89,12 +90,18 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return
 
-    const { name, auid } = loginInfo
+    const {
+      name,
+      auid,
+      token
+    } = loginInfo
+
+    const { tokenValue } = token
     // TODO No cookie is set here
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile`, {
         headers: {
-          Authorization: `Bearer ${launchpadToken}`
+          Authorization: `Bearer ${tokenValue}`
         }
       })
         .then(async (response) => {
