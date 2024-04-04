@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_SERVICE = gql`
-  query Service($params: ServiceInput) {
+  query Service($params: ServiceInput, $collectionsParams: CollectionsInput) {
     service(params: $params) {
       accessConstraints
       ancillaryKeywords
@@ -33,6 +33,16 @@ export const GET_SERVICE = gql`
       useConstraints
       version
       versionDescription
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          entryTitle
+          shortName
+          version
+          provider
+        }
+      }
     }
   }
 `
