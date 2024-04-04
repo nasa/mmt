@@ -16,6 +16,7 @@ import ErrorBanner from '../ErrorBanner/ErrorBanner'
 
 const TemplateList = ({ templateType }) => {
   const { user } = useAppContext()
+  const { token } = user
 
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()
@@ -25,7 +26,7 @@ const TemplateList = ({ templateType }) => {
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      const { response, error } = await getTemplates(providerId)
+      const { response, error } = await getTemplates(providerId, token)
 
       setErrors(error)
       setTemplateList(response)

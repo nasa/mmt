@@ -179,9 +179,6 @@ export const App = () => {
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="/:type/:conceptId/" element={<PublishPreview />} />
             <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
-            <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
-            <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
           </Route>
         </Routes>
       </BrowserRouter>
