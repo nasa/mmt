@@ -5,11 +5,8 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
-
 import AuthContext from '../../context/AuthContext'
-
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
-
 import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
 import errorLogger from '../../utils/errorLogger'
 
@@ -32,16 +29,8 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [
-    cookies,
-    setCookie,
-    removeCookie
-  ] = useCookies(['loginInfo', 'launchpadToken', 'data'])
-  const {
-    loginInfo = {},
-    launchpadToken,
-    data
-  } = cookies
+  const [cookies, setCookie, removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
+  const { loginInfo = {}, launchpadToken, data } = cookies
 
   const setUser = useCallback((arg) => {
     if (typeof arg === 'function') {
@@ -75,10 +64,10 @@ const AuthContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // TODO: https://bugs.earthdata.nasa.gov/browse/MMT-3612
+    if (data) {
+    // Todo: https://bugs.earthdata.nasa.gov/browse/MMT-3612
     // Remove this code after about 2 months, prior versions used data and we just need
     // to clean up that cookie for users, as it was causing header size issues.
-    if (data) {
       removeCookie('data', {
         path: '/',
         domain: '.earthdatacloud.nasa.gov',
@@ -90,33 +79,16 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (!loginInfo || !loginInfo.auid) return
 
-    const {
-      name,
-      auid,
-      token
-    } = loginInfo
-
-    const { tokenValue } = token
+    const { name, auid } = loginInfo
     // TODO No cookie is set here
     const fetchProfileAndSetLoginCookie = async () => {
       await fetch(`${apiHost}/edl-profile`, {
         headers: {
-          Authorization: `Bearer ${tokenValue}`
+          Authorization: `Bearer ${launchpadToken}`
         }
       })
         .then(async (response) => {
-          const {
-            error,
-            name: profileName,
-            uid
-          } = await response.json()
-
-          if (error) {
-            errorLogger(`Error retrieving profile for ${auid}, message: `, error, 'AuthContextProvider')
-            setUser({})
-
-            return
-          }
+          const { name: profileName, uid } = await response.json()
 
           setUser((prevUser) => ({
             ...prevUser,
@@ -125,8 +97,6 @@ const AuthContextProvider = ({ children }) => {
           }))
         }).catch((error) => {
           errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
-
-          setUser({})
         })
     }
 

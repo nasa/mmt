@@ -19,7 +19,7 @@ describe('fetchEdlProfile', () => {
       })
     }))
 
-    const profile = await fetchEdlProfile({ Authorization: 'Bearer mock-token' })
+    const profile = await fetchEdlProfile('mock-token')
 
     expect(profile).toEqual({
       uid: 'user.name',
@@ -40,15 +40,11 @@ describe('fetchEdlProfile', () => {
 
   test('returns undefined when the response from EDL is an error', async () => {
     fetch.mockImplementationOnce(() => Promise.reject(new Error('Error calling EDL')))
-    const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     const token = await fetchEdlProfile()
       .catch((error) => {
         expect(error.message).toEqual('Error calling EDL')
       })
-
-    expect(consoleMock).toHaveBeenCalledTimes(1)
-    expect(consoleMock).toHaveBeenCalledWith('fetchEdlProfile Error: ', new Error('Error calling EDL'))
 
     expect(token).toEqual(undefined)
   })

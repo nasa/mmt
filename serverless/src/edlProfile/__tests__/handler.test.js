@@ -39,7 +39,7 @@ describe('edlProfile when edl password is provided', () => {
     expect(response.statusCode).toBe(200)
   })
 
-  test('when only last name is given returns a 200 status code with user last name as name', async () => {
+  test('when only last name is given returns a 200 status code with auid as name', async () => {
     fetchEdlProfile.mockImplementation(() => ({
       email: 'test.user@localhost',
       last_name: 'User',
@@ -60,7 +60,7 @@ describe('edlProfile when edl password is provided', () => {
       auid: 'mock_user',
       email: 'test.user@localhost',
       last_name: 'User',
-      name: 'User',
+      name: 'mock_user',
       nams_auid: 'mock_user',
       uid: 'mock_user'
     })
