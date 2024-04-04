@@ -36,7 +36,8 @@ const AuthContextProvider = ({ children }) => {
   const [
     cookies,
     setCookie,
-    removeCookie] = useCookies(['loginInfo', 'launchpadToken', 'data'])
+    removeCookie
+  ] = useCookies(['loginInfo', 'launchpadToken', 'data'])
   const {
     loginInfo = {},
     launchpadToken,
