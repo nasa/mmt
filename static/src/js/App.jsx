@@ -110,7 +110,7 @@ export const App = () => {
     if (uid) {
       getProviders()
     }
-  }, [user])
+  }, [uid])
 
   return (
     <>
