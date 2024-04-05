@@ -20,6 +20,16 @@ const collectionInformationUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
+                    children: ['TemplateName']
+                  }
+                }
+              ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 12,
                     children: ['ShortName']
                   }
                 }
