@@ -11,11 +11,13 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 import {
   multiPageCollectionRevisionsPage1,
   multiPageCollectionRevisionsPage2,
-  singlePageVariableRevisions
+  singlePageVariableRevisions,
+  singlePageVariableRevisionsError
 } from './__mocks__/revisionResults'
 
 import RevisionList from '../RevisionList'
@@ -100,8 +102,7 @@ describe('RevisionList component', () => {
         expect(row1Cells[0].textContent).toBe('2 - Published View')
         expect(row1Cells[1].textContent).toBe('2023-12-30')
         expect(row1Cells[2].textContent).toBe('admin')
-        // Change after GQL-32
-        expect(row1Cells[3].textContent).toBe('Revert to this version')
+        expect(row1Cells[3].textContent).toBe(' ')
 
         expect(row2Cells).toHaveLength(4)
         expect(row2Cells[0].textContent).toBe('1 - Revision View')
@@ -111,25 +112,59 @@ describe('RevisionList component', () => {
         expect(row2Cells[3].textContent).toBe('Revert to this version')
       })
     })
+  })
 
-    describe('with multiple pages of results', () => {
-      test('shows the pagination', async () => {
-        setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
+  describe('with multiple pages of results', () => {
+    test('shows the pagination', async () => {
+      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
 
-        await waitFor(() => {
-          expect(screen.queryAllByRole('cell')[0].textContent).toContain('2 - Published View')
-        })
+      await waitFor(() => {
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
+      })
 
-        const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
-        expect(pagination).toHaveLength(2)
+      const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
+      expect(pagination).toHaveLength(2)
 
-        expect(within(pagination[0]).getAllByRole('button')).toHaveLength(2)
+      expect(within(pagination[0]).getAllByRole('button')).toHaveLength(2)
 
-        expect(within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
-        expect(within(pagination[0]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
+      expect(within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
+      expect(within(pagination[0]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
 
-        expect(within(pagination[1]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
-        expect(within(pagination[1]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
+      expect(within(pagination[1]).getByRole('button', { name: 'Goto Page 2' })).toHaveTextContent('2')
+      expect(within(pagination[1]).getByRole('button', { name: 'Goto Next Page' })).toHaveTextContent('›Next')
+    })
+  })
+
+  describe('when clicking a pagination item', () => {
+    test('shows the pagination', async () => {
+      const user = userEvent.setup()
+
+      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
+
+      await waitFor(() => {
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
+      })
+
+      const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })[0]
+      const paginationButton = within(pagination).getByRole('button', { name: 'Goto Page 2' })
+
+      await user.click(paginationButton)
+
+      await waitFor(() => {
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('1 - Revision View')
+      })
+
+      expect(within(pagination).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('when encountering an error', () => {
+    test('sorts and shows the button as active', async () => {
+      setup([singlePageVariableRevisionsError])
+
+      await waitFor(() => {
+        expect(screen.queryByText('Sorry!')).toBeInTheDocument()
+        expect(screen.queryByText('An error occurred')).toBeInTheDocument()
       })
     })
   })

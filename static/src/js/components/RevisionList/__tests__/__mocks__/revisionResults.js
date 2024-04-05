@@ -297,7 +297,7 @@ export const singlePageVariableRevisionsError = {
       params: {
         conceptId: 'V1004-MMT_2',
         allRevisions: true,
-        limit: 3,
+        limit: 20,
         offset: 0,
         sortKey: '-revisionDate'
       }
@@ -306,7 +306,7 @@ export const singlePageVariableRevisionsError = {
   result: {
     data: {
       variables: {
-        count: 0,
+        count: undefined,
         items: []
       }
     },

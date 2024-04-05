@@ -145,7 +145,7 @@ describe('useRevisionQuery', () => {
 
   describe('when requesting variables', () => {
     test('loading is set to false and items are displayed', async () => {
-      jest.clearAllMocks()
+      vi.clearAllMocks()
 
       setup([
         {

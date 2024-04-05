@@ -11,8 +11,6 @@ import pluralize from 'pluralize'
 import commafy from 'commafy'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Alert from 'react-bootstrap/Alert'
-import { FaBan } from 'react-icons/fa'
 import Placeholder from 'react-bootstrap/Placeholder'
 import useRevisionsQuery from '../../hooks/useRevisionsQuery'
 import Page from '../Page/Page'
@@ -30,20 +28,15 @@ const typeParamToHumanizedNameMap = {
   variables: 'variable'
 }
 
-// Tool with revisions: http://localhost:5173/tools/TL1200000100-MMT_2/revisions
-// Service with revisions: http://localhost:5173/services/S1200000097-MMT_2/revisions
-// Variable with revisions: http://localhost:5173/variables/V1200000103-MMT_2/revisions
-// Collection with revisions: http://localhost:5173/collections/C1200000111-MMT_2/revisions
-
 /**
  * Takes a type from the url and returns a humanized singular or plural version
  * @param {String} type The type from the url.
  * @param {Boolean} [plural] A boolean that determines whether or not the string should be plural
  */
-const getHumanizedNameFromTypeParam = (type, plural) => {
+const getHumanizedNameFromTypeParam = (type) => {
   const humanizedName = typeParamToHumanizedNameMap[type]
 
-  return plural ? `${humanizedName}s` : humanizedName
+  return humanizedName
 }
 
 /**
@@ -108,9 +101,15 @@ const RevisionList = ({ limit }) => {
   }, [])
 
   // To be done after GQL-32
-  const buildActionCell = useCallback(() => (
-    'Revert to this version'
-  ), [])
+  const buildActionCell = useCallback((cellData) => {
+    const isPublishedVersion = (cellData === versions)
+
+    return (
+      isPublishedVersion
+        ? ' '
+        : 'Revert to this version'
+    )
+  }, [])
 
   const getColumnState = () => [
     {
@@ -131,7 +130,7 @@ const RevisionList = ({ limit }) => {
       className: 'col-auto'
     },
     {
-      dataKey: 'actions',
+      dataKey: 'revisionId',
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionCell
@@ -179,74 +178,58 @@ const RevisionList = ({ limit }) => {
                     firstResultPosition,
                     lastResultPosition
                   }) => {
-                    const paginationMessage = count > 0
-                      ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
-                        + `${pluralize(type, count)}`
-                      : `No matching ${type} found`
+                    const paginationMessage = `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
+                        + `${pluralize('Revision', count)}`
 
                     return (
                       <>
+                        <Row className="d-flex justify-content-between align-items-center mb-4">
+                          <Col className="flex-grow-1" xs="auto">
+                            {
+                              !count && loading && (
+                                <div className="w-100">
+                                  <span className="d-block">
+                                    <Placeholder as="span" animation="glow">
+                                      <Placeholder xs={8} />
+                                    </Placeholder>
+                                  </span>
+                                </div>
+                              )
+                            }
+                            {
+                              (count || (!loading && !count)) && (
+                                <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                              )
+                            }
+                          </Col>
+                          {
+                            totalPages > 1 && (
+                              <Col xs="auto">
+                                {pagination}
+                              </Col>
+                            )
+                          }
+                        </Row>
+                        <Table
+                          id="revision-results-table"
+                          columns={columns}
+                          loading={loading}
+                          data={items}
+                          generateCellKey={(dataKey, cellData) => `column_${dataKey}_${conceptId}_${cellData}`}
+                          generateRowKey={() => `row_${conceptId}`}
+                          noDataMessage="No results"
+                          count={count}
+                          limit={limit}
+                        />
                         {
-                          (loading || (!loading && count > 0)) && (
-                            <>
-                              <Row className="d-flex justify-content-between align-items-center mb-4">
-                                <Col className="flex-grow-1" xs="auto">
-                                  {
-                                    !count && loading && (
-                                      <div className="w-100">
-                                        <span className="d-block">
-                                          <Placeholder as="span" animation="glow">
-                                            <Placeholder xs={8} />
-                                          </Placeholder>
-                                        </span>
-                                      </div>
-                                    )
-                                  }
-                                  {
-                                    (!!count || (!loading && !count)) && (
-                                      <span className="text-secondary fw-bolder">{paginationMessage}</span>
-                                    )
-                                  }
-                                </Col>
-                                {
-                                  totalPages > 1 && (
-                                    <Col xs="auto">
-                                      {pagination}
-                                    </Col>
-                                  )
-                                }
-                              </Row>
-                              <Table
-                                id="revision-results-table"
-                                columns={columns}
-                                loading={loading}
-                                data={items}
-                                generateCellKey={(dataKey, cellData) => `column_${dataKey}_${conceptId}_${cellData}`}
-                                generateRowKey={() => `row_${conceptId}`}
-                                noDataMessage="No results"
-                                count={count}
-                                limit={limit}
-                              />
-                              {
-                                totalPages > 1 && (
-                                  <Row>
-                                    <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                                      <div>
-                                        {pagination}
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                )
-                              }
-                            </>
-                          )
-                        }
-                        {
-                          !loading && items.length === 0 && (
-                            <Alert className="text-center d-flex flex-column align-items-center p-4" variant="light">
-                              <FaBan className="display-6 mb-2 text-secondary" />
-                              <span>{`No ${getHumanizedNameFromTypeParam(type)}s match the current search criteria.`}</span>
-                            </Alert>
+                          totalPages > 1 && (
+                            <Row>
+                              <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                                <div>
+                                  {pagination}
+                                </div>
+                              </Col>
+                            </Row>
                           )
                         }
                       </>
