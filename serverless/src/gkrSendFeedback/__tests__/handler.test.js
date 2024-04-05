@@ -6,7 +6,7 @@ describe('gkrSendFeedback', () => {
   test('returns a successful gkr response for issuing a feedback request', async () => {
     const { defaultResponseHeaders } = getApplicationConfig()
 
-    global.fetch = jest.fn(() => Promise.resolve({
+    global.fetch = vi.fn(() => Promise.resolve({
       headers: defaultResponseHeaders,
       json: () => Promise.resolve(gkrSendFeedbackResponse)
     }))
@@ -46,9 +46,9 @@ describe('gkrSendFeedback', () => {
   })
 
   test('responds correctly on error', async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error('GKR is down')))
+    global.fetch = vi.fn(() => Promise.reject(new Error('GKR is down')))
 
-    const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 
     const requestUuid = 'a7ee7703-0316-49cf-91fa-3726ca73fe41'
     const recommendations = {

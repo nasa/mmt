@@ -44,6 +44,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
 const Button = ({
   className,
   children,
+  disabled,
   external,
   href,
   Icon,
@@ -83,6 +84,7 @@ const Button = ({
       }
       size={size}
       variant={variant}
+      disabled={disabled}
       {...conditionalProps}
     >
       {
@@ -121,6 +123,7 @@ const Button = ({
 Button.defaultProps = {
   children: null,
   className: '',
+  disabled: false,
   external: false,
   Icon: undefined,
   iconOnly: false,
@@ -136,6 +139,7 @@ Button.defaultProps = {
 Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  disabled: PropTypes.bool,
   external: PropTypes.bool,
   href: PropTypes.string,
   Icon: PropTypes.func,

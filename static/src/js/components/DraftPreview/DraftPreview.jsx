@@ -176,6 +176,7 @@ const DraftPreview = () => {
     providerId,
     ummMetadata
   } = draft || {}
+  const { ShortName: shortName } = ummMetadata || {}
 
   // Handle the user selecting publish draft
   const handlePublish = () => {
@@ -201,7 +202,7 @@ const DraftPreview = () => {
       },
       onCompleted: () => {
         // Hide the modal
-        setShowDeleteModal(false)
+        toggleShowDeleteModal(false)
 
         // Add a success notification
         addNotification({
@@ -241,12 +242,12 @@ const DraftPreview = () => {
 
   // Accessible event props for the delete link
   const accessibleEventProps = useAccessibleEvent(() => {
-    setShowDeleteModal(true)
+    toggleShowDeleteModal(true)
   })
 
   return (
     <Page
-      title={name || '<Blank Name>'}
+      title={name || shortName || '<Blank Name>'}
       pageType="secondary"
       breadcrumbs={
         [
@@ -255,7 +256,7 @@ const DraftPreview = () => {
             to: `/drafts/${derivedConceptType.toLowerCase()}s`
           },
           {
-            label: name || '<Blank Name>',
+            label: name || shortName || '<Blank Name>',
             active: true
           }
         ]
@@ -300,7 +301,7 @@ const DraftPreview = () => {
                   {
                     label: 'No',
                     variant: 'secondary',
-                    onClick: () => { setShowDeleteModal(false) }
+                    onClick: () => { toggleShowDeleteModal(false) }
                   },
                   {
                     label: 'Yes',

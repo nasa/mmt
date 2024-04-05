@@ -1,10 +1,10 @@
 import fetchCmrKeywords from '../fetchCmrKeywords'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = vi.fn(() => Promise.resolve({
   json: () => Promise.resolve({
     ok: true,
     status: 200,

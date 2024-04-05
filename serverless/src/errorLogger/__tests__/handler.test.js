@@ -1,12 +1,12 @@
 import errorLogger from '../handler'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('errorLogger', () => {
   test('returns a 200 status code', async () => {
-    const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => jest.fn())
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 
     const event = {
       body: JSON.stringify({

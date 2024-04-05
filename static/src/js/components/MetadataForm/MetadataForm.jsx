@@ -202,15 +202,15 @@ const MetadataForm = () => {
         // Update the original draft with the newly saved draft
         setOriginalDraft({
           ...draft,
-          name: ummMetadata.Name,
-          longName: ummMetadata.LongName
+          name: ummMetadata.Name || ummMetadata.ShortName,
+          longName: ummMetadata.LongName || ummMetadata.EntryTitle
         })
 
         // Update the name and longname with the ummMetadata
         setDraft({
           ...draft,
-          name: ummMetadata.Name,
-          longName: ummMetadata.LongName
+          name: ummMetadata.Name || ummMetadata.ShortName,
+          longName: ummMetadata.LongName || ummMetadata.EntryTitle
         })
 
         // Set savedDraft so the preview page can request the correct version
@@ -296,7 +296,7 @@ const MetadataForm = () => {
     ])])
   }
 
-  const name = draft?.name || '<Blank Name>'
+  const name = draft?.name || draft?.ummMetadata?.ShortName || '<Blank Name>'
   const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${name}`
 
   return (
