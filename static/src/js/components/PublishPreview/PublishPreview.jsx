@@ -243,6 +243,11 @@ const PublishPreview = () => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
   }
 
+  const versions = parseInt(revisionId, 10)
+  const handleRevisions = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions?versions=${versions}`)
+  }
+
   let tagCount = 0
   let granuleCount = 0
   if (derivedConceptType === conceptTypes.Collection) {
@@ -252,10 +257,6 @@ const PublishPreview = () => {
     tagCount = getTagCount(tagDefinitions)
     granuleCount = count
   }
-
-  const versions = parseInt(revisionId, 10)
-
-  const revisionUrl = `http://localhost:5173/${revisionUrlConceptType}/${conceptId}/revisions`
 
   if (error) {
     const message = parseError(error)
@@ -401,11 +402,14 @@ const PublishPreview = () => {
           }
 
           <Button
-            as={Link}
-            to={`${revisionUrl}?versions=${versions}`}
             className="btn btn-link"
             type="button"
             variant="link"
+            onClick={
+              () => {
+                handleRevisions()
+              }
+            }
           >
             Revisions
             <Badge
