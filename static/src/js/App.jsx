@@ -14,6 +14,8 @@ import SearchPage from './pages/SearchPage/SearchPage'
 import HomePage from './pages/HomePage/HomePage'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
+import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
+import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -25,9 +27,7 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
-import TemplatesPage from './pages/TemplatesPage/TemplatesPage'
-import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
-import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
+import TemplateList from './components/TemplateList/TemplateList'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -153,11 +153,11 @@ export const App = () => {
               }
             />
             <Route
-              path="templates/:templateType/*"
+              path="templates/collections"
               element={
                 (
                   <AuthRequiredContainer>
-                    <TemplatesPage />
+                    <TemplateList />
                   </AuthRequiredContainer>
                 )
               }
@@ -177,13 +177,49 @@ export const App = () => {
               path="/auth_callback"
               element={<AuthCallbackContainer />}
             />
-            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/:type/:conceptId/" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
-            <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
+            <Route
+              path="/:type/:conceptId/"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <PublishPreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/:revisionId"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <PublishPreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/collection-association"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <ManageCollectionAssociation />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/collection-association-search"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <ManageCollectionAssociation />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
             <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
           </Route>
         </Routes>
       </BrowserRouter>
