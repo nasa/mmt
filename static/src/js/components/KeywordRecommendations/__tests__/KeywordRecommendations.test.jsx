@@ -212,7 +212,7 @@ describe('KeywordRecommendations component', () => {
       })
     })
 
-    test.only('can add a recommended keyword to formdata', async () => {
+    test('can add a recommended keyword to formdata', async () => {
       const draft = {
         ummMetadata: {
           Abstract: 'cloud cover and the ozone'
