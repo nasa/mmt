@@ -99,13 +99,14 @@ describe('RevisionList component', () => {
         const row2Cells = within(row2).queryAllByRole('cell')
         screen.debug()
         expect(row1Cells).toHaveLength(4)
-        expect(row1Cells[0].textContent).toBe('2 - Published View')
+        expect(row1Cells[0].textContent).toBe('2 - Published')
         expect(row1Cells[1].textContent).toBe('2023-12-30')
         expect(row1Cells[2].textContent).toBe('admin')
-        expect(row1Cells[3].textContent).toBe(' ')
+        // Add after GQL-32
+        // expect(row1Cells[3].textContent).toBe(' ')
 
         expect(row2Cells).toHaveLength(4)
-        expect(row2Cells[0].textContent).toBe('1 - Revision View')
+        expect(row2Cells[0].textContent).toBe('1 - Revision')
         expect(row2Cells[1].textContent).toBe('2023-11-30')
         expect(row2Cells[2].textContent).toBe('admin')
         // Change after GQL-32
@@ -119,7 +120,7 @@ describe('RevisionList component', () => {
       setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
 
       await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published')
       })
 
       const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
@@ -142,7 +143,7 @@ describe('RevisionList component', () => {
       setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
 
       await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published View')
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published')
       })
 
       const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })[0]
@@ -151,7 +152,7 @@ describe('RevisionList component', () => {
       await user.click(paginationButton)
 
       await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('1 - Revision View')
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('1 - Revision')
       })
 
       expect(within(pagination).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()

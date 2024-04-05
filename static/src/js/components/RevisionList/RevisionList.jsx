@@ -17,7 +17,6 @@ import Page from '../Page/Page'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import EllipsisText from '../EllipsisText/EllipsisText'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import parseError from '../../utils/parseError'
 
@@ -88,15 +87,9 @@ const RevisionList = ({ limit }) => {
     const isPublishedVersion = (cellData === versions)
 
     return (
-      <EllipsisText>
-        {cellData}
-        {' - '}
-        {(isPublishedVersion) ? 'Published' : 'Revision'}
-        {' '}
-        <EllipsisLink to={`/${type}/${conceptId}/${cellData}`} inline>
-          View
-        </EllipsisLink>
-      </EllipsisText>
+      <EllipsisLink to={`/${type}/${conceptId}/${cellData}`} inline>
+        {[cellData, ' - ', (isPublishedVersion ? 'Published' : 'Revision')].join('')}
+      </EllipsisLink>
     )
   }, [])
 
@@ -130,7 +123,8 @@ const RevisionList = ({ limit }) => {
       className: 'col-auto'
     },
     {
-      dataKey: 'revisionId',
+      // Change dataKey to 'revisionId' then fix unique key issue (see line 116)
+      dataKey: 'actions',
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionCell
@@ -215,8 +209,8 @@ const RevisionList = ({ limit }) => {
                           columns={columns}
                           loading={loading}
                           data={items}
-                          generateCellKey={(dataKey, cellData) => `column_${dataKey}_${conceptId}_${cellData}`}
-                          generateRowKey={() => `row_${conceptId}`}
+                          generateCellKey={({ revisionId }, dataKey) => `column_${dataKey}_${conceptId}_${revisionId}`}
+                          generateRowKey={({ revisionId }) => `row_${conceptId}_${revisionId}`}
                           noDataMessage="No results"
                           count={count}
                           limit={limit}
