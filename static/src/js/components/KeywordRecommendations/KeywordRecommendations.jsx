@@ -185,6 +185,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
    * @param {Array} keywordRecommendations the list of recommended keywords from GKR
    * @returns the augmented list
    */
+  // disabling, as lint rule for below makes it more difficult to read
   // eslint-disable-next-line arrow-body-style
   const createRecommendedKeywords = (keywordRecommendations) => {
     return keywordRecommendations.map((recommendedKeyword) => {
@@ -280,14 +281,13 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     setRecommendations(recommendedKeywordsList)
   }, [draft])
 
-  const keywords = (recommendations.concat(draftKeywords)).map((keyword) => {
-    const { keyword: delimitedKeyword, accepted } = keyword
+  const draftKeywordsNotInRecommendedList = draftKeywords.filter((keyword) => {
+    const { keyword: delimitedKeyword } = keyword
 
-    return {
-      key: `${delimitedKeyword}-${accepted}`,
-      keyword
-    }
+    return !isInRecommendedKeywordList(recommendations, delimitedKeyword)
   })
+
+  const allKeywords = recommendations.concat(draftKeywordsNotInRecommendedList)
 
   // Render the recommended keyword component.
   return (
@@ -309,17 +309,22 @@ const KeywordRecommendations = ({ formData, onChange }) => {
           {
             !isLoading && (
               <For
-                each={keywords}
+                each={allKeywords}
               >
                 {
-                  ({ key, keyword }) => (
-                    <KeywordRecommendationsKeyword
-                      key={key}
-                      keyword={keyword}
-                      addKeyword={addKeyword}
-                      removeKeyword={removeKeyword}
-                    />
-                  )
+                  (keyword) => {
+                    const { keyword: delimitedKeyword, accepted } = keyword
+                    const key = `${delimitedKeyword}-${accepted}`
+
+                    return (
+                      <KeywordRecommendationsKeyword
+                        key={key}
+                        keyword={keyword}
+                        addKeyword={addKeyword}
+                        removeKeyword={removeKeyword}
+                      />
+                    )
+                  }
                 }
               </For>
             )
