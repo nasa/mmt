@@ -10,7 +10,6 @@ import {
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
-import { Link } from 'react-router-dom'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import deleteMutationTypes from '../../constants/deleteMutationTypes'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -71,7 +70,6 @@ const PublishPreview = () => {
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
-  const revisionUrlConceptType = `${derivedConceptType.toLowerCase()}s`
 
   const {
     ingestMutation, ingestDraft,
