@@ -84,6 +84,7 @@ const RevisionList = ({ limit }) => {
     // const isPublishedVersion = (convertedCellData === count)
     // console.log("🚀 ~ buildDescriptionCell ~ count:", count)
     // console.log("🚀 ~ buildDescriptionCell ~ convertedcellData:", convertedCellData)
+
     const isPublishedVersion = (cellData === versions)
 
     return (
