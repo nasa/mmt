@@ -18,6 +18,8 @@ import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/Keyw
 import errorLogger from '../../utils/errorLogger'
 import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import For from '../For/For'
 
 /**
  * Renders the KeywordRecommendations component
@@ -32,7 +34,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
   const [recommendations, setRecommendations] = useState([])
   const [draftKeywords, setDraftKeywords] = useState([])
   const [requestId, setRequestId] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const { draft = {} } = useAppContext()
   const { ummMetadata = {} } = draft
   const { ScienceKeywords: scienceKeywords = [] } = ummMetadata
@@ -278,32 +280,12 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     setRecommendations(recommendedKeywordsList)
   }, [draft])
 
-  // Create JSX for recommended keywords (first), then science keywords from formdata (next)
-  const keywords = []
-  recommendations.forEach((keyword) => {
-    const { keyword: delimitedKeyword, accepted } = keyword
-    keywords.push(
-      <KeywordRecommendationsKeyword
-        key={`${delimitedKeyword}-${accepted}`}
-        keyword={keyword}
-        addKeyword={addKeyword}
-        removeKeyword={removeKeyword}
-      />
-    )
-  })
-
-  draftKeywords.forEach((keyword) => {
+  const keywords = (recommendations.concat(draftKeywords)).map((keyword) => {
     const { keyword: delimitedKeyword, accepted } = keyword
 
-    if (!isInRecommendedKeywordList(recommendations, delimitedKeyword)) {
-      keywords.push(
-        <KeywordRecommendationsKeyword
-          key={`${delimitedKeyword}-${accepted}`}
-          keyword={keyword}
-          addKeyword={addKeyword}
-          removeKeyword={removeKeyword}
-        />
-      )
+    return {
+      key: `${delimitedKeyword}-${accepted}`,
+      keyword
     }
   })
 
@@ -315,7 +297,33 @@ const KeywordRecommendations = ({ formData, onChange }) => {
       </div>
       <div>
         <ListGroup variant="flush">
-          { loading ? (<ListGroup.Item className="font-italic">Loading...</ListGroup.Item>) : keywords }
+          {
+            isLoading && (
+              <div className="w-100">
+                <span className="d-block">
+                  <LoadingBanner />
+                </span>
+              </div>
+            )
+          }
+          {
+            !isLoading && (
+              <For
+                each={keywords}
+              >
+                {
+                  ({ key, keyword }) => (
+                    <KeywordRecommendationsKeyword
+                      key={key}
+                      keyword={keyword}
+                      addKeyword={addKeyword}
+                      removeKeyword={removeKeyword}
+                    />
+                  )
+                }
+              </For>
+            )
+          }
         </ListGroup>
       </div>
     </div>
