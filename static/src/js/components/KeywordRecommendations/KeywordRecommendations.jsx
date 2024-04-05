@@ -58,7 +58,7 @@ const KeywordRecommendations = ({ formData, onChange }) => {
         icon next to the keyword. Once associated to the collection, the keyword will display a
         green check
         {' '}
-        <Button className="keyword-recommendations-keyword__accept-icon" iconTitle="Remove" inline naked Icon={FaCheckSquare} />
+        <Button className="keyword-recommendations-keyword__accept-icon" iconTitle="Accept" inline naked Icon={FaCheckSquare} />
         . To remove a keyword once it’s been associated, click the
         {' '}
         <Button className="keyword-recommendations-keyword__remove-icon" iconTitle="Remove" inline naked Icon={FaTimesCircle} />
