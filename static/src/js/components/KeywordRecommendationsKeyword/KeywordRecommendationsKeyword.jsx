@@ -1,8 +1,13 @@
 import React from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import './KeywordRecommendationsKeyword.scss'
+import {
+  FaCheckSquare,
+  FaPlusCircle,
+  FaTimesCircle
+} from 'react-icons/fa'
+import Button from '../Button/Button'
 
 const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) => {
   const { keyword: delimitedKeyword, recommended } = keyword
@@ -16,33 +21,46 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
       {' '}
       {
         !accepted ? (
-          <i
-            className="keyword-recommendations-keyword__add-icon fa fa-plus-circle"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...useAccessibleEvent(() => {
-              addKeyword(delimitedKeyword)
-            })}
+          <Button
+            Icon={FaPlusCircle}
+            className="keyword-recommendations-keyword__add-icon"
+            inline
+            naked
+            onClick={
+              () => {
+                addKeyword(delimitedKeyword)
+              }
+            }
+            iconTitle="Add"
           />
         ) : null
       }
       {' '}
       {
         accepted ? (
-          <i
-            role="img"
-            className="keyword-recommendations-keyword__accept-icon fa fa-check-square"
+          <Button
+            Icon={FaCheckSquare}
+            className="keyword-recommendations-keyword__accepted-icon"
+            inline
+            naked
+            iconTitle="Accepted"
           />
         ) : null
       }
       {' '}
       {
         accepted ? (
-          <i
-            className="keyword-recommendations-keyword__remove-icon fa fa-times-circle"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...useAccessibleEvent(() => {
-              removeKeyword(delimitedKeyword)
-            })}
+          <Button
+            Icon={FaTimesCircle}
+            className="keyword-recommendations-keyword__remove-icon"
+            inline
+            naked
+            onClick={
+              () => {
+                removeKeyword(delimitedKeyword)
+              }
+            }
+            iconTitle="Remove"
           />
 
         ) : null

@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword'
 
@@ -60,7 +64,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: true
       }
       setup({ overrideKeyword })
-      expect(screen.getByRole('img')).toHaveClass('fa-check-square')
+      expect(screen.getByRole('img', { name: 'Accepted' })).toBeInTheDocument()
     })
 
     test('shows the X', () => {
@@ -71,7 +75,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       setup({ overrideKeyword })
       const listitem = screen.queryByRole('listitem')
-      expect(listitem.querySelector('.fa-times-circle')).toBeInTheDocument()
+      expect(within(listitem).getByRole('img', { name: 'Remove' })).toBeInTheDocument()
     })
 
     test('responds to clicking X', async () => {
@@ -82,7 +86,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       const { container, user, removeKeyword } = setup({ overrideKeyword })
       const listitem = container.queryByRole('listitem')
-      await user.click(listitem.querySelector('.fa-times-circle'))
+      await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
       expect(removeKeyword).toBeCalledTimes(1)
     })
   })
@@ -115,7 +119,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: true
       }
       setup({ overrideKeyword })
-      expect(screen.queryByRole('img')).not.toBeInTheDocument()
+      expect(screen.queryByRole('img', { name: 'Accepted' })).not.toBeInTheDocument()
     })
 
     test('does not show the X', () => {
@@ -126,7 +130,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       setup({ overrideKeyword })
       const listitem = screen.queryByRole('listitem')
-      expect(listitem.querySelector('.fa-times-circle')).not.toBeInTheDocument()
+      expect(within(listitem).queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
     })
 
     test('does show +', () => {
@@ -136,7 +140,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: true
       }
       setup({ overrideKeyword })
-      expect(screen.queryByRole('link')).toHaveClass('fa-plus-circle')
+      expect(screen.getByRole('img', { name: 'Add' })).toBeInTheDocument()
     })
 
     test('responds to clicking +', async () => {
@@ -146,7 +150,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: true
       }
       const { user, addKeyword } = setup({ overrideKeyword })
-      await user.click(screen.queryByRole('link'))
+      await user.click(screen.queryByRole('img', { name: 'Add' }))
       expect(addKeyword).toBeCalledTimes(1)
     })
   })
@@ -169,7 +173,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
       setup({ overrideKeyword })
-      expect(screen.queryByText('Recommended')).not.toBeInTheDocument()
+      expect(screen.queryByRole('img', { name: 'Recommended' })).not.toBeInTheDocument()
     })
 
     test('shows it is accepted', () => {
@@ -179,7 +183,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
       setup({ overrideKeyword })
-      expect(screen.getByRole('img')).toHaveClass('fa-check-square')
+      expect(screen.getByRole('img', { name: 'Accepted' })).toBeInTheDocument()
     })
 
     test('shows the X', () => {
@@ -190,7 +194,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       setup({ overrideKeyword })
       const listitem = screen.queryByRole('listitem')
-      expect(listitem.querySelector('.fa-times-circle')).toBeInTheDocument()
+      expect(within(listitem).getByRole('img', { name: 'Remove' })).toBeInTheDocument()
     })
 
     test('responds to clicking X', async () => {
@@ -201,7 +205,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       const { container, user, removeKeyword } = setup({ overrideKeyword })
       const listitem = container.queryByRole('listitem')
-      await user.click(listitem.querySelector('.fa-times-circle'))
+      await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
       expect(removeKeyword).toBeCalledTimes(1)
     })
   })
@@ -234,7 +238,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
       setup({ overrideKeyword })
-      expect(screen.queryByRole('img')).not.toBeInTheDocument()
+      expect(screen.queryByRole('img', { name: 'Accepted' })).not.toBeInTheDocument()
     })
 
     test('does show +', () => {
@@ -244,7 +248,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
       setup({ overrideKeyword })
-      expect(screen.queryByRole('link')).toHaveClass('fa-plus-circle')
+      expect(screen.queryByRole('img', { name: 'Add' })).toBeInTheDocument()
     })
 
     test('responds to clicking +', async () => {
@@ -254,7 +258,7 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
       const { user, addKeyword } = setup({ overrideKeyword })
-      await user.click(screen.queryByRole('link'))
+      await user.click(screen.queryByRole('button'))
       expect(addKeyword).toBeCalledTimes(1)
     })
 
@@ -266,7 +270,7 @@ describe('KeywordRecommendationsKeyword component', () => {
       }
       setup({ overrideKeyword })
       const listitem = screen.queryByRole('listitem')
-      expect(listitem.querySelector('.fa-times-circle')).not.toBeInTheDocument()
+      expect(within(listitem).queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
     })
   })
 })

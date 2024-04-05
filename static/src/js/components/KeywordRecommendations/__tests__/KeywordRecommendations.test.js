@@ -145,7 +145,7 @@ const MockComponent = ({ draft: mockDraft }) => {
             }
           }
         >
-          Add
+          Add New Keyword
         </button>
       </div>
       <div>
@@ -226,13 +226,13 @@ describe('KeywordRecommendations component', () => {
 
       const keywords = screen.getAllByRole('listitem')
       expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE Recommended')
-      const addIcon = within(keywords[1]).getByRole('link')
+      const addIcon = within(keywords[1]).getByTitle('Add')
       await user.click(addIcon)
 
       await waitForResponse()
 
       await waitFor(() => {
-        expect(container.querySelectorAll('.fa-times-circle').length).toBe(2)
+        expect(within(container).getAllByRole('img', { name: 'Remove' }).length).toBe(2)
       })
 
       unmount()
@@ -264,7 +264,7 @@ describe('KeywordRecommendations component', () => {
         expect(screen.getAllByRole('listitem').length).toBe(8)
       })
 
-      const button = screen.getByRole('button')
+      const button = screen.getByRole('button', { name: 'Add New Keyword' })
 
       await user.click(button)
 
@@ -369,7 +369,7 @@ describe('KeywordRecommendations component', () => {
         const keywords = screen.getAllByRole('listitem')
         expect(keywords.length).toBe(2)
         expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > DELETE ME')
-        const removeIcon = within(keywords[1]).getByRole('link')
+        const removeIcon = within(keywords[1]).getByRole('img', { name: 'Remove' })
         await user.click(removeIcon)
 
         await waitFor(() => {

@@ -49,6 +49,7 @@ const Button = ({
   Icon,
   iconOnly,
   iconTitle,
+  inline,
   naked,
   onClick,
   size,
@@ -71,8 +72,10 @@ const Button = ({
     <BootstrapButton
       className={
         classNames([
-          'd-flex align-items-center text-nowrap',
+          'align-items-center text-nowrap',
           {
+            'd-flex': !inline,
+            'd-inline-flex p-0': inline,
             'button--naked': naked,
             [className]: className
           }
@@ -116,11 +119,13 @@ const Button = ({
 }
 
 Button.defaultProps = {
+  children: null,
   className: '',
   external: false,
   Icon: undefined,
   iconOnly: false,
   iconTitle: undefined,
+  inline: false,
   href: null,
   naked: false,
   onClick: null,
@@ -130,11 +135,12 @@ Button.defaultProps = {
 
 Button.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   external: PropTypes.bool,
   href: PropTypes.string,
   Icon: PropTypes.func,
   iconOnly: PropTypes.bool,
+  inline: PropTypes.bool,
   iconTitle: ({ Icon, iconTitle }) => {
     if (!!Icon && !iconTitle) {
       return new Error('An iconTitle is required when rendering an Icon. The iconTitle will be used as the <title> on the <svg>')

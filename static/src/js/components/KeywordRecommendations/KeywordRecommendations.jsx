@@ -6,12 +6,18 @@ import React, {
 import { Badge, ListGroup } from 'react-bootstrap'
 import { cloneDeep, uniqBy } from 'lodash-es'
 import PropTypes from 'prop-types'
+import {
+  FaCheckSquare,
+  FaPlusCircle,
+  FaTimesCircle
+} from 'react-icons/fa'
 import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
 import sendKeywordRecommendationsFeedback from '../../utils/sendKeywordRecommendationsFeedback'
 import removeEmpty from '../../utils/removeEmpty'
 import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
 import errorLogger from '../../utils/errorLogger'
 import useAppContext from '../../hooks/useAppContext'
+import Button from '../Button/Button'
 
 /**
  * Renders the KeywordRecommendations component
@@ -40,22 +46,22 @@ const KeywordRecommendations = ({ formData, onChange }) => {
         {' '}
         Recommended Keywords
       </strong>
-      <div>
+      <div className="keyword-recommendations__instructions">
         Based on your Abstract, the MMT automatically suggests recommended keywords
         {' '}
         <Badge pill bg="success">Recommended</Badge>
         {' '}
         for your collection. To associate a recommended keyword to your collection, click the
         {' '}
-        <i className="keyword-recommendations__add-icon fa fa-plus-circle" />
+        <Button className="keyword-recommendations-keyword__add-icon" iconTitle="Add" inline naked Icon={FaPlusCircle} />
         {' '}
         icon next to the keyword. Once associated to the collection, the keyword will display a
         green check
         {' '}
-        <i className="keyword-recommendations__accept-icon fa fa-check-square" />
+        <Button className="keyword-recommendations-keyword__accept-icon" iconTitle="Remove" inline naked Icon={FaCheckSquare} />
         . To remove a keyword once it’s been associated, click the
         {' '}
-        <i className="keyword-recommendations__remove-icon fa fa-times-circle" />
+        <Button className="keyword-recommendations-keyword__remove-icon" iconTitle="Remove" inline naked Icon={FaTimesCircle} />
         {' '}
         icon next to the keyword.
       </div>
@@ -271,7 +277,6 @@ const KeywordRecommendations = ({ formData, onChange }) => {
     const recommendedKeywordsList = createRecommendedKeywords(recommendations)
     setRecommendations(recommendedKeywordsList)
   }, [draft])
-
 
   // Create JSX for recommended keywords (first), then science keywords from formdata (next)
   const keywords = []
