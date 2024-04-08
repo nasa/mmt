@@ -121,7 +121,7 @@
     "@babel/core/@babel/helper-module-transforms/@babel/traverse": "^7.23.6",
     "@babel/preset-env/**/@babel/traverse": "^7.23.6",
     "babel-preset-react-app/@babel/core/@babel/traverse": "^7.23.6",
-    "express": "4.19.2"
+    "express": "^4.19.2"
   },
   "overrides": {
     "webpack-dev-middleware": "^5.3.4",
