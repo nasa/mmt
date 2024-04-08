@@ -272,7 +272,7 @@ const dataIdentificationUiSchema = {
       'ui:field': 'layout',
       'ui:layout_grid': {
         'ui:group': 'License URL',
-        'ui:required': 'false',
+        'ui:required': false,
         'ui:row': [
           {
             'ui:col': {
@@ -624,7 +624,7 @@ const dataIdentificationUiSchema = {
         'ui:layout_grid': {
           'ui:group': 'Online Resource',
           'ui:group-description': true,
-          'ui:required': 'false',
+          'ui:required': false,
           'ui:row': [
             {
               'ui:col': {

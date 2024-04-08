@@ -68,7 +68,7 @@ const archiveDistributionInformationUiSchema = {
     },
     FileArchiveInformation: {
       'ui:heading-level': 'h5',
-      'ui:required': 'true',
+      'ui:required': true,
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -151,7 +151,7 @@ const archiveDistributionInformationUiSchema = {
     },
     FileDistributionInformation: {
       'ui:heading-level': 'h5',
-      'ui:required': 'true',
+      'ui:required': true,
       items: {
         'ui:field': 'layout',
         'ui:layout_grid': {
