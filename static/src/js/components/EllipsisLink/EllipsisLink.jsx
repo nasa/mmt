@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom'
  *   <EllipsisLink  cellData="shortname" rowData={{ conceptId: "concept id" }}/>
  * )
  */
-const EllipsisLink = ({ children, to, inline }) => {
+const EllipsisLink = ({ children, to }) => {
   if (!children) return null
 
   const ref = useRef(null)
@@ -38,16 +38,7 @@ const EllipsisLink = ({ children, to, inline }) => {
     }
   }, [ref])
 
-  const linkContent = inline ? (
-    <Link
-      ref={ref}
-      className="text-decoration-none"
-      style={{ maxWidth: '15rem' }}
-      to={to}
-    >
-      {children}
-    </Link>
-  ) : (
+  const linkContent = (
     <Link
       ref={ref}
       className="d-block col-12 text-truncate text-decoration-none"
@@ -78,13 +69,8 @@ const EllipsisLink = ({ children, to, inline }) => {
   )
 }
 
-EllipsisLink.defaultProps = {
-  inline: false
-}
-
 EllipsisLink.propTypes = {
   children: PropTypes.string.isRequired,
-  inline: PropTypes.bool,
   to: PropTypes.string.isRequired
 }
 

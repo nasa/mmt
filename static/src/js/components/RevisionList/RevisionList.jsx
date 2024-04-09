@@ -62,7 +62,7 @@ const RevisionList = ({ limit }) => {
     rowCount += 1
 
     return (
-      <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`} inline>
+      <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`}>
         {[cellData, ' - ', ((rowCount === 1) ? 'Published' : 'Revision')].join('')}
       </EllipsisLink>
     )

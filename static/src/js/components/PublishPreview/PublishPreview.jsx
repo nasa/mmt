@@ -444,7 +444,6 @@ const PublishPreview = ({ isRevision }) => {
             {' '}
             Record
           </Button>
-
           <CustomModal
             message="Are you sure you want to delete this record?"
             show={showDeleteModal}
