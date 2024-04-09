@@ -108,98 +108,12 @@ const TemplateForm = () => {
     formName: currentSection
   })
 
-  useEffect(() => {
-    // If fieldName was pulled from the URL, set it to the focusField
-    setFocusField(fieldName)
-
-    // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-    if (fieldName && sectionName) navigate(`/templates/collections/${id}/${sectionName}`, { replace: true })
-  }, [fieldName])
-
-  // Fetching collection template if ID is present and draft is not loaded
-  useEffect(() => {
-    const fetchTemplate = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
-
-      if (response) {
-        delete response.pathParameters
-
-        setDraft({
-          ummMetadata: response
-        })
-      } else { setErrors(fetchTemplateError) }
-
-      setLoading(false)
-    }
-
-    if (id !== 'new' && !draft) {
-      setLoading(true)
-      fetchTemplate()
-    }
-  }, [id])
-
-  const handleSave = async (type) => {
-    setSaveLoading(true)
-    let savedId = null
-    if (id === 'new') {
-      const response = await createTemplate(providerId, token, ummMetadata)
-
-      if (response.id) {
-        savedId = response.id
-      } else {
-        addNotification({
-          message: 'Error creating template',
-          variant: 'danger'
-        })
-
-        errorLogger('Error creating template', 'TemplateForm: createTemplate')
-      }
-
-      setSaveLoading(false)
-    } else {
-      const response = await updateTemplate(providerId, token, ummMetadata, id)
-
-      if (response.ok) {
-        addNotification({
-          message: 'Template saved successfully',
-          variant: 'success'
-        })
-      } else {
-        addNotification({
-          message: 'Error saving template',
-          variant: 'danger'
-        })
-
-        errorLogger('Error saving template', 'TemplateForm: updateTemplate')
-      }
-
-      setSaveLoading(false)
-    }
-
-    if (type === saveTypes.save) {
-      if (currentSection) navigate(`/templates/collections/${savedId || id}/${currentSection}`, { replace: true })
-
-      window.scroll(0, 0)
-    }
-
-    if (type === saveTypes.saveAndContinue) {
-      const nextFormName = getNextFormName(collectionsTemplateConfiguration, currentSection)
-
-      navigate(`/templates/collections/${savedId || id}/${toLowerKebabCase(nextFormName)}`)
-
-      window.scroll(0, 0)
-    }
-
-    if (type === saveTypes.saveAndPreview) {
-      window.scroll(0, 0)
-      navigate(`/templates/collections/${savedId || id}`)
-    }
-  }
-
-  // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
-  const handleCancel = () => {
-    setDraft(originalDraft)
-    setVisitedFields([])
+  // Handle blurring fields within the form
+  const handleBlur = (fieldId) => {
+    setVisitedFields([...new Set([
+      ...visitedFields,
+      fieldId
+    ])])
   }
 
   // Handle form changes
