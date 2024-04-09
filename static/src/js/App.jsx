@@ -17,9 +17,7 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 import TemplateList from './components/TemplateList/TemplateList'
-
 import TemplateForm from './components/TemplateForm/TemplateForm'
-import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -31,7 +29,7 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
-import RevisionList from './components/RevisionList/RevisionList'
+import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -75,6 +73,9 @@ export const App = () => {
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
+        includeFullAcl: true,
+        pageNum: 1,
+        pageSize: 2000,
         permittedUser,
         target: 'PROVIDER_CONTEXT'
       }
@@ -153,6 +154,7 @@ export const App = () => {
                 )
               }
             />
+
             <Route
               path="templates/:templateType"
               element={
@@ -164,6 +166,7 @@ export const App = () => {
               }
             />
             <Route
+              exact
               path="templates/:templateType/new"
               element={
                 (
@@ -174,7 +177,7 @@ export const App = () => {
               }
             />
             <Route
-              path="templates/:templateType/:id"
+              path="templates/:templateType/:id/"
               element={
                 (
                   <AuthRequiredContainer>
@@ -258,22 +261,6 @@ export const App = () => {
                 )
               }
             />
-            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/:type/:conceptId/" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview isRevision />} />
-            <Route
-              path="/:type/:conceptId/revisions"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <RevisionList />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
-            <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
             <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />

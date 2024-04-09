@@ -1,17 +1,17 @@
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
- * Calls /providers/{providerId}/template/{id} lambda to get a single template
+ * Calls /providers/{providerId}/templates lambda to get list of templates
+ * for a given provider
  * @param {string} providerId A provider id that a given user is using
  * @param {Object} token A users token
- * @param {string} id An id for a collection template
  */
-const getTemplate = async (providerId, token, id) => {
+const getTemplates = async (providerId, token) => {
   const { apiHost } = getApplicationConfig()
   const { tokenValue } = token
 
   try {
-    const response = await fetch(`${apiHost}/providers/${providerId}/templates/${id}`, {
+    const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${tokenValue}`
@@ -27,4 +27,4 @@ const getTemplate = async (providerId, token, id) => {
   }
 }
 
-export default getTemplate
+export default getTemplates

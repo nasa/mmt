@@ -34,11 +34,8 @@ const TemplateList = () => {
     fetchTemplates()
   }, [])
 
-  const buildEllipsisLinkCell = useCallback((originalCellData, rowData) => {
+  const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { id } = rowData
-    let cellData = originalCellData
-
-    if (!cellData) cellData = '<Blank Name>'
 
     return (
       <EllipsisLink to={`/templates/collections/${id}`}>
@@ -123,7 +120,7 @@ const TemplateList = () => {
                   columns={columns}
                   loading={loading}
                   data={templateList}
-                  noDataMessage="No collection templates found."
+                  noDataMessage="No Collections Templates Found."
                   generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
                   generateRowKey={({ id }) => `row_${id}`}
                   limit={20}

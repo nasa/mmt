@@ -33,7 +33,7 @@ const updateTemplate = async (providerId, token, ummMetadata, id) => {
     return { error: response }
   } catch (e) {
     return {
-      error: 'Error updating template'
+      error: e
     }
   }
 }
