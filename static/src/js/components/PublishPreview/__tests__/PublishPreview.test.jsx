@@ -113,8 +113,13 @@ const setup = ({
   overrideMocks = false,
   overrideInitialEntries,
   overridePath,
-  overridePathValue
+  overridePathValue,
+  overrideProps = {}
 }) => {
+  const props = {
+    isRevision: false,
+    ...overrideProps
+  }
   const mocks = [{
     request: {
       query: conceptTypeQueries.Tool,
@@ -162,7 +167,7 @@ const setup = ({
               >
                 <Route
                   path={overridePathValue || ':conceptId/:revisionId'}
-                  element={<PublishPreview />}
+                  element={<PublishPreview {...props} />}
                 />
               </Route>
             </Routes>
@@ -563,6 +568,31 @@ describe('PublishPreview', () => {
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/collection-association')
+    })
+  })
+
+  describe('when called from /type/conceptId/revisions/revisionId', () => {
+    test('renders Back To Revisions button the navigates to correct page', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/T1000000-MMT/revisions/1'],
+        overridePathValue: ':conceptId/revisions/:revisionId',
+        overrideProps: {
+          isRevision: true
+        }
+      })
+
+      await waitForResponse()
+
+      const revisionsButton = screen.getByRole('button', { name: 'Back To Revisions' })
+      await user.click(revisionsButton)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions')
     })
   })
 

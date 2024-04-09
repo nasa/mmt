@@ -171,7 +171,7 @@ export const App = () => {
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="/:type/:conceptId/" element={<PublishPreview />} />
             <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview />} />
+            <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview isRevision />} />
             <Route path="/:type/:conceptId/revisions" element={<RevisionList />} />
             <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
             <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />

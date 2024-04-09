@@ -1,4 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
+import PropTypes from 'prop-types'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
@@ -40,7 +41,7 @@ import getTagCount from '../../utils/getTagCount'
  *   <PublishPreview />
  * )
  */
-const PublishPreview = () => {
+const PublishPreview = ({ isRevision }) => {
   const {
     conceptId,
     revisionId
@@ -241,9 +242,8 @@ const PublishPreview = () => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
   }
 
-  const versions = parseInt(revisionId, 10)
   const handleRevisions = () => {
-    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions?versions=${versions}`)
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`)
   }
 
   let tagCount = 0
@@ -399,21 +399,36 @@ const PublishPreview = () => {
             )
           }
 
-          <Button
-            className="btn btn-link"
-            type="button"
-            variant="link"
-            onClick={handleRevisions}
-          >
-            Revisions
-            <Badge
-              className="m-1"
-              bg="secondary"
-              pill
-            >
-              { revisionId }
-            </Badge>
-          </Button>
+          {
+            isRevision
+              ? (
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={handleRevisions}
+                >
+                  Back To Revisions
+                </Button>
+              )
+              : (
+                <Button
+                  className="btn btn-link"
+                  type="button"
+                  variant="link"
+                  onClick={handleRevisions}
+                >
+                  Revisions
+                  <Badge
+                    className="m-1"
+                    bg="secondary"
+                    pill
+                  >
+                    { revisionId }
+                  </Badge>
+                </Button>
+              )
+          }
           <Button
             type="button"
             variant="outline-danger"
@@ -505,6 +520,14 @@ const PublishPreview = () => {
     </Page>
 
   )
+}
+
+PublishPreview.defaultProps = {
+  isRevision: false
+}
+
+PublishPreview.propTypes = {
+  isRevision: PropTypes.bool
 }
 
 export default PublishPreview
