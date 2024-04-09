@@ -19,24 +19,7 @@ import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import parseError from '../../utils/parseError'
-
-const typeParamToHumanizedNameMap = {
-  collections: 'collection',
-  services: 'service',
-  tools: 'tool',
-  variables: 'variable'
-}
-
-/**
- * Takes a type from the url and returns a humanized singular or plural version
- * @param {String} type The type from the url.
- * @param {Boolean} [plural] A boolean that determines whether or not the string should be plural
- */
-const getHumanizedNameFromTypeParam = (type) => {
-  const humanizedName = typeParamToHumanizedNameMap[type]
-
-  return humanizedName
-}
+import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeParam'
 
 /**
  * Renders a `RevisionList` component
@@ -51,13 +34,12 @@ const RevisionList = ({ limit }) => {
   const { conceptId, type } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const versions = searchParams.get('versions')
-  const formattedType = capitalize(type)
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
 
   const { revisions, error, loading } = useRevisionsQuery({
     conceptId,
-    type: formattedType,
+    type: capitalize(type),
     limit,
     offset,
     sortKey: '-revisionDate'
@@ -138,9 +120,12 @@ const RevisionList = ({ limit }) => {
     setColumns(getColumnState())
   }, [type])
 
-  const pageTitle = loading && items.length === 0
-    ? `Loading ${startCase(getHumanizedNameFromTypeParam(type))} Revisions`
-    : `${commafy(count)} ${startCase(getHumanizedNameFromTypeParam(type))} ${pluralize('Revisions', count)}`
+  let pageTitle
+  if (loading && items.length === 0) {
+    pageTitle = `Loading ${startCase(getHumanizedNameFromTypeParam(type, false))} Revisions`
+  } else {
+    pageTitle = `${commafy(count)} ${startCase(getHumanizedNameFromTypeParam(type, false))} ${pluralize('Revisions', count)}`
+  }
 
   return (
     <Page
@@ -149,7 +134,7 @@ const RevisionList = ({ limit }) => {
       breadcrumbs={
         [
           {
-            label: 'Revision Results',
+            label: 'Revision History',
             active: true
           }
         ]

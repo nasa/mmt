@@ -84,8 +84,8 @@ EllipsisLink.defaultProps = {
 
 EllipsisLink.propTypes = {
   children: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-  inline: PropTypes.bool
+  inline: PropTypes.bool,
+  to: PropTypes.string.isRequired
 }
 
 export default EllipsisLink

@@ -1,8 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { GET_COLLECTION_REVISIONS } from '../../../../operations/queries/getCollectionRevisions'
-// Import { GET_SERVICES } from '../../../../operations/queries/getServices'
 import { GET_VARIABLES } from '../../../../operations/queries/getVariables'
-// Import { GET_TOOLS } from '../../../../operations/queries/getTools'
 
 export const singlePageCollectionRevisions = {
   request: {

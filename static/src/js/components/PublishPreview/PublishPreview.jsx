@@ -403,11 +403,7 @@ const PublishPreview = () => {
             className="btn btn-link"
             type="button"
             variant="link"
-            onClick={
-              () => {
-                handleRevisions()
-              }
-            }
+            onClick={handleRevisions}
           >
             Revisions
             <Badge
