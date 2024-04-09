@@ -47,7 +47,7 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
       }
     }
     >
-      <MemoryRouter initialEntries={overrideInitialEntries || ['/variables/V1004-MMT_2/revisions?versions=2']}>
+      <MemoryRouter initialEntries={overrideInitialEntries || ['/variables/V1004-MMT_2/revisions']}>
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
@@ -103,22 +103,21 @@ describe('RevisionList component', () => {
         expect(row1Cells[0].textContent).toBe('2 - Published')
         expect(row1Cells[1].textContent).toBe('2023-12-30')
         expect(row1Cells[2].textContent).toBe('admin')
-        // Add after GQL-32
-        // expect(row1Cells[3].textContent).toBe(' ')
+        expect(row1Cells[3].textContent).toBe(' ')
 
         expect(row2Cells).toHaveLength(4)
         expect(row2Cells[0].textContent).toBe('1 - Revision')
         expect(row2Cells[1].textContent).toBe('2023-11-30')
         expect(row2Cells[2].textContent).toBe('admin')
         // Change after GQL-32
-        expect(row2Cells[3].textContent).toBe('Revert to this version')
+        expect(row2Cells[3].textContent).toBe('Revert to this revision')
       })
     })
   })
 
   describe('with multiple pages of results', () => {
     test('shows the pagination', async () => {
-      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
+      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions'])
 
       await waitFor(() => {
         expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published')
@@ -141,7 +140,7 @@ describe('RevisionList component', () => {
     test('shows the pagination', async () => {
       const user = userEvent.setup()
 
-      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions?versions=4'])
+      setup([multiPageCollectionRevisionsPage1, multiPageCollectionRevisionsPage2], { limit: 3 }, ['/collections/C1004-MMT_2/revisions'])
 
       await waitFor(() => {
         expect(screen.queryAllByRole('cell')[0].textContent).toContain('4 - Published')

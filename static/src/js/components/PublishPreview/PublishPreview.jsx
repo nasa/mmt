@@ -411,7 +411,7 @@ const PublishPreview = () => {
               bg="secondary"
               pill
             >
-              { versions }
+              { revisionId }
             </Badge>
           </Button>
           <Button

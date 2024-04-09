@@ -33,7 +33,6 @@ import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeP
 const RevisionList = ({ limit }) => {
   const { conceptId, type } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
-  const versions = searchParams.get('versions')
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
 
@@ -57,35 +56,24 @@ const RevisionList = ({ limit }) => {
 
   const { count } = revisions
   const { items = [] } = revisions
+  let rowCount = 0
 
   const buildDescriptionCell = useCallback((cellData) => {
-    // The reason I cannot use count, is because it resets to undefined
-    // upon refreshing the page. Even when I put count in as a dependency.
-    // using async and await here doesn't seem to work with the useCallback function.
-    // const convertedCellData = parseInt(cellData, 10)
-    // const isPublishedVersion = (convertedCellData === count)
-    // console.log("🚀 ~ buildDescriptionCell ~ count:", count)
-    // console.log("🚀 ~ buildDescriptionCell ~ convertedcellData:", convertedCellData)
-
-    const isPublishedVersion = (cellData === versions)
+    rowCount += 1
 
     return (
       <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`} inline>
-        {[cellData, ' - ', (isPublishedVersion ? 'Published' : 'Revision')].join('')}
+        {[cellData, ' - ', ((rowCount === 1) ? 'Published' : 'Revision')].join('')}
       </EllipsisLink>
     )
   }, [])
 
   // To be done after GQL-32
-  const buildActionCell = useCallback((cellData) => {
-    const isPublishedVersion = (cellData === versions)
-
-    return (
-      isPublishedVersion
-        ? ' '
-        : 'Revert to this version'
-    )
-  }, [])
+  const buildActionCell = useCallback(() => (
+    (rowCount === 1)
+      ? ' '
+      : 'Revert to this revision'
+  ), [])
 
   const getColumnState = () => [
     {
