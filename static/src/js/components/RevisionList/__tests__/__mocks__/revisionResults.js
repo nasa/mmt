@@ -141,7 +141,7 @@ export const singlePageCollectionRevisionsError = {
       params: {
         conceptId: 'C1004-MMT_2',
         allRevisions: true,
-        limit: 3,
+        limit: 20,
         offset: 0,
         sortKey: '-revisionDate'
       }

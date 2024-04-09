@@ -70,7 +70,7 @@ const RevisionList = ({ limit }) => {
     const isPublishedVersion = (cellData === versions)
 
     return (
-      <EllipsisLink to={`/${type}/${conceptId}/${cellData}`} inline>
+      <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`} inline>
         {[cellData, ' - ', (isPublishedVersion ? 'Published' : 'Revision')].join('')}
       </EllipsisLink>
     )

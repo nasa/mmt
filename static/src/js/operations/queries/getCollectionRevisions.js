@@ -9,7 +9,6 @@ export const GET_COLLECTION_REVISIONS = gql`
         shortName
         version
         title
-        entryTitle
         revisionId
         revisionDate
         userId

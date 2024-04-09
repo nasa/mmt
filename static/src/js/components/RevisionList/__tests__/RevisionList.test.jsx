@@ -17,7 +17,8 @@ import {
   multiPageCollectionRevisionsPage1,
   multiPageCollectionRevisionsPage2,
   singlePageVariableRevisions,
-  singlePageVariableRevisionsError
+  singlePageVariableRevisionsError,
+  singlePageCollectionRevisionsError
 } from './__mocks__/revisionResults'
 
 import RevisionList from '../RevisionList'
@@ -162,6 +163,17 @@ describe('RevisionList component', () => {
   describe('when encountering an error', () => {
     test('sorts and shows the button as active', async () => {
       setup([singlePageVariableRevisionsError])
+
+      await waitFor(() => {
+        expect(screen.queryByText('Sorry!')).toBeInTheDocument()
+        expect(screen.queryByText('An error occurred')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when encountering an error', () => {
+    test('sorts and shows the button as active', async () => {
+      setup([singlePageCollectionRevisionsError], {}, ['/collections/C1004-MMT_2/revisions'])
 
       await waitFor(() => {
         expect(screen.queryByText('Sorry!')).toBeInTheDocument()
