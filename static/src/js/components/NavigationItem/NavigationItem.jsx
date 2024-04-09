@@ -46,9 +46,12 @@ const NavigationItem = ({
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
   const {
+    id,
     conceptId,
-    sectionName
+    sectionName,
+    templateType
   } = useParams()
+
   const navigate = useNavigate()
 
   const { displayName, properties: sectionProperties } = section
@@ -139,8 +142,12 @@ const NavigationItem = ({
         }
         onClick={
           () => {
-            // Navigate to the correct form
-            navigate(`../${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
+            if (templateType) {
+              navigate(`../templates/${templateType}/${id || 'new'}/${toLowerKebabCase(displayName)}`)
+            } else {
+              // Navigate to the correct form
+              navigate(`../${conceptId || id || 'new'}/${toLowerKebabCase(displayName)}`)
+            }
 
             // Ensure the window is scrolled to the top of the page
             window.scroll(0, 0)

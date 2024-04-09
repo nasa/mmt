@@ -1,18 +1,19 @@
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
- * Calls /providers/{providerId}/template/{id} lambda to get a create a new template
+ * Calls /providers/{providerId}/templates/{id} lambda to get update a template
  * @param {string} providerId A provider id that a given user is using
  * @param {Object} token A users token
  * @param {Object} ummMetadata An object with the metadata key value pairs
+ * @param {string} id An id for a collection template
  */
-const createTemplate = async (providerId, token, ummMetadata) => {
+const updateTemplate = async (providerId, token, ummMetadata, id) => {
   const { apiHost } = getApplicationConfig()
   const { tokenValue } = token
 
   try {
-    const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
-      method: 'POST',
+    const response = await fetch(`${apiHost}/providers/${providerId}/templates/${id}`, {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${tokenValue}`
       },
@@ -23,10 +24,10 @@ const createTemplate = async (providerId, token, ummMetadata) => {
         ...ummMetadata
       })
     })
-    const data = await response.json()
+    const data = await response
 
     if (response.ok) {
-      return data.id
+      return data
     }
 
     return { error: response }
@@ -37,4 +38,4 @@ const createTemplate = async (providerId, token, ummMetadata) => {
   }
 }
 
-export default createTemplate
+export default updateTemplate

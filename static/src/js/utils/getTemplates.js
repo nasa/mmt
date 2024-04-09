@@ -1,40 +1,30 @@
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
- * Calls /providers/{providerId}/template/{id} lambda to get a create a new template
+ * Calls /providers/{providerId}/templates lambda to get list of templates
+ * for a given provider
  * @param {string} providerId A provider id that a given user is using
  * @param {Object} token A users token
- * @param {Object} ummMetadata An object with the metadata key value pairs
  */
-const createTemplate = async (providerId, token, ummMetadata) => {
+const getTemplates = async (providerId, token) => {
   const { apiHost } = getApplicationConfig()
   const { tokenValue } = token
 
   try {
     const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${tokenValue}`
-      },
-      body: JSON.stringify({
-        pathParameters: {
-          providerId
-        },
-        ...ummMetadata
-      })
+      }
     })
     const data = await response.json()
 
-    if (response.ok) {
-      return data.id
-    }
-
-    return { error: response }
+    return { response: data }
   } catch (e) {
     return {
-      error: e
+      error: 'Error retrieving templates'
     }
   }
 }
 
-export default createTemplate
+export default getTemplates

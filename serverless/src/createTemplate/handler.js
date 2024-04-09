@@ -38,7 +38,10 @@ const createTemplate = async (event) => {
 
   return {
     statusCode,
-    headers: defaultResponseHeaders
+    headers: defaultResponseHeaders,
+    body: JSON.stringify({
+      id: guid
+    })
   }
 }
 
