@@ -16,6 +16,8 @@ import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequir
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
+import TemplateList from './components/TemplateList/TemplateList'
+
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -27,7 +29,6 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
-import TemplateList from './components/TemplateList/TemplateList'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -148,6 +149,58 @@ export const App = () => {
                 (
                   <AuthRequiredContainer>
                     <DraftsPage />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+
+            <Route
+              path="templates/:templateType"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateList />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              exact
+              path="templates/:templateType/new"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id/"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplatePreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id/:sectionName"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id/:sectionName/:fieldName"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
                   </AuthRequiredContainer>
                 )
               }
