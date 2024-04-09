@@ -18,7 +18,6 @@ const usePublishMutation = () => {
     conceptType,
     nativeId,
     collectionConceptId
-    // ConceptId
   ) => {
     await publishDraftMutation({
       variables: {

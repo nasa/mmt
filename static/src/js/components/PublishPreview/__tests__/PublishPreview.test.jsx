@@ -560,7 +560,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Manage Collection Associations' })
+      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Manage Collection Association' })
       await user.click(manageCollectionAssociationBtn)
 
       await waitForResponse()

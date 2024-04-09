@@ -274,7 +274,6 @@ const MetadataForm = () => {
     }
 
     if (publishDraftError) {
-      // SetLoading(publishDraftLoading)
       const { message } = publishDraftError
       const parseErr = message.split(',')
       parseErr.map((err) => (

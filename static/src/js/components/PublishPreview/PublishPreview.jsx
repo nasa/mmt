@@ -408,7 +408,7 @@ const PublishPreview = () => {
                   }
                 }
               >
-                Manage Collection Associations
+                Manage Collection Association
               </Button>
             )
           }
