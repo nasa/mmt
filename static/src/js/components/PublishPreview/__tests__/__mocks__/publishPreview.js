@@ -1007,3 +1007,55 @@ export const noTagsOrGranulesCollection = {
   versionId: '1',
   __typename: 'Collection'
 }
+
+export const recordWithRevisions = {
+  count: 2,
+  items: [
+    {
+      conceptId: 'TL1200000104-MMT_2',
+      longName: 'The Advanced National Seismic System (ANSS)',
+      name: 'ANSS-Seismic',
+      providerId: 'MMT_2',
+      revisionDate: '2024-04-09T15:47:00.781Z',
+      revisionId: '2',
+      userId: 'admin',
+      __typename: 'Tool'
+    },
+    {
+      conceptId: 'TL1200000104-MMT_2',
+      longName: 'The Advanced National Seismic System (ANSS)',
+      name: 'ANSS-Seismic',
+      providerId: 'MMT_2',
+      revisionDate: '2024-04-09T15:47:00.781Z',
+      revisionId: '1',
+      userId: 'admin',
+      __typename: 'Tool'
+    }
+  ]
+}
+
+export const collectionRecordWithRevisions = {
+  count: 2,
+  items: [
+    {
+      conceptId: 'C1000000-MMT',
+      revisionDate: '2024-04-05T15:21:13.179Z',
+      revisionId: '2',
+      shortName: 'Required Fields',
+      title: 'All Required fields to publish',
+      userId: 'admin',
+      version: '1',
+      __typename: 'Collection'
+    },
+    {
+      conceptId: 'C1000000-MMT',
+      revisionDate: '2024-04-05T15:21:13.179Z',
+      revisionId: '1',
+      shortName: 'Required Fields',
+      title: 'All Required fields to publish',
+      userId: 'admin',
+      version: '1',
+      __typename: 'Collection'
+    }
+  ]
+}

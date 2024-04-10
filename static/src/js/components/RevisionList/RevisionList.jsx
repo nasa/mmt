@@ -65,9 +65,16 @@ const RevisionList = ({ limit }) => {
     rowCount += 1
 
     return (
-      <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`}>
-        {[cellData, ' - ', ((rowCount === 1) ? 'Published' : 'Revision')].join('')}
-      </EllipsisLink>
+      (rowCount === 1) ? (
+        <EllipsisLink to={`/${type}/${conceptId}/${cellData}`}>
+          {[cellData, ' - Published'].join('')}
+        </EllipsisLink>
+      )
+        : (
+          <EllipsisLink to={`/${type}/${conceptId}/revisions/${cellData}`}>
+            {[cellData, ' - Revision'].join('')}
+          </EllipsisLink>
+        )
     )
   }, [])
 

@@ -98,7 +98,6 @@ describe('RevisionList component', () => {
 
         const row1Cells = within(row1).queryAllByRole('cell')
         const row2Cells = within(row2).queryAllByRole('cell')
-        screen.debug()
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('2 - Published')
         expect(row1Cells[1].textContent).toBe('2023-12-30')

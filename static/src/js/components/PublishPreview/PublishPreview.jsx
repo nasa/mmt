@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
+  Alert,
   Badge,
   Button,
   Col,
@@ -31,6 +32,8 @@ import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import For from '../For/For'
 import getTagCount from '../../utils/getTagCount'
+import getRevisionCount from '../../utils/getRevisionCount'
+import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 /**
  * Renders a PublishPreview component
@@ -71,6 +74,7 @@ const PublishPreview = ({ isRevision }) => {
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+  const revisionCount = getRevisionCount(conceptId, `${derivedConceptType}s`) || 0
 
   const {
     ingestMutation, ingestDraft,
@@ -246,6 +250,14 @@ const PublishPreview = ({ isRevision }) => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`)
   }
 
+  const handleCurrentPublishedRevision = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${revisionCount}`)
+  }
+
+  const refreshAccessibleEventProps = useAccessibleEvent(() => {
+    handleCurrentPublishedRevision()
+  })
+
   let tagCount = 0
   let granuleCount = 0
   if (derivedConceptType === conceptTypes.Collection) {
@@ -365,8 +377,8 @@ const PublishPreview = ({ isRevision }) => {
                   >
                     { granuleCount }
                   </Badge>
-
                 </Button>
+
                 <Button
                   className="btn btn-link"
                   type="button"
@@ -398,37 +410,21 @@ const PublishPreview = ({ isRevision }) => {
               </Button>
             )
           }
-
-          {
-            isRevision
-              ? (
-                <Button
-                  className="btn btn-link"
-                  type="button"
-                  variant="link"
-                  onClick={handleRevisions}
-                >
-                  Back To Revisions
-                </Button>
-              )
-              : (
-                <Button
-                  className="btn btn-link"
-                  type="button"
-                  variant="link"
-                  onClick={handleRevisions}
-                >
-                  Revisions
-                  <Badge
-                    className="m-1"
-                    bg="secondary"
-                    pill
-                  >
-                    { revisionId }
-                  </Badge>
-                </Button>
-              )
-          }
+          <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={handleRevisions}
+          >
+            Revisions
+            <Badge
+              className="m-1"
+              bg="secondary"
+              pill
+            >
+              { revisionCount }
+            </Badge>
+          </Button>
           <Button
             type="button"
             variant="outline-danger"
@@ -507,6 +503,37 @@ const PublishPreview = ({ isRevision }) => {
           />
         </Col>
       </Row>
+
+      {
+        isRevision && (
+          <Row>
+            <Col>
+              <Alert className="fst-italic fs-6" variant="warning">
+                <i className="eui-icon eui-fa-info-circle" />
+                {' '}
+                You are viewing an older revision of this
+                {' '}
+                {`${derivedConceptType}.`}
+                {' '}
+                <span
+                  className="text-decoration-underline"
+                  style={
+                    {
+                      color: 'blue',
+                      cursor: 'pointer'
+                    }
+                  }
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...refreshAccessibleEventProps}
+                >
+                  Click here to view the latest published revision
+                </span>
+              </Alert>
+            </Col>
+          </Row>
+        )
+      }
+
       <Row>
         <Col md={12}>
           <MetadataPreview

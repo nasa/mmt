@@ -23,7 +23,14 @@ import constructDownloadableFile from '../../../utils/constructDownloadableFile'
 import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import { noTagsOrGranulesCollection, publishCollectionRecord } from './__mocks__/publishPreview'
+import {
+  noTagsOrGranulesCollection,
+  publishCollectionRecord,
+  recordWithRevisions,
+  collectionRecordWithRevisions
+} from './__mocks__/publishPreview'
+import { GET_TOOLS } from '../../../operations/queries/getTools'
+import { GET_COLLECTION_REVISIONS } from '../../../operations/queries/getCollectionRevisions'
 
 vi.mock('../../../utils/constructDownloadableFile')
 vi.mock('../../MetadataPreview/MetadataPreview')
@@ -134,7 +141,24 @@ const setup = ({
         tool: mock
       }
     }
-  }, ...additionalMocks]
+  },
+  {
+    request: {
+      query: GET_TOOLS,
+      variables: {
+        params: {
+          conceptId: 'T1000000-MMT',
+          allRevisions: true
+        }
+      }
+    },
+    result: {
+      data: {
+        tools: recordWithRevisions
+      }
+    }
+  },
+  ...additionalMocks]
 
   let expires = new Date()
   expires.setMinutes(expires.getMinutes() + 15)
@@ -271,6 +295,22 @@ describe('PublishPreview', () => {
               }
             },
             error: new Error('An error occurred')
+          },
+          {
+            request: {
+              query: GET_TOOLS,
+              variables: {
+                params: {
+                  conceptId: 'T1000000-MMT',
+                  allRevisions: true
+                }
+              }
+            },
+            result: {
+              data: {
+                tools: recordWithRevisions
+              }
+            }
           }
         ]
       })
@@ -300,6 +340,22 @@ describe('PublishPreview', () => {
             result: {
               data: {
                 tool: null
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_TOOLS,
+              variables: {
+                params: {
+                  conceptId: 'T1000000-MMT',
+                  allRevisions: true
+                }
+              }
+            },
+            result: {
+              data: {
+                tools: recordWithRevisions
               }
             }
           }
@@ -571,8 +627,8 @@ describe('PublishPreview', () => {
     })
   })
 
-  describe('when called from /type/conceptId/revisions/revisionId', () => {
-    test('renders Back To Revisions button the navigates to correct page', async () => {
+  describe('when clicking on Alert Banner', () => {
+    test('should navigate to latest published revision', async () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -586,7 +642,31 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const revisionsButton = screen.getByRole('button', { name: 'Back To Revisions' })
+      const viewLatestPublishedRevision = screen.getByRole('link', { name: 'Click here to view the latest published revision' })
+      await user.click(viewLatestPublishedRevision)
+
+      await waitForResponse()
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/2')
+    })
+  })
+
+  describe('when called from /type/conceptId/revisions/revisionId', () => {
+    test('renders Revisions button with revisions count and the navigates to correct page', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        overrideInitialEntries: ['/tools/T1000000-MMT/revisions/1'],
+        overridePathValue: ':conceptId/revisions/:revisionId',
+        overrideProps: {
+          isRevision: true
+        }
+      })
+
+      await waitForResponse()
+      const revisionsButton = screen.getByRole('button', { name: 'Revisions 2' })
       await user.click(revisionsButton)
 
       await waitForResponse()
@@ -651,6 +731,22 @@ describe('PublishPreview', () => {
                     }
                   }
                 }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_REVISIONS,
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      allRevisions: true
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collections: collectionRecordWithRevisions
+                  }
+                }
               }
             ]
           })
@@ -688,6 +784,22 @@ describe('PublishPreview', () => {
                 result: {
                   data: {
                     collection: publishCollectionRecord
+                  }
+                }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_REVISIONS,
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      allRevisions: true
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collections: collectionRecordWithRevisions
                   }
                 }
               }
@@ -737,6 +849,22 @@ describe('PublishPreview', () => {
                     collection: noTagsOrGranulesCollection
                   }
                 }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_REVISIONS,
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      allRevisions: true
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collections: collectionRecordWithRevisions
+                  }
+                }
               }
             ]
           })
@@ -777,6 +905,22 @@ describe('PublishPreview', () => {
                     collection: publishCollectionRecord
                   }
                 }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_REVISIONS,
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      allRevisions: true
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collections: collectionRecordWithRevisions
+                  }
+                }
               }
             ]
           })
@@ -806,6 +950,22 @@ describe('PublishPreview', () => {
                 result: {
                   data: {
                     collection: noTagsOrGranulesCollection
+                  }
+                }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_REVISIONS,
+                  variables: {
+                    params: {
+                      conceptId: 'C1000000-MMT',
+                      allRevisions: true
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    collections: collectionRecordWithRevisions
                   }
                 }
               }

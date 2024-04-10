@@ -72,7 +72,6 @@ const useRevisionsQuery = ({
         },
         onCompleted: (getRevisionsData) => {
           const { [type.toLowerCase()]: revisionsResult } = getRevisionsData
-
           setRevisions(revisionsResult)
           setLoading(false)
         },
