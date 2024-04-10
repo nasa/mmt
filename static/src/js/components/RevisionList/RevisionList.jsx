@@ -20,6 +20,7 @@ import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import parseError from '../../utils/parseError'
 import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeParam'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 
 /**
  * Renders a `RevisionList` component
@@ -32,6 +33,7 @@ import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeP
  */
 const RevisionList = ({ limit }) => {
   const { conceptId, type } = useParams()
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
   const [searchParams, setSearchParams] = useSearchParams()
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
@@ -57,6 +59,7 @@ const RevisionList = ({ limit }) => {
   const { count } = revisions
   const { items = [] } = revisions
   let rowCount = 0
+  const recordTitle = ((items.length) ? (items[0].shortName || items[0].name) : '')
 
   const buildDescriptionCell = useCallback((cellData) => {
     rowCount += 1
@@ -121,6 +124,14 @@ const RevisionList = ({ limit }) => {
       title={pageTitle}
       breadcrumbs={
         [
+          {
+            label: `${derivedConceptType}s`,
+            to: `/search?type=${derivedConceptType.toLowerCase()}s`
+          },
+          {
+            label: recordTitle,
+            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${items.length}`
+          },
           {
             label: 'Revision History',
             active: true
