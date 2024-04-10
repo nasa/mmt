@@ -17,6 +17,7 @@ import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallba
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 import TemplateForm from './components/TemplateForm/TemplateForm'
+import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -28,7 +29,6 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
-import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
