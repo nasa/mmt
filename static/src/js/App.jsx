@@ -16,7 +16,6 @@ import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequir
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
-import TemplateList from './components/TemplateList/TemplateList'
 import TemplateForm from './components/TemplateForm/TemplateForm'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
