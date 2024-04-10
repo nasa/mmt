@@ -40,7 +40,6 @@ import createTemplate from '../../../utils/createTemplate'
 import errorLogger from '../../../utils/errorLogger'
 import getTemplate from '../../../utils/getTemplate'
 import updateTemplate from '../../../utils/updateTemplate'
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 vi.mock('../../../utils/createTemplate')
 vi.mock('../../../utils/errorLogger')
@@ -342,7 +341,7 @@ describe('TemplateForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        createTemplate.mockReturnValue({ id: '1234-abcd-5678-efgh' })
+        createTemplate.mockReturnValue('1234-abcd-5678-efgh')
 
         const { user } = setup({ pageUrl: '/templates/collections/new/collection-information' })
 
@@ -358,24 +357,6 @@ describe('TemplateForm', () => {
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
-      })
-    })
-
-    describe('when clicking on save and continue for a new template results in a failure', () => {
-      test('calls errorLogger', async () => {
-        createTemplate.mockReturnValue({})
-
-        const { user } = setup({ pageUrl: '/templates/collections/new/collection-information' })
-
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
-        await user.click(button)
-
-        await waitForResponse()
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Error creating template', 'TemplateForm: createTemplate')
       })
     })
 
@@ -452,130 +433,6 @@ describe('TemplateForm', () => {
         expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
           visitedFields: []
         }), {})
-      })
-    })
-
-    describe('when clicking on save and create draft', () => {
-      const mutationSetup = ({ mocks }) => {
-        render(
-          <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-            <Providers>
-              <MockedProvider mocks={mocks}>
-                <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
-                  <Routes>
-                    <Route
-                      element={<TemplateForm />}
-                      path="templates/:templateType/:id"
-                    />
-                  </Routes>
-                </MemoryRouter>
-              </MockedProvider>
-            </Providers>
-          </CookiesProvider>
-        )
-
-        return {
-          user: userEvent.setup()
-        }
-      }
-
-      Object.defineProperty(globalThis, 'crypto', {
-        value: {
-          randomUUID: () => 'mock-uuid'
-        }
-      })
-
-      beforeEach(() => {
-        getTemplate.mockReturnValue({
-          response: {
-            TemplateName: 'Mock Template',
-            ShortName: 'Template Form Test',
-            Version: '1.0.0'
-          }
-        })
-      })
-
-      describe('when clicking on save and create button results in a success', () => {
-        test('should ingest a collectionDraft and navigate to collection draft', async () => {
-          const navigateSpy = vi.fn()
-          vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-          const { user } = mutationSetup({
-            mocks: [{
-              request: {
-                query: INGEST_DRAFT,
-                variables: {
-                  conceptType: 'Collection',
-                  metadata: {
-                    ShortName: 'Template Form Test',
-                    Version: '1.0.0'
-                  },
-                  nativeId: 'MMT_mock-uuid',
-                  providerId: 'MMT_2',
-                  ummVersion: '1.17.3'
-                }
-              },
-              result: {
-                data: {
-                  ingestDraft: {
-                    conceptId: 'CD1000000-MMT',
-                    revisionId: '1'
-                  }
-                }
-              }
-            }]
-          })
-
-          await waitForResponse()
-
-          const dropdown = screen.getByRole('button', { name: 'Save Options' })
-          await user.click(dropdown)
-
-          const button = screen.getByRole('button', { name: 'Save & Create Draft' })
-          await user.click(button)
-
-          expect(navigateSpy).toHaveBeenCalledTimes(1)
-          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT')
-        })
-      })
-
-      describe('when clicking on save create button results in a failure', () => {
-        test('calls errorLogger', async () => {
-          const navigateSpy = vi.fn()
-          vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-          const { user } = mutationSetup({
-            mocks: [{
-              request: {
-                query: INGEST_DRAFT,
-                variables: {
-                  conceptType: 'Collection',
-                  metadata: {
-                    ShortName: 'Template Form Test',
-                    Version: '1.0.0'
-                  },
-                  nativeId: 'MMT_mock-uuid',
-                  providerId: 'MMT_2',
-                  ummVersion: '1.17.3'
-                }
-              },
-              error: new Error('An error occurred')
-            }]
-          })
-
-          await waitForResponse()
-
-          const dropdown = screen.getByRole('button', { name: 'Save Options' })
-          await user.click(dropdown)
-
-          const button = screen.getByRole('button', { name: 'Save & Create Draft' })
-          await user.click(button)
-
-          expect(navigateSpy).toHaveBeenCalledTimes(0)
-
-          expect(errorLogger).toHaveBeenCalledTimes(1)
-          expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
-        })
       })
     })
   })

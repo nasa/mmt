@@ -146,7 +146,7 @@ const NavigationItem = ({
               navigate(`../templates/${templateType}/${id || 'new'}/${toLowerKebabCase(displayName)}`)
             } else {
               // Navigate to the correct form
-              navigate(`../${conceptId || id || 'new'}/${toLowerKebabCase(displayName)}`)
+              navigate(`../${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
             }
 
             // Ensure the window is scrolled to the top of the page

@@ -9,37 +9,41 @@ import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { kebabCase } from 'lodash-es'
 import useAppContext from '../../hooks/useAppContext'
-import Page from '../Page/Page'
-import FormNavigation from '../FormNavigation/FormNavigation'
-import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
+
 import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
 import collectionsUiSchema from '../../schemas/uiSchemas/collections'
+import FormNavigation from '../FormNavigation/FormNavigation'
+import Page from '../Page/Page'
+import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
+
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import GridLayout from '../GridLayout/GridLayout'
-import OneOfField from '../OneOfField/OneOfField'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
+import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import getFormSchema from '../../utils/getFormSchema'
-import JsonPreview from '../JsonPreview/JsonPreview'
+import GridLayout from '../GridLayout/GridLayout'
+import KeywordPicker from '../KeywordPicker/KeywordPicker'
+import OneOfField from '../OneOfField/OneOfField'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
+
 import createTemplate from '../../utils/createTemplate'
-import saveTypes from '../../constants/saveTypes'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import errorLogger from '../../utils/errorLogger'
+import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import getTemplate from '../../utils/getTemplate'
-import updateTemplate from '../../utils/updateTemplate'
+import JsonPreview from '../JsonPreview/JsonPreview'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import saveTypes from '../../constants/saveTypes'
+import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import updateTemplate from '../../utils/updateTemplate'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 const TemplateForm = () => {
@@ -104,27 +108,6 @@ const TemplateForm = () => {
     formName: currentSection
   })
 
-  // Fetching collection template if ID is present and draft is not loaded
-  useEffect(() => {
-    const fetchTemplates = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
-
-      delete response.pathParameters
-
-      setDraft({
-        ummMetadata: { ...response }
-      })
-
-      setErrors(fetchTemplateError)
-      setLoading(false)
-    }
-
-    if (id !== 'new' && !draft) {
-      setLoading(true)
-      fetchTemplates()
-    }
-  }, [id])
-
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
     setFocusField(fieldName)
@@ -133,29 +116,27 @@ const TemplateForm = () => {
     if (fieldName && sectionName) navigate(`/templates/collections/${id}/${sectionName}`, { replace: true })
   }, [fieldName])
 
-  // Handle blurring fields within the form
-  const handleBlur = (fieldId) => {
-    setVisitedFields([...new Set([
-      ...visitedFields,
-      fieldId
-    ])])
-  }
+  // Fetching collection template if ID is present and draft is not loaded
+  useEffect(() => {
+    const fetchTemplate = async () => {
+      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
 
-  // Handle form changes
-  const handleChange = (event) => {
-    const { formData } = event
+      if (response) {
+        delete response.pathParameters
 
-    setDraft({
-      ...draft,
-      ummMetadata: formData
-    })
-  }
+        setDraft({
+          ummMetadata: { ...response }
+        })
+      } else { setErrors(fetchTemplateError) }
 
-  // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
-  const handleCancel = () => {
-    setDraft(originalDraft)
-    setVisitedFields([])
-  }
+      setLoading(false)
+    }
+
+    if (id !== 'new' && !draft) {
+      setLoading(true)
+      fetchTemplate()
+    }
+  }, [id])
 
   const handleSave = async (type) => {
     setSaveLoading(true)
@@ -169,17 +150,17 @@ const TemplateForm = () => {
       const response = await updateTemplate(providerId, token, ummMetadata, id)
 
       if (response.ok) {
-        // Add a success notification
         addNotification({
           message: 'Template saved successfully',
           variant: 'success'
         })
       } else {
-        // Add a error notification
         addNotification({
           message: 'Error saving template',
           variant: 'danger'
         })
+
+        errorLogger('Error saving template', 'TemplateForm: updateTemplate')
       }
 
       setSaveLoading(false)
@@ -211,6 +192,30 @@ const TemplateForm = () => {
       window.scroll(0, 0)
       navigate(`/templates/collections/${id || savedId}`)
     }
+  }
+
+  // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
+  const handleCancel = () => {
+    setDraft(originalDraft)
+    setVisitedFields([])
+  }
+
+  // Handle form changes
+  const handleChange = (event) => {
+    const { formData } = event
+
+    setDraft({
+      ...draft,
+      ummMetadata: formData
+    })
+  }
+
+  // Handle bluring fields within the form
+  const handleBlur = (fieldId) => {
+    setVisitedFields([...new Set([
+      ...visitedFields,
+      fieldId
+    ])])
   }
 
   const name = draft?.ummMetadata?.TemplateName || '<Blank Name>'

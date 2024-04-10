@@ -166,7 +166,6 @@ export const App = () => {
               }
             />
             <Route
-              exact
               path="templates/:templateType/new"
               element={
                 (
@@ -177,7 +176,7 @@ export const App = () => {
               }
             />
             <Route
-              path="templates/:templateType/:id/"
+              path="templates/:templateType/:id"
               element={
                 (
                   <AuthRequiredContainer>
