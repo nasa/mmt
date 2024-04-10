@@ -22,7 +22,7 @@ const getTemplate = async (providerId, token, id) => {
     return { response: data }
   } catch (e) {
     return {
-      error: 'Error retrieving templates'
+      error: 'Error retrieving template'
     }
   }
 }

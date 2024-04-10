@@ -16,6 +16,8 @@ import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
 import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import parseError from '../../utils/parseError'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
 
 const TemplatePreview = () => {
   const {
@@ -28,18 +30,22 @@ const TemplatePreview = () => {
 
   const { id } = useParams()
 
-  // Const [error, setError] = useState()
   const [loading, setLoading] = useState()
+  const [error, setError] = useState()
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      const { response } = await getTemplate(providerId, token, id)
+      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
 
-      delete response.pathParameters
+      if (response) {
+        delete response.pathParameters
 
-      setDraft({
-        ummMetadata: { ...response }
-      })
+        setDraft({
+          ummMetadata: { ...response }
+        })
+      } else {
+        setError(fetchTemplateError)
+      }
 
       setLoading(false)
     }
@@ -48,10 +54,8 @@ const TemplatePreview = () => {
     fetchTemplates()
   }, [])
 
-  console.log('draft', draft)
-
-  const { ummMetadata = {} } = draft || {}
-  const { TemplateName: templateName } = ummMetadata || {}
+  const { ummMetadata = {} } = draft
+  const { TemplateName: templateName } = ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, ummCTemplateSchema)
 
   if (loading) {
@@ -62,9 +66,19 @@ const TemplatePreview = () => {
     )
   }
 
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
+  }
+
   return (
     <Page
-      title={`${templateName}` || '<Blank Name>'}
+      title={templateName || '<Blank Name>'}
       pageType="secondary"
       breadcrumbs={
         [
@@ -104,7 +118,6 @@ const TemplatePreview = () => {
                 conceptId={id}
                 conceptType="Collection"
               />
-
             </Col>
           </Row>
         </Row>

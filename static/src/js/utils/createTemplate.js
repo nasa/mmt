@@ -25,14 +25,10 @@ const createTemplate = async (providerId, token, ummMetadata) => {
     })
     const data = await response.json()
 
-    if (response.ok) {
-      return data.id
-    }
-
-    return { error: response }
+    return data.id
   } catch (e) {
     return {
-      error: e
+      error: 'Error creating template'
     }
   }
 }
