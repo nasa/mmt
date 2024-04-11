@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import Row from 'react-bootstrap/Row'
 
+import pluralize from 'pluralize'
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
@@ -80,7 +81,12 @@ const MetadataForm = () => {
     derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
   }
 
-  const publishMutation = usePublishMutation()
+  const {
+    publishMutation,
+    publishDraft,
+    error: publishDraftError,
+    loading: publishDraftLoading = true
+  } = usePublishMutation()
 
   useEffect(() => {
     if (conceptId === 'new') {
@@ -120,23 +126,6 @@ const MetadataForm = () => {
       setDraft(fetchedDraft)
     }
   })
-  if (loading) {
-    return (
-      <Page>
-        <LoadingBanner />
-      </Page>
-    )
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
-    )
-  }
 
   const {
     // Name,
@@ -272,6 +261,32 @@ const MetadataForm = () => {
     })
   }
 
+  useEffect(() => {
+    if (publishDraft) {
+      const { conceptId: publishConceptId, revisionId } = publishDraft
+
+      addNotification({
+        message: `${publishConceptId} Published`,
+        variant: 'success'
+      })
+
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
+    }
+
+    if (publishDraftError) {
+      const { message } = publishDraftError
+      const parseErr = message.split(',')
+      parseErr.map((err) => (
+        addNotification({
+          message: err,
+          variant: 'danger'
+        })
+      ))
+
+      errorLogger(message, 'PublishMutation: publishMutation')
+    }
+  }, [publishDraftLoading, publishDraftError])
+
   // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {
     setDraft(originalDraft)
@@ -298,6 +313,24 @@ const MetadataForm = () => {
 
   const name = draft?.name || draft?.ummMetadata?.ShortName || '<Blank Name>'
   const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${name}`
+
+  if (loading) {
+    return (
+      <Page>
+        <LoadingBanner />
+      </Page>
+    )
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
+  }
 
   return (
     <Page
