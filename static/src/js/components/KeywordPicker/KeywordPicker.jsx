@@ -62,12 +62,8 @@ const KeywordPicker = ({
   const keywordScheme = uiSchema['ui:keyword_scheme']
 
   const {
-    keywords,
-    isLoading
+    keywords
   } = useControlledKeywords(keywordScheme)
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [keywordScheme])
 
   // If keywords are available this is create the keyword object and set it to keywordList.
   useEffect(() => {
