@@ -16,8 +16,7 @@ import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequir
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
 import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
-import TemplateForm from './components/TemplateForm/TemplateForm'
-import TemplatePreview from './components/TemplatePreview/TemplatePreview'
+import TemplateList from './components/TemplateList/TemplateList'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -154,41 +153,11 @@ export const App = () => {
               }
             />
             <Route
-              path="templates/:templateType/new"
+              path="templates/:templateType"
               element={
                 (
                   <AuthRequiredContainer>
-                    <TemplateForm />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplatePreview />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id/:sectionName"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateForm />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id/:sectionName/:fieldName"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateForm />
+                    <TemplateList />
                   </AuthRequiredContainer>
                 )
               }
