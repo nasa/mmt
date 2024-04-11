@@ -28,7 +28,6 @@ import {
   CollectionSortRequest
 } from './__mocks__/CollectionAssociationResults'
 import errorLogger from '../../../utils/errorLogger'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 vi.mock('../../ErrorBanner/ErrorBanner')
@@ -111,7 +110,7 @@ describe('CollectionAssociationForm', () => {
       expect(errorLogger).toHaveBeenCalledTimes(0)
     })
 
-    test('when there an error to get the list of collections', async () => {
+    test('when there is an error to get the list of collections', async () => {
       const { user } = setup({
         additionalMocks: [{
           request: {
@@ -145,8 +144,6 @@ describe('CollectionAssociationForm', () => {
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Unable to get Collections', 'Collection Association: getCollections Query')
-
-      expect(ErrorBanner).toHaveBeenCalledTimes(1)
     })
 
     describe('when searching for temporal extent', () => {

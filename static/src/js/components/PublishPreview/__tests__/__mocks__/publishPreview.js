@@ -1007,3 +1007,74 @@ export const noTagsOrGranulesCollection = {
   versionId: '1',
   __typename: 'Collection'
 }
+
+export const publishedVariableRecord = {
+  additionalIdentifiers: [
+    {
+      identifier: 'dfag'
+    }
+  ],
+  associationDetails: {
+    collections: [
+      {
+        conceptId: 'C1200000115-MMT_2'
+      }
+    ]
+  },
+  conceptId: 'V1200000149-MMT_2',
+  dataType: null,
+  definition: 'afg',
+  dimensions: null,
+  fillValues: null,
+  indexRanges: null,
+  instanceInformation: null,
+  longName: 'asfd',
+  measurementIdentifiers: null,
+  name: 'Variable Test',
+  nativeId: 'MMT_d2f6c3da-44d7-47b1-8d8a-324c60235de4',
+  offset: null,
+  providerId: 'MMT_2',
+  relatedUrls: null,
+  revisionDate: '2024-04-08T15:53:12.359Z',
+  revisionId: '1',
+  samplingIdentifiers: null,
+  scale: null,
+  scienceKeywords: null,
+  sets: null,
+  standardName: null,
+  ummMetadata: {
+    MetadataSpecification: {
+      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+      Name: 'UMM-Var',
+      Version: '1.9.0'
+    },
+    AdditionalIdentifiers: [
+      {
+        Identifier: 'dfag'
+      }
+    ],
+    Name: 'Variable Test',
+    LongName: 'Mock Long Name',
+    Definition: 'Mock Definition'
+  },
+  units: null,
+  validRanges: null,
+  variableSubType: null,
+  variableType: null,
+  collections: {
+    count: 1,
+    items: [
+      {
+        conceptId: 'C1200000115-MMT_2',
+        entryTitle: '2000 Pilot Environmental Sustainability Index (ESI)',
+        shortName: 'CIESIN_SEDAC_ESI_2000',
+        version: '2000.00',
+        provider: 'MMT_2',
+        title: '2000 Pilot Environmental Sustainability Index (ESI)',
+        __typename: 'Collection'
+      }
+    ],
+    __typename: 'CollectionList'
+  },
+  __typename: 'Variable'
+}

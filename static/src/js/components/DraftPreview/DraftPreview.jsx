@@ -7,19 +7,21 @@ import { useNavigate, useParams } from 'react-router'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import { startCase } from 'lodash-es'
-
 import pluralize from 'pluralize'
 
+import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'
+import MetadataPreview from '../MetadataPreview/MetadataPreview'
+import CustomModal from '../CustomModal/CustomModal'
+import formConfigurations from '../../schemas/uiForms'
 
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
-
-import formConfigurations from '../../schemas/uiForms'
+import usePublishMutation from '../../hooks/usePublishMutation'
 
 import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
@@ -29,11 +31,7 @@ import parseError from '../../utils/parseError'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import usePublishMutation from '../../hooks/usePublishMutation'
-import MetadataPreview from '../MetadataPreview/MetadataPreview'
-import CustomModal from '../CustomModal/CustomModal'
 
-import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
 /**
  * Renders a DraftPreview component
  *
@@ -65,7 +63,13 @@ const DraftPreview = () => {
   const [collectionAssociation, setCollectionAssociation] = useState()
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
-  const publishMutation = usePublishMutation()
+
+  const {
+    publishMutation,
+    publishDraft,
+    error: publishDraftError,
+    loading: publishDraftLoading = true
+  } = usePublishMutation()
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
@@ -142,32 +146,6 @@ const DraftPreview = () => {
     }
   }, [draft, retries])
 
-  if (loading) {
-    return (
-      <Page>
-        <LoadingBanner />
-      </Page>
-    )
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
-    )
-  }
-
-  if (!draft && !loading) {
-    return (
-      <Page>
-        <ErrorBanner message="Draft could not be loaded." />
-      </Page>
-    )
-  }
-
   const {
     conceptType,
     name,
@@ -182,15 +160,43 @@ const DraftPreview = () => {
   const handlePublish = () => {
     // Calls publish mutation hook
     setLoading(true)
+
     if (derivedConceptType === 'Variable') {
       const { _private } = ummMetadata || {}
       const { CollectionAssociation } = _private || {}
-      const { collectionConceptId } = CollectionAssociation
+      const { collectionConceptId } = CollectionAssociation || {}
       publishMutation(derivedConceptType, nativeId, collectionConceptId)
     } else {
       publishMutation(derivedConceptType, nativeId)
     }
   }
+
+  useEffect(() => {
+    if (publishDraft) {
+      const { conceptId: publishConceptId, revisionId } = publishDraft
+
+      addNotification({
+        message: `${publishConceptId} Published`,
+        variant: 'success'
+      })
+
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
+    }
+
+    if (publishDraftError) {
+      setLoading(publishDraftLoading)
+      const { message } = publishDraftError
+      const parseErr = message.split(',')
+      parseErr.map((err) => (
+        addNotification({
+          message: err,
+          variant: 'danger'
+        })
+      ))
+
+      errorLogger(message, 'PublishMutation: publishMutation')
+    }
+  }, [publishDraftLoading, publishDraftError])
 
   // Handle the user selecting delete from the delete draft modal
   const handleDelete = () => {
@@ -244,6 +250,32 @@ const DraftPreview = () => {
   const accessibleEventProps = useAccessibleEvent(() => {
     toggleShowDeleteModal(true)
   })
+
+  if (loading) {
+    return (
+      <Page>
+        <LoadingBanner />
+      </Page>
+    )
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <Page>
+        <ErrorBanner message={message} />
+      </Page>
+    )
+  }
+
+  if (!draft && !loading) {
+    return (
+      <Page>
+        <ErrorBanner message="Draft could not be loaded." />
+      </Page>
+    )
+  }
 
   return (
     <Page
