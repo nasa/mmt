@@ -34,8 +34,11 @@ const TemplateList = () => {
     fetchTemplates()
   }, [])
 
-  const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
+  const buildEllipsisLinkCell = useCallback((originalCellData, rowData) => {
     const { id } = rowData
+    let cellData = originalCellData
+
+    if (!cellData) cellData = '<Blank Name>'
 
     return (
       <EllipsisLink to={`/templates/collections/${id}`}>

@@ -153,6 +153,7 @@ export const App = () => {
               }
             />
             <Route
+              path="templates/:templateType"
               element={
                 (
                   <AuthRequiredContainer>

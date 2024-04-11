@@ -112,7 +112,6 @@ describe('TemplateList', () => {
             response: [
               {
                 id: 'c23b6d55-b1de-4843-b828-32de2a0bd109',
-                name: 'Mock Template 1',
                 lastModified: '2024-04-03T18:56:54.000Z'
               }
             ]
