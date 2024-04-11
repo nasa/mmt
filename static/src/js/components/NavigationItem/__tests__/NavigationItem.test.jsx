@@ -20,7 +20,13 @@ vi.mock('react-router-dom', async () => ({
 
 vi.mock('../../NavigationItemError/NavigationItemError')
 
-const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
+const setup = ({
+  overrideProps = {},
+  formSection = 'mock-section-name',
+  overrideInitialEntries = null,
+  overridePath = null,
+  overridePathValue = null
+}) => {
   const props = {
     draft: {},
     section: {
@@ -34,14 +40,14 @@ const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
   }
 
   render(
-    <MemoryRouter initialEntries={[`/tool-drafts/TD1000000-MMT/${formSection}`]}>
+    <MemoryRouter initialEntries={[overrideInitialEntries || `/tool-drafts/TD1000000-MMT/${formSection}`]}>
       <Routes>
         <Route
-          path="/tool-drafts"
+          path={overridePath || '/tool-drafts'}
         >
           <Route
             element={<NavigationItem {...props} />}
-            path=":conceptId/:sectionName"
+            path={overridePathValue || ':conceptId/:sectionName'}
           />
         </Route>
       </Routes>
@@ -57,7 +63,7 @@ const setup = (overrideProps = {}, formSection = 'mock-section-name') => {
 describe('NavigationItem', () => {
   describe('when there is no data in the form', () => {
     test('displays the form name', () => {
-      setup()
+      setup({})
 
       expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
       expect(screen.getByRole('img', { name: 'Mock Section Name' }).className).toContain('eui-fa-circle-o')
@@ -67,8 +73,10 @@ describe('NavigationItem', () => {
   describe('when there is only an empty array in the form', () => {
     test('displays the form name', () => {
       setup({
-        draft: {
-          RelatedURLs: []
+        overrideProps: {
+          draft: {
+            RelatedURLs: []
+          }
         }
       })
 
@@ -80,8 +88,10 @@ describe('NavigationItem', () => {
   describe('when there are no errors on the form', () => {
     test('displays the form name', () => {
       setup({
-        draft: {
-          Name: 'Mock data'
+        overrideProps: {
+          draft: {
+            Name: 'Mock data'
+          }
         }
       })
 
@@ -94,17 +104,19 @@ describe('NavigationItem', () => {
     describe('when the error is on a top level field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          validationErrors: [{
-            message: "must have required property 'Name'",
-            name: 'required',
-            params: {
-              missingProperty: 'Name'
-            },
-            property: 'Name',
-            schemaPath: '#/required',
-            stack: "must have required property 'Name'"
-          }],
-          visitedFields: ['Name']
+          overrideProps: {
+            validationErrors: [{
+              message: "must have required property 'Name'",
+              name: 'required',
+              params: {
+                missingProperty: 'Name'
+              },
+              property: 'Name',
+              schemaPath: '#/required',
+              stack: "must have required property 'Name'"
+            }],
+            visitedFields: ['Name']
+          }
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -132,17 +144,19 @@ describe('NavigationItem', () => {
     describe('when the error is in a nested field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          validationErrors: [{
-            message: "must have required property ' Type'",
-            name: 'required',
-            params: {
-              missingProperty: 'Type'
-            },
-            property: '.URL.Type',
-            schemaPath: '#/properties/URL/required',
-            stack: "must have required property ' Type'"
-          }],
-          visitedFields: ['URL']
+          overrideProps: {
+            validationErrors: [{
+              message: "must have required property ' Type'",
+              name: 'required',
+              params: {
+                missingProperty: 'Type'
+              },
+              property: '.URL.Type',
+              schemaPath: '#/properties/URL/required',
+              stack: "must have required property ' Type'"
+            }],
+            visitedFields: ['URL']
+          }
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -173,17 +187,20 @@ describe('NavigationItem', () => {
     describe('when the error is in an array field', () => {
       test('displays the error message', () => {
         const { props } = setup({
-          validationErrors: [{
-            message: "must have required property 'URLContentType'",
-            name: 'required',
-            params: {
-              missingProperty: 'URLContentType'
-            },
-            property: '.RelatedURLs.0.URLContentType',
-            schemaPath: '#/properties/RelatedURLs/items/required',
-            stack: "must have required property 'URLContentType'"
-          }],
-          visitedFields: ['RelatedURLs']
+          overrideProps: {
+            validationErrors: [{
+              message: "must have required property 'URLContentType'",
+              name: 'required',
+              params: {
+                missingProperty: 'URLContentType'
+              },
+              property: '.RelatedURLs.0.URLContentType',
+              schemaPath: '#/properties/RelatedURLs/items/required',
+              stack: "must have required property 'URLContentType'"
+            }],
+            visitedFields: ['RelatedURLs']
+          }
+
         })
 
         expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
@@ -213,23 +230,28 @@ describe('NavigationItem', () => {
 
     describe('when the section with the errors is not currently being displayed', () => {
       test('does not display the error message', () => {
-        setup({
-          section: {
-            displayName: 'Mock Section Name 2',
-            properties: ['Mock Field']
+        setup(
+          {
+            overrideProps: {
+              section: {
+                displayName: 'Mock Section Name 2',
+                properties: ['Mock Field']
+              },
+              validationErrors: [{
+                message: "must have required property 'Name'",
+                name: 'required',
+                params: {
+                  missingProperty: 'Name'
+                },
+                property: 'Name',
+                schemaPath: '#/required',
+                stack: "must have required property 'Name'"
+              }],
+              visitedFields: ['Name']
+            }
           },
-          validationErrors: [{
-            message: "must have required property 'Name'",
-            name: 'required',
-            params: {
-              missingProperty: 'Name'
-            },
-            property: 'Name',
-            schemaPath: '#/required',
-            stack: "must have required property 'Name'"
-          }],
-          visitedFields: ['Name']
-        }, 'mock-section-name-2')
+          'mock-section-name-2'
+        )
 
         expect(screen.getByText('Mock Section Name 2')).toBeInTheDocument()
         expect(screen.getByRole('img', { name: 'Mock Section Name 2' }).className).toContain('eui-fa-circle-o')
@@ -241,7 +263,7 @@ describe('NavigationItem', () => {
 
   describe('when hovering over the form name', () => {
     test('changes the background on the element', async () => {
-      const { user } = setup()
+      const { user } = setup({})
 
       const button = screen.getByRole('button', { value: 'Mock Section Name' })
       await user.hover(button)
@@ -252,7 +274,7 @@ describe('NavigationItem', () => {
 
   describe('when hovering off the form name', () => {
     test('changes the background on the element', async () => {
-      const { user } = setup()
+      const { user } = setup({})
 
       const button = screen.getByRole('button', { value: 'Mock Section Name' })
       await user.hover(button)
@@ -270,13 +292,53 @@ describe('NavigationItem', () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-      const { user } = setup()
+      const { user } = setup({})
 
       const button = screen.getByRole('button', { value: 'Mock Section Name' })
       await user.click(button)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT/mock-section-name')
+    })
+  })
+
+  describe('CollectionTemplates', () => {
+    describe('when clicking on formName for a template', () => {
+      test('navigates to the correct form', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: '/templates/collections/1234-abcd-5678-efgh/collection-information',
+          overridePath: '/',
+          overridePathValue: 'templates/:templateType/:id/:sectionName'
+        })
+
+        const button = screen.getByRole('button', { value: 'Mock Section Name' })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('../templates/collections/1234-abcd-5678-efgh/mock-section-name')
+      })
+    })
+
+    describe('when clicking on formName for a template', () => {
+      test('navigates to the correct formdfs', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: '/templates/collections/new',
+          overridePath: '/',
+          overridePathValue: 'templates/:templateType/new'
+        })
+
+        const button = screen.getByRole('button', { value: 'Mock Section Name' })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('../templates/collections/new/mock-section-name')
+      })
     })
   })
 })

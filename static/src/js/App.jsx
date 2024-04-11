@@ -152,19 +152,7 @@ export const App = () => {
                 )
               }
             />
-
             <Route
-              path="templates/:templateType"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateList />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/collections"
               element={
                 (
                   <AuthRequiredContainer>
