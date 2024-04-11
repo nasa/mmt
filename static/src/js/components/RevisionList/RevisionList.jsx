@@ -4,7 +4,6 @@ import React, {
   useCallback
 } from 'react'
 import PropTypes from 'prop-types'
-import { useSearchParams } from 'react-router-dom'
 import { useParams } from 'react-router'
 import { capitalize, startCase } from 'lodash-es'
 import pluralize from 'pluralize'
@@ -34,8 +33,7 @@ import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 const RevisionList = ({ limit }) => {
   const { conceptId, type } = useParams()
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
-  const [searchParams, setSearchParams] = useSearchParams()
-  const activePage = parseInt(searchParams.get('page'), 10) || 1
+  const [activePage, setActivePage] = useState(1)
   const offset = (activePage - 1) * limit
 
   const { revisions, error, loading } = useRevisionsQuery({
@@ -47,25 +45,17 @@ const RevisionList = ({ limit }) => {
   })
 
   const setPage = (nextPage) => {
-    setSearchParams((currentParams) => {
-      currentParams.set('page', nextPage)
-
-      return {
-        ...Object.fromEntries(currentParams)
-      }
-    })
+    setActivePage(nextPage)
   }
 
-  const { count } = revisions
-  const { items = [] } = revisions
-  let rowCount = 0
-  const recordTitle = ((items.length) ? (items[0].shortName || items[0].name) : '')
+  const { count, flaggedItems = [] } = revisions
+  const recordTitle = ((flaggedItems.length) ? (flaggedItems[0].shortName || flaggedItems[0].name) : '')
 
-  const buildDescriptionCell = useCallback((cellData) => {
-    rowCount += 1
+  const buildDescriptionCell = useCallback((cellData, rowData) => {
+    const { published } = rowData
 
     return (
-      (rowCount === 1) ? (
+      (published) ? (
         <EllipsisLink to={`/${type}/${conceptId}/${cellData}`}>
           {[cellData, ' - Published'].join('')}
         </EllipsisLink>
@@ -79,8 +69,8 @@ const RevisionList = ({ limit }) => {
   }, [])
 
   // To be done after GQL-32
-  const buildActionCell = useCallback(() => (
-    (rowCount === 1)
+  const buildActionCell = useCallback((cellData) => (
+    (cellData)
       ? ' '
       : 'Revert to this revision'
   ), [])
@@ -104,8 +94,7 @@ const RevisionList = ({ limit }) => {
       className: 'col-auto'
     },
     {
-      // Change dataKey to 'revisionId' then fix unique key issue (see line 116)
-      dataKey: 'actions',
+      dataKey: 'published',
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionCell
@@ -119,7 +108,7 @@ const RevisionList = ({ limit }) => {
   }, [type])
 
   let pageTitle
-  if (loading && items.length === 0) {
+  if (loading && flaggedItems.length === 0) {
     pageTitle = `Loading ${startCase(getHumanizedNameFromTypeParam(type, false))} Revisions`
   } else {
     pageTitle = `${commafy(count)} ${startCase(getHumanizedNameFromTypeParam(type, false))} ${pluralize('Revisions', count)}`
@@ -137,7 +126,7 @@ const RevisionList = ({ limit }) => {
           },
           {
             label: recordTitle,
-            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${items.length}`
+            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${flaggedItems.length}`
           },
           {
             label: 'Revision History',
@@ -200,7 +189,7 @@ const RevisionList = ({ limit }) => {
                           id="revision-results-table"
                           columns={columns}
                           loading={loading}
-                          data={items}
+                          data={flaggedItems}
                           generateCellKey={({ revisionId }, dataKey) => `column_${dataKey}_${conceptId}_${revisionId}`}
                           generateRowKey={({ revisionId }) => `row_${conceptId}_${revisionId}`}
                           noDataMessage="No results"

@@ -4,6 +4,7 @@ import { useLazyQuery } from '@apollo/client'
 
 import conceptTypeQueries from '../constants/conceptTypeQueries'
 import { GET_COLLECTION_REVISIONS } from '../operations/queries/getCollectionRevisions'
+import conceptTypes from '../constants/conceptTypes'
 
 const useRevisionsQuery = ({
   type,
@@ -16,7 +17,37 @@ const useRevisionsQuery = ({
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
 
-  if (type === 'Collections') {
+  // Sets a 'published' flag for records that are published
+  const formatRevisionResults = (results) => {
+    const { items, count, __typename } = results
+
+    const flaggedItems = items.map((item) => {
+      const { revisionId } = item
+      const modifiedRevisionId = parseInt(revisionId, 10)
+
+      if (modifiedRevisionId === count) {
+        return {
+          ...item,
+          published: true
+        }
+      }
+
+      return {
+        ...item,
+        published: false
+      }
+    })
+
+    const formattedRevisionResults = {
+      count,
+      flaggedItems,
+      __typename
+    }
+
+    return formattedRevisionResults
+  }
+
+  if (type === conceptTypes.Collections) {
     const [getRevisions, { loading: queryLoading }] = useLazyQuery(
       GET_COLLECTION_REVISIONS,
       {
@@ -34,8 +65,7 @@ const useRevisionsQuery = ({
         },
         onCompleted: (getRevisionsData) => {
           const { [type.toLowerCase()]: revisionsResult } = getRevisionsData
-
-          setRevisions(revisionsResult)
+          setRevisions(formatRevisionResults(revisionsResult))
           setLoading(false)
         },
         onError: (fetchError) => {
@@ -72,7 +102,7 @@ const useRevisionsQuery = ({
         },
         onCompleted: (getRevisionsData) => {
           const { [type.toLowerCase()]: revisionsResult } = getRevisionsData
-          setRevisions(revisionsResult)
+          setRevisions(formatRevisionResults(revisionsResult))
           setLoading(false)
         },
         onError: (fetchError) => {

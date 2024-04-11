@@ -12,6 +12,7 @@ import {
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
+import { capitalize } from 'lodash-es'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import deleteMutationTypes from '../../constants/deleteMutationTypes'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -32,8 +33,8 @@ import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import For from '../For/For'
 import getTagCount from '../../utils/getTagCount'
-import getRevisionCount from '../../utils/getRevisionCount'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+import useRevisionsQuery from '../../hooks/useRevisionsQuery'
 
 /**
  * Renders a PublishPreview component
@@ -74,6 +75,18 @@ const PublishPreview = ({ isRevision }) => {
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+
+  const getRevisionCount = (id, type) => {
+    const { revisions } = useRevisionsQuery({
+      conceptId: id,
+      type: capitalize(type)
+    })
+
+    const { count } = revisions
+
+    return count
+  }
+
   const revisionCount = getRevisionCount(conceptId, `${derivedConceptType}s`) || 0
 
   const {
@@ -250,12 +263,8 @@ const PublishPreview = ({ isRevision }) => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`)
   }
 
-  const handleCurrentPublishedRevision = () => {
+  const viewPublishedAccessibleEventProps = useAccessibleEvent(() => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${revisionCount}`)
-  }
-
-  const refreshAccessibleEventProps = useAccessibleEvent(() => {
-    handleCurrentPublishedRevision()
   })
 
   let tagCount = 0
@@ -524,7 +533,7 @@ const PublishPreview = ({ isRevision }) => {
                     }
                   }
                   // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...refreshAccessibleEventProps}
+                  {...viewPublishedAccessibleEventProps}
                 >
                   Click here to view the latest published revision
                 </span>
