@@ -142,7 +142,26 @@ const PublishPreview = () => {
   // Calls ingestDraft mutation with the same nativeId and ummMetadata
   // TODO: Need to check if the record trying to edit is in the same provider
   const handleEdit = () => {
-    ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId)
+    if (derivedConceptType === 'Variable') {
+      const { collections } = previewMetadata
+      const { items } = collections
+      const { shortName, conceptId: collectionConceptId, version: versionId } = items[0]
+
+      const variableUmmMetadata = {
+        _private: {
+          CollectionAssociation: {
+            collectionConceptId,
+            shortName,
+            version: versionId
+          }
+        },
+        ...ummMetadata
+      }
+
+      ingestMutation(derivedConceptType, variableUmmMetadata, nativeId, providerId)
+    } else {
+      ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId)
+    }
   }
 
   // Calls ingestDraft mutation with a new nativeId
@@ -389,7 +408,7 @@ const PublishPreview = () => {
                   }
                 }
               >
-                Manage Collection Associations
+                Manage Collection Association
               </Button>
             )
           }

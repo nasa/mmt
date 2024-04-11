@@ -339,7 +339,7 @@ const ManageCollectionAssociation = () => {
             to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
           },
           {
-            label: 'Collection Association',
+            label: 'Collection Associations',
             active: true
           }
         ]
@@ -358,6 +358,11 @@ const ManageCollectionAssociation = () => {
       <div className="mt-4">
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
+          {
+            derivedConceptType === 'Variable' && (
+              <span>Each variable can only be associated with a single collection.</span>
+            )
+          }
           {' '}
           Association operations may take some time. If you are not seeing what you expect below,
           please
@@ -438,7 +443,7 @@ const ManageCollectionAssociation = () => {
             variant="primary"
             onClick={handleCollectionAssociation}
           >
-            Update Collection Associations
+            Update Collection Association
           </Button>
         )
       }

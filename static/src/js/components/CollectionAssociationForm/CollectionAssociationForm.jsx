@@ -122,10 +122,10 @@ const CollectionAssociationForm = ({ metadata }) => {
       setCollectionSearchResult(getCollectionsData.collections)
       setCollectionLoading(false)
     },
-    onError: (getCollectionsError) => {
+    onError: () => {
       setCollectionLoading(false)
       errorLogger('Unable to get Collections', 'Collection Association: getCollections Query')
-      setError(getCollectionsError)
+      setCollectionSearchResult(null)
     }
   })
 
@@ -482,7 +482,7 @@ const CollectionAssociationForm = ({ metadata }) => {
     )
   }
 
-  const { items = [], count } = collectionSearchResult
+  const { items = [], count } = collectionSearchResult || {}
 
   const totalPages = Math.ceil(count / limit)
 
