@@ -123,7 +123,7 @@ const TemplateList = () => {
                   columns={columns}
                   loading={loading}
                   data={templateList}
-                  noDataMessage="No Collections Templates Found."
+                  noDataMessage="No collection templates found."
                   generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
                   generateRowKey={({ id }) => `row_${id}`}
                   limit={20}
