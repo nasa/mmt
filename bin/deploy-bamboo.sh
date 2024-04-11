@@ -19,6 +19,7 @@ config="`jq '.application.searchUrl = $newValue' --arg newValue $bamboo_CMR_HOST
 config="`jq 'del(.application.cookie)' <<< $config`"
 config="`jq '.saml.host = $newValue' --arg newValue $bamboo_SAML_HOST <<< $config`"
 config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK_URL <<< $config`"
+config="`jq '.saml.keepAliveOrigin = $newValue' --arg newValue $bamboo_SAML_KEEP_ALIVE_ORIGIN <<< $config`"
 config="`jq '.saml.issuer = $newValue' --arg newValue $bamboo_SAML_ISSUER <<< $config`"
 config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NAME <<< $config`"
 

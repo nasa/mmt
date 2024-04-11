@@ -7,6 +7,10 @@
 }
 
 .keyword-picker {
+  padding: 25px;
+  background-color: lightgray;
+  margin-block-end: 25px;
+
   &__search-keywords {
     border-style: hidden;
     margin: 0;

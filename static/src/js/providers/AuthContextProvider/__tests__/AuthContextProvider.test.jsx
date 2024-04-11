@@ -195,7 +195,7 @@ describe('AuthContextProvider component', () => {
 
         })
 
-        vi.advanceTimersByTime(1500)
+        vi.advanceTimersByTime(6000)
 
         expect(checkAndRefreshToken).toHaveBeenCalledTimes(1)
         expect(checkAndRefreshToken).toHaveBeenCalledWith({

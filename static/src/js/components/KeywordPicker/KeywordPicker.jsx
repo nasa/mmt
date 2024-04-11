@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Button from 'react-bootstrap/Button'
-import removeEmpty from '../../utils/removeEmpty'
 import parseCmrResponse from '../../utils/parseCmrResponse'
-
 import useControlledKeywords from '../../hooks/useControlledKeywords'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
-
 import 'react-bootstrap-typeahead/css/Typeahead.css'
+import KeywordRecommendations from '../KeywordRecommendations/KeywordRecommendations'
+import removeEmpty from '../../utils/removeEmpty'
+
 import './KeywordPicker.scss'
+
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 /**
  * KeywordPicker
@@ -35,6 +36,7 @@ const KeywordPicker = ({
 }) => {
   const { description } = schema
   const title = uiSchema['ui:title']
+  const includeRecommendedKeywords = uiSchema['ui:includeRecommendedKeywords'] || false
   const schemeValues = uiSchema['ui:scheme_values']
   const [keywordList, setKeywordList] = useState([])
   const [currentList, setCurrentList] = useState([])
@@ -44,7 +46,6 @@ const KeywordPicker = ({
   const [finalSelectedValue, setFinalSelectedValue] = useState(null)
   const [finalSelectedList, setFinalSelectedList] = useState([])
   const [disableButton, setDisableButton] = useState(true)
-  const [value, setValue] = useState([])
   const [marginTop, setMarginTop] = useState(0)
   const [marginLeft, setMarginLeft] = useState(0)
 
@@ -220,15 +221,13 @@ const KeywordPicker = ({
 
   const handleSubmit = () => {
     const addedKeywords = addKeywords(finalSelectedList.splice(1))
-    if (addedKeywords) {
-      value.push(addedKeywords)
-    }
+    if (!addedKeywords) return
 
-    setValue(value)
+    formData.push(addedKeywords)
     setFinalSelectedList([])
     setFinalSelectedValue('')
     setDisableButton(true)
-    onChange(value)
+    onChange(formData)
   }
 
   // When a previous element is selected, this function updates the current list.
@@ -248,8 +247,8 @@ const KeywordPicker = ({
 
   // Removes a selected keywords from formData.
   const handleRemove = (index) => {
-    setValue(value.splice(index, 1))
-    onChange(value)
+    formData.splice(index, 1)
+    onChange(formData)
   }
 
   // When a item from the search Typeahead is selected, this will capture that selection and add it
@@ -261,10 +260,10 @@ const KeywordPicker = ({
     const addedKeywords = addKeywords(filterArr)
 
     if (addedKeywords) {
-      value.push(addedKeywords)
+      formData.push(addedKeywords)
     }
 
-    onChange(value)
+    onChange(formData)
   }
 
   const displayItems = (item) => {
@@ -375,27 +374,38 @@ const KeywordPicker = ({
       {
         !loading && (
           <>
-            {/* Renders the list of added keywords with a remove button */}
-            <div className="p-3 mb-2 keyword-picker__added-keywords">
-              {
-                Object.values(removeEmpty(formData)).map((item, index) => (
-                  <li key={JSON.stringify(Object.values(item))}>
-                    {Object.values(item).join(' > ')}
+            {
+              includeRecommendedKeywords && (
+                <KeywordRecommendations formData={formData} onChange={onChange} />
+              )
+            }
 
-                    <Button
-                      onClick={() => handleRemove(index)}
-                      variant="link"
-                    >
-                      <i
-                        aria-label="Remove"
-                        className="fa fa-times-circle remove-button text-red ps-1"
-                        role="img"
-                      />
-                    </Button>
-                  </li>
-                ))
-              }
-            </div>
+            {/* Renders the list of added keywords with a remove button */}
+            {
+              !includeRecommendedKeywords && (
+                <div className="p-3 mb-2 keyword-picker__added-keywords">
+                  {
+                    Object.values(removeEmpty(formData)).map((item, index) => (
+                      <li key={JSON.stringify(Object.values(item))}>
+                        {Object.values(item).join(' > ')}
+
+                        <Button
+                          onClick={() => handleRemove(index)}
+                          variant="link"
+                        >
+                          <i
+                            aria-label="Remove"
+                            className="fa fa-times-circle remove-button text-red ps-1"
+                            role="img"
+                          />
+                        </Button>
+                      </li>
+                    ))
+                  }
+                </div>
+              )
+            }
+
             <div className="eui-nested-item-picker" style={{ marginLeft }}>
               <ul className="eui-item-path">
                 {
@@ -406,10 +416,7 @@ const KeywordPicker = ({
               </ul>
 
               {/* Renders the search field */}
-              <div
-                className="eui-item-list-pane"
-                style={{ marginTop }}
-              >
+              <div className="eui-item-list-pane" style={{ marginTop }}>
                 <div className="keyword-picker__search-keywords">
                   <Typeahead
                     clearButton
@@ -431,6 +438,7 @@ const KeywordPicker = ({
                 </ul>
               </div>
             </div>
+
             <Button
               className="mt-2"
               disabled={disableButton}
@@ -461,7 +469,8 @@ KeywordPicker.propTypes = {
     'ui:picker_title': PropTypes.string,
     'ui:filter': PropTypes.string,
     'ui:scheme_values': PropTypes.arrayOf(PropTypes.string),
-    'ui:keyword_scheme_column_names': PropTypes.arrayOf(PropTypes.string)
+    'ui:keyword_scheme_column_names': PropTypes.arrayOf(PropTypes.string),
+    'ui:includeRecommendedKeywords': PropTypes.bool
   }).isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired

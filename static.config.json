@@ -30,7 +30,6 @@
     "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
     "launchpadRoot": "https://auth.launchpad-sbx.nasa.gov",
     "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
-    "cert": "fake cert",
     "protocol": "https://",
     "signatureAlgorithm": "sha256",
     "digestAlgorithm": "sha256",

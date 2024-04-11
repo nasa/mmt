@@ -108,7 +108,7 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const interval = setInterval(async () => {
       checkAndRefreshToken(loginInfo, handleRefreshToken)
-    }, 1000)
+    }, 5000)
 
     return () => {
       clearInterval(interval)
