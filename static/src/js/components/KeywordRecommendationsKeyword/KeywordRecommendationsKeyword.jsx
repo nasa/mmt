@@ -40,7 +40,7 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
         accepted ? (
           <Button
             Icon={FaCheckSquare}
-            className="keyword-recommendations-keyword__accepted-icon"
+            className="keyword-recommendations-keyword__accept-icon"
             inline
             naked
             iconTitle="Accepted"
