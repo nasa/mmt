@@ -21,6 +21,7 @@ import { DELETE_DRAFT } from '../../../operations/mutations/deleteDraft'
 import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 
 import errorLogger from '../../../utils/errorLogger'
+import createTemplate from '../../../utils/createTemplate'
 
 import DraftPreview from '../DraftPreview'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
@@ -28,6 +29,7 @@ import PreviewProgress from '../../PreviewProgress/PreviewProgress'
 import Providers from '../../../providers/Providers/Providers'
 import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
+vi.mock('../../../utils/createTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
@@ -735,6 +737,292 @@ describe('DraftPreview', () => {
           expect(navigateSpy).toHaveBeenCalledTimes(1)
           expect(navigateSpy).toHaveBeenCalledWith('/variables/V1000000-MMT/2')
         })
+      })
+    })
+  })
+
+  describe('when the draft type is collection', () => {
+    describe('when click on save as template results in a success', () => {
+      test('should navigate to /templates', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        createTemplate.mockReturnValue({ id: '1234-abcd-5678-efgh' })
+
+        const { user } = setup({
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeDraftQueries.Collection,
+                variables: {
+                  params: {
+                    conceptId: 'CD1200000-MMT',
+                    conceptType: 'Collection'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  draft: {
+                    conceptId: 'CD1200000161-MMT_2',
+                    conceptType: 'collection-draft',
+                    deleted: false,
+                    name: null,
+                    nativeId: 'MMT_ec79d22d-b918-491a-b097-b56a71532baa',
+                    providerId: 'MMT_2',
+                    revisionDate: '2024-04-12T15:30:44.245Z',
+                    revisionId: '2',
+                    ummMetadata: {
+                      MetadataSpecification: {
+                        URL: 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+                        Name: 'UMM-C',
+                        Version: '1.17.2'
+                      },
+                      ShortName: 'Collection Draft Test',
+                      DataDates: null
+                    },
+                    previewMetadata: {
+                      abstract: null,
+                      accessConstraints: null,
+                      additionalAttributes: null,
+                      associationDetails: null,
+                      associatedDois: null,
+                      archiveCenter: null,
+                      ancillaryKeywords: null,
+                      archiveAndDistributionInformation: null,
+                      boxes: null,
+                      browseFlag: null,
+                      cloudHosted: null,
+                      conceptId: 'CD1200000-MMT_2',
+                      consortiums: null,
+                      collectionCitations: null,
+                      collectionDataType: null,
+                      collectionProgress: null,
+                      contactGroups: null,
+                      contactPersons: null,
+                      coordinateSystem: null,
+                      dataCenter: null,
+                      dataCenters: null,
+                      dataDates: [
+                        {
+                          type: 'CREATE'
+                        }
+                      ],
+                      dataLanguage: null,
+                      directDistributionInformation: null,
+                      directoryNames: null,
+                      doi: null,
+                      datasetId: null,
+                      nativeDataFormats: null,
+                      hasFormats: null,
+                      hasGranules: null,
+                      hasSpatialSubsetting: null,
+                      hasTemporalSubsetting: null,
+                      hasTransforms: null,
+                      hasVariables: null,
+                      isoTopicCategories: null,
+                      metadataAssociations: null,
+                      metadataDates: null,
+                      metadataLanguage: null,
+                      metadataFormat: null,
+                      onlineAccessFlag: null,
+                      organizations: null,
+                      originalFormat: null,
+                      lines: null,
+                      locationKeywords: null,
+                      paleoTemporalCoverages: null,
+                      platforms: null,
+                      points: null,
+                      polygons: null,
+                      projects: null,
+                      provider: null,
+                      publicationReferences: null,
+                      quality: null,
+                      nativeId: 'MMT_ec79d22d-b918-491a-b097-b56a71532baa',
+                      processingLevel: null,
+                      processingLevelId: null,
+                      purpose: null,
+                      revisionDate: '2024-04-12T15:30:44.245Z',
+                      revisionId: '2',
+                      relatedUrls: null,
+                      scienceKeywords: null,
+                      shortName: 'Collection Draft Test',
+                      spatialExtent: null,
+                      spatialInformation: null,
+                      standardProduct: null,
+                      summary: null,
+                      tags: null,
+                      temporalExtents: null,
+                      temporalKeywords: null,
+                      tilingIdentificationSystems: null,
+                      timeStart: null,
+                      timeEnd: null,
+                      title: null,
+                      useConstraints: null,
+                      versionDescription: null,
+                      versionId: null,
+                      version: null,
+                      __typename: 'Collection'
+                    },
+                    __typename: 'Draft'
+                  }
+                }
+              }
+            }
+          ],
+          pageUrl: '/drafts/collections/CD1200000-MMT',
+          path: 'drafts/collections'
+
+        })
+
+        await waitForResponse()
+        const button = screen.getByRole('button', { name: 'Save as Template' })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/templates/collection/1234-abcd-5678-efgh')
+      })
+    })
+
+    describe('when click on save as template results in a failure', () => {
+      test('should navigate to /templates', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        createTemplate.mockReturnValue({})
+
+        const { user } = setup({
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeDraftQueries.Collection,
+                variables: {
+                  params: {
+                    conceptId: 'CD1200000-MMT',
+                    conceptType: 'Collection'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  draft: {
+                    conceptId: 'CD1200000161-MMT_2',
+                    conceptType: 'collection-draft',
+                    deleted: false,
+                    name: null,
+                    nativeId: 'MMT_ec79d22d-b918-491a-b097-b56a71532baa',
+                    providerId: 'MMT_2',
+                    revisionDate: '2024-04-12T15:30:44.245Z',
+                    revisionId: '2',
+                    ummMetadata: {
+                      MetadataSpecification: {
+                        URL: 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
+                        Name: 'UMM-C',
+                        Version: '1.17.2'
+                      },
+                      ShortName: 'Collection Draft Test',
+                      DataDates: null
+                    },
+                    previewMetadata: {
+                      abstract: null,
+                      accessConstraints: null,
+                      additionalAttributes: null,
+                      associationDetails: null,
+                      associatedDois: null,
+                      archiveCenter: null,
+                      ancillaryKeywords: null,
+                      archiveAndDistributionInformation: null,
+                      boxes: null,
+                      browseFlag: null,
+                      cloudHosted: null,
+                      conceptId: 'CD1200000-MMT_2',
+                      consortiums: null,
+                      collectionCitations: null,
+                      collectionDataType: null,
+                      collectionProgress: null,
+                      contactGroups: null,
+                      contactPersons: null,
+                      coordinateSystem: null,
+                      dataCenter: null,
+                      dataCenters: null,
+                      dataDates: [
+                        {
+                          type: 'CREATE'
+                        }
+                      ],
+                      dataLanguage: null,
+                      directDistributionInformation: null,
+                      directoryNames: null,
+                      doi: null,
+                      datasetId: null,
+                      nativeDataFormats: null,
+                      hasFormats: null,
+                      hasGranules: null,
+                      hasSpatialSubsetting: null,
+                      hasTemporalSubsetting: null,
+                      hasTransforms: null,
+                      hasVariables: null,
+                      isoTopicCategories: null,
+                      metadataAssociations: null,
+                      metadataDates: null,
+                      metadataLanguage: null,
+                      metadataFormat: null,
+                      onlineAccessFlag: null,
+                      organizations: null,
+                      originalFormat: null,
+                      lines: null,
+                      locationKeywords: null,
+                      paleoTemporalCoverages: null,
+                      platforms: null,
+                      points: null,
+                      polygons: null,
+                      projects: null,
+                      provider: null,
+                      publicationReferences: null,
+                      quality: null,
+                      nativeId: 'MMT_ec79d22d-b918-491a-b097-b56a71532baa',
+                      processingLevel: null,
+                      processingLevelId: null,
+                      purpose: null,
+                      revisionDate: '2024-04-12T15:30:44.245Z',
+                      revisionId: '2',
+                      relatedUrls: null,
+                      scienceKeywords: null,
+                      shortName: 'Collection Draft Test',
+                      spatialExtent: null,
+                      spatialInformation: null,
+                      standardProduct: null,
+                      summary: null,
+                      tags: null,
+                      temporalExtents: null,
+                      temporalKeywords: null,
+                      tilingIdentificationSystems: null,
+                      timeStart: null,
+                      timeEnd: null,
+                      title: null,
+                      useConstraints: null,
+                      versionDescription: null,
+                      versionId: null,
+                      version: null,
+                      __typename: 'Collection'
+                    },
+                    __typename: 'Draft'
+                  }
+                }
+              }
+            }
+          ],
+          pageUrl: '/drafts/collections/CD1200000-MMT',
+          path: 'drafts/collections'
+
+        })
+
+        await waitForResponse()
+        const button = screen.getByRole('button', { name: 'Save as Template' })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(0)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('Error creating template', 'DraftPreview: handleTemplate')
       })
     })
   })

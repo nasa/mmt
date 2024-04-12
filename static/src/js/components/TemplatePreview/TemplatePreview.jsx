@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import {
   Col,
   Container,
@@ -18,6 +18,10 @@ import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import Button from '../Button/Button'
+import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+import errorLogger from '../../utils/errorLogger'
 
 const TemplatePreview = () => {
   const {
@@ -25,13 +29,21 @@ const TemplatePreview = () => {
     setDraft,
     user
   } = useAppContext()
+  const navigate = useNavigate()
+  const { addNotification } = useNotificationsContext()
+  const { id } = useParams()
 
   const { token, providerId } = user
 
-  const { id } = useParams()
-
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
+
+  const {
+    ingestMutation,
+    ingestDraft,
+    error: ingestDraftError,
+    loading: ingestLoading
+  } = useIngestDraftMutation()
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -53,6 +65,38 @@ const TemplatePreview = () => {
     setLoading(true)
     fetchTemplates()
   }, [])
+
+  const handleCreateCollectionDraft = () => {
+    const { ummMetadata } = draft
+    const nativeId = `MMT_${crypto.randomUUID()}`
+
+    delete ummMetadata.TemplateName
+
+    ingestMutation('Collection', ummMetadata, nativeId, providerId)
+  }
+
+  useEffect(() => {
+    if (ingestDraft) {
+      const { ingestDraft: fetchedIngestDraft } = ingestDraft
+      const { conceptId } = fetchedIngestDraft
+
+      setLoading(false)
+      navigate(`/drafts/collections/${conceptId}`)
+      addNotification({
+        message: 'Draft Created Successfully',
+        variant: 'success'
+      })
+    }
+
+    if (ingestDraftError) {
+      setLoading(false)
+      errorLogger('Unable to Ingest Draft', 'Template Preview: ingestDraft Mutation')
+      addNotification({
+        message: 'Error removing collection association ',
+        variant: 'danger'
+      })
+    }
+  }, [ingestLoading])
 
   const { ummMetadata = {} } = draft
   const { TemplateName: templateName } = ummMetadata
@@ -98,6 +142,21 @@ const TemplatePreview = () => {
           <Col md={12} className="mb-3" />
         </Row>
         <Row>
+          <Row>
+            <Col className="mb-5" md={12}>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={
+                  () => {
+                    handleCreateCollectionDraft()
+                  }
+                }
+              >
+                Create Collection Draft
+              </Button>
+            </Col>
+          </Row>
           <Col md={12}>
             <Row>
               <Col>

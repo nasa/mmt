@@ -27,10 +27,12 @@ import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getUmmSchema from '../../utils/getUmmSchema'
 import parseError from '../../utils/parseError'
+import createTemplate from '../../utils/createTemplate'
 
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import conceptTypes from '../../constants/conceptTypes'
 
 /**
  * Renders a DraftPreview component
@@ -48,8 +50,11 @@ const DraftPreview = () => {
     savedDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft
+    setSavedDraft,
+    user
   } = useAppContext()
+
+  const { token } = user
 
   const { addNotification } = useNotificationsContext()
   const navigate = useNavigate()
@@ -198,6 +203,24 @@ const DraftPreview = () => {
     }
   }, [publishDraftLoading, publishDraftError])
 
+  const handleTemplate = async () => {
+    const response = await createTemplate(providerId, token, {
+      TemplateName: '',
+      ...ummMetadata
+    })
+
+    if (response.id) {
+      addNotification({
+        message: 'Collection template created successfully',
+        variant: 'success'
+      })
+
+      navigate(`/templates/collection/${response.id}`)
+    } else {
+      errorLogger('Error creating template', 'DraftPreview: handleTemplate')
+    }
+  }
+
   // Handle the user selecting delete from the delete draft modal
   const handleDelete = () => {
     deleteDraftMutation({
@@ -312,6 +335,23 @@ const DraftPreview = () => {
               {' '}
               {startCase(conceptType)}
             </Button>
+
+            {
+              derivedConceptType === conceptTypes.Collection && (
+                <Button
+                  className="ms-2"
+                  variant="outline-secondary"
+                  onClick={
+                    () => {
+                      handleTemplate()
+                    }
+                  }
+                >
+                  Save as Template
+                </Button>
+
+              )
+            }
 
             <Button
               className="ms-2"

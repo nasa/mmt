@@ -14,7 +14,12 @@ import saveTypes from '../../../constants/saveTypes'
 
 vi.mock('../../NavigationItem/NavigationItem')
 
-const setup = (overrideProps = {}) => {
+const setup = ({
+  overrideProps = {},
+  overrideInitialEntries,
+  overridePath,
+  overridePathName
+}) => {
   const props = {
     draft: {},
     formSections: [{
@@ -38,13 +43,13 @@ const setup = (overrideProps = {}) => {
   }
 
   render(
-    <MemoryRouter initialEntries={['/tool-drafts/TD1000000-MMT/mock-section-name']}>
+    <MemoryRouter initialEntries={[overrideInitialEntries || '/tool-drafts/TD1000000-MMT/mock-section-name']}>
       <Routes>
         <Route
-          path="/tool-drafts"
+          path={overridePath || '/tool-drafts'}
         >
           <Route
-            path=":conceptId/:sectionName"
+            path={overridePathName || ':conceptId/:sectionName'}
             element={<FormNavigation {...props} />}
           />
         </Route>
@@ -54,13 +59,13 @@ const setup = (overrideProps = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user: userEvent.setup({})
   }
 }
 
 describe('FormNavigation', () => {
   test('renders a NavigationItem component for each form section', () => {
-    const { props } = setup()
+    const { props } = setup({})
 
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
@@ -89,7 +94,9 @@ describe('FormNavigation', () => {
   describe('when the loading prop is true', () => {
     test('renders a spinner', () => {
       setup({
-        loading: true
+        overrideProps: {
+          loading: true
+        }
       })
 
       expect(screen.getByRole('status').className).toContain('spinner')
@@ -98,7 +105,7 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Save & Continue button', () => {
     test('calls onSave', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const button = screen.getByRole('button', { name: 'Save & Continue' })
 
@@ -111,7 +118,7 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Save dropdown item', () => {
     test('calls onSave', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const dropdown = screen.getByRole('button', { name: 'Save Options' })
       await user.click(dropdown)
@@ -127,7 +134,7 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Save & Continue dropdown item', () => {
     test('calls onSave', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const dropdown = screen.getByRole('button', { name: 'Save Options' })
       await user.click(dropdown)
@@ -143,7 +150,7 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Save & Publish dropdown item', () => {
     test('calls onSave', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const dropdown = screen.getByRole('button', { name: 'Save Options' })
       await user.click(dropdown)
@@ -159,7 +166,7 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Save & Preview dropdown item', () => {
     test('calls onSave', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const dropdown = screen.getByRole('button', { name: 'Save Options' })
       await user.click(dropdown)
@@ -175,13 +182,33 @@ describe('FormNavigation', () => {
 
   describe('when clicking the Cancel button', () => {
     test('calls onCancel', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
 
       const button = screen.getByRole('button', { name: 'Cancel' })
 
       await user.click(button)
 
       expect(props.onCancel).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when clicking the Save & Create Draft dropdown item', () => {
+    test('calls onSave', async () => {
+      const { props, user } = setup({
+        overrideInitialEntries: '/templates/collections/1234-abcd-5678-efgh',
+        overridePath: '/',
+        overridePathName: 'templates/:templateType/:id'
+      })
+
+      const dropdown = screen.getByRole('button', { name: 'Save Options' })
+      await user.click(dropdown)
+
+      const button = screen.getByRole('button', { name: 'Save & Create Draft' })
+
+      await user.click(button)
+
+      expect(props.onSave).toHaveBeenCalledTimes(1)
+      expect(props.onSave).toHaveBeenCalledWith(saveTypes.saveAndCreateDraft)
     })
   })
 })
