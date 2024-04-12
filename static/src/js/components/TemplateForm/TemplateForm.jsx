@@ -125,7 +125,7 @@ const TemplateForm = () => {
         delete response.pathParameters
 
         setDraft({
-          ummMetadata: { ...response }
+          ummMetadata: response
         })
       } else { setErrors(fetchTemplateError) }
 
@@ -144,7 +144,17 @@ const TemplateForm = () => {
     if (id === 'new') {
       const response = await createTemplate(providerId, token, ummMetadata)
 
-      savedId = response
+      if (response.id) {
+        savedId = response.id
+      } else {
+        addNotification({
+          message: 'Error creating template',
+          variant: 'danger'
+        })
+
+        errorLogger('Error creating template', 'TemplateForm: createTemplate')
+      }
+
       setSaveLoading(false)
     } else {
       const response = await updateTemplate(providerId, token, ummMetadata, id)
@@ -167,15 +177,12 @@ const TemplateForm = () => {
     }
 
     if (type === saveTypes.save) {
-      // Navigate to current form? just scroll to top of page instead?
-
       if (currentSection) navigate(`/templates/collections/${savedId || id}/${currentSection}`, { replace: true })
 
       window.scroll(0, 0)
     }
 
     if (type === saveTypes.saveAndContinue) {
-      // Navigate to next form (using formSections), maybe scroll top too
       const nextFormName = getNextFormName(collectionsTemplateConfiguration, currentSection)
 
       navigate(`/templates/collections/${savedId || id}/${toLowerKebabCase(nextFormName)}`)
@@ -184,11 +191,6 @@ const TemplateForm = () => {
     }
 
     if (type === saveTypes.saveAndPreview) {
-      // Clear out the draft and originalDraft so that the preview page will refetch the draft
-      // setDraft()
-      // setOriginalDraft()
-
-      // Navigate to preview page
       window.scroll(0, 0)
       navigate(`/templates/collections/${id || savedId}`)
     }

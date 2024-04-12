@@ -10,27 +10,21 @@ const createTemplate = async (providerId, token, ummMetadata) => {
   const { apiHost } = getApplicationConfig()
   const { tokenValue } = token
 
-  try {
-    const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${tokenValue}`
+  const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${tokenValue}`
+    },
+    body: JSON.stringify({
+      pathParameters: {
+        providerId
       },
-      body: JSON.stringify({
-        pathParameters: {
-          providerId
-        },
-        ...ummMetadata
-      })
+      ...ummMetadata
     })
-    const data = await response.json()
+  })
+  const data = await response.json()
 
-    return data.id
-  } catch (e) {
-    return {
-      error: 'Error creating template'
-    }
-  }
+  return data
 }
 
 export default createTemplate
