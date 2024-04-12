@@ -14,7 +14,7 @@ const edlProfile = async (event) => {
 
     const firstName = profile.first_name
     const lastName = profile.last_name
-    const name = firstName == null ? profile.uid : `${firstName} ${lastName}`
+    const name = [firstName, lastName].filter(Boolean).join(' ')
 
     profile.name = name
     profile.auid = profile.nams_auid
