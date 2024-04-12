@@ -341,7 +341,7 @@ describe('TemplateForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        createTemplate.mockReturnValue('1234-abcd-5678-efgh')
+        createTemplate.mockReturnValue({ id: '1234-abcd-5678-efgh' })
 
         const { user } = setup({ pageUrl: '/templates/collections/new/collection-information' })
 

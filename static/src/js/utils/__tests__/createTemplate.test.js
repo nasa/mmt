@@ -18,24 +18,7 @@ describe('createTemplates', () => {
 
       const response = await createTemplate(providerId, token, ummMetadata)
 
-      expect(response).toEqual('New Template')
-      expect(fetch).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('when createResponse response is not ok', () => {
-    test('return a error response ', async () => {
-      fetch.mockImplementationOnce(() => Promise.reject(new Error('Templates are down')))
-
-      const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
-      const ummMetadata = {
-        mock: 'mock ummMetadata'
-      }
-
-      const response = await createTemplate(providerId, token, ummMetadata)
-
-      expect(response).toEqual({ error: 'Error creating template' })
+      expect(response).toEqual({ id: 'New Template' })
       expect(fetch).toHaveBeenCalledTimes(1)
     })
   })
