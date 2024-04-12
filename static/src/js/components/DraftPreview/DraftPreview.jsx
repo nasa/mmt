@@ -204,7 +204,6 @@ const DraftPreview = () => {
   }, [publishDraftLoading, publishDraftError])
 
   const handleTemplate = async () => {
-    setLoading(true)
     const response = await createTemplate(providerId, token, {
       TemplateName: '',
       ...ummMetadata
@@ -218,12 +217,7 @@ const DraftPreview = () => {
 
       navigate(`/templates/collection/${response.id}`)
     } else {
-      setLoading(false)
       errorLogger('Error creating template', 'DraftPreview: handleTemplate')
-      addNotification({
-        message: 'Error creating template',
-        variant: 'danger'
-      })
     }
   }
 
