@@ -33,7 +33,6 @@ import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import For from '../For/For'
 import getTagCount from '../../utils/getTagCount'
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useRevisionsQuery from '../../hooks/useRevisionsQuery'
 
 /**
@@ -282,9 +281,9 @@ const PublishPreview = ({ isRevision }) => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`)
   }
 
-  const viewPublishedAccessibleEventProps = useAccessibleEvent(() => {
-    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/${revisionCount}`)
-  })
+  const viewPublishedRecord = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
+  }
 
   let tagCount = 0
   let granuleCount = 0
@@ -543,19 +542,13 @@ const PublishPreview = ({ isRevision }) => {
                 {' '}
                 {`${derivedConceptType}.`}
                 {' '}
-                <span
-                  className="text-decoration-underline"
-                  style={
-                    {
-                      color: 'blue',
-                      cursor: 'pointer'
-                    }
-                  }
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...viewPublishedAccessibleEventProps}
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={viewPublishedRecord}
                 >
                   Click here to view the latest published revision
-                </span>
+                </Button>
               </Alert>
             </Col>
           </Row>

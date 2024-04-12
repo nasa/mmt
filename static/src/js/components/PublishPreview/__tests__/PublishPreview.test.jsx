@@ -721,13 +721,13 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const viewLatestPublishedRevision = screen.getByRole('link', { name: 'Click here to view the latest published revision' })
+      const viewLatestPublishedRevision = screen.getByRole('button', { name: 'Click here to view the latest published revision' })
       await user.click(viewLatestPublishedRevision)
 
       await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/2')
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
     })
   })
 

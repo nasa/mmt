@@ -56,7 +56,7 @@ const RevisionList = ({ limit }) => {
 
     return (
       (published) ? (
-        <EllipsisLink to={`/${type}/${conceptId}/${cellData}`}>
+        <EllipsisLink to={`/${type}/${conceptId}`}>
           {[cellData, ' - Published'].join('')}
         </EllipsisLink>
       )
