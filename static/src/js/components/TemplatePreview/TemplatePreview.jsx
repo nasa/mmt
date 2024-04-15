@@ -22,6 +22,8 @@ import Button from '../Button/Button'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
+import delateTemplate from '../../utils/deleteTemplate'
+import CustomModal from '../CustomModal/CustomModal'
 
 const TemplatePreview = () => {
   const {
@@ -37,6 +39,7 @@ const TemplatePreview = () => {
 
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const {
     ingestMutation,
@@ -44,6 +47,10 @@ const TemplatePreview = () => {
     error: ingestDraftError,
     loading: ingestLoading
   } = useIngestDraftMutation()
+
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -73,6 +80,28 @@ const TemplatePreview = () => {
     delete ummMetadata.TemplateName
 
     ingestMutation('Collection', ummMetadata, nativeId, providerId)
+  }
+
+  const handleDelete = async () => {
+    const { response } = await delateTemplate(providerId, token, id)
+    if (response.ok) {
+      addNotification({
+        message: 'Template deleted successfully',
+        variant: 'success'
+      })
+
+      toggleShowDeleteModal(false)
+      navigate('/templates/collections')
+    } else {
+      addNotification({
+        message: 'Error deleting template',
+        variant: 'danger'
+      })
+
+      errorLogger('Error deleting template', 'TemplatePreview: deleteTemplate')
+
+      toggleShowDeleteModal(false)
+    }
   }
 
   useEffect(() => {
@@ -144,17 +173,49 @@ const TemplatePreview = () => {
         <Row>
           <Row>
             <Col className="mb-5" md={12}>
-              <Button
-                type="button"
-                variant="primary"
-                onClick={
-                  () => {
-                    handleCreateCollectionDraft()
+              <div className="d-flex gap-2">
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={
+                    () => {
+                      handleCreateCollectionDraft()
+                    }
                   }
-                }
-              >
-                Create Collection Draft
-              </Button>
+                >
+                  Create Collection Draft
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline-danger"
+                  onClick={
+                    () => {
+                      toggleShowDeleteModal(true)
+                    }
+                  }
+                >
+                  Delete Template
+                </Button>
+                <CustomModal
+                  message="Are you sure you want to delete this template?"
+                  show={showDeleteModal}
+                  toggleModal={toggleShowDeleteModal}
+                  actions={
+                    [
+                      {
+                        label: 'No',
+                        variant: 'secondary',
+                        onClick: () => { toggleShowDeleteModal(false) }
+                      },
+                      {
+                        label: 'Yes',
+                        variant: 'primary',
+                        onClick: handleDelete
+                      }
+                    ]
+                  }
+                />
+              </div>
             </Col>
           </Row>
           <Col md={12}>

@@ -5,12 +5,18 @@ import React, {
 } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
+import moment from 'moment'
 import Page from '../Page/Page'
 import useAppContext from '../../hooks/useAppContext'
 import getTemplates from '../../utils/getTemplates'
 import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import Button from '../Button/Button'
+import CustomModal from '../CustomModal/CustomModal'
+import delateTemplate from '../../utils/deleteTemplate'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+import errorLogger from '../../utils/errorLogger'
 
 const TemplateList = () => {
   const { user } = useAppContext()
@@ -19,20 +25,27 @@ const TemplateList = () => {
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()
   const [loading, setLoading] = useState(true)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedDeleteId, setSelectedDeleteId] = useState()
 
   const { providerId } = user
 
+  const { addNotification } = useNotificationsContext()
+
+  const fetchTemplates = async () => {
+    const { response, error } = await getTemplates(providerId, token)
+    setErrors(error)
+    setTemplateList(response)
+    setLoading(false)
+  }
+
   useEffect(() => {
-    const fetchTemplates = async () => {
-      const { response, error } = await getTemplates(providerId, token)
-
-      setErrors(error)
-      setTemplateList(response)
-      setLoading(false)
-    }
-
     fetchTemplates()
   }, [])
+
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
 
   const buildEllipsisLinkCell = useCallback((originalCellData, rowData) => {
     const { id } = rowData
@@ -47,6 +60,29 @@ const TemplateList = () => {
     )
   }, [])
 
+  const handleDelete = async () => {
+    const { response } = await delateTemplate(providerId, token, selectedDeleteId)
+    if (response.ok) {
+      toggleShowDeleteModal(false)
+      addNotification({
+        message: 'Template deleted successfully',
+        variant: 'success'
+      })
+
+      setLoading(true)
+
+      fetchTemplates()
+    } else {
+      toggleShowDeleteModal(false)
+      addNotification({
+        message: 'Error deleting template',
+        variant: 'danger'
+      })
+
+      errorLogger('Error deleting template', 'TemplateList: deleteTemplate')
+    }
+  }
+
   const buildActionsCell = useCallback((cellData, rowData) => {
     const { id } = rowData
 
@@ -56,7 +92,22 @@ const TemplateList = () => {
           <Link to={`/templates/collections/${id}/collection-information`}>Edit</Link>
         </Col>
         <Col className="col-auto">
-          <Link className="" to="/templates">Delete</Link>
+          <Button
+            className="mb-1"
+            inline
+            naked
+            type="button"
+            variant="link"
+            onClick={
+              () => {
+                toggleShowDeleteModal(true)
+                setSelectedDeleteId(id)
+              }
+            }
+          >
+            Delete
+          </Button>
+
         </Col>
       </Row>
     )
@@ -73,7 +124,7 @@ const TemplateList = () => {
       dataKey: 'lastModified',
       title: 'Last Modified',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => cellData.split('T')[0]
+      dataAccessorFn: () => moment().format('MM-DD-YYYY')
     },
     {
       title: 'Actions',
@@ -133,6 +184,25 @@ const TemplateList = () => {
           }
         </Col>
       </Row>
+      <CustomModal
+        message="Are you sure you want to delete this template?"
+        show={showDeleteModal}
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+            }
+          ]
+        }
+      />
     </Page>
   )
 }
