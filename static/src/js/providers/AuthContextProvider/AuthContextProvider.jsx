@@ -6,7 +6,6 @@ import React, {
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 
-
 import AuthContext from '../../context/AuthContext'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
