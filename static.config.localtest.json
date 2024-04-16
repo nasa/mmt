@@ -27,7 +27,7 @@
     "keepAliveOrigin": "https://api.mmt.sit.earthdatacloud.nasa.gov",
     "host": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
     "callbackUrl": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
-    "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov/saml-acs",
+    "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
     "launchpadRoot": "https://auth.launchpad-sbx.nasa.gov",
     "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
     "cert": "fake cert",
