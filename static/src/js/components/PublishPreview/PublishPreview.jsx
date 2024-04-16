@@ -75,6 +75,7 @@ const PublishPreview = ({ isRevision }) => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  // Retreiving count of revisions for the purposes of populating the Revisions Badge
   const getRevisionCount = (id, type) => {
     const { revisions } = useRevisionsQuery({
       conceptId: id,
