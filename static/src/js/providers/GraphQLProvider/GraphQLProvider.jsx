@@ -8,7 +8,7 @@ import {
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
-import { getApplicationConfig } from '../../utils/getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import useAppContext from '../../hooks/useAppContext'
 
@@ -43,6 +43,7 @@ const GraphQLProvider = ({ children }) => {
     const authLink = setContext((_, { headers }) => ({
       headers: {
         ...headers,
+        // TODO add client id
         Authorization: tokenValue
       }
     }))

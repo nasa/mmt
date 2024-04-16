@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar'
 
 import For from '../For/For'
 
-import { getApplicationConfig } from '../../utils/getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import './Footer.scss'
 

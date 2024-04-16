@@ -1,5 +1,5 @@
 import base64 from 'base-64'
-import { getEdlConfig } from './getConfig'
+import { getEdlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * The EDL client token is used for retrieving/modifying user/groups in URS.
@@ -8,7 +8,7 @@ import { getEdlConfig } from './getConfig'
 const fetchEdlClientToken = async () => {
   const { host, uid } = getEdlConfig()
 
-  let password = process.env.EDL_PASSWORD
+  let { EDL_PASSWORD: password } = process.env
 
   // Values from process.env that have \'s are being escaped with \\
   // so we need to put these back to one \

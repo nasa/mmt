@@ -14,8 +14,8 @@ import NotificationsContextProvider from '../../NotificationsContextProvider/Not
 import errorLogger from '../../../utils/errorLogger'
 
 vi.mock('../../../utils/errorLogger')
-vi.mock('../../../utils/getConfig', async () => ({
-  ...await vi.importActual('../../../utils/getConfig'),
+vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev'
   }))
@@ -112,7 +112,9 @@ describe('AuthContextProvider component', () => {
 
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
+
         await user.click(button)
+
         const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
         expect(window.location.href).toEqual(expectedPath)
       })

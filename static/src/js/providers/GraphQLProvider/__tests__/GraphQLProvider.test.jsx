@@ -40,8 +40,8 @@ vi.mock('../../../context/AuthContext', () => ({
   default: createContext()
 }))
 
-vi.mock('../../../utils/getConfig', async () => ({
-  ...await vi.importActual('../../../utils/getConfig'),
+vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     graphQlHost: 'http://graphqlhost.com/dev/api'
   }))

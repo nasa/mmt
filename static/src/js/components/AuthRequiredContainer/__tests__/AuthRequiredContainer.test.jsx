@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 import { AuthRequiredContainer } from '../AuthRequiredContainer'
-import { getApplicationConfig } from '../../../utils/getConfig'
+import { getApplicationConfig } from '../../../../../../sharedUtils/getConfig'
 import AppContext from '../../../context/AppContext'
 
 const setup = (overrideUser, overrideProps) => {

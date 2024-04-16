@@ -15,6 +15,7 @@ const checkAndRefreshToken = async (user, callback) => {
 
   if (tokenValue && tokenExp) {
     // Subtract 1 minute from the actual token expiration to decide if we should refresh
+    // TODO dont' make this copy of the token to just check the expiration value
     const offsetTokenInfo = { ...token }
     offsetTokenInfo.tokenExp -= 60 * 1000 // Shorten it by 1 minute
     if (isTokenExpired(offsetTokenInfo)) {
