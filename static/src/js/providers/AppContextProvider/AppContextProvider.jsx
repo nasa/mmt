@@ -26,8 +26,13 @@ import useAuthContext from '../../hooks/useAuthContext'
  */
 const AppContextProvider = ({ children }) => {
   const {
-    login, logout, user, updateLoginInfo, setUser
+    login,
+    logout,
+    setUser,
+    updateLoginInfo,
+    user
   } = useAuthContext()
+
   const { addKeywordsData, keywords } = useKeywords()
   const [originalDraft, setOriginalDraft] = useState()
   const [draft, setDraft] = useState()
@@ -42,28 +47,28 @@ const AppContextProvider = ({ children }) => {
   }, [user])
 
   const providerValue = useMemo(() => ({
-    user,
+    addKeywordsData,
+    draft,
+    keywords,
     login,
     logout,
-    addKeywordsData,
-    keywords,
-    draft,
     originalDraft,
+    providerIds,
     savedDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    updateLoginInfo,
     setProviderId,
     setProviderIds,
-    providerIds
+    setSavedDraft,
+    updateLoginInfo,
+    user
   }), [
-    user,
     draft,
-    originalDraft,
     keywords,
+    originalDraft,
+    providerIds,
     savedDraft,
-    providerIds
+    user
   ])
 
   return (

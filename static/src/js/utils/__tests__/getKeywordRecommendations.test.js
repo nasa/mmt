@@ -1,5 +1,5 @@
 import gkrResponse from '../../../../../serverless/src/gkrKeywordRecommendations/__mocks__/gkrKeywordRecommendationsResponse'
-import { getApplicationConfig } from '../getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import getKeywordRecommendations from '../getKeywordRecommendations'
 
 beforeEach(() => {

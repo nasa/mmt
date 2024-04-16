@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router'
-import { getApplicationConfig } from '../../utils/getConfig'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import isTokenExpired from '../../utils/isTokenExpired'
 import useAppContext from '../../hooks/useAppContext'
 

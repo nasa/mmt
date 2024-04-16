@@ -1,17 +1,17 @@
-import { getApplicationConfig } from './getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls refreshToken lambda to request a new token since the current one is about to expire
  * @param {Object} token The users existing launchpad token
  */
 const refreshToken = async (token) => {
-  const { apiHost, version } = getApplicationConfig()
+  const { apiHost } = getApplicationConfig()
 
   let expires = new Date()
   expires.setMinutes(expires.getMinutes() + 15)
   expires = new Date(expires)
 
-  if (version === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     return {
       tokenValue: 'ABC-1',
       tokenExp: expires.valueOf()

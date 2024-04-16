@@ -1,40 +1,33 @@
-import fetchEdlProfile from '../../../static/src/js/utils/fetchEdlProfile'
-import { getApplicationConfig } from '../../../static/src/js/utils/getConfig'
+import { getApplicationConfig } from '../../../sharedUtils/getConfig'
+import fetchEdlProfile from '../utils/fetchEdlProfile'
 
 /**
- * Handles refreshing user's token
+ * Retrieves the EDL profile from a user's launchpad token
  * @param {Object} event Details about the HTTP request that it received
  */
-
 const edlProfile = async (event) => {
-  const { queryStringParameters } = event
-  const { auid } = queryStringParameters
+  const { headers } = event
   const { defaultResponseHeaders } = getApplicationConfig()
 
-  const getUserName = (profile) => {
+  try {
+    const profile = await fetchEdlProfile(headers)
+
     const firstName = profile.first_name
     const lastName = profile.last_name
-    const name = firstName == null ? profile.uid : `${firstName} ${lastName}`
+    const name = [firstName, lastName].filter(Boolean).join(' ')
 
-    return name
-  }
-
-  try {
-    const profile = await fetchEdlProfile(auid)
-    profile.auid = auid
-    profile.name = getUserName(profile)
+    profile.name = name
+    profile.auid = profile.nams_auid
 
     delete profile.user_groups
 
-    const returnValue = {
+    return {
       headers: defaultResponseHeaders,
       statusCode: 200,
       body: JSON.stringify(profile)
     }
-
-    return returnValue
   } catch (error) {
-    console.error(`Error retrieving edl profile for ${auid}, error=${error.toString()}`)
+    console.error(`Error retrieving EDL profile, error=${error.toString()}`)
 
     return {
       headers: defaultResponseHeaders,

@@ -1,4 +1,4 @@
-import { getApplicationConfig } from './getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls gkrSendFeedback lambda /gkr-send-feedback to provide feedback on keyword recommendations

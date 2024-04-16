@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 import progressCircleTypes from '../../constants/progressCircleTypes'
 
@@ -31,6 +31,8 @@ const ProgressField = ({
   formName
 }) => {
   const navigate = useNavigate()
+
+  const { templateType, id } = useParams()
 
   const {
     fieldName,
@@ -114,6 +116,10 @@ const ProgressField = ({
 
   // Handle clicking on a field icon
   const handleCircleClick = () => {
+    if (templateType) {
+      navigate(`/templates/${templateType}/${id}/${toLowerKebabCase(formName)}/${fieldName}`)
+    }
+
     navigate(`${toLowerKebabCase(formName)}/${fieldName}`)
   }
 

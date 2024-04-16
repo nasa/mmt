@@ -1,4 +1,4 @@
-import { getUmmVersionsConfig } from './getConfig'
+import { getUmmVersionsConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Find the umm version based on the provided concept type

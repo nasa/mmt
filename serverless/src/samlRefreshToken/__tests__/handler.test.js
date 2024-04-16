@@ -1,5 +1,5 @@
 import samlRefreshToken from '../handler'
-import * as getConfig from '../../../../static/src/js/utils/getConfig'
+import * as getConfig from '../../../../sharedUtils/getConfig'
 
 vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
 

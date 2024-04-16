@@ -47,7 +47,7 @@ Resources:
                 - lambda.amazonaws.com
             Action: sts:AssumeRole
 
-  S3CloudfrontLogToCloudwatchPolicy:
+  LambdaS3Policy:
     Type: AWS::IAM::Policy
     Properties:
       PolicyDocument:
@@ -59,10 +59,17 @@ Resources:
               - "s3:ListBucket"
               - "s3:ListAllMyBuckets"
               - "s3:GetObject"
+              - "s3:PutObject"
+              - "s3:DeleteObject"
             Effect: "Allow"
             Resource: "*"
-      PolicyName: ${self:provider.stage}-S3CloudfrontLogToCloudwatchPolicy
+      PolicyName: ${self:provider.stage}-LambdaS3Policy
       Roles:
         - Ref: IamRoleCustomResourcesLambdaExecution
+
+  TemplatesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.collectionTemplatesBucketName}
 
 Outputs:

@@ -14,6 +14,12 @@ import SearchPage from './pages/SearchPage/SearchPage'
 import HomePage from './pages/HomePage/HomePage'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
+import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
+import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
+import TemplateList from './components/TemplateList/TemplateList'
+
+import TemplateForm from './components/TemplateForm/TemplateForm'
+import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
@@ -25,8 +31,6 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
-import ManageCollectionAssociation from './pages/ManageCollectionAssociation/ManageCollectionAssociation'
-import CollectionAssociationSearch from './components/CollectionAssociationSearch/CollectionAssociationSearch'
 import RevisionList from './components/RevisionList/RevisionList'
 
 const redirectKeys = Object.keys(REDIRECTS)
@@ -153,6 +157,56 @@ export const App = () => {
               }
             />
             <Route
+              path="templates/:templateType"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateList />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/new"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplatePreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id/:sectionName"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="templates/:templateType/:id/:sectionName/:fieldName"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <TemplateForm />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
               path="search"
               element={
                 (
@@ -166,6 +220,46 @@ export const App = () => {
               exact
               path="/auth_callback"
               element={<AuthCallbackContainer />}
+            />
+            <Route
+              path="/:type/:conceptId/"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <PublishPreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/:revisionId"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <PublishPreview />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/collection-association"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <ManageCollectionAssociation />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/collection-association-search"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <ManageCollectionAssociation />
+                  </AuthRequiredContainer>
+                )
+              }
             />
             <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
             <Route path="*" element={<Navigate to="/404" replace />} />
@@ -184,6 +278,8 @@ export const App = () => {
             <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
             <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
             <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
           </Route>
         </Routes>
       </BrowserRouter>
