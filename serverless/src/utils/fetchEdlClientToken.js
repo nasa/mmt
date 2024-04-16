@@ -8,11 +8,7 @@ import { getEdlConfig } from '../../../sharedUtils/getConfig'
 const fetchEdlClientToken = async () => {
   const { host, uid } = getEdlConfig()
 
-  let { EDL_PASSWORD: password } = process.env
-
-  // Values from process.env that have \'s are being escaped with \\
-  // so we need to put these back to one \
-  password = password.replace(/\\\\/g, '\\')
+  const { EDL_PASSWORD: password } = process.env
 
   const url = `${host}/oauth/token`
   const authorizationHeader = `Basic ${base64.encode(`${uid}:${password}`)}`
