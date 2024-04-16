@@ -1,4 +1,4 @@
-import { getApplicationConfig } from './getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls errorLogger lambda /error-logger to log out any error

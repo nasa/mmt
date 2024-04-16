@@ -1,4 +1,4 @@
-import { getUmmVersionsConfig } from '../getConfig'
+import { getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 import getUmmVersion from '../getUmmVersion'
 
 const ummVersion = getUmmVersionsConfig()

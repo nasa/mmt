@@ -1,4 +1,4 @@
-import staticConfig from '../../../../static.config.json'
+import staticConfig from '../static.config.json'
 
 const getConfig = () => staticConfig
 

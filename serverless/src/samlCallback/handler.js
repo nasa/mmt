@@ -1,4 +1,4 @@
-import { getApplicationConfig, getSamlConfig } from '../../../static/src/js/utils/getConfig'
+import { getApplicationConfig, getSamlConfig } from '../../../sharedUtils/getConfig'
 import parseSaml from '../../../static/src/js/utils/parseSaml'
 
 const { URLSearchParams } = require('url')
@@ -10,8 +10,7 @@ const cookie = require('cookie')
  * @returns the launchpad token
  */
 const getLaunchpadToken = (cookieString) => {
-  const { version } = getApplicationConfig()
-  if (version === 'development') {
+  if (process.env.IS_OFFLINE) {
     return 'ABC-1'
   }
 
@@ -27,7 +26,7 @@ const getLaunchpadToken = (cookieString) => {
 const samlCallback = async (event) => {
   const { body, headers } = event
   const { Cookie } = headers
-  const { mmtHost, version } = getApplicationConfig()
+  const { mmtHost } = getApplicationConfig()
 
   const params = new URLSearchParams(body)
   const path = params.get('RelayState')
@@ -40,7 +39,7 @@ const samlCallback = async (event) => {
   // 1 cookie with multiple values in a base 64 encoded json string.
   let setCookie = `launchpadToken=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
 
-  if (version === 'development') {
+  if (process.env.IS_OFFLINE) {
     setCookie = `launchpadToken=${launchpadToken}; Path=/`
   }
 

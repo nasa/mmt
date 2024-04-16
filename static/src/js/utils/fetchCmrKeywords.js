@@ -1,5 +1,5 @@
 import errorLogger from './errorLogger'
-import { getApplicationConfig } from './getConfig'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls cmr /keywords/ endpoint to get a list of keywords

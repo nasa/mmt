@@ -1,17 +1,14 @@
-import { getApplicationConfig } from './getConfig'
-
 /**
- *Logic to determine permittedUser based on environment
+ * Logic to determine permittedUser based on environment
  * @param {Object} user A user object
  */
 const getPermittedUser = (user) => {
-  const { version } = getApplicationConfig()
   // For development environment
-  if (version === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     return 'typical'
   }
 
-  // For SIT environment
+  // For Production environments
   const { uid } = user
 
   return uid

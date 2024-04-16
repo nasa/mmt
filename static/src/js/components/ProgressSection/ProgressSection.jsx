@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 import ProgressField from '../ProgressField/ProgressField'
 import For from '../For/For'
@@ -38,6 +38,8 @@ const ProgressSection = ({
 }) => {
   const navigate = useNavigate()
 
+  const { templateType, id } = useParams()
+
   // Progress circle icons for the form section
   const progressSectionIcon = () => {
     switch (status) {
@@ -68,7 +70,11 @@ const ProgressSection = ({
 
   // Handle clicking on a section
   const handleSectionClick = () => {
-    navigate(toLowerKebabCase(displayName))
+    if (templateType) {
+      navigate(`/templates/${templateType}/${id}/${toLowerKebabCase(displayName)}`)
+    } else {
+      navigate(toLowerKebabCase(displayName))
+    }
   }
 
   // Accessible event props for clicking on the form section
