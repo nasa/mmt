@@ -24,6 +24,7 @@ config="`jq '.saml.issuer = $newValue' --arg newValue $bamboo_SAML_ISSUER <<< $c
 config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NAME <<< $config`"
 config="`jq '.saml.entryPoint = $newValue' --arg newValue $bamboo_SAML_ENTRY_POINT <<< $config`"
 config="`jq '.saml.launchpadRoot = $newValue' --arg newValue $bamboo_SAML_LAUNCHPAD_ROOT <<< $config`"
+config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
    
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
