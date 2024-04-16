@@ -14,7 +14,6 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { beforeEach } from 'vitest'
 import Providers from '../../../providers/Providers/Providers'
 import TemplatePreview from '../TemplatePreview'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
