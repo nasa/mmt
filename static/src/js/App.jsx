@@ -170,7 +170,6 @@ export const App = () => {
             <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="/:type/:conceptId/" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/:revisionId" element={<PublishPreview />} />
             <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview isRevision />} />
             <Route
               path="/:type/:conceptId/revisions"
