@@ -32,24 +32,8 @@ import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
 import getTagCount from '../../utils/getTagCount'
 import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
-
-const typeParamToHumanizedNameMap = {
-  collections: 'collection',
-  services: 'service',
-  tools: 'tool',
-  variables: 'variable'
-}
-
-/**
- * Takes a type from the url and returns a humanized singular or plural version
- * @param {String} type The type from the url.
- * @param {Boolean} [plural] A boolean that determines whether or not the string should be plural
- */
-const getHumanizedNameFromTypeParam = (type, plural) => {
-  const humanizedName = typeParamToHumanizedNameMap[type]
-
-  return plural ? `${humanizedName}s` : humanizedName
-}
+import typeParamToHumanizedNameMap from '../../constants/typeParamToHumanizedNameMap'
+import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeParam'
 
 /**
  * Renders a `SearchPage` component

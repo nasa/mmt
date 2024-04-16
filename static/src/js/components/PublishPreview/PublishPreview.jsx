@@ -1,7 +1,9 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
+import PropTypes from 'prop-types'
 import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
+  Alert,
   Badge,
   Button,
   Col,
@@ -10,6 +12,7 @@ import {
   Row
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
+import { capitalize } from 'lodash-es'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import deleteMutationTypes from '../../constants/deleteMutationTypes'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -30,6 +33,7 @@ import conceptTypes from '../../constants/conceptTypes'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import For from '../For/For'
 import getTagCount from '../../utils/getTagCount'
+import useRevisionsQuery from '../../hooks/useRevisionsQuery'
 
 /**
  * Renders a PublishPreview component
@@ -40,7 +44,7 @@ import getTagCount from '../../utils/getTagCount'
  *   <PublishPreview />
  * )
  */
-const PublishPreview = () => {
+const PublishPreview = ({ isRevision }) => {
   const {
     conceptId,
     revisionId
@@ -70,6 +74,20 @@ const PublishPreview = () => {
   const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+
+  // Retreiving count of revisions for the purposes of populating the Revisions Badge
+  const getRevisionCount = (id, type) => {
+    const { revisions } = useRevisionsQuery({
+      conceptId: id,
+      type: capitalize(type)
+    })
+
+    const { count } = revisions
+
+    return count
+  }
+
+  const revisionCount = getRevisionCount(conceptId, `${derivedConceptType}s`) || 0
 
   const {
     ingestMutation, ingestDraft,
@@ -260,6 +278,14 @@ const PublishPreview = () => {
     navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
   }
 
+  const handleRevisions = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`)
+  }
+
+  const viewPublishedRecord = () => {
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
+  }
+
   let tagCount = 0
   let granuleCount = 0
   if (derivedConceptType === conceptTypes.Collection) {
@@ -379,8 +405,8 @@ const PublishPreview = () => {
                   >
                     { granuleCount }
                   </Badge>
-
                 </Button>
+
                 <Button
                   className="btn btn-link"
                   type="button"
@@ -412,6 +438,21 @@ const PublishPreview = () => {
               </Button>
             )
           }
+          <Button
+            className="btn btn-link"
+            type="button"
+            variant="link"
+            onClick={handleRevisions}
+          >
+            Revisions
+            <Badge
+              className="m-1"
+              bg="secondary"
+              pill
+            >
+              { revisionCount }
+            </Badge>
+          </Button>
           <Button
             type="button"
             variant="outline-danger"
@@ -490,6 +531,31 @@ const PublishPreview = () => {
           />
         </Col>
       </Row>
+
+      {
+        isRevision && (
+          <Row>
+            <Col>
+              <Alert className="fst-italic fs-6" variant="warning">
+                <i className="eui-icon eui-fa-info-circle" />
+                {' '}
+                You are viewing an older revision of this
+                {' '}
+                {`${derivedConceptType}.`}
+                {' '}
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={viewPublishedRecord}
+                >
+                  Click here to view the latest published revision
+                </Button>
+              </Alert>
+            </Col>
+          </Row>
+        )
+      }
+
       <Row>
         <Col md={12}>
           <MetadataPreview
@@ -502,6 +568,14 @@ const PublishPreview = () => {
     </Page>
 
   )
+}
+
+PublishPreview.defaultProps = {
+  isRevision: false
+}
+
+PublishPreview.propTypes = {
+  isRevision: PropTypes.bool
 }
 
 export default PublishPreview
