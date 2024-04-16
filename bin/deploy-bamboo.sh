@@ -22,7 +22,9 @@ config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK
 config="`jq '.saml.keepAliveOrigin = $newValue' --arg newValue $bamboo_SAML_KEEP_ALIVE_ORIGIN <<< $config`"
 config="`jq '.saml.issuer = $newValue' --arg newValue $bamboo_SAML_ISSUER <<< $config`"
 config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NAME <<< $config`"
-
+config="`jq '.saml.entryPoint = $newValue' --arg newValue $bamboo_SAML_ENTRY_POINT <<< $config`"
+config="`jq '.saml.launchpadRoot = $newValue' --arg newValue $bamboo_SAML_LAUNCHPAD_ROOT <<< $config`"
+   
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
