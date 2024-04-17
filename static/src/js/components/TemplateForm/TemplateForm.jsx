@@ -208,7 +208,7 @@ const TemplateForm = () => {
 
     if (type === saveTypes.saveAndPreview) {
       window.scroll(0, 0)
-      navigate(`/templates/collections/${savedId || id}`)
+      navigate(`/templates/collections/${id || savedId}`)
     }
   }
 

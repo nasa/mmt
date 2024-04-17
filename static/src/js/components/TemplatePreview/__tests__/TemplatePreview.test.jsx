@@ -24,9 +24,6 @@ import deleteTemplate from '../../../utils/deleteTemplate'
 import errorLogger from '../../../utils/errorLogger'
 import getTemplate from '../../../utils/getTemplate'
 
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-
-vi.mock('../../../utils/deleteTemplate')
 vi.mock('../../../utils/getTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
