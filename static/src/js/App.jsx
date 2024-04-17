@@ -75,9 +75,6 @@ export const App = () => {
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
-        includeFullAcl: true,
-        pageNum: 1,
-        pageSize: 2000,
         permittedUser,
         target: 'PROVIDER_CONTEXT'
       }

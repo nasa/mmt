@@ -8,6 +8,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import validator from '@rjsf/validator-ajv8'
 import { cloneDeep } from 'lodash-es'
 
+import { useParams } from 'react-router'
 import NavigationItem from '../NavigationItem/NavigationItem'
 import For from '../For/For'
 
@@ -47,6 +48,7 @@ const FormNavigation = ({
   // uiSchema,
   visitedFields
 }) => {
+  const { templateType } = useParams()
   const cleanedDraft = cloneDeep(removeEmpty(draft))
   const { errors } = validator.validateFormData(cleanedDraft, schema)
 
@@ -105,11 +107,25 @@ const FormNavigation = ({
               </span>
             </Dropdown.Item>
 
-            <Dropdown.Item
-              onClick={() => onSave(saveTypes.saveAndPublish)}
-            >
-              Save &amp; Publish
-            </Dropdown.Item>
+            {
+              templateType && (
+                <Dropdown.Item
+                  onClick={() => onSave(saveTypes.saveAndCreateDraft)}
+                >
+                  Save &amp; Create Draft
+                </Dropdown.Item>
+              )
+            }
+            {
+              !templateType && (
+                <Dropdown.Item
+                  onClick={() => onSave(saveTypes.saveAndPublish)}
+                >
+                  Save &amp; Publish
+                </Dropdown.Item>
+
+              )
+            }
 
             <Dropdown.Item
               onClick={() => onSave(saveTypes.saveAndPreview)}

@@ -45,6 +45,7 @@ import saveTypes from '../../constants/saveTypes'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import updateTemplate from '../../utils/updateTemplate'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 
 const TemplateForm = () => {
   const {
@@ -61,6 +62,13 @@ const TemplateForm = () => {
     setDraft,
     user
   } = useAppContext()
+
+  const {
+    ingestMutation,
+    ingestDraft,
+    error: ingestDraftError,
+    loading: ingestLoading
+  } = useIngestDraftMutation()
 
   const { token, providerId } = user
   const [visitedFields, setVisitedFields] = useState([])
@@ -190,11 +198,42 @@ const TemplateForm = () => {
       window.scroll(0, 0)
     }
 
+    if (type === saveTypes.saveAndCreateDraft) {
+      const nativeId = `MMT_${crypto.randomUUID()}`
+
+      delete ummMetadata.TemplateName
+
+      ingestMutation('Collection', ummMetadata, nativeId, providerId)
+    }
+
     if (type === saveTypes.saveAndPreview) {
       window.scroll(0, 0)
-      navigate(`/templates/collections/${savedId || id}`)
+      navigate(`/templates/collections/${id || savedId}`)
     }
   }
+
+  useEffect(() => {
+    if (ingestDraft) {
+      const { ingestDraft: fetchedIngestDraft } = ingestDraft
+      const { conceptId } = fetchedIngestDraft
+
+      setLoading(false)
+      navigate(`/drafts/collections/${conceptId}`)
+      addNotification({
+        message: 'Draft Created Successfully',
+        variant: 'success'
+      })
+    }
+
+    if (ingestDraftError) {
+      setLoading(false)
+      errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+      addNotification({
+        message: 'Error removing collection association ',
+        variant: 'danger'
+      })
+    }
+  }, [ingestLoading])
 
   // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {

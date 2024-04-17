@@ -93,9 +93,6 @@ const setup = (overrideMocks, overrideAppContext) => {
         query: GET_ACLS,
         variables: {
           params: {
-            includeFullAcl: true,
-            pageNum: 1,
-            pageSize: 2000,
             permittedUser: 'typical',
             target: 'PROVIDER_CONTEXT'
           }
@@ -310,9 +307,6 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
-                  includeFullAcl: true,
-                  pageNum: 1,
-                  pageSize: 2000,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -344,9 +338,6 @@ describe('App component', () => {
                 query: GET_ACLS,
                 variables: {
                   params: {
-                    includeFullAcl: true,
-                    pageNum: 1,
-                    pageSize: 2000,
                     permittedUser: 'typical',
                     target: 'PROVIDER_CONTEXT'
                   }
@@ -380,9 +371,6 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
-                  includeFullAcl: true,
-                  pageNum: 1,
-                  pageSize: 2000,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -419,9 +407,6 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
-                  includeFullAcl: true,
-                  pageNum: 1,
-                  pageSize: 2000,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -454,9 +439,6 @@ describe('App component', () => {
             query: GET_ACLS,
             variables: {
               params: {
-                includeFullAcl: true,
-                pageNum: 1,
-                pageSize: 2000,
                 permittedUser: 'typical',
                 target: 'PROVIDER_CONTEXT'
               }
