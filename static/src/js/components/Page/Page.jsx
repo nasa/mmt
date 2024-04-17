@@ -116,8 +116,8 @@ const Page = ({
                       version: `v${ummT}`
                     },
                     {
-                      to: '/manage/cmr',
-                      title: 'Manage CMR'
+                      to: '/order-options',
+                      title: 'Order Options'
                     }
                   ]
                 }

@@ -5,7 +5,6 @@ import { BrowserRouter, Navigate } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
 import ManagePage from './pages/ManagePage/ManagePage'
-import ManageCmrPage from './pages/ManageCmrPage/ManageCmrPage'
 import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
 import Page from './components/Page/Page'
@@ -32,6 +31,8 @@ import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
 import RevisionList from './components/RevisionList/RevisionList'
+import OrderOptionList from './components/OrderOptionList/OrderOptionList'
+import OrderOptionPreview from './components/OrderOptionPreivew/OrderOptionPreview'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -129,16 +130,6 @@ export const App = () => {
                 (
                   <AuthRequiredContainer>
                     <ManagePage />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="manage/cmr"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <ManageCmrPage />
                   </AuthRequiredContainer>
                 )
               }
@@ -254,6 +245,26 @@ export const App = () => {
                 (
                   <AuthRequiredContainer>
                     <ManageCollectionAssociation />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="order-options"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <OrderOptionList />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route
+              path="order-options/:conceptId"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <OrderOptionPreview />
                   </AuthRequiredContainer>
                 )
               }
