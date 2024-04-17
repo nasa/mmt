@@ -23,11 +23,13 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import deleteTemplate from '../../../utils/deleteTemplate'
 import errorLogger from '../../../utils/errorLogger'
 import getTemplate from '../../../utils/getTemplate'
+import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 vi.mock('../../../utils/getTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
+vi.mock('../../../utils/deleteTemplate')
 
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)

@@ -31,6 +31,7 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import useAppContext from './hooks/useAppContext'
 import withProviders from './providers/withProviders/withProviders'
 import getPermittedUser from './utils/getPermittedUser'
+import RevisionList from './components/RevisionList/RevisionList'
 
 const redirectKeys = Object.keys(REDIRECTS)
 
@@ -163,7 +164,7 @@ export const App = () => {
               }
             />
             <Route
-              path="templates/:templateType"
+              path="templates/:templateType/new"
               element={
                 (
                   <AuthRequiredContainer>
@@ -257,6 +258,22 @@ export const App = () => {
                 )
               }
             />
+            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route path="/:type/:conceptId/" element={<PublishPreview />} />
+            <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview isRevision />} />
+            <Route
+              path="/:type/:conceptId/revisions"
+              element={
+                (
+                  <AuthRequiredContainer>
+                    <RevisionList />
+                  </AuthRequiredContainer>
+                )
+              }
+            />
+            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
+            <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
             <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />

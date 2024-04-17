@@ -60,7 +60,7 @@ describe('edlProfile when edl password is provided', () => {
       auid: 'mock_user',
       email: 'test.user@localhost',
       last_name: 'User',
-      name: 'mock_user',
+      name: 'User',
       nams_auid: 'mock_user',
       uid: 'mock_user'
     })
