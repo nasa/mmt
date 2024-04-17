@@ -11,6 +11,8 @@ export const GET_TOOLS = gql`
         providerId
         revisionId
         revisionDate
+        revisionId
+        userId
       }
     }
   }
