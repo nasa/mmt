@@ -6,7 +6,6 @@ import moment from 'moment'
 import Page from '../Page/Page'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import errorLogger from '../../utils/errorLogger'
 
 import parseError from '../../utils/parseError'
 import errorLogger from '../../utils/errorLogger'
