@@ -86,6 +86,7 @@ describe('OrderOptionPreview', () => {
       await waitForResponse()
 
       expect(screen.getByText('Mock order option description')).toBeInTheDocument()
+      expect(screen.getByText('Tuesday, April 16, 2024 2:20 PM')).toBeInTheDocument()
       expect(screen.getByText('PROVIDER')).toBeInTheDocument()
       expect(screen.getByText('Mock form')).toBeInTheDocument()
     })

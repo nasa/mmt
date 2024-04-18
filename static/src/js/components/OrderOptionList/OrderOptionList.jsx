@@ -73,9 +73,6 @@ const OrderOptionList = () => {
     },
     onError: (getError) => {
       errorLogger('Unable to get Order Options', 'Order Options: getOrderOptions')
-      setLoading(false)
-    },
-    onError: (getError) => {
       setError(getError)
       setLoading(false)
     }
