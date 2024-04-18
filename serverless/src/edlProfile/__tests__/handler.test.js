@@ -39,6 +39,35 @@ describe('edlProfile when edl password is provided', () => {
     expect(response.statusCode).toBe(200)
   })
 
+  test('when first name, last name are not provided, returns uid as name', async () => {
+    fetchEdlProfile.mockImplementation(() => ({
+      email: 'test.user@localhost',
+      first_name: null,
+      last_name: null,
+      nams_auid: 'mock_user',
+      uid: 'mock_user'
+    }))
+
+    const event = {
+      headers: {
+        Authorization: 'Bearer mock-token'
+      }
+    }
+
+    const response = await edlProfile(event)
+    const profile = await response.body
+
+    expect(JSON.parse(profile)).toEqual({
+      auid: 'mock_user',
+      email: 'test.user@localhost',
+      first_name: null,
+      last_name: null,
+      name: 'mock_user',
+      nams_auid: 'mock_user',
+      uid: 'mock_user'
+    })
+  })
+
   test('when only last name is given returns a 200 status code with user last name as name', async () => {
     fetchEdlProfile.mockImplementation(() => ({
       email: 'test.user@localhost',

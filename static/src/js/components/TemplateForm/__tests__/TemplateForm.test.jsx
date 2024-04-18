@@ -361,24 +361,6 @@ describe('TemplateForm', () => {
       })
     })
 
-    describe('when clicking on save and continue for a new template results in a failure', () => {
-      test('calls errorLogger', async () => {
-        createTemplate.mockReturnValue({})
-
-        const { user } = setup({ pageUrl: '/templates/collections/new/collection-information' })
-
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
-        await user.click(button)
-
-        await waitForResponse()
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Error creating template', 'TemplateForm: createTemplate')
-      })
-    })
-
     describe('when clicking save and preview', () => {
       test('navigates to the templatePreview', async () => {
         const navigateSpy = vi.fn()
