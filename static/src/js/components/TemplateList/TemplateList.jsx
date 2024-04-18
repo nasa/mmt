@@ -124,7 +124,7 @@ const TemplateList = () => {
       dataKey: 'lastModified',
       title: 'Last Modified',
       className: 'col-auto',
-      dataAccessorFn: () => moment().format('MM-DD-YYYY')
+      dataAccessorFn: (cellData) => moment(cellData).format('LLLL')
     },
     {
       title: 'Actions',

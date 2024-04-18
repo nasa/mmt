@@ -9,17 +9,21 @@ import {
   Placeholder,
   Row
 } from 'react-bootstrap'
-import moment from 'moment'
 import { useSearchParams } from 'react-router-dom'
-import Page from '../Page/Page'
-import useAppContext from '../../hooks/useAppContext'
-import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import parseError from '../../utils/parseError'
+import moment from 'moment'
+
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
-import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import Page from '../Page/Page'
+import Table from '../Table/Table'
+
+import useAppContext from '../../hooks/useAppContext'
+
+import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
+
 import errorLogger from '../../utils/errorLogger'
+import parseError from '../../utils/parseError'
 
 const OrderOptionList = () => {
   const { user } = useAppContext()
