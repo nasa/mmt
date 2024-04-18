@@ -8,7 +8,6 @@ import { Outlet, useParams } from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 
 import App from '../App'
-import ManageCmrPage from '../pages/ManageCmrPage/ManageCmrPage'
 import { GET_ACLS } from '../operations/queries/getAcls'
 import errorLogger from '../utils/errorLogger'
 import AppContext from '../context/AppContext'
@@ -36,12 +35,6 @@ vi.mock('../pages/HomePage/HomePage', () => ({
 vi.mock('../pages/DraftsPage/DraftsPage', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-manage-drafts-page">Drafts Page</div>
-  ))
-}))
-
-vi.mock('../pages/ManageCmrPage/ManageCmrPage', () => ({
-  default: vi.fn(() => (
-    <div data-testid="mock-manage-cmr-page">Manage CMR Page</div>
   ))
 }))
 
@@ -206,21 +199,6 @@ describe('App component', () => {
 
       await waitFor(() => {
         expect(screen.getByTestId('mock-manage-tools-page')).toBeInTheDocument()
-      })
-
-      window.history.pushState({}, '', '/')
-    })
-  })
-
-  describe('when rendering the "/manage/cmr" route', () => {
-    test('renders the manage cmr page', async () => {
-      window.history.pushState({}, '', '/manage/cmr')
-
-      setup()
-
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-manage-cmr-page')).toBeInTheDocument()
-        expect(ManageCmrPage).toHaveBeenCalledTimes(3)
       })
 
       window.history.pushState({}, '', '/')

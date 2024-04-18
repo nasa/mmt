@@ -19,6 +19,7 @@ import parseError from '../../utils/parseError'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import errorLogger from '../../utils/errorLogger'
 
 const OrderOptionList = () => {
   const { user } = useAppContext()
@@ -56,10 +57,10 @@ const OrderOptionList = () => {
       const { orderOptions } = getData
 
       setOrderOptionList(orderOptions)
-      console.log('🚀 ~ OrderOptionList ~ orderOptions:', orderOptions)
       setLoading(false)
     },
     onError: (getError) => {
+      errorLogger('Unable to get Order Options', 'Order Options: getOrderOptions')
       setError(getError)
       setLoading(false)
     }

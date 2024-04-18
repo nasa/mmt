@@ -7,6 +7,7 @@ import Page from '../Page/Page'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import errorLogger from '../../utils/errorLogger'
 
 const OrderOptionPreview = () => {
   const { conceptId } = useParams()
@@ -27,6 +28,7 @@ const OrderOptionPreview = () => {
       setLoading(false)
     },
     onError: (getError) => {
+      errorLogger('Unable to get Order Option', 'Order Option: getOrderOption')
       setError(getError)
       setLoading(false)
     }
