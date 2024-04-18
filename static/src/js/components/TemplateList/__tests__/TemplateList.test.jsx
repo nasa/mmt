@@ -7,13 +7,23 @@ import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
 import AppContext from '../../../context/AppContext'
 import TemplateList from '../TemplateList'
-import getTemplates from '../../../utils/getTemplates'
 
+import errorLogger from '../../../utils/errorLogger'
+import getTemplates from '../../../utils/getTemplates'
+import deleteTemplate from '../../../utils/deleteTemplate'
+import NotificationsContext from '../../../context/NotificationsContext'
+
+vi.mock('../../../utils/deleteTemplate')
+vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/getTemplates')
 
 const setup = () => {
   const props = {
     templateType: 'Collection'
+  }
+
+  const notificationContext = {
+    addNotification: vi.fn()
   }
 
   render(
@@ -25,11 +35,14 @@ const setup = () => {
       }
     }
     >
-      <MockedProvider>
-        <BrowserRouter initialEntries="">
-          <TemplateList {...props} />
-        </BrowserRouter>
-      </MockedProvider>
+      <NotificationsContext.Provider value={notificationContext}>
+        <MockedProvider>
+          <BrowserRouter initialEntries="">
+            <TemplateList {...props} />
+          </BrowserRouter>
+        </MockedProvider>
+      </NotificationsContext.Provider>
+
     </AppContext.Provider>
   )
 
@@ -132,6 +145,99 @@ describe('TemplateList', () => {
       })
     })
 
-    // TODO: Test delete onClick modal when working on MMT-3548: As a user, I can delete a collection template
+    describe('when clicking the delete button', () => {
+      describe('when clicking Yes on the delete modal results in a success', () => {
+        test('deletes and hide the model', async () => {
+          getTemplates.mockReturnValue(
+            {
+              response: [
+                {
+                  id: 'c23b6d55-b1de-4843-b828-32de2a0bd109',
+                  lastModified: '2024-04-03T18:56:54.000Z'
+                }
+              ]
+            }
+          )
+
+          deleteTemplate.mockReturnValue({ response: { ok: true } })
+
+          const { user } = setup()
+
+          await waitForResponse()
+
+          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          await user.click(deleteLink)
+
+          expect(screen.getByText('Are you sure you want to delete this template?')).toBeInTheDocument()
+
+          const yesButton = screen.getByRole('button', { name: 'Yes' })
+          await user.click(yesButton)
+
+          await waitForResponse()
+          expect(deleteTemplate).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      describe('when clicking Yes on the delete modal results in a failure', () => {
+        test('calls addNotification and errorLogger', async () => {
+          getTemplates.mockReturnValue(
+            {
+              response: [
+                {
+                  id: 'c23b6d55-b1de-4843-b828-32de2a0bd109',
+                  lastModified: '2024-04-03T18:56:54.000Z'
+                }
+              ]
+            }
+          )
+
+          deleteTemplate.mockReturnValue({ response: { ok: false } })
+
+          const { user } = setup()
+
+          await waitForResponse()
+
+          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          await user.click(deleteLink)
+
+          const yesButton = screen.getByRole('button', { name: 'Yes' })
+          await user.click(yesButton)
+
+          await waitForResponse()
+
+          expect(errorLogger).toHaveBeenCalledTimes(1)
+          expect(errorLogger).toHaveBeenCalledWith('Error deleting template', 'TemplateList: deleteTemplate')
+        })
+      })
+
+      describe('when clicking No on the delete modal', () => {
+        test('calls the deleteModal and clicks no', async () => {
+          getTemplates.mockReturnValue(
+            {
+              response: [
+                {
+                  id: 'c23b6d55-b1de-4843-b828-32de2a0bd109',
+                  lastModified: '2024-04-03T18:56:54.000Z'
+                }
+              ]
+            }
+          )
+
+          const { user } = setup()
+
+          await waitForResponse()
+
+          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          await user.click(deleteLink)
+
+          const noButton = screen.getByRole('button', { name: 'No' })
+          await user.click(noButton)
+
+          await waitForResponse()
+
+          expect(deleteTemplate).toHaveBeenCalledTimes(0)
+        })
+      })
+    })
   })
 })

@@ -14,20 +14,22 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
+import { beforeEach } from 'vitest'
 import Providers from '../../../providers/Providers/Providers'
 import TemplatePreview from '../TemplatePreview'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
-
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
-import getTemplate from '../../../utils/getTemplate'
-import errorLogger from '../../../utils/errorLogger'
 
+import deleteTemplate from '../../../utils/deleteTemplate'
+import errorLogger from '../../../utils/errorLogger'
+import getTemplate from '../../../utils/getTemplate'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
 vi.mock('../../../utils/getTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
+vi.mock('../../../utils/deleteTemplate')
 
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
@@ -120,6 +122,97 @@ describe('TemplatePreview', () => {
 
       expect(breadcrumbOne.href).toEqual('http://localhost:3000/templates/collections')
       expect(breadcrumbTwo).toHaveClass('active')
+    })
+  })
+
+  describe('when clicking on  delete button', () => {
+    describe('when clicking on Yes on the delete ', () => {
+      test('should delete the template and navigate', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        getTemplate.mockReturnValue({
+          response: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          }
+        })
+
+        deleteTemplate.mockReturnValue({ response: { ok: true } })
+
+        const { user } = setup()
+        await waitForResponse()
+
+        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        await user.click(deleteButton)
+
+        expect(screen.getByText('Are you sure you want to delete this template?')).toBeInTheDocument()
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        await waitForResponse()
+        expect(deleteTemplate).toHaveBeenCalledTimes(1)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/templates/collections')
+      })
+    })
+
+    describe('when clicking Yes on the delete modal results in a failure', () => {
+      test('calls addNotification and errorLogger', async () => {
+        getTemplate.mockReturnValue({
+          response: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          }
+        })
+
+        deleteTemplate.mockReturnValue({ response: { ok: false } })
+
+        const { user } = setup()
+
+        await waitForResponse()
+
+        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        await user.click(deleteButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        await waitForResponse()
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('Error deleting template', 'TemplatePreview: deleteTemplate')
+      })
+    })
+
+    describe('when clicking No on the delete modal', () => {
+      test('calls the deleteModal and clicks no', async () => {
+        getTemplate.mockReturnValue({
+          response: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          }
+        })
+
+        const { user } = setup()
+
+        await waitForResponse()
+
+        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        await user.click(deleteButton)
+
+        const noButton = screen.getByRole('button', { name: 'No' })
+        await user.click(noButton)
+
+        await waitForResponse()
+
+        expect(deleteTemplate).toHaveBeenCalledTimes(0)
+      })
     })
   })
 
