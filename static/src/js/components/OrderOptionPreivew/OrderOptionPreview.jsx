@@ -2,12 +2,15 @@ import { useLazyQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import moment from 'moment'
-import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
+
 import Page from '../Page/Page'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+
+import parseError from '../../utils/parseError'
 import errorLogger from '../../utils/errorLogger'
+
+import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
 
 const OrderOptionPreview = () => {
   const { conceptId } = useParams()
