@@ -24,6 +24,7 @@ import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
 
 import errorLogger from '../../utils/errorLogger'
 import parseError from '../../utils/parseError'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
 const OrderOptionList = () => {
   const { user } = useAppContext()
@@ -43,9 +44,7 @@ const OrderOptionList = () => {
     setSearchParams((currentParams) => {
       currentParams.set('page', nextPage)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }
 
@@ -107,7 +106,7 @@ const OrderOptionList = () => {
       dataKey: 'revisionDate',
       title: 'Last Updated',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => moment(cellData).format('LLLL')
+      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
     }
   ]
 

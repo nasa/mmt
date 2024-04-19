@@ -17,6 +17,7 @@ import CustomModal from '../CustomModal/CustomModal'
 import delateTemplate from '../../utils/deleteTemplate'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
 const TemplateList = () => {
   const { user } = useAppContext()
@@ -124,7 +125,7 @@ const TemplateList = () => {
       dataKey: 'lastModified',
       title: 'Last Modified',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => moment(cellData).format('LLLL')
+      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
     },
     {
       title: 'Actions',
