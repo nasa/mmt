@@ -28,6 +28,10 @@ import TemplateList from './components/TemplateList/TemplateList'
 import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
+import RevisionList from './components/RevisionList/RevisionList'
+import TemplateForm from './components/TemplateForm/TemplateForm'
+import TemplateList from './components/TemplateList/TemplateList'
+import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import '../css/index.scss'
 
