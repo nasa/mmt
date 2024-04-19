@@ -15,3 +15,10 @@ export const GET_ORDER_OPTION = gql`
     }
   }
 `
+
+// Example Variables:
+// {
+//   "params": {
+//     "conceptId": "OO1200000096-MMT_2",
+//   }
+// }

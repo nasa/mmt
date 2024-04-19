@@ -19,6 +19,15 @@ import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
 import { DATE_FORMAT } from '../../constants/dateFormat'
 
+/**
+ * Renders a TemplateList component
+ *
+ * @component
+ * @example <caption>Render a TemplateList</caption>
+ * return (
+ *   <TemplateList />
+ * )
+ */
 const TemplateList = () => {
   const { user } = useAppContext()
   const { token } = user

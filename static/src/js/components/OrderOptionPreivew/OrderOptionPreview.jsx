@@ -12,6 +12,15 @@ import errorLogger from '../../utils/errorLogger'
 
 import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
 
+/**
+ * Renders a OrderOptionPreview component
+ *
+ * @component
+ * @example <caption>Render a OrderOptionPreview</caption>
+ * return (
+ *   <OrderOptionPreview />
+ * )
+ */
 const OrderOptionPreview = () => {
   const { conceptId } = useParams()
 

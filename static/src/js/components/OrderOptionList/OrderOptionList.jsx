@@ -26,6 +26,15 @@ import errorLogger from '../../utils/errorLogger'
 import parseError from '../../utils/parseError'
 import { DATE_FORMAT } from '../../constants/dateFormat'
 
+/**
+ * Renders a OrderOptionList component
+ *
+ * @component
+ * @example <caption>Render a OrderOptionList</caption>
+ * return (
+ *   <OrderOptionList />
+ * )
+ */
 const OrderOptionList = () => {
   const { user } = useAppContext()
   const { providerId } = user
