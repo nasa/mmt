@@ -4,24 +4,27 @@ import React, {
   useState
 } from 'react'
 import { Link } from 'react-router-dom'
-import { Col, Row } from 'react-bootstrap'
-import { FaPlus } from 'react-icons/fa'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import moment from 'moment'
+import { FaPlus } from 'react-icons/fa'
 
 import deleteTemplate from '../../utils/deleteTemplate'
+import errorLogger from '../../utils/errorLogger'
 import getTemplates from '../../utils/getTemplates'
+
+import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
-import errorLogger from '../../utils/errorLogger'
 import { DATE_FORMAT } from '../../constants/dateFormat'
-import useAppContext from '../../hooks/useAppContext'
 
-import Page from '../Page/Page'
-import Table from '../Table/Table'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import Button from '../Button/Button'
 import CustomModal from '../CustomModal/CustomModal'
+import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import Page from '../Page/Page'
+import PageHeader from '../PageHeader/PageHeader'
+import Table from '../Table/Table'
 
 /**
  * Renders a TemplateList component
@@ -147,29 +150,34 @@ const TemplateList = () => {
     }
   ]
 
-  return (
-    <Page
-      title={`${providerId} Collection Templates`}
-      pageType="secondary"
+  const templateListHeader = () => (
+    <PageHeader
       breadcrumbs={
         [
           {
-            label: 'Collection Template',
-            active: true
+            label: 'Templates',
+            to: '/templates/collections'
           }
         ]
       }
+      pageType="secondary"
       primaryActions={
-        [
-          {
-            icon: FaPlus,
-            iconTitle: 'A plus icon',
-            title: 'New Template',
-            to: '/new',
-            variant: 'primary'
-          }
-        ]
+        [{
+          icon: FaPlus,
+          iconTitle: 'A plus icon',
+          title: 'New Template',
+          to: 'new',
+          variant: 'primary'
+        }]
       }
+      title={`${providerId} Template`}
+    />
+  )
+
+  return (
+    <Page
+      pageType="secondary"
+      header={templateListHeader()}
     >
       <Row>
         <Col sm={12}>

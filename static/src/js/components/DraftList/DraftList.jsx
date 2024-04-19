@@ -3,70 +3,58 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import PropTypes from 'prop-types'
+
 import { useParams } from 'react-router-dom'
-import { useLazyQuery } from '@apollo/client'
-import { FaFileDownload, FaPlus } from 'react-icons/fa'
+import { useSuspenseQuery } from '@apollo/client'
+import { FaFileDownload } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Placeholder from 'react-bootstrap/Placeholder'
 import pluralize from 'pluralize'
 
 import useAppContext from '../../hooks/useAppContext'
-import useDraftsQuery from '../../hooks/useDraftsQuery'
-
-import parseError from '../../utils/parseError'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
 import Table from '../Table/Table'
 import Button from '../Button/Button'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import Page from '../Page/Page'
 
-import { DOWNLOAD_DRAFT } from '../../operations/queries/getDownloadDraft'
 import conceptIdTypes from '../../constants/conceptIdTypes'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import EllipsisText from '../EllipsisText/EllipsisText'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
+import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
+import conceptTypeDraftsQueries from '../../constants/conceptTypeDraftsQueries'
 
-const DraftList = ({ draftType }) => {
+const DraftList = () => {
   const { user } = useAppContext()
   const { providerId } = user
+
   const { draftType: paramDraftType } = useParams()
+
+  const draftType = urlValueTypeToConceptTypeMap[paramDraftType]
+
   const [activePage, setActivePage] = useState(1)
 
   const limit = 20
   const offset = (activePage - 1) * limit
 
-  const { drafts, error, loading } = useDraftsQuery({
-    draftType,
-    offset,
-    limit
-  })
-  const { count, items = [] } = drafts
-
-  const noDataMessage = `No ${draftType} drafts exist for the provider ${providerId}`
-
-  const [downloadDraft] = useLazyQuery(DOWNLOAD_DRAFT, {
-    onCompleted: (getDraftData) => {
-      const { draft: fetchedDraft } = getDraftData
-      const { conceptId } = fetchedDraft
-      const { ummMetadata } = fetchedDraft
-
-      const contents = JSON.stringify(ummMetadata, null, 2)
-      constructDownloadableFile(contents, conceptId)
+  const { data } = useSuspenseQuery(conceptTypeDraftsQueries[draftType], {
+    variables: {
+      params: {
+        provider: providerId,
+        conceptType: draftType,
+        limit,
+        offset,
+        sortKey: ['-revision_date']
+      }
     }
   })
 
-  const handleDownloadClick = (conceptId) => {
-    downloadDraft({
-      variables: {
-        params: {
-          conceptId,
-          conceptType: draftType
-        }
-      }
-    })
+  const { drafts } = data
+  const { count, items } = drafts
+
+  const handleDownloadClick = (conceptId, ummMetadata) => {
+    const contents = JSON.stringify(ummMetadata, null, 2)
+    constructDownloadableFile(contents, conceptId)
   }
 
   const setPage = (nextPage) => {
@@ -102,7 +90,7 @@ const DraftList = ({ draftType }) => {
   }, [])
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { conceptId } = rowData
+    const { conceptId, ummMetadata } = rowData
 
     return (
       <div className="d-flex">
@@ -110,7 +98,7 @@ const DraftList = ({ draftType }) => {
           className="d-flex"
           Icon={FaFileDownload}
           iconTitle="Document with an arrow pointing down"
-          onClick={() => handleDownloadClick(conceptId)}
+          onClick={() => handleDownloadClick(conceptId, ummMetadata)}
           variant="secondary"
           size="sm"
         >
@@ -175,122 +163,75 @@ const DraftList = ({ draftType }) => {
   }, [])
 
   return (
-    <Page
-      title={`${providerId} ${draftType} Drafts`}
-      pageType="secondary"
-      breadcrumbs={
-        [
+    <Row>
+      <Col sm={12}>
+        <ControlledPaginatedContent
+          activePage={activePage}
+          count={count}
+          limit={limit}
+          setPage={setPage}
+        >
           {
-            label: `${draftType} Drafts`,
-            to: `/drafts/${draftType}s`,
-            active: true
-          }
-        ]
-      }
-      primaryActions={
-        [
-          {
-            icon: FaPlus,
-            iconTitle: 'A plus icon',
-            title: 'New Draft',
-            to: 'new',
-            variant: 'primary'
-          }
-        ]
-      }
-    >
-      <Row>
-        <Col sm={12}>
-          {error && <ErrorBanner message={parseError(error)} />}
-          {
-            !error && (
-              <ControlledPaginatedContent
-                activePage={activePage}
-                count={count}
-                limit={limit}
-                setPage={setPage}
-              >
-                {
-                  ({
-                    totalPages,
-                    pagination,
-                    firstResultPosition,
-                    lastResultPosition
-                  }) => {
-                    const paginationMessage = count > 0
-                      ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} ${draftType.toLowerCase()} ${pluralize('draft', count)}`
-                      : `No ${pluralize(draftType.toLowerCase(), count)} drafts found`
+            ({
+              totalPages,
+              pagination,
+              firstResultPosition,
+              lastResultPosition
+            }) => {
+              const paginationMessage = count > 0
+                ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} ${draftType.toLowerCase()} ${pluralize('draft', count)}`
+                : `No ${pluralize(draftType.toLowerCase(), count)} drafts found`
 
-                    return (
-                      <>
-                        <Row className="d-flex justify-content-between align-items-center mb-4">
-                          <Col className="mb-4 flex-grow-1" xs="auto">
-                            {
-                              !count && loading && (
-                                <div className="w-100">
-                                  <span className="d-block">
-                                    <Placeholder as="span" animation="glow">
-                                      <Placeholder xs={8} />
-                                    </Placeholder>
-                                  </span>
-                                </div>
-                              )
-                            }
-                            {
-                              (!!count || (!loading && !count)) && (
-                                <span className="text-secondary fw-bolder">{paginationMessage}</span>
-                              )
-                            }
-                          </Col>
-                          <Col className="mb-4 flex-grow-1" xs="auto" />
-                          {
-                            totalPages > 1 && (
-                              <Col xs="auto">
-                                {pagination}
-                              </Col>
-                            )
-                          }
-                        </Row>
-                        <Table
-                          id="drafts-table"
-                          columns={columns}
-                          generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
-                          generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                          loading={loading}
-                          data={items}
-                          error={error}
-                          noDataMessage={noDataMessage}
-                          count={count}
-                          setPage={setPage}
-                          limit={limit}
-                          offset={offset}
-                        />
-                        {
-                          totalPages > 1 && (
-                            <Row>
-                              <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                                <div>
-                                  {pagination}
-                                </div>
-                              </Col>
-                            </Row>
-                          )
-                        }
-                      </>
+              return (
+                <>
+                  <Row className="d-flex justify-content-between align-items-center mb-4">
+                    <Col className="mb-4 flex-grow-1" xs="auto">
+                      {
+                        (!!count) && (
+                          <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                        )
+                      }
+                    </Col>
+                    <Col className="mb-4 flex-grow-1" xs="auto" />
+                    {
+                      totalPages > 1 && (
+                        <Col xs="auto">
+                          {pagination}
+                        </Col>
+                      )
+                    }
+                  </Row>
+                  <Table
+                    id="drafts-table"
+                    columns={columns}
+                    generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                    generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                    data={items}
+                    noDataMessage={`No ${draftType} drafts exist for the provider ${providerId}`}
+                    count={count}
+                    setPage={setPage}
+                    limit={limit}
+                    offset={offset}
+                  />
+                  {
+                    totalPages > 1 && (
+                      <Row>
+                        <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                          <div>
+                            {pagination}
+                          </div>
+                        </Col>
+                      </Row>
                     )
                   }
-                }
-              </ControlledPaginatedContent>
-            )
+                </>
+              )
+            }
           }
-        </Col>
-      </Row>
-    </Page>
+        </ControlledPaginatedContent>
+      </Col>
+    </Row>
   )
-}
-
-DraftList.propTypes = {
-  draftType: PropTypes.string.isRequired
 }
 
 export default DraftList

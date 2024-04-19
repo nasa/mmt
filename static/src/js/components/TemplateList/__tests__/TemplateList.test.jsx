@@ -120,7 +120,7 @@ describe('TemplateList', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/new', expect.objectContaining({}))
+        expect(navigateSpy).toHaveBeenCalledWith('new', { replace: false })
       })
     })
 

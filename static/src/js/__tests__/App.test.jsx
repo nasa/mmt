@@ -98,7 +98,7 @@ const setup = (overrideMocks, overrideAppContext) => {
   const container = render(
     <AppContext.Provider value={appContext}>
       <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider mocks={overrideMocks || mocks} addTypename={false}>
+        <MockedProvider mocks={overrideMocks || mocks}>
           <App />
         </MockedProvider>
       </NotificationsContext.Provider>

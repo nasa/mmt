@@ -1,28 +1,48 @@
 import { gql } from '@apollo/client'
 
 export const GET_TOOL = gql`
-  query Tool($params: ToolInput, $collectionsParams: CollectionsInput){
-    tool(params: $params) {
+  query Tool ($params: ToolInput, $collectionsParams: CollectionsInput){
+    tool (params: $params) {
       accessConstraints
       ancillaryKeywords
       associationDetails
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          provider
+          shortName
+          title
+          version
+        }
+      }
       conceptId
       contactGroups
       contactPersons
       description
       doi
-      nativeId
       lastUpdatedDate
       longName
       metadataSpecification
-      name
+      nativeId
       organizations
-      providerId
+      name
+      pageTitle: name
       potentialAction
+      providerId
       quality
-      revisionId
-      revisionDate
       relatedUrls
+      revisionDate
+      revisionId
+      revisions {
+        count
+        items {
+          conceptId
+          revisionDate
+          revisionId
+          userId
+        }
+      }
       searchAction
       supportedBrowsers
       supportedInputFormats
@@ -36,17 +56,6 @@ export const GET_TOOL = gql`
       useConstraints
       version
       versionDescription
-      collections (params: $collectionsParams) {
-        count
-        items {
-          title
-          conceptId
-          entryTitle
-          shortName
-          version
-          provider
-        }
-      }
   }
 }
 `

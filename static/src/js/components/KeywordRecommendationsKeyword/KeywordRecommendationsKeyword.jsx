@@ -1,13 +1,16 @@
 import React from 'react'
-import { Badge, ListGroup } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import ListGroup from 'react-bootstrap/ListGroup'
 import PropTypes from 'prop-types'
-import './KeywordRecommendationsKeyword.scss'
 import {
   FaCheckSquare,
   FaPlusCircle,
   FaTimesCircle
 } from 'react-icons/fa'
+
 import Button from '../Button/Button'
+
+import './KeywordRecommendationsKeyword.scss'
 
 const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) => {
   const { keyword: delimitedKeyword, recommended } = keyword

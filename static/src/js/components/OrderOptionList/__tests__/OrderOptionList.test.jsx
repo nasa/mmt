@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import {
   render,
   screen,
   within
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { MockedProvider } from '@apollo/client/testing'
 import { BrowserRouter } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
+
 import { GET_ORDER_OPTIONS } from '../../../operations/queries/getOrderOptions'
 import AppContext from '../../../context/AppContext'
-import errorLogger from '../../../utils/errorLogger'
 import OrderOptionList from '../OrderOptionList'
 
 vi.mock('../../../utils/errorLogger')
@@ -75,7 +76,9 @@ const setup = ({
     >
       <MockedProvider mocks={overrideMocks || mocks}>
         <BrowserRouter initialEntries="">
-          <OrderOptionList />
+          <Suspense>
+            <OrderOptionList />
+          </Suspense>
         </BrowserRouter>
       </MockedProvider>
     </AppContext.Provider>
@@ -98,28 +101,36 @@ describe('OrderOptionList', () => {
     })
   })
 
-  describe('when order options list request results in a failure ', () => {
-    test('should call errorLogger and renders an ErrorBanner', async () => {
+  describe('when there are no order option found', () => {
+    test('render a table with No order option found message', async () => {
       setup({
-        overrideMocks: [{
-          request: {
-            query: GET_ORDER_OPTIONS,
-            variables: {
-              params: {
-                providerId: 'MMT_2',
-                limit: 20,
-                offset: 0
+        overrideMocks: [
+          {
+            request: {
+              query: GET_ORDER_OPTIONS,
+              variables: {
+                params: {
+                  providerId: 'MMT_2',
+                  limit: 20,
+                  offset: 0
+                }
+              }
+            },
+            result: {
+              data: {
+                orderOptions: {
+                  count: 0,
+                  items: []
+                }
               }
             }
-          },
-          error: new Error('An error occurred')
-        }]
+          }
+        ]
       })
 
       await waitForResponse()
 
-      expect(errorLogger).toHaveBeenCalledTimes(1)
-      expect(errorLogger).toHaveBeenCalledWith('Unable to get Order Options', 'Order Options: getOrderOptions')
+      expect(screen.getByText('No order options found')).toBeInTheDocument()
     })
   })
 
@@ -231,6 +242,8 @@ describe('OrderOptionList', () => {
       const paginationButton = within(pagination[0]).getByRole('button', { name: 'Goto Page 2' })
 
       await user.click(paginationButton)
+
+      await waitForResponse()
 
       expect(within(pagination[0]).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()
     })

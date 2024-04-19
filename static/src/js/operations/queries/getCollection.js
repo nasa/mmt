@@ -63,6 +63,17 @@ export const GET_COLLECTION = gql`
         }
       }
       relatedUrls
+      revisionDate
+      revisionId
+      revisions {
+        count
+        items {
+          conceptId
+          revisionDate
+          revisionId
+          userId
+        }
+      }
       scienceKeywords
       services {
         count
@@ -76,6 +87,7 @@ export const GET_COLLECTION = gql`
         }
       }
       shortName
+      pageTitle: shortName
       spatialExtent
       spatialInformation
       standardProduct
@@ -105,6 +117,7 @@ export const GET_COLLECTION = gql`
       }
       ummMetadata
       useConstraints
+      userId
       variables {
         count
         items {

@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import {
-  Col,
-  Container,
-  Row
-} from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { kebabCase } from 'lodash-es'
+
 import useAppContext from '../../hooks/useAppContext'
 
 import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
 import collectionsUiSchema from '../../schemas/uiSchemas/collections'
-import FormNavigation from '../FormNavigation/FormNavigation'
-import Page from '../Page/Page'
 import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
 
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
@@ -27,25 +24,30 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import FormNavigation from '../FormNavigation/FormNavigation'
 import GridLayout from '../GridLayout/GridLayout'
+import JsonPreview from '../JsonPreview/JsonPreview'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import OneOfField from '../OneOfField/OneOfField'
+import Page from '../Page/Page'
+import PageHeader from '../PageHeader/PageHeader'
 import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 import createTemplate from '../../utils/createTemplate'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import errorLogger from '../../utils/errorLogger'
 import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
 import getTemplate from '../../utils/getTemplate'
-import JsonPreview from '../JsonPreview/JsonPreview'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
-import saveTypes from '../../constants/saveTypes'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import updateTemplate from '../../utils/updateTemplate'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+
+import saveTypes from '../../constants/saveTypes'
 
 const TemplateForm = () => {
   const {
@@ -262,32 +264,13 @@ const TemplateForm = () => {
   const name = draft?.ummMetadata?.TemplateName || '<Blank Name>'
   const pageTitle = id === 'new' ? 'New Collection Template' : `Edit ${name}`
 
-  if (loading) {
-    return (
-      <Page>
-        <LoadingBanner />
-      </Page>
-    )
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
-    )
-  }
-
-  return (
-    <Page
+  const templateFormPageHeader = () => (
+    <PageHeader
       title={pageTitle}
-      pageType="secondary"
       breadcrumbs={
         [
           {
-            label: 'Collection Templates',
+            label: 'Templates',
             to: '/templates/collections'
           },
           (
@@ -302,8 +285,29 @@ const TemplateForm = () => {
           }
         ]
       }
+      pageType="secondary"
+    />
+  )
+
+  if (loading) {
+    return (
+      <LoadingBanner />
+    )
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <ErrorBanner message={message} />
+    )
+  }
+
+  return (
+    <Page
+      header={templateFormPageHeader()}
     >
-      <Container className="template-form__container mx-0">
+      <Container className="template-form__container mx-0" fluid>
         <Row className="template-form__row">
           <Col
             className="mb-5"

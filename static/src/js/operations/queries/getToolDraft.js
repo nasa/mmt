@@ -29,6 +29,7 @@ export const TOOL_DRAFT = gql`
           metadataSpecification
           name
           organizations
+          pageTitle: name
           potentialAction
           quality
           relatedUrls

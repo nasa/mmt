@@ -2,8 +2,10 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   ApolloClient,
+  ApolloLink,
   ApolloProvider,
   InMemoryCache,
+  Observable,
   createHttpLink
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
@@ -35,6 +37,39 @@ const GraphQLProvider = ({ children }) => {
   const { token } = user
   const { tokenValue } = token || {}
 
+  // Custom middleware link that delays responses for mutations
+  const responseDelayLink = new ApolloLink((operation, forward) => new Observable((observer) => {
+    const subscription = forward(operation).subscribe({
+      next: (result) => {
+        // Check if the operation is a mutation
+        if (operation.query.definitions.some(
+          (def) => def.operation === 'mutation'
+        )) {
+          // Delay the response by 5 seconds for mutations because CMR has to update elastic indexes
+          setTimeout(() => {
+            observer.next(result)
+            observer.complete()
+          }, 3000)
+        } else {
+          // Immediately pass through for queries
+          observer.next(result)
+          observer.complete()
+        }
+      },
+      error: observer.error.bind(observer),
+      complete: () => {
+        if (!operation.query.definitions.some(
+          (def) => def.operation === 'mutation'
+        )) {
+          // Immediately pass through for queries
+          observer.complete()
+        }
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }))
+
   const client = useMemo(() => {
     const httpLink = createHttpLink({
       uri: graphQlHost
@@ -50,7 +85,7 @@ const GraphQLProvider = ({ children }) => {
 
     return new ApolloClient({
       cache: new InMemoryCache(),
-      link: authLink.concat(httpLink),
+      link: ApolloLink.from([authLink, responseDelayLink, httpLink]),
       defaultOptions: {
         query: {
           fetchPolicy: 'no-cache'

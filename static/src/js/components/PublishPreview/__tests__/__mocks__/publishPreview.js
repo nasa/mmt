@@ -19,6 +19,14 @@ export const publishCollectionRecord = {
   ancillaryKeywords: [
     'Test Ancillary keyword'
   ],
+  revisionDate: '2024-04-08T15:53:12.359Z',
+  revisionId: '1',
+  revisions: {
+    count: 1,
+    items: []
+  },
+  pageTitle: 'mock name',
+  userId: 'admin',
   archiveAndDistributionInformation: {
     fileArchiveInformation: [
       {
@@ -241,7 +249,7 @@ export const publishCollectionRecord = {
     }
   },
   standardProduct: null,
-  tags: null,
+  tags: {},
   temporalExtents: [
     {
       endsAtPresentFlag: true,
@@ -509,6 +517,14 @@ export const publishCollectionRecord = {
 
 export const noTagsOrGranulesCollection = {
   relatedCollections: null,
+  revisionDate: '2024-04-08T15:53:12.359Z',
+  revisionId: '1',
+  revisions: {
+    count: 1,
+    items: []
+  },
+  pageTitle: 'mock name',
+  userId: 'admin',
   nativeId: 'mock native id',
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
@@ -1035,6 +1051,10 @@ export const publishedVariableRecord = {
   offset: null,
   providerId: 'MMT_2',
   relatedUrls: null,
+  revisions: {
+    count: 2,
+    items: []
+  },
   revisionDate: '2024-04-08T15:53:12.359Z',
   revisionId: '1',
   samplingIdentifiers: null,
@@ -1083,7 +1103,7 @@ export const recordWithRevisions = {
   count: 2,
   items: [
     {
-      conceptId: 'TL1200000104-MMT_2',
+      conceptId: 'T1200000104-MMT_2',
       longName: 'The Advanced National Seismic System (ANSS)',
       name: 'ANSS-Seismic',
       providerId: 'MMT_2',
@@ -1093,7 +1113,7 @@ export const recordWithRevisions = {
       __typename: 'Tool'
     },
     {
-      conceptId: 'TL1200000104-MMT_2',
+      conceptId: 'T1200000104-MMT_2',
       longName: 'The Advanced National Seismic System (ANSS)',
       name: 'ANSS-Seismic',
       providerId: 'MMT_2',

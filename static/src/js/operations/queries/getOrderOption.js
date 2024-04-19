@@ -9,6 +9,7 @@ export const GET_ORDER_OPTION = gql`
       form
       name
       nativeId
+      revisionId
       revisionDate
       scope
       sortKey

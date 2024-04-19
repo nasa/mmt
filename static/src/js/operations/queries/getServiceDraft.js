@@ -27,6 +27,7 @@ export const SERVICE_DRAFT = gql`
           name
           nativeId
           operationMetadata
+          pageTitle: name
           providerId
           relatedUrls
           serviceKeywords

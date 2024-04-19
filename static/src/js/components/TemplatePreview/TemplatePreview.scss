@@ -1,0 +1,8 @@
+.template-preview {
+  &__preview {
+    & > .container {
+      max-width: initial;
+      padding: 0
+    }
+  }
+}
