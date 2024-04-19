@@ -17,7 +17,17 @@ import CustomModal from '../CustomModal/CustomModal'
 import delateTemplate from '../../utils/deleteTemplate'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
+/**
+ * Renders a TemplateList component
+ *
+ * @component
+ * @example <caption>Render a TemplateList</caption>
+ * return (
+ *   <TemplateList />
+ * )
+ */
 const TemplateList = () => {
   const { user } = useAppContext()
   const { token } = user
@@ -124,7 +134,7 @@ const TemplateList = () => {
       dataKey: 'lastModified',
       title: 'Last Modified',
       className: 'col-auto',
-      dataAccessorFn: () => moment().format('MM-DD-YYYY')
+      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
     },
     {
       title: 'Actions',

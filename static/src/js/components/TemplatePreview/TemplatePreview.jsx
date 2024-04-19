@@ -25,6 +25,15 @@ import errorLogger from '../../utils/errorLogger'
 import delateTemplate from '../../utils/deleteTemplate'
 import CustomModal from '../CustomModal/CustomModal'
 
+/**
+ * Renders a TemplatePreview component
+ *
+ * @component
+ * @example <caption>Render a TemplatePreview</caption>
+ * return (
+ *   <TemplatePreview />
+ * )
+ */
 const TemplatePreview = () => {
   const {
     draft = {},

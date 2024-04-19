@@ -44,8 +44,8 @@ describe('Page component', () => {
         version: 'v1.2.0'
       },
       {
-        to: '/manage/cmr',
-        title: 'Manage CMR'
+        to: '/order-options',
+        title: 'Order Options'
       }
     ])
   })
