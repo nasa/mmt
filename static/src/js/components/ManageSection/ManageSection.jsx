@@ -47,10 +47,9 @@ const ManageSection = ({
       ])
     }
     key={title}
-    lg={4}
     md={6}
   >
-    <section className="bg-white p-3 w-100">
+    <section className="bg-light p-4 w-100">
       <h2
         className="manage-section__heading fw-bold d-block mb-0 bg-primary text-white border-5 border-end border-indigo"
       >

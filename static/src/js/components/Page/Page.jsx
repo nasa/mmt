@@ -60,7 +60,6 @@ const Page = ({
   breadcrumbs,
   children,
   className,
-  hasBackgroundImage,
   headerActions,
   navigation,
   pageType,
@@ -78,10 +77,7 @@ const Page = ({
     <main
       className={
         classNames([
-          'pb-5 flex-grow-1',
-          {
-            'page--has-background-image': hasBackgroundImage
-          },
+          'flex-grow-1 d-flex flex-row',
           {
             [className]: className
           }
@@ -90,110 +86,110 @@ const Page = ({
     >
       {
         navigation && (
-          <header className="page__header">
-            <Container>
-              <PrimaryNavigation
-                items={
-                  [
-                    {
-                      to: '/manage/collections',
-                      title: 'Manage Collections',
-                      version: `v${ummC}`
-                    },
-                    {
-                      to: '/manage/variables',
-                      title: 'Manage Variables',
-                      version: `v${ummV}`
-                    },
-                    {
-                      to: '/manage/services',
-                      title: 'Manage Services',
-                      version: `v${ummS}`
-                    },
-                    {
-                      to: '/manage/tools',
-                      title: 'Manage Tools',
-                      version: `v${ummT}`
-                    },
-                    {
-                      to: '/order-options',
-                      title: 'Order Options'
-                    }
-                  ]
-                }
-              />
-            </Container>
+          <header className="page__header d-flex grow-0 flex-shrink-0">
+            <PrimaryNavigation
+              items={
+                [
+                  {
+                    to: '/manage/collections',
+                    title: 'Collections',
+                    version: `v${ummC}`
+                  },
+                  {
+                    to: '/manage/variables',
+                    title: 'Variables',
+                    version: `v${ummV}`
+                  },
+                  {
+                    to: '/manage/services',
+                    title: 'Services',
+                    version: `v${ummS}`
+                  },
+                  {
+                    to: '/manage/tools',
+                    title: 'Tools',
+                    version: `v${ummT}`
+                  },
+                  {
+                    to: '/order-options',
+                    title: 'Order Options'
+                  }
+                ]
+              }
+            />
           </header>
         )
       }
 
-      <Container className="mt-4 g-0">
-        <Row>
-          <Col>
-            <header
-              className={
-                classNames(
-                  [
-                    'd-flex flex-column align-items-start mb-4',
-                    {
-                      'sr-only': pageType === 'primary',
-                      'pb-3 border-bottom border-gray-200': pageType !== 'primary'
-                    }
-                  ]
-                )
-              }
-            >
-              {
-                breadcrumbs.length > 0 && (
-                  <Breadcrumb>
-                    <For each={breadcrumbs}>
+      <div className="m-4 grow-0 w-100">
+        <Container>
+          <Row>
+            <Col>
+              <header
+                className={
+                  classNames(
+                    [
+                      'd-flex flex-column align-items-start mb-4',
                       {
-                        ({ active, label, to }, i) => {
-                          if (!label) return null
-
-                          return (
-                            <Breadcrumb.Item
-                              key={`breadcrumb-link_${to}_${i}`}
-                              active={active}
-                              linkProps={{ to }}
-                              linkAs={Link}
-                            >
-                              {label}
-                            </Breadcrumb.Item>
-                          )
-                        }
+                        'sr-only': pageType === 'primary',
+                        'pb-3 border-bottom border-gray-200': pageType !== 'primary'
                       }
-                    </For>
-                  </Breadcrumb>
-                )
-              }
-              <div className="d-flex align-items-center">
-                <h2 className="m-0 text-gray-200 h4" style={{ fontWeight: 700 }}>
-                  {title}
-                  {secondaryTitle && <span className="text-secondary h4 fw-lighter">{` ${secondaryTitle}`}</span>}
-                </h2>
-                {
-                  headerActions && headerActions.length > 0 && (
-                    <div className="ms-4">
-                      <For each={headerActions}>
-                        {
-                          ({
-                            label,
-                            to
-                          }) => (
-                            <Link className="me-2 btn btn-sm btn-primary" key={label} to={to}>{label}</Link>
-                          )
-                        }
-                      </For>
-                    </div>
+                    ]
                   )
                 }
-              </div>
-            </header>
-            {children}
-          </Col>
-        </Row>
-      </Container>
+              >
+                {
+                  breadcrumbs.length > 0 && (
+                    <Breadcrumb>
+                      <For each={breadcrumbs}>
+                        {
+                          ({ active, label, to }, i) => {
+                            if (!label) return null
+
+                            return (
+                              <Breadcrumb.Item
+                                key={`breadcrumb-link_${to}_${i}`}
+                                active={active}
+                                linkProps={{ to }}
+                                linkAs={Link}
+                              >
+                                {label}
+                              </Breadcrumb.Item>
+                            )
+                          }
+                        }
+                      </For>
+                    </Breadcrumb>
+                  )
+                }
+                <div className="d-flex align-items-center">
+                  <h2 className="m-0 text-gray-200 h4" style={{ fontWeight: 700 }}>
+                    {title}
+                    {secondaryTitle && <span className="text-secondary h4 fw-lighter">{` ${secondaryTitle}`}</span>}
+                  </h2>
+                  {
+                    headerActions && headerActions.length > 0 && (
+                      <div className="ms-4">
+                        <For each={headerActions}>
+                          {
+                            ({
+                              label,
+                              to
+                            }) => (
+                              <Link className="me-2 btn btn-sm btn-primary" key={label} to={to}>{label}</Link>
+                            )
+                          }
+                        </For>
+                      </div>
+                    )
+                  }
+                </div>
+              </header>
+              {children}
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </main>
   )
 }
@@ -201,7 +197,6 @@ const Page = ({
 Page.defaultProps = {
   breadcrumbs: [],
   className: null,
-  hasBackgroundImage: false,
   headerActions: [],
   navigation: true,
   pageType: 'primary',
@@ -215,7 +210,6 @@ Page.propTypes = {
   breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  hasBackgroundImage: PropTypes.bool,
   headerActions: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

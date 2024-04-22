@@ -25,22 +25,22 @@ describe('Page component', () => {
     expect(MockPrimaryNavigation.mock.calls[0][0].items).toEqual([
       {
         to: '/manage/collections',
-        title: 'Manage Collections',
+        title: 'Collections',
         version: 'v1.17.3'
       },
       {
         to: '/manage/variables',
-        title: 'Manage Variables',
+        title: 'Variables',
         version: 'v1.9.0'
       },
       {
         to: '/manage/services',
-        title: 'Manage Services',
+        title: 'Services',
         version: 'v1.5.2'
       },
       {
         to: '/manage/tools',
-        title: 'Manage Tools',
+        title: 'Tools',
         version: 'v1.2.0'
       },
       {

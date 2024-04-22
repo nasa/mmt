@@ -1,12 +1,65 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-import Badge from 'react-bootstrap/Badge'
+import { NavLink, useMatch } from 'react-router-dom'
+import Nav from 'react-bootstrap/Nav'
+import NavItem from 'react-bootstrap/NavItem'
 
 import { For } from '../For/For'
 
 import './PrimaryNavigation.scss'
+
+const PrimaryNavigationLink = ({
+  title,
+  to,
+  version
+}) => {
+  const match = useMatch(to)
+
+  return (
+    <NavItem className="d-flex flex-row w-100">
+      <NavLink
+        to={to}
+        className={
+          classNames([
+            'nav-link w-100',
+            {
+              active: !!match,
+              'link-dark': !match
+            }
+          ])
+        }
+      >
+        <span className="primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center">{title}</span>
+        {
+          version && (
+            <span className={
+              classNames([
+                'ms-1 text-secondary small',
+                {
+                  'text-light': !!match
+                }
+              ])
+            }
+            >
+              {version}
+            </span>
+          )
+        }
+      </NavLink>
+    </NavItem>
+  )
+}
+
+PrimaryNavigationLink.defaultProps = {
+  version: null
+}
+
+PrimaryNavigationLink.propTypes = {
+  title: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  version: PropTypes.string
+}
 
 /**
  * @typedef {Object} PrimaryNavigationItem
@@ -47,8 +100,8 @@ import './PrimaryNavigation.scss'
 const PrimaryNavigation = ({
   items
 }) => (
-  <nav className="primary-navigation pt-3">
-    <ul className="d-flex flex-row flex-wrap list-unstyled">
+  <nav className="primary-navigation bg-light w-100">
+    <Nav className="d-flex flex-column p-2" variant="pills">
       <For each={items}>
         {
           ({
@@ -56,30 +109,11 @@ const PrimaryNavigation = ({
             to,
             version
           }) => (
-            <li key={title} className="d-block fw-bold me-4">
-              <NavLink
-                className={
-                  ({ isActive }) => classNames([
-                    'd-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-0 text-white primary-navigation__item border-bottom border-4',
-                    {
-                      'border-pink ': isActive
-                    }
-                  ])
-                }
-                to={to}
-              >
-                <span className="primary-navigation__title d-block me-1 text-nowrap">{title}</span>
-                {
-                  version && (
-                    <Badge className="primary-navigation__badge flex-grow-0">{version}</Badge>
-                  )
-                }
-              </NavLink>
-            </li>
+            <PrimaryNavigationLink key={title} to={to} version={version} title={title} />
           )
         }
       </For>
-    </ul>
+    </Nav>
   </nav>
 )
 

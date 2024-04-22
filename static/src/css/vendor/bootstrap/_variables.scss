@@ -122,10 +122,7 @@ $navbar-brand-font-size: calc(1.285rem + 0.42vw);
  * Nav Pills
 */
 
-$nav-link-color: map.get($theme-colors, "blue-light");
-$nav-link-hover-color: map.get($theme-colors, "blue");
-$nav-pills-link-active-bg: map.get($theme-colors, "blue");
-$nav-pills-border-radius: 0;
+$nav-pills-link-active-bg: map.get($theme-colors, "primary");
 
 /*
  * Border Radius

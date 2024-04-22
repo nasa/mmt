@@ -44,7 +44,7 @@ const HomePage = () => {
   ]
 
   return (
-    <Page title="Home" navigation={false} hasBackgroundImage>
+    <Page title="Home" navigation={false}>
       <Row className="justify-content-md-center">
         <For each={panels}>
           {

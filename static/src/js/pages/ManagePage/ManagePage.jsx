@@ -40,7 +40,7 @@ const ManagePage = () => {
   const { items = [] } = drafts || {}
 
   return (
-    <Page className="bg-light" title={`Manage ${currentType}`}>
+    <Page title={`Manage ${currentType}`}>
       <Row className="manage-page__sections">
         <For
           each={

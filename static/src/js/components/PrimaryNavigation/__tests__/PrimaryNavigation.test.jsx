@@ -35,7 +35,7 @@ describe('PrimaryNavigation component', () => {
   })
 
   describe('when a link is active', () => {
-    test('sets the border on the active element', async () => {
+    test('sets the active element', async () => {
       render(
         <BrowserRouter>
           <PrimaryNavigation
@@ -59,12 +59,12 @@ describe('PrimaryNavigation component', () => {
         </BrowserRouter>
       )
 
-      expect(screen.getByText('Home').parentElement.className).toContain('border-bottom')
+      expect(screen.getByText('Home').parentElement.className).toContain('active')
     })
   })
 
   describe('when a link has a version', () => {
-    test('displays a version badge', async () => {
+    test('displays the version', async () => {
       render(
         <BrowserRouter>
           <PrimaryNavigation
@@ -85,7 +85,7 @@ describe('PrimaryNavigation component', () => {
         </BrowserRouter>
       )
 
-      expect(screen.getByText('v1.0')).toHaveClass('badge')
+      expect(screen.getByText('v1.0')).toHaveTextContent('v1.0')
     })
   })
 })
