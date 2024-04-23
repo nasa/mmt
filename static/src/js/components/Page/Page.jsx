@@ -91,22 +91,22 @@ const Page = ({
               items={
                 [
                   {
-                    to: '/manage/collections',
+                    to: '/collections',
                     title: 'Collections',
                     version: `v${ummC}`
                   },
                   {
-                    to: '/manage/variables',
+                    to: '/variables',
                     title: 'Variables',
                     version: `v${ummV}`
                   },
                   {
-                    to: '/manage/services',
+                    to: '/services',
                     title: 'Services',
                     version: `v${ummS}`
                   },
                   {
-                    to: '/manage/tools',
+                    to: '/tools',
                     title: 'Tools',
                     version: `v${ummT}`
                   },
@@ -121,18 +121,18 @@ const Page = ({
         )
       }
 
-      <div className="m-4 grow-0 w-100">
-        <Container>
-          <Row>
+      <div className="w-100 overflow-hidden">
+        <Container fluid className="mx-0 mb-5">
+          <Row className="py-3 border-bottom border-gray-200 mb-4">
             <Col>
               <header
                 className={
                   classNames(
                     [
-                      'd-flex flex-column align-items-start mb-4',
+                      'd-flex flex-column align-items-start',
                       {
                         'sr-only': pageType === 'primary',
-                        'pb-3 border-bottom border-gray-200': pageType !== 'primary'
+                        '': pageType !== 'primary'
                       }
                     ]
                   )
@@ -185,6 +185,10 @@ const Page = ({
                   }
                 </div>
               </header>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
               {children}
             </Col>
           </Row>

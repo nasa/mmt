@@ -50,7 +50,7 @@ describe('HomePage component', () => {
       expect(text).toBeInTheDocument()
     })
 
-    test('redirects to /manage/collections if user is logged in with a token', () => {
+    test('redirects to /collections if user is logged in with a token', () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -72,7 +72,7 @@ describe('HomePage component', () => {
       })
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/manage/collections', { replace: true })
+      expect(navigateSpy).toHaveBeenCalledWith('/collections', { replace: true })
     })
   })
 

@@ -1,10 +1,9 @@
 import React, { useLayoutEffect, useEffect } from 'react'
-import { Route, Routes } from 'react-router'
-import { BrowserRouter, Navigate } from 'react-router-dom'
+import { RouterProvider } from 'react-router'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 
 import { useLazyQuery } from '@apollo/client'
 import Layout from './components/Layout/Layout'
-import ManagePage from './pages/ManagePage/ManagePage'
 import DraftsPage from './pages/DraftsPage/DraftsPage'
 import Notifications from './components/Notifications/Notifications'
 import Page from './components/Page/Page'
@@ -33,21 +32,6 @@ import getPermittedUser from './utils/getPermittedUser'
 import RevisionList from './components/RevisionList/RevisionList'
 import OrderOptionList from './components/OrderOptionList/OrderOptionList'
 import OrderOptionPreview from './components/OrderOptionPreivew/OrderOptionPreview'
-
-const redirectKeys = Object.keys(REDIRECTS)
-
-// Create an array of the redirect `Route`s
-const Redirects = redirectKeys.map(
-  (redirectKey) => (
-    <Route
-      key={redirectKey}
-      path={redirectKey}
-      element={(
-        <Navigate replace to={`/${REDIRECTS[redirectKey]}`} />
-      )}
-    />
-  )
-)
 
 /**
  * Renders the `App` component
@@ -117,180 +101,122 @@ export const App = () => {
     }
   }, [user])
 
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      exact: true,
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <HomePage />
+        }
+      ]
+    },
+    {
+      path: '/auth_callback',
+      exact: true,
+      element: <Layout />,
+      children: [
+        {
+          path: '/auth_callback',
+          element: <AuthCallbackContainer />
+        }
+      ]
+    },
+    ...Object.keys(REDIRECTS).map((redirectKey) => ({
+      path: redirectKey,
+      element: <Navigate replace to={`/${REDIRECTS[redirectKey]}`} />
+    })),
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          element: <AuthRequiredContainer />,
+          children: [
+            {
+              path: ':type',
+              element: <SearchPage />
+            },
+            {
+              path: ':type/:conceptId',
+              element: <PublishPreview />
+            },
+            {
+              path: '/:type/:conceptId/collection-association',
+              element: <ManageCollectionAssociation />
+            },
+            {
+              path: '/:type/:conceptId/collection-association-search',
+              element: <CollectionAssociationSearch />
+            },
+            {
+              path: '/:type/:conceptId/:revisionId/collection-association-search',
+              element: <CollectionAssociationSearch />
+            },
+            {
+              path: ':type/:conceptId/:revisionId',
+              element: <PublishPreview />
+            },
+            {
+              path: '/:type/:conceptId/revisions',
+              element: <RevisionList />
+            },
+            {
+              path: '/:type/:conceptId/revisions/:revisionId',
+              element: <PublishPreview isRevision />
+            },
+            // TODO This is the only place we use a wild card here. Should we do that elsewhere or remove it here to match the other nested routes?
+            {
+              path: '/drafts/:draftType/*',
+              element: <DraftsPage />
+            },
+            {
+              path: '/order-options',
+              element: <OrderOptionList />
+            },
+            {
+              path: '/order-options/:conceptId',
+              element: <OrderOptionPreview />
+            },
+            {
+              path: 'templates/:templateType',
+              element: <TemplateList />
+            },
+            {
+              path: 'templates/:templateType/new',
+              element: <TemplateForm />
+            },
+            {
+              path: 'templates/:templateType/:id',
+              element: <TemplatePreview />
+            },
+            {
+              path: 'templates/:templateType/:id/:sectionName',
+              element: <TemplateForm />
+            },
+            {
+              path: 'templates/:templateType/:id/:sectionName/:fieldName',
+              element: <TemplateForm />
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '*',
+      element: <Navigate to="/404" replace />
+    },
+    {
+      path: '/404',
+      element: <Page title="404 Not Found" pageType="secondary">Not Found :(</Page>
+    }
+  ])
+
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            {Redirects}
-            <Route path="/" index element={<HomePage />} />
-            <Route
-              path="manage/:type/*"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <ManagePage />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="drafts/:draftType/*"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <DraftsPage />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateList />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/new"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateForm />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplatePreview />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id/:sectionName"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateForm />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="templates/:templateType/:id/:sectionName/:fieldName"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <TemplateForm />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="search"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <SearchPage />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              exact
-              path="/auth_callback"
-              element={<AuthCallbackContainer />}
-            />
-            <Route
-              path="/:type/:conceptId/"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <PublishPreview />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="/:type/:conceptId/:revisionId"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <PublishPreview />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="/:type/:conceptId/collection-association"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <ManageCollectionAssociation />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="/:type/:conceptId/collection-association-search"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <ManageCollectionAssociation />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="order-options"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <OrderOptionList />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route
-              path="order-options/:conceptId"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <OrderOptionPreview />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/:type/:conceptId/" element={<PublishPreview />} />
-            <Route path="/:type/:conceptId/revisions/:revisionId" element={<PublishPreview isRevision />} />
-            <Route
-              path="/:type/:conceptId/revisions"
-              element={
-                (
-                  <AuthRequiredContainer>
-                    <RevisionList />
-                  </AuthRequiredContainer>
-                )
-              }
-            />
-            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociation />} />
-            <Route path="/:type/:conceptId/collection-association-search" element={<CollectionAssociationSearch />} />
-            <Route path="/:type/:conceptId/:revisionId/collection-association-search" element={<CollectionAssociationSearch />} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/404" element={<Page title="404 Not Found" pageType="secondary">Not Found :(</Page>} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
       <Notifications />
     </>
   )

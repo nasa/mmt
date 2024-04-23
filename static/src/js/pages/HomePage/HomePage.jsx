@@ -28,7 +28,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!isExpired) {
-      navigate('/manage/collections', { replace: true })
+      navigate('/collections', { replace: true })
     }
   }, [token])
 

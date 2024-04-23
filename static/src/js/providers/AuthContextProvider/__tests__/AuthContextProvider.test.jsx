@@ -115,7 +115,7 @@ describe('AuthContextProvider component', () => {
 
         await user.click(button)
 
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/collections')}`
         expect(window.location.href).toEqual(expectedPath)
       })
     })
@@ -142,7 +142,7 @@ describe('AuthContextProvider component', () => {
         const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
         await user.click(button)
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/manage/collections')}`
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/collections')}`
         expect(window.location.href).toEqual(expectedPath)
 
         await waitFor(() => {

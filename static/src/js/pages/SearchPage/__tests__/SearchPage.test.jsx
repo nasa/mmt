@@ -53,13 +53,13 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
       }
     }
     >
-      <MemoryRouter initialEntries={overrideInitialEntries || ['/search?type=collections&keyword=test']}>
+      <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
           <Routes>
             <Route
-              path="/search"
+              path="/:type"
               element={<SearchPage {...props} />}
             />
             <Route
@@ -299,7 +299,7 @@ describe('SearchPage component', () => {
     test('sorts and shows the button as inactive', async () => {
       const user = userEvent.setup()
 
-      setup([multiPageCollectionSearchPage1Asc, multiPageCollectionSearchPage1], { limit: 3 }, ['/search?type=collections&keyword=test&sortKey=-shortName'])
+      setup([multiPageCollectionSearchPage1Asc, multiPageCollectionSearchPage1], { limit: 3 }, ['/collections?&keyword=test&sortKey=-shortName'])
 
       await waitFor(() => {
         const dataRow1 = screen.queryAllByRole('row')[1]
@@ -359,7 +359,7 @@ describe('SearchPage component', () => {
 
   describe('when searching for services', () => {
     beforeEach(() => {
-      setup([singlePageServicesSearch], {}, ['/search?type=services&keyword='])
+      setup([singlePageServicesSearch], {}, ['/services?&keyword='])
     })
 
     describe('while the request is loading', () => {
@@ -400,7 +400,7 @@ describe('SearchPage component', () => {
 
   describe('when searching for tools', () => {
     beforeEach(() => {
-      setup([singlePageToolsSearch], {}, ['/search?type=tools&keyword='])
+      setup([singlePageToolsSearch], {}, ['/tools?keyword='])
     })
 
     describe('while the request is loading', () => {
@@ -441,7 +441,7 @@ describe('SearchPage component', () => {
 
   describe('when searching for variables', () => {
     beforeEach(() => {
-      setup([singlePageVariablesSearch], {}, ['/search?type=variables&keyword='])
+      setup([singlePageVariablesSearch], {}, ['/variables?keyword='])
     })
 
     describe('while the request is loading', () => {
@@ -482,7 +482,7 @@ describe('SearchPage component', () => {
 
   describe('when a provider is defined', () => {
     beforeEach(() => {
-      setup([singlePageToolsSearchWithProvider], {}, ['/search?type=tools&provider=TESTPROV'])
+      setup([singlePageToolsSearchWithProvider], {}, ['/tools?provider=TESTPROV'])
     })
 
     describe('when the request resolves', () => {
@@ -504,16 +504,14 @@ describe('SearchPage component', () => {
 
     test('renders the search query', async () => {
       await waitFor(() => {
-        expect(screen.queryAllByRole('row').length).toEqual(2)
+        expect(screen.queryByText('1 tool for: Provider “TESTPROV”')).toBeInTheDocument()
       })
-
-      expect(screen.queryByText('1 Tool Result for:').textContent).toContain('Provider “TESTPROV”')
     })
   })
 
   describe('when an invalid type is passed', () => {
     beforeEach(() => {
-      setup(null, {}, ['/search?type=asdf&keyword='])
+      setup(null, {}, ['/asdf?keyword='])
     })
 
     test('renders the 404 page', async () => {

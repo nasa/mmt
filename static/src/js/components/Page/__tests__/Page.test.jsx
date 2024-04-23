@@ -24,22 +24,22 @@ describe('Page component', () => {
     expect(screen.getByTestId('mock-primary-navigation')).toBeInTheDocument()
     expect(MockPrimaryNavigation.mock.calls[0][0].items).toEqual([
       {
-        to: '/manage/collections',
+        to: '/collections',
         title: 'Collections',
         version: 'v1.17.3'
       },
       {
-        to: '/manage/variables',
+        to: '/variables',
         title: 'Variables',
         version: 'v1.9.0'
       },
       {
-        to: '/manage/services',
+        to: '/services',
         title: 'Services',
         version: 'v1.5.2'
       },
       {
-        to: '/manage/tools',
+        to: '/tools',
         title: 'Tools',
         version: 'v1.2.0'
       },

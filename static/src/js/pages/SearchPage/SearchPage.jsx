@@ -4,13 +4,16 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-import { useSearchParams, Navigate } from 'react-router-dom'
+import {
+  useSearchParams,
+  Navigate,
+  useParams
+} from 'react-router-dom'
 import Placeholder from 'react-bootstrap/Placeholder'
 import { capitalize, startCase } from 'lodash-es'
 import pluralize from 'pluralize'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
-import commafy from 'commafy'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Alert from 'react-bootstrap/Alert'
@@ -49,15 +52,15 @@ const SearchPage = ({ limit }) => {
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
 
-  const typeParam = searchParams.get('type')
+  const { type: conceptType } = useParams()
   const keywordParam = searchParams.get('keyword')
   const sortKeyParam = searchParams.get('sortKey')
   const providerParam = searchParams.get('provider')
-  const formattedType = capitalize(typeParam)
+  const formattedType = capitalize(conceptType)
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
 
-  if (!typeParamToHumanizedNameMap[typeParam]) {
+  if (!typeParamToHumanizedNameMap[conceptType]) {
     return (
       <Navigate to="/404" replace />
     )
@@ -101,7 +104,7 @@ const SearchPage = ({ limit }) => {
     const { conceptId, revisionId } = rowData
 
     return (
-      <EllipsisLink to={`/${typeParam}/${conceptId}/${revisionId}`}>
+      <EllipsisLink to={`/${conceptType}/${conceptId}/${revisionId}`}>
         {cellData}
       </EllipsisLink>
     )
@@ -259,7 +262,7 @@ const SearchPage = ({ limit }) => {
 
   useEffect(() => {
     setColumns(getColumnState())
-  }, [typeParam])
+  }, [conceptType])
 
   const activeTagModalCollection = items?.find((item) => (
     item.conceptId === tagModalActiveCollection
@@ -282,23 +285,14 @@ const SearchPage = ({ limit }) => {
 
   const secondaryTitle = queryMessages.join(', ')
 
-  let pageTitle = loading && items.length === 0
-    ? `Loading ${startCase(getHumanizedNameFromTypeParam(typeParam))} Results`
-    : `${commafy(count)} ${startCase(getHumanizedNameFromTypeParam(typeParam))} ${pluralize('Results', count)}`
-
-  if (secondaryTitle) {
-    pageTitle += ' for:'
-  }
-
   return (
     <Page
       pageType="secondary"
-      title={pageTitle}
-      secondaryTitle={secondaryTitle}
+      title="Search Results"
       breadcrumbs={
         [
           {
-            label: 'Search Results',
+            label: `${capitalize(getHumanizedNameFromTypeParam(conceptType))}s`,
             active: true
           }
         ]
@@ -326,9 +320,10 @@ const SearchPage = ({ limit }) => {
                     const hasFilter = !!keywordParam || !!sortKeyParam
 
                     const paginationMessage = count > 0
-                      ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
-                        + `${hasFilter ? 'matching ' : ''}${pluralize(typeParam, results.count)}`
-                      : `No matching ${typeParam} found`
+                      ? `${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
+                        + `${hasFilter ? 'matching ' : ''}${pluralize(conceptType, results.count)}`
+                        + `${secondaryTitle ? ` for: ${secondaryTitle}` : ''}`
+                      : `No matching ${conceptType} found`
 
                     return (
                       <>
@@ -392,7 +387,7 @@ const SearchPage = ({ limit }) => {
                           !loading && items.length === 0 && (
                             <Alert className="text-center d-flex flex-column align-items-center p-4" variant="light">
                               <FaBan className="display-6 mb-2 text-secondary" />
-                              <span>{`No ${getHumanizedNameFromTypeParam(typeParam)}s match the current search criteria.`}</span>
+                              <span>{`No ${getHumanizedNameFromTypeParam(conceptType)}s match the current search criteria.`}</span>
                             </Alert>
                           )
                         }

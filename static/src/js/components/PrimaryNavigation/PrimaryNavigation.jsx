@@ -30,7 +30,7 @@ const PrimaryNavigationLink = ({
           ])
         }
       >
-        <span className="primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center">{title}</span>
+        <span className="primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center fw-bold">{title}</span>
         {
           version && (
             <span className={

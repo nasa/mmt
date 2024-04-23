@@ -6,6 +6,7 @@ import React, {
 import {
   Link,
   useNavigate,
+  useParams,
   useSearchParams
 } from 'react-router-dom'
 import {
@@ -68,7 +69,8 @@ const Header = () => {
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
-  const [searchType, setSearchType] = useState('collections')
+  const { type: searchTypeFromPath = 'collections' } = useParams()
+  const [searchType, setSearchType] = useState(searchTypeFromPath)
   const [searchProvider, setSearchProvider] = useState()
 
   // Set the input with the value from the keyword search param if one exists
@@ -77,13 +79,7 @@ const Header = () => {
   const isLoggedIn = !isTokenExpired(user?.token) && user?.name
 
   useEffect(() => {
-    const currentSearchType = searchParams.get('type')
     const currentSearchProvider = searchParams.get('provider')
-
-    // If there is a search type or provider defined in the url, use that.
-    if (currentSearchType) {
-      setSearchType(currentSearchType)
-    }
 
     if (currentSearchProvider) {
       setSearchProvider(currentSearchProvider)
@@ -105,7 +101,6 @@ const Header = () => {
   // Callback for submitting the search form
   const onSearchSubmit = () => {
     const allParams = {
-      type: searchType,
       keyword: searchKeyword,
       provider: searchProvider
     }
@@ -116,7 +111,7 @@ const Header = () => {
     const params = new URLSearchParams(prunedParams)
 
     // Navigate to the search params with any of the defined params in the url
-    navigate(`/search?${params.toString()}`)
+    navigate(`/${searchType}?${params.toString()}`)
   }
 
   // Callback for the search type change
