@@ -144,7 +144,7 @@ describe('TemplatePreview', () => {
         const { user } = setup()
         await waitForResponse()
 
-        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        const deleteButton = screen.getByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         expect(screen.getByText('Are you sure you want to delete this template?')).toBeInTheDocument()
@@ -176,7 +176,7 @@ describe('TemplatePreview', () => {
 
         await waitForResponse()
 
-        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        const deleteButton = screen.getByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
@@ -203,7 +203,7 @@ describe('TemplatePreview', () => {
 
         await waitForResponse()
 
-        const deleteButton = screen.getByRole('button', { name: 'Delete Template' })
+        const deleteButton = screen.getByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         const noButton = screen.getByRole('button', { name: 'No' })
@@ -289,7 +289,7 @@ describe('TemplatePreview', () => {
 
         await waitForResponse()
 
-        const createButton = screen.getByRole('button', { name: 'Create Collection Draft' })
+        const createButton = screen.getByRole('button', { name: /Create Draft/ })
         await user.click(createButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
@@ -323,7 +323,7 @@ describe('TemplatePreview', () => {
 
         await waitForResponse()
 
-        const createButton = screen.getByRole('button', { name: 'Create Collection Draft' })
+        const createButton = screen.getByRole('button', { name: /Create Draft/ })
         await user.click(createButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)

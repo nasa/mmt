@@ -5,19 +5,23 @@ import React, {
 } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
+import { FaPlus } from 'react-icons/fa'
 import moment from 'moment'
-import Page from '../Page/Page'
-import useAppContext from '../../hooks/useAppContext'
+
+import delateTemplate from '../../utils/deleteTemplate'
 import getTemplates from '../../utils/getTemplates'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+
+import errorLogger from '../../utils/errorLogger'
+import { DATE_FORMAT } from '../../constants/dateFormat'
+import useAppContext from '../../hooks/useAppContext'
+
+import Page from '../Page/Page'
 import Table from '../Table/Table'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import Button from '../Button/Button'
 import CustomModal from '../CustomModal/CustomModal'
-import delateTemplate from '../../utils/deleteTemplate'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import errorLogger from '../../utils/errorLogger'
-import { DATE_FORMAT } from '../../constants/dateFormat'
 
 /**
  * Renders a TemplateList component
@@ -155,11 +159,14 @@ const TemplateList = () => {
           }
         ]
       }
-      headerActions={
+      primaryActions={
         [
           {
-            label: 'New Collection Template',
-            to: 'new'
+            icon: FaPlus,
+            iconTitle: 'A plus icon',
+            title: 'New Template',
+            to: '/new',
+            variant: 'primary'
           }
         ]
       }

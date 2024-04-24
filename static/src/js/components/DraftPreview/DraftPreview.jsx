@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate, useParams } from 'react-router'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
-import { startCase } from 'lodash-es'
 import pluralize from 'pluralize'
 
+import {
+  FaCopy,
+  FaSave,
+  FaTrash
+} from 'react-icons/fa'
 import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
@@ -18,7 +21,6 @@ import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import CustomModal from '../CustomModal/CustomModal'
 import formConfigurations from '../../schemas/uiForms'
 
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import usePublishMutation from '../../hooks/usePublishMutation'
@@ -32,7 +34,8 @@ import createTemplate from '../../utils/createTemplate'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import conceptTypes from '../../constants/conceptTypes'
+
+import './DraftPreview.scss'
 
 /**
  * Renders a DraftPreview component
@@ -152,7 +155,6 @@ const DraftPreview = () => {
   }, [draft, retries])
 
   const {
-    conceptType,
     name,
     nativeId,
     previewMetadata,
@@ -275,11 +277,6 @@ const DraftPreview = () => {
   // Pull the formSections out of the formConfigurations
   const formSections = formConfigurations[derivedConceptType]
 
-  // Accessible event props for the delete link
-  const accessibleEventProps = useAccessibleEvent(() => {
-    toggleShowDeleteModal(true)
-  })
-
   if (loading) {
     return (
       <Page>
@@ -322,54 +319,35 @@ const DraftPreview = () => {
           }
         ]
       }
+      primaryActions={
+        [
+          {
+            icon: FaSave,
+            iconTitle: 'A save icon',
+            onClick: handlePublish,
+            title: 'Publish',
+            variant: 'primary'
+          },
+          {
+            icon: FaTrash,
+            iconTitle: 'A trash icon',
+            onClick: () => toggleShowDeleteModal(true),
+            title: 'Delete',
+            variant: 'danger'
+          },
+          {
+            icon: FaCopy,
+            iconTitle: 'A copy icon',
+            onClick: handleTemplate,
+            title: 'Save as Template',
+            variant: 'light-dark'
+          }
+        ]
+      }
     >
-      <Container id="metadata-form" className="px-0">
-        <Row>
-          <Col md={12} className="mb-3" />
-        </Row>
+      <Container id="metadata-form" fluid className="px-0">
         <Row>
           <Col className="mb-5" md={12}>
-            <Button
-              className="eui-btn--blue display-modal"
-              onClick={
-                () => {
-                  handlePublish()
-                }
-              }
-            >
-              Publish
-              {' '}
-              {startCase(conceptType)}
-            </Button>
-
-            {
-              derivedConceptType === conceptTypes.Collection && (
-                <Button
-                  className="ms-2"
-                  variant="outline-secondary"
-                  onClick={
-                    () => {
-                      handleTemplate()
-                    }
-                  }
-                >
-                  Save as Template
-                </Button>
-
-              )
-            }
-
-            <Button
-              className="ms-2"
-              variant="outline-danger"
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...accessibleEventProps}
-            >
-              Delete
-              {' '}
-              {startCase(conceptType)}
-            </Button>
-
             <CustomModal
               message="Are you sure you want to delete this draft?"
               show={showDeleteModal}
@@ -394,7 +372,7 @@ const DraftPreview = () => {
         <Row>
           <Col md={12}>
             <Row>
-              <Col>
+              <Col className="mb-5">
                 <h3 className="sr-only">Metadata Fields</h3>
                 <PreviewProgress
                   draftJson={ummMetadata}
@@ -414,7 +392,8 @@ const DraftPreview = () => {
             </Row>
           </Col>
           <Row>
-            <Col md={12}>
+            <Col md={12} className="draft-preview__preview">
+              <h2 className="fw-bold fs-4 text-secondary">Metadata Preview</h2>
               <MetadataPreview
                 previewMetadata={previewMetadata}
                 conceptId={conceptId}

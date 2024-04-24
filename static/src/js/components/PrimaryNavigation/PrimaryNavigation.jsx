@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { NavLink, useMatch } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import Nav from 'react-bootstrap/Nav'
 import NavItem from 'react-bootstrap/NavItem'
 
@@ -12,9 +12,11 @@ import './PrimaryNavigation.scss'
 const PrimaryNavigationLink = ({
   title,
   to,
-  version
+  version,
+  isChild
 }) => {
-  const match = useMatch(to)
+  const location = useLocation()
+  const match = location.pathname.startsWith(to)
 
   return (
     <NavItem className="d-flex flex-row w-100">
@@ -22,22 +24,36 @@ const PrimaryNavigationLink = ({
         to={to}
         className={
           classNames([
-            'nav-link w-100',
+            'primary-navigation__link nav-link w-100',
             {
-              active: !!match,
-              'link-dark': !match
+              active: match,
+              'bg-light text-primary fw-bold': match && isChild,
+              'link-dark': !match,
+              'py-1 ps-4': isChild
             }
           ])
         }
       >
-        <span className="primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center fw-bold">{title}</span>
+        <span
+          className={
+            classNames([
+              'primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center',
+              {
+                'bg-light text-secondary': !match && isChild,
+                'fw-bold': !isChild
+              }
+            ])
+          }
+        >
+          {title}
+        </span>
         {
           version && (
             <span className={
               classNames([
-                'ms-1 text-secondary small',
+                'primary-navigation__version ms-2 text-secondary font-monospace fw-light',
                 {
-                  'text-light': !!match
+                  'text-light': match
                 }
               ])
             }
@@ -52,10 +68,12 @@ const PrimaryNavigationLink = ({
 }
 
 PrimaryNavigationLink.defaultProps = {
+  isChild: false,
   version: null
 }
 
 PrimaryNavigationLink.propTypes = {
+  isChild: PropTypes.bool,
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
   version: PropTypes.string
@@ -100,21 +118,54 @@ PrimaryNavigationLink.propTypes = {
 const PrimaryNavigation = ({
   items
 }) => (
-  <nav className="primary-navigation bg-light w-100">
-    <Nav className="d-flex flex-column p-2" variant="pills">
-      <For each={items}>
-        {
-          ({
-            title,
-            to,
-            version
-          }) => (
-            <PrimaryNavigationLink key={title} to={to} version={version} title={title} />
-          )
-        }
-      </For>
-    </Nav>
-  </nav>
+  <Nav className="primary-navigation bg-light w-100 d-flex flex-column p-2" variant="pills" as="nav">
+    <For each={items}>
+      {
+        ({
+          title,
+          to,
+          version,
+          children
+        }) => (
+          <React.Fragment key={`${to}-${title}`}>
+            <PrimaryNavigationLink
+              to={to}
+              version={version}
+              title={title}
+            />
+            {
+              children && children.length > 0 && (
+                <Nav
+                  className={
+                    classNames({
+                      'mb-1': children && children.length > 0
+                    })
+                  }
+                  variant="pills"
+                >
+                  <For each={children}>
+                    {
+                      ({
+                        title: childTitle,
+                        to: childTo
+                      }) => (
+                        <PrimaryNavigationLink
+                          key={`${childTo}-${childTitle}`}
+                          isChild
+                          title={childTitle}
+                          to={childTo}
+                        />
+                      )
+                    }
+                  </For>
+                </Nav>
+              )
+            }
+          </React.Fragment>
+        )
+      }
+    </For>
+  </Nav>
 )
 
 PrimaryNavigation.propTypes = {

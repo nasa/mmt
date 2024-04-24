@@ -144,6 +144,10 @@ export const App = () => {
               element: <PublishPreview />
             },
             {
+              path: ':type/:conceptId/:revisionId',
+              element: <PublishPreview />
+            },
+            {
               path: '/:type/:conceptId/collection-association',
               element: <ManageCollectionAssociation />
             },
@@ -154,10 +158,6 @@ export const App = () => {
             {
               path: '/:type/:conceptId/:revisionId/collection-association-search',
               element: <CollectionAssociationSearch />
-            },
-            {
-              path: ':type/:conceptId/:revisionId',
-              element: <PublishPreview />
             },
             {
               path: '/:type/:conceptId/revisions',

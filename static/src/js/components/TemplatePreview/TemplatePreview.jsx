@@ -8,6 +8,7 @@ import {
 import validator from '@rjsf/validator-ajv8'
 
 import camelcaseKeys from 'camelcase-keys'
+import { FaCopy, FaTrash } from 'react-icons/fa'
 import Page from '../Page/Page'
 import useAppContext from '../../hooks/useAppContext'
 import getTemplate from '../../utils/getTemplate'
@@ -18,7 +19,6 @@ import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import parseError from '../../utils/parseError'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import Button from '../Button/Button'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
@@ -174,59 +174,46 @@ const TemplatePreview = () => {
           }
         ]
       }
+      primaryActions={
+        [
+          {
+            icon: FaCopy,
+            iconTitle: 'A copy/paste icon',
+            onClick: handleCreateCollectionDraft,
+            title: 'Create Draft',
+            variant: 'primary'
+          },
+          {
+            icon: FaTrash,
+            iconTitle: 'A trash can icon',
+            onClick: () => toggleShowDeleteModal(true),
+            title: 'Delete',
+            variant: 'danger'
+          }
+        ]
+      }
     >
       <Container id="template-form" className="px-0">
         <Row>
-          <Col md={12} className="mb-3" />
-        </Row>
-        <Row>
-          <Row>
-            <Col className="mb-5" md={12}>
-              <div className="d-flex gap-2">
-                <Button
-                  type="button"
-                  variant="primary"
-                  onClick={
-                    () => {
-                      handleCreateCollectionDraft()
-                    }
-                  }
-                >
-                  Create Collection Draft
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline-danger"
-                  onClick={
-                    () => {
-                      toggleShowDeleteModal(true)
-                    }
-                  }
-                >
-                  Delete Template
-                </Button>
-                <CustomModal
-                  message="Are you sure you want to delete this template?"
-                  show={showDeleteModal}
-                  toggleModal={toggleShowDeleteModal}
-                  actions={
-                    [
-                      {
-                        label: 'No',
-                        variant: 'secondary',
-                        onClick: () => { toggleShowDeleteModal(false) }
-                      },
-                      {
-                        label: 'Yes',
-                        variant: 'primary',
-                        onClick: handleDelete
-                      }
-                    ]
-                  }
-                />
-              </div>
-            </Col>
-          </Row>
+          <CustomModal
+            message="Are you sure you want to delete this template?"
+            show={showDeleteModal}
+            toggleModal={toggleShowDeleteModal}
+            actions={
+              [
+                {
+                  label: 'No',
+                  variant: 'secondary',
+                  onClick: () => { toggleShowDeleteModal(false) }
+                },
+                {
+                  label: 'Yes',
+                  variant: 'primary',
+                  onClick: handleDelete
+                }
+              ]
+            }
+          />
           <Col md={12}>
             <Row>
               <Col>

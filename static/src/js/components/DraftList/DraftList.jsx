@@ -6,7 +6,7 @@ import React, {
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
-import { FaFileDownload } from 'react-icons/fa'
+import { FaFileDownload, FaPlus } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Placeholder from 'react-bootstrap/Placeholder'
@@ -187,11 +187,14 @@ const DraftList = ({ draftType }) => {
           }
         ]
       }
-      headerActions={
+      primaryActions={
         [
           {
-            label: `New ${draftType} Draft`,
-            to: 'new'
+            icon: FaPlus,
+            iconTitle: 'A plus icon',
+            title: 'New Draft',
+            to: 'new',
+            variant: 'primary'
           }
         ]
       }

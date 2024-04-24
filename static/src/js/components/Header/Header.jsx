@@ -125,10 +125,10 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="header bg-dark z-n3 px-4">
+    <header className="header bg-primary z-n3 px-4">
       <Navbar
         className="w-100 d-flex align-items-center justify-content-between py-3"
-        bg="dark"
+        bg="primary"
         collapseOnSelect
         expand="lg"
         variant="dark"

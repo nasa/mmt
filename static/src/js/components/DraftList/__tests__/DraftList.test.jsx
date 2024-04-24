@@ -244,7 +244,7 @@ describe('DraftList', () => {
 
       const { user } = setup()
 
-      const button = screen.getByRole('link', { name: 'New Tool Draft' })
+      const button = screen.getByRole('link', { name: /New Draft/ })
       await user.click(button)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
