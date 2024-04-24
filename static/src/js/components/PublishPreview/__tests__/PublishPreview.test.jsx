@@ -640,7 +640,7 @@ describe('PublishPreview', () => {
 
   describe('Variables Preview', () => {
     describe('when editing a publish variable', () => {
-      test.only('should navigate to /drafts/variable/conceptId page', async () => {
+      test('should navigate to /drafts/variable/conceptId page', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
