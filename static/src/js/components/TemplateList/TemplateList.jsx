@@ -8,7 +8,7 @@ import { Col, Row } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 import moment from 'moment'
 
-import delateTemplate from '../../utils/deleteTemplate'
+import deleteTemplate from '../../utils/deleteTemplate'
 import getTemplates from '../../utils/getTemplates'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
@@ -75,7 +75,7 @@ const TemplateList = () => {
   }, [])
 
   const handleDelete = async () => {
-    const { response } = await delateTemplate(providerId, token, selectedDeleteId)
+    const { response } = await deleteTemplate(providerId, token, selectedDeleteId)
     if (response.ok) {
       toggleShowDeleteModal(false)
       addNotification({
