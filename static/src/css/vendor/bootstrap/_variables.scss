@@ -50,6 +50,7 @@ $custom-colors: (
   "warning": #f2d029,
   "danger": #b3241c,
   "light": #f4f4f4,
+  "light-dark": #e6e6e6,
   "dark": #313438
 );
 
@@ -122,10 +123,7 @@ $navbar-brand-font-size: calc(1.285rem + 0.42vw);
  * Nav Pills
 */
 
-$nav-link-color: map.get($theme-colors, "blue-light");
-$nav-link-hover-color: map.get($theme-colors, "blue");
-$nav-pills-link-active-bg: map.get($theme-colors, "blue");
-$nav-pills-border-radius: 0;
+$nav-pills-link-active-bg: map.get($theme-colors, "primary");
 
 /*
  * Border Radius

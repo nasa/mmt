@@ -1,12 +1,83 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-import Badge from 'react-bootstrap/Badge'
+import { NavLink, useLocation } from 'react-router-dom'
+import Nav from 'react-bootstrap/Nav'
+import NavItem from 'react-bootstrap/NavItem'
 
 import { For } from '../For/For'
 
 import './PrimaryNavigation.scss'
+
+const PrimaryNavigationLink = ({
+  title,
+  to,
+  version,
+  isChild
+}) => {
+  const location = useLocation()
+  const match = location.pathname.startsWith(to)
+
+  return (
+    <NavItem className="d-flex flex-row w-100">
+      <NavLink
+        to={to}
+        className={
+          classNames([
+            'primary-navigation__link nav-link w-100',
+            {
+              active: match,
+              'bg-light text-primary fw-bold': match && isChild,
+              'link-dark': !match,
+              'py-1 ps-4': isChild
+            }
+          ])
+        }
+      >
+        <span
+          className={
+            classNames([
+              'primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center',
+              {
+                'bg-light text-secondary': !match && isChild,
+                'fw-bold': !isChild
+              }
+            ])
+          }
+        >
+          {title}
+        </span>
+        {
+          version && (
+            <span className={
+              classNames([
+                'primary-navigation__version ms-2 text-secondary font-monospace fw-light',
+                {
+                  'text-light': match
+                }
+              ])
+            }
+            >
+              {version}
+            </span>
+          )
+        }
+      </NavLink>
+    </NavItem>
+  )
+}
+
+PrimaryNavigationLink.defaultProps = {
+  isChild: false,
+  version: null
+}
+
+PrimaryNavigationLink.propTypes = {
+  isChild: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  version: PropTypes.string
+}
 
 /**
  * @typedef {Object} PrimaryNavigationItem
@@ -47,40 +118,54 @@ import './PrimaryNavigation.scss'
 const PrimaryNavigation = ({
   items
 }) => (
-  <nav className="primary-navigation pt-3">
-    <ul className="d-flex flex-row flex-wrap list-unstyled">
-      <For each={items}>
-        {
-          ({
-            title,
-            to,
-            version
-          }) => (
-            <li key={title} className="d-block fw-bold me-4">
-              <NavLink
-                className={
-                  ({ isActive }) => classNames([
-                    'd-flex align-items-start flex-grow-0 text-decoration-none text-uppercase py-2 px-0 text-white primary-navigation__item border-bottom border-4',
+  <Nav className="primary-navigation bg-light w-100 d-flex flex-column p-2" variant="pills" as="nav">
+    <For each={items}>
+      {
+        ({
+          title,
+          to,
+          version,
+          children
+        }) => (
+          <React.Fragment key={`${to}-${title}`}>
+            <PrimaryNavigationLink
+              to={to}
+              version={version}
+              title={title}
+            />
+            {
+              children && children.length > 0 && (
+                <Nav
+                  className={
+                    classNames({
+                      'mb-1': children && children.length > 0
+                    })
+                  }
+                  variant="pills"
+                >
+                  <For each={children}>
                     {
-                      'border-pink ': isActive
+                      ({
+                        title: childTitle,
+                        to: childTo
+                      }) => (
+                        <PrimaryNavigationLink
+                          key={`${childTo}-${childTitle}`}
+                          isChild
+                          title={childTitle}
+                          to={childTo}
+                        />
+                      )
                     }
-                  ])
-                }
-                to={to}
-              >
-                <span className="primary-navigation__title d-block me-1 text-nowrap">{title}</span>
-                {
-                  version && (
-                    <Badge className="primary-navigation__badge flex-grow-0">{version}</Badge>
-                  )
-                }
-              </NavLink>
-            </li>
-          )
-        }
-      </For>
-    </ul>
-  </nav>
+                  </For>
+                </Nav>
+              )
+            }
+          </React.Fragment>
+        )
+      }
+    </For>
+  </Nav>
 )
 
 PrimaryNavigation.propTypes = {

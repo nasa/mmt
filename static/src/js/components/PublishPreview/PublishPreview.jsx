@@ -4,7 +4,6 @@ import pluralize from 'pluralize'
 import React, { useState, useEffect } from 'react'
 import {
   Alert,
-  Badge,
   Button,
   Col,
   ListGroup,
@@ -13,6 +12,14 @@ import {
 } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router'
 import { capitalize } from 'lodash-es'
+import {
+  FaClone,
+  FaDownload,
+  FaEdit,
+  FaEye,
+  FaPlus,
+  FaTrash
+} from 'react-icons/fa'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import deleteMutationTypes from '../../constants/deleteMutationTypes'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -34,6 +41,8 @@ import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftCon
 import For from '../For/For'
 import getTagCount from '../../utils/getTagCount'
 import useRevisionsQuery from '../../hooks/useRevisionsQuery'
+
+import './PublishPreview.scss'
 
 /**
  * Renders a PublishPreview component
@@ -314,224 +323,165 @@ const PublishPreview = ({ isRevision }) => {
     )
   }
 
+  const { name, shortName } = previewMetadata || {}
+
+  const displayName = name || shortName || '<Blank Name>'
+
   return (
-    <Page>
-      <Row>
-        <Col className="mb-5" md={12}>
-          <Button
-            className="btn btn-link"
-            type="button"
-            variant="link"
-            onClick={
-              () => {
-                handleEdit()
-              }
-            }
-          >
-            Edit
-            {' '}
-            {derivedConceptType}
-            {' '}
-            Record
-          </Button>
-
-          <Button
-            className="btn btn-link"
-            type="button"
-            variant="link"
-            onClick={
-              () => {
-                handleClone()
-              }
-            }
-          >
-            Clone
-            {' '}
-            {derivedConceptType}
-            {' '}
-            Record
-          </Button>
-
-          <Button
-            className="btn btn-link"
-            type="button"
-            variant="link"
-            onClick={
-              () => {
-                handleDownload()
-              }
-            }
-          >
-            Download
-            {' '}
-            {derivedConceptType}
-            {' '}
-            Record
-          </Button>
-
+    <Page
+      title={displayName}
+      pageType="secondary"
+      breadcrumbs={
+        [
           {
-            derivedConceptType === conceptTypes.Collection && (
-              <>
-                <Button
-                  className="btn btn-link"
-                  type="button"
-                  variant="link"
-                  onClick={
-                    () => {
-                      toggleTagModal(true)
-                    }
-                  }
-                >
-                  Tags
-                  <Badge
-                    className="m-1"
-                    bg="secondary"
-                    pill
-                  >
-                    { tagCount }
-                  </Badge>
-                </Button>
-                <Button
-                  className="btn btn-link"
-                  type="button"
-                  variant="link"
-                  disabled
-                >
-                  Granules
-                  <Badge
-                    className="m-1"
-                    bg="secondary"
-                    pill
-                  >
-                    { granuleCount }
-                  </Badge>
-                </Button>
-
-                <Button
-                  className="btn btn-link"
-                  type="button"
-                  variant="link"
-                  onClick={
-                    () => {
-                      handleCreateAssociatedVariable()
-                    }
-                  }
-                >
-                  Create Associated Variable
-                </Button>
-              </>
-            )
-          }
+            label: `${derivedConceptType}s`,
+            to: `/${derivedConceptType.toLowerCase()}s`
+          },
           {
-            derivedConceptType !== conceptTypes.Collection && (
-              <Button
-                className="btn btn-link"
-                type="button"
-                variant="link"
-                onClick={
-                  () => {
-                    handleManageCollectionAssociation()
-                  }
-                }
-              >
-                Manage Collection Association
-              </Button>
-            )
+            label: displayName,
+            active: true
           }
-          <Button
-            className="btn btn-link"
-            type="button"
-            variant="link"
-            onClick={handleRevisions}
-          >
-            Revisions
-            <Badge
-              className="m-1"
-              bg="secondary"
-              pill
-            >
-              { revisionCount }
-            </Badge>
-          </Button>
-          <Button
-            type="button"
-            variant="outline-danger"
-            onClick={
-              () => {
-                toggleShowDeleteModal(true)
-              }
-            }
-          >
-            Delete
-            {' '}
-            {derivedConceptType}
-            {' '}
-            Record
-          </Button>
-          <CustomModal
-            message="Are you sure you want to delete this record?"
-            show={showDeleteModal}
-            size="lg"
-            toggleModal={toggleShowDeleteModal}
-            actions={
-              [
+        ]
+      }
+      primaryActions={
+        [
+          {
+            icon: FaEdit,
+            onClick: handleEdit,
+            title: 'Edit',
+            iconTitle: 'A edit icon',
+            variant: 'primary'
+          },
+          {
+            icon: FaTrash,
+            onClick: () => toggleShowDeleteModal(true),
+            title: 'Delete',
+            iconTitle: 'A trash can icon',
+            variant: 'danger'
+          },
+          {
+            icon: FaClone,
+            onClick: handleClone,
+            title: 'Clone',
+            iconTitle: 'A clone icon',
+            variant: 'light-dark'
+          }
+        ]
+      }
+      additionalActions={
+        [
+          {
+            icon: FaDownload,
+            onClick: handleDownload,
+            title: 'Download JSON'
+          },
+          {
+            icon: FaPlus,
+            onClick: handleCreateAssociatedVariable,
+            title: 'Create Associated Variable'
+          },
+          {
+            icon: FaEye,
+            onClick: handleRevisions,
+            title: 'View Revisions',
+            count: revisionCount
+          },
+          ...(
+            derivedConceptType === conceptTypes.Collection
+              ? [
                 {
-                  label: 'No',
-                  variant: 'secondary',
-                  onClick: () => { toggleShowDeleteModal(false) }
+                  icon: FaEye,
+                  onClick: () => {},
+                  title: 'View Granules',
+                  count: granuleCount,
+                  disabled: true
                 },
                 {
-                  label: 'Yes',
-                  variant: 'primary',
-                  onClick: handleDelete
+                  icon: FaEye,
+                  onClick: () => toggleTagModal(true),
+                  title: 'View Tags',
+                  count: tagCount
                 }
               ]
-            }
-          />
-          <CustomModal
-            show={showTagModal}
-            toggleModal={toggleTagModal}
-            actions={
-              [
+              : []
+          ),
+          ...(
+            derivedConceptType !== conceptTypes.Collection
+              ? [
                 {
-                  label: 'Close',
-                  variant: 'primary',
-                  onClick: () => { toggleTagModal(false) }
+                  icon: FaEye,
+                  onClick: handleManageCollectionAssociation,
+                  title: 'Collection Associations'
                 }
               ]
-            }
-            header={previewMetadata?.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
-            message={
-              previewMetadata?.tagDefinitions
-                ? (
-                  <>
-                    <h3 className="fw-bolder h5">{}</h3>
-                    <ListGroup>
-                      <For each={previewMetadata.tagDefinitions.items}>
-                        {
-                          (tagItems) => (
-                            <ListGroupItem key={tagItems.tagKey}>
-                              <dl>
-                                <dt>Tag Key:</dt>
-                                <dd>{tagItems.tagKey}</dd>
-                                <dt>Description:</dt>
-                                <dd>
-                                  {tagItems.description}
-                                </dd>
-                              </dl>
-                            </ListGroupItem>
-                          )
-                        }
-                      </For>
-                    </ListGroup>
-                  </>
-                )
-                : 'There are no tags associated with this collection'
-            }
-          />
-        </Col>
-      </Row>
+              : []
+          )
+        ]
+      }
+    >
+      <CustomModal
+        message="Are you sure you want to delete this record?"
+        show={showDeleteModal}
+        size="lg"
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
 
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+
+            }
+          ]
+        }
+      />
+      <CustomModal
+        show={showTagModal}
+        toggleModal={toggleTagModal}
+        actions={
+          [
+            {
+              label: 'Close',
+              variant: 'primary',
+              onClick: () => { toggleTagModal(false) }
+            }
+          ]
+        }
+        header={previewMetadata?.tagDefinitions?.items && `${Object.keys(previewMetadata.tagDefinitions.items).length} ${pluralize('tag', Object.keys(previewMetadata.tagDefinitions.items).length)}`}
+        message={
+          previewMetadata?.tagDefinitions
+            ? (
+              <>
+                <h3 className="fw-bolder h5">{}</h3>
+                <ListGroup>
+                  <For each={previewMetadata.tagDefinitions.items}>
+                    {
+                      (tagItems) => (
+                        <ListGroupItem key={tagItems.tagKey}>
+                          <dl>
+                            <dt>Tag Key:</dt>
+                            <dd>{tagItems.tagKey}</dd>
+                            <dt>Description:</dt>
+                            <dd>
+                              {tagItems.description}
+                            </dd>
+                          </dl>
+                        </ListGroupItem>
+                      )
+                    }
+                  </For>
+                </ListGroup>
+              </>
+            )
+            : 'There are no tags associated with this collection'
+        }
+      />
       {
         isRevision && (
           <Row>
@@ -557,7 +507,8 @@ const PublishPreview = ({ isRevision }) => {
       }
 
       <Row>
-        <Col md={12}>
+        <Col className="publish-preview__preview" md={12}>
+          <h2 className="fw-bold fs-4 text-secondary">Metadata Preview</h2>
           <MetadataPreview
             previewMetadata={previewMetadata}
             conceptId={conceptId}

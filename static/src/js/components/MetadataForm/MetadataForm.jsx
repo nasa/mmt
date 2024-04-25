@@ -362,6 +362,12 @@ const MetadataForm = () => {
             xs="auto"
             md={
               {
+                span: 5,
+                order: 2
+              }
+            }
+            lg={
+              {
                 span: 4,
                 order: 2
               }
@@ -385,6 +391,12 @@ const MetadataForm = () => {
           <Col
             xs="auto"
             md={
+              {
+                span: 7,
+                order: 1
+              }
+            }
+            lg={
               {
                 span: 8,
                 order: 1

@@ -4,7 +4,12 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { MemoryRouter, useNavigate } from 'react-router-dom'
+import {
+  MemoryRouter,
+  Route,
+  Routes,
+  useNavigate
+} from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -57,7 +62,10 @@ const setup = ({
         mocks={overrideMocks || mocks}
       >
         <MemoryRouter initialEntries={[...overrideInitalEntries]}>
-          <Header />
+          <Routes>
+            <Route path="/" element={<Header />} />
+            <Route path="/:type" element={<Header />} />
+          </Routes>
         </MemoryRouter>
       </MockedProvider>
     </AppContext.Provider>
@@ -331,7 +339,7 @@ describe('Header component', () => {
           await user.click(searchSubmitButton)
 
           expect(navigateMock).toHaveBeenCalledTimes(1)
-          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=search+query')
+          expect(navigateMock).toHaveBeenCalledWith('/collections?keyword=search+query')
         })
       })
 
@@ -398,13 +406,15 @@ describe('Header component', () => {
       vi.clearAllMocks()
     })
 
-    test('shows sets the search type in the button', () => {
+    test('shows sets the search type in the button', async () => {
       setup({
         loggedIn: true,
-        overrideInitalEntries: ['/?type=services']
+        overrideInitalEntries: ['/services']
       })
 
-      expect(screen.queryByRole('button', { name: 'Search Services' })).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Search Services' })).toBeInTheDocument()
+      })
     })
 
     describe('when the button is clicked', () => {
@@ -415,7 +425,7 @@ describe('Header component', () => {
 
         const { user } = setup({
           loggedIn: true,
-          overrideInitalEntries: ['/?type=services']
+          overrideInitalEntries: ['/services']
         })
 
         const button = screen.queryByRole('button', { name: 'Search Services' })
@@ -423,7 +433,7 @@ describe('Header component', () => {
         await user.click(button)
 
         expect(navigateMock).toHaveBeenCalledTimes(1)
-        expect(navigateMock).toHaveBeenCalledWith('/search?type=services&keyword=')
+        expect(navigateMock).toHaveBeenCalledWith('/services?keyword=')
       })
 
       describe('when the a user has a search query', () => {
@@ -434,7 +444,7 @@ describe('Header component', () => {
 
           const { user } = setup({
             loggedIn: true,
-            overrideInitalEntries: ['/?type=services']
+            overrideInitalEntries: ['/services']
           })
 
           const searchInput = await screen.getByRole('textbox', { name: 'Search' })
@@ -446,7 +456,7 @@ describe('Header component', () => {
           await user.click(button)
 
           expect(navigateMock).toHaveBeenCalledTimes(1)
-          expect(navigateMock).toHaveBeenCalledWith('/search?type=services&keyword=service+search+query')
+          expect(navigateMock).toHaveBeenCalledWith('/services?keyword=service+search+query')
         })
       })
     })
@@ -484,7 +494,7 @@ describe('Header component', () => {
       await user.click(button)
 
       expect(navigateMock).toHaveBeenCalledTimes(1)
-      expect(navigateMock).toHaveBeenCalledWith('/search?type=variables&keyword=')
+      expect(navigateMock).toHaveBeenCalledWith('/variables?keyword=')
     })
 
     describe('when submitting the search', () => {
@@ -574,7 +584,7 @@ describe('Header component', () => {
 
         await waitFor(() => {
           expect(navigateMock).toHaveBeenCalledTimes(1)
-          expect(navigateMock).toHaveBeenCalledWith('/search?type=collections&keyword=&provider=TESTPROV2')
+          expect(navigateMock).toHaveBeenCalledWith('/collections?keyword=&provider=TESTPROV2')
         })
       })
     })

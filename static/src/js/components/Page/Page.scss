@@ -1,25 +1,5 @@
 .page {
-  &--has-background-image {
-    position: relative;
-    background: url('@/assets/images/yellow-sea-swirls.jpg');
-    background-repeat: no-repeat;
-    background-size: auto 20rem;
-
-
-    .container {
-      position: relative;
-      z-index: 1;
-    }
-  }
-
   &__header {
-    position: relative;
-    background:
-      linear-gradient(
-        rgba(0 0 0 / 5%),
-        rgba(0 0 0 / 30%)
-      ),
-      url('@/assets/images/yellow-sea-swirls.jpg');
-    background-size: cover;
+    width: 15rem;
   }
 }

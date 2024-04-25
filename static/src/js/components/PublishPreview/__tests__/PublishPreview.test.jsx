@@ -28,7 +28,8 @@ import {
   publishCollectionRecord,
   publishedVariableRecord,
   recordWithRevisions,
-  collectionRecordWithRevisions
+  collectionRecordWithRevisions,
+  variableRecordWithRevisions
 } from './__mocks__/publishPreview'
 import { GET_TOOLS } from '../../../operations/queries/getTools'
 import { GET_COLLECTION_REVISIONS } from '../../../operations/queries/getCollectionRevisions'
@@ -364,6 +365,7 @@ describe('PublishPreview', () => {
       })
 
       await waitForResponse()
+
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Max retries allowed', 'Publish Preview: getMetadata Query')
     })
@@ -375,7 +377,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const button = screen.getByRole('button', { name: 'Delete Tool Record' })
+      const button = screen.getByRole('button', { name: /Delete/ })
       await user.click(button)
 
       expect(screen.getByText('Are you sure you want to delete this record?')).toBeInTheDocument()
@@ -409,7 +411,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const button = screen.getByRole('button', { name: 'Delete Tool Record' })
+      const button = screen.getByRole('button', { name: /Delete/ })
       await user.click(button)
 
       const yesButton = screen.getByRole('button', { name: 'Yes' })
@@ -442,7 +444,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const button = screen.getByRole('button', { name: 'Delete Tool Record' })
+      const button = screen.getByRole('button', { name: /Delete/ })
       await user.click(button)
 
       const yesButton = screen.getByRole('button', { name: 'Yes' })
@@ -464,7 +466,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const button = screen.getByRole('button', { name: 'Delete Tool Record' })
+      const button = screen.getByRole('button', { name: /Delete/ })
 
       await user.click(button)
 
@@ -505,7 +507,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const editButton = screen.getByRole('button', { name: 'Edit Tool Record' })
+      const editButton = screen.getByRole('button', { name: /Edit/ })
       await user.click(editButton)
 
       await waitForResponse()
@@ -536,7 +538,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const editButton = screen.getByRole('button', { name: 'Edit Tool Record' })
+      const editButton = screen.getByRole('button', { name: /Edit/ })
       await user.click(editButton)
 
       await waitForResponse()
@@ -577,7 +579,7 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const editButton = screen.getByRole('button', { name: 'Clone Tool Record' })
+      const editButton = screen.getByRole('button', { name: /Clone/ })
       await user.click(editButton)
 
       await waitForResponse()
@@ -593,7 +595,11 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const downloadButton = screen.getByRole('button', { name: 'Download Tool Record' })
+      const moreActionsButton = screen.queryByText(/More Actions/)
+
+      await user.click(moreActionsButton)
+
+      const downloadButton = screen.getByRole('button', { name: /Download JSON/ })
       await user.click(downloadButton)
 
       await waitForResponse()
@@ -618,7 +624,11 @@ describe('PublishPreview', () => {
 
       await waitForResponse()
 
-      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Manage Collection Association' })
+      const moreActionsButton = screen.queryByText(/More Actions/)
+
+      await user.click(moreActionsButton)
+
+      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Collection Associations' })
       await user.click(manageCollectionAssociationBtn)
 
       await waitForResponse()
@@ -650,6 +660,22 @@ describe('PublishPreview', () => {
               result: {
                 data: {
                   variable: publishedVariableRecord
+                }
+              }
+            },
+            {
+              request: {
+                query: conceptTypeQueries.Variables,
+                variables: {
+                  params: {
+                    conceptId: 'V1000000-MMT',
+                    allRevisions: true
+                  }
+                }
+              },
+              result: {
+                data: {
+                  variables: variableRecordWithRevisions
                 }
               }
             },
@@ -695,7 +721,7 @@ describe('PublishPreview', () => {
 
         await waitForResponse()
 
-        const editButton = screen.getByRole('button', { name: 'Edit Variable Record' })
+        const editButton = screen.getByRole('button', { name: /Edit/ })
         await user.click(editButton)
 
         await waitForResponse()
@@ -745,7 +771,13 @@ describe('PublishPreview', () => {
       })
 
       await waitForResponse()
-      const revisionsButton = screen.getByRole('button', { name: 'Revisions 2' })
+
+      const moreActionsButton = screen.queryByText(/More Actions/)
+
+      await user.click(moreActionsButton)
+
+      const revisionsButton = screen.getByRole('button', { name: 'View Revisions 2' })
+
       await user.click(revisionsButton)
 
       await waitForResponse()
@@ -832,6 +864,10 @@ describe('PublishPreview', () => {
 
           await waitForResponse()
 
+          const moreActionsButton = screen.queryByText(/More Actions/)
+
+          await user.click(moreActionsButton)
+
           const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
 
           await user.click(createVariableAssociationBtn)
@@ -888,7 +924,11 @@ describe('PublishPreview', () => {
 
         await waitForResponse()
 
-        const tagBtn = screen.getByRole('button', { name: 'Tags 1' })
+        const moreActionsButton = screen.queryByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        const tagBtn = screen.getByRole('button', { name: 'View Tags 1' })
         await user.click(tagBtn)
 
         const modal = screen.queryByRole('dialog')
@@ -951,7 +991,11 @@ describe('PublishPreview', () => {
 
         await waitForResponse()
 
-        const tagBtn = screen.getByRole('button', { name: 'Tags 0' })
+        const moreActionsButton = screen.queryByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        const tagBtn = screen.getByRole('button', { name: 'View Tags 0' })
         await user.click(tagBtn)
 
         const modal = screen.queryByRole('dialog')
@@ -965,6 +1009,8 @@ describe('PublishPreview', () => {
   describe('Granules', () => {
     describe('when the collection has granules', () => {
       test('should display the granule count', async () => {
+        const user = userEvent.setup()
+
         setup({
           overrideInitialEntries: ['/collections/C1000000-MMT/1'],
           overridePath: '/collections',
@@ -1006,12 +1052,19 @@ describe('PublishPreview', () => {
         })
 
         await waitForResponse()
-        expect(screen.getByRole('button', { name: 'Granules 1' }))
+
+        const moreActionsButton = screen.queryByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        expect(screen.getByRole('button', { name: 'View Granules 1' }))
       })
     })
 
     describe('when the collection has no granules', () => {
       test('should display the granule count with 0', async () => {
+        const user = userEvent.setup()
+
         setup({
           overrideInitialEntries: ['/collections/C1000000-MMT/1'],
           overridePath: '/collections',
@@ -1053,7 +1106,12 @@ describe('PublishPreview', () => {
         })
 
         await waitForResponse()
-        expect(screen.getByRole('button', { name: 'Granules 0' }))
+
+        const moreActionsButton = screen.queryByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        expect(screen.getByRole('button', { name: 'View Granules 0' }))
       })
     })
   })

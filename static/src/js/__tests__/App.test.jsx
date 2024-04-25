@@ -16,12 +16,12 @@ import NotificationsContext from '../context/NotificationsContext'
 vi.mock('../components/ErrorBanner/ErrorBanner')
 vi.mock('../utils/errorLogger')
 
-vi.mock('../pages/ManagePage/ManagePage', () => ({
+vi.mock('../pages/SearchPage/SearchPage', () => ({
   default: vi.fn(() => {
     const { type } = useParams()
 
     return (
-      <div data-testid={`mock-manage-${type}-page`}>Manage Page</div>
+      <div data-testid={`mock-${type}-page`}>Search Page</div>
     )
   })
 }))
@@ -34,13 +34,7 @@ vi.mock('../pages/HomePage/HomePage', () => ({
 
 vi.mock('../pages/DraftsPage/DraftsPage', () => ({
   default: vi.fn(() => (
-    <div data-testid="mock-manage-drafts-page">Drafts Page</div>
-  ))
-}))
-
-vi.mock('../providers/Providers/Providers', () => ({
-  default: vi.fn(() => (
-    <div data-testid="mock-providers" />
+    <div data-testid="mock-drafts-page">Drafts Page</div>
   ))
 }))
 
@@ -57,8 +51,8 @@ vi.mock('../providers/Providers/Providers', () => ({
 }))
 
 vi.mock('../components/AuthRequiredContainer/AuthRequiredContainer', () => ({
-  default: vi.fn(({ children }) => (
-    <div data-testid="mock-auth-required-container">{children}</div>
+  default: vi.fn(() => (
+    <div data-testid="mock-auth-required-container"><Outlet /></div>
   ))
 }))
 
@@ -149,56 +143,56 @@ describe('App component', () => {
     })
   })
 
-  describe('when rendering the "/manage/collections" route', () => {
+  describe('when rendering the "/collections" route', () => {
     test('renders the manage collections page', async () => {
-      window.history.pushState({}, '', '/manage/collections')
+      window.history.pushState({}, '', '/collections')
 
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-manage-collections-page')).toBeInTheDocument()
+        expect(screen.getByTestId('mock-collections-page')).toBeInTheDocument()
       })
 
       window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when rendering the "/manage/variables" route', () => {
+  describe('when rendering the "/variables" route', () => {
     test('renders the manage variables page', async () => {
-      window.history.pushState({}, '', '/manage/variables')
+      window.history.pushState({}, '', '/variables')
 
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-manage-variables-page')).toBeInTheDocument()
+        expect(screen.getByTestId('mock-variables-page')).toBeInTheDocument()
       })
 
       window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when rendering the "/manage/services" route', () => {
+  describe('when rendering the "/services" route', () => {
     test('renders the manage services page', async () => {
-      window.history.pushState({}, '', '/manage/services')
+      window.history.pushState({}, '', '/services')
 
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-manage-services-page')).toBeInTheDocument()
+        expect(screen.getByTestId('mock-services-page')).toBeInTheDocument()
       })
 
       window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when rendering the "/manage/tools" route', () => {
+  describe('when rendering the "/tools" route', () => {
     test('renders the manage tools page', async () => {
-      window.history.pushState({}, '', '/manage/tools')
+      window.history.pushState({}, '', '/tools')
 
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-manage-tools-page')).toBeInTheDocument()
+        expect(screen.getByTestId('mock-tools-page')).toBeInTheDocument()
       })
 
       window.history.pushState({}, '', '/')
@@ -268,7 +262,7 @@ describe('App component', () => {
       setup()
 
       waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/manage/cmr')
+        expect(window.location.href).toEqual('http://localhost:3000/cmr')
       })
 
       window.history.pushState({}, '', '/')

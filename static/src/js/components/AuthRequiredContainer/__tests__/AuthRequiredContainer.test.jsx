@@ -2,21 +2,20 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import '@testing-library/jest-dom'
-
-import { MemoryRouter } from 'react-router-dom'
+import {
+  MemoryRouter,
+  Routes,
+  Route
+} from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 import { AuthRequiredContainer } from '../AuthRequiredContainer'
 import { getApplicationConfig } from '../../../../../../sharedUtils/getConfig'
 import AppContext from '../../../context/AppContext'
 
-const setup = (overrideUser, overrideProps) => {
+const setup = (overrideUser) => {
   const context = {
     user: overrideUser || {}
-  }
-  const props = {
-    children: 'children',
-    ...overrideProps
   }
 
   act(() => {
@@ -24,11 +23,17 @@ const setup = (overrideUser, overrideProps) => {
       <AppContext.Provider value={context}>
         <MemoryRouter initialEntries={
           [{
-            pathname: '/manage/tools'
+            pathname: '/tools'
           }]
         }
         >
-          <AuthRequiredContainer {...props} />
+          <Routes>
+            <Route
+              path="/tools"
+              element={<div data-testid="mock-component" />}
+            />
+          </Routes>
+          <AuthRequiredContainer />
         </MemoryRouter>
       </AppContext.Provider>
     )
@@ -59,7 +64,7 @@ describe('AuthRequiredContainer component', () => {
     setup(null)
 
     const { apiHost } = getApplicationConfig()
-    const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/manage/tools')}`
+    const expectedPath = `${apiHost}/saml-login?target=${encodeURIComponent('/tools')}`
     expect(window.location.href).toEqual(expectedPath)
   })
 
@@ -75,7 +80,7 @@ describe('AuthRequiredContainer component', () => {
       }
     })
 
-    expect(screen.getByText('children')).toBeInTheDocument()
+    expect(screen.getByTestId('mock-component')).toBeInTheDocument()
   })
 
   test('should redirect the user to / if token is expired', () => {

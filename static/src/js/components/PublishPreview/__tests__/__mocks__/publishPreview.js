@@ -1105,6 +1105,32 @@ export const recordWithRevisions = {
   ]
 }
 
+export const variableRecordWithRevisions = {
+  count: 2,
+  items: [
+    {
+      conceptId: 'V1000000-MMT',
+      longName: 'The Advanced National Seismic System (ANSS)',
+      name: 'ANSS-Seismic',
+      providerId: 'MMT',
+      revisionDate: '2024-04-09T15:47:00.781Z',
+      revisionId: '2',
+      userId: 'admin',
+      __typename: 'Tool'
+    },
+    {
+      conceptId: 'V1000000-MMT',
+      longName: 'The Advanced National Seismic System (ANSS)',
+      name: 'ANSS-Seismic',
+      providerId: 'MMT',
+      revisionDate: '2024-04-09T15:47:00.781Z',
+      revisionId: '1',
+      userId: 'admin',
+      __typename: 'Tool'
+    }
+  ]
+}
+
 export const collectionRecordWithRevisions = {
   count: 2,
   items: [

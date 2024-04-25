@@ -41,7 +41,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
  *   </Button>
  * )
  */
-const Button = ({
+const Button = React.forwardRef(({
   className,
   children,
   disabled,
@@ -55,7 +55,7 @@ const Button = ({
   onClick,
   size,
   variant
-}) => {
+}, ref) => {
   // Create an object to pass any conditional properties. These are ultimately spread on the component.
   const conditionalProps = {}
 
@@ -71,6 +71,7 @@ const Button = ({
 
   return (
     <BootstrapButton
+      ref={ref}
       className={
         classNames([
           'align-items-center text-nowrap',
@@ -78,6 +79,7 @@ const Button = ({
             'd-flex': !inline,
             'd-inline-flex p-0': inline,
             'button--naked': naked,
+            'px-2': iconOnly,
             [className]: className
           }
         ])
@@ -96,8 +98,8 @@ const Button = ({
               classNames([
                 {
                   'me-0': iconOnly,
-                  'me-1': !iconOnly && size !== 'lg',
-                  'me-2': !iconOnly && size === 'lg'
+                  'me-2': !iconOnly && size !== 'lg',
+                  'me-3': !iconOnly && size === 'lg'
                 }
               ])
             }
@@ -118,7 +120,9 @@ const Button = ({
       }
     </BootstrapButton>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 Button.defaultProps = {
   children: null,

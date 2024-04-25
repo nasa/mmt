@@ -58,7 +58,7 @@ describe('Button', () => {
       })
 
       const icon = screen.getByRole('img', { name: 'Star' })
-      expect(icon).toHaveClass('me-1')
+      expect(icon).toHaveClass('me-2')
     })
 
     describe('when rendered in a large button', () => {
@@ -70,7 +70,7 @@ describe('Button', () => {
         })
 
         const icon = screen.getByRole('img', { name: 'Star' })
-        expect(icon).toHaveClass('me-2')
+        expect(icon).toHaveClass('me-3')
       })
     })
   })
