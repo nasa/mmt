@@ -36,19 +36,19 @@ const ManageCollectionAssociationPageHeader = () => {
   })
 
   const { [derivedConceptType.toLowerCase()]: fetchedData } = data
-  const { name } = fetchedData
+  const { pageTitle } = fetchedData
 
   return (
     <PageHeader
-      title={`${name} Collection Associations`}
+      title="Collection Associations"
       breadcrumbs={
         [
           {
-            label: derivedConceptType,
+            label: `${derivedConceptType} Drafts`,
             to: `/drafts/${derivedConceptType.toLowerCase()}s`
           },
           {
-            label: name,
+            label: pageTitle,
             to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
           },
           {

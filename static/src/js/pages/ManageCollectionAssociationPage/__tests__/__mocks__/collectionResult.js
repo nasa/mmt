@@ -1,6 +1,6 @@
 import { GET_COLLECTION } from '../../../../operations/queries/getCollection'
 
-export const singlePageCollectionSearch = {
+export const collectionResult = {
   request: {
     query: GET_COLLECTION,
     variables: {
