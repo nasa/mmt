@@ -119,6 +119,22 @@ describe('OrderOptionForm', () => {
                   }
                 }
               }
+            }, {
+              request: {
+                query: GET_ORDER_OPTION,
+                variables: {
+                  parmas: {
+                    conceptId: 'OO1000000-MMT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  orderOption: {
+                    conceptId: 'OO1000000-MMT'
+                  }
+                }
+              }
             }]
           }
         )
@@ -204,54 +220,79 @@ describe('OrderOptionForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        const { user } = setup({
-          pageUrl: '/order-options/OO1000000-MMT/edit',
-          mocks: [{
-            request: {
-              query: GET_ORDER_OPTION,
-              variables: { params: { conceptId: 'OO1000000-MMT' } }
+        const { user } = setup(
+          {
+            pageUrl: '/order-options/OO1000000-MMT/edit',
+            mocks: [{
+              request: {
+                query: GET_ORDER_OPTION,
+                variables: { params: { conceptId: 'OO1000000-MMT' } }
+              },
+              result: {
+                data: {
+                  orderOption: {
+                    conceptId: 'OO1000000-MMT',
+                    deprecated: null,
+                    description: 'Test Description',
+                    form: 'Test Form',
+                    name: 'Test Name',
+                    nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                    revisionId: '1',
+                    revisionDate: '2024-04-23T15:03:34.399Z',
+                    scope: 'PROVIDER',
+                    sortKey: null,
+                    __typename: 'OrderOption'
+                  }
+                }
+              }
             },
-            result: {
-              data: {
-                orderOption: {
-                  conceptId: 'OO1000000-MMT',
-                  deprecated: null,
+            {
+              request: {
+                query: UPDATE_ORDER_OPTION,
+                variables: {
                   description: 'Test Description',
                   form: 'Test Form',
-                  name: 'Test Name',
-                  nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
-                  revisionId: '1',
-                  revisionDate: '2024-04-23T15:03:34.399Z',
+                  name: 'Test NameUpdated Name',
                   scope: 'PROVIDER',
-                  sortKey: null,
-                  __typename: 'OrderOption'
+                  providerId: 'MMT_2',
+                  nativeId: 'dce1859e-774c-4561-9451-fc9d77906015'
                 }
-              }
-            }
-          },
-          {
-            request: {
-              query: UPDATE_ORDER_OPTION,
-              variables: {
-                description: 'Test Description',
-                form: 'Test Form',
-                name: 'Test NameUpdated Name',
-                scope: 'PROVIDER',
-                providerId: 'MMT_2',
-                nativeId: 'dce1859e-774c-4561-9451-fc9d77906015'
+              },
+              result: {
+                data: {
+                  updateOrderOption: {
+                    conceptId: 'OO1000000-MMT',
+                    revisionId: '2'
+                  }
+                }
               }
             },
-            result: {
-              data: {
-                updateOrderOption: {
-                  conceptId: 'OO1000000-MMT',
-                  revisionId: '2'
+            {
+              request: {
+                query: GET_ORDER_OPTION,
+                variables: { params: { conceptId: 'OO1000000-MMT' } }
+              },
+              result: {
+                data: {
+                  orderOption: {
+                    conceptId: 'OO1000000-MMT',
+                    deprecated: null,
+                    description: 'Test Description',
+                    form: 'Test Form',
+                    name: 'Test Name',
+                    nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                    revisionId: '1',
+                    revisionDate: '2024-04-23T15:03:34.399Z',
+                    scope: 'PROVIDER',
+                    sortKey: null,
+                    __typename: 'OrderOption'
+                  }
                 }
               }
             }
+            ]
           }
-          ]
-        })
+        )
 
         await waitForResponse()
 

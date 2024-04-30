@@ -85,15 +85,7 @@ const GraphQLProvider = ({ children }) => {
 
     return new ApolloClient({
       cache: new InMemoryCache(),
-      link: ApolloLink.from([authLink, responseDelayLink, httpLink]),
-      defaultOptions: {
-        query: {
-          fetchPolicy: 'no-cache'
-        },
-        watchQuery: {
-          fetchPolicy: 'no-cache'
-        }
-      }
+      link: ApolloLink.from([authLink, responseDelayLink, httpLink])
     })
   }, [tokenValue])
 

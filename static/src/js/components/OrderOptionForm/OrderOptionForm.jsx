@@ -58,7 +58,16 @@ const OrderOptionForm = () => {
   const [focusField, setFocusField] = useState(null)
 
   const [createOrderOptionMutation] = useMutation(CREATE_ORDER_OPTION)
-  const [updateOrderOptionMutation] = useMutation(UPDATE_ORDER_OPTION)
+  const [updateOrderOptionMutation] = useMutation(UPDATE_ORDER_OPTION, {
+    refetchQueries: [{
+      query: GET_ORDER_OPTION,
+      variables: {
+        params: {
+          conceptId
+        }
+      }
+    }]
+  })
 
   const [nativeId, setNativeId] = useState()
 
