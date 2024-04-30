@@ -49,7 +49,7 @@ const GraphQLProvider = ({ children }) => {
           setTimeout(() => {
             observer.next(result)
             observer.complete()
-          }, 3000)
+          }, 1000)
         } else {
           // Immediately pass through for queries
           observer.next(result)

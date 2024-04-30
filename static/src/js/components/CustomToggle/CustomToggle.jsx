@@ -3,6 +3,25 @@ import PropTypes from 'prop-types'
 import { FaEllipsisV } from 'react-icons/fa'
 import Button from '../Button/Button'
 
+/**
+ * @typedef {Object} CustomToggleProps
+ * @property {Function} onClick A callback function to be called when the button is clicked
+ */
+
+/*
+ * Renders a `CustomToggle` component.
+ *
+ * This component renders an button for a custom toggle. This currently only supports the
+ * "more actions" style button with an ellipsis and the test "More Actions".
+ *
+ * @param {CustomToggleProps} props
+ *
+ * @component
+ * @example <caption>Render a button with an icon</caption>
+ * return (
+ *   <CustomToggle />
+ * )
+ */
 const CustomToggle = React.forwardRef(
   ({
     onClick
