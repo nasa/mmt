@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import {
-  Col,
-  Container,
-  Row
-} from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
-
 import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
-import Page from '../Page/Page'
-import useAppContext from '../../hooks/useAppContext'
-import getTemplate from '../../utils/getTemplate'
-import PreviewProgress from '../PreviewProgress/PreviewProgress'
-import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
+
+import { CollectionPreview } from '@edsc/metadata-preview'
 import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
-import MetadataPreview from '../MetadataPreview/MetadataPreview'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import parseError from '../../utils/parseError'
+import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
+
+import CustomModal from '../CustomModal/CustomModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import Page from '../Page/Page'
+import PageHeader from '../PageHeader/PageHeader'
+import PreviewProgress from '../PreviewProgress/PreviewProgress'
+
+import delateTemplate from '../../utils/deleteTemplate'
+import errorLogger from '../../utils/errorLogger'
+import getTemplate from '../../utils/getTemplate'
+import parseError from '../../utils/parseError'
+
+import useAppContext from '../../hooks/useAppContext'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
-import errorLogger from '../../utils/errorLogger'
-import delateTemplate from '../../utils/deleteTemplate'
-import CustomModal from '../CustomModal/CustomModal'
+
+import './TemplatePreview.scss'
 
 /**
  * Renders a TemplatePreview component
@@ -137,30 +141,12 @@ const TemplatePreview = () => {
   }, [ingestLoading])
 
   const { ummMetadata = {} } = draft
-  const { TemplateName: templateName } = ummMetadata
+  const { TemplateName: templateName = '<Blank Name>' } = ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, ummCTemplateSchema)
 
-  if (loading) {
-    return (
-      <Page>
-        <LoadingBanner />
-      </Page>
-    )
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
-    )
-  }
-
-  return (
-    <Page
-      title={templateName || '<Blank Name>'}
+  const templatePreviewPageHeader = () => (
+    <PageHeader
+      title={templateName}
       pageType="secondary"
       breadcrumbs={
         [
@@ -169,7 +155,7 @@ const TemplatePreview = () => {
             to: '/templates/collections'
           },
           {
-            label: templateName || '<Blank Name>',
+            label: templateName,
             active: true
           }
         ]
@@ -192,8 +178,27 @@ const TemplatePreview = () => {
           }
         ]
       }
+    />
+  )
+  if (loading) {
+    return (
+      <LoadingBanner />
+    )
+  }
+
+  if (error) {
+    const message = parseError(error)
+
+    return (
+      <ErrorBanner message={message} />
+    )
+  }
+
+  return (
+    <Page
+      header={templatePreviewPageHeader()}
     >
-      <Container id="template-form" className="px-0">
+      <Container id="template-form" className="px-0" fluid>
         <Row>
           <CustomModal
             message="Are you sure you want to delete this template?"
@@ -228,9 +233,10 @@ const TemplatePreview = () => {
             </Row>
           </Col>
           <Row>
-            <Col md={12}>
-              <MetadataPreview
-                previewMetadata={camelcaseKeys(ummMetadata, { deep: true })}
+            <Col md={12} className="template-preview__preview">
+              <h2 className="fw-bold fs-4 text-secondary">Metadata Preview</h2>
+              <CollectionPreview
+                collection={camelcaseKeys(ummMetadata, { deep: true })}
                 conceptId={id}
                 conceptType="Collection"
               />

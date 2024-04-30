@@ -15,7 +15,7 @@ export const mockToolWithAssociation = {
       }
     ]
   },
-  conceptId: 'TL1200000098-MMT_2',
+  conceptId: 'T1200000098-MMT_2',
   contactGroups: null,
   contactPersons: null,
   description: 'mock description',
@@ -141,7 +141,7 @@ export const mockTool = {
       }
     ]
   },
-  conceptId: 'TL1200000098-MMT_2',
+  conceptId: 'T1200000098-MMT_2',
   contactGroups: null,
   contactPersons: null,
   description: 'mock description',
@@ -506,7 +506,7 @@ export const createAssociationRequest = {
   request: {
     query: CREATE_ASSOCIATION,
     variables: {
-      conceptId: 'TL12000000-MMT_2',
+      conceptId: 'T12000000-MMT_2',
       collectionConceptIds: [{ conceptId: 'C12000001124-MMT_2' }],
       conceptType: 'Tool'
     }
@@ -534,7 +534,7 @@ export const createAssociationErrorRequest = {
   request: {
     query: CREATE_ASSOCIATION,
     variables: {
-      conceptId: 'TL12000000-MMT_2',
+      conceptId: 'T12000000-MMT_2',
       collectionConceptIds: [{ conceptId: 'C12000001123-MMT_2' }],
       conceptType: 'Tool'
     }

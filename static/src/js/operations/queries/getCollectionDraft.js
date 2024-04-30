@@ -6,8 +6,8 @@ export const COLLECTION_DRAFT = gql`
       conceptId
       conceptType
       deleted
-      name
       nativeId
+      name
       providerId
       revisionDate
       revisionId
@@ -59,6 +59,7 @@ export const COLLECTION_DRAFT = gql`
           lines
           locationKeywords
           paleoTemporalCoverages
+          pageTitle: shortName
           platforms
           points
           polygons

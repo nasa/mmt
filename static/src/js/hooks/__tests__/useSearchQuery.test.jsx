@@ -252,7 +252,8 @@ describe('useSearchQuery', () => {
                     longName: 'Test Var Title 1',
                     providerId: 'TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
-                    revisionId: '1'
+                    revisionId: '1',
+                    userId: 'admin'
                   },
                   {
                     conceptId: 'V10000000001-TESTPROV',
@@ -260,7 +261,9 @@ describe('useSearchQuery', () => {
                     longName: 'Test Var Title 2',
                     providerId: 'TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
-                    revisionId: '1'
+                    revisionId: '1',
+                    userId: 'admin'
+
                   },
                   {
                     conceptId: 'V10000000002-TESTPROV',
@@ -268,7 +271,9 @@ describe('useSearchQuery', () => {
                     longName: 'Test Var Title 3',
                     providerId: 'TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
-                    revisionId: '1'
+                    revisionId: '1',
+                    userId: 'admin'
+
                   }
                 ]
               }

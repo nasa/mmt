@@ -1,11 +1,21 @@
 import { gql } from '@apollo/client'
 
 export const GET_SERVICE = gql`
-  query Service($params: ServiceInput, $collectionsParams: CollectionsInput) {
+  query GetService($params: ServiceInput, $collectionsParams: CollectionsInput){
     service(params: $params) {
       accessConstraints
       ancillaryKeywords
       associationDetails
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          provider
+          shortName
+          title
+          version
+        }
+      }
       conceptId
       contactGroups
       contactPersons
@@ -16,33 +26,33 @@ export const GET_SERVICE = gql`
       name
       nativeId
       operationMetadata
+      pageTitle: name
       providerId
+      relatedUrls
       revisionDate
       revisionId
-      relatedUrls
+      revisions {
+        count
+        items {
+          conceptId
+          revisionDate
+          revisionId
+          userId
+        }
+      }
       serviceKeywords
       serviceOptions
       serviceOrganizations
+      serviceQuality
       supportedInputProjections
       supportedOutputProjections
       supportedReformattings
-      serviceQuality
       type
       ummMetadata
       url
       useConstraints
       version
       versionDescription
-      collections (params: $collectionsParams) {
-        count
-        items {
-          conceptId
-          entryTitle
-          shortName
-          version
-          provider
-        }
-      }
     }
   }
 `

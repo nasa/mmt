@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import './Button.scss'
 import { FaExternalLinkAlt } from 'react-icons/fa'
+import { Spinner } from 'react-bootstrap'
 
 /**
  * @typedef {Object} ButtonProps
@@ -51,6 +52,8 @@ const Button = React.forwardRef(({
   iconOnly,
   iconTitle,
   inline,
+  loading,
+  loadingText,
   naked,
   onClick,
   size,
@@ -68,6 +71,8 @@ const Button = React.forwardRef(({
 
     if (external) conditionalProps.target = '_blank'
   }
+
+  const buttonText = loading ? loadingText : children
 
   return (
     <BootstrapButton
@@ -87,10 +92,31 @@ const Button = React.forwardRef(({
       size={size}
       variant={variant}
       disabled={disabled}
+      aria-busy={loading}
       {...conditionalProps}
     >
       {
-        Icon && (
+        loading && (
+          <Spinner
+            animation="border"
+            as="span"
+            className={
+              classNames([
+                'opacity-75',
+                {
+                  'me-0': iconOnly,
+                  'me-2': !iconOnly && size !== 'lg',
+                  'me-3': !iconOnly && size === 'lg'
+                }
+              ])
+            }
+            role="status"
+            size="sm"
+          />
+        )
+      }
+      {
+        Icon && !loading && (
           <Icon
             title={iconTitle}
             role="img"
@@ -109,9 +135,11 @@ const Button = React.forwardRef(({
       {
         iconOnly
           ? (
-            <span className="visually-hidden">{children}</span>
+            <span className="visually-hidden">
+              {buttonText}
+            </span>
           )
-          : children
+          : buttonText
       }
       {
         external && (
@@ -133,6 +161,8 @@ Button.defaultProps = {
   iconOnly: false,
   iconTitle: undefined,
   inline: false,
+  loading: null,
+  loadingText: null,
   href: null,
   naked: false,
   onClick: null,
@@ -152,6 +182,14 @@ Button.propTypes = {
   iconTitle: ({ Icon, iconTitle }) => {
     if (!!Icon && !iconTitle) {
       return new Error('An iconTitle is required when rendering an Icon. The iconTitle will be used as the <title> on the <svg>')
+    }
+
+    return null
+  },
+  loading: PropTypes.bool,
+  loadingText: ({ loading, loadingText }) => {
+    if (loading !== null && !loadingText) {
+      return new Error('A loadingText is required when rendering an Button with a loading state. The loadingText will be used as the button label while "loading" is true.')
     }
 
     return null

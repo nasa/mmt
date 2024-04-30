@@ -97,14 +97,6 @@ describe('GraphQLProvider component', () => {
         expect.objectContaining(
           {
             cache: { mockCache: {} },
-            defaultOptions: {
-              query: {
-                fetchPolicy: 'no-cache'
-              },
-              watchQuery: {
-                fetchPolicy: 'no-cache'
-              }
-            },
             link: expect.any(ApolloLink)
           }
         )
@@ -137,14 +129,6 @@ describe('GraphQLProvider component', () => {
         expect.objectContaining(
           {
             cache: { mockCache: {} },
-            defaultOptions: {
-              query: {
-                fetchPolicy: 'no-cache'
-              },
-              watchQuery: {
-                fetchPolicy: 'no-cache'
-              }
-            },
             link: expect.any(ApolloLink)
           }
         )

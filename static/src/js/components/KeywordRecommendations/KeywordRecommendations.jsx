@@ -3,7 +3,8 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { Badge, ListGroup } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import ListGroup from 'react-bootstrap/ListGroup'
 import { cloneDeep, uniqBy } from 'lodash-es'
 import PropTypes from 'prop-types'
 import {
@@ -11,15 +12,18 @@ import {
   FaPlusCircle,
   FaTimesCircle
 } from 'react-icons/fa'
-import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
-import sendKeywordRecommendationsFeedback from '../../utils/sendKeywordRecommendationsFeedback'
-import removeEmpty from '../../utils/removeEmpty'
-import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
-import errorLogger from '../../utils/errorLogger'
+
 import useAppContext from '../../hooks/useAppContext'
+
+import errorLogger from '../../utils/errorLogger'
+import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
+import removeEmpty from '../../utils/removeEmpty'
+import sendKeywordRecommendationsFeedback from '../../utils/sendKeywordRecommendationsFeedback'
+
 import Button from '../Button/Button'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import For from '../For/For'
+import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
 
 /**
  * Renders the KeywordRecommendations component

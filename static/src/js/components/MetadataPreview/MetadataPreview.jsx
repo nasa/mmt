@@ -6,7 +6,17 @@ import {
   VariablePreview
 } from '@edsc/metadata-preview'
 import PropTypes from 'prop-types'
+import { useSuspenseQuery } from '@apollo/client'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+import { useParams } from 'react-router'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
+
+import conceptTypeQueries from '../../constants/conceptTypeQueries'
+
+import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 
 /**
  * MetadataPreview
@@ -25,55 +35,93 @@ import toLowerKebabCase from '../../utils/toLowerKebabCase'
  * )
  */
 const MetadataPreview = ({
-  previewMetadata,
   conceptId,
   conceptType
 }) => {
-  if (conceptType === 'Collection') {
-    return (
-      <CollectionPreview
-        collection={previewMetadata}
-        conceptId={conceptId}
-        conceptType={toLowerKebabCase(conceptType)}
-      />
-    )
+  const { draftType } = useParams()
+  const isDraft = Boolean(draftType)
+
+  let params = {
+    conceptId
   }
 
-  if (conceptType === 'Service') {
-    return (
-      <ServicePreview
-        service={previewMetadata}
-        conceptId={conceptId}
-        conceptType={toLowerKebabCase(conceptType)}
-      />
-    )
+  let query = conceptTypeQueries[conceptType]
+
+  if (isDraft) {
+    query = conceptTypeDraftQueries[getConceptTypeByDraftConceptId(conceptId)]
+
+    params = {
+      ...params,
+      conceptType: getConceptTypeByDraftConceptId(conceptId)
+    }
   }
 
-  if (conceptType === 'Tool') {
-    return (
-      <ToolPreview
-        tool={previewMetadata}
-        conceptId={conceptId}
-        conceptType={toLowerKebabCase(conceptType)}
-      />
-    )
+  const { data } = useSuspenseQuery(query, {
+    variables: {
+      params
+    }
+  })
+
+  let conceptKey = conceptType.toLowerCase()
+
+  if (isDraft) {
+    conceptKey = 'draft'
   }
 
-  if (conceptType === 'Variable') {
-    return (
-      <VariablePreview
-        variable={previewMetadata}
-        conceptId={conceptId}
-        conceptType={toLowerKebabCase(conceptType)}
-      />
-    )
+  let { [conceptKey]: concept } = data
+
+  if (isDraft) {
+    concept = concept.previewMetadata
   }
 
-  return null
+  return (
+    <Row>
+      <Col className="publish-preview__preview" md={12}>
+        {
+          conceptType === 'Collection'
+            && (
+              <CollectionPreview
+                collection={concept}
+                conceptId={conceptId}
+                conceptType={toLowerKebabCase(conceptType)}
+              />
+            )
+        }
+        {
+          conceptType === 'Service' && (
+            <ServicePreview
+              service={concept}
+              conceptId={conceptId}
+              conceptType={toLowerKebabCase(conceptType)}
+            />
+          )
+        }
+
+        {
+          conceptType === 'Tool' && (
+            <ToolPreview
+              tool={concept}
+              conceptId={conceptId}
+              conceptType={toLowerKebabCase(conceptType)}
+            />
+          )
+        }
+
+        {
+          conceptType === 'Variable' && (
+            <VariablePreview
+              variable={concept}
+              conceptId={conceptId}
+              conceptType={toLowerKebabCase(conceptType)}
+            />
+          )
+        }
+      </Col>
+    </Row>
+  )
 }
 
 MetadataPreview.propTypes = {
-  previewMetadata: PropTypes.shape({}).isRequired,
   conceptId: PropTypes.string.isRequired,
   conceptType: PropTypes.string.isRequired
 }

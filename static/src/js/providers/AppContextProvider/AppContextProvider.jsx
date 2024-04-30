@@ -38,6 +38,7 @@ const AppContextProvider = ({ children }) => {
   const [draft, setDraft] = useState()
   const [savedDraft, setSavedDraft] = useState()
   const [providerIds, setProviderIds] = useState([])
+  const [pageTitle, setPageTitle] = useState([])
 
   const setProviderId = useCallback((providerId) => {
     setUser((prevUser) => ({
@@ -61,13 +62,16 @@ const AppContextProvider = ({ children }) => {
     setProviderIds,
     setSavedDraft,
     updateLoginInfo,
-    user
+    user,
+    pageTitle,
+    setPageTitle
   }), [
     draft,
     keywords,
     originalDraft,
     providerIds,
     savedDraft,
+    pageTitle,
     user
   ])
 

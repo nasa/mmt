@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { kebabCase } from 'lodash-es'
 import validator from '@rjsf/validator-ajv8'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import Row from 'react-bootstrap/Row'
-
 import pluralize from 'pluralize'
+
 import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
@@ -20,15 +20,12 @@ import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
 import FormNavigation from '../FormNavigation/FormNavigation'
 import GridLayout from '../GridLayout/GridLayout'
 import JsonPreview from '../JsonPreview/JsonPreview'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import Page from '../Page/Page'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
 import OneOfField from '../OneOfField/OneOfField'
+import StreetAddressField from '../StreetAddressField/StreetAddressField'
 
 import formConfigurations from '../../schemas/uiForms'
 
@@ -46,13 +43,13 @@ import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftCon
 import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
 import getUmmSchema from '../../utils/getUmmSchema'
-import parseError from '../../utils/parseError'
 import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import getUiSchema from '../../utils/getUiSchema'
+import removeEmpty from '../../utils/removeEmpty'
+
+import usePublishMutation from '../../hooks/usePublishMutation'
 
 import './MetadataForm.scss'
-import removeEmpty from '../../utils/removeEmpty'
-import usePublishMutation from '../../hooks/usePublishMutation'
 
 const MetadataForm = () => {
   const {
@@ -103,29 +100,28 @@ const MetadataForm = () => {
     setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
-    if (fieldName && sectionName) navigate(`../${conceptId}/${sectionName}`, { replace: true })
+    if (fieldName && sectionName) navigate(`/drafts/${draftType}/${conceptId}/${sectionName}`, { replace: true })
   }, [fieldName])
 
   const [ingestDraftMutation, {
     loading: ingestDraftLoading
   }] = useMutation(INGEST_DRAFT)
 
-  const { loading, error } = useQuery(conceptTypeDraftQueries[derivedConceptType], {
-    // If the draft has already been loaded, skip this query
-    skip: draft || conceptId === 'new',
+  const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
+    skip: conceptId === 'new',
     variables: {
       params: {
         conceptId,
         conceptType: derivedConceptType
       }
-    },
-    onCompleted: (getDraftData) => {
-      const { draft: fetchedDraft } = getDraftData
-
-      setOriginalDraft(fetchedDraft)
-      setDraft(fetchedDraft)
     }
   })
+
+  useEffect(() => {
+    const { draft: fetchedDraft } = data || {}
+    setOriginalDraft(fetchedDraft)
+    setDraft(fetchedDraft)
+  }, [data])
 
   const {
     // Name,
@@ -214,7 +210,7 @@ const MetadataForm = () => {
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
 
-          if (currentSection) navigate(`../${savedConceptId}/${currentSection}`, { replace: true })
+          if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}`, { replace: true })
 
           window.scroll(0, 0)
         }
@@ -222,19 +218,15 @@ const MetadataForm = () => {
         if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
-          navigate(`../${savedConceptId}/${toLowerKebabCase(nextFormName)}`)
+          navigate(`/drafts/${draftType}/${savedConceptId}/${toLowerKebabCase(nextFormName)}`)
 
           window.scroll(0, 0)
         }
 
         if (type === saveTypes.saveAndPreview) {
-          // Clear out the draft and originalDraft so that the preview page will refetch the draft
-          // setDraft()
-          // setOriginalDraft()
-
           // Navigate to preview page
           window.scroll(0, 0)
-          navigate(`../${savedConceptId}`)
+          navigate(`/drafts/${draftType}/${savedConceptId}`)
         }
 
         if (type === saveTypes.saveAndPublish) {
@@ -270,7 +262,7 @@ const MetadataForm = () => {
         variant: 'success'
       })
 
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/${revisionId}`)
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/revisions/${revisionId}`)
     }
 
     if (publishDraftError) {
@@ -311,130 +303,86 @@ const MetadataForm = () => {
     ])])
   }
 
-  const name = draft?.name || draft?.ummMetadata?.ShortName || '<Blank Name>'
-  const pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${name}`
-
-  if (loading) {
-    return (
-      <Page>
-        <LoadingBanner />
-      </Page>
-    )
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
-    )
-  }
-
   return (
-    <Page
-      title={pageTitle}
-      pageType="secondary"
-      breadcrumbs={
-        [
-          {
-            label: `${derivedConceptType} Drafts`,
-            to: `/drafts/${draftType}`
-          },
-          (
-            conceptId !== 'new' && {
-              label: name,
-              to: `/drafts/${draftType}/${conceptId}`
+    <Container className="metadata-form__container mx-0" fluid>
+      <Row className="metadata-form__row">
+        <Col
+          className="mb-5"
+          xs="auto"
+          md={
+            {
+              span: 5,
+              order: 2
             }
-          ),
-          {
-            label: pageTitle,
-            active: true
           }
-        ]
-      }
-    >
-      <Container className="metadata-form__container mx-0">
-        <Row className="metadata-form__row">
-          <Col
-            className="mb-5"
-            xs="auto"
-            md={
-              {
-                span: 5,
-                order: 2
-              }
+          lg={
+            {
+              span: 4,
+              order: 2
             }
-            lg={
-              {
-                span: 4,
-                order: 2
-              }
-            }
-          >
-            <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
-              <FormNavigation
-                draft={ummMetadata}
-                fullSchema={schema}
-                formSections={formSections}
-                loading={ingestDraftLoading}
-                visitedFields={visitedFields}
-                onSave={handleSave}
-                onCancel={handleCancel}
-                schema={schema}
-                setFocusField={setFocusField}
-                uiSchema={uiSchema}
-              />
-            </div>
-          </Col>
-          <Col
-            xs="auto"
-            md={
-              {
-                span: 7,
-                order: 1
-              }
-            }
-            lg={
-              {
-                span: 8,
-                order: 1
-              }
-            }
-            className="p-md-0"
-          >
-            <Form
-              fields={fields}
-              formContext={
-                {
-                  focusField,
-                  setFocusField
-                }
-              }
-              formData={ummMetadata}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              schema={formSchema}
-              templates={templates}
+          }
+        >
+          <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
+            <FormNavigation
+              draft={ummMetadata}
+              fullSchema={schema}
+              formSections={formSections}
+              loading={ingestDraftLoading}
+              visitedFields={visitedFields}
+              onSave={handleSave}
+              onCancel={handleCancel}
+              schema={schema}
+              setFocusField={setFocusField}
               uiSchema={uiSchema}
-              validator={validator}
-              widgets={widgets}
-            >
-              {/* Pass an empty fragment as a child to hide the submit button */}
-              {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-              <></>
-            </Form>
-          </Col>
-        </Row>
+            />
+          </div>
+        </Col>
+        <Col
+          xs="auto"
+          md={
+            {
+              span: 7,
+              order: 1
+            }
+          }
+          lg={
+            {
+              span: 8,
+              order: 1
+            }
+          }
+          className="p-md-0"
+        >
+          <Form
+            fields={fields}
+            formContext={
+              {
+                focusField,
+                setFocusField
+              }
+            }
+            formData={ummMetadata}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            schema={formSchema}
+            templates={templates}
+            uiSchema={uiSchema}
+            validator={validator}
+            widgets={widgets}
+          >
+            {/* Pass an empty fragment as a child to hide the submit button */}
+            {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
+            <></>
+          </Form>
+        </Col>
+      </Row>
 
-        <Row className="json-view">
-          <Col sm={8}>
-            <JsonPreview />
-          </Col>
-        </Row>
-      </Container>
-    </Page>
+      <Row className="json-view">
+        <Col sm={8}>
+          <JsonPreview />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

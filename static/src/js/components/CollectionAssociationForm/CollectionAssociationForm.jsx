@@ -13,41 +13,43 @@ import {
   useSearchParams
 } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import {
-  Alert,
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
 import pluralize from 'pluralize'
-import collectionAssociation from '../../schemas/collectionAssociation'
-import OneOfField from '../OneOfField/OneOfField'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import GridLayout from '../GridLayout/GridLayout'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import removeEmpty from '../../utils/removeEmpty'
+
 import Button from '../Button/Button'
-import useAppContext from '../../hooks/useAppContext'
-import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
-import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
-import errorLogger from '../../utils/errorLogger'
-import Pagination from '../Pagination/Pagination'
+import collectionAssociation from '../../schemas/collectionAssociation'
+import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
+import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import EllipsisText from '../EllipsisText/EllipsisText'
-import Table from '../Table/Table'
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
-import { CREATE_ASSOCIATION } from '../../operations/mutations/createAssociation'
-import parseError from '../../utils/parseError'
-import Page from '../Page/Page'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
+import GridLayout from '../GridLayout/GridLayout'
 import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import OneOfField from '../OneOfField/OneOfField'
+import Pagination from '../Pagination/Pagination'
+import Table from '../Table/Table'
+
+import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
+import errorLogger from '../../utils/errorLogger'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 import getUmmVersion from '../../utils/getUmmVersion'
+import parseError from '../../utils/parseError'
+import removeEmpty from '../../utils/removeEmpty'
+
+import useAppContext from '../../hooks/useAppContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+
+import { CREATE_ASSOCIATION } from '../../operations/mutations/createAssociation'
+import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
+import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+
 import conceptTypes from '../../constants/conceptTypes'
 
 /**
@@ -468,17 +470,13 @@ const CollectionAssociationForm = ({ metadata }) => {
     const message = parseError(error)
 
     return (
-      <Page>
-        <ErrorBanner message={message} />
-      </Page>
+      <ErrorBanner message={message} />
     )
   }
 
   if (loading) {
     return (
-      <Page>
-        <LoadingBanner />
-      </Page>
+      <LoadingBanner />
     )
   }
 

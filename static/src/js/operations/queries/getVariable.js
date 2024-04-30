@@ -1,10 +1,20 @@
 import { gql } from '@apollo/client'
 
 export const GET_VARIABLE = gql`
-  query Variable($params: VariableInput, $collectionsParams: CollectionsInput) {
+  query GetVariable($params: VariableInput, $collectionsParams: CollectionsInput) {
     variable(params: $params) {
       additionalIdentifiers
       associationDetails
+      collections (params: $collectionsParams) {
+        count
+        items {
+          conceptId
+          provider
+          shortName
+          title
+          version
+        }
+      }
       conceptId
       dataType
       definition
@@ -21,6 +31,15 @@ export const GET_VARIABLE = gql`
       relatedUrls
       revisionDate
       revisionId
+      revisions {
+        count
+        items {
+          conceptId
+          revisionDate
+          revisionId
+          userId
+        }
+      }
       samplingIdentifiers
       scale
       scienceKeywords
@@ -31,17 +50,6 @@ export const GET_VARIABLE = gql`
       validRanges
       variableSubType
       variableType
-      collections (params: $collectionsParams) {
-        count
-        items {
-          conceptId
-          entryTitle
-          shortName
-          version
-          provider
-          title
-        }
-      }
     }
   }
 `

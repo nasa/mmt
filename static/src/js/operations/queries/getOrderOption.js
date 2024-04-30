@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_ORDER_OPTION = gql`
-  query OrderOption($params: OrderOptionInput) {
+  query GetOrderOption($params: OrderOptionInput) {
     orderOption(params: $params) {
       conceptId
       deprecated
@@ -9,16 +9,10 @@ export const GET_ORDER_OPTION = gql`
       form
       name
       nativeId
+      revisionId
       revisionDate
       scope
       sortKey
     }
   }
 `
-
-// Example Variables:
-// {
-//   "params": {
-//     "conceptId": "OO1200000096-MMT_2",
-//   }
-// }

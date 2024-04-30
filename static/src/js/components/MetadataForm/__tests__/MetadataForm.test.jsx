@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import {
   render,
   screen,
@@ -34,7 +34,6 @@ import CustomTextareaWidget from '../../CustomTextareaWidget/CustomTextareaWidge
 import CustomTextWidget from '../../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import FormNavigation from '../../FormNavigation/FormNavigation'
 import GridLayout from '../../GridLayout/GridLayout'
 import JsonPreview from '../../JsonPreview/JsonPreview'
@@ -134,6 +133,7 @@ const mockDraft = {
     },
     name: null,
     organizations: null,
+    pageTitle: null,
     potentialAction: null,
     quality: null,
     relatedUrls: null,
@@ -206,16 +206,34 @@ const setup = ({
                 path="/drafts/:draftType"
               >
                 <Route
-                  element={<MetadataForm />}
+                  element={
+                    (
+                      <Suspense>
+                        <MetadataForm />
+                      </Suspense>
+                    )
+                  }
                   path="new"
                 />
                 <Route
                   path=":conceptId/:sectionName"
-                  element={<MetadataForm />}
+                  element={
+                    (
+                      <Suspense>
+                        <MetadataForm />
+                      </Suspense>
+                    )
+                  }
                 />
                 <Route
                   path=":conceptId/:sectionName/:fieldName"
-                  element={<MetadataForm />}
+                  element={
+                    (
+                      <Suspense>
+                        <MetadataForm />
+                      </Suspense>
+                    )
+                  }
                 />
               </Route>
             </Routes>
@@ -510,7 +528,7 @@ describe('MetadataForm', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT/tool-information', { replace: true })
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
@@ -560,7 +578,7 @@ describe('MetadataForm', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT/related-urls')
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/related-urls')
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
@@ -613,14 +631,14 @@ describe('MetadataForm', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
       })
     })
 
-    describe('when the saveType is save and preview', () => {
+    describe('when the saveType is save and publish', () => {
       test('it should save the draft and call publish', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
@@ -665,7 +683,7 @@ describe('MetadataForm', () => {
             result: {
               data: {
                 publishDraft: {
-                  conceptId: 'TL1000000-MMT',
+                  conceptId: 'T1000000-MMT',
                   revisionId: '1'
                 }
               }
@@ -686,7 +704,7 @@ describe('MetadataForm', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/TL1000000-MMT/1')
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions/1')
       })
     })
 
@@ -733,32 +751,6 @@ describe('MetadataForm', () => {
     })
   })
 
-  describe('when there is an error loading the draft', () => {
-    test('displays an ErrorBanner', async () => {
-      setup({
-        overrideMocks: [{
-          request: {
-            query: conceptTypeDraftQueries.Tool,
-            variables: {
-              params: {
-                conceptId: 'TD1000000-MMT',
-                conceptType: 'Tool'
-              }
-            }
-          },
-          error: new Error('An error occurred')
-        }]
-      })
-
-      await waitForResponse()
-
-      expect(ErrorBanner).toHaveBeenCalledTimes(1)
-      expect(ErrorBanner).toHaveBeenCalledWith(expect.objectContaining({
-        message: 'An error occurred'
-      }), {})
-    })
-  })
-
   describe('when the page is loaded with a fieldName in the URL', () => {
     test('sets the focus field and calls navigate to remove the fieldName from the URL', async () => {
       const navigateSpy = vi.fn()
@@ -770,7 +762,13 @@ describe('MetadataForm', () => {
 
       await waitForResponse()
 
-      expect(Form).toHaveBeenCalledTimes(1)
+      expect(Form).toHaveBeenCalledTimes(2)
+      expect(Form).toHaveBeenCalledWith(expect.objectContaining({
+        formContext: expect.objectContaining({
+          focusField: null
+        })
+      }), {})
+
       expect(Form).toHaveBeenCalledWith(expect.objectContaining({
         formContext: expect.objectContaining({
           focusField: 'Name'
@@ -778,7 +776,7 @@ describe('MetadataForm', () => {
       }), {})
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT/tool-information', { replace: true })
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })
     })
   })
 })

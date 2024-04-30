@@ -54,7 +54,7 @@ const setup = ({
     }
     >
       <NotificationsContext.Provider value={notificationContext}>
-        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/TL12000000-MMT_2/collection-association-search']}>
+        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T12000000-MMT_2/collection-association-search']}>
           <MockedProvider
             mocks={additionalMocks}
           >
@@ -367,7 +367,7 @@ describe('CollectionAssociationForm', () => {
       await user.click(createSelectedAssociationButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(2)
-      // Expect(navigateSpy).toHaveBeenCalledWith('/tools/TL12000000-MMT_2/collection-association')
+      // Expect(navigateSpy).toHaveBeenCalledWith('/tools/T12000000-MMT_2/collection-association')
     })
   })
 

@@ -5,7 +5,7 @@ import {
   within
 } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import React from 'react'
+import React, { Suspense } from 'react'
 import {
   MemoryRouter,
   Route,
@@ -14,13 +14,13 @@ import {
 import * as router from 'react-router'
 import { Cookies, CookiesProvider } from 'react-cookie'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
-import Providers from '../../../providers/Providers/Providers'
+
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 import MetadataPreview from '../../MetadataPreview/MetadataPreview'
+import Providers from '../../../providers/Providers/Providers'
 import PublishPreview from '../PublishPreview'
 import errorLogger from '../../../utils/errorLogger'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import constructDownloadableFile from '../../../utils/constructDownloadableFile'
-import { GET_TOOL } from '../../../operations/queries/getTool'
 import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import {
@@ -58,7 +58,7 @@ const mock = {
   accessConstraints: null,
   ancillaryKeywords: null,
   associationDetails: null,
-  conceptId: 'TL1200000180-MMT_2',
+  conceptId: 'T1200000180-MMT_2',
   collections: null,
   contactGroups: null,
   contactPersons: null,
@@ -83,9 +83,14 @@ const mock = {
       urlValue: 'http://www.esa.org/education/'
     }
   ],
+  pageTitle: 'Testing tools for publiush asdfasfd',
   providerId: 'MMT_2',
   potentialAction: null,
   quality: null,
+  revisions: {
+    count: 2,
+    items: []
+  },
   revisionId: '1',
   revisionDate: '2024-01-19T20:00:56.974Z',
   relatedUrls: null,
@@ -193,7 +198,15 @@ const setup = ({
               >
                 <Route
                   path={overridePathValue || ':conceptId/:revisionId'}
-                  element={<PublishPreview {...props} />}
+                  element={
+                    (
+                      <ErrorBoundary>
+                        <Suspense>
+                          <PublishPreview {...props} />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )
+                  }
                 />
               </Route>
             </Routes>
@@ -217,157 +230,8 @@ describe('PublishPreview', () => {
       expect(MetadataPreview).toHaveBeenCalledTimes(1)
       expect(MetadataPreview).toHaveBeenCalledWith({
         conceptId: 'T1000000-MMT',
-        conceptType: 'Tool',
-        previewMetadata: {
-          __typename: 'Tool',
-          accessConstraints: null,
-          ancillaryKeywords: null,
-          associationDetails: null,
-          conceptId: 'TL1200000180-MMT_2',
-          collections: null,
-          contactGroups: null,
-          contactPersons: null,
-          description: 'asfd',
-          doi: null,
-          lastUpdatedDate: null,
-          longName: 'test',
-          metadataSpecification: {
-            name: 'UMM-T',
-            url: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
-            version: '1.2.0'
-          },
-          name: 'Testing tools for publiush asdfasfd',
-          nativeId: 'MMT_PUBLISH_8b8a1965-67a5-415c-ae4c-8ecbafd84131',
-          organizations: [
-            {
-              longName: 'Educational Office, Ecological Society of America',
-              roles: [
-                'SERVICE PROVIDER'
-              ],
-              shortName: 'ESA/ED',
-              urlValue: 'http://www.esa.org/education/'
-            }
-          ],
-          potentialAction: null,
-          providerId: 'MMT_2',
-          quality: null,
-          relatedUrls: null,
-          revisionDate: '2024-01-19T20:00:56.974Z',
-          revisionId: '1',
-          searchAction: null,
-          supportedBrowsers: null,
-          supportedInputFormats: null,
-          supportedOperatingSystems: null,
-          supportedOutputFormats: null,
-          supportedSoftwareLanguages: null,
-          toolKeywords: [
-            {
-              toolCategory: 'EARTH SCIENCE SERVICES',
-              toolTerm: 'CALIBRATION/VALIDATION',
-              toolTopic: 'DATA ANALYSIS AND VISUALIZATION'
-            }
-          ],
-          type: 'Web User Interface',
-          ummMetadata: {},
-          url: {
-            subtype: 'MOBILE APP',
-            type: 'DOWNLOAD SOFTWARE',
-            urlContentType: 'DistributionURL',
-            urlValue: 'adfs'
-          },
-          useConstraints: null,
-          version: '1',
-          versionDescription: null
-        }
+        conceptType: 'Tool'
       }, {})
-    })
-  })
-
-  describe('when the request results in an error', () => {
-    test('call errorLogger and renders an ErrorBanner', async () => {
-      setup({
-        overrideMocks: [
-          {
-            request: {
-              query: GET_TOOL,
-              variables: {
-                params: {
-                  conceptId: 'T1000000-MMT'
-                }
-              }
-            },
-            error: new Error('An error occurred')
-          },
-          {
-            request: {
-              query: GET_TOOLS,
-              variables: {
-                params: {
-                  conceptId: 'T1000000-MMT',
-                  allRevisions: true
-                }
-              }
-            },
-            result: {
-              data: {
-                tools: recordWithRevisions
-              }
-            }
-          }
-        ]
-      })
-
-      await waitForResponse()
-
-      expect(errorLogger).toHaveBeenCalledTimes(1)
-      expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview getPublish Query')
-
-      expect(ErrorBanner).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('when the record could not be returned after 10 try', () => {
-    test('calls errorLogger and renders an ErrorBanner', async () => {
-      setup({
-        overrideMocks: [
-          {
-            request: {
-              query: conceptTypeQueries.Tool,
-              variables: {
-                params: {
-                  conceptId: 'T1000000-MMT'
-                }
-              }
-            },
-            result: {
-              data: {
-                tool: null
-              }
-            }
-          },
-          {
-            request: {
-              query: GET_TOOLS,
-              variables: {
-                params: {
-                  conceptId: 'T1000000-MMT',
-                  allRevisions: true
-                }
-              }
-            },
-            result: {
-              data: {
-                tools: recordWithRevisions
-              }
-            }
-          }
-        ]
-      })
-
-      await waitForResponse()
-
-      expect(errorLogger).toHaveBeenCalledTimes(1)
-      expect(errorLogger).toHaveBeenCalledWith('Max retries allowed', 'Publish Preview: getMetadata Query')
     })
   })
 
@@ -420,7 +284,7 @@ describe('PublishPreview', () => {
       await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/manage/tools')
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools')
     })
   })
 
@@ -685,13 +549,6 @@ describe('PublishPreview', () => {
                 variables: {
                   conceptType: 'Variable',
                   metadata: {
-                    _private: {
-                      CollectionAssociation: {
-                        collectionConceptId: 'C1200000115-MMT_2',
-                        shortName: 'CIESIN_SEDAC_ESI_2000',
-                        version: '2000.00'
-                      }
-                    },
                     MetadataSpecification: {
                       URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
                       Name: 'UMM-Var',
@@ -776,106 +633,14 @@ describe('PublishPreview', () => {
 
       await user.click(moreActionsButton)
 
-      const revisionsButton = screen.getByRole('button', { name: 'View Revisions 2' })
+      const revisionsButton = screen.getByRole('link', { name: 'View Revisions 2' })
 
       await user.click(revisionsButton)
 
       await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions')
-    })
-  })
-
-  describe('Collection Preview', () => {
-    describe('Create Associated Variable', () => {
-      describe('when clicking on Create Collection', () => {
-        test('should navigate to variable draft preview', async () => {
-          const navigateSpy = vi.fn()
-          vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-          const { user } = setup({
-            overrideInitialEntries: ['/collections/C1000000-MMT/1'],
-            overridePath: '/collections',
-            overrideMocks: [
-              {
-                request: {
-                  query: conceptTypeQueries.Collection,
-
-                  variables: {
-                    params: {
-                      conceptId: 'C1000000-MMT',
-                      includeTags: '*'
-                    }
-                  }
-                },
-                result: {
-                  data: {
-                    collection: publishCollectionRecord
-                  }
-                }
-              },
-              {
-                request: {
-                  query: INGEST_DRAFT,
-                  variables: {
-                    conceptType: 'Variable',
-                    metadata: {
-                      _private: {
-                        CollectionAssociation: {
-                          collectionConceptId: 'C1200000100-MMT_2',
-                          shortName: 'Mock Quick Test Services #2',
-                          version: '1'
-                        }
-                      }
-                    },
-                    nativeId: 'MMT_mock-uuid',
-                    providerId: 'MMT_2',
-                    ummVersion: '1.9.0'
-                  }
-                },
-                result: {
-                  data: {
-                    ingestDraft: {
-                      conceptId: 'VD1000000-MMT',
-                      revisionId: '1'
-                    }
-                  }
-                }
-              },
-              {
-                request: {
-                  query: GET_COLLECTION_REVISIONS,
-                  variables: {
-                    params: {
-                      conceptId: 'C1000000-MMT',
-                      allRevisions: true
-                    }
-                  }
-                },
-                result: {
-                  data: {
-                    collections: collectionRecordWithRevisions
-                  }
-                }
-              }
-            ]
-          })
-
-          await waitForResponse()
-
-          const moreActionsButton = screen.queryByText(/More Actions/)
-
-          await user.click(moreActionsButton)
-
-          const createVariableAssociationBtn = screen.getByRole('button', { name: 'Create Associated Variable' })
-
-          await user.click(createVariableAssociationBtn)
-
-          expect(navigateSpy).toHaveBeenCalledTimes(1)
-          expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD1000000-MMT')
-        })
-      })
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions', { replace: false })
     })
   })
 
@@ -892,8 +657,7 @@ describe('PublishPreview', () => {
 
                 variables: {
                   params: {
-                    conceptId: 'C1000000-MMT',
-                    includeTags: '*'
+                    conceptId: 'C1000000-MMT'
                   }
                 }
               },
@@ -959,8 +723,7 @@ describe('PublishPreview', () => {
 
                 variables: {
                   params: {
-                    conceptId: 'C1000000-MMT',
-                    includeTags: '*'
+                    conceptId: 'C1000000-MMT'
                   }
                 }
               },
@@ -1021,8 +784,7 @@ describe('PublishPreview', () => {
 
                 variables: {
                   params: {
-                    conceptId: 'C1000000-MMT',
-                    includeTags: '*'
+                    conceptId: 'C1000000-MMT'
                   }
                 }
               },
@@ -1075,8 +837,7 @@ describe('PublishPreview', () => {
 
                 variables: {
                   params: {
-                    conceptId: 'C1000000-MMT',
-                    includeTags: '*'
+                    conceptId: 'C1000000-MMT'
                   }
                 }
               },

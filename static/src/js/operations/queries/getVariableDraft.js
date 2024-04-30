@@ -28,6 +28,7 @@ export const VARIABLE_DRAFT = gql`
           name
           nativeId
           offset
+          pageTitle: name
           relatedUrls
           samplingIdentifiers
           scale

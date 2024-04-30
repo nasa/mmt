@@ -44,19 +44,25 @@ const HomePage = () => {
   ]
 
   return (
-    <Page title="Home" navigation={false}>
-      <Row className="justify-content-md-center">
-        <For each={panels}>
-          {
-            ({ title, body }) => (
-              <Panel key={title} title={title}>
-                {body}
-              </Panel>
-            )
-          }
-        </For>
-      </Row>
-    </Page>
+    <Page
+      header={
+        (
+          <Row className="justify-content-md-center">
+            <For each={panels}>
+              {
+                ({ title, body }) => (
+                  <Panel key={title} title={title}>
+                    {body}
+                  </Panel>
+                )
+              }
+            </For>
+          </Row>
+        )
+      }
+      title="Home"
+      navigation={false}
+    />
   )
 }
 

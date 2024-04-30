@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_ORDER_OPTIONS = gql`
-  query OrderOptions($params: OrderOptionsInput) {
+  query GetOrderOptions($params: OrderOptionsInput) {
     orderOptions(params: $params) {
       count
       items {
@@ -18,9 +18,3 @@ export const GET_ORDER_OPTIONS = gql`
     }
   }
 `
-// Example Variables:
-// {
-//   "params": {
-//     "providerId": "MMT_2",
-//   }
-// }
