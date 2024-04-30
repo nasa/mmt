@@ -150,7 +150,7 @@ const setup = ({
 
 describe('DraftPreview', () => {
   describe('when the requests in a success', () => {
-    test.only('renders a PreviewProgress and MetadataPreview component', async () => {
+    test('renders a PreviewProgress and MetadataPreview component', async () => {
       setup({})
 
       await waitForResponse()
