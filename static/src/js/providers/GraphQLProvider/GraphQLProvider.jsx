@@ -45,7 +45,7 @@ const GraphQLProvider = ({ children }) => {
         if (operation.query.definitions.some(
           (def) => def.operation === 'mutation'
         )) {
-          // Delay the response by 5 seconds for mutations because CMR has to update elastic indexes
+          // Delay the response by 1 second for mutations because CMR has to update elastic indexes
           setTimeout(() => {
             observer.next(result)
             observer.complete()

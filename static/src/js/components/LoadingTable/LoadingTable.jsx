@@ -4,6 +4,19 @@ import Table from 'react-bootstrap/Table'
 import { random } from 'lodash-es'
 import { uniqueId } from 'react-bootstrap-typeahead/types/utils'
 
+/*
+ * Renders a `LoadingTable` component.
+ *
+ * This component renders a loading table
+ *
+ * @param {LoadingTable} props
+ *
+ * @component
+ * @example <caption>Render a loading table</caption>
+ * return (
+ *   <LoadingTable />
+ * )
+ */
 const LoadingTable = () => {
   const row = 20
   const randomColumn = random(4, 6)
