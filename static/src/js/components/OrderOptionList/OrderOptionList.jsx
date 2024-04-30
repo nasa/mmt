@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, {
+  Suspense,
+  useCallback,
+  useState
+} from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 
-import {
-  FaEdit,
-  FaExclamationCircle,
-  FaTrash
-} from 'react-icons/fa'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import Button from '../Button/Button'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
@@ -19,7 +19,6 @@ import Table from '../Table/Table'
 
 import { DELETE_ORDER_OPTION } from '../../operations/mutations/deleteOrderOption'
 import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
-import { UPDATE_ORDER_OPTION } from '../../operations/mutations/updateOrderOption'
 
 import { DATE_FORMAT } from '../../constants/dateFormat'
 
@@ -46,14 +45,10 @@ const OrderOptionList = () => {
 
   const { providerId } = user
 
-  const [selectedOrderOption, setSelectedOrderOption] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [showDeprecateModal, setShowDeprecateModal] = useState(false)
+  const [selectedOrderOption, setSelectedOrderOption] = useState(false)
 
   const [searchParams, setSearchParams] = useSearchParams()
-
-  const [deleteOrderOptionMutation] = useMutation(DELETE_ORDER_OPTION)
-  const [updateOrderOptionMutation] = useMutation(UPDATE_ORDER_OPTION)
 
   const activePage = parseInt(searchParams.get('page'), 10) || 1
 
@@ -78,9 +73,16 @@ const OrderOptionList = () => {
     }
   })
 
-  const toggleShowDeprecateModal = (nextState) => {
-    setShowDeprecateModal(nextState)
-  }
+  const [deleteOrderOptionMutation] = useMutation(DELETE_ORDER_OPTION, {
+    refetchQueries: [{
+      query: GET_ORDER_OPTIONS,
+      variables: {
+        params: {
+          providerId
+        }
+      }
+    }]
+  })
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
@@ -88,48 +90,6 @@ const OrderOptionList = () => {
 
   const handleEdit = (conceptId) => {
     navigate(`/order-options/${conceptId}/edit`)
-  }
-
-  const handleDeprecated = () => {
-    const {
-      description,
-      form,
-      name,
-      nativeId,
-      scope,
-      sortKey
-    } = selectedOrderOption
-
-    updateOrderOptionMutation({
-      variables: {
-        description,
-        form,
-        name,
-        nativeId,
-        providerId,
-        scope,
-        ...(sortKey ? { sortKey } : null),
-        deprecated: true
-      },
-      onCompleted: () => {
-        addNotification({
-          message: ' Order Option was successfully deprecated.',
-          variant: 'success'
-        })
-
-        refetch()
-      },
-      onError: () => {
-        addNotification({
-          message: 'Error deprecating order option',
-          variant: 'danger'
-        })
-
-        errorLogger('Unable deprecate order option', 'Order Option List: updateOrderOption Mutation')
-      }
-    })
-
-    toggleShowDeprecateModal(false)
   }
 
   const handleDelete = () => {
@@ -171,7 +131,7 @@ const OrderOptionList = () => {
   }, [])
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { conceptId, deprecated = null } = rowData
+    const { conceptId } = rowData
 
     return (
       <Row>
@@ -187,27 +147,6 @@ const OrderOptionList = () => {
             Edit
           </Button>
         </Col>
-        {
-          !deprecated && (
-            <Col className="col-auto">
-              <Button
-                className="d-flex"
-                Icon={FaExclamationCircle}
-                iconTitle="Document with an arrow pointing down"
-                onClick={
-                  () => {
-                    toggleShowDeprecateModal(true)
-                    setSelectedOrderOption(rowData)
-                  }
-                }
-                variant="danger"
-                size="sm"
-              >
-                Deprecate
-              </Button>
-            </Col>
-          )
-        }
         <Col className="col-auto">
           <Button
             className="d-flex"
@@ -264,114 +203,98 @@ const OrderOptionList = () => {
   const { count, items } = orderOptions
 
   return (
-    <Row>
-      <Col sm={12}>
-        <ControlledPaginatedContent
-          activePage={activePage}
-          count={count}
-          limit={limit}
-          setPage={setPage}
-        >
-          {
-            ({
-              totalPages,
-              pagination,
-              firstResultPosition,
-              lastResultPosition
-            }) => {
-              const paginationMessage = count > 0
-                ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} order options`
-                : 'No order option found'
+    <Suspense>
 
-              return (
-                <>
-                  <Row className="d-flex justify-content-between align-items-center">
-                    <Col className="mb-4 flex-grow-1" xs="auto">
+      <Row>
+        <Col sm={12}>
+          <ControlledPaginatedContent
+            activePage={activePage}
+            count={count}
+            limit={limit}
+            setPage={setPage}
+          >
+            {
+              ({
+                totalPages,
+                pagination,
+                firstResultPosition,
+                lastResultPosition
+              }) => {
+                const paginationMessage = count > 0
+                  ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} order options`
+                  : 'No order option found'
+
+                return (
+                  <>
+                    <Row className="d-flex justify-content-between align-items-center">
+                      <Col className="mb-4 flex-grow-1" xs="auto">
+                        {
+                          (!!count) && (
+                            <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                          )
+                        }
+                      </Col>
                       {
-                        (!!count) && (
-                          <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                        totalPages > 1 && (
+                          <Col xs="auto">
+                            {pagination}
+                          </Col>
                         )
                       }
-                    </Col>
+                    </Row>
+                    <Table
+                      key={count}
+                      id="order-option-table"
+                      columns={columns}
+                      generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                      generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                      data={items}
+                      noDataMessage="No order options found"
+                      count={count}
+                      setPage={setPage}
+                      limit={limit}
+                      offset={offset}
+                    />
+
                     {
                       totalPages > 1 && (
-                        <Col xs="auto">
-                          {pagination}
-                        </Col>
+                        <Row>
+                          <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                            <div>
+                              {pagination}
+                            </div>
+                          </Col>
+                        </Row>
                       )
                     }
-                  </Row>
-                  <Table
-                    id="order-option-table"
-                    columns={columns}
-                    generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
-                    generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                    data={items}
-                    noDataMessage="No order options found"
-                    count={count}
-                    setPage={setPage}
-                    limit={limit}
-                    offset={offset}
-                  />
-
-                  {
-                    totalPages > 1 && (
-                      <Row>
-                        <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                          <div>
-                            {pagination}
-                          </div>
-                        </Col>
-                      </Row>
-                    )
-                  }
-                </>
-              )
+                  </>
+                )
+              }
             }
+          </ControlledPaginatedContent>
+        </Col>
+        <CustomModal
+          message="Are you sure you want to delete this order option?"
+          show={showDeleteModal}
+          size="lg"
+          toggleModal={toggleShowDeleteModal}
+          actions={
+            [
+              {
+                label: 'No',
+                variant: 'secondary',
+                onClick: () => { toggleShowDeleteModal(false) }
+              },
+              {
+                label: 'Yes',
+                variant: 'primary',
+                onClick: handleDelete
+              }
+            ]
           }
-        </ControlledPaginatedContent>
-      </Col>
-      <CustomModal
-        message="Are you sure you want to deprecate this order option? This action cannot be undone."
-        show={showDeprecateModal}
-        size="lg"
-        toggleModal={toggleShowDeprecateModal}
-        actions={
-          [
-            {
-              label: 'No',
-              variant: 'secondary',
-              onClick: () => { toggleShowDeprecateModal(false) }
-            },
-            {
-              label: 'Yes',
-              variant: 'primary',
-              onClick: handleDeprecated
-            }
-          ]
-        }
-      />
-      <CustomModal
-        message="Are you sure you want to delete this order option?"
-        show={showDeleteModal}
-        size="lg"
-        toggleModal={toggleShowDeleteModal}
-        actions={
-          [
-            {
-              label: 'No',
-              variant: 'secondary',
-              onClick: () => { toggleShowDeleteModal(false) }
-            },
-            {
-              label: 'Yes',
-              variant: 'primary',
-              onClick: handleDelete
-            }
-          ]
-        }
-      />
-    </Row>
+        />
+      </Row>
+    </Suspense>
 
   )
 }

@@ -22,6 +22,11 @@ const orderOption = {
       minLength: 1,
       maxLength: 1024
     },
+    deprecated: {
+      description: 'Deprecated flag of the order option.',
+      type: 'boolean',
+      default: false
+    },
     form: {
       description: 'The XML of the order option.',
       type: 'string',
