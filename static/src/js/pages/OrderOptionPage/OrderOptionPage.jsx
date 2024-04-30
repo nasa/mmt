@@ -79,7 +79,7 @@ const OrderOptionPageHeader = () => {
           variant: 'success'
         })
 
-        navigate('/order-options', { replace: true })
+        navigate('/order-options')
       },
       onError: () => {
         addNotification({

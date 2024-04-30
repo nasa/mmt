@@ -139,7 +139,7 @@ const OrderOptionList = () => {
           <Button
             className="d-flex"
             Icon={FaEdit}
-            iconTitle="Document with an arrow pointing down"
+            iconTitle="Edit Button"
             onClick={() => handleEdit(conceptId)}
             variant="primary"
             size="sm"
@@ -151,7 +151,7 @@ const OrderOptionList = () => {
           <Button
             className="d-flex"
             Icon={FaTrash}
-            iconTitle="Document with an arrow pointing down"
+            iconTitle="Delete Button"
             onClick={
               () => {
                 toggleShowDeleteModal(true)
@@ -243,7 +243,6 @@ const OrderOptionList = () => {
                       }
                     </Row>
                     <Table
-                      key={count}
                       id="order-option-table"
                       columns={columns}
                       generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
