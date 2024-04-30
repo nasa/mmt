@@ -12,7 +12,7 @@ import {
   Route
 } from 'react-router-dom'
 
-import { collectionRevisions, collectionRevisionsError } from './__mocks__/revisionResults'
+import { collectionRevisions } from './__mocks__/revisionResults'
 
 import AppContext from '../../../context/AppContext'
 
