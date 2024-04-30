@@ -70,6 +70,7 @@ const OrderOptionForm = () => {
   })
 
   const [nativeId, setNativeId] = useState()
+  const [deprecated, setDeprecated] = useState()
 
   const fields = {
     TitleField: CustomTitleField,
@@ -101,7 +102,8 @@ const OrderOptionForm = () => {
       form,
       name,
       sortKey,
-      nativeId: fetchedNativeId
+      nativeId: fetchedNativeId,
+      deprecated: fetchedDeprecated
     } = orderOptionData || {}
 
     const formData = {
@@ -115,6 +117,7 @@ const OrderOptionForm = () => {
     }
 
     setNativeId(fetchedNativeId)
+    setDeprecated(fetchedDeprecated || false)
 
     setDraft({ formData })
     setOriginalDraft({ formData })
@@ -143,7 +146,8 @@ const OrderOptionForm = () => {
     const orderOptionVariables = {
       ...formData,
       scope: 'PROVIDER',
-      providerId
+      providerId,
+      deprecated
     }
 
     if (conceptId === 'new') {

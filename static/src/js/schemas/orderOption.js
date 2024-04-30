@@ -14,7 +14,7 @@ const orderOption = {
       description: 'The sort key of the order option.',
       type: 'string',
       minLength: 1,
-      maxLength: 85
+      maxLength: 5
     },
     description: {
       description: 'The description of the order option.',

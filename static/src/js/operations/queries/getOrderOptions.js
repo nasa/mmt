@@ -5,7 +5,8 @@ export const GET_ORDER_OPTIONS = gql`
     orderOptions(params: $params) {
       count
       items {
-        description
+        description,
+        deprecated
         conceptId
         name
         form
