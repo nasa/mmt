@@ -42,7 +42,6 @@
     "mobx-react": "^7.5.2",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
-    "npm": "^9.6.1",
     "paths": "^0.1.1",
     "postcss": "^8.4.32",
     "prop-types": "^15.8.1",
@@ -60,7 +59,6 @@
     "react-select-country-list": "^2.2.3",
     "react-select-event": "^5.5.1",
     "react-uuid": "^1.0.2",
-    "shakapacker": "6.5.0",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "5",
     "testing-library": "^0.0.2",
@@ -69,7 +67,7 @@
     "webpack": "5",
     "webpack-assets-manifest": "5",
     "webpack-cli": "4",
-    "webpack-dev-server": "^4.11.1",
+    "webpack-dev-middleware": "^5.3.4",
     "webpack-merge": "5"
   },
   "version": "0.1.0",
@@ -102,7 +100,9 @@
     "lint-staged": "^13.0.3",
     "pretty-quick": "^3.1.3",
     "react-scripts": "^5.0.1",
-    "typescript": "^4.7.4"
+    "shakapacker": "^6.5.0",
+    "typescript": "^4.7.4",
+    "webpack-dev-server": "^4.11.1"
   },
   "resolutions": {
     "webpack-dev-middleware": "^5.3.4",
@@ -133,7 +133,10 @@
     "word-wrap": "^1.2.4",
     "@adobe/css-tools": "^4.3.2",
     "postcss": "^8.4.32",
-    "traverse": "^7.23.6"
+    "traverse": "^7.23.6",
+    "shakapacker": "^6.5.0",
+    "typescript": "^4.7.4",
+    "webpack-dev-server": "^4.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
