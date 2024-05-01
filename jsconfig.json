@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["static/src/js/*"]
+    }
+  },
+  "include": ["static/src/js/**/*"]
+}
