@@ -12,7 +12,7 @@ import ManageCollectionAssociation from '../../components/ManageCollectionAssoci
 
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
 
 /**
  * Renders a ManageCollectionAssociationPageHeader component

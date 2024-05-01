@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useSearchParams } from 'react-router-dom'
 import moment from 'moment'
-
 import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import Button from '../Button/Button'

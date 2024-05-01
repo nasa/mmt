@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 import moment from 'moment'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
 
 import { DATE_FORMAT } from '../../constants/dateFormat'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'

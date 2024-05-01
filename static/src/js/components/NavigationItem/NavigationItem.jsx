@@ -12,7 +12,7 @@ import buildValidationErrors from '../../utils/buildValidationErrors'
 import createPath from '../../utils/createPath'
 import removeEmpty from '../../utils/removeEmpty'
 import prefixProperty from '../../utils/prefixProperty'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import toKebabCase from '../../utils/toKebabCase'
 
 import './NavigationItem.scss'
 
@@ -57,7 +57,7 @@ const NavigationItem = ({
 
   const { displayName, properties: sectionProperties } = section
 
-  const isSectionDisplayed = toLowerKebabCase(displayName) === sectionName
+  const isSectionDisplayed = toKebabCase(displayName) === sectionName
 
   // Does the form section have values
   const hasValues = sectionProperties.some((propertyPrefix) => {
@@ -144,10 +144,10 @@ const NavigationItem = ({
         onClick={
           () => {
             if (templateType) {
-              navigate(`../templates/${templateType}/${id || 'new'}/${toLowerKebabCase(displayName)}`)
+              navigate(`../templates/${templateType}/${id || 'new'}/${toKebabCase(displayName)}`)
             } else {
               // Navigate to the correct form
-              navigate(`/drafts/${draftType}/${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
+              navigate(`/drafts/${draftType}/${conceptId || 'new'}/${toKebabCase(displayName)}`)
             }
 
             // Ensure the window is scrolled to the top of the page

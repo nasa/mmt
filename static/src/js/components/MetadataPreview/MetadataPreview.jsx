@@ -6,17 +6,18 @@ import {
   VariablePreview
 } from '@edsc/metadata-preview'
 import PropTypes from 'prop-types'
+
 import { useSuspenseQuery } from '@apollo/client'
+import { useParams } from 'react-router'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-import { useParams } from 'react-router'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
-
+import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * MetadataPreview
@@ -39,6 +40,7 @@ const MetadataPreview = ({
   conceptType
 }) => {
   const { draftType } = useParams()
+
   const isDraft = Boolean(draftType)
 
   let params = {
@@ -83,7 +85,7 @@ const MetadataPreview = ({
               <CollectionPreview
                 collection={concept}
                 conceptId={conceptId}
-                conceptType={toLowerKebabCase(conceptType)}
+                conceptType={toKebabCase(conceptType)}
               />
             )
         }
@@ -92,7 +94,7 @@ const MetadataPreview = ({
             <ServicePreview
               service={concept}
               conceptId={conceptId}
-              conceptType={toLowerKebabCase(conceptType)}
+              conceptType={toKebabCase(conceptType)}
             />
           )
         }
@@ -102,7 +104,7 @@ const MetadataPreview = ({
             <ToolPreview
               tool={concept}
               conceptId={conceptId}
-              conceptType={toLowerKebabCase(conceptType)}
+              conceptType={toKebabCase(conceptType)}
             />
           )
         }
@@ -112,7 +114,7 @@ const MetadataPreview = ({
             <VariablePreview
               variable={concept}
               conceptId={conceptId}
-              conceptType={toLowerKebabCase(conceptType)}
+              conceptType={toKebabCase(conceptType)}
             />
           )
         }

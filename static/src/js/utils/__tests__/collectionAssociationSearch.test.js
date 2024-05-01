@@ -1,4 +1,4 @@
-import { collectionAssociationSearch } from '../collectionAssociationSearch'
+import collectionAssociationSearch from '../collectionAssociationSearch'
 
 describe('collectionAssociationSearch', () => {
   describe('when the formData has a wildcard search field', () => {

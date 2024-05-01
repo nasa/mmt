@@ -6,7 +6,7 @@ import progressCircleTypes from '../../constants/progressCircleTypes'
 
 import './ProgressField.scss'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * @typedef {Object} ProgressFieldProps
@@ -117,10 +117,10 @@ const ProgressField = ({
   // Handle clicking on a field icon
   const handleCircleClick = () => {
     if (templateType) {
-      navigate(`/templates/${templateType}/${id}/${toLowerKebabCase(formName)}/${fieldName}`)
+      navigate(`/templates/${templateType}/${id}/${toKebabCase(formName)}/${fieldName}`)
     }
 
-    navigate(`${toLowerKebabCase(formName)}/${fieldName}`)
+    navigate(`${toKebabCase(formName)}/${fieldName}`)
   }
 
   // Accessible event props for clicking on the form field icon
