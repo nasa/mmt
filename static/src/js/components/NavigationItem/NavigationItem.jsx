@@ -46,11 +46,11 @@ const NavigationItem = ({
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
   const {
-    id,
     conceptId,
+    draftType,
+    id,
     sectionName,
-    templateType,
-    draftType
+    templateType
   } = useParams()
 
   const navigate = useNavigate()
