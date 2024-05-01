@@ -1,14 +1,22 @@
 import React, { useCallback } from 'react'
-import { useSuspenseQuery } from '@apollo/client'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
 
+import moment from 'moment'
+
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 
+import { DATE_FORMAT } from '../../constants/dateFormat'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import restoreRevisionMutations from '../../constants/restoreRevisionMutations'
 
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
+
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+
+import errorLogger from '../../utils/errorLogger'
 
 /**
  * Renders a RevisionList component
@@ -21,6 +29,8 @@ import Table from '../Table/Table'
  */
 const RevisionList = () => {
   const { conceptId, type } = useParams()
+
+  const { addNotification } = useNotificationsContext()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
@@ -53,18 +63,57 @@ const RevisionList = () => {
     )
   }, [])
 
-  const buildActionCell = useCallback((cellData, rowData) => (
-    rowData?.revisionId !== concept?.revisionId && (
-      <Button
-        className="btn btn-link"
-        type="button"
-        variant="link"
-        onClick={() => console.log('Revert!')}
-      >
-        Revert to this revision
-      </Button>
+  const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
+    refetchQueries: [{
+      query: conceptTypeQueries[derivedConceptType],
+      variables: {
+        params: {
+          conceptId
+        }
+      }
+    }]
+  })
+
+  const handleRevert = (revisionId) => {
+    restoreMutation({
+      variables: {
+        conceptId,
+        revisionId
+      },
+      onCompleted: () => {
+        addNotification({
+          message: `${derivedConceptType} revision created successfully`,
+          variant: 'success'
+        })
+      },
+      onError: () => {
+        addNotification({
+          message: `Error creating ${derivedConceptType.toLowerCase()} revision`,
+          variant: 'danger'
+        })
+
+        errorLogger('Error reverting record', 'handleRevert: restoreMutation')
+      }
+    })
+  }
+
+  const buildActionCell = useCallback((cellData, rowData) => {
+    const { revisionId } = rowData
+    const { revisionId: currRevisionId } = concept
+
+    return (
+      revisionId !== currRevisionId && (
+        <Button
+          className="btn btn-link"
+          type="button"
+          variant="link"
+          onClick={() => { handleRevert(revisionId) }}
+        >
+          Revert to this revision
+        </Button>
+      )
     )
-  ), [])
+  })
 
   const columns = [
     {
@@ -77,7 +126,7 @@ const RevisionList = () => {
       dataKey: 'revisionDate',
       title: 'Revision Date',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => cellData.split('T')[0]
+      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
     },
     {
       dataKey: 'userId',
