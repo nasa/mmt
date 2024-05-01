@@ -1,12 +1,8 @@
-import React, {
-  Suspense,
-  useCallback,
-  useState
-} from 'react'
+import React, { useCallback, useState } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 
 import { FaEdit, FaTrash } from 'react-icons/fa'
@@ -38,8 +34,6 @@ import errorLogger from '../../utils/errorLogger'
  */
 const OrderOptionList = () => {
   const { user } = useAppContext()
-
-  const navigate = useNavigate()
 
   const { addNotification } = useNotificationsContext()
 
@@ -86,10 +80,6 @@ const OrderOptionList = () => {
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
-  }
-
-  const handleEdit = (conceptId) => {
-    navigate(`/order-options/${conceptId}/edit`)
   }
 
   const handleDelete = () => {
@@ -140,7 +130,7 @@ const OrderOptionList = () => {
             className="d-flex"
             Icon={FaEdit}
             iconTitle="Edit Button"
-            onClick={() => handleEdit(conceptId)}
+            href={`order-options/${conceptId}/edit`}
             variant="primary"
             size="sm"
           >
@@ -203,98 +193,94 @@ const OrderOptionList = () => {
   const { count, items } = orderOptions
 
   return (
-    <Suspense>
+    <Row>
+      <Col sm={12}>
+        <ControlledPaginatedContent
+          activePage={activePage}
+          count={count}
+          limit={limit}
+          setPage={setPage}
+        >
+          {
+            ({
+              totalPages,
+              pagination,
+              firstResultPosition,
+              lastResultPosition
+            }) => {
+              const paginationMessage = count > 0
+                ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} order options`
+                : 'No order option found'
 
-      <Row>
-        <Col sm={12}>
-          <ControlledPaginatedContent
-            activePage={activePage}
-            count={count}
-            limit={limit}
-            setPage={setPage}
-          >
-            {
-              ({
-                totalPages,
-                pagination,
-                firstResultPosition,
-                lastResultPosition
-              }) => {
-                const paginationMessage = count > 0
-                  ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} order options`
-                  : 'No order option found'
-
-                return (
-                  <>
-                    <Row className="d-flex justify-content-between align-items-center">
-                      <Col className="mb-4 flex-grow-1" xs="auto">
-                        {
-                          (!!count) && (
-                            <span className="text-secondary fw-bolder">{paginationMessage}</span>
-                          )
-                        }
-                      </Col>
+              return (
+                <>
+                  <Row className="d-flex justify-content-between align-items-center">
+                    <Col className="mb-4 flex-grow-1" xs="auto">
                       {
-                        totalPages > 1 && (
-                          <Col xs="auto">
-                            {pagination}
-                          </Col>
+                        (!!count) && (
+                          <span className="text-secondary fw-bolder">{paginationMessage}</span>
                         )
                       }
-                    </Row>
-                    <Table
-                      id="order-option-table"
-                      columns={columns}
-                      generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
-                      generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                      data={items}
-                      noDataMessage="No order options found"
-                      count={count}
-                      setPage={setPage}
-                      limit={limit}
-                      offset={offset}
-                    />
-
+                    </Col>
                     {
                       totalPages > 1 && (
-                        <Row>
-                          <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                            <div>
-                              {pagination}
-                            </div>
-                          </Col>
-                        </Row>
+                        <Col xs="auto">
+                          {pagination}
+                        </Col>
                       )
                     }
-                  </>
-                )
-              }
-            }
-          </ControlledPaginatedContent>
-        </Col>
-        <CustomModal
-          message="Are you sure you want to delete this order option?"
-          show={showDeleteModal}
-          size="lg"
-          toggleModal={toggleShowDeleteModal}
-          actions={
-            [
-              {
-                label: 'No',
-                variant: 'secondary',
-                onClick: () => { toggleShowDeleteModal(false) }
-              },
-              {
-                label: 'Yes',
-                variant: 'primary',
-                onClick: handleDelete
-              }
-            ]
-          }
-        />
-      </Row>
-    </Suspense>
+                  </Row>
+                  <Table
+                    id="order-option-table"
+                    columns={columns}
+                    generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                    generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                    data={items}
+                    noDataMessage="No order options found"
+                    count={count}
+                    setPage={setPage}
+                    limit={limit}
+                    offset={offset}
+                  />
 
+                  {
+                    totalPages > 1 && (
+                      <Row>
+                        <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                          <div>
+                            {pagination}
+                          </div>
+                        </Col>
+                      </Row>
+                    )
+                  }
+                </>
+              )
+            }
+          }
+        </ControlledPaginatedContent>
+      </Col>
+      <CustomModal
+        message="Are you sure you want to delete this order option?"
+        show={showDeleteModal}
+        size="lg"
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+            }
+          ]
+        }
+      />
+    </Row>
   )
 }
 

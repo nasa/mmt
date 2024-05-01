@@ -6,7 +6,6 @@ import {
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as router from 'react-router'
 
 import { MockedProvider } from '@apollo/client/testing'
 import { BrowserRouter } from 'react-router-dom'
@@ -268,22 +267,6 @@ describe('OrderOptionList', () => {
         expect(screen.getByText('Showing 2 order options')).toBeInTheDocument()
         expect(screen.queryByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
       })
-    })
-  })
-
-  describe('when clicking on edit button', () => {
-    test('should navigate to /order-options/id', async () => {
-      const navigateSpy = vi.fn()
-      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-      const { user } = setup({})
-
-      await waitForResponse()
-
-      const editButton = screen.getAllByRole('button', { name: 'Edit Button Edit' })
-      await user.click(editButton[0])
-
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1200000099-MMT_2/edit')
     })
   })
 
