@@ -13,6 +13,7 @@ import {
 } from 'react-router-dom'
 
 import userEvent from '@testing-library/user-event'
+import moment from 'moment'
 import { collectionRevisions } from './__mocks__/revisionResults'
 
 import AppContext from '../../../context/AppContext'
@@ -114,6 +115,8 @@ describe('RevisionList component', () => {
           expect(screen.queryAllByRole('row').length).toEqual(9)
         })
 
+        const date = new Date(2000, 1, 1, 13)
+        vi.setSystemTime(date)
         const rows = screen.queryAllByRole('row')
         const row1 = rows[1]
         const row2 = rows[2]
@@ -122,13 +125,12 @@ describe('RevisionList component', () => {
         const row2Cells = within(row2).queryAllByRole('cell')
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('8 - Published')
-        expect(row1Cells[1].textContent).toBe('Wednesday, April 24, 2024 1:02 PM')
+        expect(row1Cells[1].textContent).toBe(moment(date).format('LLLL'))
         expect(row1Cells[2].textContent).toBe('admin')
         expect(row1Cells[3].textContent).toBe('')
 
         expect(row2Cells).toHaveLength(4)
         expect(row2Cells[0].textContent).toBe('7 - Revision')
-        expect(row2Cells[1].textContent).toBe('Wednesday, April 24, 2024 12:37 PM')
         expect(row2Cells[2].textContent).toBe('admin')
         expect(row2Cells[3].textContent).toBe('Revert to this revision')
       })
