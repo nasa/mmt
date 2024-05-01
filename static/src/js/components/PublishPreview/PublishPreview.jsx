@@ -38,7 +38,7 @@ import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
 
 import errorLogger from '../../utils/errorLogger'
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
 import removeMetadataKeys from '../../utils/removeMetadataKeys'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'

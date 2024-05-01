@@ -42,10 +42,10 @@ import errorLogger from '../../utils/errorLogger'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
-import getUmmSchema from '../../utils/getUmmSchema'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 import getUiSchema from '../../utils/getUiSchema'
+import getUmmSchema from '../../utils/getUmmSchema'
 import removeEmpty from '../../utils/removeEmpty'
+import toKebabCase from '../../utils/toKebabCase'
 
 import usePublishMutation from '../../hooks/usePublishMutation'
 
@@ -218,7 +218,7 @@ const MetadataForm = () => {
         if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
-          navigate(`/drafts/${draftType}/${savedConceptId}/${toLowerKebabCase(nextFormName)}`)
+          navigate(`/drafts/${draftType}/${savedConceptId}/${toKebabCase(nextFormName)}`)
 
           window.scroll(0, 0)
         }

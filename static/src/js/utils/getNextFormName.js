@@ -1,4 +1,4 @@
-import toLowerKebabCase from './toLowerKebabCase'
+import toKebabCase from './toKebabCase'
 
 /**
  * Gets the next section in the form.
@@ -8,7 +8,7 @@ import toLowerKebabCase from './toLowerKebabCase'
 const getNextFormName = (formConfiguration, currentForm) => {
   // Index of current form (currentForm) in the list of forms (formConfiguration)
   const index = formConfiguration.findIndex(
-    (form) => toLowerKebabCase(form.displayName) === currentForm
+    (form) => toKebabCase(form.displayName) === currentForm
   )
 
   // If current form is not found or last in the list, returns first form name

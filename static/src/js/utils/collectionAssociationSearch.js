@@ -5,7 +5,7 @@
  * @param {String} type The title of the field
  * @param {String} value The value of the field
  */
-export const collectionAssociationSearch = (type, value) => {
+const collectionAssociationSearch = (type, value) => {
   const isWildCardSearch = (searchType) => {
     const wildcardSearch = ['dataCenter', 'entryTitle', 'instrument', 'platform', 'processingLevelId', 'project', 'shortName', 'spatialKeyword', 'version']
 
@@ -47,3 +47,5 @@ export const collectionAssociationSearch = (type, value) => {
     [type]: value
   }
 }
+
+export default collectionAssociationSearch

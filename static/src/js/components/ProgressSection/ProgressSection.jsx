@@ -9,7 +9,7 @@ import progressCircleTypes from '../../constants/progressCircleTypes'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import './ProgressSection.scss'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * @typedef {Object} ProgressSectionProps
@@ -71,9 +71,9 @@ const ProgressSection = ({
   // Handle clicking on a section
   const handleSectionClick = () => {
     if (templateType) {
-      navigate(`/templates/${templateType}/${id}/${toLowerKebabCase(displayName)}`)
+      navigate(`/templates/${templateType}/${id}/${toKebabCase(displayName)}`)
     } else {
-      navigate(toLowerKebabCase(displayName))
+      navigate(toKebabCase(displayName))
     }
   }
 

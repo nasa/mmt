@@ -41,7 +41,7 @@ import getFormSchema from '../../utils/getFormSchema'
 import getNextFormName from '../../utils/getNextFormName'
 import getTemplate from '../../utils/getTemplate'
 import parseError from '../../utils/parseError'
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
+import toKebabCase from '../../utils/toKebabCase'
 import updateTemplate from '../../utils/updateTemplate'
 
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
@@ -195,7 +195,7 @@ const TemplateForm = () => {
     if (type === saveTypes.saveAndContinue) {
       const nextFormName = getNextFormName(collectionsTemplateConfiguration, currentSection)
 
-      navigate(`/templates/collections/${savedId || id}/${toLowerKebabCase(nextFormName)}`)
+      navigate(`/templates/collections/${savedId || id}/${toKebabCase(nextFormName)}`)
 
       window.scroll(0, 0)
     }
