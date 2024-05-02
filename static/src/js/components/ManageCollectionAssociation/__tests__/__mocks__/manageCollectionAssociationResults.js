@@ -8,9 +8,6 @@ export const toolRecordSearch = {
     variables: {
       params: {
         conceptId: 'T1200000-TEST'
-      },
-      collectionsParams: {
-        sortKey: null
       }
     }
   },
@@ -28,25 +25,28 @@ export const toolRecordSearch = {
           }]
         },
         collections: {
-          __typename: 'CollectionList',
           count: 2,
-          items: [{
-            __typename: 'Collection',
-            conceptId: 'C120000001_TEST',
-            entryTitle: 'Associated Collection 1',
-            provider: 'SEDAC',
-            shortName: 'CIESIN_SEDAC_ESI_2000',
-            title: 'Associated Collection 1',
-            version: '2000.00'
-          }, {
-            __typename: 'Collection',
-            conceptId: 'C120000002-TEST',
-            entryTitle: 'Associated Collection 2',
-            provider: 'SEDAC',
-            shortName: 'CIESIN_SEDAC_ESI_2001',
-            title: 'Associated Collection 2',
-            version: '2001.00'
-          }]
+          items: [
+            {
+              title: 'Associated Collection 1',
+              conceptId: 'C120000001-TEST',
+              entryTitle: 'Associated Collection 1',
+              shortName: 'CIESIN_SEDAC_ESI_2000',
+              version: '2000.00',
+              provider: 'SEDAC',
+              __typename: 'Collection'
+            },
+            {
+              title: 'Associated Collection 2',
+              conceptId: 'C120000002-TEST',
+              entryTitle: 'Associated Collection 2',
+              shortName: 'CIESIN_SEDAC_ESI_2001',
+              version: '2001.00',
+              provider: 'SEDAC',
+              __typename: 'Collection'
+            }
+          ],
+          __typename: 'CollectionList'
         },
         conceptId: 'T1200000-TEST',
         contactGroups: null,
@@ -68,6 +68,7 @@ export const toolRecordSearch = {
           shortName: 'DOI/USGS/CMG/WHSC',
           urlValue: 'http://woodshole.er.usgs.gov/'
         }],
+        pageTitle: 'Testing publish with routes',
         potentialAction: null,
         providerId: 'MMT_2',
         quality: null,
@@ -149,7 +150,6 @@ export const toolRecordSortSearch = {
   result: {
     data: {
       tool: {
-        __typename: 'Tool',
         accessConstraints: null,
         ancillaryKeywords: null,
         associationDetails: {
@@ -160,23 +160,28 @@ export const toolRecordSortSearch = {
           }]
         },
         collections: {
-          __typename: 'CollectionList',
           count: 2,
-          items: [{
-            __typename: 'Collection',
-            conceptId: 'C120000001_TEST',
-            provider: 'SEDAC',
-            shortName: 'CIESIN_SEDAC_ESI_2000',
-            title: 'Associated Collection 1',
-            version: '2000.00'
-          }, {
-            __typename: 'Collection',
-            conceptId: 'C120000002-TEST',
-            provider: 'SEDAC',
-            shortName: 'CIESIN_SEDAC_ESI_2001',
-            title: 'Associated Collection 2',
-            version: '2001.00'
-          }]
+          items: [
+            {
+              title: 'Associated Collection 1',
+              conceptId: 'C120000001-TEST',
+              entryTitle: 'Associated Collection 1',
+              shortName: 'CIESIN_SEDAC_ESI_2000',
+              version: '2000.00',
+              provider: 'SEDAC',
+              __typename: 'Collection'
+            },
+            {
+              title: 'Associated Collection 2',
+              conceptId: 'C120000002-TEST',
+              entryTitle: 'Associated Collection 2',
+              shortName: 'CIESIN_SEDAC_ESI_2001',
+              version: '2001.00',
+              provider: 'SEDAC',
+              __typename: 'Collection'
+            }
+          ],
+          __typename: 'CollectionList'
         },
         conceptId: 'T1200000-TEST',
         contactGroups: null,
@@ -198,6 +203,7 @@ export const toolRecordSortSearch = {
           shortName: 'DOI/USGS/CMG/WHSC',
           urlValue: 'http://woodshole.er.usgs.gov/'
         }],
+        pageTitle: 'Testing publish with routes',
         potentialAction: null,
         providerId: 'MMT_2',
         quality: null,
@@ -262,7 +268,8 @@ export const toolRecordSortSearch = {
         },
         useConstraints: null,
         version: '123',
-        versionDescription: null
+        versionDescription: null,
+        __typename: 'Tool'
       }
     }
   }
@@ -384,7 +391,7 @@ export const singleAssociationSearch = {
           items: [
             {
               title: 'Associated Collection 1',
-              conceptId: 'C120000001_TEST',
+              conceptId: 'C120000001-TEST',
               entryTitle: 'Associated Collection 1',
               shortName: 'CIESIN_SEDAC_ESI_2000',
               version: '2000.00',
@@ -404,10 +411,7 @@ export const toolRecordSearchError = {
   request: {
     query: GET_TOOL,
     variables: {
-      params: { conceptId: 'T1200000-TEST' },
-      collectionsParams: {
-        sortKey: null
-      }
+      params: { conceptId: 'T1200000-TEST' }
     }
   },
   error: new Error('An error occurred')
@@ -418,23 +422,15 @@ export const deleteAssociationResponse = {
     query: DELETE_ASSOCIATION,
     variables: {
       conceptId: 'T1200000-TEST',
-      collectionConceptIds: [{ conceptId: 'C120000001_TEST' }],
-      conceptType: 'Tool'
+      associatedConceptIds: ['C120000001-TEST']
     }
   },
   result: {
     data: {
       deleteAssociation: {
-        associatedItem: {
-          concept_id: 'C1200000035-SEDAC'
-        },
-        serviceAssociation: null,
-        toolAssociation: {
-          concept_id: 'TLA1200000140-CMR',
-          revision_id: 2
-        },
-        variableAssociation: null,
-        warnings: null,
+        associatedConceptId: 'C1200000035-SEDAC',
+        conceptId: 'TLA1200000140-CMR',
+        revisionId: 2,
         __typename: 'AssociationMutationResponse'
       }
     }
@@ -447,9 +443,6 @@ export const deletedAssociationResponse = {
     variables: {
       params: {
         conceptId: 'T1200000-TEST'
-      },
-      collectionsParams: {
-        sortKey: null
       }
     }
   },
@@ -461,7 +454,7 @@ export const deletedAssociationResponse = {
         associationDetails: {
           collections: [
             {
-              conceptId: 'C120000002-TEST'
+              conceptId: 'C120000001-TEST'
             }
           ]
         },
@@ -489,6 +482,7 @@ export const deletedAssociationResponse = {
             urlValue: 'http://woodshole.er.usgs.gov/'
           }
         ],
+        pageTitle: 'Testing publish with routes',
         providerId: 'MMT_2',
         potentialAction: null,
         quality: null,
@@ -567,7 +561,7 @@ export const deletedAssociationResponse = {
           items: [
             {
               title: 'Associated Collection 2',
-              conceptId: 'C120000002-TEST',
+              conceptId: 'C120000001-TEST',
               entryTitle: 'Associated Collection 2',
               shortName: 'CIESIN_SEDAC_ESI_2001',
               version: '2001.00',
@@ -587,10 +581,7 @@ export const variableRecord = {
   request: {
     query: GET_VARIABLE,
     variables: {
-      params: { conceptId: 'V1200000104-SEDAC' },
-      collectionsParams: {
-        sortKey: null
-      }
+      params: { conceptId: 'V1200000104-SEDAC' }
     }
   },
   result: {
@@ -760,41 +751,34 @@ export const sortProvider = {
   result: {
     data: {
       variable: {
-        __typename: 'Variable',
-        additionalIdentifiers: null,
+        additionalIdentifiers: [
+          {
+            identifier: '123'
+          }
+        ],
         associationDetails: {
-          collections: [{
-            conceptId: 'C1200000034-SEDAC'
-          }]
+          collections: [
+            {
+              conceptId: 'C1200000036-SEDAC'
+            }
+          ]
         },
-        collections: {
-          __typename: 'CollectionList',
-          count: 1,
-          items: [{
-            __typename: 'Collection',
-            conceptId: 'C1200000034-SEDAC',
-            provider: 'SEDAC',
-            shortName: 'CIESIN_SEDAC_ESI_2000',
-            title: '2000 Pilot Environmental Sustainability Index (ESI)',
-            version: '2000.00'
-          }]
-        },
-        conceptId: 'V1200000101-SEDAC',
+        conceptId: 'V1200000104-SEDAC',
         dataType: null,
-        definition: 'Mock Definition',
+        definition: '213',
         dimensions: null,
         fillValues: null,
         indexRanges: null,
         instanceInformation: null,
-        longName: 'Mock Long Name',
+        longName: '123',
         measurementIdentifiers: null,
-        name: 'Variable Draft Association Test',
-        nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
+        name: 'Testing association',
+        nativeId: 'MMT_fe95add0-9ae8-471e-938b-1e8110ec8207',
         offset: null,
         providerId: 'SEDAC',
         relatedUrls: null,
-        revisionDate: '2024-03-21T18:43:56.991Z',
-        revisionId: '3',
+        revisionDate: '2024-03-19T15:00:17.275Z',
+        revisionId: '21',
         revisions: null,
         samplingIdentifiers: null,
         scale: null,
@@ -802,19 +786,39 @@ export const sortProvider = {
         sets: null,
         standardName: null,
         ummMetadata: {
-          Definition: 'Mock Definition',
-          LongName: 'Mock Long Name',
           MetadataSpecification: {
-            Name: 'UMM-Var',
             URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+            Name: 'UMM-Var',
             Version: '1.9.0'
           },
-          Name: 'Variable Draft Association Test'
+          AdditionalIdentifiers: [
+            {
+              Identifier: '123'
+            }
+          ],
+          Name: 'Testing association',
+          LongName: '123',
+          Definition: '213'
         },
         units: null,
         validRanges: null,
         variableSubType: null,
-        variableType: null
+        variableType: null,
+        collections: {
+          count: 1,
+          items: [
+            {
+              conceptId: 'C1200000036-SEDAC',
+              shortName: 'CIESIN_SEDAC_ESI_2002',
+              version: '2002.00',
+              provider: 'SEDAC',
+              title: 'Mock',
+              __typename: 'Collection'
+            }
+          ],
+          __typename: 'CollectionList'
+        },
+        __typename: 'Variable'
       }
     }
   }

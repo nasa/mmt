@@ -1,31 +1,17 @@
 import { gql } from '@apollo/client'
 
 export const DELETE_ASSOCIATION = gql`
-  mutation DeleteAssociation (
+  mutation DeleteAssociation(
     $conceptId: String!
-    $collectionConceptIds: [JSON]!
-    $conceptType: ConceptType!
+    $associatedConceptIds: [String]
   ) {
-    deleteAssociation (
+    deleteAssociation(
       conceptId: $conceptId
-      collectionConceptIds: $collectionConceptIds
-      conceptType: $conceptType
+      associatedConceptIds: $associatedConceptIds
     ) {
-      associatedItem
-      serviceAssociation
-      toolAssociation
-      variableAssociation
-      warnings
+      revisionId
+      conceptId
+      associatedConceptId
     }
   }
 `
-// Example Variables:
-// {
-//   "conceptId": "S1200000098-MMT_2",
-//   "collectionConceptIds": [
-//     {
-//       "concept_id": "C12000000-MMT-2"
-//     }
-//   ],
-//   "conceptType": "Service",
-// }

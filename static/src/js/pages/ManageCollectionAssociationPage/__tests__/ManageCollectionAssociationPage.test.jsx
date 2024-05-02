@@ -57,13 +57,13 @@ describe('ManageCollectionAssociationPage', () => {
 
       await waitForResponse()
 
-      expect(screen.getByRole('link', { name: 'Collection Drafts' })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: 'Collection Drafts' })).toHaveAttribute('href', '/drafts/collections')
+      expect(screen.getByRole('link', { name: 'Collections' })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'Collections' })).toHaveAttribute('href', '/collections')
       expect(screen.getByRole('link', { name: 'Collection Title 1' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Collection Title 1' })).toHaveAttribute('href', '/collections/C-00000001-TESTPROV')
       expect(screen.getAllByRole('listitem').at(2)).toBeInTheDocument()
       expect(screen.getAllByRole('listitem').at(2)).toHaveTextContent('Collection Associations')
-      expect(screen.getByRole('heading', { name: 'Collection Associations' })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Collection Title 1 Collection Associations' })).toBeInTheDocument()
     })
   })
 })

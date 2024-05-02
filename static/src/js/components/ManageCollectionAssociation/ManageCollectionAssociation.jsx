@@ -1,29 +1,28 @@
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import React, {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
-import { useNavigate, useParams } from 'react-router'
+import React, { useCallback, useState } from 'react'
+import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
+import { Alert } from 'react-bootstrap'
+import { camelCase } from 'lodash-es'
+
 import pluralize from 'pluralize'
-import Alert from 'react-bootstrap/Alert'
 
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import Button from '@/components/Button/Button'
+import CustomModal from '@/components/CustomModal/CustomModal'
+import EllipsisText from '@/components/EllipsisText/EllipsisText'
+import Table from '@/components/Table/Table'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
-import errorLogger from '../../utils/errorLogger'
+import conceptTypeQueries from '@/constants/conceptTypeQueries'
+import conceptTypes from '@/constants/conceptTypes'
 
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useAccessibleEvent from '@/hooks/useAccessibleEvent'
+import useNotificationsContext from '@/hooks/useNotificationsContext'
 
-import { DELETE_ASSOCIATION } from '../../operations/mutations/deleteAssociation'
+import { DELETE_ASSOCIATION } from '@/operations/mutations/deleteAssociation'
 
-import Button from '../Button/Button'
-import conceptTypes from '../../constants/conceptTypes'
-import CustomModal from '../CustomModal/CustomModal'
-import EllipsisText from '../EllipsisText/EllipsisText'
-import Table from '../Table/Table'
+import errorLogger from '@/utils/errorLogger'
+import getConceptTypeByConceptId from '@/utils/getConceptTypeByConceptId'
+import toKebabCase from '@/utils/toKebabCase'
 
 /**
  * Renders a ManageCollectionAssociation component
@@ -37,7 +36,6 @@ import Table from '../Table/Table'
 const ManageCollectionAssociation = () => {
   const { conceptId } = useParams()
 
-  const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
 
   // Const [error, setError] = useState()
@@ -45,73 +43,66 @@ const ManageCollectionAssociation = () => {
   const [collectionConceptIds, setCollectionConceptIds] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-  const sortKeyParam = searchParams.get('sortKey')
-
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
-    variables: {
-      params: {
-        conceptId
-      },
+  let params = {
+    params: {
+      conceptId
+    }
+  }
+
+  const sortKey = searchParams.get('sortKey')
+
+  if (sortKey) {
+    params = {
+      ...params,
       collectionsParams: {
-        sortKey: sortKeyParam
+        sortKey
       }
     }
+  }
+
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+    variables: params
   })
 
-  const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION)
+  const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
+    refetchQueries: [{
+      query: conceptTypeQueries[derivedConceptType],
+      variables: params
+    }],
+    onCompleted: () => {
+      setShowDeleteModal(false)
+
+      // Add a success notification
+      addNotification({
+        message: 'Collection Associations Deleted Successfully!',
+        variant: 'success'
+      })
+    },
+    onError: () => {
+      addNotification({
+        message: 'Error disassociating collection',
+        variant: 'danger'
+      })
+
+      errorLogger(`Unable to disassociate collection record for ${derivedConceptType}`, 'Manage Collection Association: deleteAssociation Mutation')
+    }
+  })
 
   // Handles deleting selected collection
   // if no collections selected, returns an error notification
   const handleDeleteAssociation = () => {
-    if (collectionConceptIds.length === 0) {
-      setShowDeleteModal(false)
-      addNotification({
-        message: 'Please select a collection to disassociate',
-        variant: 'danger'
-      })
-
-      return
-    }
-
     deleteAssociationMutation({
       variables: {
         conceptId,
-        collectionConceptIds,
-        conceptType: derivedConceptType
-      },
-      onCompleted: () => {
-        setShowDeleteModal(false)
-        refetch()
-
-        // Add a success notification
-        addNotification({
-          message: 'Collection Associations Deleted Successfully!',
-          variant: 'success'
-        })
-      },
-      onError: () => {
-        addNotification({
-          message: 'Error disassociating collection',
-          variant: 'danger'
-        })
-
-        errorLogger(`Unable to disassociate collection record for ${derivedConceptType}`, 'Manage Collection Association: deleteAssociation Mutation')
+        associatedConceptIds: collectionConceptIds
       }
     })
   }
 
-  useEffect(() => {
-    if (sortKeyParam) {
-      refetch()
-    }
-  }, [sortKeyParam])
-
   const sortFn = useCallback((key, order) => {
     let nextSortKey
-
-    searchParams.set('sortKey', nextSortKey)
 
     setSearchParams((currentParams) => {
       if (order === 'ascending') nextSortKey = `-${key}`
@@ -123,9 +114,7 @@ const ManageCollectionAssociation = () => {
       // Set the sort key
       currentParams.set('sortKey', nextSortKey)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }, [])
 
@@ -135,17 +124,6 @@ const ManageCollectionAssociation = () => {
     </EllipsisText>
   ), [])
 
-  // Do we need this still? It is based off entryTitle, which I think was removed
-  // const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
-  //   const { conceptId: conceptIdLink } = rowData
-
-  //   return (
-  //     <EllipsisLink to={`/collections/${conceptIdLink}`}>
-  //       {cellData}
-  //     </EllipsisLink>
-  //   )
-  // }, [])
-
   // Handles checkbox selections, if checked add the conceptId to the state variable
   // and pops the added conceptId from the array.
   const handleCheckbox = (event) => {
@@ -153,9 +131,9 @@ const ManageCollectionAssociation = () => {
     const { value } = target
 
     if (target.checked) {
-      setCollectionConceptIds([...collectionConceptIds, { conceptId: value }])
+      setCollectionConceptIds([...collectionConceptIds, value])
     } else {
-      setCollectionConceptIds(collectionConceptIds.filter((item) => item.conceptId !== value))
+      setCollectionConceptIds(collectionConceptIds.filter((item) => item !== value))
     }
   }
 
@@ -167,10 +145,10 @@ const ManageCollectionAssociation = () => {
       <div className="d-flex m-2">
         <input
           className="form-check-input"
-          type="checkbox"
           id="flexCheckDefault"
-          value={collectionConceptId}
           onClick={handleCheckbox}
+          type="checkbox"
+          value={collectionConceptId}
         />
       </div>
     )
@@ -182,12 +160,6 @@ const ManageCollectionAssociation = () => {
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
     },
-    // {
-    //   dataKey: 'entryTitle',
-    //   title: 'Entry Title',
-    //   className: 'col-auto',
-    //   dataAccessorFn: buildEllipsisLinkCell
-    // },
     {
       dataKey: 'shortName',
       title: 'Short Name',
@@ -212,12 +184,6 @@ const ManageCollectionAssociation = () => {
   ]
 
   const variableCollectionColumns = [
-    // {
-    //   dataKey: 'entryTitle',
-    //   title: 'Entry Title',
-    //   className: 'col-auto',
-    //   dataAccessorFn: buildEllipsisLinkCell
-    // },
     {
       dataKey: 'shortName',
       title: 'Short Name',
@@ -253,21 +219,15 @@ const ManageCollectionAssociation = () => {
   // Handle refresh, calls getMetadata to get the list of association
   // TODO: See if we can get rid of this refresh button.
   const handleRefreshPage = () => {
-    refetch()
-  }
-
-  // Handles navigating to collection association search page
-  const handleCollectionAssociation = () => {
-    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association-search`)
   }
 
   const refreshAccessibleEventProps = useAccessibleEvent(() => {
     handleRefreshPage()
   })
 
-  const { [derivedConceptType.toLowerCase()]: fetchedData } = data
+  const { [camelCase(derivedConceptType)]: concept } = data
 
-  const { collections: associatedCollections } = fetchedData
+  const { collections: associatedCollections } = concept
 
   const { items, count } = associatedCollections
 
@@ -281,7 +241,7 @@ const ManageCollectionAssociation = () => {
       {
         derivedConceptType !== conceptTypes.Variable && (
           <Button
-            onClick={handleCollectionAssociation}
+            href={`/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`}
             variant="primary"
           >
             Add Collection Associations
@@ -329,7 +289,6 @@ const ManageCollectionAssociation = () => {
         id="associated-collections"
         columns={associationColumns}
         data={items}
-        // Error={error}
         generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
         generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
         noDataMessage="No Collection Associations found."
@@ -340,6 +299,7 @@ const ManageCollectionAssociation = () => {
           <>
             <Button
               variant="danger"
+              disabled={collectionConceptIds.length === 0}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...accessibleEventProps}
             >
@@ -372,7 +332,7 @@ const ManageCollectionAssociation = () => {
         (items && derivedConceptType === conceptTypes.Variable) && (
           <Button
             variant="primary"
-            onClick={handleCollectionAssociation}
+            to={`/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`}
           >
             Update Collection Association
           </Button>

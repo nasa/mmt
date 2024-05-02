@@ -1,4 +1,6 @@
 import Form from '@rjsf/core'
+import pluralize from 'pluralize'
+
 import React, {
   useCallback,
   useEffect,
@@ -13,15 +15,14 @@ import {
   useSearchParams
 } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
+import { camelCase } from 'lodash-es'
+
 import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
-import pluralize from 'pluralize'
 
 import Button from '../Button/Button'
-import collectionAssociation from '../../schemas/collectionAssociation'
-import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -36,9 +37,12 @@ import OneOfField from '../OneOfField/OneOfField'
 import Pagination from '../Pagination/Pagination'
 import Table from '../Table/Table'
 
-import { collectionAssociationSearch } from '../../utils/collectionAssociationSearch'
+import collectionAssociation from '../../schemas/collectionAssociation'
+import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
+
+import collectionAssociationSearch from '../../utils/collectionAssociationSearch'
 import errorLogger from '../../utils/errorLogger'
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
 import getUmmVersion from '../../utils/getUmmVersion'
 import parseError from '../../utils/parseError'
 import removeEmpty from '../../utils/removeEmpty'
@@ -171,17 +175,13 @@ const CollectionAssociationForm = ({ metadata }) => {
         currentParams.set('searchField', 'temporal')
         currentParams.set('searchFieldValue', range)
 
-        return {
-          ...Object.fromEntries(currentParams)
-        }
+        return Object.fromEntries(currentParams)
       }
 
       currentParams.set('searchField', Object.keys(searchField))
       currentParams.set('searchFieldValue', Object.values(searchField))
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
 
     collectionSearch()
@@ -201,9 +201,9 @@ const CollectionAssociationForm = ({ metadata }) => {
     const { value } = target
 
     if (target.checked) {
-      setCollectionConceptIds([...collectionConceptIds, { conceptId: value }])
+      setCollectionConceptIds([...collectionConceptIds, value])
     } else {
-      setCollectionConceptIds(collectionConceptIds.filter((item) => item.conceptId !== value))
+      setCollectionConceptIds(collectionConceptIds.filter((item) => item !== value))
     }
   }
 
@@ -214,12 +214,11 @@ const CollectionAssociationForm = ({ metadata }) => {
     createAssociationMutation({
       variables: {
         conceptId,
-        collectionConceptIds,
-        conceptType: derivedConceptType
+        associatedConceptIds: collectionConceptIds
       },
       onCompleted: () => {
         setLoading(true)
-        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
+        navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
         addNotification({
           message: 'Created association successfully',
           variant: 'success'
@@ -241,14 +240,11 @@ const CollectionAssociationForm = ({ metadata }) => {
     createAssociationMutation({
       variables: {
         conceptId,
-        collectionConceptIds: [{ conceptId: collectionConceptId }],
-        conceptType: derivedConceptType,
-        metadata: fetchedDraft.ummMetadata,
-        nativeId: fetchedDraft.nativeId
+        associatedConceptIds: [collectionConceptId]
       },
       onCompleted: () => {
         setLoading(true)
-        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
+        navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
         addNotification({
           message: 'Updated association successfully',
           variant: 'success'
@@ -300,7 +296,7 @@ const CollectionAssociationForm = ({ metadata }) => {
           variant: 'success'
         })
 
-        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
+        navigate(`/drafts/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}`)
       },
       onError: (getIngestError) => {
         setLoading(false)
@@ -414,9 +410,7 @@ const CollectionAssociationForm = ({ metadata }) => {
       // Set the sort key
       currentParams.set('sortKey', nextSortKey)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }, [])
 
@@ -460,9 +454,7 @@ const CollectionAssociationForm = ({ metadata }) => {
     setSearchParams((currentParams) => {
       currentParams.set('page', nextPage)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }
 
@@ -588,11 +580,7 @@ const CollectionAssociationForm = ({ metadata }) => {
                 derivedConceptType !== conceptTypes.Variable && (
                   <Button
                     className="d-flex"
-                    onClick={
-                      () => {
-                        handleAssociateSelectedCollection()
-                      }
-                    }
+                    onClick={handleAssociateSelectedCollection}
                     variant="primary"
                   >
                     Associate Selected Collections

@@ -233,12 +233,18 @@ describe('OrderOptionForm', () => {
               result: {
                 data: {
                   orderOption: {
+                    associationDetails: {},
                     conceptId: 'OO1000000-MMT',
+                    collections: {
+                      count: 0,
+                      items: []
+                    },
                     deprecated: null,
                     description: 'Test Description',
                     form: 'Test Form',
                     name: 'Test Name',
                     nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                    pageTitle: 'Test Name',
                     revisionId: '1',
                     revisionDate: '2024-04-23T15:03:34.399Z',
                     scope: 'PROVIDER',
@@ -278,12 +284,18 @@ describe('OrderOptionForm', () => {
               result: {
                 data: {
                   orderOption: {
+                    associationDetails: {},
                     conceptId: 'OO1000000-MMT',
+                    collections: {
+                      count: 0,
+                      items: []
+                    },
                     deprecated: null,
                     description: 'Test Description',
                     form: 'Test Form',
                     name: 'Test Name',
                     nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                    pageTitle: 'Test Name',
                     revisionId: '1',
                     revisionDate: '2024-04-23T15:03:34.399Z',
                     scope: 'PROVIDER',
@@ -325,12 +337,18 @@ describe('OrderOptionForm', () => {
             result: {
               data: {
                 orderOption: {
+                  associationDetails: {},
                   conceptId: 'OO1000000-MMT',
+                  collections: {
+                    count: 0,
+                    items: []
+                  },
                   deprecated: true,
                   description: 'Test Description',
                   form: 'Test Form',
                   name: 'Test Name',
                   nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                  pageTitle: 'Test Name',
                   revisionId: '1',
                   revisionDate: '2024-04-23T15:03:34.399Z',
                   scope: 'PROVIDER',

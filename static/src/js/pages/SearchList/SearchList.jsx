@@ -85,9 +85,7 @@ const SearchList = ({ limit }) => {
     setSearchParams((currentParams) => {
       currentParams.set('page', nextPage)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }
 
@@ -107,10 +105,10 @@ const SearchList = ({ limit }) => {
   const { count, items = [] } = concept
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
-    const { conceptId, revisionId } = rowData
+    const { conceptId } = rowData
 
     return (
-      <EllipsisLink to={`/${conceptType}/${conceptId}/revisions/${revisionId}`}>
+      <EllipsisLink to={`/${conceptType}/${conceptId}`}>
         {cellData}
       </EllipsisLink>
     )
@@ -150,9 +148,7 @@ const SearchList = ({ limit }) => {
       setSearchParams((currentParams) => {
         currentParams.delete('sortKey')
 
-        return {
-          ...Object.fromEntries(currentParams)
-        }
+        return Object.fromEntries(currentParams)
       })
 
       return
@@ -170,9 +166,7 @@ const SearchList = ({ limit }) => {
       // Set the sort key
       currentParams.set('sortKey', nextSortKey)
 
-      return {
-        ...Object.fromEntries(currentParams)
-      }
+      return Object.fromEntries(currentParams)
     })
   }, [])
 

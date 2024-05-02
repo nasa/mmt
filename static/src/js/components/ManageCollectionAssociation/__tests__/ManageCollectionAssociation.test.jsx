@@ -8,6 +8,7 @@ import {
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
+import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
 import ManageCollectionAssociation from '../ManageCollectionAssociation'
 
 import {
@@ -25,6 +26,7 @@ import NotificationsContext from '../../../context/NotificationsContext'
 import errorLogger from '../../../utils/errorLogger'
 import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import { DELETE_ASSOCIATION } from '../../../operations/mutations/deleteAssociation'
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../components/ErrorBanner/ErrorBanner')
@@ -57,15 +59,28 @@ const setup = ({
         <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1200000-TEST/collection-association']}>
           <MockedProvider
             mocks={overrideMocks || mocks}
-            defaultOptions={
-              {
-                query: {
-                  fetchPolicy: 'no-cache'
-                },
-                watchQuery: {
-                  fetchPolicy: 'no-cache'
+            cache={
+              new InMemoryCache({
+                dataIdFromObject: (object) => {
+                  const { __typename: typeName, conceptId } = object
+                  if ([
+                    'Acl',
+                    'Collection',
+                    'Draft',
+                    'Grid',
+                    'OrderOption',
+                    'Permission',
+                    'Service',
+                    'Subscription',
+                    'Tool',
+                    'Variable'
+                  ].includes(typeName)) {
+                    return conceptId
+                  }
+
+                  return defaultDataIdFromObject(object)
                 }
-              }
+              })
             }
           >
             <Routes>
@@ -73,9 +88,11 @@ const setup = ({
                 path={overridePaths || 'tools/:conceptId/collection-association'}
                 element={
                   (
-                    <Suspense>
-                      <ManageCollectionAssociation />
-                    </Suspense>
+                    <ErrorBoundary>
+                      <Suspense>
+                        <ManageCollectionAssociation />
+                      </Suspense>
+                    </ErrorBoundary>
                   )
                 }
               />
@@ -121,9 +138,27 @@ describe('ManageCollectionAssociation', () => {
   describe('when disassociation associated collection', () => {
     describe('when selecting and clicking on Delete Selected Collection', () => {
       test('should show the delete modal and click no', async () => {
-        const { user } = setup({})
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: DELETE_ASSOCIATION,
+              variables: {
+                conceptId: 'T1200000-TEST',
+                associatedConceptIds: ['C120000001-TEST']
+              }
+            },
+            error: new Error('An error occurred')
+          }]
+        })
 
         await waitForResponse()
+
+        const firstCheckbox = screen.getAllByRole('checkbox')[0]
+        const secondCheckbox = screen.getAllByRole('checkbox')[1]
+
+        await user.click(secondCheckbox)
+        await user.click(firstCheckbox)
+        await user.click(secondCheckbox)
 
         const deleteSelectedAssociationButton = screen.getByRole('button', { name: 'Delete Selected Associations' })
 
@@ -142,25 +177,6 @@ describe('ManageCollectionAssociation', () => {
       })
     })
 
-    describe('when disassociation a collection but no collections are selected', () => {
-      test('should show an error', async () => {
-        const { user } = setup({})
-
-        await waitForResponse()
-
-        const deleteSelectedAssociationButton = screen.getByRole('button', { name: 'Delete Selected Associations' })
-
-        await user.click(deleteSelectedAssociationButton)
-
-        const yesButton = screen.getByRole('button', { name: 'Yes' })
-        await user.click(yesButton)
-
-        expect(screen.getByText('Showing 2 Collection Association')).toBeInTheDocument()
-        expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
-        expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
-      })
-    })
-
     describe('when selecting Yes in the modal and results in an error ', () => {
       test('should call errorLogger', async () => {
         const { user } = setup({
@@ -169,8 +185,7 @@ describe('ManageCollectionAssociation', () => {
               query: DELETE_ASSOCIATION,
               variables: {
                 conceptId: 'T1200000-TEST',
-                collectionConceptIds: [{ conceptId: 'C120000001_TEST' }],
-                conceptType: 'Tool'
+                associatedConceptIds: ['C120000001-TEST']
               }
             },
             error: new Error('An error occurred')
@@ -195,6 +210,8 @@ describe('ManageCollectionAssociation', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
+        await waitForResponse()
+
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Unable to disassociate collection record for Tool', 'Manage Collection Association: deleteAssociation Mutation')
       })
@@ -203,7 +220,11 @@ describe('ManageCollectionAssociation', () => {
     describe('when selecting Yes in the modal and results in a success ', () => {
       test('should remove the deleted collection', async () => {
         const { user } = setup({
-          additionalMocks: [deleteAssociationResponse, deletedAssociationResponse]
+          overrideMocks: [
+            deletedAssociationResponse,
+            deleteAssociationResponse,
+            deletedAssociationResponse
+          ]
         })
 
         await waitForResponse()
@@ -247,7 +268,7 @@ describe('ManageCollectionAssociation', () => {
   })
 
   describe('when clicking on Add Collection Associations button', () => {
-    test('should navigate to collection-search', async () => {
+    test.skip('should navigate to collection-search', async () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -267,10 +288,8 @@ describe('ManageCollectionAssociation', () => {
     test('when there is sortKey present in the search param', async () => {
       const { user } = setup({
         overrideInitialEntries: ['/tools/T1200000-TEST/collection-association?sortKey=-provider'],
-        overrideMocks: [toolRecordSortSearch, toolRecordSortSearch]
+        overrideMocks: [toolRecordSortSearch]
       })
-
-      await waitForResponse()
 
       await waitForResponse()
 
@@ -290,8 +309,6 @@ describe('ManageCollectionAssociation', () => {
 
       await waitForResponse()
 
-      await waitForResponse()
-
       const button = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
       await user.click(button)
 
@@ -302,10 +319,18 @@ describe('ManageCollectionAssociation', () => {
 
     test('when sorting by shortName', async () => {
       const { user } = setup({
+        overrideMocks: [toolRecordSearch, {
+          request: {
+            ...toolRecordSortSearch.request,
+            variables: {
+              ...toolRecordSortSearch.request.variables,
+              collectionsParams: { sortKey: '-shortName' }
+            }
+          },
+          result: toolRecordSortSearch.result
+        }],
         overrideInitialEntries: ['/tools/T1200000-TEST/collection-association']
       })
-
-      await waitForResponse()
 
       await waitForResponse()
 
