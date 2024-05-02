@@ -7,22 +7,22 @@ import { camelCase } from 'lodash-es'
 
 import pluralize from 'pluralize'
 
-import Button from '@/components/Button/Button'
-import CustomModal from '@/components/CustomModal/CustomModal'
-import EllipsisText from '@/components/EllipsisText/EllipsisText'
-import Table from '@/components/Table/Table'
+import Button from '@/js/components/Button/Button'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
+import Table from '@/js/components/Table/Table'
 
-import conceptTypeQueries from '@/constants/conceptTypeQueries'
-import conceptTypes from '@/constants/conceptTypes'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
+import conceptTypes from '@/js/constants/conceptTypes'
 
-import useAccessibleEvent from '@/hooks/useAccessibleEvent'
-import useNotificationsContext from '@/hooks/useNotificationsContext'
+import useAccessibleEvent from '@/js/hooks/useAccessibleEvent'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import { DELETE_ASSOCIATION } from '@/operations/mutations/deleteAssociation'
+import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
 
-import errorLogger from '@/utils/errorLogger'
-import getConceptTypeByConceptId from '@/utils/getConceptTypeByConceptId'
-import toKebabCase from '@/utils/toKebabCase'
+import errorLogger from '@/js/utils/errorLogger'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
+import toKebabCase from '@/js/utils/toKebabCase'
 
 /**
  * Renders a ManageCollectionAssociation component
@@ -62,7 +62,7 @@ const ManageCollectionAssociation = () => {
     }
   }
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+  const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: params
   })
 
@@ -103,6 +103,8 @@ const ManageCollectionAssociation = () => {
 
   const sortFn = useCallback((key, order) => {
     let nextSortKey
+
+    searchParams.set('sortKey', nextSortKey)
 
     setSearchParams((currentParams) => {
       if (order === 'ascending') nextSortKey = `-${key}`
@@ -219,6 +221,7 @@ const ManageCollectionAssociation = () => {
   // Handle refresh, calls getMetadata to get the list of association
   // TODO: See if we can get rid of this refresh button.
   const handleRefreshPage = () => {
+    refetch()
   }
 
   const refreshAccessibleEventProps = useAccessibleEvent(() => {
@@ -281,7 +284,7 @@ const ManageCollectionAssociation = () => {
           {' '}
           {count}
           {' '}
-          Collection Association
+          {pluralize('collection association', count)}
         </span>
       </div>
       <Table
@@ -291,7 +294,7 @@ const ManageCollectionAssociation = () => {
         data={items}
         generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
         generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
-        noDataMessage="No Collection Associations found."
+        noDataMessage="No collection associations found."
         limit={count}
       />
       {

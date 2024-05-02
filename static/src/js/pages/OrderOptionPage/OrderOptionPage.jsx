@@ -1,21 +1,31 @@
 import React, { Suspense, useState } from 'react'
 
+import {
+  FaEdit,
+  FaEye,
+  FaTrash
+} from 'react-icons/fa'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
-import { FaEdit, FaTrash } from 'react-icons/fa'
 
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import OrderOption from '../../components/OrderOption/OrderOption'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import pluralize from 'pluralize'
 
-import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
-import { DELETE_ORDER_OPTION } from '../../operations/mutations/deleteOrderOption'
-import useAppContext from '../../hooks/useAppContext'
-import CustomModal from '../../components/CustomModal/CustomModal'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import errorLogger from '../../utils/errorLogger'
-import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
+import { DELETE_ORDER_OPTION } from '@/js/operations/mutations/deleteOrderOption'
+import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
+import { GET_ORDER_OPTIONS } from '@/js/operations/queries/getOrderOptions'
+
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import OrderOption from '@/js/components/OrderOption/OrderOption'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+
+import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
+import errorLogger from '@/js/utils/errorLogger'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
+import toKebabCase from '@/js/utils/toKebabCase'
 
 /**
  * Renders a OrderOptionPageHeader component
@@ -48,6 +58,8 @@ const OrderOptionPageHeader = () => {
       }
     }]
   })
+
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const { data } = useSuspenseQuery(GET_ORDER_OPTION, {
     variables: {
@@ -95,41 +107,47 @@ const OrderOptionPageHeader = () => {
   }
 
   return (
-    <>
-      <PageHeader
-        title={name}
-        breadcrumbs={
-          [
-            {
-              label: 'Order Options',
-              to: '/order-options'
-            },
-            {
-              label: name,
-              active: true
-            }
-          ]
-        }
-        pageType="secondary"
-        primaryActions={
-          [
-            {
-              icon: FaEdit,
-              to: 'edit',
-              title: 'Edit',
-              iconTitle: 'A edit icon',
-              variant: 'primary'
-            },
-            {
-              icon: FaTrash,
-              onClick: () => toggleShowDeleteModal(true),
-              title: 'Delete',
-              iconTitle: 'A trash can icon',
-              variant: 'danger'
-            }
-          ]
-        }
-      />
+    <PageHeader
+      additionalActions={
+        [
+          {
+            icon: FaEye,
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`,
+            title: 'Collection Associations'
+          }
+        ]
+      }
+      title={name}
+      breadcrumbs={
+        [
+          {
+            label: 'Order Options',
+            to: '/order-options'
+          },
+          {
+            label: name,
+            active: true
+          }
+        ]
+      }
+      pageType="secondary"
+      primaryActions={
+        [{
+          icon: FaEdit,
+          to: 'edit',
+          title: 'Edit',
+          iconTitle: 'A edit icon',
+          variant: 'primary'
+        },
+        {
+          icon: FaTrash,
+          onClick: () => toggleShowDeleteModal(true),
+          title: 'Delete',
+          iconTitle: 'A trash can icon',
+          variant: 'danger'
+        }]
+      }
+    >
       <CustomModal
         message="Are you sure you want to delete this order option?"
         show={showDeleteModal}
@@ -150,7 +168,7 @@ const OrderOptionPageHeader = () => {
           ]
         }
       />
-    </>
+    </PageHeader>
   )
 }
 

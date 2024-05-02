@@ -74,13 +74,9 @@ const DraftPageHeader = () => {
 
   const {
     nativeId,
-    previewMetadata = {},
     providerId,
     ummMetadata
   } = draft
-
-  // Can't use default value for this because its `null` in the response
-  const { pageTitle } = previewMetadata
 
   const handlePublish = () => {
     if (derivedConceptType === 'Variable') {
@@ -166,7 +162,7 @@ const DraftPageHeader = () => {
   return (
     <>
       <PageHeader
-        title={pageTitle || '<Blank Name>'}
+        title={data?.draft?.pageTitle || '<Blank Name>'}
         pageType="secondary"
         breadcrumbs={
           [
@@ -175,7 +171,7 @@ const DraftPageHeader = () => {
               to: `/drafts/${derivedConceptType.toLowerCase()}s`
             },
             {
-              label: pageTitle || '<Blank Name>',
+              label: data?.draft?.pageTitle || '<Blank Name>',
               active: true
             }
           ]
