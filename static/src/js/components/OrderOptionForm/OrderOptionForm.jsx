@@ -95,29 +95,37 @@ const OrderOptionForm = () => {
   })
 
   useEffect(() => {
-    const { orderOption: orderOptionData } = data || {}
-    const {
-      description,
-      form,
-      name,
-      sortKey,
-      nativeId: fetchedNativeId
-    } = orderOptionData || {}
+    if (data) {
+      const { orderOption: orderOptionData } = data
+      const {
+        deprecated,
+        description,
+        form,
+        name,
+        nativeId: fetchedNativeId,
+        sortKey
+      } = orderOptionData
 
-    const formData = {
-      description,
-      form,
-      name
+      const formData = {
+        deprecated: false,
+        description,
+        form,
+        name
+      }
+
+      if (sortKey) {
+        formData.sortKey = sortKey
+      }
+
+      if (deprecated) {
+        formData.deprecated = deprecated
+      }
+
+      setNativeId(fetchedNativeId)
+
+      setDraft({ formData })
+      setOriginalDraft({ formData })
     }
-
-    if (sortKey) {
-      formData.sortKey = sortKey
-    }
-
-    setNativeId(fetchedNativeId)
-
-    setDraft({ formData })
-    setOriginalDraft({ formData })
   }, [data])
 
   useEffect(() => {

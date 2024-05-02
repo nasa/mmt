@@ -1,19 +1,27 @@
-import React, { useCallback } from 'react'
-import { useSuspenseQuery } from '@apollo/client'
+import React, { useCallback, useState } from 'react'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 
+import { FaEdit, FaTrash } from 'react-icons/fa'
+
+import Button from '../Button/Button'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
+import CustomModal from '../CustomModal/CustomModal'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
 
+import { DELETE_ORDER_OPTION } from '../../operations/mutations/deleteOrderOption'
 import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
 
 import { DATE_FORMAT } from '../../constants/dateFormat'
 
 import useAppContext from '../../hooks/useAppContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+
+import errorLogger from '../../utils/errorLogger'
 
 /**
  * Renders a OrderOptionList component
@@ -27,7 +35,12 @@ import useAppContext from '../../hooks/useAppContext'
 const OrderOptionList = () => {
   const { user } = useAppContext()
 
+  const { addNotification } = useNotificationsContext()
+
   const { providerId } = user
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedOrderOption, setSelectedOrderOption] = useState(false)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -44,7 +57,7 @@ const OrderOptionList = () => {
     })
   }
 
-  const { data } = useSuspenseQuery(GET_ORDER_OPTIONS, {
+  const { data, refetch } = useSuspenseQuery(GET_ORDER_OPTIONS, {
     variables: {
       params: {
         providerId,
@@ -53,6 +66,49 @@ const OrderOptionList = () => {
       }
     }
   })
+
+  const [deleteOrderOptionMutation] = useMutation(DELETE_ORDER_OPTION, {
+    refetchQueries: [{
+      query: GET_ORDER_OPTIONS,
+      variables: {
+        params: {
+          providerId
+        }
+      }
+    }]
+  })
+
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
+  const handleDelete = () => {
+    const { nativeId } = selectedOrderOption
+    deleteOrderOptionMutation({
+      variables: {
+        nativeId,
+        providerId
+      },
+      onCompleted: () => {
+        addNotification({
+          message: 'Order option deleted successfully',
+          variant: 'success'
+        })
+
+        refetch()
+      },
+      onError: () => {
+        addNotification({
+          message: 'Error deleting order option',
+          variant: 'danger'
+        })
+
+        errorLogger('Unable delete order option', 'Order Option List: deleteOrderOption Mutation')
+      }
+    })
+
+    setShowDeleteModal(false)
+  }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
@@ -70,8 +126,35 @@ const OrderOptionList = () => {
     return (
       <Row>
         <Col className="col-auto">
-          <Link to={`/order-options/${conceptId}/edit`}>Edit</Link>
+          <Button
+            className="d-flex"
+            Icon={FaEdit}
+            iconTitle="Edit Button"
+            href={`order-options/${conceptId}/edit`}
+            variant="primary"
+            size="sm"
+          >
+            Edit
+          </Button>
         </Col>
+        <Col className="col-auto">
+          <Button
+            className="d-flex"
+            Icon={FaTrash}
+            iconTitle="Delete Button"
+            onClick={
+              () => {
+                toggleShowDeleteModal(true)
+                setSelectedOrderOption(rowData)
+              }
+            }
+            variant="danger"
+            size="sm"
+          >
+            Delete
+          </Button>
+        </Col>
+
       </Row>
     )
   })
@@ -92,7 +175,7 @@ const OrderOptionList = () => {
       dataKey: 'deprecated',
       title: 'Deprecated?',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => (cellData || 'false')
+      dataAccessorFn: (cellData) => (cellData ? 'True' : 'False')
     },
     {
       dataKey: 'revisionDate',
@@ -177,6 +260,26 @@ const OrderOptionList = () => {
           }
         </ControlledPaginatedContent>
       </Col>
+      <CustomModal
+        message="Are you sure you want to delete this order option?"
+        show={showDeleteModal}
+        size="lg"
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+            }
+          ]
+        }
+      />
     </Row>
   )
 }

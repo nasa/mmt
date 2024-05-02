@@ -104,6 +104,7 @@ describe('OrderOptionForm', () => {
               request: {
                 query: CREATE_ORDER_OPTION,
                 variables: {
+                  deprecated: false,
                   name: 'Test Name',
                   description: 'Test Description',
                   form: 'Test Form',
@@ -123,7 +124,7 @@ describe('OrderOptionForm', () => {
               request: {
                 query: GET_ORDER_OPTION,
                 variables: {
-                  parmas: {
+                  params: {
                     conceptId: 'OO1000000-MMT'
                   }
                 }
@@ -166,6 +167,7 @@ describe('OrderOptionForm', () => {
               request: {
                 query: CREATE_ORDER_OPTION,
                 variables: {
+                  deprecated: false,
                   name: 'Test Name',
                   description: 'Test Description',
                   form: 'Test Form',
@@ -250,6 +252,7 @@ describe('OrderOptionForm', () => {
               request: {
                 query: UPDATE_ORDER_OPTION,
                 variables: {
+                  deprecated: false,
                   description: 'Test Description',
                   form: 'Test Form',
                   name: 'Test NameUpdated Name',
@@ -323,7 +326,7 @@ describe('OrderOptionForm', () => {
               data: {
                 orderOption: {
                   conceptId: 'OO1000000-MMT',
-                  deprecated: null,
+                  deprecated: true,
                   description: 'Test Description',
                   form: 'Test Form',
                   name: 'Test Name',
@@ -331,7 +334,7 @@ describe('OrderOptionForm', () => {
                   revisionId: '1',
                   revisionDate: '2024-04-23T15:03:34.399Z',
                   scope: 'PROVIDER',
-                  sortKey: 'Some Sort Key',
+                  sortKey: 'Sort',
                   __typename: 'OrderOption'
                 }
               }
@@ -341,10 +344,11 @@ describe('OrderOptionForm', () => {
             request: {
               query: UPDATE_ORDER_OPTION,
               variables: {
+                deprecated: true,
                 description: 'Test Description',
                 form: 'Test Form',
                 name: 'Test NameUpdated Name',
-                sortKey: 'Some Sort Key',
+                sortKey: 'Sort',
                 scope: 'PROVIDER',
                 providerId: 'MMT_2',
                 nativeId: 'dce1859e-774c-4561-9451-fc9d77906015'

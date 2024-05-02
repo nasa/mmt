@@ -32,33 +32,18 @@ const OrderOption = () => {
   const {
     description,
     form,
+    deprecated,
     revisionDate
-    // Name
   } = orderOption
-
-  // UseEffect(() => {
-  //   setPageTitle(name)
-  // }, [name])
-
-  // UseEffect(() => {
-  //   const { revisionId: savedRevisionId } = savedDraft || {}
-  //   if (
-  //     (!orderOption && retries < 5)
-  //     || (savedRevisionId && orderOption.revisionId !== savedRevisionId)) {
-  //     refetch()
-  //     setRetries(retries + 1)
-  //   }
-
-  //   if (retries >= 5) {
-  //     errorLogger('Max retries allowed', 'OrderOptionPreview: getOrderOption Query')
-  //     setError('Order Option could not be loaded.')
-  //   }
-  // }, [orderOption, retries])
 
   return (
     <>
       <p className="text-muted">
         {`Last updated ${moment.utc(revisionDate).format(DATE_FORMAT)}`}
+      </p>
+
+      <p className="text-muted">
+        {`Deprecated: ${deprecated ? 'True' : 'False'}`}
       </p>
 
       <p>{description}</p>

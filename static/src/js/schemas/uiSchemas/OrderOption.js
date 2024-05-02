@@ -1,3 +1,5 @@
+import CustomRadioWidget from '../../components/CustomRadioWidget/CustomRadioWidget'
+
 const orderOptionUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
@@ -44,6 +46,16 @@ const orderOptionUiSchema = {
                   }
                 }
               ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 2,
+                    children: ['deprecated']
+                  }
+                }
+              ]
             }
           ]
         }
@@ -52,6 +64,12 @@ const orderOptionUiSchema = {
   },
   description: {
     'ui:widget': 'textarea'
+  },
+  deprecated: {
+    'ui:widget': CustomRadioWidget,
+    'ui:options': {
+      showClear: false
+    }
   },
   form: {
     'ui:title': 'Form XML',
