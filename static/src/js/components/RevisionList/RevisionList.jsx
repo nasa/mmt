@@ -15,7 +15,6 @@ import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
-
 import errorLogger from '../../utils/errorLogger'
 
 /**
@@ -126,7 +125,7 @@ const RevisionList = () => {
       dataKey: 'revisionDate',
       title: 'Revision Date',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
+      dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT)
     },
     {
       dataKey: 'userId',

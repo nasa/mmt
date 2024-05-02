@@ -13,7 +13,6 @@ import {
 } from 'react-router-dom'
 
 import userEvent from '@testing-library/user-event'
-import moment from 'moment'
 import { collectionRevisions } from './__mocks__/revisionResults'
 
 import AppContext from '../../../context/AppContext'
@@ -125,7 +124,7 @@ describe('RevisionList component', () => {
         const row2Cells = within(row2).queryAllByRole('cell')
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('8 - Published')
-        expect(row1Cells[1].textContent).toBe(moment(date).format('LLLL'))
+        expect(row1Cells[1].textContent).toBe('Tuesday, February 1, 2000 6:00 PM')
         expect(row1Cells[2].textContent).toBe('admin')
         expect(row1Cells[3].textContent).toBe('')
 
