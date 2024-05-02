@@ -492,13 +492,8 @@ describe('PublishPreview', () => {
 
       await user.click(moreActionsButton)
 
-      const manageCollectionAssociationBtn = screen.getByRole('button', { name: 'Collection Associations' })
-      await user.click(manageCollectionAssociationBtn)
-
-      await waitForResponse()
-
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/collection-association')
+      const manageCollectionAssociationBtn = screen.getByRole('link', { name: 'Collection Associations' })
+      expect(manageCollectionAssociationBtn.href).toBe('http://localhost:3000/tools/T1000000-MMT/collection-association')
     })
   })
 

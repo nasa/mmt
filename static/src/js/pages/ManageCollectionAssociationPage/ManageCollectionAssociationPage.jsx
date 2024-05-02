@@ -2,6 +2,8 @@ import React, { Suspense } from 'react'
 
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
+import { camelCase } from 'lodash-es'
+
 import pluralize from 'pluralize'
 
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -13,6 +15,7 @@ import ManageCollectionAssociation from '../../components/ManageCollectionAssoci
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
+import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * Renders a ManageCollectionAssociationPageHeader component
@@ -25,6 +28,7 @@ import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
  */
 const ManageCollectionAssociationPageHeader = () => {
   const { conceptId } = useParams()
+
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
@@ -35,21 +39,22 @@ const ManageCollectionAssociationPageHeader = () => {
     }
   })
 
-  const { [derivedConceptType.toLowerCase()]: fetchedData } = data
-  const { pageTitle } = fetchedData
+  const { [camelCase(derivedConceptType)]: concept } = data
+
+  const { pageTitle } = concept
 
   return (
     <PageHeader
-      title="Collection Associations"
+      title={`${pageTitle} Collection Associations`}
       breadcrumbs={
         [
           {
-            label: `${derivedConceptType} Drafts`,
-            to: `/drafts/${derivedConceptType.toLowerCase()}s`
+            label: `${pluralize(derivedConceptType)}`,
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}`
           },
           {
             label: pageTitle,
-            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
           {
             label: 'Collection Associations',

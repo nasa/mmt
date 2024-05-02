@@ -31,11 +31,17 @@ const setup = ({
   overrideMocks = false
 }) => {
   const mockOrderOption = {
+    associationDetails: {},
     conceptId: 'OO1200000099-MMT_2',
+    collections: {
+      count: 0,
+      items: []
+    },
     deprecated: true,
     description: 'Mock order option description',
     form: 'Mock form',
     name: 'Mock order option',
+    pageTitle: 'Mock order option',
     nativeId: '1234-abcd-5678-efgh',
     revisionDate: '2024-04-16T18:20:12.124Z',
     revisionId: '1',

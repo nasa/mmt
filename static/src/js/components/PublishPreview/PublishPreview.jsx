@@ -131,10 +131,6 @@ const PublishPreviewHeader = () => {
     constructDownloadableFile(contents, conceptId)
   }
 
-  const handleManageCollectionAssociation = () => {
-    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`)
-  }
-
   useEffect(() => {
     if (ingestDraftError) {
       errorLogger(ingestDraftError, 'PublishPreview ingestDraftMutation Query')
@@ -227,7 +223,7 @@ const PublishPreviewHeader = () => {
                 : [
                   {
                     icon: FaEye,
-                    onClick: handleManageCollectionAssociation,
+                    to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`,
                     title: 'Collection Associations'
                   }
                 ]

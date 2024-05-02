@@ -6,8 +6,10 @@ import {
   ApolloProvider,
   InMemoryCache,
   Observable,
-  createHttpLink
+  createHttpLink,
+  defaultDataIdFromObject
 } from '@apollo/client'
+
 import { setContext } from '@apollo/client/link/context'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
@@ -84,7 +86,27 @@ const GraphQLProvider = ({ children }) => {
     }))
 
     return new ApolloClient({
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        dataIdFromObject: (object) => {
+          const { __typename: typeName, conceptId } = object
+          if ([
+            'Acl',
+            'Collection',
+            'Draft',
+            'Grid',
+            'OrderOption',
+            'Permission',
+            'Service',
+            'Subscription',
+            'Tool',
+            'Variable'
+          ].includes(typeName)) {
+            return conceptId
+          }
+
+          return defaultDataIdFromObject(object)
+        }
+      }),
       link: ApolloLink.from([authLink, responseDelayLink, httpLink])
     })
   }, [tokenValue])

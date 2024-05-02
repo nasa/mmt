@@ -20,12 +20,18 @@ const setup = ({
   overrideMocks = false
 }) => {
   const mockOrderOption = {
+    associationDetails: {},
+    collections: {
+      count: 0,
+      items: []
+    },
     conceptId: 'OO1200000099-MMT_2',
     deprecated: true,
     description: 'Mock order option description',
     form: 'Mock form',
     name: 'Mock order option',
     nativeId: '1234-abcd-5678-efgh',
+    pageTitle: 'Mock order option',
     revisionDate: '2024-04-16T18:20:12.124Z',
     revisionId: '1',
     scope: 'PROVIDER',
@@ -87,7 +93,7 @@ const setup = ({
   }
 }
 
-describe('OrderOptionPreview', () => {
+describe('OrderOption', () => {
   describe('when getting order option results in a success', () => {
     test('renders the order options', async () => {
       setup({})

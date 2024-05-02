@@ -2,6 +2,8 @@ import React, { Suspense } from 'react'
 
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
+import { camelCase } from 'lodash-es'
+
 import pluralize from 'pluralize'
 
 import CollectionAssociationForm from '../../components/CollectionAssociationForm/CollectionAssociationForm'
@@ -11,7 +13,8 @@ import PageHeader from '../../components/PageHeader/PageHeader'
 
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
+import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * Renders a CollectionAssociationFormPageHeader component
@@ -24,6 +27,7 @@ import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
  */
 const CollectionAssociationFormPageHeader = () => {
   const { conceptId } = useParams()
+
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
@@ -34,8 +38,9 @@ const CollectionAssociationFormPageHeader = () => {
     }
   })
 
-  const { [derivedConceptType.toLowerCase()]: fetchedData } = data
-  const { name } = fetchedData
+  const { [camelCase(derivedConceptType)]: concept } = data
+
+  const { name } = concept
 
   return (
     <PageHeader
@@ -44,15 +49,15 @@ const CollectionAssociationFormPageHeader = () => {
         [
           {
             label: derivedConceptType,
-            to: `/drafts/${derivedConceptType.toLowerCase()}s`
+            to: `/drafts/${toKebabCase(derivedConceptType).toLowerCase()}`
           },
           {
             label: name,
-            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
           {
             label: 'Collection Association',
-            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`
           },
           {
             label: 'Collection Association Search',

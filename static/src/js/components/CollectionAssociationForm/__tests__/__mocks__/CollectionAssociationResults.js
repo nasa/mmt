@@ -507,24 +507,15 @@ export const createAssociationRequest = {
     query: CREATE_ASSOCIATION,
     variables: {
       conceptId: 'T12000000-MMT_2',
-      collectionConceptIds: [{ conceptId: 'C12000001124-MMT_2' }],
-      conceptType: 'Tool'
+      associatedConceptIds: ['C12000001124-MMT_2']
     }
   },
   result: {
     data: {
       createAssociation: {
-        associatedItem: {
-          concept_id: 'C1200000035-SEDAC'
-        },
-        serviceAssociation: null,
-        toolAssociation: {
-          concept_id: 'TLA1200000140-CMR',
-          revision_id: 2
-        },
-        variableAssociation: null,
-        warnings: null,
-        __typename: 'AssociationMutationResponse'
+        associatedConceptId: 'C1200000035-SEDAC',
+        conceptId: 'TLA1200000140-CMR',
+        revisionId: 2
       }
     }
   }
@@ -535,8 +526,7 @@ export const createAssociationErrorRequest = {
     query: CREATE_ASSOCIATION,
     variables: {
       conceptId: 'T12000000-MMT_2',
-      collectionConceptIds: [{ conceptId: 'C12000001123-MMT_2' }],
-      conceptType: 'Tool'
+      associatedConceptIds: ['C12000001123-MMT_2']
     }
   },
   error: new Error('An error occurred')
@@ -547,24 +537,15 @@ export const ingestVariableRequest = {
     query: CREATE_ASSOCIATION,
     variables: {
       conceptId: 'V12000000-MMT_2',
-      collectionConceptIds: [{ conceptId: 'C12000001123-MMT_2' }],
-      conceptType: 'Variable'
+      associatedConceptIds: ['C12000001123-MMT_2']
     }
   },
   result: {
     data: {
       createAssociation: {
-        associatedItem: {
-          concept_id: 'C1200000035-SEDAC'
-        },
-        serviceAssociation: null,
-        toolAssociation: null,
-        variableAssociation: {
-          concept_id: 'VA1200000140-CMR',
-          revision_id: 2
-        },
-        warnings: null,
-        __typename: 'AssociationMutationResponse'
+        associatedConceptId: 'C1200000035-SEDAC',
+        conceptId: 'VA1200000140-CMR',
+        revisionId: 2
       }
     }
   }
@@ -575,8 +556,7 @@ export const ingestVariableErrorRequest = {
     query: CREATE_ASSOCIATION,
     variables: {
       conceptId: 'V12000000-MMT_2',
-      collectionConceptIds: [{ conceptId: 'C12000001123-MMT_2' }],
-      conceptType: 'Variable'
+      associatedConceptIds: ['C12000001123-MMT_2']
     }
   },
   error: new Error('An error occurred')

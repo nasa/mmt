@@ -28,10 +28,6 @@ import TemplateList from './components/TemplateList/TemplateList'
 import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
-import RevisionList from './components/RevisionList/RevisionList'
-import TemplateForm from './components/TemplateForm/TemplateForm'
-import TemplateList from './components/TemplateList/TemplateList'
-import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import '../css/index.scss'
 
@@ -173,11 +169,6 @@ export const App = () => {
               element: <CollectionAssociationFormPage />
             },
             {
-              path: '/:type/:conceptId/:revisionId/collection-association-search',
-              element: <CollectionAssociationFormPage />
-            },
-            // TODO This is the only place we use a wild card here. Should we do that elsewhere or remove it here to match the other nested routes?
-            {
               path: '/drafts/:draftType',
               element: <DraftListPage />
             },
@@ -212,6 +203,14 @@ export const App = () => {
             {
               path: '/order-options/:conceptId/edit',
               element: <OrderOptionFormPage />
+            },
+            {
+              path: '/order-options/:conceptId/collection-association-search',
+              element: <CollectionAssociationFormPage />
+            },
+            {
+              path: '/order-options/:conceptId/:revisionId/collection-association-search',
+              element: <CollectionAssociationFormPage />
             },
             {
               path: '/order-options/:conceptId',
