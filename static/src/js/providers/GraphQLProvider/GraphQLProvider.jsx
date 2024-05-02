@@ -88,18 +88,23 @@ const GraphQLProvider = ({ children }) => {
     return new ApolloClient({
       cache: new InMemoryCache({
         dataIdFromObject: (object) => {
-          const { __typename: typeName, conceptId } = object
+          const { __typename: typeName, conceptId, revisionId } = object
           if ([
-            'Acl',
             'Collection',
             'Draft',
             'Grid',
             'OrderOption',
-            'Permission',
             'Service',
-            'Subscription',
             'Tool',
             'Variable'
+          ].includes(typeName)) {
+            return `${conceptId}-${revisionId}`
+          }
+
+          if ([
+            'Acl',
+            'Permission',
+            'Subscription'
           ].includes(typeName)) {
             return conceptId
           }
