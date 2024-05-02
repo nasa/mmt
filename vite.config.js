@@ -11,7 +11,7 @@ export default defineConfig({
     alias: [
       {
         find: '@',
-        replacement: path.resolve(__dirname, 'static/src/js')
+        replacement: path.resolve(__dirname, 'static/src')
       }
     ]
   },
