@@ -139,9 +139,9 @@ const TemplateList = () => {
     },
     {
       dataKey: 'lastModified',
-      title: 'Last Modified',
+      title: 'Last Modified (UTC)',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
+      dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT)
     },
     {
       title: 'Actions',

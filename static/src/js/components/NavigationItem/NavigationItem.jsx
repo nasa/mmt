@@ -46,8 +46,9 @@ const NavigationItem = ({
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
   const {
-    id,
     conceptId,
+    draftType,
+    id,
     sectionName,
     templateType
   } = useParams()
@@ -146,7 +147,7 @@ const NavigationItem = ({
               navigate(`../templates/${templateType}/${id || 'new'}/${toLowerKebabCase(displayName)}`)
             } else {
               // Navigate to the correct form
-              navigate(`../${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
+              navigate(`/drafts/${draftType}/${conceptId || 'new'}/${toLowerKebabCase(displayName)}`)
             }
 
             // Ensure the window is scrolled to the top of the page

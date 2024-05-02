@@ -49,7 +49,7 @@ const CustomDateTimeWidget = ({
 
   const { description } = schema
 
-  const dateWithZone = moment(date, 'America/New_York').format('YYYY-MM-DDTHH:mm:ss.SSS')
+  const dateWithZone = moment.utc(date).format('YYYY-MM-DDTHH:mm:ss.SSS')
   const fieldValue = new Date(dateWithZone)
 
   const { formContext } = registry

@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import pluralize from 'pluralize'
 
+import moment from 'moment'
 import useAppContext from '../../hooks/useAppContext'
 import constructDownloadableFile from '../../utils/constructDownloadableFile'
 
@@ -23,6 +24,7 @@ import EllipsisText from '../EllipsisText/EllipsisText'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
 import conceptTypeDraftsQueries from '../../constants/conceptTypeDraftsQueries'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
 const DraftList = () => {
   const { user } = useAppContext()
@@ -111,9 +113,9 @@ const DraftList = () => {
   const [columns, setColumns] = useState([
     {
       dataKey: 'revisionDate',
-      title: 'Last Modified',
+      title: 'Last Modified (UTC)',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => cellData.split('T')[0]
+      dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT)
     },
     {
       title: 'Actions',

@@ -17,6 +17,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 import { useSuspenseQuery } from '@apollo/client'
+import moment from 'moment'
 import conceptTypes from '../../constants/conceptTypes'
 
 import Table from '../../components/Table/Table'
@@ -29,6 +30,7 @@ import getTagCount from '../../utils/getTagCount'
 import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
 import typeParamToHumanizedNameMap from '../../constants/typeParamToHumanizedNameMap'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
 /**
  * Renders a `SearchList` component
@@ -220,9 +222,9 @@ const SearchList = ({ limit }) => {
         },
         {
           dataKey: 'revisionDate',
-          title: 'Last Modified',
+          title: 'Last Modified (UTC)',
           className: 'col-auto text-nowrap',
-          dataAccessorFn: (cellData) => cellData.split('T')[0],
+          dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT),
           align: 'end',
           sortFn
         }
@@ -253,9 +255,9 @@ const SearchList = ({ limit }) => {
       },
       {
         dataKey: 'revisionDate',
-        title: 'Last Modified',
+        title: 'Last Modified (UTC)',
         className: 'col-auto text-nowrap',
-        dataAccessorFn: (cellData) => cellData.split('T')[0],
+        dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT),
         align: 'end',
         sortFn
       }

@@ -138,17 +138,17 @@ describe('DraftList', () => {
 
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 short name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 long name' })).toBeInTheDocument()
-      expect(within(rows[1]).getByRole('cell', { name: '2023-12-08' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Friday, December 8, 2023 5:56 PM' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
 
       expect(within(rows[2]).getByRole('cell', { name: '<Blank Name>' })).toBeInTheDocument()
       expect(within(rows[2]).getByRole('cell', { name: '<Blank Long Name>' })).toBeInTheDocument()
-      expect(within(rows[2]).getByRole('cell', { name: '2023-11-08' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: 'Wednesday, November 8, 2023 5:56 PM' })).toBeInTheDocument()
       expect(within(rows[2]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
 
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 short name' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('cell', { name: 'Tool TD1200000094 long name' })).toBeInTheDocument()
-      expect(within(rows[3]).getByRole('cell', { name: '2023-10-08' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Sunday, October 8, 2023 5:56 PM' })).toBeInTheDocument()
       expect(within(rows[3]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
     })
   })

@@ -40,14 +40,14 @@ const setup = ({
   }
 
   render(
-    <MemoryRouter initialEntries={[overrideInitialEntries || `/tool-drafts/TD1000000-MMT/${formSection}`]}>
+    <MemoryRouter initialEntries={[overrideInitialEntries || `/drafts/tools/TD1000000-MMT/${formSection}`]}>
       <Routes>
         <Route
-          path={overridePath || '/tool-drafts'}
+          path={overridePath || '/drafts'}
         >
           <Route
             element={<NavigationItem {...props} />}
-            path={overridePathValue || ':conceptId/:sectionName'}
+            path={overridePathValue || ':draftType/:conceptId/:sectionName'}
           />
         </Route>
       </Routes>
@@ -298,7 +298,7 @@ describe('NavigationItem', () => {
       await user.click(button)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('../TD1000000-MMT/mock-section-name')
+      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/mock-section-name')
     })
   })
 
@@ -323,7 +323,7 @@ describe('NavigationItem', () => {
     })
 
     describe('when clicking on formName for a template', () => {
-      test('navigates to the correct formdfs', async () => {
+      test('navigates to the correct form', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
