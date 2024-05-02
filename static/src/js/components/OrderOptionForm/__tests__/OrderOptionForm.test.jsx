@@ -326,7 +326,7 @@ describe('OrderOptionForm', () => {
               data: {
                 orderOption: {
                   conceptId: 'OO1000000-MMT',
-                  deprecated: null,
+                  deprecated: true,
                   description: 'Test Description',
                   form: 'Test Form',
                   name: 'Test Name',
@@ -344,7 +344,7 @@ describe('OrderOptionForm', () => {
             request: {
               query: UPDATE_ORDER_OPTION,
               variables: {
-                deprecated: false,
+                deprecated: true,
                 description: 'Test Description',
                 form: 'Test Form',
                 name: 'Test NameUpdated Name',
