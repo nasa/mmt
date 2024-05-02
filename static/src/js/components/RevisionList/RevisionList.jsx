@@ -123,7 +123,7 @@ const RevisionList = () => {
     },
     {
       dataKey: 'revisionDate',
-      title: 'Revision Date',
+      title: 'Revision Date (UTC)',
       className: 'col-auto',
       dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT)
     },

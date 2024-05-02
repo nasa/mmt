@@ -98,7 +98,7 @@ const OrderOptionList = () => {
       dataKey: 'revisionDate',
       title: 'Last Updated',
       className: 'col-auto',
-      dataAccessorFn: (cellData) => moment(cellData).format(DATE_FORMAT)
+      dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT)
     },
     {
       title: 'Actions',

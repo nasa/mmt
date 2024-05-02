@@ -5,6 +5,7 @@ import { useSuspenseQuery } from '@apollo/client'
 
 import { useParams } from 'react-router'
 import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
+import { DATE_FORMAT } from '../../constants/dateFormat'
 
 /**
  * Renders a OrderOption component
@@ -57,7 +58,7 @@ const OrderOption = () => {
   return (
     <>
       <p className="text-muted">
-        {`Last updated ${moment(revisionDate).format('LLLL')}`}
+        {`Last updated ${moment.utc(revisionDate).format(DATE_FORMAT)}`}
       </p>
 
       <p>{description}</p>
