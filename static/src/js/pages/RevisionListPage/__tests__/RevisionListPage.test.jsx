@@ -14,7 +14,7 @@ vi.mock('../../../components/RevisionList/RevisionList')
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
-  useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C-00000001-TESTPROV' }))
+  useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C00000001-TESTPROV' }))
 }))
 
 const setup = () => {
@@ -36,7 +36,7 @@ const setup = () => {
       >
         <MemoryRouter initialEntries={
           [{
-            pathname: '/collections/C-00000001-TESTPROV/revisions'
+            pathname: '/collections/C00000001-TESTPROV/revisions'
           }]
         }
         >

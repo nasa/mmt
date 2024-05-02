@@ -14,7 +14,7 @@ vi.mock('../../../components/ManageCollectionAssociation/ManageCollectionAssocia
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
-  useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C-00000001-TESTPROV' }))
+  useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C00000001-TESTPROV' }))
 }))
 
 const setup = () => {
@@ -36,7 +36,7 @@ const setup = () => {
       >
         <MemoryRouter initialEntries={
           [{
-            pathname: '/collections/C-00000001-TESTPROV/collection-association'
+            pathname: '/collections/C00000001-TESTPROV/collection-association'
           }]
         }
         >
@@ -60,7 +60,7 @@ describe('ManageCollectionAssociationPage', () => {
       expect(screen.getByRole('link', { name: 'Collections' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Collections' })).toHaveAttribute('href', '/collections')
       expect(screen.getByRole('link', { name: 'Collection Title 1' })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: 'Collection Title 1' })).toHaveAttribute('href', '/collections/C-00000001-TESTPROV')
+      expect(screen.getByRole('link', { name: 'Collection Title 1' })).toHaveAttribute('href', '/collections/C00000001-TESTPROV')
       expect(screen.getAllByRole('listitem').at(2)).toBeInTheDocument()
       expect(screen.getAllByRole('listitem').at(2)).toHaveTextContent('Collection Associations')
       expect(screen.getByRole('heading', { name: 'Collection Title 1 Collection Associations' })).toBeInTheDocument()

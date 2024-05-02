@@ -23,12 +23,13 @@ export const TOOL_DRAFT = gql`
           contactPersons
           description
           doi
-          nativeId
           lastUpdatedDate
           longName
           metadataSpecification
           name
+          nativeId
           organizations
+          pageTitle: name
           pageTitle: name
           potentialAction
           quality

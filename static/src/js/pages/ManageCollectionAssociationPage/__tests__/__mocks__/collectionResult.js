@@ -5,7 +5,7 @@ export const collectionResult = {
     query: GET_COLLECTION,
     variables: {
       params: {
-        conceptId: 'C-00000001-TESTPROV'
+        conceptId: 'C00000001-TESTPROV'
       }
     }
   },

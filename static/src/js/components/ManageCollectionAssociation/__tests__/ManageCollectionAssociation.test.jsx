@@ -115,7 +115,7 @@ describe('ManageCollectionAssociation', () => {
 
       await waitForResponse()
 
-      expect(screen.getByText('Showing 2 Collection Association')).toBeInTheDocument()
+      expect(screen.getByText('Showing 2 collection associations')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
     })
@@ -171,7 +171,7 @@ describe('ManageCollectionAssociation', () => {
 
         await waitForResponse()
 
-        expect(screen.getByText('Showing 2 Collection Association')).toBeInTheDocument()
+        expect(screen.getByText('Showing 2 collection associations')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
