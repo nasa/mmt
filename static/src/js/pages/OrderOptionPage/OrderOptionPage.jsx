@@ -107,47 +107,48 @@ const OrderOptionPageHeader = () => {
   }
 
   return (
-    <PageHeader
-      additionalActions={
-        [
-          {
-            icon: FaEye,
-            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`,
-            title: 'Collection Associations'
-          }
-        ]
-      }
-      title={name}
-      breadcrumbs={
-        [
-          {
-            label: 'Order Options',
-            to: '/order-options'
+    <>
+      <PageHeader
+        additionalActions={
+          [
+            {
+              icon: FaEye,
+              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`,
+              title: 'Collection Associations'
+            }
+          ]
+        }
+        title={name}
+        breadcrumbs={
+          [
+            {
+              label: 'Order Options',
+              to: '/order-options'
+            },
+            {
+              label: name,
+              active: true
+            }
+          ]
+        }
+        pageType="secondary"
+        primaryActions={
+          [{
+            icon: FaEdit,
+            to: 'edit',
+            title: 'Edit',
+            iconTitle: 'A edit icon',
+            variant: 'primary'
           },
           {
-            label: name,
-            active: true
-          }
-        ]
-      }
-      pageType="secondary"
-      primaryActions={
-        [{
-          icon: FaEdit,
-          to: 'edit',
-          title: 'Edit',
-          iconTitle: 'A edit icon',
-          variant: 'primary'
-        },
-        {
-          icon: FaTrash,
-          onClick: () => toggleShowDeleteModal(true),
-          title: 'Delete',
-          iconTitle: 'A trash can icon',
-          variant: 'danger'
-        }]
-      }
-    >
+            icon: FaTrash,
+            onClick: () => toggleShowDeleteModal(true),
+            title: 'Delete',
+            iconTitle: 'A trash can icon',
+            variant: 'danger'
+          }]
+        }
+      />
       <CustomModal
         message="Are you sure you want to delete this order option?"
         show={showDeleteModal}
@@ -168,7 +169,7 @@ const OrderOptionPageHeader = () => {
           ]
         }
       />
-    </PageHeader>
+    </>
   )
 }
 
