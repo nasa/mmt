@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["static/src/js/*"]
+      "@/*": ["static/src/*"]
     }
   },
-  "include": ["static/src/js/**/*"]
+  "include": ["static/src/**/*"]
 }
