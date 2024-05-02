@@ -129,7 +129,7 @@ describe('DraftList', () => {
   })
 
   describe('when draft type Tool is given', () => {
-    test.only('renders Tool draft list', async () => {
+    test('renders Tool draft list', async () => {
       setup({})
 
       await waitForResponse()
