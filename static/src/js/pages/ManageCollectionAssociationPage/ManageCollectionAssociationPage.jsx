@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react'
 
-import { useSuspenseQuery } from '@apollo/client'
-import { useParams } from 'react-router'
 import { camelCase } from 'lodash-es'
+import { FaPlus } from 'react-icons/fa'
+import { useParams } from 'react-router'
+import { useSuspenseQuery } from '@apollo/client'
 
 import pluralize from 'pluralize'
 
@@ -13,6 +14,7 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 import ManageCollectionAssociation from '@/js/components/ManageCollectionAssociation/ManageCollectionAssociation'
 
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
+import conceptTypes from '@/js/constants/conceptTypes'
 
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 import toKebabCase from '@/js/utils/toKebabCase'
@@ -64,6 +66,19 @@ const ManageCollectionAssociationPageHeader = () => {
         ]
       }
       pageType="secondary"
+      primaryActions={
+        [
+          ...[(
+            derivedConceptType !== conceptTypes.Variable
+              ? {
+                icon: FaPlus,
+                iconTitle: 'A plus icon',
+                to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`,
+                title: 'Add Collection Associations',
+                variant: 'success'
+              } : []
+          )]]
+      }
     />
   )
 }
