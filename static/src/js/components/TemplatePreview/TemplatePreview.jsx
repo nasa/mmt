@@ -31,6 +31,15 @@ import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPr
 
 import './TemplatePreview.scss'
 
+/**
+ * Renders a `TemplatePreviewPlaceholder` component
+ *
+ * @component
+ * @example <caption>Renders a `TemplatePreviewPlaceholder` component</caption>
+ * return (
+ *   <TemplatePreviewPlaceholder />
+ * )
+ */
 const TemplatePreviewPlaceholder = () => (
   <>
     <DraftPreviewPlaceholder />
@@ -252,7 +261,7 @@ const TemplatePreview = () => {
           </Col>
           <Row>
             <Col md={12} className="template-preview__preview">
-              <h2 className="fw-bold fs-4 text-secondary">Preview</h2>
+              <h2 className="fw-bold fs-4">Preview</h2>
               <CollectionPreview
                 collection={camelcaseKeys(ummMetadata, { deep: true })}
                 conceptId={id}

@@ -36,7 +36,7 @@ const EllipsisText = ({ children }) => {
     }
   }, [ref])
 
-  const spanContent = <span ref={ref} className="d-block col-12 text-truncate" style={{ maxWidth: '25rem' }}>{children}</span>
+  const spanContent = <span ref={ref} className="d-block col-12 text-truncate" style={{ maxWidth: '15rem' }}>{children}</span>
 
   if (!textTruncated) return spanContent
 

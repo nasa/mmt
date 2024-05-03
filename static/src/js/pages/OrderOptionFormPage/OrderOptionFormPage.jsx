@@ -2,11 +2,10 @@ import React, { Suspense } from 'react'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 
-import {
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
+
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import OrderOptionForm from '../../components/OrderOptionForm/OrderOptionForm'
 import Page from '../../components/Page/Page'

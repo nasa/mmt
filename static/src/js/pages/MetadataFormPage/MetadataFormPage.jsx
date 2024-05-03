@@ -46,15 +46,15 @@ const MetadataFormPageHeader = () => {
 
   const { draft = {} } = data
   const { previewMetadata = {} } = draft
-  let { pageTitle } = previewMetadata
+  const { pageTitle } = previewMetadata
 
   const displayTitle = pageTitle || '<Blank Name>'
 
-  pageTitle = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${displayTitle}`
+  const title = conceptId === 'new' ? `New ${derivedConceptType} Draft` : `Edit ${displayTitle}`
 
   return (
     <PageHeader
-      title={pageTitle}
+      title={title}
       pageType="secondary"
       breadcrumbs={
         [
@@ -69,7 +69,7 @@ const MetadataFormPageHeader = () => {
             }
           ),
           {
-            label: pageTitle,
+            label: title,
             active: true
           }
         ]

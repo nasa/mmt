@@ -14,7 +14,7 @@ import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
 import RevisionList from '../../components/RevisionList/RevisionList'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
 
 /**
  * Renders a `RevisionListPageHeader` component
@@ -68,6 +68,15 @@ const RevisionListPageHeader = () => {
   )
 }
 
+/**
+ * Renders a `RevisionListPlaceholder` component
+ *
+ * @component
+ * @example <caption>Renders a `RevisionListPlaceholder` component</caption>
+ * return (
+ *   <RevisionListPlaceholder />
+ * )
+ */
 const RevisionListPlaceholder = () => (
   <LoadingTable />
 )

@@ -33,6 +33,7 @@ import CustomModal from '../CustomModal/CustomModal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import For from '../For/For'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
+import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
 
@@ -43,7 +44,6 @@ import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 
 import './PublishPreview.scss'
-import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 
 /**
  * Renders a PublishPreviewHeader component
@@ -332,6 +332,15 @@ const PublishPreviewHeader = () => {
   )
 }
 
+/**
+ * Renders a PublishPreviewPlaceholder component
+ *
+ * @component
+ * @example <caption>Render a PublishPreviewPlaceholder</caption>
+ * return (
+ *   <PublishPreviewPlaceholder />
+ * )
+ */
 const PublishPreviewPlaceholder = () => (
   <MetadataPreviewPlaceholder />
 )
@@ -367,7 +376,7 @@ const PublishPreview = ({ isRevision }) => {
         isRevision && (
           <Row>
             <Col>
-              <Alert className="fst-italic fs-6" variant="warning">
+              <Alert className="d-flex align-items-center fst-italic fs-6" variant="warning">
                 <i className="eui-icon eui-fa-info-circle" />
                 {' '}
                 You are viewing an older revision of this
@@ -375,6 +384,7 @@ const PublishPreview = ({ isRevision }) => {
                 {`${derivedConceptType}.`}
                 {' '}
                 <Button
+                  className="ms-2 p-0"
                   type="button"
                   variant="link"
                   onClick={viewPublishedRecord}

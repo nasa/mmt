@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import { Placeholder } from 'react-bootstrap'
+import Placeholder from 'react-bootstrap/Placeholder'
+
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
 
 import './Page.scss'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 
 const PageHeaderPlaceholder = () => (
   <Placeholder className="d-flex flex-column" animation="glow" aria-hidden="true">
