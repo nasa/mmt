@@ -133,20 +133,22 @@ const OrderOptionPageHeader = () => {
         }
         pageType="secondary"
         primaryActions={
-          [{
-            icon: FaEdit,
-            to: 'edit',
-            title: 'Edit',
-            iconTitle: 'A edit icon',
-            variant: 'primary'
-          },
-          {
-            icon: FaTrash,
-            onClick: () => toggleShowDeleteModal(true),
-            title: 'Delete',
-            iconTitle: 'A trash can icon',
-            variant: 'danger'
-          }]
+          [
+            {
+              icon: FaEdit,
+              to: 'edit',
+              title: 'Edit',
+              iconTitle: 'A edit icon',
+              variant: 'primary'
+            },
+            {
+              icon: FaTrash,
+              onClick: () => toggleShowDeleteModal(true),
+              title: 'Delete',
+              iconTitle: 'A trash can icon',
+              variant: 'danger'
+            }
+          ]
         }
       />
       <CustomModal

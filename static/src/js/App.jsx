@@ -205,14 +205,6 @@ export const App = () => {
               element: <OrderOptionFormPage />
             },
             {
-              path: '/order-options/:conceptId/collection-association-search',
-              element: <CollectionAssociationFormPage />
-            },
-            {
-              path: '/order-options/:conceptId/:revisionId/collection-association-search',
-              element: <CollectionAssociationFormPage />
-            },
-            {
               path: '/order-options/:conceptId',
               element: <OrderOptionPage />
             },
