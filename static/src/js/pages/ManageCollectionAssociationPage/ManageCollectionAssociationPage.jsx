@@ -6,16 +6,17 @@ import { camelCase } from 'lodash-es'
 
 import pluralize from 'pluralize'
 
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
-import ManageCollectionAssociation from '../../components/ManageCollectionAssociation/ManageCollectionAssociation'
+import ManageCollectionAssociation from '@/js/components/ManageCollectionAssociation/ManageCollectionAssociation'
 
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
-import toKebabCase from '../../utils/toKebabCase'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
+import toKebabCase from '@/js/utils/toKebabCase'
+import toTitleCase from '@/js/utils/toTitleCase'
 
 /**
  * Renders a ManageCollectionAssociationPageHeader component
@@ -49,7 +50,7 @@ const ManageCollectionAssociationPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: `${pluralize(derivedConceptType)}`,
+            label: `${pluralize(toTitleCase(derivedConceptType))}`,
             to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}`
           },
           {

@@ -6,15 +6,16 @@ import { camelCase } from 'lodash-es'
 
 import pluralize from 'pluralize'
 
-import CollectionAssociationForm from '../../components/CollectionAssociationForm/CollectionAssociationForm'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import CollectionAssociationForm from '@/js/components/CollectionAssociationForm/CollectionAssociationForm'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
-import toKebabCase from '../../utils/toKebabCase'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
+import toKebabCase from '@/js/utils/toKebabCase'
+import toTitleCase from '@/js/utils/toTitleCase'
 
 /**
  * Renders a CollectionAssociationFormPageHeader component
@@ -48,15 +49,15 @@ const CollectionAssociationFormPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: derivedConceptType,
-            to: `/drafts/${toKebabCase(derivedConceptType).toLowerCase()}`
+            label: `${pluralize(toTitleCase(derivedConceptType))}`,
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}`
           },
           {
             label: name,
             to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
           {
-            label: 'Collection Association',
+            label: 'Collection Associations',
             to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`
           },
           {
