@@ -412,7 +412,7 @@ describe('CollectionAssociationForm', () => {
 
   describe('when updating a variable collection association', () => {
     describe('updating variable collection association results in a success', () => {
-      test.skip('should update and navigate to collection-association', async () => {
+      test('should update and navigate to collection-association', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
