@@ -1,19 +1,19 @@
 import toTitleCase from '../toTitleCase'
 
-test('toTitleCase', () => {
+describe('toTitleCase', () => {
   test('converts "OrderOption" to "Order Option"', () => {
-    expect(toTitleCase('OrderOption')).toBe('Order Option')
+    expect(toTitleCase('OrderOption')).toEqual('Order Option')
   })
 
   test('converts "order-option" to "Order Option"', () => {
-    expect(toTitleCase('order-option')).toBe('Order Option')
+    expect(toTitleCase('order-option')).toEqual('Order Option')
   })
 
   test('converts "collection" to "Collection"', () => {
-    expect(toTitleCase('collection')).toBe('Collection')
+    expect(toTitleCase('collection')).toEqual('Collection')
   })
 
   test('converts "Collection" to "Collection"', () => {
-    expect(toTitleCase('Collection')).toBe('Collection')
+    expect(toTitleCase('Collection')).toEqual('Collection')
   })
 })
