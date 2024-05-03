@@ -12,11 +12,6 @@ import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
 
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import OrderOption from '../../components/OrderOption/OrderOption'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
-
 import pluralize from 'pluralize'
 
 import { DELETE_ORDER_OPTION } from '@/js/operations/mutations/deleteOrderOption'

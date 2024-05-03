@@ -14,7 +14,7 @@ import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
 import RevisionList from '../../components/RevisionList/RevisionList'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConcept'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
 
 /**
  * Renders a `RevisionListPageHeader` component

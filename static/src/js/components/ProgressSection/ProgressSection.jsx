@@ -5,13 +5,10 @@ import { useNavigate, useParams } from 'react-router'
 import Button from '../Button/Button'
 import For from '../For/For'
 import ProgressField from '../ProgressField/ProgressField'
-import Button from '../Button/Button'
 
 import progressCircleTypes from '../../constants/progressCircleTypes'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import toKebabCase from '../../utils/toKebabCase'
-
-import toLowerKebabCase from '../../utils/toLowerKebabCase'
 
 import './ProgressSection.scss'
 
