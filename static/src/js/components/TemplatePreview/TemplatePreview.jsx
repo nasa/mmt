@@ -13,7 +13,6 @@ import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
 
 import CustomModal from '../CustomModal/CustomModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'

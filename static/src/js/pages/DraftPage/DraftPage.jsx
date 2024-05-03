@@ -4,35 +4,35 @@ import React, {
   useState
 } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import pluralize from 'pluralize'
+
 import {
   FaCopy,
   FaSave,
   FaTrash
 } from 'react-icons/fa'
 
-import { useMutation, useSuspenseQuery } from '@apollo/client'
-import pluralize from 'pluralize'
-import {
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
+import CustomModal from '../../components/CustomModal/CustomModal'
+import DraftPreview from '../../components/DraftPreview/DraftPreview'
+import DraftPreviewPlaceholder from '../../components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+import MetadataPreviewPlaceholder from '../../components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import CustomModal from '../../components/CustomModal/CustomModal'
+
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import usePublishMutation from '../../hooks/usePublishMutation'
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import createTemplate from '../../utils/createTemplate'
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
-import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
-import DraftPreview from '../../components/DraftPreview/DraftPreview'
+
+import useNotificationsContext from '../../hooks/useNotificationsContext'
+import usePublishMutation from '../../hooks/usePublishMutation'
+import useAppContext from '../../hooks/useAppContext'
+
+import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypes from '../../constants/conceptTypes'
-import MetadataPreviewPlaceholder from '../../components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
-import DraftPreviewPlaceholder from '../../components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
+
+import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 
 /**
  * Renders a DraftPageHeader component
