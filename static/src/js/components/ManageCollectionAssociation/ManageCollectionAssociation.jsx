@@ -240,17 +240,7 @@ const ManageCollectionAssociation = () => {
   }
 
   return (
-    <div>
-      {
-        derivedConceptType !== conceptTypes.Variable && (
-          <Button
-            href={`/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`}
-            variant="primary"
-          >
-            Add Collection Associations
-          </Button>
-        )
-      }
+    <>
       <div className="mt-4">
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
@@ -341,7 +331,7 @@ const ManageCollectionAssociation = () => {
           </Button>
         )
       }
-    </div>
+    </>
   )
 }
 
