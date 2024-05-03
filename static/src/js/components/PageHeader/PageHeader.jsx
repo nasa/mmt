@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { snakeCase } from 'lodash-es'
@@ -62,172 +62,164 @@ const PageHeader = ({
       )
     }
   >
-    <Suspense fallback="Loading (breadcrumbs)...">
-      {
-        breadcrumbs.length > 0 && (
-          <Breadcrumb>
-            <For each={breadcrumbs}>
-              {
-                ({ active, label, to }, i) => {
-                  if (!label) return null
-
-                  return (
-                    <Breadcrumb.Item
-                      key={`breadcrumb-link_${to}_${i}`}
-                      active={active}
-                      linkProps={{ to }}
-                      linkAs={Link}
-                    >
-                      {label}
-                    </Breadcrumb.Item>
-                  )
-                }
-              }
-            </For>
-          </Breadcrumb>
-        )
-      }
-    </Suspense>
-
-    <div className="d-flex w-100 align-items-center justify-content-between">
-      <Suspense fallback="Loading...">
-        <h2
-          className="m-0 text-gray-200 fs-2"
-          style={
+    {
+      breadcrumbs.length > 0 && (
+        <Breadcrumb>
+          <For each={breadcrumbs}>
             {
-              fontWeight: 700,
-              letterSpacing: '-0.015rem'
-            }
-          }
-        >
-          {title}
-        </h2>
-        {
-          primaryActions && (
-            <div className="d-flex flex-row">
-              <For each={primaryActions}>
-                {
-                  (
-                    {
-                      icon,
-                      iconTitle,
-                      loading,
-                      loadingText,
-                      onClick,
-                      title: buttonTitle,
-                      to,
-                      variant
-                    }
-                  ) => {
-                    if (to) {
-                      return (
-                        <Link
-                          key={buttonTitle}
-                          to={to}
-                        >
-                          <Button
-                            className="ms-2"
-                            as={Button}
-                            size="sm"
-                            Icon={icon}
-                            iconTitle={iconTitle}
-                            variant={variant}
-                          >
-                            {buttonTitle}
-                          </Button>
-                        </Link>
-                      )
-                    }
+              ({ active, label, to }, i) => {
+                if (!label) return null
 
+                return (
+                  <Breadcrumb.Item
+                    key={`breadcrumb-link_${to}_${i}`}
+                    active={active}
+                    linkProps={{ to }}
+                    linkAs={Link}
+                  >
+                    {label}
+                  </Breadcrumb.Item>
+                )
+              }
+            }
+          </For>
+        </Breadcrumb>
+      )
+    }
+    <div className="d-flex w-100 align-items-center justify-content-between">
+      <h2
+        className="m-0 text-gray-200 fs-2"
+        style={
+          {
+            fontWeight: 700,
+            letterSpacing: '-0.015rem'
+          }
+        }
+      >
+        {title}
+      </h2>
+      {
+        primaryActions && (
+          <div className="d-flex flex-row">
+            <For each={primaryActions}>
+              {
+                (
+                  {
+                    icon,
+                    iconTitle,
+                    loading,
+                    loadingText,
+                    onClick,
+                    title: buttonTitle,
+                    to,
+                    variant
+                  }
+                ) => {
+                  if (to) {
                     return (
                       <Button
+                        key={buttonTitle}
+                        to={to}
+                        as={Link}
                         className="ms-2"
                         size="sm"
-                        key={buttonTitle}
                         Icon={icon}
                         iconTitle={iconTitle}
                         variant={variant}
-                        onClick={onClick}
-                        loading={loading}
-                        loadingText={loadingText}
                       >
                         {buttonTitle}
                       </Button>
                     )
                   }
+
+                  return (
+                    <Button
+                      className="ms-2"
+                      size="sm"
+                      key={buttonTitle}
+                      Icon={icon}
+                      iconTitle={iconTitle}
+                      variant={variant}
+                      onClick={onClick}
+                      loading={loading}
+                      loadingText={loadingText}
+                    >
+                      {buttonTitle}
+                    </Button>
+                  )
                 }
-              </For>
-              {
-                additionalActions && (
-                  <Dropdown className="ms-2" align="end">
-                    <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
-                    <DropdownMenu as={CustomMenu}>
-                      <For each={additionalActions}>
-                        {
-                          (
-                            {
-                              count: actionCount,
-                              loading: actionLoading,
-                              loadingText: actionLoadingText,
-                              onClick: actionOnClick,
-                              title: actionTitle,
-                              to
-                            }
-                          ) => {
-                            const content = (
-                              <>
-                                <span>{actionTitle}</span>
-                                {
-                                  actionCount !== null && (
-                                    <Badge
-                                      className="ms-2 text-secondary"
-                                      pill
-                                      bg="light-dark"
-                                    >
-                                      {actionCount}
-                                    </Badge>
-                                  )
-                                }
-                              </>
-                            )
+              }
+            </For>
+            {
+              additionalActions && (
+                <Dropdown className="ms-2" align="end">
+                  <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
+                  <DropdownMenu as={CustomMenu}>
+                    <For each={additionalActions}>
+                      {
+                        (
+                          {
+                            count: actionCount,
+                            loading: actionLoading,
+                            loadingText: actionLoadingText,
+                            onClick: actionOnClick,
+                            title: actionTitle,
+                            to
+                          }
+                        ) => {
+                          const content = (
+                            <>
+                              <span>{actionTitle}</span>
+                              {
+                                actionCount !== null && (
+                                  <Badge
+                                    className="ms-2 text-secondary"
+                                    pill
+                                    bg="light-dark"
+                                  >
+                                    {actionCount}
+                                  </Badge>
+                                )
+                              }
+                            </>
+                          )
 
-                            if (to) {
-                              return (
-                                <DropdownItem
-                                  className="d-flex flex-row align-items-center"
-                                  key={actionTitle}
-                                  eventKey={snakeCase(actionTitle)}
-                                  to={to}
-                                  as={Link}
-                                >
-                                  {content}
-                                </DropdownItem>
-                              )
-                            }
-
+                          if (to) {
                             return (
                               <DropdownItem
                                 className="d-flex flex-row align-items-center"
                                 key={actionTitle}
                                 eventKey={snakeCase(actionTitle)}
-                                onClick={actionOnClick}
-                                aria-busy={actionLoading}
+                                to={to}
+                                as={Link}
                               >
-                                {actionLoading ? actionLoadingText : content}
+                                {content}
                               </DropdownItem>
                             )
                           }
 
+                          return (
+                            <DropdownItem
+                              className="d-flex flex-row align-items-center"
+                              key={actionTitle}
+                              eventKey={snakeCase(actionTitle)}
+                              onClick={actionOnClick}
+                              aria-busy={actionLoading}
+                            >
+                              {actionLoading ? actionLoadingText : content}
+                            </DropdownItem>
+                          )
                         }
-                      </For>
-                    </DropdownMenu>
-                  </Dropdown>
-                )
-              }
-            </div>
-          )
-        }
-      </Suspense>
+
+                      }
+                    </For>
+                  </DropdownMenu>
+                </Dropdown>
+              )
+            }
+          </div>
+        )
+      }
     </div>
   </header>
 )

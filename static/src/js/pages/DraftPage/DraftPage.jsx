@@ -12,6 +12,11 @@ import {
 
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import pluralize from 'pluralize'
+import {
+  Col,
+  Placeholder,
+  Row
+} from 'react-bootstrap'
 import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -26,6 +31,8 @@ import errorLogger from '../../utils/errorLogger'
 import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
 import DraftPreview from '../../components/DraftPreview/DraftPreview'
 import conceptTypes from '../../constants/conceptTypes'
+import MetadataPreviewPlaceholder from '../../components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import DraftPreviewPlaceholder from '../../components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
 
 /**
  * Renders a DraftPageHeader component
@@ -183,7 +190,7 @@ const DraftPageHeader = () => {
               iconTitle: 'A save icon',
               onClick: handlePublish,
               title: 'Publish',
-              variant: 'primary'
+              variant: 'success'
             },
             {
               icon: FaTrash,
@@ -229,6 +236,26 @@ const DraftPageHeader = () => {
   )
 }
 
+/*
+ * Renders a `DraftPagePlaceholder` component.
+ *
+ * This component renders a loading table
+ *
+ * @param {DraftPagePlaceholder} props
+ *
+ * @component
+ * @example <caption>Render the draft section placeholder</caption>
+ * return (
+ *   <DraftPagePlaceholder />
+ * )
+ */
+const DraftPagePlaceholder = () => (
+  <>
+    <DraftPreviewPlaceholder />
+    <MetadataPreviewPlaceholder />
+  </>
+)
+
 /**
  * Renders a `DraftPage` component
  *
@@ -244,7 +271,7 @@ const DraftPage = () => (
     header={<DraftPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<DraftPagePlaceholder />}>
         <DraftPreview />
       </Suspense>
     </ErrorBoundary>

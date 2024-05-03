@@ -4,8 +4,30 @@ import PropTypes from 'prop-types'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import { Placeholder } from 'react-bootstrap'
 
 import './Page.scss'
+import LoadingBanner from '../LoadingBanner/LoadingBanner'
+
+const PageHeaderPlaceholder = () => (
+  <Placeholder className="d-flex flex-column" animation="glow" aria-hidden="true">
+    <Placeholder className="mb-4 mt-1" style={{ width: '10rem' }} />
+    <span className="d-flex justify-content-between">
+      <Placeholder style={
+        {
+          width: '25rem',
+          height: '2rem'
+        }
+      }
+      />
+      <span className="d-flex flex-grow-0">
+        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '6rem' }} size="sm" />
+        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '7rem' }} size="sm" />
+        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '2rem' }} size="sm" />
+      </span>
+    </span>
+  </Placeholder>
+)
 
 /**
  * @typedef {Object} PageProps
@@ -36,14 +58,14 @@ const Page = ({
     <Container fluid className="mx-0 mb-5">
       <Row className="py-3 mb-0">
         <Col className="px-5 pt-0">
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<PageHeaderPlaceholder />}>
             {header}
           </Suspense>
         </Col>
       </Row>
       <Row>
         <Col className="px-5 mt-4">
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<LoadingBanner />}>
             {children}
           </Suspense>
         </Col>

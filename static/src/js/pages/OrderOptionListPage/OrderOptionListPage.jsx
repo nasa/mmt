@@ -40,7 +40,7 @@ const OrderOptionListPageHeader = () => {
           iconTitle: 'A plus icon',
           title: 'New Order Option',
           to: 'new',
-          variant: 'primary'
+          variant: 'success'
         }]
       }
       title={`${providerId} Order Options`}

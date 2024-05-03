@@ -24,7 +24,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <Navbar bg="primary">
-        <Container className="d-flex flex-column flex-md-row align-items-center justify-content-start align-items-middle">
+        <Container fluid className="d-flex flex-column flex-md-row align-items-center justify-content-start align-items-middle">
           <Badge bg="dark" className="d-block">
             v
             {version}

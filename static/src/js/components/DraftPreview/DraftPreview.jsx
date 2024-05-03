@@ -85,7 +85,7 @@ const DraftPreview = () => {
         </Col>
         <Row>
           <Col md={12} className="draft-preview__preview">
-            <h2 className="fw-bold fs-4 text-secondary">Metadata Preview</h2>
+            <h2 className="fw-bold fs-4 text-secondary">Preview</h2>
             <ErrorBoundary>
               <MetadataPreview
                 conceptId={conceptId}

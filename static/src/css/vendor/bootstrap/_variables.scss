@@ -45,7 +45,7 @@ $custom-colors: (
   "gray-dark": #343a40,
   "primary": #2276ac,
   "secondary": #6c757d,
-  "success": #189c54,
+  "success": #158648,
   "info": #7ab5da,
   "warning": #f2d029,
   "danger": #b3241c,
@@ -104,6 +104,7 @@ $btn-border-radius: 0.125rem;
 $btn-border-radius-lg: 0.2rem;
 $btn-padding-y-lg: 0.625rem;
 $btn-padding-x-lg: 1.25rem;
+$btn-color: map.get($theme-colors, "white");
 
 /*
  * Accordion

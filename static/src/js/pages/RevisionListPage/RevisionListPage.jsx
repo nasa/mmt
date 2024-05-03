@@ -9,6 +9,7 @@ import commafy from 'commafy'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '../../components/LoadingTable/LoadingTable'
 import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
 import RevisionList from '../../components/RevisionList/RevisionList'
@@ -67,6 +68,10 @@ const RevisionListPageHeader = () => {
   )
 }
 
+const RevisionListPlaceholder = () => (
+  <LoadingTable />
+)
+
 /**
  * Renders a `RevisionListPage` component
  *
@@ -82,7 +87,7 @@ const RevisionListPage = () => (
     header={<RevisionListPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<RevisionListPlaceholder />}>
         <RevisionList />
       </Suspense>
     </ErrorBoundary>

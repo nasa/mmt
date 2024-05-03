@@ -1,12 +1,21 @@
 import React, { Suspense, useState } from 'react'
 
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { useNavigate, useParams } from 'react-router'
+
 import {
   FaEdit,
   FaEye,
   FaTrash
 } from 'react-icons/fa'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { useNavigate, useParams } from 'react-router'
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
+
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+import OrderOption from '../../components/OrderOption/OrderOption'
+import Page from '../../components/Page/Page'
+import PageHeader from '../../components/PageHeader/PageHeader'
 
 import pluralize from 'pluralize'
 
@@ -175,6 +184,46 @@ const OrderOptionPageHeader = () => {
   )
 }
 
+/*
+ * Renders a `OrderOptionPagePlaceholder` component.
+ *
+ * This component renders a order option page placeholder
+ *
+ * @param {OrderOptionPagePlaceholder} props
+ *
+ * @component
+ * @example <caption>Render the order option page placeholder</caption>
+ * return (
+ *   <OrderOptionPagePlaceholder />
+ * )
+ */
+const OrderOptionPagePlaceholder = () => (
+  <Row>
+    <Col>
+      <Placeholder animation="glow" aria-hidden="true">
+        <span className="d-block w-100 mb-4 mt-2">
+          <Placeholder className="w-25 d-block mb-2" size="sm" />
+        </span>
+        <span className="d-block w-100 mb-4 mt-2">
+          <Placeholder className="w-100 mb-2" />
+          <Placeholder className="w-75 mb-2" />
+        </span>
+        <span className="d-flex flex-column w-100 mb-4 mt-2">
+          <Placeholder className="mb-2" style={{ width: '3rem' }} />
+          <Placeholder className="mb-2 ms-2" style={{ width: '6rem' }} />
+          <Placeholder className="mb-2 ms-4" style={{ width: '8rem' }} />
+          <Placeholder className="mb-2 ms-5" style={{ width: '10rem' }} />
+          <Placeholder className="mb-2 ms-4" style={{ width: '8rem' }} />
+          <Placeholder className="mb-2 ms-2" style={{ width: '6rem' }} />
+          <Placeholder className="mb-2" style={{ width: '3rem' }} />
+          <Placeholder className="mb-2 ms-2" style={{ width: '10rem' }} />
+          <Placeholder className="mb-2" style={{ width: '3rem' }} />
+        </span>
+      </Placeholder>
+    </Col>
+  </Row>
+)
+
 /**
  * Renders a OrderOptionPage component
  *
@@ -190,7 +239,7 @@ const OrderOptionPage = () => (
     header={<OrderOptionPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<OrderOptionPagePlaceholder />}>
         <OrderOption />
       </Suspense>
     </ErrorBoundary>

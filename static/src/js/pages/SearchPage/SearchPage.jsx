@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { capitalize } from 'lodash-es'
 
 import Page from '../../components/Page/Page'
+import LoadingTable from '../../components/LoadingTable/LoadingTable'
 import getHumanizedNameFromTypeParam from '../../utils/getHumanizedNameFromTypeParam'
 import PageHeader from '../../components/PageHeader/PageHeader'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -51,7 +52,7 @@ const SearchPage = () => (
     header={<SearchPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<LoadingTable />}>
         <SearchList />
       </Suspense>
     </ErrorBoundary>

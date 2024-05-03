@@ -32,7 +32,6 @@ import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import CustomModal from '../CustomModal/CustomModal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import For from '../For/For'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
@@ -44,6 +43,7 @@ import constructDownloadableFile from '../../utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 
 import './PublishPreview.scss'
+import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 
 /**
  * Renders a PublishPreviewHeader component
@@ -332,6 +332,10 @@ const PublishPreviewHeader = () => {
   )
 }
 
+const PublishPreviewPlaceholder = () => (
+  <MetadataPreviewPlaceholder />
+)
+
 /**
  * Renders a PublishPreview component
  *
@@ -383,7 +387,7 @@ const PublishPreview = ({ isRevision }) => {
         )
       }
       <ErrorBoundary>
-        <Suspense fallback={<LoadingBanner />}>
+        <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}
             conceptType={derivedConceptType}

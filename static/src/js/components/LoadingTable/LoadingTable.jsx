@@ -18,8 +18,7 @@ import { uniqueId } from 'react-bootstrap-typeahead/types/utils'
  * )
  */
 const LoadingTable = () => {
-  const row = 20
-  const randomColumn = random(4, 6)
+  const row = 10
 
   return (
     <>
@@ -34,13 +33,17 @@ const LoadingTable = () => {
             [...Array(row)].map((rowIndex) => (
               <tr key={uniqueId(`${rowIndex}_loading_row_`)}>
                 {
-                  [...Array(randomColumn)].map((colIndex) => (
-                    <td key={uniqueId(colIndex)}>
-                      <Placeholder animation="glow" aria-hidden="true">
-                        <Placeholder xs={randomColumn} />
-                      </Placeholder>
-                    </td>
-                  ))
+                  [...Array(5)].map((colIndex) => {
+                    const randomColumn = random(4, 11)
+
+                    return (
+                      <td key={uniqueId(colIndex)}>
+                        <Placeholder style={{ width: '100%' }} animation="glow" aria-hidden="true">
+                          <Placeholder xs={randomColumn} />
+                        </Placeholder>
+                      </td>
+                    )
+                  })
                 }
               </tr>
             ))

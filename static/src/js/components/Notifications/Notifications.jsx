@@ -33,7 +33,7 @@ const Notifications = () => {
   return (
     <ToastContainer
       className="notifications-list p-3 position-fixed"
-      position="top-center"
+      position="bottom-start"
     >
       <For each={notifications}>
         {
