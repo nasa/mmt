@@ -15,16 +15,16 @@
     width: 0%;
     height: 0.325rem;
     animation: timer var(--timer-duration) linear;
-    background-color: var(--bs-gray-500);
+    background-color: var(--bs-gray-600);
   }
 
   @keyframes timer {
     0% {
-        width: 100%;
+        width: 0%;
     }
 
     100% {
-        width: 0%;
+        width: 100%;
     }
   }
 }

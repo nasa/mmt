@@ -13,7 +13,6 @@ import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
 
 import CustomModal from '../CustomModal/CustomModal'
 import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'
@@ -26,8 +25,26 @@ import parseError from '../../utils/parseError'
 import useAppContext from '../../hooks/useAppContext'
 import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
+import DraftPreviewPlaceholder from '../DraftPreviewPlaceholder/DraftPreviewPlaceholder'
+import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 
 import './TemplatePreview.scss'
+
+/**
+ * Renders a `TemplatePreviewPlaceholder` component
+ *
+ * @component
+ * @example <caption>Renders a `TemplatePreviewPlaceholder` component</caption>
+ * return (
+ *   <TemplatePreviewPlaceholder />
+ * )
+ */
+const TemplatePreviewPlaceholder = () => (
+  <>
+    <DraftPreviewPlaceholder />
+    <MetadataPreviewPlaceholder />
+  </>
+)
 
 /**
  * Renders a TemplatePreview component
@@ -167,7 +184,7 @@ const TemplatePreview = () => {
             iconTitle: 'A copy/paste icon',
             onClick: handleCreateCollectionDraft,
             title: 'Create Draft',
-            variant: 'primary'
+            variant: 'success'
           },
           {
             icon: FaTrash,
@@ -180,9 +197,17 @@ const TemplatePreview = () => {
       }
     />
   )
+
+  const pageHeader = templatePreviewPageHeader()
+
   if (loading) {
     return (
-      <LoadingBanner />
+      <Page
+        pageType="secondary"
+        header={pageHeader}
+      >
+        <TemplatePreviewPlaceholder />
+      </Page>
     )
   }
 
@@ -196,7 +221,8 @@ const TemplatePreview = () => {
 
   return (
     <Page
-      header={templatePreviewPageHeader()}
+      pageType="secondary"
+      header={pageHeader}
     >
       <Container id="template-form" className="px-0" fluid>
         <Row>
@@ -221,7 +247,7 @@ const TemplatePreview = () => {
           />
           <Col md={12}>
             <Row>
-              <Col>
+              <Col className="mb-5">
                 <h3 className="sr-only">Metadata Fields</h3>
                 <PreviewProgress
                   draftJson={ummMetadata}
@@ -234,7 +260,7 @@ const TemplatePreview = () => {
           </Col>
           <Row>
             <Col md={12} className="template-preview__preview">
-              <h2 className="fw-bold fs-4 text-secondary">Metadata Preview</h2>
+              <h2 className="fw-bold fs-4">Preview</h2>
               <CollectionPreview
                 collection={camelcaseKeys(ummMetadata, { deep: true })}
                 conceptId={id}

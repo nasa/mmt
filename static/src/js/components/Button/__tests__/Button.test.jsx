@@ -110,4 +110,39 @@ describe('Button', () => {
       expect(button).toHaveClass('button--naked')
     })
   })
+
+  describe('when as "as" prop is defined', () => {
+    test('renders the button as that component', () => {
+      // eslint-disable-next-line react/prop-types
+      const TestComponent = ({ children }) => (
+        <button type="button" data-testid="mock-button">{children}</button>
+      )
+
+      setup({
+        as: TestComponent
+      })
+
+      expect(screen.getByTestId('mock-button')).toHaveTextContent('Click me!')
+    })
+  })
+
+  describe('when a "to" prop is defined', () => {
+    test('sets the to on the button', () => {
+      // eslint-disable-next-line react/prop-types
+      const TestComponent = ({ to }) => (
+        <button type="button" data-testid="mock-button">
+          Test Button:
+          {' '}
+          {to}
+        </button>
+      )
+
+      setup({
+        as: TestComponent,
+        to: '/some-page'
+      })
+
+      expect(screen.getByTestId('mock-button')).toHaveTextContent('Test Button: /some-page')
+    })
+  })
 })

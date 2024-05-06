@@ -2,14 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router'
 
-import ProgressField from '../ProgressField/ProgressField'
+import Button from '../Button/Button'
 import For from '../For/For'
+import ProgressField from '../ProgressField/ProgressField'
 
 import progressCircleTypes from '../../constants/progressCircleTypes'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
+import toKebabCase from '../../utils/toKebabCase'
 
 import './ProgressSection.scss'
-import toKebabCase from '../../utils/toKebabCase'
 
 /**
  * @typedef {Object} ProgressSectionProps
@@ -69,12 +70,14 @@ const ProgressSection = ({
   }
 
   // Handle clicking on a section
-  const handleSectionClick = () => {
+  const handleSectionClick = (event) => {
     if (templateType) {
       navigate(`/templates/${templateType}/${id}/${toKebabCase(displayName)}`)
     } else {
       navigate(toKebabCase(displayName))
     }
+
+    event.stopPropagation()
   }
 
   // Accessible event props for clicking on the form section
@@ -83,21 +86,27 @@ const ProgressSection = ({
   })
 
   return (
-    <div key={JSON.stringify(fields)}>
+    <div
+      key={displayName}
+      className="progress-section p-2 rounded"
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...accessibleEventProps}
+    >
       <div className="progress-section__section-circle">
         {progressSectionIcon()}
       </div>
 
-      <div>
-        <div
-          className="progress-section__section-label"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...accessibleEventProps}
+      <div className="d-flex flex-column align-items-start">
+        <Button
+          className="progress-section__section-label m-0 p-0 fw-bold text-decoration-none"
+          naked
+          variant="link"
+          as="span"
         >
           {displayName}
-        </div>
+        </Button>
 
-        <div>
+        <div className="d-block">
           <For each={fields}>
             {
               (field, index) => (

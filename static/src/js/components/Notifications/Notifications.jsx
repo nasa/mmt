@@ -33,7 +33,7 @@ const Notifications = () => {
   return (
     <ToastContainer
       className="notifications-list p-3 position-fixed"
-      position="top-center"
+      position="bottom-end"
     >
       <For each={notifications}>
         {
@@ -55,8 +55,8 @@ const Notifications = () => {
             return (
               <Toast
                 autohide
-                bg="secondary"
-                className="bg-light position-relative overflow-hidden"
+                bg="dark"
+                className="position-relative overflow-hidden text-light"
                 delay={delay}
                 key={id}
                 onClose={
@@ -73,7 +73,7 @@ const Notifications = () => {
                 }
                 show={show}
               >
-                <Toast.Body className="text-secondary d-flex align-items-center justify-content-between">
+                <Toast.Body className="d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
                     <span
                       className={
@@ -96,7 +96,7 @@ const Notifications = () => {
                     className="ms-2"
                     onClick={() => hideNotification(id)}
                     size="sm"
-                    variant="outline-secondary"
+                    variant="outline-light-dark"
                   >
                     Close
                   </Button>

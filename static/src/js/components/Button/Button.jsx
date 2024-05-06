@@ -43,6 +43,7 @@ import { Spinner } from 'react-bootstrap'
  * )
  */
 const Button = React.forwardRef(({
+  as,
   className,
   children,
   disabled,
@@ -57,19 +58,45 @@ const Button = React.forwardRef(({
   naked,
   onClick,
   size,
+  to,
   variant
 }, ref) => {
   // Create an object to pass any conditional properties. These are ultimately spread on the component.
-  const conditionalProps = {}
+  let conditionalProps = {}
 
   if (onClick) {
-    conditionalProps.onClick = onClick
+    conditionalProps = {
+      ...conditionalProps,
+      onClick
+    }
+  }
+
+  if (as) {
+    conditionalProps = {
+      ...conditionalProps,
+      as
+    }
+  }
+
+  if (to) {
+    conditionalProps = {
+      ...conditionalProps,
+      to
+    }
   }
 
   if (href) {
-    conditionalProps.href = href
+    conditionalProps = {
+      ...conditionalProps,
+      href
+    }
 
-    if (external) conditionalProps.target = '_blank'
+    if (external) {
+      conditionalProps = {
+        ...conditionalProps,
+        target: '_blank'
+      }
+    }
   }
 
   const buttonText = loading ? loadingText : children
@@ -153,6 +180,7 @@ const Button = React.forwardRef(({
 Button.displayName = 'Button'
 
 Button.defaultProps = {
+  as: null,
   children: null,
   className: '',
   disabled: false,
@@ -167,10 +195,16 @@ Button.defaultProps = {
   naked: false,
   onClick: null,
   size: '',
+  to: '',
   variant: ''
 }
 
 Button.propTypes = {
+  as: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.any
+  ]),
   className: PropTypes.string,
   children: PropTypes.node,
   disabled: PropTypes.bool,
@@ -197,6 +231,7 @@ Button.propTypes = {
   naked: PropTypes.bool,
   onClick: PropTypes.func,
   size: PropTypes.string,
+  to: PropTypes.string,
   variant: PropTypes.string
 }
 

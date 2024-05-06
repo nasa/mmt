@@ -1,4 +1,13 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
 .progress-section {
+  &:hover {
+    background-color: rgba(var(--bs-light-rgb));
+    cursor: pointer;
+  }
+
   &__section-circle {
     display: block;
     margin-right: 10px;
@@ -11,6 +20,10 @@
     cursor: pointer;
     font-family: sans-serif;
     font-size: 16px;
+
+    .progress-section:hover & {
+      color: #{map.get($theme-colors, "blue")}
+    }
   }
 
   &__section-icon {

@@ -49,7 +49,7 @@ const DraftListPageHeader = () => {
             iconTitle: 'A plus icon',
             title: 'New Draft',
             to: 'new',
-            variant: 'primary'
+            variant: 'success'
           }
         ]
       }

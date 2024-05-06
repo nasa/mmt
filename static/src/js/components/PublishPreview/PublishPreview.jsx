@@ -32,8 +32,8 @@ import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
 import CustomModal from '../CustomModal/CustomModal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import For from '../For/For'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
+import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '../Page/Page'
 import PageHeader from '../PageHeader/PageHeader'
 
@@ -333,6 +333,19 @@ const PublishPreviewHeader = () => {
 }
 
 /**
+ * Renders a PublishPreviewPlaceholder component
+ *
+ * @component
+ * @example <caption>Render a PublishPreviewPlaceholder</caption>
+ * return (
+ *   <PublishPreviewPlaceholder />
+ * )
+ */
+const PublishPreviewPlaceholder = () => (
+  <MetadataPreviewPlaceholder />
+)
+
+/**
  * Renders a PublishPreview component
  *
  * @component
@@ -363,7 +376,7 @@ const PublishPreview = ({ isRevision }) => {
         isRevision && (
           <Row>
             <Col>
-              <Alert className="fst-italic fs-6" variant="warning">
+              <Alert className="d-flex align-items-center fst-italic fs-6" variant="warning">
                 <i className="eui-icon eui-fa-info-circle" />
                 {' '}
                 You are viewing an older revision of this
@@ -371,6 +384,7 @@ const PublishPreview = ({ isRevision }) => {
                 {`${derivedConceptType}.`}
                 {' '}
                 <Button
+                  className="ms-2 p-0"
                   type="button"
                   variant="link"
                   onClick={viewPublishedRecord}
@@ -383,7 +397,7 @@ const PublishPreview = ({ isRevision }) => {
         )
       }
       <ErrorBoundary>
-        <Suspense fallback={<LoadingBanner />}>
+        <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}
             conceptType={derivedConceptType}

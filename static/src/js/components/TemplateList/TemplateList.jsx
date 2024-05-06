@@ -156,7 +156,7 @@ const TemplateList = () => {
         [
           {
             label: 'Templates',
-            to: '/templates/collections'
+            active: true
           }
         ]
       }
@@ -167,7 +167,7 @@ const TemplateList = () => {
           iconTitle: 'A plus icon',
           title: 'New Template',
           to: 'new',
-          variant: 'primary'
+          variant: 'success'
         }]
       }
       title={`${providerId} Template`}

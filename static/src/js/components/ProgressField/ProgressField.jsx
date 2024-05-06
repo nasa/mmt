@@ -126,6 +126,7 @@ const ProgressField = ({
   // Accessible event props for clicking on the form field icon
   const accessibleEventProps = useAccessibleEvent((event) => {
     handleCircleClick(event)
+    event.stopPropagation()
   })
 
   return (

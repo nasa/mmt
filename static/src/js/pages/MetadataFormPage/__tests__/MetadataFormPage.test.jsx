@@ -181,17 +181,24 @@ const setup = ({
 
 describe('MetadataFormPage', () => {
   describe('renders the breadcrumbs with form name', () => {
-    test('renders a Form component', async () => {
+    test('renders the breadcrumbs', async () => {
       setup({
         pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
       })
 
       await waitForResponse()
 
-      const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
-      const breadcrumbOne = within(breadcrumbs).getAllByText('Edit Updating draft')
+      const breadcrumbParent = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbLinks = within(breadcrumbParent).getAllByRole('link')
 
-      expect(breadcrumbOne[1]).toHaveClass('active')
+      expect(breadcrumbLinks.at(0)).toHaveAttribute('href', '/drafts/tools')
+      expect(breadcrumbLinks.at(0)).toHaveTextContent('Tool Drafts')
+
+      expect(breadcrumbLinks.at(1)).toHaveAttribute('href', '/drafts/tools/TD1000000-MMT')
+      expect(breadcrumbLinks.at(1)).toHaveTextContent('Updating draft')
+
+      const breadcrumbActive = within(breadcrumbParent).getByText('Edit Updating draft')
+      expect(breadcrumbActive).toHaveClass('active')
     })
   })
 
@@ -290,10 +297,17 @@ describe('MetadataFormPage', () => {
 
       await waitForResponse()
 
-      const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
-      const breadcrumbOne = within(breadcrumbs).getAllByText('Edit <Blank Name>')
+      const breadcrumbParent = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbLinks = within(breadcrumbParent).getAllByRole('link')
 
-      expect(breadcrumbOne[1]).toHaveClass('active')
+      expect(breadcrumbLinks.at(0)).toHaveAttribute('href', '/drafts/tools')
+      expect(breadcrumbLinks.at(0)).toHaveTextContent('Tool Drafts')
+
+      expect(breadcrumbLinks.at(1)).toHaveAttribute('href', '/drafts/tools/TD1000000-MMT')
+      expect(breadcrumbLinks.at(1)).toHaveTextContent('<Blank Name>')
+
+      const breadcrumbActive = within(breadcrumbParent).getByText('Edit <Blank Name>')
+      expect(breadcrumbActive).toHaveClass('active')
     })
   })
 })
