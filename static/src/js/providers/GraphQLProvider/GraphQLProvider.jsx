@@ -45,6 +45,7 @@ const GraphQLProvider = ({ children }) => {
       next: (result) => {
         // Check if the operation is a mutation
         if (operation.query.definitions.some(
+          // TODO ignore group calls to save time
           (def) => def.operation === 'mutation'
         )) {
           // Delay the response by 1 second for mutations because CMR has to update elastic indexes

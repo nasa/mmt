@@ -1,13 +1,15 @@
 import React, { useLayoutEffect, useEffect } from 'react'
 import { RouterProvider } from 'react-router'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
-
 import { useLazyQuery } from '@apollo/client'
 
 import CollectionAssociationFormPage from './pages/CollectionAssociationFormPage/CollectionAssociationFormPage'
 import DraftCollectionAssociationPage from './pages/DraftCollectionAssociationPage/DraftCollectionAssociationPage'
 import DraftListPage from './pages/DraftListPage/DraftListPage'
 import DraftPage from './pages/DraftPage/DraftPage'
+import GroupFormPage from './pages/GroupFormPage/GroupFormPage'
+import GroupListPage from './pages/GroupListPage/GroupListPage'
+import GroupPage from './pages/GroupPage/GroupPage'
 import HomePage from './pages/HomePage/HomePage'
 import ManageCollectionAssociationPage from './pages/ManageCollectionAssociationPage/ManageCollectionAssociationPage'
 import MetadataFormPage from './pages/MetadataFormPage/MetadataFormPage'
@@ -29,8 +31,6 @@ import TemplatePreview from './components/TemplatePreview/TemplatePreview'
 
 import REDIRECTS from './constants/redirectsMap/redirectsMap'
 
-import '../css/index.scss'
-
 import errorLogger from './utils/errorLogger'
 import getPermittedUser from './utils/getPermittedUser'
 
@@ -40,6 +40,8 @@ import useNotificationsContext from './hooks/useNotificationsContext'
 import { GET_ACLS } from './operations/queries/getAcls'
 
 import withProviders from './providers/withProviders/withProviders'
+
+import '../css/index.scss'
 
 /**
  * Renders the `App` component
@@ -207,6 +209,22 @@ export const App = () => {
             {
               path: '/order-options/:conceptId',
               element: <OrderOptionPage />
+            },
+            {
+              path: '/groups',
+              element: <GroupListPage />
+            },
+            {
+              path: '/groups/new',
+              element: <GroupFormPage />
+            },
+            {
+              path: '/groups/:id/edit',
+              element: <GroupFormPage />
+            },
+            {
+              path: '/groups/:id',
+              element: <GroupPage />
             },
             {
               path: 'templates/:templateType',

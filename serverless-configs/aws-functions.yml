@@ -46,6 +46,10 @@ edlProfile:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: edl-profile
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
 
 gkrKeywordRecommendations:
   handler: serverless/src/gkrKeywordRecommendations/handler.default
@@ -130,6 +134,20 @@ getTemplate:
         method: get
         cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
         path: providers/{providerId}/templates/{id}
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0
+
+getEdlUsers:
+  handler: serverless/src/getEdlUsers/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
+  events:
+    - http:
+        method: get
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: users
         authorizer:
           name: edlAuthorizer
           type: request

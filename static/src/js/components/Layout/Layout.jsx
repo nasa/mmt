@@ -103,6 +103,10 @@ const Layout = ({ className, displayNav }) => {
                         {
                           to: '/order-options',
                           title: 'Order Options'
+                        },
+                        {
+                          to: '/groups',
+                          title: 'Groups'
                         }
                       ]
                     }

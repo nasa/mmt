@@ -11,9 +11,9 @@ import userEvent from '@testing-library/user-event'
 import { describe } from 'vitest'
 
 import Providers from '../../../providers/Providers/Providers'
-import { GET_ORDER_OPTION } from '../../../operations/queries/getOrderOption'
+import { GET_GROUP } from '../../../operations/queries/getGroup'
 
-import OrderOptionFormPage from '../OrderOptionFormPage'
+import GroupFormPage from '../GroupFormPage'
 
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
@@ -46,24 +46,24 @@ const setup = ({
           <MemoryRouter initialEntries={[pageUrl]}>
             <Routes>
               <Route
-                path="/order-options"
+                path="/groups"
               >
                 <Route
+                  path="new"
                   element={
                     (
                       <Suspense>
-                        <OrderOptionFormPage />
+                        <GroupFormPage />
                       </Suspense>
                     )
                   }
-                  path="new"
                 />
                 <Route
-                  path=":conceptId/edit"
+                  path=":id/edit"
                   element={
                     (
                       <Suspense>
-                        <OrderOptionFormPage />
+                        <GroupFormPage />
                       </Suspense>
                     )
                   }
@@ -81,49 +81,39 @@ const setup = ({
   }
 }
 
-describe('OrderOptionFormPage', () => {
-  describe('when showing the header for a new OrderOption', () => {
+describe('GroupFormPage', () => {
+  describe('when showing the header for a new Group', () => {
     test('should render the header', async () => {
       setup({
-        pageUrl: '/order-options/new'
+        pageUrl: '/groups/new'
       })
 
       await waitForResponse()
 
-      expect(screen.queryByText('Order Options')).toBeInTheDocument()
-      expect(screen.getByRole('heading', { value: 'New Order Option' })).toBeInTheDocument()
+      expect(screen.queryByText('Groups')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { value: 'New Group' })).toBeInTheDocument()
     })
   })
 
-  describe('when showing the header for an order orderOption with name', () => {
+  describe('when showing the header for an order group with name', () => {
     test('show render the header with name', async () => {
       setup({
-        pageUrl: '/order-options/OO1000000-MMT/edit',
+        pageUrl: '/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
         mocks: [{
           request: {
-            query: GET_ORDER_OPTION,
-            variables: { params: { conceptId: 'OO1000000-MMT' } }
+            query: GET_GROUP,
+            variables: { params: { id: 'dce1859e-774c-4561-9451-fc9d77906015' } }
           },
           result: {
             data: {
-              orderOption: {
-                associationDetails: {},
-                conceptId: 'OO1000000-MMT',
-                collections: {
-                  count: 0,
-                  items: []
-                },
-                deprecated: null,
+              group: {
+                id: 'dce1859e-774c-4561-9451-fc9d77906015',
                 description: 'Test Description',
-                form: 'Test Form',
                 name: 'Test Name',
-                nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
-                revisionId: '1',
-                revisionDate: '2024-04-23T15:03:34.399Z',
-                pageTitle: 'Test Name',
-                scope: 'PROVIDER',
-                sortKey: null,
-                __typename: 'OrderOption'
+                members: {
+                  count: 0,
+                  items: null
+                }
               }
             }
           }
@@ -132,7 +122,7 @@ describe('OrderOptionFormPage', () => {
 
       await waitForResponse()
 
-      expect(screen.queryByText('Order Options')).toBeInTheDocument()
+      expect(screen.queryByText('Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })
