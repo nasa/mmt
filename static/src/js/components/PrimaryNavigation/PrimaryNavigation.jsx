@@ -1,78 +1,203 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { NavLink, useLocation } from 'react-router-dom'
 import Nav from 'react-bootstrap/Nav'
 import NavItem from 'react-bootstrap/NavItem'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-import { For } from '../For/For'
+import For from '../For/For'
+import Button from '../Button/Button'
 
 import './PrimaryNavigation.scss'
 
+/**
+ * @typedef {Object} PrimaryNavigationLinkProps
+ * @property {Array} [childItems] An optional array of children elements.
+ * @property {Boolean} [isChild] An optional boolean to designate the item as a child.
+ * @property {String} title The title for the item.
+ * @property {String} to The page to link to.
+ * @property {String} [version] An optional string to be used for the version.
+ */
+
+/*
+ * Renders a `PrimaryNavigationLink` component.
+ *
+ * The component is used to create navigation item.
+ *
+ * @param {PrimaryNavigationLinkProps} props
+ *
+ * @component
+ * @example <caption>Render a list custom of items</caption>
+ * return (
+ *   <PrimaryNavigationLink
+ *      to="/"
+ *      title="Home"
+ *      childItems={
+ *        [
+ *          {
+ *            title: 'Link title',
+ *            to: '/link-location',
+ *            version: 'v1.0.0',
+ *          }
+ *        ]
+ *      }
+ *   />
+ * )
+ */
 const PrimaryNavigationLink = ({
   title,
   to,
   version,
-  isChild
+  isChild,
+  childItems
 }) => {
   const location = useLocation()
   const match = location.pathname.startsWith(to)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const childMatch = childItems.some((childItem) => {
+    const { to: childTo } = childItem
+
+    return location.pathname.startsWith(childTo)
+  })
+
+  useEffect(() => {
+    if (!match && childMatch) setIsOpen(true)
+  }, [match, childMatch])
 
   return (
-    <NavItem className="d-flex flex-row w-100">
-      <NavLink
-        to={to}
+    <div className="d-flex flex-column">
+      <NavItem
         className={
-          classNames([
-            'primary-navigation__link nav-link w-100',
+          classNames(
+            'd-flex flex-row w-100',
             {
-              active: match,
-              'bg-light text-primary fw-bold': match && isChild,
-              'link-dark': !match,
-              'py-1 ps-4': isChild
+              'bg-primary rounded': !isChild && match
             }
-          ])
+          )
         }
       >
-        <span
+        <NavLink
+          to={to}
           className={
             classNames([
-              'primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-0 align-items-center justify-content-center',
+              'primary-navigation__link nav-link w-100 d-flex align-items-center justify-content-between pe-0',
               {
-                'bg-light text-secondary': !match && isChild,
-                'fw-bold': !isChild
+                active: match,
+                'py-1 ms-3 border-start border-2 rounded-0': isChild,
+                'border-light-dark': isChild && !match,
+                'bg-light text-primary fw-bold border-blue': match && isChild,
+                'link-dark': !match
               }
             ])
           }
         >
-          {title}
-        </span>
-        {
-          version && (
-            <span className={
-              classNames([
-                'primary-navigation__version ms-2 text-secondary font-monospace fw-light',
-                {
-                  'text-light': match
-                }
-              ])
-            }
+          <div className="d-flex align-items-center">
+            <span
+              className={
+                classNames([
+                  'primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-1 align-items-center justify-content-center',
+                  {
+                    'bg-light text-secondary': !match && isChild,
+                    'fw-bold': !isChild
+                  }
+                ])
+              }
             >
-              {version}
+              {title}
             </span>
+            {
+              version && (
+                <span className={
+                  classNames([
+                    'primary-navigation__version ms-2 text-secondary font-monospace fw-light',
+                    {
+                      'text-light': match
+                    }
+                  ])
+                }
+                >
+                  {version}
+                </span>
+              )
+            }
+          </div>
+        </NavLink>
+        {
+          (childItems && childItems.length > 0) && (
+            <Button
+              className="primary-navigation__dropdown-button small p-1 m-0"
+              onClick={
+                (event) => {
+                  setIsOpen(!isOpen)
+                  event.stopPropagation()
+                }
+              }
+              iconOnly
+              Icon={isOpen ? FaChevronUp : FaChevronDown}
+              iconTitle={isOpen ? 'Close icon' : 'Open icon'}
+              variant="light"
+              naked
+            />
           )
         }
-      </NavLink>
-    </NavItem>
+      </NavItem>
+      <div
+        className={
+          classNames([
+            {
+              'visually-hidden': !isOpen
+            }
+          ])
+        }
+      >
+        {
+          childItems && childItems.length > 0 && (
+            <Nav
+              className={
+                classNames([
+                  'd-flex flex-column',
+                  {
+                    'mb-1': childItems && childItems.length > 0
+                  }
+                ])
+              }
+              variant="pills"
+            >
+              <For each={childItems}>
+                {
+                  ({
+                    title: childTitle,
+                    to: childTo
+                  }) => (
+                    <PrimaryNavigationLink
+                      key={`${childTo}-${childTitle}`}
+                      isChild
+                      title={childTitle}
+                      to={childTo}
+                    />
+                  )
+                }
+              </For>
+            </Nav>
+          )
+        }
+      </div>
+    </div>
   )
 }
 
 PrimaryNavigationLink.defaultProps = {
+  childItems: [],
   isChild: false,
   version: null
 }
 
 PrimaryNavigationLink.propTypes = {
+  childItems: PropTypes.arrayOf(
+    PropTypes.shape({})
+  ),
   isChild: PropTypes.bool,
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
@@ -81,9 +206,10 @@ PrimaryNavigationLink.propTypes = {
 
 /**
  * @typedef {Object} PrimaryNavigationItem
+ * @property {Array} [children] An optional array of children elements.
  * @property {String} title The title for the item.
  * @property {String} to The page to link to.
- * @property {String} version? An optional string to be used for the version.
+ * @property {String} [version] An optional string to be used for the version.
  */
 
 /**
@@ -125,43 +251,15 @@ const PrimaryNavigation = ({
           title,
           to,
           version,
-          children
+          children: childItems
         }) => (
-          <React.Fragment key={`${to}-${title}`}>
-            <PrimaryNavigationLink
-              to={to}
-              version={version}
-              title={title}
-            />
-            {
-              children && children.length > 0 && (
-                <Nav
-                  className={
-                    classNames({
-                      'mb-1': children && children.length > 0
-                    })
-                  }
-                  variant="pills"
-                >
-                  <For each={children}>
-                    {
-                      ({
-                        title: childTitle,
-                        to: childTo
-                      }) => (
-                        <PrimaryNavigationLink
-                          key={`${childTo}-${childTitle}`}
-                          isChild
-                          title={childTitle}
-                          to={childTo}
-                        />
-                      )
-                    }
-                  </For>
-                </Nav>
-              )
-            }
-          </React.Fragment>
+          <PrimaryNavigationLink
+            key={title}
+            to={to}
+            version={version}
+            title={title}
+            childItems={childItems}
+          />
         )
       }
     </For>

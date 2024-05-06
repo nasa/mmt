@@ -202,7 +202,8 @@ Button.defaultProps = {
 Button.propTypes = {
   as: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
+    PropTypes.any
   ]),
   className: PropTypes.string,
   children: PropTypes.node,
