@@ -21,3 +21,9 @@ global.waitForResponse = async () => {
 // https://stackoverflow.com/a/53294906
 window.HTMLElement.prototype.scrollIntoView = vi.fn()
 window.scroll = vi.fn()
+
+vi.mock('lodash-es', async () => ({
+  ...await vi.importActual('lodash-es'),
+  // Don't need to wait around for debounce in tests
+  debounce: vi.fn((fn) => fn)
+}))

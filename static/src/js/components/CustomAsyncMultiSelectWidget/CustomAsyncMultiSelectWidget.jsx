@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async'
 import PropTypes from 'prop-types'
-import { startCase } from 'lodash-es'
+import { debounce, startCase } from 'lodash-es'
 
 import useAppContext from '@/js/hooks/useAppContext'
 
@@ -113,9 +113,8 @@ const CustomAsyncMultiSelectWidget = ({
     id: currentValue.id
   }))
 
-  // Fetch options from the given endpoint
-  const loadOptions = async (inputValue) => {
-    // TODO debounce
+  // Loads the options from the search options endpoint. Uses `debounce` to avoid an API call for every keystroke
+  const loadOptions = debounce((inputValue, callback) => {
     if (inputValue.length >= 3) {
       const { 'ui:search': searchOptions } = uiSchema
       const {
@@ -125,24 +124,26 @@ const CustomAsyncMultiSelectWidget = ({
       } = searchOptions
       const { tokenValue } = token
 
-      const response = await fetch(`${host}${endpoint}?${parameter}=${inputValue}`, {
+      // Call the API to retrieve values
+      fetch(`${host}${endpoint}?${parameter}=${inputValue}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${tokenValue}`
         }
       })
+        .then((response) => response.json())
+        .then((data) => {
+          const options = data.map((edlUser) => ({
+            value: edlUser,
+            label: edlUser.label,
+            id: edlUser.id
+          }))
 
-      const data = await response.json()
-
-      return data.map((edlUser) => ({
-        value: edlUser,
-        label: edlUser.label,
-        id: edlUser.id
-      }))
+          // Use the callback function to set the values as select options
+          callback(options)
+        })
     }
-
-    return null
-  }
+  }, 1000)
 
   return (
     <CustomWidgetWrapper
@@ -159,6 +160,16 @@ const CustomAsyncMultiSelectWidget = ({
         isClearable
         isMulti
         key={`${id}_${focusField}`}
+        loadingMessage={
+          (data) => {
+            const { inputValue } = data
+
+            // Don't show the 'Loading' text until there are 3 characters typed
+            if (inputValue.length >= 3) return 'Loading...'
+
+            return 'Please enter 3 or more characters'
+          }
+        }
         loadOptions={loadOptions}
         menuShouldScrollIntoView
         noOptionsMessage={() => 'Please enter 3 or more characters'}
