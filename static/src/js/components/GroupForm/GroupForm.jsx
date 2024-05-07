@@ -198,7 +198,7 @@ const GroupForm = () => {
         },
         onError: () => {
           addNotification({
-            message: 'Error creating Order Option',
+            message: 'Error creating Group',
             variant: 'danger'
           })
 
