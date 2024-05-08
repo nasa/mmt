@@ -64,7 +64,8 @@ const GroupPageHeader = () => {
   }
 
   const { group = {} } = data
-  const { name } = group
+  const { members, name } = group
+  const { count } = members
 
   const handleDelete = () => {
     deleteGroupMutation({
@@ -123,7 +124,9 @@ const GroupPageHeader = () => {
               onClick: () => toggleShowDeleteModal(true),
               title: 'Delete',
               iconTitle: 'A trash can icon',
-              variant: 'danger'
+              variant: 'danger',
+              disabled: count > 0,
+              disabledTooltipText: count > 0 ? 'Can\'t delete groups that have members.' : null
             }
           ]
         }

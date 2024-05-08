@@ -115,7 +115,8 @@ const GroupList = () => {
   }, [])
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { id } = rowData
+    const { id, members } = rowData
+    const { count } = members
 
     return (
       <Row>
@@ -133,25 +134,30 @@ const GroupList = () => {
         </Col>
 
         <Col className="col-auto">
-          <Button
-            className="d-flex"
-            Icon={FaTrash}
-            iconTitle="Delete Button"
-            onClick={
-              () => {
-                toggleShowDeleteModal(true)
-                setSelectedGroup(rowData)
-              }
-            }
-            variant="danger"
-            size="sm"
+          <div
+            title={count > 0 ? 'Can\'t delete groups that have members.' : null}
           >
-            Delete
-          </Button>
+            <Button
+              className="d-flex"
+              disabled={count > 0}
+              Icon={FaTrash}
+              iconTitle="Delete Button"
+              onClick={
+                () => {
+                  toggleShowDeleteModal(true)
+                  setSelectedGroup(rowData)
+                }
+              }
+              variant="danger"
+              size="sm"
+            >
+              Delete
+            </Button>
+          </div>
         </Col>
       </Row>
     )
-  })
+  }, [])
 
   const columns = [
     {

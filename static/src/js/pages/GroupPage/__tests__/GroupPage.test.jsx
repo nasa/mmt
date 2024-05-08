@@ -154,13 +154,51 @@ describe('GroupPage', () => {
   })
 
   describe('when clicking the delete button', () => {
+    describe('when the group has members', () => {
+      test('the delete button is disabled', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        setup({})
+
+        await waitForResponse()
+
+        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        expect(deleteLink).toHaveAttribute('disabled')
+      })
+    })
+
     describe('when clicking Yes on the delete modal results in a success', () => {
       test('deletes the group and hides the modal', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         const { user } = setup({
-          additionalMocks: [
+          overrideMocks: [
+            {
+              request: {
+                query: GET_GROUP,
+                variables: {
+                  params: {
+                    id: '1234-abcd-5678-efgh'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 0,
+                      items: []
+                    },
+                    name: 'Mock group',
+                    tag: 'MMT_2'
+                  }
+                }
+              }
+            },
             {
               request: {
                 query: DELETE_GROUP,
@@ -233,7 +271,31 @@ describe('GroupPage', () => {
     describe('when clicking Yes on the delete modal results in a failure', () => {
       test('does not delete the group', async () => {
         const { user } = setup({
-          additionalMocks: [
+          overrideMocks: [
+            {
+              request: {
+                query: GET_GROUP,
+                variables: {
+                  params: {
+                    id: '1234-abcd-5678-efgh'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 0,
+                      items: []
+                    },
+                    name: 'Mock group',
+                    tag: 'MMT_2'
+                  }
+                }
+              }
+            },
             {
               request: {
                 query: DELETE_GROUP,
@@ -263,7 +325,34 @@ describe('GroupPage', () => {
 
     describe('when clicking No on the delete modal', () => {
       test('hides delete modal', async () => {
-        const { user } = setup({})
+        const { user } = setup({
+          overrideMocks: [
+            {
+              request: {
+                query: GET_GROUP,
+                variables: {
+                  params: {
+                    id: '1234-abcd-5678-efgh'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 0,
+                      items: []
+                    },
+                    name: 'Mock group',
+                    tag: 'MMT_2'
+                  }
+                }
+              }
+            }
+          ]
+        })
 
         await waitForResponse()
 
