@@ -55,7 +55,7 @@ const OrderOptionFormPageHeader = () => {
             }
           ),
           {
-            label: name,
+            label: pageTitle,
             active: true
           }
         ]

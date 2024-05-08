@@ -105,6 +105,8 @@ const PageHeader = ({
               {
                 (
                   {
+                    disabled,
+                    disabledTooltipText,
                     icon,
                     iconTitle,
                     loading,
@@ -117,35 +119,45 @@ const PageHeader = ({
                 ) => {
                   if (to) {
                     return (
-                      <Button
+                      <div
                         key={buttonTitle}
-                        to={to}
-                        as={Link}
-                        className="ms-2"
-                        size="sm"
-                        Icon={icon}
-                        iconTitle={iconTitle}
-                        variant={variant}
+                        title={disabledTooltipText}
                       >
-                        {buttonTitle}
-                      </Button>
+                        <Button
+                          to={to}
+                          as={Link}
+                          className="ms-2"
+                          disabled={disabled}
+                          size="sm"
+                          Icon={icon}
+                          iconTitle={iconTitle}
+                          variant={variant}
+                        >
+                          {buttonTitle}
+                        </Button>
+                      </div>
                     )
                   }
 
                   return (
-                    <Button
-                      className="ms-2"
-                      size="sm"
+                    <div
                       key={buttonTitle}
-                      Icon={icon}
-                      iconTitle={iconTitle}
-                      variant={variant}
-                      onClick={onClick}
-                      loading={loading}
-                      loadingText={loadingText}
+                      title={disabledTooltipText}
                     >
-                      {buttonTitle}
-                    </Button>
+                      <Button
+                        className="ms-2"
+                        disabled={disabled}
+                        size="sm"
+                        Icon={icon}
+                        iconTitle={iconTitle}
+                        variant={variant}
+                        onClick={onClick}
+                        loading={loading}
+                        loadingText={loadingText}
+                      >
+                        {buttonTitle}
+                      </Button>
+                    </div>
                   )
                 }
               }

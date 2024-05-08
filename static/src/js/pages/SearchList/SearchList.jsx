@@ -112,7 +112,7 @@ const SearchList = ({ limit }) => {
         {cellData}
       </EllipsisLink>
     )
-  }, [])
+  }, [conceptType])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BootstrapButton from 'react-bootstrap/Button'
 import classNames from 'classnames'
-
-import './Button.scss'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { Spinner } from 'react-bootstrap'
+
+import './Button.scss'
 
 /**
  * @typedef {Object} ButtonProps
@@ -58,6 +58,7 @@ const Button = React.forwardRef(({
   naked,
   onClick,
   size,
+  title,
   to,
   variant
 }, ref) => {
@@ -120,6 +121,7 @@ const Button = React.forwardRef(({
       variant={variant}
       disabled={disabled}
       aria-busy={loading}
+      title={title}
       {...conditionalProps}
     >
       {
@@ -195,6 +197,7 @@ Button.defaultProps = {
   naked: false,
   onClick: null,
   size: '',
+  title: '',
   to: '',
   variant: ''
 }
@@ -231,6 +234,7 @@ Button.propTypes = {
   naked: PropTypes.bool,
   onClick: PropTypes.func,
   size: PropTypes.string,
+  title: PropTypes.string,
   to: PropTypes.string,
   variant: PropTypes.string
 }
