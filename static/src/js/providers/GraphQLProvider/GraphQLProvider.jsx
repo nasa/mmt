@@ -81,7 +81,7 @@ const GraphQLProvider = ({ children }) => {
     const authLink = setContext((_, { headers }) => ({
       headers: {
         ...headers,
-        // TODO add client id
+        'Client-Id': `eed-mmt-${getApplicationConfig().env}`,
         Authorization: tokenValue
       }
     }))

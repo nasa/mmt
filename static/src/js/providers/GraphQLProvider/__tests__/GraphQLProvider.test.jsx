@@ -43,6 +43,7 @@ vi.mock('../../../context/AuthContext', () => ({
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
+    env: 'test',
     graphQlHost: 'http://graphqlhost.com/dev/api'
   }))
 }))
@@ -110,7 +111,12 @@ describe('GraphQLProvider component', () => {
 
       // Check that the authLink is called properly
       expect(setContext).toHaveBeenCalledTimes(1)
-      expect(setContext.mock.calls[0][0](null, {})).toEqual({ headers: { Authorization: 'launchpad_token' } })
+      expect(setContext.mock.calls[0][0](null, {})).toEqual({
+        headers: {
+          Authorization: 'launchpad_token',
+          'Client-Id': 'eed-mmt-test'
+        }
+      })
     })
   })
 
@@ -144,7 +150,10 @@ describe('GraphQLProvider component', () => {
       expect(setContext).toHaveBeenCalledTimes(1)
       expect(setContext.mock.calls[0][0](null, {})).toEqual(
         {
-          headers: { Authorization: undefined }
+          headers: {
+            Authorization: undefined,
+            'Client-Id': 'eed-mmt-test'
+          }
         }
       )
     })
