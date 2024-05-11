@@ -19,6 +19,7 @@ import OrderOptionPage from './pages/OrderOptionPage/OrderOptionPage'
 import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import RevisionListPage from './pages/RevisionListPage/RevisionListPage'
 import SearchPage from './pages/SearchPage/SearchPage'
+import SystemPermissionsPage from './pages/SystemPermissionsPage/SystemPermissionsPage'
 
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
@@ -251,6 +252,10 @@ export const App = () => {
             {
               path: 'templates/:templateType/:id/:sectionName/:fieldName',
               element: <TemplateForm />
+            },
+            {
+              path: '/admin/groups/:id/permissions',
+              element: <SystemPermissionsPage />
             }
           ]
         }
