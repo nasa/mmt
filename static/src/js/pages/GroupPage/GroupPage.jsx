@@ -1,7 +1,11 @@
 import React, { Suspense, useState } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import {
+  FaEdit,
+  FaKey,
+  FaTrash
+} from 'react-icons/fa'
 
 import CustomModal from '../../components/CustomModal/CustomModal'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -127,6 +131,13 @@ const GroupPageHeader = () => {
               variant: 'danger',
               disabled: count > 0,
               disabledTooltipText: count > 0 ? 'Can\'t delete groups that have members.' : null
+            },
+            {
+              icon: FaKey,
+              to: 'permissions',
+              title: 'Provider Permissions',
+              iconTitle: 'A key icon',
+              variant: 'light-dark'
             }
           ]
         }

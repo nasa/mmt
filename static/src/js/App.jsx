@@ -40,6 +40,7 @@ import useNotificationsContext from './hooks/useNotificationsContext'
 import { GET_ACLS } from './operations/queries/getAcls'
 
 import withProviders from './providers/withProviders/withProviders'
+import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 
 import '../css/index.scss'
 
@@ -225,6 +226,10 @@ export const App = () => {
             {
               path: '/groups/:id',
               element: <GroupPage />
+            },
+            {
+              path: '/groups/:id/permissions',
+              element: <ProviderPermissionsPage />
             },
             {
               path: 'templates/:templateType',
