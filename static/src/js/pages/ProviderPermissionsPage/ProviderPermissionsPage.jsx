@@ -11,15 +11,15 @@ import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPer
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 /**
- * Renders a ProviderPermissionHeader component
+ * Renders a ProviderPermissionsHeader component
  *
  * @component
- * @example <caption>Render a ProviderPermissionHeader</caption>
+ * @example <caption>Render a ProviderPermissionsHeader</caption>
  * return (
- *   <ProviderPermissionHeader />
+ *   <ProviderPermissionsHeader />
  * )
  */
-const ProviderPermissionHeader = () => {
+const ProviderPermissionsHeader = () => {
   const { id } = useParams()
 
   const { data } = useSuspenseQuery(GET_GROUP, {
@@ -69,7 +69,7 @@ const ProviderPermissionHeader = () => {
 const ProviderPermissionsPage = () => (
   <Page
     pageType="secondary"
-    header={<ProviderPermissionHeader />}
+    header={<ProviderPermissionsHeader />}
   >
     <ErrorBoundary>
       <Suspense fallback={<LoadingTable />}>
