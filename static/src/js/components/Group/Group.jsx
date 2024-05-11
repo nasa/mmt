@@ -65,8 +65,6 @@ const Group = () => {
 
       <p>Associated Collection Permissions - TBD</p>
 
-      <p>Manage Provider Object Permissions - TBD</p>
-
       <Table
         id="member-table"
         columns={columns}
