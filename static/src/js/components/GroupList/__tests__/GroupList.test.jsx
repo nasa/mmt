@@ -8,20 +8,24 @@ import {
 import userEvent from '@testing-library/user-event'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import AppContext from '../../../context/AppContext'
-import NotificationsContext from '../../../context/NotificationsContext'
+import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
+import { GET_GROUPS } from '@/js/operations/queries/getGroups'
+
+import AppContext from '@/js/context/AppContext'
+import NotificationsContext from '@/js/context/NotificationsContext'
+
 import GroupList from '../GroupList'
-
-import { DELETE_GROUP } from '../../../operations/mutations/deleteGroup'
-import { GET_GROUPS } from '../../../operations/queries/getGroups'
+import GroupSearchForm from '../../GroupSearchForm/GroupSearchForm'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('../../GroupSearchForm/GroupSearchForm')
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  initialEntries = ''
 }) => {
   const mockGroups = {
     count: 2,
@@ -51,7 +55,10 @@ const setup = ({
       query: GET_GROUPS,
       variables: {
         params: {
-          tags: ['MMT_2']
+          excludeTags: ['CMR'],
+          limit: 20,
+          name: '',
+          offset: 0
         }
       }
     },
@@ -77,11 +84,11 @@ const setup = ({
     >
       <NotificationsContext.Provider value={notificationContext}>
         <MockedProvider mocks={overrideMocks || mocks}>
-          <BrowserRouter initialEntries="">
+          <MemoryRouter initialEntries={[initialEntries]}>
             <Suspense>
               <GroupList />
             </Suspense>
-          </BrowserRouter>
+          </MemoryRouter>
         </MockedProvider>
       </NotificationsContext.Provider>
     </AppContext.Provider>
@@ -94,12 +101,77 @@ const setup = ({
 
 describe('GroupList', () => {
   describe('when getting list of groups results in a success', () => {
-    test('render a table with 2 groups', async () => {
+    test('renders a table with 2 groups', async () => {
       setup({})
 
       await waitForResponse()
 
+      expect(GroupSearchForm).toBeCalledTimes(1)
+
       expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
+      expect(screen.getByText('Test group 1')).toBeInTheDocument()
+      expect(screen.getByText('Test group 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('when parameters are in the URL', () => {
+    test('renders a table of groups', async () => {
+      const encodedUsers = Buffer.from(JSON.stringify([{
+        id: 'testuser1',
+        label: 'Test User 1'
+      }])).toString('base64')
+
+      setup({
+        initialEntries: `/groups?name=Test+Name&providers=MMT_1&members=${encodedUsers}&page=2`,
+        overrideMocks: [{
+          request: {
+            query: GET_GROUPS,
+            variables: {
+              params: {
+                excludeTags: ['CMR'],
+                limit: 20,
+                name: 'Test Name',
+                offset: 20,
+                tags: ['MMT_1'],
+                userIds: ['testuser1']
+              }
+            }
+          },
+          result: {
+            data: {
+              groups: {
+                count: 22,
+                items: [
+                  {
+                    description: 'This is a test record',
+                    id: 'Test-Native-Id-1',
+                    members: {
+                      count: 1
+                    },
+                    name: 'Test group 1',
+                    tag: 'MMT_2'
+                  },
+                  {
+                    description: 'This is a test record',
+                    id: 'Test-Native-Id-2',
+                    members: {
+                      count: 0
+                    },
+                    name: 'Test group 2',
+                    tag: 'MMT_2'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      expect(GroupSearchForm).toBeCalledTimes(1)
+
+      expect(screen.getByText('Showing 21-22 of 22 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
     })
@@ -128,7 +200,10 @@ describe('GroupList', () => {
                 query: GET_GROUPS,
                 variables: {
                   params: {
-                    tags: ['MMT_2']
+                    excludeTags: ['CMR'],
+                    limit: 20,
+                    name: '',
+                    offset: 0
                   }
                 }
               },
@@ -227,7 +302,10 @@ describe('GroupList', () => {
               query: GET_GROUPS,
               variables: {
                 params: {
-                  tags: ['MMT_2']
+                  excludeTags: ['CMR'],
+                  limit: 20,
+                  name: '',
+                  offset: 0
                 }
               }
             },
@@ -258,7 +336,10 @@ describe('GroupList', () => {
               query: GET_GROUPS,
               variables: {
                 params: {
-                  tags: ['MMT_2']
+                  excludeTags: ['CMR'],
+                  limit: 20,
+                  name: '',
+                  offset: 0
                 }
               }
             },
@@ -266,14 +347,41 @@ describe('GroupList', () => {
               data: {
                 groups: {
                   count: 25,
-                  // Pagination is fake for groups, so we have to load more than 1 page of items in the response
-                  items: Array.from(Array(25)).map((item, index) => ({
+                  items: Array.from(Array(20)).map((item, index) => ({
                     description: 'This is a test record',
                     id: `Test-Native-Id-${index + 1}`,
                     members: {
                       count: 1
                     },
                     name: `Test group ${index + 1}`,
+                    tag: 'MMT_2'
+                  }))
+                }
+              }
+            }
+          }, {
+            request: {
+              query: GET_GROUPS,
+              variables: {
+                params: {
+                  excludeTags: ['CMR'],
+                  limit: 20,
+                  name: '',
+                  offset: 20
+                }
+              }
+            },
+            result: {
+              data: {
+                groups: {
+                  count: 25,
+                  items: Array.from(Array(5)).map((item, index) => ({
+                    description: 'This is a test record',
+                    id: `Test-Native-Id-${index + 20 + 1}`,
+                    members: {
+                      count: 1
+                    },
+                    name: `Test group ${index + 20 + 1}`,
                     tag: 'MMT_2'
                   }))
                 }

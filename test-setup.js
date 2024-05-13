@@ -27,3 +27,9 @@ vi.mock('lodash-es', async () => ({
   // Don't need to wait around for debounce in tests
   debounce: vi.fn((fn) => fn)
 }))
+
+vi.mock('crypto', () => ({
+  default: {
+    randomUUID: () => 'mock-uuid'
+  }
+}))

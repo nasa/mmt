@@ -1,21 +1,20 @@
 import React, { useCallback, useState } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { useSearchParams } from 'react-router-dom'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { useSearchParams } from 'react-router-dom'
-
-import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import Button from '../Button/Button'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import CustomModal from '../CustomModal/CustomModal'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
+import GroupSearchForm from '../GroupSearchForm/GroupSearchForm'
 import Table from '../Table/Table'
 
 import { DELETE_GROUP } from '../../operations/mutations/deleteGroup'
 import { GET_GROUPS } from '../../operations/queries/getGroups'
 
-import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import errorLogger from '../../utils/errorLogger'
@@ -30,18 +29,19 @@ import errorLogger from '../../utils/errorLogger'
  * )
  */
 const GroupList = () => {
-  const { user } = useAppContext()
-
   const { addNotification } = useNotificationsContext()
-
-  const { providerId } = user
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState(false)
 
+  // Pull parameters out of URL
   const [searchParams, setSearchParams] = useSearchParams()
-
   const activePage = parseInt(searchParams.get('page'), 10) || 1
+  const name = searchParams.get('name') || ''
+  const providers = searchParams.get('providers') || undefined
+  const encodedMembers = searchParams.get('members') || []
+  const decodedMembers = Buffer.from(encodedMembers, 'base64').toString() || '[]'
+  const userIds = JSON.parse(decodedMembers)?.map((member) => member.id)
 
   const limit = 20
   const offset = (activePage - 1) * limit
@@ -54,22 +54,24 @@ const GroupList = () => {
     })
   }
 
-  const { data, refetch } = useSuspenseQuery(GET_GROUPS, {
-    variables: {
-      params: {
-        tags: [providerId]
-      }
+  const groupVariables = {
+    params: {
+      excludeTags: ['CMR'],
+      limit,
+      name,
+      offset,
+      tags: providers?.split(','),
+      userIds: userIds.length > 0 ? userIds : undefined
     }
+  }
+  const { data, refetch } = useSuspenseQuery(GET_GROUPS, {
+    variables: groupVariables
   })
 
   const [deleteGroupMutation] = useMutation(DELETE_GROUP, {
     refetchQueries: [{
       query: GET_GROUPS,
-      variables: {
-        params: {
-          tags: [providerId]
-        }
-      }
+      variables: groupVariables
     }]
   })
 
@@ -192,11 +194,12 @@ const GroupList = () => {
   const { groups } = data
   const { count, items } = groups
 
-  // We don't have real paging with EDL groups, so split up the returned groups using offset and limit
-  const activeItems = items.slice(offset, offset + limit)
-
   return (
     <Row>
+      <Col sm={12}>
+        <GroupSearchForm />
+      </Col>
+
       <Col sm={12}>
         <ControlledPaginatedContent
           activePage={activePage}
@@ -225,6 +228,7 @@ const GroupList = () => {
                         )
                       }
                     </Col>
+
                     {
                       totalPages > 1 && (
                         <Col xs="auto">
@@ -233,12 +237,13 @@ const GroupList = () => {
                       )
                     }
                   </Row>
+
                   <Table
                     id="group-table"
                     columns={columns}
                     generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
                     generateRowKey={({ id }) => `row_${id}`}
-                    data={activeItems}
+                    data={items}
                     noDataMessage="No groups found"
                     count={count}
                     setPage={setPage}
@@ -263,6 +268,7 @@ const GroupList = () => {
           }
         </ControlledPaginatedContent>
       </Col>
+
       <CustomModal
         message="Are you sure you want to delete this group?"
         show={showDeleteModal}

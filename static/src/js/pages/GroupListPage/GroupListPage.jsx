@@ -40,7 +40,7 @@ const GroupListPageHeader = () => {
           iconTitle: 'A plus icon',
           title: 'New Group',
           to: 'new',
-          variant: 'primary'
+          variant: 'success'
         }]
       }
       title={`${providerId} Groups`}
