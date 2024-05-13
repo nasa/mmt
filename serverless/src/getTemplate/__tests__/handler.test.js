@@ -1,6 +1,5 @@
 import { mockClient } from 'aws-sdk-client-mock'
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { Readable } from 'stream'
 import { sdkStreamMixin } from '@smithy/util-stream'
 
 import getTemplate from '../handler'
@@ -19,10 +18,8 @@ describe('getTemplate', () => {
         Key: 'mock-key'
       }])
 
-      const mockBody = new Readable()
-      mockBody.push(JSON.stringify({ Mock: 'Template' }))
-      mockBody.push(null)
-      const sdkStream = sdkStreamMixin(mockBody)
+      const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
+      const body = sdkStreamMixin(mockBody)
 
       s3ClientMock.on(GetObjectCommand).resolves({
         $metadata: {
@@ -33,7 +30,7 @@ describe('getTemplate', () => {
           attempts: 1,
           totalRetryDelay: 0
         },
-        Body: sdkStream
+        Body: body
       })
 
       const event = {
