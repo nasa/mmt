@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react'
 
-import {
-  Col,
-  Container,
-  FormLabel,
-  Row
-} from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import FormLabel from 'react-bootstrap/FormLabel'
+import Row from 'react-bootstrap/Row'
+
 import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
