@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { Cookies } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -8,16 +12,18 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
 
+import AppContext from '@/js/context/AppContext'
+
+import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPermissions'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
+import { GET_ACLS } from '@/js/operations/queries/getAcls'
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
 
-import { GET_GROUP } from '../../../operations/queries/getGroup'
-
-import ProviderPermissions from '../ProviderPermissions'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
@@ -74,11 +80,54 @@ const setup = ({
     }
   }, {
     request: {
+      query: GET_ACLS,
+      variables: {
+        params: {
+          limit: 500,
+          permittedUser: 'typical',
+          target: 'PROVIDER_CONTEXT'
+        }
+      }
+    },
+    result: {
+      data: {
+        acls: {
+          items: [{
+            groupPermissions: [{
+              permissions: [
+                'read'
+              ],
+              group_id: '1234-abcd-5678-efgh'
+            }],
+            providerIdentity: {
+              target: 'PROVIDER_CONTEXT',
+              provider_id: 'MMT_2'
+            },
+            acl: {
+              group_permissions: [{
+                permissions: [
+                  'read'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              provider_identity: {
+                target: 'PROVIDER_CONTEXT',
+                provider_id: 'MMT_2'
+              }
+            }
+          }]
+        }
+      }
+    }
+  }, {
+    request: {
       query: GET_PROVIDER_IDENTITY_PERMISSIONS,
       variables: {
         params: {
           identityType: 'provider',
-          limit: 50
+          permittedGroup: '1234-abcd-5678-efgh',
+          limit: 50,
+          provider: 'MMT_2'
         }
       }
     },
@@ -156,32 +205,40 @@ const setup = ({
   },
   ...additionalMocks]
 
-  render(
+  const context = {
+    user: {
+      uid: 'typical'
+    }
+  }
 
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
-        <Routes>
-          <Route
-            path="/groups"
-          >
+  render(
+    <AppContext.Provider value={context}>
+
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
+          <Routes>
             <Route
-              path=":id"
-              element={
-                (
-                  <ErrorBoundary>
-                    <Suspense>
-                      <ProviderPermissions />
-                    </Suspense>
-                  </ErrorBoundary>
-                )
-              }
-            />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    </MockedProvider>
+              path="/groups"
+            >
+              <Route
+                path=":id"
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <ProviderPermissions />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </AppContext.Provider>
   )
 
   return {
@@ -192,19 +249,28 @@ const setup = ({
 describe('ProviderPermissions', () => {
   describe('when showing the list of permissions for the groups provider permissions', () => {
     test('renders the full table of checkboxes with correct options checked', async () => {
-      setup({})
+      const { user } = setup({})
+
+      await waitForResponse()
+
+      const selectInput = screen.getByRole('combobox')
+      await user.click(selectInput)
+      const option1 = screen.getByRole('option', { name: 'MMT_2' })
+      await user.click(option1)
 
       await waitForResponse()
 
       expect(screen.queryByText('Audit Reports')).toBeInTheDocument()
       expect(screen.queryByText('Authenticator Definitions')).toBeInTheDocument()
 
-      const checkboxes = screen.getAllByRole('checkbox', { checked: true })
-      expect(checkboxes.length).toBe(3)
+      waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox', { checked: true })
+        expect(checkboxes.length).toBe(3)
 
-      expect(checkboxes[0]).toHaveAttribute('name', 'audit_report_read')
-      expect(checkboxes[1]).toHaveAttribute('name', 'authenticator_definition_create')
-      expect(checkboxes[2]).toHaveAttribute('name', 'authenticator_definition_delete')
+        expect(checkboxes[0]).toHaveAttribute('name', 'audit_report_read')
+        expect(checkboxes[1]).toHaveAttribute('name', 'authenticator_definition_create')
+        expect(checkboxes[2]).toHaveAttribute('name', 'authenticator_definition_delete')
+      })
     })
   })
 })

@@ -1,16 +1,28 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 
-import { Row } from 'react-bootstrap'
+import {
+  Col,
+  Container,
+  FormLabel,
+  Row
+} from 'react-bootstrap'
+import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
-import { useSuspenseQuery } from '@apollo/client'
+import Select from 'react-select'
 
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Table from '@/js/components/Table/Table'
 
 import providerIdentityPermissions from '@/js/constants/providerIdentityPermissions'
 
+import useAppContext from '@/js/hooks/useAppContext'
+
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
+import { GET_ACLS } from '@/js/operations/queries/getAcls'
+
+import getPermittedUser from '@/js/utils/getPermittedUser'
 
 /**
  * Renders a ProviderPermissions component
@@ -24,68 +36,102 @@ import {
 const ProviderPermissions = () => {
   const { id } = useParams()
 
-  const { data } = useSuspenseQuery(GET_PROVIDER_IDENTITY_PERMISSIONS, {
+  const {
+    user
+  } = useAppContext()
+
+  const permittedUser = getPermittedUser(user)
+
+  const [providerPermissions, setProviderPermissions] = useState([])
+  const [provider, setProvider] = useState()
+
+  const { data: providerData } = useSuspenseQuery(GET_ACLS, {
     variables: {
       params: {
-        identityType: 'provider',
-        limit: 50
+        limit: 500,
+        permittedUser,
+        target: 'PROVIDER_CONTEXT'
       }
     }
   })
 
-  const { acls } = data
-  const { items } = acls
+  const [
+    getProviderIdentityPermissions,
+    { loading }
+  ] = useLazyQuery(GET_PROVIDER_IDENTITY_PERMISSIONS, {
+    onCompleted: (data) => {
+      const { acls } = data
+      const { items } = acls
 
-  const tableItems = Object.entries(providerIdentityPermissions).map((permission) => {
-    const [key, value] = permission
+      const tableItems = Object.entries(providerIdentityPermissions).map((permission) => {
+        const [key, value] = permission
 
-    const { title, permissions } = value
+        const { title } = value
 
-    return {
-      key,
-      title,
-      permissions
+        const acl = items
+          .find((item) => (
+            item.providerIdentity.target === key
+            && item.providerIdentity.provider_id === provider
+          ))
+
+        const row = {
+          target: key,
+          title,
+          permissions: []
+        }
+
+        if (acl) {
+          const { groupPermissions = [] } = acl
+
+          const { permissions = [] } = groupPermissions.find((gp) => gp.group_id === id)
+
+          return {
+            ...row,
+            permissions
+          }
+        }
+
+        return row
+      })
+
+      setProviderPermissions(tableItems)
     }
   })
 
-  /**
-   * Determine if a group has a permission for a target
-   * @param {String} target The target identity of the Acl
-   * @param {String} permission One of create, read, update or delete
-   * @returns Whether or not the group has the permission
-   */
-  const checkAclPermission = (target, permission) => {
-    const acl = items
-      .filter((item) => item.groupPermissions.some((gp) => gp.group_id === id))
-      .find((item) => item.providerIdentity.target === target)
-
-    if (acl == null) {
-      return false
-    }
-
-    const { groupPermissions = [] } = acl
-
-    const { permissions = [] } = groupPermissions.find((gp) => gp.group_id === id)
-
-    return permissions.includes(permission)
+  const handleOnChange = (event) => {
+    setProvider(event.value)
+    getProviderIdentityPermissions({
+      variables: {
+        params: {
+          identityType: 'provider',
+          limit: 50,
+          permittedGroup: id,
+          provider: event.value
+        }
+      }
+    })
   }
 
   const buildCheckboxCell = useCallback((cellData, rowData) => {
     const {
-      key,
+      target,
       permissions
     } = rowData
 
+    const { [target]: targetedProvider = {} } = providerIdentityPermissions
+
+    const { permittedPermissions = [] } = targetedProvider
+
     return (
       <input
-        checked={checkAclPermission(key, cellData)}
-        disabled={!permissions.includes(cellData)}
-        name={`${key.toLowerCase()}_${cellData}`}
+        checked={permissions.includes(cellData)}
+        disabled={!permittedPermissions.includes(cellData)}
+        name={`${target.toLowerCase()}_${cellData}`}
         onChange={() => {}}
         type="checkbox"
       />
     )
-  }, [])
+  }, [providerPermissions])
 
   const columns = [
     {
@@ -124,17 +170,53 @@ const ProviderPermissions = () => {
   ]
 
   return (
-    <Row>
-      <Table
-        className="m-5"
-        columns={columns}
-        data={tableItems}
-        generateCellKey={({ key }, dataKey) => `column_${dataKey}_${key}`}
-        generateRowKey={({ key }) => `row_${key}`}
-        id="provider-permissions-table"
-        limit={Object.keys(providerIdentityPermissions).length}
-      />
-    </Row>
+    <Container fluid className="px-0">
+      <Row>
+        <Col xs={12}>
+          <FormLabel>Provider</FormLabel>
+          <p className="text-muted">Select a provider that this group can take actions on behalf of.</p>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={8} lg={4} xl={3}>
+          <Select
+            className="mb-3"
+            onChange={handleOnChange}
+            options={
+              providerData.acls.items.map((item) => ({
+                label: item.providerIdentity.provider_id,
+                value: item.providerIdentity.provider_id
+              }))
+            }
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+
+          {loading && <LoadingTable />}
+
+          {
+            (!loading && provider) && (
+              <>
+                <hr className="mb-3" />
+
+                <Table
+                  key={provider}
+                  className="m-5"
+                  columns={columns}
+                  data={providerPermissions}
+                  generateCellKey={({ target }, dataKey) => `column_${dataKey}_${target}`}
+                  generateRowKey={({ target }) => `row_${target}`}
+                  id={`${provider}-permissions-table`}
+                  limit={Object.keys(providerIdentityPermissions).length}
+                />
+              </>
+            )
+          }
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

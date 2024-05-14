@@ -16,6 +16,7 @@ import MetadataFormPage from './pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from './pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from './pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from './pages/OrderOptionPage/OrderOptionPage'
+import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import RevisionListPage from './pages/RevisionListPage/RevisionListPage'
 import SearchPage from './pages/SearchPage/SearchPage'
 
@@ -40,7 +41,6 @@ import useNotificationsContext from './hooks/useNotificationsContext'
 import { GET_ACLS } from './operations/queries/getAcls'
 
 import withProviders from './providers/withProviders/withProviders'
-import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 
 import '../css/index.scss'
 
@@ -72,6 +72,7 @@ export const App = () => {
   const [getProviders] = useLazyQuery(GET_ACLS, {
     variables: {
       params: {
+        limit: 500,
         permittedUser,
         target: 'PROVIDER_CONTEXT'
       }
