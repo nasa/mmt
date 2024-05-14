@@ -116,7 +116,7 @@ const GroupList = () => {
     )
   }, [])
 
-  const buildEllipsisTextCell = useCallback((cellData) => cellData && (
+  const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>
       {cellData}
     </EllipsisText>

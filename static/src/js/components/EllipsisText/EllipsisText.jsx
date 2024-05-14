@@ -58,8 +58,12 @@ const EllipsisText = ({ children }) => {
   )
 }
 
+EllipsisText.defaultProps = {
+  children: null
+}
+
 EllipsisText.propTypes = {
-  children: PropTypes.string.isRequired
+  children: PropTypes.string
 }
 
 export default EllipsisText
