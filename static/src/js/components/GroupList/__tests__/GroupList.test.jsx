@@ -17,10 +17,8 @@ import AppContext from '@/js/context/AppContext'
 import NotificationsContext from '@/js/context/NotificationsContext'
 
 import GroupList from '../GroupList'
-import GroupSearchForm from '../../GroupSearchForm/GroupSearchForm'
 
 vi.mock('../../../utils/errorLogger')
-vi.mock('../../GroupSearchForm/GroupSearchForm')
 
 const setup = ({
   additionalMocks = [],
@@ -106,8 +104,6 @@ describe('GroupList', () => {
 
       await waitForResponse()
 
-      expect(GroupSearchForm).toBeCalledTimes(1)
-
       expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
@@ -168,8 +164,6 @@ describe('GroupList', () => {
       })
 
       await waitForResponse()
-
-      expect(GroupSearchForm).toBeCalledTimes(1)
 
       expect(screen.getByText('Showing 21-22 of 22 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()

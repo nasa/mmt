@@ -9,7 +9,6 @@ import Button from '../Button/Button'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import CustomModal from '../CustomModal/CustomModal'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import GroupSearchForm from '../GroupSearchForm/GroupSearchForm'
 import Table from '../Table/Table'
 
 import { DELETE_GROUP } from '../../operations/mutations/deleteGroup'
@@ -18,6 +17,7 @@ import { GET_GROUPS } from '../../operations/queries/getGroups'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import errorLogger from '../../utils/errorLogger'
+import EllipsisText from '../EllipsisText/EllipsisText'
 
 /**
  * Renders a GroupList component
@@ -116,6 +116,12 @@ const GroupList = () => {
     )
   }, [])
 
+  const buildEllipsisTextCell = useCallback((cellData) => cellData && (
+    <EllipsisText>
+      {cellData}
+    </EllipsisText>
+  ), [])
+
   const buildActionsCell = useCallback((cellData, rowData) => {
     const { id, members } = rowData
     const { count } = members
@@ -171,7 +177,8 @@ const GroupList = () => {
     {
       dataKey: 'description',
       title: 'Description',
-      className: 'col-auto'
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell
     },
     {
       dataKey: 'tag',
@@ -195,11 +202,7 @@ const GroupList = () => {
   const { count, items } = groups
 
   return (
-    <Row>
-      <Col sm={12}>
-        <GroupSearchForm />
-      </Col>
-
+    <Row className="mt-5">
       <Col sm={12}>
         <ControlledPaginatedContent
           activePage={activePage}

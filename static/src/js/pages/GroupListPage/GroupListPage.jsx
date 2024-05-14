@@ -2,13 +2,12 @@ import React, { Suspense } from 'react'
 
 import { FaPlus } from 'react-icons/fa'
 
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import LoadingTable from '../../components/LoadingTable/LoadingTable'
-import GroupList from '../../components/GroupList/GroupList'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
-
-import useAppContext from '../../hooks/useAppContext'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import GroupList from '@/js/components/GroupList/GroupList'
+import GroupSearchForm from '@/js/components/GroupSearchForm/GroupSearchForm'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 /**
  * Renders a GroupPageHeader component
@@ -19,34 +18,29 @@ import useAppContext from '../../hooks/useAppContext'
  *   <GroupPageHeader />
  * )
  */
-const GroupListPageHeader = () => {
-  const { user } = useAppContext()
-  const { providerId } = user
-
-  return (
-    <PageHeader
-      breadcrumbs={
-        [
-          {
-            label: 'Groups',
-            to: '/groups'
-          }
-        ]
-      }
-      pageType="secondary"
-      primaryActions={
-        [{
-          icon: FaPlus,
-          iconTitle: 'A plus icon',
-          title: 'New Group',
-          to: 'new',
-          variant: 'success'
-        }]
-      }
-      title={`${providerId} Groups`}
-    />
-  )
-}
+const GroupListPageHeader = () => (
+  <PageHeader
+    breadcrumbs={
+      [
+        {
+          label: 'Groups',
+          to: '/groups'
+        }
+      ]
+    }
+    pageType="secondary"
+    primaryActions={
+      [{
+        icon: FaPlus,
+        iconTitle: 'A plus icon',
+        title: 'New Group',
+        to: 'new',
+        variant: 'success'
+      }]
+    }
+    title="Groups"
+  />
+)
 
 /**
  * Renders a GroupListPage component
@@ -62,6 +56,8 @@ const GroupListPage = () => (
     pageType="secondary"
     header={<GroupListPageHeader />}
   >
+    <GroupSearchForm />
+
     <ErrorBoundary>
       <Suspense fallback={<LoadingTable />}>
         <GroupList />
