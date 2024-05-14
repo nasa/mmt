@@ -125,6 +125,8 @@ describe('OrderOptionPage', () => {
 
   describe('when the api throws an error ', () => {
     test('renders an error', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       setup({
         overrideMocks: [
           {

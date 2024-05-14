@@ -2,6 +2,7 @@ import constructDownloadableFile from '../constructDownloadableFile'
 
 describe('constructDownloadableFile', () => {
   test('downloads a json file', () => {
+    HTMLAnchorElement.prototype.click = vi.fn()
     global.URL.createObjectURL = vi.fn().mockReturnValue('mock-url')
 
     const mockBlob = {
@@ -26,5 +27,7 @@ describe('constructDownloadableFile', () => {
     const link = document.getElementsByTagName('a')[0]
     expect(link.getAttribute('download')).toEqual('mock-file')
     expect(link.getAttribute('href')).toEqual('mock-url')
+
+    expect(HTMLAnchorElement.prototype.click).toHaveBeenCalledTimes(1)
   })
 })
