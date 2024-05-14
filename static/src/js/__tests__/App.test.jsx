@@ -80,6 +80,7 @@ const setup = (overrideMocks, overrideAppContext) => {
         query: GET_ACLS,
         variables: {
           params: {
+            limit: 500,
             permittedUser: 'typical',
             target: 'PROVIDER_CONTEXT'
           }
@@ -279,6 +280,7 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
+                  limit: 500,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -310,6 +312,7 @@ describe('App component', () => {
                 query: GET_ACLS,
                 variables: {
                   params: {
+                    limit: 500,
                     permittedUser: 'typical',
                     target: 'PROVIDER_CONTEXT'
                   }
@@ -343,6 +346,7 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
+                  limit: 500,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -379,6 +383,7 @@ describe('App component', () => {
               query: GET_ACLS,
               variables: {
                 params: {
+                  limit: 500,
                   permittedUser: 'typical',
                   target: 'PROVIDER_CONTEXT'
                 }
@@ -411,6 +416,7 @@ describe('App component', () => {
             query: GET_ACLS,
             variables: {
               params: {
+                limit: 500,
                 permittedUser: 'typical',
                 target: 'PROVIDER_CONTEXT'
               }

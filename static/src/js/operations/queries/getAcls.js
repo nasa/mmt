@@ -6,6 +6,8 @@ export const GET_ACLS = gql`
     acls(params: $params) {
       items {
         acl
+        groupPermissions
+        providerIdentity
       }
     }
   }

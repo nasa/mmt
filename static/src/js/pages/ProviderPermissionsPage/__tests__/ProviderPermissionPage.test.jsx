@@ -8,7 +8,6 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
