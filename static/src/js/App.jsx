@@ -46,6 +46,7 @@ import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
 import CheckPermissions from './components/CheckPermissions/CheckPermissions'
+import PermissionPage from './pages/PermissionPage/PermissionPage'
 
 /**
  * Renders the `App` component
@@ -200,6 +201,14 @@ export const App = () => {
             {
               path: '/drafts/:draftType/:conceptId/collection-association',
               element: <DraftCollectionAssociationPage />
+            },
+            {
+              path: '/permissions',
+              element: <PermissionListPage />
+            },
+            {
+              path: '/permissions/:conceptId',
+              element: <PermissionPage />
             },
             {
               path: '/order-options',
