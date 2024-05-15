@@ -15,9 +15,6 @@ export const UPDATE_GROUP = gql`
       name: $name
       tag: $tag
     ) {
-      appUid
-      clientId
-      createdBy
       description
       id
       members {
@@ -28,7 +25,6 @@ export const UPDATE_GROUP = gql`
         }
       }
       name
-      sharedUserGroup
       tag
     }
   }

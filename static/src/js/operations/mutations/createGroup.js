@@ -13,13 +13,9 @@ export const CREATE_GROUP = gql`
       name: $name
       tag: $tag
     ) {
-      appUid
-      clientId
-      createdBy
       description
       id
       name
-      sharedUserGroup
       tag
     }
 }

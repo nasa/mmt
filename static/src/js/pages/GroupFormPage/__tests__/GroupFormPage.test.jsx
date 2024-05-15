@@ -112,8 +112,9 @@ describe('GroupFormPage', () => {
                 name: 'Test Name',
                 members: {
                   count: 0,
-                  items: null
-                }
+                  items: []
+                },
+                tag: 'MMT_2'
               }
             }
           }

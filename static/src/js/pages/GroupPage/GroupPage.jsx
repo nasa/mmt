@@ -13,7 +13,6 @@ import Group from '../../components/Group/Group'
 import Page from '../../components/Page/Page'
 import PageHeader from '../../components/PageHeader/PageHeader'
 
-import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import { DELETE_GROUP } from '../../operations/mutations/deleteGroup'
@@ -32,9 +31,6 @@ import errorLogger from '../../utils/errorLogger'
  * )
  */
 const GroupPageHeader = () => {
-  const { user } = useAppContext()
-  const { providerId } = user
-
   const navigate = useNavigate()
 
   const { addNotification } = useNotificationsContext()
@@ -45,11 +41,10 @@ const GroupPageHeader = () => {
 
   const [deleteGroupMutation] = useMutation(DELETE_GROUP, {
     refetchQueries: [{
-      // TODO this needs updating
       query: GET_GROUPS,
       variables: {
         params: {
-          tag: providerId
+          name: ''
         }
       }
     }]

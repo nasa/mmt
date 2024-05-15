@@ -29,6 +29,10 @@ const setup = (overrideUser) => {
         >
           <Routes>
             <Route
+              path="/"
+              element={<div data-testid="mock-root-component" />}
+            />
+            <Route
               path="/tools"
               element={<div data-testid="mock-component" />}
             />

@@ -25,6 +25,8 @@ describe('ErrorBoundary', () => {
 
   describe('when there is an error', () => {
     test('renders error banner', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       const ThrowError = () => {
         throw new Error('Test for ErrorBoundary')
       }

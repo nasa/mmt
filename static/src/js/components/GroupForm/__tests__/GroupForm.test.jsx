@@ -124,7 +124,10 @@ describe('GroupForm', () => {
               result: {
                 data: {
                   createGroup: {
-                    id: '1234-abcd-5678-efgh'
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Test Description',
+                    name: 'Test Name',
+                    tag: 'MMT_2'
                   }
                 }
               }
@@ -209,7 +212,10 @@ describe('GroupForm', () => {
               result: {
                 data: {
                   createGroup: {
-                    id: '1234-abcd-5678-efgh'
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Test Description',
+                    name: 'Test Name',
+                    tag: 'MMT_2'
                   }
                 }
               }
@@ -388,16 +394,19 @@ describe('GroupForm', () => {
                 data: {
                   group: {
                     id: '1234-abcd-5678-efgh',
-                    deprecated: null,
-                    description: 'Test Description',
-                    form: 'Test Form',
-                    name: 'Test Name',
-                    nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
-                    revisionId: '1',
-                    revisionDate: '2024-04-23T15:03:34.399Z',
-                    scope: 'PROVIDER',
-                    sortKey: null,
-                    __typename: 'Group'
+                    description: 'Mock group description',
+                    members: {
+                      count: 1,
+                      items: [{
+                        id: 'test.user',
+                        firstName: 'Test',
+                        lastName: 'User',
+                        emailAddress: 'test@example.com',
+                        __typename: 'GroupMember'
+                      }]
+                    },
+                    name: 'Mock group updated',
+                    tag: 'MMT_2'
                   }
                 }
               }

@@ -5,9 +5,11 @@ import { BrowserRouter } from 'react-router-dom'
 import AppContext from '../../../context/AppContext'
 
 import GroupList from '../../../components/GroupList/GroupList'
+import GroupSearchForm from '../../../components/GroupSearchForm/GroupSearchForm'
 import GroupListPage from '../GroupListPage'
 
 vi.mock('../../../components/GroupList/GroupList')
+vi.mock('../../../components/GroupSearchForm/GroupSearchForm')
 
 const setup = () => {
   render(
@@ -31,8 +33,9 @@ describe('GroupListPage', () => {
     test('render the page and calls GroupList', async () => {
       setup()
 
-      expect(screen.getByText('MMT_2 Groups')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { value: 'Groups' })).toBeInTheDocument()
       expect(GroupList).toHaveBeenCalled(1)
+      expect(GroupSearchForm).toHaveBeenCalled(1)
     })
   })
 })

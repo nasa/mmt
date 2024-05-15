@@ -4,7 +4,6 @@ import {
   PutObjectCommand,
   S3Client
 } from '@aws-sdk/client-s3'
-import { Readable } from 'stream'
 import { sdkStreamMixin } from '@smithy/util-stream'
 
 import updateTemplate from '../handler'
@@ -24,10 +23,8 @@ describe('updateTemplate', () => {
         LastModified: '2024-04-01T19:18:11.000Z'
       }])
 
-      const mockBody = new Readable()
-      mockBody.push(JSON.stringify({ Mock: 'Template' }))
-      mockBody.push(null)
-      const sdkStream = sdkStreamMixin(mockBody)
+      const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
+      const body = sdkStreamMixin(mockBody)
 
       s3ClientMock.on(PutObjectCommand).resolves({
         $metadata: {
@@ -38,7 +35,7 @@ describe('updateTemplate', () => {
           attempts: 1,
           totalRetryDelay: 0
         },
-        Body: sdkStream
+        Body: body
       })
 
       const event = {
@@ -68,10 +65,8 @@ describe('updateTemplate', () => {
         LastModified: '2024-04-01T19:18:11.000Z'
       }])
 
-      const mockBody = new Readable()
-      mockBody.push(JSON.stringify({ Mock: 'Template' }))
-      mockBody.push(null)
-      const sdkStream = sdkStreamMixin(mockBody)
+      const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
+      const body = sdkStreamMixin(mockBody)
 
       s3ClientMock.on(PutObjectCommand).resolves({
         $metadata: {
@@ -82,7 +77,7 @@ describe('updateTemplate', () => {
           attempts: 1,
           totalRetryDelay: 0
         },
-        Body: sdkStream
+        Body: body
       })
 
       s3ClientMock.on(DeleteObjectCommand).resolves()

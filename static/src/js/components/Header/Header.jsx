@@ -16,18 +16,18 @@ import {
   orderBy
 } from 'lodash-es'
 import { useQuery } from '@apollo/client'
+import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownMenu from 'react-bootstrap/DropdownMenu'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
-import InputGroup from 'react-bootstrap/InputGroup'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import DropdownMenu from 'react-bootstrap/DropdownMenu'
 import FormLabel from 'react-bootstrap/FormLabel'
-import Navbar from 'react-bootstrap/Navbar'
 import FormSelect from 'react-bootstrap/FormSelect'
-import Alert from 'react-bootstrap/Alert'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Navbar from 'react-bootstrap/Navbar'
 import Spinner from 'react-bootstrap/Spinner'
 import {
   FaCheck,
@@ -46,8 +46,9 @@ import useAppContext from '../../hooks/useAppContext'
 import Button from '../Button/Button'
 import For from '../For/For'
 
-import './Header.scss'
 import isTokenExpired from '../../utils/isTokenExpired'
+
+import './Header.scss'
 
 /**
  * Renders a `Header` component
@@ -157,6 +158,7 @@ const Header = () => {
                 >
                   User Guide
                 </Button>
+
                 <Button
                   className="text-white"
                   Icon={FaSignInAlt}
@@ -173,6 +175,7 @@ const Header = () => {
               </div>
             )
           }
+
           {
             isLoggedIn && (
               <div className="d-flex p-1 mb-2 rounded bg-blue-light">
@@ -186,6 +189,7 @@ const Header = () => {
                   >
                     {`${user.name} `}
                   </Dropdown.Toggle>
+
                   <Dropdown.Menu
                     className="header__user-dropdown bg-blue-light border-blue-light shadow text-white"
                   >
@@ -198,6 +202,7 @@ const Header = () => {
                       User Guide
                       <FaExternalLinkAlt className="ms-1 small" style={{ opacity: 0.625 }} />
                     </Dropdown.Item>
+
                     <Dropdown.Item
                       className="text-white bg-blue-light"
                       onClick={
@@ -211,6 +216,7 @@ const Header = () => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
+
                 <Dropdown align="end">
                   <Dropdown.Toggle
                     id="provider-dropdown"
@@ -221,6 +227,7 @@ const Header = () => {
                   >
                     {user.providerId}
                   </Dropdown.Toggle>
+
                   <Dropdown.Menu
                     className="header__prov-dropdown bg-blue-light border-blue-light shadow text-white"
                   >
@@ -260,6 +267,7 @@ const Header = () => {
               </div>
             )
           }
+
           {
             isLoggedIn && (
               <Form
@@ -274,6 +282,7 @@ const Header = () => {
                 <FormGroup>
                   <InputGroup>
                     <FormLabel className="visually-hidden" htmlFor="search_mmt">Search</FormLabel>
+
                     <FormControl
                       id="search_mmt"
                       className="rounded-start-1 border-0"
@@ -283,6 +292,7 @@ const Header = () => {
                       value={searchKeyword}
                       onChange={onSearchChange}
                     />
+
                     <Dropdown align="end" as={ButtonGroup}>
                       <Button
                         size="sm"
@@ -294,12 +304,14 @@ const Header = () => {
                         <FaSearch className="me-2" />
                         {`Search ${capitalize(searchType)}`}
                       </Button>
+
                       <Dropdown.Toggle
                         split
                         variant="indigo"
                         id="search-options-dropdown"
                         aria-label="Search Options"
                       />
+
                       <DropdownMenu id="search-options-dropdown" className="bg-indigo text-light p-3 shadow">
                         <div className="mb-2 text-align-right">
                           <FormGroup>
@@ -316,6 +328,7 @@ const Header = () => {
                                 checked={searchType === 'collections'}
                                 onChange={onSearchTypeChange}
                               />
+
                               <Form.Check
                                 id="search-type_variables"
                                 className="d-inline-flex align-items-center gap-2"
@@ -327,6 +340,7 @@ const Header = () => {
                                 checked={searchType === 'variables'}
                                 onChange={onSearchTypeChange}
                               />
+
                               <Form.Check
                                 id="search-type_services"
                                 className="d-inline-flex align-items-center gap-2"
@@ -338,6 +352,7 @@ const Header = () => {
                                 checked={searchType === 'services'}
                                 onChange={onSearchTypeChange}
                               />
+
                               <Form.Check
                                 id="search-type_tools"
                                 className="d-inline-flex align-items-center gap-2"
@@ -352,6 +367,7 @@ const Header = () => {
                             </div>
                           </FormGroup>
                         </div>
+
                         <div>
                           <FormLabel className="d-block fw-bold mb-3">Select a provider</FormLabel>
                           {

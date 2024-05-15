@@ -123,6 +123,8 @@ describe('GroupPage', () => {
 
   describe('when the api throws an error ', () => {
     test('renders an error', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       setup({
         overrideMocks: [
           {
@@ -217,7 +219,7 @@ describe('GroupPage', () => {
                 query: GET_GROUPS,
                 variables: {
                   params: {
-                    tag: 'MMT_2'
+                    name: ''
                   }
                 }
               },
