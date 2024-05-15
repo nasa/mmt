@@ -17,6 +17,8 @@ import OrderOptionFormPage from './pages/OrderOptionFormPage/OrderOptionFormPage
 import OrderOptionListPage from './pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from './pages/OrderOptionPage/OrderOptionPage'
 import ProvidersPage from './pages/ProvidersPage/ProvidersPage'
+import PermissionListPage from './pages/PermissionListPage/PermissionListPage'
+import PermissionPage from './pages/PermissionPage/PermissionPage'
 import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import RevisionListPage from './pages/RevisionListPage/RevisionListPage'
 import SearchPage from './pages/SearchPage/SearchPage'
@@ -46,7 +48,6 @@ import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
 import CheckPermissions from './components/CheckPermissions/CheckPermissions'
-import PermissionPage from './pages/PermissionPage/PermissionPage'
 
 /**
  * Renders the `App` component
