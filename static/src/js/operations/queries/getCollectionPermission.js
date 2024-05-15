@@ -32,15 +32,13 @@ export const GET_COLLECTION_PERMISSION = gql`
         }
       }
       groupPermissions {
-        groupPermission {
-            permissions
-            userType
-            group {
-              name
-              id
-            }
-          }
+        permissions
+        userType
+        group {
+          name
+          id
         }
+      }
     }
   }
 `

@@ -42,27 +42,24 @@ const setup = ({
         temporal: null
       }
     },
-    groupPermissions: {
-      __typename: 'GroupPermissionList',
-      groupPermission: [
-        {
-          __typename: 'GroupPermission',
-          permissions: [
-            'read'
-          ],
-          userType: 'guest',
-          group: null
-        },
-        {
-          __typename: 'GroupPermission',
-          permissions: [
-            'read'
-          ],
-          userType: 'registered',
-          group: null
-        }
-      ]
-    }
+    groupPermissions: [
+      {
+        __typename: 'GroupPermission',
+        permissions: [
+          'read'
+        ],
+        userType: 'guest',
+        group: null
+      },
+      {
+        __typename: 'GroupPermission',
+        permissions: [
+          'read'
+        ],
+        userType: 'registered',
+        group: null
+      }
+    ]
   }
 
   const mocks = [{
@@ -163,27 +160,24 @@ describe('Permission', () => {
                     temporal: null
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }
@@ -249,27 +243,24 @@ describe('Permission', () => {
                     temporal: null
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }
@@ -336,27 +327,24 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }
@@ -422,27 +410,24 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }
@@ -500,27 +485,24 @@ describe('Permission', () => {
                     temporal: null
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }
@@ -578,27 +560,24 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: {
-                  __typename: 'GroupPermissionList',
-                  groupPermission: [
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'guest',
-                      group: null
-                    },
-                    {
-                      __typename: 'GroupPermission',
-                      permissions: [
-                        'read'
-                      ],
-                      userType: 'registered',
-                      group: null
-                    }
-                  ]
-                }
+                groupPermissions: [
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'guest',
+                    group: null
+                  },
+                  {
+                    __typename: 'GroupPermission',
+                    permissions: [
+                      'read'
+                    ],
+                    userType: 'registered',
+                    group: null
+                  }
+                ]
               }
             }
           }

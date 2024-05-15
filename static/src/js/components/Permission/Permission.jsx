@@ -27,8 +27,6 @@ const Permission = () => {
     groupPermissions
   } = acl
 
-  const { groupPermission } = groupPermissions
-
   const {
     collectionApplicable,
     collectionIdentifier,
@@ -45,7 +43,7 @@ const Permission = () => {
   const { count: collectionCount, items: collectionItems } = collections || {}
 
   // Builds group list array with items for the table
-  const groupList = groupPermission.map(({
+  const groupList = groupPermissions.map(({
     group: groupObject,
     permissions,
     userType
