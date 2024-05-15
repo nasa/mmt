@@ -7,8 +7,17 @@ export const GET_ACLS = gql`
       count,
       items {
         acl
-        groupPermissions
-        providerIdentity
+        name
+        conceptId
+        groupPermissions {
+        permissions
+        userType
+        group {
+          id
+          name
+        }
+      }
+      providerIdentity
       }
     }
   }
