@@ -82,6 +82,16 @@ const setup = (initialPath = '/groups') => {
                   )
                 }
               />
+              <Route
+                path="/admin/groups"
+                element={
+                  (
+                    <Suspense>
+                      <GroupSearchForm isAdmin />
+                    </Suspense>
+                  )
+                }
+              />
             </Routes>
           </MemoryRouter>
         </MockedProvider>
@@ -197,6 +207,27 @@ describe('GroupSearchForm', () => {
 
       // The CustomAsyncMultiSelectWidget doesn't use the same classes as MultiSelect
       expect(screen.getByText('Test User 1').className).not.toContain('MultiValueGeneric')
+    })
+  })
+
+  describe('when searching for system groups', () => {
+    test('updates the URL with the value', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup('/admin/groups')
+
+      await waitForResponse()
+
+      const nameField = screen.getByRole('textbox', { name: 'Name' })
+
+      await user.type(nameField, 'Test Name')
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await user.click(submitButton)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/admin/groups?name=Test+Name')
     })
   })
 })

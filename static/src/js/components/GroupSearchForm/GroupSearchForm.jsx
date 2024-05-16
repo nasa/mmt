@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 import { useSuspenseQuery } from '@apollo/client'
@@ -12,14 +13,15 @@ import validator from '@rjsf/validator-ajv8'
 
 import { GET_PROVIDERS } from '@/js/operations/queries/getProviders'
 
+import groupSearch from '@/js/schemas/groupSearch'
+import groupSearchUiSchema from '@/js/schemas/uiSchemas/GroupSearch'
+import adminGroupSearchUiSchema from '@/js/schemas/uiSchemas/AdminGroupSearch'
+
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import GridLayout from '../GridLayout/GridLayout'
-
-import groupSearch from '../../schemas/groupSearch'
-import groupSearchUiSchema from '../../schemas/uiSchemas/GroupSearch'
 
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
@@ -33,7 +35,7 @@ import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
  *   <GroupSearchForm />
  * )
  */
-const GroupSearchForm = () => {
+const GroupSearchForm = ({ isAdmin }) => {
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -50,11 +52,16 @@ const GroupSearchForm = () => {
     providers: searchProviders?.split(',')
   })
 
-  const { data: providersData } = useSuspenseQuery(GET_PROVIDERS)
   const updatedGroupsSchema = groupSearch
-  updatedGroupsSchema.properties.providers.items.enum = providersData?.providers.items?.map(
-    (provider) => provider.providerId
-  )
+
+  const { data: providersData } = useSuspenseQuery(GET_PROVIDERS, {
+    skip: isAdmin
+  })
+  if (!isAdmin) {
+    updatedGroupsSchema.properties.providers.items.enum = providersData?.providers.items?.map(
+      (provider) => provider.providerId
+    )
+  }
 
   // Handle form changes
   const handleChange = (event) => {
@@ -80,7 +87,7 @@ const GroupSearchForm = () => {
     const params = new URLSearchParams(prunedParams)
 
     // Navigate to the search params with any of the defined params in the url
-    navigate(`/groups?${params.toString()}`)
+    navigate(`${isAdmin ? '/admin' : ''}/groups?${params.toString()}`)
   }
 
   const fields = {
@@ -115,7 +122,7 @@ const GroupSearchForm = () => {
             schema={groupSearch}
             validator={validator}
             templates={templates}
-            uiSchema={groupSearchUiSchema}
+            uiSchema={isAdmin ? adminGroupSearchUiSchema : groupSearchUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={onSearchSubmit}
@@ -131,6 +138,14 @@ const GroupSearchForm = () => {
       </Row>
     </Container>
   )
+}
+
+GroupSearchForm.defaultProps = {
+  isAdmin: false
+}
+
+GroupSearchForm.propTypes = {
+  isAdmin: PropTypes.bool
 }
 
 export default GroupSearchForm

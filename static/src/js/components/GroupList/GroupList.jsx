@@ -1,23 +1,24 @@
 import React, { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useSearchParams } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
+import usePermissions from '@/js/hooks/usePermissions'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
+import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
+import { GET_GROUPS } from '@/js/operations/queries/getGroups'
+import errorLogger from '@/js/utils/errorLogger'
+
 import Button from '../Button/Button'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import CustomModal from '../CustomModal/CustomModal'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import Table from '../Table/Table'
-
-import { DELETE_GROUP } from '../../operations/mutations/deleteGroup'
-import { GET_GROUPS } from '../../operations/queries/getGroups'
-
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-
-import errorLogger from '../../utils/errorLogger'
 import EllipsisText from '../EllipsisText/EllipsisText'
+import Table from '../Table/Table'
 
 /**
  * Renders a GroupList component
@@ -28,11 +29,15 @@ import EllipsisText from '../EllipsisText/EllipsisText'
  *   <GroupList />
  * )
  */
-const GroupList = () => {
+const GroupList = ({ isAdmin }) => {
   const { addNotification } = useNotificationsContext()
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState(false)
+
+  const { hasSystemGroup } = usePermissions({
+    systemGroup: ['create']
+  })
 
   // Pull parameters out of URL
   const [searchParams, setSearchParams] = useSearchParams()
@@ -64,6 +69,13 @@ const GroupList = () => {
       userIds: userIds.length > 0 ? userIds : undefined
     }
   }
+
+  // If we are on the admin page, always use the 'CMR' provider
+  if (isAdmin) {
+    groupVariables.params.excludeTags = undefined
+    groupVariables.params.tags = ['CMR']
+  }
+
   const { data, refetch } = useSuspenseQuery(GET_GROUPS, {
     variables: groupVariables
   })
@@ -110,7 +122,7 @@ const GroupList = () => {
     const { id } = rowData
 
     return (
-      <EllipsisLink to={`/groups/${id}`}>
+      <EllipsisLink to={`${isAdmin ? '/admin' : ''}/groups/${id}`}>
         {cellData}
       </EllipsisLink>
     )
@@ -191,7 +203,8 @@ const GroupList = () => {
       className: 'col-auto',
       dataAccessorFn: (members) => members.count
     },
-    {
+    // Hide the Actions column if the user does not have the correct permission
+    (!isAdmin || hasSystemGroup) && {
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
@@ -243,7 +256,7 @@ const GroupList = () => {
 
                   <Table
                     id="group-table"
-                    columns={columns}
+                    columns={columns.filter(Boolean)}
                     generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
                     generateRowKey={({ id }) => `row_${id}`}
                     data={items}
@@ -294,6 +307,14 @@ const GroupList = () => {
       />
     </Row>
   )
+}
+
+GroupList.defaultProps = {
+  isAdmin: false
+}
+
+GroupList.propTypes = {
+  isAdmin: PropTypes.bool
 }
 
 export default GroupList

@@ -1,5 +1,4 @@
 import CustomAsyncMultiSelectWidget from '@/js/components/CustomAsyncMultiSelectWidget/CustomAsyncMultiSelectWidget'
-import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
@@ -16,16 +15,6 @@ const groupUiSchema = {
         'ui:col': {
           md: 12,
           children: [
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 3,
-                    children: ['provider']
-                  }
-                }
-              ]
-            },
             {
               'ui:row': [
                 {
@@ -63,9 +52,6 @@ const groupUiSchema = {
   },
   description: {
     'ui:widget': 'textarea'
-  },
-  provider: {
-    'ui:widget': CustomSelectWidget
   },
   members: {
     'ui:widget': CustomAsyncMultiSelectWidget,

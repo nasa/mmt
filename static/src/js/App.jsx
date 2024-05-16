@@ -44,6 +44,7 @@ import { GET_ACLS } from './operations/queries/getAcls'
 import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
+import CheckPermissions from './components/CheckPermissions/CheckPermissions'
 
 /**
  * Renders the `App` component
@@ -62,7 +63,9 @@ export const App = () => {
   const { addNotification } = useNotificationsContext()
 
   const {
-    user, setProviderId, setProviderIds
+    setProviderId,
+    setProviderIds,
+    user
   } = useAppContext()
 
   const { uid } = user
@@ -254,8 +257,34 @@ export const App = () => {
               element: <TemplateForm />
             },
             {
-              path: '/admin/groups/:id/permissions',
-              element: <SystemPermissionsPage />
+              element: <CheckPermissions systemGroup={['read']} />,
+              children: [
+                {
+                  path: '/admin/groups',
+                  element: <GroupListPage isAdmin />
+                },
+                {
+                  path: '/admin/groups/:id',
+                  element: <GroupPage isAdmin />
+                },
+                {
+                  path: '/admin/groups/:id/permissions',
+                  element: <SystemPermissionsPage />
+                }
+              ]
+            },
+            {
+              element: <CheckPermissions systemGroup={['create']} />,
+              children: [
+                {
+                  path: '/admin/groups/new',
+                  element: <GroupFormPage isAdmin />
+                },
+                {
+                  path: '/admin/groups/:id/edit',
+                  element: <GroupFormPage isAdmin />
+                }
+              ]
             }
           ]
         }

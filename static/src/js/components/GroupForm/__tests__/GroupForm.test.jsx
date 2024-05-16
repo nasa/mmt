@@ -10,15 +10,16 @@ import { Cookies, CookiesProvider } from 'react-cookie'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 
+import Providers from '@/js/providers/Providers/Providers'
+
+import errorLogger from '@/js/utils/errorLogger'
+
+import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
+import { GET_ACLS } from '@/js/operations/queries/getAcls'
+
 import GroupForm from '../GroupForm'
-
-import Providers from '../../../providers/Providers/Providers'
-
-import errorLogger from '../../../utils/errorLogger'
-
-import { CREATE_GROUP } from '../../../operations/mutations/createGroup'
-import { GET_GROUP } from '../../../operations/queries/getGroup'
-import { UPDATE_GROUP } from '../../../operations/mutations/updateGroup'
 
 vi.mock('../../../utils/errorLogger')
 
@@ -43,14 +44,59 @@ const cookie = new Cookies(
 cookie.HAS_DOCUMENT_COOKIE = false
 
 const setup = ({
-  mocks,
+  mocks = [],
   pageUrl
 }) => {
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <Providers>
         <MockedProvider
-          mocks={mocks}
+          mocks={
+            [
+              {
+                request: {
+                  query: GET_ACLS,
+                  variables: {
+                    params: {
+                      limit: 500,
+                      permittedUser: undefined,
+                      target: 'PROVIDER_CONTEXT'
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    acls: {
+                      items: [{
+                        groupPermissions: [{
+                          permissions: [
+                            'read'
+                          ],
+                          group_id: '1234-abcd-5678-efgh'
+                        }],
+                        providerIdentity: {
+                          target: 'PROVIDER_CONTEXT',
+                          provider_id: 'MMT_2'
+                        },
+                        acl: {
+                          group_permissions: [{
+                            permissions: [
+                              'read'
+                            ],
+                            group_id: '1234-abcd-5678-efgh'
+                          }],
+                          provider_identity: {
+                            target: 'PROVIDER_CONTEXT',
+                            provider_id: 'MMT_2'
+                          }
+                        }
+                      }]
+                    }
+                  }
+                }
+              },
+              ...mocks]
+          }
         >
           <MemoryRouter initialEntries={[pageUrl]}>
             <Routes>
@@ -73,6 +119,30 @@ const setup = ({
                     (
                       <Suspense>
                         <GroupForm />
+                      </Suspense>
+                    )
+                  }
+                />
+              </Route>
+              <Route
+                path="/admin/groups"
+              >
+                <Route
+                  element={
+                    (
+                      <Suspense>
+                        <GroupForm isAdmin />
+                      </Suspense>
+                    )
+                  }
+                  path="new"
+                />
+                <Route
+                  path=":id/edit"
+                  element={
+                    (
+                      <Suspense>
+                        <GroupForm isAdmin />
                       </Suspense>
                     )
                   }
@@ -155,7 +225,12 @@ describe('GroupForm', () => {
 
         const nameField = screen.getByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
-        const membersField = screen.getByRole('combobox')
+        const membersField = screen.getAllByRole('combobox').at(1)
+
+        const providerField = screen.getAllByRole('combobox').at(0)
+        await user.click(providerField)
+        const option = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option)
 
         await user.type(nameField, 'Test Name')
         await user.type(descriptionField, 'Test Description')
@@ -181,7 +256,7 @@ describe('GroupForm', () => {
     })
 
     describe('when filling out the form and submitting a system group', () => {
-      test('should navigate to /groups/id', async () => {
+      test('should navigate to /admin/groups/id', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -198,7 +273,7 @@ describe('GroupForm', () => {
 
         const { user } = setup(
           {
-            pageUrl: '/groups/new',
+            pageUrl: '/admin/groups/new',
             mocks: [{
               request: {
                 query: CREATE_GROUP,
@@ -253,14 +328,11 @@ describe('GroupForm', () => {
         const option = screen.getByRole('option', { name: 'Test User 1 testuser1' })
         await user.click(option)
 
-        const systemTrueRadio = screen.getByLabelText('True')
-        await user.click(systemTrueRadio)
-
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/groups/1234-abcd-5678-efgh')
+        expect(navigateSpy).toHaveBeenCalledWith('/admin/groups/1234-abcd-5678-efgh')
       })
     })
 
@@ -285,6 +357,11 @@ describe('GroupForm', () => {
         )
 
         await waitForResponse()
+
+        const providerField = screen.getAllByRole('combobox').at(0)
+        await user.click(providerField)
+        const option = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option)
 
         const nameField = screen.getByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
@@ -416,6 +493,12 @@ describe('GroupForm', () => {
         )
 
         await waitForResponse()
+        await waitForResponse()
+
+        const providerField = screen.getAllByRole('combobox').at(0)
+        await user.click(providerField)
+        const option = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option)
 
         const nameField = screen.getByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Mock group updated')
@@ -425,6 +508,115 @@ describe('GroupForm', () => {
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/groups/1234-abcd-5678-efgh')
+      })
+    })
+
+    describe('when getting a system group and updating results in success', () => {
+      test('should navigate to /admin/groups/id', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup(
+          {
+            pageUrl: '/admin/groups/1234-abcd-5678-efgh/edit',
+            mocks: [{
+              request: {
+                query: GET_GROUP,
+                variables: { params: { id: '1234-abcd-5678-efgh' } }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 1,
+                      items: [{
+                        id: 'test.user',
+                        firstName: 'Test',
+                        lastName: 'User',
+                        emailAddress: 'test@example.com',
+                        __typename: 'GroupMember'
+                      }]
+                    },
+                    name: 'Mock group',
+                    tag: 'CMR'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: UPDATE_GROUP,
+                variables: {
+                  description: 'Mock group description',
+                  id: '1234-abcd-5678-efgh',
+                  members: 'test.user',
+                  name: 'Mock groupMock group updated',
+                  tag: 'CMR'
+                }
+              },
+              result: {
+                data: {
+                  updateGroup: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 1,
+                      items: [{
+                        id: 'test.user',
+                        firstName: 'Test',
+                        lastName: 'User',
+                        emailAddress: 'test@example.com',
+                        __typename: 'GroupMember'
+                      }]
+                    },
+                    name: 'Mock group updated',
+                    tag: 'CMR'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_GROUP,
+                variables: { params: { id: '1234-abcd-5678-efgh' } }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 1,
+                      items: [{
+                        id: 'test.user',
+                        firstName: 'Test',
+                        lastName: 'User',
+                        emailAddress: 'test@example.com',
+                        __typename: 'GroupMember'
+                      }]
+                    },
+                    name: 'Mock group updated',
+                    tag: 'CMR'
+                  }
+                }
+              }
+            }
+            ]
+          }
+        )
+
+        await waitForResponse()
+
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Mock group updated')
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/admin/groups/1234-abcd-5678-efgh')
       })
     })
 
@@ -478,6 +670,12 @@ describe('GroupForm', () => {
         })
 
         await waitForResponse()
+        await waitForResponse()
+
+        const providerField = screen.getAllByRole('combobox').at(0)
+        await user.click(providerField)
+        const option = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option)
 
         const nameField = screen.getByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Mock group updated')

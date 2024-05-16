@@ -1,11 +1,10 @@
 import CustomAsyncMultiSelectWidget from '@/js/components/CustomAsyncMultiSelectWidget/CustomAsyncMultiSelectWidget'
-import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const { apiHost } = getApplicationConfig()
 
-const groupUiSchema = {
+const adminGroupSearchUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
   },
@@ -20,37 +19,13 @@ const groupUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
-                    md: 3,
-                    children: ['provider']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 12,
+                    md: 6,
                     children: ['name']
                   }
-                }
-              ]
-            },
-            {
-              'ui:row': [
+                },
                 {
                   'ui:col': {
-                    md: 12,
-                    children: ['description']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 12,
+                    md: 6,
                     children: ['members']
                   }
                 }
@@ -60,12 +35,6 @@ const groupUiSchema = {
         }
       }
     ]
-  },
-  description: {
-    'ui:widget': 'textarea'
-  },
-  provider: {
-    'ui:widget': CustomSelectWidget
   },
   members: {
     'ui:widget': CustomAsyncMultiSelectWidget,
@@ -77,4 +46,4 @@ const groupUiSchema = {
   }
 }
 
-export default groupUiSchema
+export default adminGroupSearchUiSchema

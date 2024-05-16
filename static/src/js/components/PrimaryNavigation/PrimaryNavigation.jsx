@@ -46,11 +46,12 @@ import './PrimaryNavigation.scss'
  * )
  */
 const PrimaryNavigationLink = ({
+  childItems,
+  isChild,
   title,
   to,
   version,
-  isChild,
-  childItems
+  visible
 }) => {
   const location = useLocation()
   const match = location.pathname.startsWith(to)
@@ -65,6 +66,8 @@ const PrimaryNavigationLink = ({
   useEffect(() => {
     if (!match && childMatch) setIsOpen(true)
   }, [match, childMatch])
+
+  if (!visible) return null
 
   return (
     <div className="d-flex flex-column">
@@ -169,13 +172,15 @@ const PrimaryNavigationLink = ({
                 {
                   ({
                     title: childTitle,
-                    to: childTo
+                    to: childTo,
+                    visible: childVisible
                   }) => (
                     <PrimaryNavigationLink
-                      key={`${childTo}-${childTitle}`}
                       isChild
+                      key={`${childTo}-${childTitle}`}
                       title={childTitle}
                       to={childTo}
+                      visible={childVisible}
                     />
                   )
                 }
@@ -191,7 +196,8 @@ const PrimaryNavigationLink = ({
 PrimaryNavigationLink.defaultProps = {
   childItems: [],
   isChild: false,
-  version: null
+  version: null,
+  visible: true
 }
 
 PrimaryNavigationLink.propTypes = {
@@ -201,7 +207,8 @@ PrimaryNavigationLink.propTypes = {
   isChild: PropTypes.bool,
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  version: PropTypes.string
+  version: PropTypes.string,
+  visible: PropTypes.bool
 }
 
 /**
@@ -248,17 +255,19 @@ const PrimaryNavigation = ({
     <For each={items}>
       {
         ({
+          children: childItems,
           title,
           to,
           version,
-          children: childItems
+          visible
         }) => (
           <PrimaryNavigationLink
+            childItems={childItems}
             key={title}
+            title={title}
             to={to}
             version={version}
-            title={title}
-            childItems={childItems}
+            visible={visible}
           />
         )
       }
@@ -271,7 +280,8 @@ PrimaryNavigation.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
-      version: PropTypes.string
+      version: PropTypes.string,
+      visible: PropTypes.bool
     }).isRequired
   ).isRequired
 }

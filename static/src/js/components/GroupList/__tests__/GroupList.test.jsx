@@ -8,7 +8,11 @@ import {
 import userEvent from '@testing-library/user-event'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { MemoryRouter } from 'react-router-dom'
+import {
+  MemoryRouter,
+  Route,
+  Routes
+} from 'react-router-dom'
 
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
@@ -16,38 +20,45 @@ import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 import AppContext from '@/js/context/AppContext'
 import NotificationsContext from '@/js/context/NotificationsContext'
 
+import usePermissions from '@/js/hooks/usePermissions'
+
 import GroupList from '../GroupList'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/hooks/usePermissions').mockReturnValue({ hasSystemGroup: true })
+
+const mockGroups = {
+  count: 2,
+  items: [
+    {
+      description: 'This is a test record',
+      id: 'Test-Native-Id-1',
+      members: {
+        count: 1
+      },
+      name: 'Test group 1',
+      tag: 'MMT_2'
+    },
+    {
+      description: 'This is a test record',
+      id: 'Test-Native-Id-2',
+      members: {
+        count: 0
+      },
+      name: 'Test group 2',
+      tag: 'MMT_2'
+    }
+  ]
+}
 
 const setup = ({
   additionalMocks = [],
   overrideMocks = false,
-  initialEntries = ''
+  initialEntries = '/groups',
+  hasSystemGroup = true
 }) => {
-  const mockGroups = {
-    count: 2,
-    items: [
-      {
-        description: 'This is a test record',
-        id: 'Test-Native-Id-1',
-        members: {
-          count: 1
-        },
-        name: 'Test group 1',
-        tag: 'MMT_2'
-      },
-      {
-        description: 'This is a test record',
-        id: 'Test-Native-Id-2',
-        members: {
-          count: 0
-        },
-        name: 'Test group 2',
-        tag: 'MMT_2'
-      }
-    ]
-  }
+  usePermissions.mockReturnValue({ hasSystemGroup })
+
   const mocks = [{
     request: {
       query: GET_GROUPS,
@@ -83,9 +94,28 @@ const setup = ({
       <NotificationsContext.Provider value={notificationContext}>
         <MockedProvider mocks={overrideMocks || mocks}>
           <MemoryRouter initialEntries={[initialEntries]}>
-            <Suspense>
-              <GroupList />
-            </Suspense>
+            <Routes>
+              <Route
+                path="/groups"
+                element={
+                  (
+                    <Suspense>
+                      <GroupList />
+                    </Suspense>
+                  )
+                }
+              />
+              <Route
+                path="/admin/groups"
+                element={
+                  (
+                    <Suspense>
+                      <GroupList isAdmin />
+                    </Suspense>
+                  )
+                }
+              />
+            </Routes>
           </MemoryRouter>
         </MockedProvider>
       </NotificationsContext.Provider>
@@ -101,6 +131,39 @@ describe('GroupList', () => {
   describe('when getting list of groups results in a success', () => {
     test('renders a table with 2 groups', async () => {
       setup({})
+
+      await waitForResponse()
+
+      expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
+      expect(screen.getByText('Test group 1')).toBeInTheDocument()
+      expect(screen.getByText('Test group 2')).toBeInTheDocument()
+    })
+  })
+
+  describe('when loading a list of system groups', () => {
+    test('renders a table with 2 groups', async () => {
+      setup({
+        initialEntries: '/admin/groups',
+        overrideMocks: [{
+          request: {
+            query: GET_GROUPS,
+            variables: {
+              params: {
+                excludeTags: undefined,
+                tags: ['CMR'],
+                limit: 20,
+                name: '',
+                offset: 0
+              }
+            }
+          },
+          result: {
+            data: {
+              groups: mockGroups
+            }
+          }
+        }]
+      })
 
       await waitForResponse()
 
@@ -400,6 +463,40 @@ describe('GroupList', () => {
       await waitFor(() => {
         expect(screen.queryAllByRole('cell')[0].textContent).toContain('Test group 21')
       })
+    })
+  })
+
+  describe('when the user does not have system group create permission', () => {
+    test('does not render the actions column', async () => {
+      setup({
+        hasSystemGroup: false,
+        initialEntries: '/admin/groups',
+        overrideMocks: [{
+          request: {
+            query: GET_GROUPS,
+            variables: {
+              params: {
+                excludeTags: undefined,
+                tags: ['CMR'],
+                limit: 20,
+                name: '',
+                offset: 0
+              }
+            }
+          },
+          result: {
+            data: {
+              groups: mockGroups
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      expect(screen.queryByText('Actions')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Edit Button Edit' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Delete Button Delete' })).not.toBeInTheDocument()
     })
   })
 })

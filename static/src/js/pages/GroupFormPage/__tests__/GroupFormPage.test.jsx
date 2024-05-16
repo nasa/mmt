@@ -15,6 +15,8 @@ import { GET_GROUP } from '../../../operations/queries/getGroup'
 
 import GroupFormPage from '../GroupFormPage'
 
+vi.mock('@/js/components/GroupForm/GroupForm')
+
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
 expires = new Date(expires)
@@ -69,6 +71,30 @@ const setup = ({
                   }
                 />
               </Route>
+              <Route
+                path="/admin/groups"
+              >
+                <Route
+                  path="new"
+                  element={
+                    (
+                      <Suspense>
+                        <GroupFormPage isAdmin />
+                      </Suspense>
+                    )
+                  }
+                />
+                <Route
+                  path=":id/edit"
+                  element={
+                    (
+                      <Suspense>
+                        <GroupFormPage isAdmin />
+                      </Suspense>
+                    )
+                  }
+                />
+              </Route>
             </Routes>
           </MemoryRouter>
         </MockedProvider>
@@ -95,7 +121,20 @@ describe('GroupFormPage', () => {
     })
   })
 
-  describe('when showing the header for an order group with name', () => {
+  describe('when showing the header for a new System Group', () => {
+    test('should render the header', async () => {
+      setup({
+        pageUrl: '/admin/groups/new'
+      })
+
+      await waitForResponse()
+
+      expect(screen.queryByText('System Groups')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { value: 'New System Group' })).toBeInTheDocument()
+    })
+  })
+
+  describe('when showing the header for a group with name', () => {
     test('show render the header with name', async () => {
       setup({
         pageUrl: '/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
@@ -124,6 +163,39 @@ describe('GroupFormPage', () => {
       await waitForResponse()
 
       expect(screen.queryByText('Groups')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
+    })
+  })
+
+  describe('when showing the header for a system group with name', () => {
+    test('show render the header with name', async () => {
+      setup({
+        pageUrl: '/admin/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
+        mocks: [{
+          request: {
+            query: GET_GROUP,
+            variables: { params: { id: 'dce1859e-774c-4561-9451-fc9d77906015' } }
+          },
+          result: {
+            data: {
+              group: {
+                id: 'dce1859e-774c-4561-9451-fc9d77906015',
+                description: 'Test Description',
+                name: 'Test Name',
+                members: {
+                  count: 0,
+                  items: []
+                },
+                tag: 'CMR'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      expect(screen.queryByText('System Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })
