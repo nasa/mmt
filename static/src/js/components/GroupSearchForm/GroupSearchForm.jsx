@@ -60,7 +60,7 @@ const GroupSearchForm = ({ isAdmin }) => {
   if (!isAdmin) {
     updatedGroupsSchema.properties.providers.items.enum = providersData?.providers.items?.map(
       (provider) => provider.providerId
-    )
+    ).sort()
   }
 
   // Handle form changes
