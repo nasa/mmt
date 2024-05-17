@@ -19,12 +19,12 @@ import usePermissions from '@/js/hooks/usePermissions'
  *   <GroupPageHeader />
  * )
  */
-const GroupListPageHeader = ({ isAdmin }) => {
+const GroupListPageHeader = ({ isAdminPage }) => {
   const { hasSystemGroup } = usePermissions({
     systemGroup: ['create']
   })
 
-  const title = `${isAdmin ? 'System ' : ''}Groups`
+  const title = `${isAdminPage ? 'System ' : ''}Groups`
 
   return (
     <PageHeader
@@ -32,7 +32,7 @@ const GroupListPageHeader = ({ isAdmin }) => {
         [
           {
             label: title,
-            to: `${isAdmin ? '/admin' : ''}/groups`
+            to: `${isAdminPage ? '/admin' : ''}/groups`
           }
         ]
       }
@@ -41,10 +41,10 @@ const GroupListPageHeader = ({ isAdmin }) => {
         [{
           icon: FaPlus,
           iconTitle: 'A plus icon',
-          title: `New ${isAdmin ? 'System ' : ''}Group`,
+          title: `New ${isAdminPage ? 'System ' : ''}Group`,
           to: 'new',
           variant: 'success',
-          visible: !isAdmin || hasSystemGroup
+          visible: !isAdminPage || hasSystemGroup
         }]
       }
       title={title}
@@ -53,11 +53,11 @@ const GroupListPageHeader = ({ isAdmin }) => {
 }
 
 GroupListPageHeader.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupListPageHeader.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 /**
@@ -69,27 +69,27 @@ GroupListPageHeader.propTypes = {
  *   <GroupListPage />
  * )
  */
-const GroupListPage = ({ isAdmin }) => (
+const GroupListPage = ({ isAdminPage }) => (
   <Page
     pageType="secondary"
-    header={<GroupListPageHeader isAdmin={isAdmin} />}
+    header={<GroupListPageHeader isAdminPage={isAdminPage} />}
   >
-    <GroupSearchForm isAdmin={isAdmin} />
+    <GroupSearchForm isAdminPage={isAdminPage} />
 
     <ErrorBoundary>
       <Suspense fallback={<LoadingTable />}>
-        <GroupList isAdmin={isAdmin} />
+        <GroupList isAdminPage={isAdminPage} />
       </Suspense>
     </ErrorBoundary>
   </Page>
 )
 
 GroupListPage.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupListPage.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupListPage

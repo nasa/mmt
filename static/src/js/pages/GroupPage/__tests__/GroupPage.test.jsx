@@ -114,7 +114,7 @@ const setup = ({
                     (
                       <ErrorBoundary>
                         <Suspense>
-                          <GroupPage isAdmin />
+                          <GroupPage isAdminPage />
                         </Suspense>
                       </ErrorBoundary>
                     )

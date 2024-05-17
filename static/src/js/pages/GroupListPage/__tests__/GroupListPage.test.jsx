@@ -44,7 +44,7 @@ const setup = (
           <Route
             path="/admin/groups"
             element={(
-              <GroupListPage isAdmin />
+              <GroupListPage isAdminPage />
             )}
           />
         </Routes>
@@ -61,10 +61,10 @@ describe('GroupListPage', () => {
       expect(screen.getByRole('heading', { value: 'Groups' })).toBeInTheDocument()
 
       expect(GroupList).toHaveBeenCalledTimes(1)
-      expect(GroupList).toHaveBeenCalledWith({ isAdmin: false }, {})
+      expect(GroupList).toHaveBeenCalledWith({ isAdminPage: false }, {})
 
       expect(GroupSearchForm).toHaveBeenCalledTimes(1)
-      expect(GroupSearchForm).toHaveBeenCalledWith({ isAdmin: false }, {})
+      expect(GroupSearchForm).toHaveBeenCalledWith({ isAdminPage: false }, {})
     })
   })
 
@@ -75,10 +75,10 @@ describe('GroupListPage', () => {
       expect(screen.getByRole('heading', { value: 'System Groups' })).toBeInTheDocument()
 
       expect(GroupList).toHaveBeenCalledTimes(1)
-      expect(GroupList).toHaveBeenCalledWith({ isAdmin: true }, {})
+      expect(GroupList).toHaveBeenCalledWith({ isAdminPage: true }, {})
 
       expect(GroupSearchForm).toHaveBeenCalledTimes(1)
-      expect(GroupSearchForm).toHaveBeenCalledWith({ isAdmin: true }, {})
+      expect(GroupSearchForm).toHaveBeenCalledWith({ isAdminPage: true }, {})
     })
 
     describe('when the user does not have system group create permission', () => {

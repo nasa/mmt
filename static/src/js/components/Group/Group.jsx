@@ -15,7 +15,7 @@ import Table from '../Table/Table'
  *   <Group />
  * )
  */
-const Group = ({ isAdmin }) => {
+const Group = ({ isAdminPage }) => {
   const { id } = useParams()
 
   const { data } = useSuspenseQuery(GET_GROUP, {
@@ -65,7 +65,7 @@ const Group = ({ isAdmin }) => {
       <p>{description}</p>
 
       {
-        !isAdmin && (
+        !isAdminPage && (
           <p>Associated Collection Permissions - TBD</p>
         )
       }
@@ -85,11 +85,11 @@ const Group = ({ isAdmin }) => {
 }
 
 Group.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 Group.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default Group

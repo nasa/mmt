@@ -29,7 +29,7 @@ import Table from '../Table/Table'
  *   <GroupList />
  * )
  */
-const GroupList = ({ isAdmin }) => {
+const GroupList = ({ isAdminPage }) => {
   const { addNotification } = useNotificationsContext()
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -71,8 +71,8 @@ const GroupList = ({ isAdmin }) => {
   }
 
   // If we are on the admin page, always use the 'CMR' provider
-  if (isAdmin) {
-    groupVariables.params.excludeTags = undefined
+  if (isAdminPage) {
+    delete groupVariables.params.excludeTags
     groupVariables.params.tags = ['CMR']
   }
 
@@ -122,7 +122,7 @@ const GroupList = ({ isAdmin }) => {
     const { id } = rowData
 
     return (
-      <EllipsisLink to={`${isAdmin ? '/admin' : ''}/groups/${id}`}>
+      <EllipsisLink to={`${isAdminPage ? '/admin' : ''}/groups/${id}`}>
         {cellData}
       </EllipsisLink>
     )
@@ -192,7 +192,7 @@ const GroupList = ({ isAdmin }) => {
       className: 'col-auto',
       dataAccessorFn: buildEllipsisTextCell
     },
-    !isAdmin && {
+    !isAdminPage && {
       dataKey: 'tag',
       title: 'Provider',
       className: 'col-auto'
@@ -204,7 +204,7 @@ const GroupList = ({ isAdmin }) => {
       dataAccessorFn: (members) => members.count
     },
     // Hide the Actions column if the user does not have the correct permission
-    (!isAdmin || hasSystemGroup) && {
+    (!isAdminPage || hasSystemGroup) && {
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
@@ -310,11 +310,11 @@ const GroupList = ({ isAdmin }) => {
 }
 
 GroupList.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupList.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupList

@@ -19,7 +19,7 @@ import { GET_GROUP } from '@/js/operations/queries/getGroup'
  *   <GroupFormPageHeader />
  * )
  */
-const GroupFormPageHeader = ({ isAdmin }) => {
+const GroupFormPageHeader = ({ isAdminPage }) => {
   const { id = 'new' } = useParams()
 
   const { data } = useSuspenseQuery(GET_GROUP, {
@@ -34,9 +34,9 @@ const GroupFormPageHeader = ({ isAdmin }) => {
   const { group } = data || {}
   const { name } = group || {}
 
-  const newTitle = `New ${isAdmin ? 'System ' : ''}Group`
+  const newTitle = `New ${isAdminPage ? 'System ' : ''}Group`
   const pageTitle = id === 'new' ? newTitle : `Edit ${name}`
-  const title = `${isAdmin ? 'System ' : ''}Groups`
+  const title = `${isAdminPage ? 'System ' : ''}Groups`
 
   return (
     <PageHeader
@@ -45,12 +45,12 @@ const GroupFormPageHeader = ({ isAdmin }) => {
         [
           {
             label: title,
-            to: `${isAdmin ? '/admin' : ''}/groups`
+            to: `${isAdminPage ? '/admin' : ''}/groups`
           },
           (
             id !== 'new' && {
               label: name,
-              to: `${isAdmin ? '/admin' : ''}/groups/${id}`
+              to: `${isAdminPage ? '/admin' : ''}/groups/${id}`
             }
           ),
           {
@@ -65,11 +65,11 @@ const GroupFormPageHeader = ({ isAdmin }) => {
 }
 
 GroupFormPageHeader.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupFormPageHeader.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 /**
@@ -81,25 +81,25 @@ GroupFormPageHeader.propTypes = {
  *   <GroupFormPage />
  * )
  */
-const GroupFormPage = ({ isAdmin }) => (
+const GroupFormPage = ({ isAdminPage }) => (
   <Page
     pageType="secondary"
-    header={<GroupFormPageHeader isAdmin={isAdmin} />}
+    header={<GroupFormPageHeader isAdminPage={isAdminPage} />}
   >
     <ErrorBoundary>
       <Suspense fallback="Loading...">
-        <GroupForm isAdmin={isAdmin} />
+        <GroupForm isAdminPage={isAdminPage} />
       </Suspense>
     </ErrorBoundary>
   </Page>
 )
 
 GroupFormPage.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupFormPage.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupFormPage

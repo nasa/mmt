@@ -32,7 +32,7 @@ import errorLogger from '@/js/utils/errorLogger'
  *   <GroupPageHeader />
  * )
  */
-const GroupPageHeader = ({ isAdmin }) => {
+const GroupPageHeader = ({ isAdminPage }) => {
   const navigate = useNavigate()
 
   const { addNotification } = useNotificationsContext()
@@ -51,7 +51,7 @@ const GroupPageHeader = ({ isAdmin }) => {
       variables: {
         params: {
           name: '',
-          tags: isAdmin ? ['CMR'] : undefined
+          tags: isAdminPage ? ['CMR'] : undefined
         }
       }
     }]
@@ -80,11 +80,11 @@ const GroupPageHeader = ({ isAdmin }) => {
       },
       onCompleted: () => {
         addNotification({
-          message: `${isAdmin ? 'System ' : ''}Group was successfully deleted.`,
+          message: `${isAdminPage ? 'System ' : ''}Group was successfully deleted.`,
           variant: 'success'
         })
 
-        navigate(`${isAdmin ? '/admin' : ''}/groups`, { replace: true })
+        navigate(`${isAdminPage ? '/admin' : ''}/groups`, { replace: true })
       },
       onError: () => {
         addNotification({
@@ -99,7 +99,7 @@ const GroupPageHeader = ({ isAdmin }) => {
     })
   }
 
-  const title = `${isAdmin ? 'System ' : ''}Groups`
+  const title = `${isAdminPage ? 'System ' : ''}Groups`
 
   return (
     <>
@@ -109,7 +109,7 @@ const GroupPageHeader = ({ isAdmin }) => {
           [
             {
               label: title,
-              to: `${isAdmin ? '/admin' : ''}/groups`
+              to: `${isAdminPage ? '/admin' : ''}/groups`
             },
             {
               label: name,
@@ -126,7 +126,7 @@ const GroupPageHeader = ({ isAdmin }) => {
               title: 'Edit',
               iconTitle: 'A edit icon',
               variant: 'primary',
-              visible: !isAdmin || hasSystemGroup
+              visible: !isAdminPage || hasSystemGroup
             },
             {
               icon: FaTrash,
@@ -136,12 +136,12 @@ const GroupPageHeader = ({ isAdmin }) => {
               variant: 'danger',
               disabled: count > 0,
               disabledTooltipText: count > 0 ? 'Can\'t delete groups that have members.' : null,
-              visible: !isAdmin || hasSystemGroup
+              visible: !isAdminPage || hasSystemGroup
             },
             {
               icon: FaKey,
               to: 'permissions',
-              title: `${!isAdmin ? 'Provider' : ''} Permissions`,
+              title: `${!isAdminPage ? 'Provider' : ''} Permissions`,
               iconTitle: 'A key icon',
               variant: 'light-dark'
             }
@@ -149,7 +149,7 @@ const GroupPageHeader = ({ isAdmin }) => {
         }
       />
       <CustomModal
-        message={`Are you sure you want to delete this ${isAdmin ? 'system ' : ''}group?`}
+        message={`Are you sure you want to delete this ${isAdminPage ? 'system ' : ''}group?`}
         show={showDeleteModal}
         size="lg"
         toggleModal={toggleShowDeleteModal}
@@ -173,11 +173,11 @@ const GroupPageHeader = ({ isAdmin }) => {
 }
 
 GroupPageHeader.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupPageHeader.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 /**
@@ -189,25 +189,25 @@ GroupPageHeader.propTypes = {
  *   <GroupPage />
  * )
  */
-const GroupPage = ({ isAdmin }) => (
+const GroupPage = ({ isAdminPage }) => (
   <Page
     pageType="secondary"
-    header={<GroupPageHeader isAdmin={isAdmin} />}
+    header={<GroupPageHeader isAdminPage={isAdminPage} />}
   >
     <ErrorBoundary>
       <Suspense fallback="Loading...">
-        <Group isAdmin={isAdmin} />
+        <Group isAdminPage={isAdminPage} />
       </Suspense>
     </ErrorBoundary>
   </Page>
 )
 
 GroupPage.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupPage.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupPage

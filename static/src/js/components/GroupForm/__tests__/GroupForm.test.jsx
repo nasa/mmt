@@ -131,7 +131,7 @@ const setup = ({
                   element={
                     (
                       <Suspense>
-                        <GroupForm isAdmin />
+                        <GroupForm isAdminPage />
                       </Suspense>
                     )
                   }
@@ -142,7 +142,7 @@ const setup = ({
                   element={
                     (
                       <Suspense>
-                        <GroupForm isAdmin />
+                        <GroupForm isAdminPage />
                       </Suspense>
                     )
                   }

@@ -45,7 +45,7 @@ import GridLayout from '../GridLayout/GridLayout'
  *   <GroupForm />
  * )
  */
-const GroupForm = ({ isAdmin }) => {
+const GroupForm = ({ isAdminPage }) => {
   const {
     draft,
     originalDraft,
@@ -77,7 +77,7 @@ const GroupForm = ({ isAdmin }) => {
 
   const permittedUser = getPermittedUser(user)
   const { data: providerData } = useSuspenseQuery(GET_ACLS, {
-    skip: isAdmin,
+    skip: isAdminPage,
     variables: {
       params: {
         limit: 500,
@@ -87,9 +87,9 @@ const GroupForm = ({ isAdmin }) => {
     }
   })
 
-  const updatedGroupSchema = isAdmin ? systemGroupSchema : groupSchema
+  const updatedGroupSchema = isAdminPage ? systemGroupSchema : groupSchema
 
-  if (!isAdmin) {
+  if (!isAdminPage) {
     updatedGroupSchema.properties.provider.enum = providerData?.acls.items?.map(
       (item) => item.providerIdentity.provider_id
     )
@@ -139,7 +139,7 @@ const GroupForm = ({ isAdmin }) => {
       const formData = {
         description,
         name,
-        provider: isAdmin ? undefined : tag,
+        provider: isAdminPage ? undefined : tag,
         members: memberObjects
       }
 
@@ -170,7 +170,7 @@ const GroupForm = ({ isAdmin }) => {
   const handleSubmit = () => {
     const groupVariables = {
       ...formData,
-      tag: isAdmin ? 'CMR' : formData.provider,
+      tag: isAdminPage ? 'CMR' : formData.provider,
       // Members needs to default to an empty string if no members are provided by the form
       members: formData.members?.length > 0 ? formData.members.map((member) => member.id).join(', ') : '',
 
@@ -190,7 +190,7 @@ const GroupForm = ({ isAdmin }) => {
             variant: 'success'
           })
 
-          navigate(`${isAdmin ? '/admin' : ''}/groups/${groupId}`)
+          navigate(`${isAdminPage ? '/admin' : ''}/groups/${groupId}`)
         },
         onError: () => {
           addNotification({
@@ -218,7 +218,7 @@ const GroupForm = ({ isAdmin }) => {
           // Sets savedDraft so the group preview can request the correct version
           setSavedDraft(updateGroup)
 
-          navigate(`${isAdmin ? '/admin' : ''}/groups/${id}`)
+          navigate(`${isAdminPage ? '/admin' : ''}/groups/${id}`)
         },
         onError: () => {
           addNotification({
@@ -256,7 +256,7 @@ const GroupForm = ({ isAdmin }) => {
             schema={updatedGroupSchema}
             validator={validator}
             templates={templates}
-            uiSchema={isAdmin ? systemGroupUiSchema : groupUiSchema}
+            uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={handleSubmit}
@@ -281,11 +281,11 @@ const GroupForm = ({ isAdmin }) => {
 }
 
 GroupForm.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupForm.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupForm

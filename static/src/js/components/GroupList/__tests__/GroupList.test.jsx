@@ -110,7 +110,7 @@ const setup = ({
                 element={
                   (
                     <Suspense>
-                      <GroupList isAdmin />
+                      <GroupList isAdminPage />
                     </Suspense>
                   )
                 }

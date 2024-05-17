@@ -87,7 +87,7 @@ const setup = (initialPath = '/groups') => {
                 element={
                   (
                     <Suspense>
-                      <GroupSearchForm isAdmin />
+                      <GroupSearchForm isAdminPage />
                     </Suspense>
                   )
                 }

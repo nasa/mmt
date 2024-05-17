@@ -35,7 +35,7 @@ import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
  *   <GroupSearchForm />
  * )
  */
-const GroupSearchForm = ({ isAdmin }) => {
+const GroupSearchForm = ({ isAdminPage }) => {
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -55,9 +55,9 @@ const GroupSearchForm = ({ isAdmin }) => {
   const updatedGroupsSchema = groupSearch
 
   const { data: providersData } = useSuspenseQuery(GET_PROVIDERS, {
-    skip: isAdmin
+    skip: isAdminPage
   })
-  if (!isAdmin) {
+  if (!isAdminPage) {
     updatedGroupsSchema.properties.providers.items.enum = providersData?.providers.items?.map(
       (provider) => provider.providerId
     ).sort()
@@ -87,7 +87,7 @@ const GroupSearchForm = ({ isAdmin }) => {
     const params = new URLSearchParams(prunedParams)
 
     // Navigate to the search params with any of the defined params in the url
-    navigate(`${isAdmin ? '/admin' : ''}/groups?${params.toString()}`)
+    navigate(`${isAdminPage ? '/admin' : ''}/groups?${params.toString()}`)
   }
 
   const fields = {
@@ -122,7 +122,7 @@ const GroupSearchForm = ({ isAdmin }) => {
             schema={groupSearch}
             validator={validator}
             templates={templates}
-            uiSchema={isAdmin ? systemGroupSearchUiSchema : groupSearchUiSchema}
+            uiSchema={isAdminPage ? systemGroupSearchUiSchema : groupSearchUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={onSearchSubmit}
@@ -141,11 +141,11 @@ const GroupSearchForm = ({ isAdmin }) => {
 }
 
 GroupSearchForm.defaultProps = {
-  isAdmin: false
+  isAdminPage: false
 }
 
 GroupSearchForm.propTypes = {
-  isAdmin: PropTypes.bool
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupSearchForm

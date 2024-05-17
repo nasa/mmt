@@ -258,18 +258,18 @@ export const App = () => {
             },
             {
               path: '/admin',
-              element: <div>oops</div>
+              element: <div>TBD</div>
             },
             {
               element: <CheckPermissions systemGroup={['read']} />,
               children: [
                 {
                   path: '/admin/groups',
-                  element: <GroupListPage isAdmin />
+                  element: <GroupListPage isAdminPage />
                 },
                 {
                   path: '/admin/groups/:id',
-                  element: <GroupPage isAdmin />
+                  element: <GroupPage isAdminPage />
                 },
                 {
                   path: '/admin/groups/:id/permissions',
@@ -282,11 +282,11 @@ export const App = () => {
               children: [
                 {
                   path: '/admin/groups/new',
-                  element: <GroupFormPage isAdmin />
+                  element: <GroupFormPage isAdminPage />
                 },
                 {
                   path: '/admin/groups/:id/edit',
-                  element: <GroupFormPage isAdmin />
+                  element: <GroupFormPage isAdminPage />
                 }
               ]
             }
