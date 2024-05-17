@@ -11,9 +11,9 @@ import validator from '@rjsf/validator-ajv8'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 
 import groupSchema from '@/js/schemas/group'
-import adminGroupSchema from '@/js/schemas/adminGroup'
+import systemGroupSchema from '@/js/schemas/systemGroup'
 import groupUiSchema from '@/js/schemas/uiSchemas/Group'
-import adminGroupUiSchema from '@/js/schemas/uiSchemas/AdminGroup'
+import systemGroupUiSchema from '@/js/schemas/uiSchemas/SystemGroup'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
@@ -87,7 +87,7 @@ const GroupForm = ({ isAdmin }) => {
     }
   })
 
-  const updatedGroupSchema = isAdmin ? adminGroupSchema : groupSchema
+  const updatedGroupSchema = isAdmin ? systemGroupSchema : groupSchema
 
   if (!isAdmin) {
     updatedGroupSchema.properties.provider.enum = providerData?.acls.items?.map(
@@ -256,7 +256,7 @@ const GroupForm = ({ isAdmin }) => {
             schema={updatedGroupSchema}
             validator={validator}
             templates={templates}
-            uiSchema={isAdmin ? adminGroupUiSchema : groupUiSchema}
+            uiSchema={isAdmin ? systemGroupUiSchema : groupUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={handleSubmit}

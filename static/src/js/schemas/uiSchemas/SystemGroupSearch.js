@@ -4,7 +4,7 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const { apiHost } = getApplicationConfig()
 
-const adminGroupSearchUiSchema = {
+const systemGroupSearchUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
   },
@@ -46,4 +46,4 @@ const adminGroupSearchUiSchema = {
   }
 }
 
-export default adminGroupSearchUiSchema
+export default systemGroupSearchUiSchema

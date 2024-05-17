@@ -1,4 +1,4 @@
-const group = {
+const systemGroup = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'group',
   type: 'object',
@@ -37,4 +37,4 @@ const group = {
   required: ['name', 'description']
 }
 
-export default group
+export default systemGroup

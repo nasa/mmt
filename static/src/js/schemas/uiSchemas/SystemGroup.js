@@ -4,7 +4,7 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const { apiHost } = getApplicationConfig()
 
-const groupUiSchema = {
+const systemGroupUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
   },
@@ -63,4 +63,4 @@ const groupUiSchema = {
   }
 }
 
-export default groupUiSchema
+export default systemGroupUiSchema

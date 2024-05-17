@@ -15,7 +15,7 @@ import { GET_PROVIDERS } from '@/js/operations/queries/getProviders'
 
 import groupSearch from '@/js/schemas/groupSearch'
 import groupSearchUiSchema from '@/js/schemas/uiSchemas/GroupSearch'
-import adminGroupSearchUiSchema from '@/js/schemas/uiSchemas/AdminGroupSearch'
+import systemGroupSearchUiSchema from '@/js/schemas/uiSchemas/SystemGroupSearch'
 
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
@@ -122,7 +122,7 @@ const GroupSearchForm = ({ isAdmin }) => {
             schema={groupSearch}
             validator={validator}
             templates={templates}
-            uiSchema={isAdmin ? adminGroupSearchUiSchema : groupSearchUiSchema}
+            uiSchema={isAdmin ? systemGroupSearchUiSchema : groupSearchUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={onSearchSubmit}
