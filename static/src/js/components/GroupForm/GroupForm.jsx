@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -9,26 +10,31 @@ import validator from '@rjsf/validator-ajv8'
 
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 
+import groupSchema from '@/js/schemas/group'
+import systemGroupSchema from '@/js/schemas/systemGroup'
+import groupUiSchema from '@/js/schemas/uiSchemas/Group'
+import systemGroupUiSchema from '@/js/schemas/uiSchemas/SystemGroup'
+
+import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
+
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
+
+import { GET_ACLS } from '@/js/operations/queries/getAcls'
+import getPermittedUser from '@/js/utils/getPermittedUser'
+
+import errorLogger from '@/js/utils/errorLogger'
+import removeEmpty from '@/js/utils/removeEmpty'
+
+import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import GridLayout from '../GridLayout/GridLayout'
-
-import group from '../../schemas/group'
-import groupUiSchema from '../../schemas/uiSchemas/Group'
-
-import { CREATE_GROUP } from '../../operations/mutations/createGroup'
-import { GET_GROUP } from '../../operations/queries/getGroup'
-import { UPDATE_GROUP } from '../../operations/mutations/updateGroup'
-
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import useAppContext from '../../hooks/useAppContext'
-
-import errorLogger from '../../utils/errorLogger'
-import removeEmpty from '../../utils/removeEmpty'
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 
 /**
  * Renders a GroupForm component
@@ -39,7 +45,7 @@ import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
  *   <GroupForm />
  * )
  */
-const GroupForm = () => {
+const GroupForm = ({ isAdminPage }) => {
   const {
     draft,
     originalDraft,
@@ -48,8 +54,6 @@ const GroupForm = () => {
     setSavedDraft,
     user
   } = useAppContext()
-
-  const { providerId } = user
 
   const navigate = useNavigate()
 
@@ -70,6 +74,26 @@ const GroupForm = () => {
       }
     }]
   })
+
+  const permittedUser = getPermittedUser(user)
+  const { data: providerData } = useSuspenseQuery(GET_ACLS, {
+    skip: isAdminPage,
+    variables: {
+      params: {
+        limit: 500,
+        permittedUser,
+        target: 'PROVIDER_CONTEXT'
+      }
+    }
+  })
+
+  const updatedGroupSchema = isAdminPage ? systemGroupSchema : groupSchema
+
+  if (!isAdminPage) {
+    updatedGroupSchema.properties.provider.enum = providerData?.acls.items?.map(
+      (item) => item.providerIdentity.provider_id
+    )
+  }
 
   const fields = {
     TitleField: CustomTitleField,
@@ -115,7 +139,7 @@ const GroupForm = () => {
       const formData = {
         description,
         name,
-        systemGroup: tag === 'CMR',
+        provider: isAdminPage ? undefined : tag,
         members: memberObjects
       }
 
@@ -146,12 +170,12 @@ const GroupForm = () => {
   const handleSubmit = () => {
     const groupVariables = {
       ...formData,
-      tag: formData.systemGroup ? 'CMR' : providerId,
+      tag: isAdminPage ? 'CMR' : formData.provider,
       // Members needs to default to an empty string if no members are provided by the form
       members: formData.members?.length > 0 ? formData.members.map((member) => member.id).join(', ') : '',
 
-      // `systemGroup` is not a variable in the GraphQL mutation
-      systemGroup: undefined
+      // `provider` is not a variable in the GraphQL mutation
+      provider: undefined
     }
 
     if (id === 'new') {
@@ -166,7 +190,7 @@ const GroupForm = () => {
             variant: 'success'
           })
 
-          navigate(`/groups/${groupId}`)
+          navigate(`${isAdminPage ? '/admin' : ''}/groups/${groupId}`)
         },
         onError: () => {
           addNotification({
@@ -194,7 +218,7 @@ const GroupForm = () => {
           // Sets savedDraft so the group preview can request the correct version
           setSavedDraft(updateGroup)
 
-          navigate(`/groups/${id}`)
+          navigate(`${isAdminPage ? '/admin' : ''}/groups/${id}`)
         },
         onError: () => {
           addNotification({
@@ -229,10 +253,10 @@ const GroupForm = () => {
               }
             }
             widgets={widgets}
-            schema={group}
+            schema={updatedGroupSchema}
             validator={validator}
             templates={templates}
-            uiSchema={groupUiSchema}
+            uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
             onChange={handleChange}
             formData={formData}
             onSubmit={handleSubmit}
@@ -254,6 +278,14 @@ const GroupForm = () => {
       </Row>
     </Container>
   )
+}
+
+GroupForm.defaultProps = {
+  isAdminPage: false
+}
+
+GroupForm.propTypes = {
+  isAdminPage: PropTypes.bool
 }
 
 export default GroupForm

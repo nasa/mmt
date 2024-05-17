@@ -213,7 +213,6 @@ const setup = ({
 
   render(
     <AppContext.Provider value={context}>
-
       <MockedProvider
         mocks={overrideMocks || mocks}
       >

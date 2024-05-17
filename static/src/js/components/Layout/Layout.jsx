@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
 import { Outlet } from 'react-router-dom'
+
+import usePermissions from '@/js/hooks/usePermissions'
 
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Footer from '../Footer/Footer'
@@ -29,6 +30,15 @@ const Layout = ({ className, displayNav }) => {
     ummT,
     ummV
   } = getUmmVersionsConfig()
+
+  const { hasSystemGroup, loading } = usePermissions({
+    systemGroup: ['read']
+  })
+
+  if (loading) return null
+
+  const canViewGroups = hasSystemGroup
+  const canViewAdmin = canViewGroups // || canView* other permission if needed
 
   return (
     <div className="d-flex flex-column w-100">
@@ -107,6 +117,19 @@ const Layout = ({ className, displayNav }) => {
                         {
                           to: '/groups',
                           title: 'Groups'
+                        },
+                        // TODO need a divider
+                        {
+                          to: '/admin',
+                          title: 'Admin',
+                          visible: canViewAdmin,
+                          children: [
+                            {
+                              to: '/admin/groups',
+                              title: 'System Groups',
+                              visible: canViewGroups
+                            }
+                          ]
                         }
                       ]
                     }

@@ -1,4 +1,5 @@
 import React, { Suspense, useState } from 'react'
+import PropTypes from 'prop-types'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
 import {
@@ -7,19 +8,20 @@ import {
   FaTrash
 } from 'react-icons/fa'
 
-import CustomModal from '../../components/CustomModal/CustomModal'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Group from '../../components/Group/Group'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import Group from '@/js/components/Group/Group'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import usePermissions from '@/js/hooks/usePermissions'
 
-import { DELETE_GROUP } from '../../operations/mutations/deleteGroup'
-import { GET_GROUP } from '../../operations/queries/getGroup'
-import { GET_GROUPS } from '../../operations/queries/getGroups'
+import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 
-import errorLogger from '../../utils/errorLogger'
+import errorLogger from '@/js/utils/errorLogger'
 
 /**
  * Renders a GroupPageHeader component
@@ -30,7 +32,7 @@ import errorLogger from '../../utils/errorLogger'
  *   <GroupPageHeader />
  * )
  */
-const GroupPageHeader = () => {
+const GroupPageHeader = ({ isAdminPage }) => {
   const navigate = useNavigate()
 
   const { addNotification } = useNotificationsContext()
@@ -39,12 +41,17 @@ const GroupPageHeader = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
+  const { hasSystemGroup } = usePermissions({
+    systemGroup: ['create']
+  })
+
   const [deleteGroupMutation] = useMutation(DELETE_GROUP, {
     refetchQueries: [{
       query: GET_GROUPS,
       variables: {
         params: {
-          name: ''
+          name: '',
+          tags: isAdminPage ? ['CMR'] : undefined
         }
       }
     }]
@@ -73,11 +80,11 @@ const GroupPageHeader = () => {
       },
       onCompleted: () => {
         addNotification({
-          message: 'Group was successfully deleted.',
+          message: `${isAdminPage ? 'System ' : ''}Group was successfully deleted.`,
           variant: 'success'
         })
 
-        navigate('/groups')
+        navigate(`${isAdminPage ? '/admin' : ''}/groups`, { replace: true })
       },
       onError: () => {
         addNotification({
@@ -92,6 +99,8 @@ const GroupPageHeader = () => {
     })
   }
 
+  const title = `${isAdminPage ? 'System ' : ''}Groups`
+
   return (
     <>
       <PageHeader
@@ -99,8 +108,8 @@ const GroupPageHeader = () => {
         breadcrumbs={
           [
             {
-              label: 'Groups',
-              to: '/groups'
+              label: title,
+              to: `${isAdminPage ? '/admin' : ''}/groups`
             },
             {
               label: name,
@@ -116,7 +125,8 @@ const GroupPageHeader = () => {
               to: 'edit',
               title: 'Edit',
               iconTitle: 'A edit icon',
-              variant: 'primary'
+              variant: 'primary',
+              visible: !isAdminPage || hasSystemGroup
             },
             {
               icon: FaTrash,
@@ -125,12 +135,13 @@ const GroupPageHeader = () => {
               iconTitle: 'A trash can icon',
               variant: 'danger',
               disabled: count > 0,
-              disabledTooltipText: count > 0 ? 'Can\'t delete groups that have members.' : null
+              disabledTooltipText: count > 0 ? 'Can\'t delete groups that have members.' : null,
+              visible: !isAdminPage || hasSystemGroup
             },
             {
               icon: FaKey,
               to: 'permissions',
-              title: 'Provider Permissions',
+              title: `${!isAdminPage ? 'Provider' : ''} Permissions`,
               iconTitle: 'A key icon',
               variant: 'light-dark'
             }
@@ -138,7 +149,7 @@ const GroupPageHeader = () => {
         }
       />
       <CustomModal
-        message="Are you sure you want to delete this group?"
+        message={`Are you sure you want to delete this ${isAdminPage ? 'system ' : ''}group?`}
         show={showDeleteModal}
         size="lg"
         toggleModal={toggleShowDeleteModal}
@@ -161,6 +172,14 @@ const GroupPageHeader = () => {
   )
 }
 
+GroupPageHeader.defaultProps = {
+  isAdminPage: false
+}
+
+GroupPageHeader.propTypes = {
+  isAdminPage: PropTypes.bool
+}
+
 /**
  * Renders a GroupPage component
  *
@@ -170,17 +189,25 @@ const GroupPageHeader = () => {
  *   <GroupPage />
  * )
  */
-const GroupPage = () => (
+const GroupPage = ({ isAdminPage }) => (
   <Page
     pageType="secondary"
-    header={<GroupPageHeader />}
+    header={<GroupPageHeader isAdminPage={isAdminPage} />}
   >
     <ErrorBoundary>
       <Suspense fallback="Loading...">
-        <Group />
+        <Group isAdminPage={isAdminPage} />
       </Suspense>
     </ErrorBoundary>
   </Page>
 )
+
+GroupPage.defaultProps = {
+  isAdminPage: false
+}
+
+GroupPage.propTypes = {
+  isAdminPage: PropTypes.bool
+}
 
 export default GroupPage

@@ -39,7 +39,7 @@ const SystemPermissionsHeader = () => {
       breadcrumbs={
         [
           {
-            label: 'Groups',
+            label: 'System Groups',
             to: '/admin/groups'
           },
           {

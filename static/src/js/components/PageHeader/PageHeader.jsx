@@ -114,9 +114,12 @@ const PageHeader = ({
                     onClick,
                     title: buttonTitle,
                     to,
-                    variant
+                    variant,
+                    visible = true
                   }
                 ) => {
+                  if (!visible) return null
+
                   if (to) {
                     return (
                       <div

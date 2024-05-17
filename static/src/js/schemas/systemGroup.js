@@ -1,4 +1,4 @@
-const group = {
+const systemGroup = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'group',
   type: 'object',
@@ -15,11 +15,6 @@ const group = {
       type: 'string',
       minLength: 1,
       maxLength: 255
-    },
-    provider: {
-      description: 'The provider to create this group in.',
-      type: 'string',
-      enum: ['MMT_1', 'MMT_2'] // Overwritten by GroupForm.jsx
     },
     members: {
       description: 'Group Members',
@@ -39,7 +34,7 @@ const group = {
       }
     }
   },
-  required: ['name', 'description', 'provider']
+  required: ['name', 'description']
 }
 
-export default group
+export default systemGroup

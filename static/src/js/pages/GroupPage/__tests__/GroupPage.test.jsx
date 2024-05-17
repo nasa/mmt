@@ -14,6 +14,8 @@ import {
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
 import { GraphQLError } from 'graphql'
+import usePermissions from '@/js/hooks/usePermissions'
+
 import GroupPage from '../GroupPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
 
@@ -24,12 +26,17 @@ import { DELETE_GROUP } from '../../../operations/mutations/deleteGroup'
 import { GET_GROUP } from '../../../operations/queries/getGroup'
 import { GET_GROUPS } from '../../../operations/queries/getGroups'
 
+vi.mock('@/js/hooks/usePermissions')
 vi.mock('../../../utils/errorLogger')
 
 const setup = ({
   additionalMocks = [],
-  overrideMocks = false
+  overrideMocks = false,
+  pageUrl = '/groups/1234-abcd-5678-efgh',
+  hasSystemGroup = true
 }) => {
+  usePermissions.mockReturnValue({ hasSystemGroup })
+
   const mockGroup = {
     id: '1234-abcd-5678-efgh',
     description: 'Mock group description',
@@ -79,7 +86,7 @@ const setup = ({
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
-          <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
+          <MemoryRouter initialEntries={[pageUrl]}>
             <Routes>
               <Route
                 path="/groups"
@@ -91,6 +98,23 @@ const setup = ({
                       <ErrorBoundary>
                         <Suspense>
                           <GroupPage />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )
+                  }
+                />
+              </Route>
+
+              <Route
+                path="/admin/groups"
+              >
+                <Route
+                  path=":id"
+                  element={
+                    (
+                      <ErrorBoundary>
+                        <Suspense>
+                          <GroupPage isAdminPage />
                         </Suspense>
                       </ErrorBoundary>
                     )
@@ -266,7 +290,7 @@ describe('GroupPage', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/groups')
+        expect(navigateSpy).toHaveBeenCalledWith('/groups', { replace: true })
       })
     })
 
@@ -367,6 +391,151 @@ describe('GroupPage', () => {
         await user.click(noButton)
 
         expect(screen.queryByText('Are you sure you want to delete this group?')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when deleting a system group', () => {
+      test('deletes the group and hides the modal', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          pageUrl: '/admin/groups/1234-abcd-5678-efgh',
+          overrideMocks: [
+            {
+              request: {
+                query: GET_GROUP,
+                variables: {
+                  params: {
+                    id: '1234-abcd-5678-efgh'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 0,
+                      items: []
+                    },
+                    name: 'Mock group',
+                    tag: 'CMR'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: DELETE_GROUP,
+                variables: {
+                  id: '1234-abcd-5678-efgh'
+                }
+              },
+              result: {
+                data: {
+                  deleteGroup: true
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_GROUPS,
+                variables: {
+                  params: {
+                    name: '',
+                    tags: ['CMR']
+                  }
+                }
+              },
+              result: {
+                data: {
+                  groups: {
+                    count: 1,
+                    items: [
+                      {
+                        id: '1234-abcd-5678-efgh',
+                        description: 'Mock group description',
+                        members: {
+                          count: 1,
+                          items: [{
+                            id: 'test.user',
+                            firstName: 'Test',
+                            lastName: 'User',
+                            emailAddress: 'test@example.com',
+                            __typename: 'GroupMember'
+                          }]
+                        },
+                        name: 'Mock group',
+                        tag: 'CMR'
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        await waitForResponse()
+
+        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        await user.click(deleteLink)
+
+        expect(screen.getByText('Are you sure you want to delete this system group?')).toBeInTheDocument()
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+
+        await user.click(yesButton)
+
+        await waitForResponse()
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/admin/groups', { replace: true })
+      })
+    })
+
+    describe('when deleting a system group without create permission', () => {
+      test('does not show the delete button', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        setup({
+          hasSystemGroup: false,
+          pageUrl: '/admin/groups/1234-abcd-5678-efgh',
+          overrideMocks: [
+            {
+              request: {
+                query: GET_GROUP,
+                variables: {
+                  params: {
+                    id: '1234-abcd-5678-efgh'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 0,
+                      items: []
+                    },
+                    name: 'Mock group',
+                    tag: 'CMR'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        await waitForResponse()
+
+        expect(screen.queryByRole('button', { name: 'A edit icon' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'A trash can icon Delete' })).not.toBeInTheDocument()
       })
     })
   })

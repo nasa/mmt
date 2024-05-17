@@ -13,7 +13,7 @@ const fetchEdlProfile = async (headers) => {
 
   if (token === 'ABC-1') {
     return {
-      uid: 'mock_user'
+      uid: 'admin'
     }
   }
 

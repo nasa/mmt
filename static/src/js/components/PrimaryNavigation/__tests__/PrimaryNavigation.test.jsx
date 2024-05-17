@@ -171,4 +171,76 @@ describe('PrimaryNavigation component', () => {
       expect(screen.getByRole('button', { name: 'Close icon' })).toBeInTheDocument()
     })
   })
+
+  describe('when a link is not visible', () => {
+    test('does not show the link', async () => {
+      render(
+        <MemoryRouter initialEntries={['/child-link-1']}>
+          <PrimaryNavigation
+            items={
+              [
+                {
+                  title: 'Home',
+                  to: '/'
+                },
+                {
+                  title: 'Link 1',
+                  to: '/link-1',
+                  children: [
+                    {
+                      title: 'Child Link 1',
+                      to: '/child-link-1'
+                    }
+                  ]
+                },
+                {
+                  title: 'Link 2',
+                  to: '/link-2',
+                  visible: false
+                }
+              ]
+            }
+          />
+        </MemoryRouter>
+      )
+
+      expect(screen.queryByRole('link', { name: 'Link 2' })).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when a child link is not visible', () => {
+    test('does not show the link', async () => {
+      render(
+        <MemoryRouter initialEntries={['/child-link-1']}>
+          <PrimaryNavigation
+            items={
+              [
+                {
+                  title: 'Home',
+                  to: '/'
+                },
+                {
+                  title: 'Link 1',
+                  to: '/link-1',
+                  children: [
+                    {
+                      title: 'Child Link 1',
+                      to: '/child-link-1',
+                      visible: false
+                    }
+                  ]
+                },
+                {
+                  title: 'Link 2',
+                  to: '/link-2'
+                }
+              ]
+            }
+          />
+        </MemoryRouter>
+      )
+
+      expect(screen.queryByRole('link', { name: 'Child Link 1' })).not.toBeInTheDocument()
+    })
+  })
 })

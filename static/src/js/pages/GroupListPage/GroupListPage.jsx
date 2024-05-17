@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-
+import PropTypes from 'prop-types'
 import { FaPlus } from 'react-icons/fa'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
@@ -8,6 +8,7 @@ import GroupSearchForm from '@/js/components/GroupSearchForm/GroupSearchForm'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import usePermissions from '@/js/hooks/usePermissions'
 
 /**
  * Renders a GroupPageHeader component
@@ -18,29 +19,46 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
  *   <GroupPageHeader />
  * )
  */
-const GroupListPageHeader = () => (
-  <PageHeader
-    breadcrumbs={
-      [
-        {
-          label: 'Groups',
-          to: '/groups'
-        }
-      ]
-    }
-    pageType="secondary"
-    primaryActions={
-      [{
-        icon: FaPlus,
-        iconTitle: 'A plus icon',
-        title: 'New Group',
-        to: 'new',
-        variant: 'success'
-      }]
-    }
-    title="Groups"
-  />
-)
+const GroupListPageHeader = ({ isAdminPage }) => {
+  const { hasSystemGroup } = usePermissions({
+    systemGroup: ['create']
+  })
+
+  const title = `${isAdminPage ? 'System ' : ''}Groups`
+
+  return (
+    <PageHeader
+      breadcrumbs={
+        [
+          {
+            label: title,
+            to: `${isAdminPage ? '/admin' : ''}/groups`
+          }
+        ]
+      }
+      pageType="secondary"
+      primaryActions={
+        [{
+          icon: FaPlus,
+          iconTitle: 'A plus icon',
+          title: `New ${isAdminPage ? 'System ' : ''}Group`,
+          to: 'new',
+          variant: 'success',
+          visible: !isAdminPage || hasSystemGroup
+        }]
+      }
+      title={title}
+    />
+  )
+}
+
+GroupListPageHeader.defaultProps = {
+  isAdminPage: false
+}
+
+GroupListPageHeader.propTypes = {
+  isAdminPage: PropTypes.bool
+}
 
 /**
  * Renders a GroupListPage component
@@ -51,19 +69,27 @@ const GroupListPageHeader = () => (
  *   <GroupListPage />
  * )
  */
-const GroupListPage = () => (
+const GroupListPage = ({ isAdminPage }) => (
   <Page
     pageType="secondary"
-    header={<GroupListPageHeader />}
+    header={<GroupListPageHeader isAdminPage={isAdminPage} />}
   >
-    <GroupSearchForm />
+    <GroupSearchForm isAdminPage={isAdminPage} />
 
     <ErrorBoundary>
       <Suspense fallback={<LoadingTable />}>
-        <GroupList />
+        <GroupList isAdminPage={isAdminPage} />
       </Suspense>
     </ErrorBoundary>
   </Page>
 )
+
+GroupListPage.defaultProps = {
+  isAdminPage: false
+}
+
+GroupListPage.propTypes = {
+  isAdminPage: PropTypes.bool
+}
 
 export default GroupListPage
