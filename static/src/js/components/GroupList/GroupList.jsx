@@ -192,7 +192,7 @@ const GroupList = ({ isAdmin }) => {
       className: 'col-auto',
       dataAccessorFn: buildEllipsisTextCell
     },
-    {
+    !isAdmin && {
       dataKey: 'tag',
       title: 'Provider',
       className: 'col-auto'

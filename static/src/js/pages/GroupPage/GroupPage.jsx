@@ -84,7 +84,7 @@ const GroupPageHeader = ({ isAdmin }) => {
           variant: 'success'
         })
 
-        navigate(`${isAdmin ? '/admin' : ''}/groups`)
+        navigate(`${isAdmin ? '/admin' : ''}/groups`, { replace: true })
       },
       onError: () => {
         addNotification({
@@ -141,7 +141,7 @@ const GroupPageHeader = ({ isAdmin }) => {
             {
               icon: FaKey,
               to: 'permissions',
-              title: 'Provider Permissions',
+              title: `${!isAdmin ? 'Provider' : ''} Permissions`,
               iconTitle: 'A key icon',
               variant: 'light-dark'
             }
@@ -196,7 +196,7 @@ const GroupPage = ({ isAdmin }) => (
   >
     <ErrorBoundary>
       <Suspense fallback="Loading...">
-        <Group />
+        <Group isAdmin={isAdmin} />
       </Suspense>
     </ErrorBoundary>
   </Page>

@@ -170,6 +170,8 @@ describe('GroupList', () => {
       expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
+
+      expect(screen.queryByText('Provider')).not.toBeInTheDocument()
     })
   })
 

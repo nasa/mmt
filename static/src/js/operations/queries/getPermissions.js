@@ -22,5 +22,7 @@ export const GET_PERMISSIONS = gql`
     #     target
     #   }
     # }
+
+    # Alternatively, use the acls query to return all permissions for a user
   }
 `

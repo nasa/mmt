@@ -257,6 +257,10 @@ export const App = () => {
               element: <TemplateForm />
             },
             {
+              path: '/admin',
+              element: <div>oops</div>
+            },
+            {
               element: <CheckPermissions systemGroup={['read']} />,
               children: [
                 {

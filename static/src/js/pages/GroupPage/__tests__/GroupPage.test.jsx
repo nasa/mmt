@@ -290,7 +290,7 @@ describe('GroupPage', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/groups')
+        expect(navigateSpy).toHaveBeenCalledWith('/groups', { replace: true })
       })
     })
 
@@ -492,7 +492,7 @@ describe('GroupPage', () => {
         await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/admin/groups')
+        expect(navigateSpy).toHaveBeenCalledWith('/admin/groups', { replace: true })
       })
     })
 

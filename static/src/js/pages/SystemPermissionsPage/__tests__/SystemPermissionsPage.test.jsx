@@ -202,8 +202,8 @@ describe('SystemPermissionPage', () => {
 
       await waitForResponse()
 
-      expect(screen.getByRole('link', { name: 'Groups' })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: 'Groups' })).toHaveAttribute('href', '/admin/groups')
+      expect(screen.getByRole('link', { name: 'System Groups' })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'System Groups' })).toHaveAttribute('href', '/admin/groups')
       expect(screen.getByRole('link', { name: 'Mock group' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Mock group' })).toHaveAttribute('href', '/admin/groups/1234-abcd-5678-efgh')
 

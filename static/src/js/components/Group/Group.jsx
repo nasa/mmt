@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 
@@ -14,7 +15,7 @@ import Table from '../Table/Table'
  *   <Group />
  * )
  */
-const Group = () => {
+const Group = ({ isAdmin }) => {
   const { id } = useParams()
 
   const { data } = useSuspenseQuery(GET_GROUP, {
@@ -63,7 +64,11 @@ const Group = () => {
     <>
       <p>{description}</p>
 
-      <p>Associated Collection Permissions - TBD</p>
+      {
+        !isAdmin && (
+          <p>Associated Collection Permissions - TBD</p>
+        )
+      }
 
       <Table
         id="member-table"
@@ -77,6 +82,14 @@ const Group = () => {
       />
     </>
   )
+}
+
+Group.defaultProps = {
+  isAdmin: false
+}
+
+Group.propTypes = {
+  isAdmin: PropTypes.bool
 }
 
 export default Group
