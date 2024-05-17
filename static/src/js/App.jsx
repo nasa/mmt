@@ -16,6 +16,7 @@ import MetadataFormPage from './pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from './pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from './pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from './pages/OrderOptionPage/OrderOptionPage'
+import ProvidersPage from './pages/ProvidersPage/ProvidersPage'
 import ProviderPermissionsPage from './pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import RevisionListPage from './pages/RevisionListPage/RevisionListPage'
 import SearchPage from './pages/SearchPage/SearchPage'
@@ -255,6 +256,10 @@ export const App = () => {
             {
               path: 'templates/:templateType/:id/:sectionName/:fieldName',
               element: <TemplateForm />
+            },
+            {
+              path: '/providers',
+              element: <ProvidersPage />
             },
             {
               path: '/admin',

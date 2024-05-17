@@ -40,7 +40,7 @@ const createUsers = async () => {
     })
   }).then((response) => response.json())
     .then((jsonData) => {
-      console.log('Created admin admin:', jsonData)
+      console.log('Created admin user:', jsonData)
     })
 
   await fetch('http://localhost:3008/tokens', {
@@ -61,6 +61,25 @@ const createUsers = async () => {
   }).then((response) => response.json())
     .then((jsonData) => {
       console.log('Created typical user:', jsonData)
+    })
+
+  await fetch('http://localhost:3008/tokens', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify({
+      token: {
+        username: 'new-user',
+        password: 'user',
+        client_id: 'dev test',
+        user_ip_address: '127.0.0.1'
+      }
+    })
+  }).then((response) => response.json())
+    .then((jsonData) => {
+      console.log('Created new-user user:', jsonData)
     })
 }
 
@@ -227,6 +246,9 @@ const addUsersToGroups = async (groupConceptIds) => {
       password: 'admin'
     }, {
       username: 'testuser',
+      password: 'password'
+    }, {
+      username: 'new-user',
       password: 'password'
     }])
   })
