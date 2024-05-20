@@ -193,6 +193,8 @@ describe('PermissionCollectionTable', () => {
 
       await user.click(ascendingButton)
 
+      await waitForResponse()
+
       expect(within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
   })
@@ -223,6 +225,8 @@ describe('PermissionCollectionTable', () => {
       const descendingButton = within(row1).queryByRole('button', { name: /Sort Collection in descending order/ })
 
       await user.click(descendingButton)
+
+      await waitForResponse()
 
       expect(within(row1).queryByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
     })
