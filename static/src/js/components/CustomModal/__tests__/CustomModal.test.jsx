@@ -19,10 +19,12 @@ const setup = (overrideProps) => {
     ...overrideProps
   }
 
-  render(<CustomModal {...props} />)
+  const { container } = render(<CustomModal {...props} />)
 
   return {
-    props
+    container,
+    props,
+    user: userEvent.setup()
   }
 }
 
@@ -60,6 +62,52 @@ describe('CustomModal', () => {
       })
 
       expect(screen.getByRole('button', { name: 'X icon Close' })).toBeInTheDocument()
+    })
+  })
+
+  describe('when no actions are provided', () => {
+    test('does not render the footer', () => {
+      const { container } = setup({
+        actions: null
+      })
+
+      expect(container.querySelector('.modal-footer')).toEqual(null)
+    })
+  })
+
+  describe('when the close button is clicked', () => {
+    test('calls the toggleModal callback', async () => {
+      const toggleModalMock = vi.fn()
+
+      const { user } = setup({
+        actions: null,
+        toggleModal: toggleModalMock
+      })
+
+      const button = screen.getByRole('button', { name: /Close/i })
+
+      await user.click(button)
+
+      expect(toggleModalMock).toHaveBeenCalledTimes(1)
+      expect(toggleModalMock).toHaveBeenCalledWith(false)
+    })
+  })
+
+  describe('when the backdrop is clicked', () => {
+    test('calls the toggleModal callback', async () => {
+      const toggleModalMock = vi.fn()
+
+      const { user } = setup({
+        actions: null,
+        toggleModal: toggleModalMock
+      })
+
+      const dialog = screen.getByRole('dialog')
+
+      await user.click(dialog)
+
+      expect(toggleModalMock).toHaveBeenCalledTimes(1)
+      expect(toggleModalMock).toHaveBeenCalledWith(false)
     })
   })
 })

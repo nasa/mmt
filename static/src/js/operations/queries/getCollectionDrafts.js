@@ -6,6 +6,7 @@ export const GET_COLLECTION_DRAFTS = gql`
     drafts(params: $params) {
       count
       items {
+        providerId
         conceptId
         revisionDate
         ummMetadata

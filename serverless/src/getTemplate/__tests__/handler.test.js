@@ -15,7 +15,7 @@ describe('getTemplate', () => {
   describe('when the object is found', () => {
     test('returns the template from s3', async () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
-        Key: 'mock-key'
+        Key: 'MMT-1/mock-id'
       }])
 
       const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
@@ -35,18 +35,23 @@ describe('getTemplate', () => {
 
       const event = {
         pathParameters: {
-          id: 'mock-id',
-          providerId: 'MMT-1'
+          id: 'mock-id'
         }
       }
 
       const response = await getTemplate(event)
+      const result = JSON.parse(response.body)
 
       expect(response.statusCode).toBe(200)
-      expect(response.body).toBe(JSON.stringify({ Mock: 'Template' }))
+
+      expect(result.template).toEqual(expect.objectContaining({
+        Mock: 'Template'
+      }))
+
+      expect(result.providerId).toEqual('MMT-1')
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/mock-id')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
     })
   })
 
@@ -57,8 +62,7 @@ describe('getTemplate', () => {
 
       const event = {
         pathParameters: {
-          id: 'mock-id',
-          providerId: 'MMT-1'
+          id: 'mock-id'
         }
       }
 
@@ -67,7 +71,7 @@ describe('getTemplate', () => {
       expect(response.statusCode).toBe(404)
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/mock-id')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
 
       expect(consoleMock).toHaveBeenCalledTimes(1)
       expect(consoleMock).toHaveBeenCalledWith('getTemplate Error:', expect.any(Object))

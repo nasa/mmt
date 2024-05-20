@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -28,35 +32,26 @@ let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
 expires = new Date(expires)
 
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
+const cookie = new Cookies({
+  loginInfo: {
+    providerId: 'MMT_2',
+    name: 'User Name',
+    token: {
+      tokenValue: 'ABC-1',
+      tokenExp: expires.valueOf()
+    }
   }
-)
+})
 cookie.HAS_DOCUMENT_COOKIE = false
 
-const setup = ({
-  mocks,
-  pageUrl
-}) => {
+const setup = ({ mocks, pageUrl }) => {
   render(
     <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
       <Providers>
-        <MockedProvider
-          mocks={mocks}
-        >
+        <MockedProvider mocks={mocks}>
           <MemoryRouter initialEntries={[pageUrl]}>
             <Routes>
-              <Route
-                path="/order-options"
-              >
+              <Route path="/order-options">
                 <Route
                   element={
                     (
@@ -120,7 +115,8 @@ describe('OrderOptionForm', () => {
                   }
                 }
               }
-            }, {
+            },
+            {
               request: {
                 query: GET_ORDER_OPTION,
                 variables: {
@@ -152,6 +148,12 @@ describe('OrderOptionForm', () => {
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
+
+        const modal = screen.getByRole('dialog')
+        const modalButton = within(modal).getByRole('button', {
+          name: 'Submit'
+        })
+        await user.click(modalButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT')
@@ -193,8 +195,15 @@ describe('OrderOptionForm', () => {
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
+        const modal = screen.getByRole('dialog')
+        const modalButton = within(modal).getByRole('button', { name: 'Submit' })
+        await user.click(modalButton)
+
         expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Error creating order option', 'OrderOptionForm: createOrderOptionMutation')
+        expect(errorLogger).toHaveBeenCalledWith(
+          'Error creating order option',
+          'OrderOptionForm: createOrderOptionMutation'
+        )
       })
     })
 
@@ -304,8 +313,7 @@ describe('OrderOptionForm', () => {
                   }
                 }
               }
-            }
-            ]
+            }]
           }
         )
 
@@ -373,8 +381,7 @@ describe('OrderOptionForm', () => {
               }
             },
             error: new Error('An error occurred')
-          }
-          ]
+          }]
         })
 
         await waitForResponse()
@@ -386,7 +393,10 @@ describe('OrderOptionForm', () => {
         await user.click(submitButton)
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Error updating order option', 'OrderOptionForm: updateOrderOptionMutation')
+        expect(errorLogger).toHaveBeenCalledWith(
+          'Error updating order option',
+          'OrderOptionForm: updateOrderOptionMutation'
+        )
       })
     })
   })

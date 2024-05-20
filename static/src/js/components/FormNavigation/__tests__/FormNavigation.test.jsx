@@ -7,6 +7,7 @@ import {
   Routes
 } from 'react-router'
 
+import Providers from '@/js/providers/Providers/Providers'
 import FormNavigation from '../FormNavigation'
 import NavigationItem from '../../NavigationItem/NavigationItem'
 
@@ -43,18 +44,20 @@ const setup = ({
   }
 
   render(
-    <MemoryRouter initialEntries={[overrideInitialEntries || '/tool-drafts/TD1000000-MMT/mock-section-name']}>
-      <Routes>
-        <Route
-          path={overridePath || '/tool-drafts'}
-        >
+    <Providers>
+      <MemoryRouter initialEntries={[overrideInitialEntries || '/tool-drafts/TD1000000-MMT/mock-section-name']}>
+        <Routes>
           <Route
-            path={overridePathName || ':conceptId/:sectionName'}
-            element={<FormNavigation {...props} />}
-          />
-        </Route>
-      </Routes>
-    </MemoryRouter>
+            path={overridePath || '/tool-drafts'}
+          >
+            <Route
+              path={overridePathName || ':conceptId/:sectionName'}
+              element={<FormNavigation {...props} />}
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </Providers>
   )
 
   return {

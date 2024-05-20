@@ -141,6 +141,7 @@ describe('GroupPage', () => {
       await waitForResponse()
 
       expect(screen.queryByText('Groups')).toBeInTheDocument()
+      expect(screen.queryByText('MMT_2')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Mock group' })).toBeInTheDocument()
     })
   })

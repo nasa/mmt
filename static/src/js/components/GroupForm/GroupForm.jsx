@@ -28,13 +28,14 @@ import getPermittedUser from '@/js/utils/getPermittedUser'
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
 
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import GridLayout from '../GridLayout/GridLayout'
+import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
 
 /**
  * Renders a GroupForm component
@@ -62,6 +63,7 @@ const GroupForm = ({ isAdminPage }) => {
   const { addNotification } = useNotificationsContext()
 
   const [focusField, setFocusField] = useState(null)
+  const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
   const [createGroupMutation] = useMutation(CREATE_GROUP)
   const [updateGroupMutation] = useMutation(UPDATE_GROUP, {
@@ -232,6 +234,16 @@ const GroupForm = ({ isAdminPage }) => {
     }
   }
 
+  const handleSetProviderOrSubmit = () => {
+    if (id === 'new' && !isAdminPage) {
+      setChooseProviderModalOpen(true)
+
+      return
+    }
+
+    handleSubmit()
+  }
+
   const handleClear = () => {
     setDraft(originalDraft)
     addNotification({
@@ -241,42 +253,60 @@ const GroupForm = ({ isAdminPage }) => {
   }
 
   return (
-    <Container className="group-form__container mx-0" fluid>
-      <Row>
-        <Col>
-          <Form
-            fields={fields}
-            formContext={
-              {
-                focusField,
-                setFocusField
+    <>
+      <Container className="group-form__container mx-0" fluid>
+        <Row>
+          <Col>
+            <Form
+              fields={fields}
+              formContext={
+                {
+                  focusField,
+                  setFocusField
+                }
               }
-            }
-            widgets={widgets}
-            schema={updatedGroupSchema}
-            validator={validator}
-            templates={templates}
-            uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
-            onChange={handleChange}
-            formData={formData}
-            onSubmit={handleSubmit}
-            showErrorList="false"
-          >
-            <div className="d-flex gap-2">
-              <Button type="submit">
-                Submit
-              </Button>
-              <Button
-                onClick={handleClear}
-                variant="secondary"
-              >
-                Clear
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              widgets={widgets}
+              schema={updatedGroupSchema}
+              validator={validator}
+              templates={templates}
+              uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
+              onChange={handleChange}
+              formData={formData}
+              onSubmit={handleSetProviderOrSubmit}
+              showErrorList="false"
+            >
+              <div className="d-flex gap-2">
+                <Button type="submit">
+                  Submit
+                </Button>
+                <Button
+                  onClick={handleClear}
+                  variant="secondary"
+                >
+                  Clear
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+      <ChooseProviderModal
+        show={chooseProviderModalOpen}
+        primaryActionType="Submit"
+        toggleModal={
+          () => {
+            setChooseProviderModalOpen(false)
+          }
+        }
+        type="Group"
+        onSubmit={
+          () => {
+            handleSubmit()
+            setChooseProviderModalOpen(false)
+          }
+        }
+      />
+    </>
   )
 }
 

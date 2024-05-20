@@ -18,9 +18,6 @@ const updateTemplate = async (providerId, token, ummMetadata, id) => {
         Authorization: `Bearer ${tokenValue}`
       },
       body: JSON.stringify({
-        pathParameters: {
-          providerId
-        },
         ...ummMetadata
       })
     })

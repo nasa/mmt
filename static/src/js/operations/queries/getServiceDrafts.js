@@ -7,6 +7,7 @@ export const GET_SERVICE_DRAFTS = gql`
       count
       items {
         conceptId
+        providerId
         revisionDate
         ummMetadata
         previewMetadata {

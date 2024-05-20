@@ -77,16 +77,19 @@ describe('TemplatePreview', () => {
     test('render a template preview', async () => {
       getTemplate.mockReturnValue({
         response: {
-          TemplateName: 'Mock Template',
-          ShortName: 'Template Form Test',
-          Version: '1.0.0'
+          template: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          },
+          providerId: 'MMT-1'
         }
       })
 
       setup()
       await waitForResponse()
 
-      expect(PreviewProgress).toHaveBeenCalledTimes(2)
+      expect(PreviewProgress).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -249,9 +252,12 @@ describe('TemplatePreview', () => {
     beforeEach(() => {
       getTemplate.mockReturnValue({
         response: {
-          TemplateName: 'Mock Template',
-          ShortName: 'Template Form Test',
-          Version: '1.0.0'
+          template: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          },
+          providerId: 'MMT_2'
         }
       })
     })

@@ -6,21 +6,20 @@ import { useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 
-import Button from '../Button/Button'
-import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
-import CustomModal from '../CustomModal/CustomModal'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import Table from '../Table/Table'
+import Button from '@/js/components/Button/Button'
+import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import Table from '@/js/components/Table/Table'
 
-import { DELETE_ORDER_OPTION } from '../../operations/mutations/deleteOrderOption'
-import { GET_ORDER_OPTIONS } from '../../operations/queries/getOrderOptions'
+import { DELETE_ORDER_OPTION } from '@/js/operations/mutations/deleteOrderOption'
+import { GET_ORDER_OPTIONS } from '@/js/operations/queries/getOrderOptions'
 
-import { DATE_FORMAT } from '../../constants/dateFormat'
+import { DATE_FORMAT } from '@/js/constants/dateFormat'
 
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import errorLogger from '../../utils/errorLogger'
+import errorLogger from '@/js/utils/errorLogger'
 
 /**
  * Renders a OrderOptionList component
@@ -32,11 +31,7 @@ import errorLogger from '../../utils/errorLogger'
  * )
  */
 const OrderOptionList = () => {
-  const { user } = useAppContext()
-
   const { addNotification } = useNotificationsContext()
-
-  const { providerId } = user
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedOrderOption, setSelectedOrderOption] = useState(false)
@@ -59,7 +54,6 @@ const OrderOptionList = () => {
   const { data, refetch } = useSuspenseQuery(GET_ORDER_OPTIONS, {
     variables: {
       params: {
-        providerId,
         limit,
         offset
       }
@@ -68,12 +62,7 @@ const OrderOptionList = () => {
 
   const [deleteOrderOptionMutation] = useMutation(DELETE_ORDER_OPTION, {
     refetchQueries: [{
-      query: GET_ORDER_OPTIONS,
-      variables: {
-        params: {
-          providerId
-        }
-      }
+      query: GET_ORDER_OPTIONS
     }]
   })
 
@@ -82,7 +71,7 @@ const OrderOptionList = () => {
   }
 
   const handleDelete = () => {
-    const { nativeId } = selectedOrderOption
+    const { nativeId, providerId } = selectedOrderOption
     deleteOrderOptionMutation({
       variables: {
         nativeId,

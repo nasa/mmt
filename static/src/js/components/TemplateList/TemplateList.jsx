@@ -3,28 +3,29 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import { FaPlus } from 'react-icons/fa'
 
-import deleteTemplate from '../../utils/deleteTemplate'
-import errorLogger from '../../utils/errorLogger'
-import getTemplates from '../../utils/getTemplates'
+import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
+import deleteTemplate from '@/js/utils/deleteTemplate'
+import errorLogger from '@/js/utils/errorLogger'
+import getTemplates from '@/js/utils/getTemplates'
 
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import { DATE_FORMAT } from '../../constants/dateFormat'
+import { DATE_FORMAT } from '@/js/constants/dateFormat'
 
-import Button from '../Button/Button'
-import CustomModal from '../CustomModal/CustomModal'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import Page from '../Page/Page'
-import PageHeader from '../PageHeader/PageHeader'
-import Table from '../Table/Table'
+import Button from '@/js/components/Button/Button'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+import Table from '@/js/components/Table/Table'
 
 /**
  * Renders a TemplateList component
@@ -36,6 +37,7 @@ import Table from '../Table/Table'
  * )
  */
 const TemplateList = () => {
+  const { templateType } = useParams()
   const { user } = useAppContext()
   const { token } = user
 
@@ -50,7 +52,7 @@ const TemplateList = () => {
   const { addNotification } = useNotificationsContext()
 
   const fetchTemplates = async () => {
-    const { response, error } = await getTemplates(providerId, token)
+    const { response, error } = await getTemplates(token)
     setErrors(error)
     setTemplateList(response)
     setLoading(false)
@@ -138,6 +140,12 @@ const TemplateList = () => {
       dataAccessorFn: buildEllipsisLinkCell
     },
     {
+      dataKey: 'providerId',
+      title: 'Provider',
+      className: 'col-auto',
+      align: 'center'
+    },
+    {
       dataKey: 'lastModified',
       title: 'Last Modified (UTC)',
       className: 'col-auto',
@@ -150,12 +158,14 @@ const TemplateList = () => {
     }
   ]
 
+  const conceptType = urlValueTypeToConceptTypeMap[templateType]
+
   const templateListHeader = () => (
     <PageHeader
       breadcrumbs={
         [
           {
-            label: 'Templates',
+            label: `${conceptType} Templates`,
             active: true
           }
         ]
@@ -170,7 +180,7 @@ const TemplateList = () => {
           variant: 'success'
         }]
       }
-      title={`${providerId} Template`}
+      title={`${conceptType} Templates`}
     />
   )
 

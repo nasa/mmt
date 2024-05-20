@@ -18,18 +18,18 @@ import { DELETE_ORDER_OPTION } from '@/js/operations/mutations/deleteOrderOption
 import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
 import { GET_ORDER_OPTIONS } from '@/js/operations/queries/getOrderOptions'
 
-import CustomModal from '@/js/components/CustomModal/CustomModal'
-import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
-import OrderOption from '@/js/components/OrderOption/OrderOption'
-import Page from '@/js/components/Page/Page'
-import PageHeader from '@/js/components/PageHeader/PageHeader'
-
 import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 import toKebabCase from '@/js/utils/toKebabCase'
+
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import OrderOption from '@/js/components/OrderOption/OrderOption'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 /**
  * Renders a OrderOptionPageHeader component
@@ -123,6 +123,7 @@ const OrderOptionPageHeader = () => {
           ]
         }
         title={name}
+        titleBadge={providerId}
         breadcrumbs={
           [
             {

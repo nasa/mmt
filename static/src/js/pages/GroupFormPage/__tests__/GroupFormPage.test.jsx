@@ -199,4 +199,36 @@ describe('GroupFormPage', () => {
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })
+
+  describe('when showing the header for a system group with name', () => {
+    test('show render the header with name', async () => {
+      setup({
+        pageUrl: '/admin/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
+        mocks: [{
+          request: {
+            query: GET_GROUP,
+            variables: { params: { id: 'dce1859e-774c-4561-9451-fc9d77906015' } }
+          },
+          result: {
+            data: {
+              group: {
+                id: 'dce1859e-774c-4561-9451-fc9d77906015',
+                description: 'Test Description',
+                name: 'Test Name',
+                members: {
+                  count: 0,
+                  items: []
+                },
+                tag: 'CMR'
+              }
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      expect(screen.getByText('CMR')).toBeInTheDocument()
+    })
+  })
 })

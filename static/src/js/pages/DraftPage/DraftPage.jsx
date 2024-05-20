@@ -13,26 +13,26 @@ import {
   FaTrash
 } from 'react-icons/fa'
 
-import CustomModal from '../../components/CustomModal/CustomModal'
-import DraftPreview from '../../components/DraftPreview/DraftPreview'
-import DraftPreviewPlaceholder from '../../components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import MetadataPreviewPlaceholder from '../../components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
+import createTemplate from '@/js/utils/createTemplate'
+import errorLogger from '@/js/utils/errorLogger'
 
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import createTemplate from '../../utils/createTemplate'
-import errorLogger from '../../utils/errorLogger'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import usePublishMutation from '@/js/hooks/usePublishMutation'
+import useAppContext from '@/js/hooks/useAppContext'
 
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import usePublishMutation from '../../hooks/usePublishMutation'
-import useAppContext from '../../hooks/useAppContext'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
+import conceptTypes from '@/js/constants/conceptTypes'
 
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import conceptTypes from '../../constants/conceptTypes'
+import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'
 
-import { DELETE_DRAFT } from '../../operations/mutations/deleteDraft'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import DraftPreview from '@/js/components/DraftPreview/DraftPreview'
+import DraftPreviewPlaceholder from '@/js/components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 /**
  * Renders a DraftPageHeader component
@@ -169,7 +169,8 @@ const DraftPageHeader = () => {
   return (
     <>
       <PageHeader
-        title={data?.draft?.pageTitle || '<Blank Name>'}
+        title={data?.draft?.previewMetadata?.pageTitle || '<Blank Name>'}
+        titleBadge={providerId}
         pageType="secondary"
         breadcrumbs={
           [
@@ -178,7 +179,7 @@ const DraftPageHeader = () => {
               to: `/drafts/${derivedConceptType.toLowerCase()}s`
             },
             {
-              label: data?.draft?.pageTitle || '<Blank Name>',
+              label: data?.draft?.previewMetadata?.pageTitle || '<Blank Name>',
               active: true
             }
           ]

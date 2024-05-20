@@ -47,18 +47,23 @@ describe('getTemplates', () => {
       const response = await getTemplates(event)
 
       expect(response.statusCode).toBe(200)
-      expect(response.body).toBe(JSON.stringify([{
+
+      expect(JSON.parse(response.body)[0]).toEqual(expect.objectContaining({
         id: '460bfd33-cad3-46f8-9eee-47664f98038c',
         name: 'Test Template 1',
-        lastModified: '2024-04-02T19:18:11.000Z'
-      }, {
+        lastModified: '2024-04-02T19:18:11.000Z',
+        providerId: 'MMT-1'
+      }))
+
+      expect(JSON.parse(response.body)[1]).toEqual(expect.objectContaining({
         id: '34a25a4d-da4e-4ffd-b374-beae7978f689',
         name: 'Test Template 2',
-        lastModified: '2024-04-01T19:18:11.000Z'
-      }]))
+        lastModified: '2024-04-01T19:18:11.000Z',
+        providerId: 'MMT-1'
+      }))
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
     })
   })
 
@@ -78,7 +83,7 @@ describe('getTemplates', () => {
       expect(response.body).toBe(JSON.stringify([]))
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
     })
   })
 })

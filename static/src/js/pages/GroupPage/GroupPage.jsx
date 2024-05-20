@@ -70,7 +70,7 @@ const GroupPageHeader = ({ isAdminPage }) => {
   }
 
   const { group = {} } = data
-  const { members, name } = group
+  const { members, name, tag: providerId } = group
   const { count } = members
 
   const handleDelete = () => {
@@ -105,6 +105,7 @@ const GroupPageHeader = ({ isAdminPage }) => {
     <>
       <PageHeader
         title={name}
+        titleBadge={providerId}
         breadcrumbs={
           [
             {

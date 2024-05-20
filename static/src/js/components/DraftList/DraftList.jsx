@@ -4,32 +4,27 @@ import React, {
   useState
 } from 'react'
 
+import { FaFileDownload } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { useSuspenseQuery } from '@apollo/client'
-import { FaFileDownload } from 'react-icons/fa'
+import moment from 'moment'
+import pluralize from 'pluralize'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import pluralize from 'pluralize'
 
-import moment from 'moment'
-import useAppContext from '../../hooks/useAppContext'
-import constructDownloadableFile from '../../utils/constructDownloadableFile'
+import { DATE_FORMAT } from '@/js/constants/dateFormat'
+import conceptIdTypes from '@/js/constants/conceptIdTypes'
+import conceptTypeDraftsQueries from '@/js/constants/conceptTypeDraftsQueries'
+import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
+import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
 
-import Table from '../Table/Table'
-import Button from '../Button/Button'
-
-import conceptIdTypes from '../../constants/conceptIdTypes'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import EllipsisText from '../EllipsisText/EllipsisText'
-import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
-import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
-import conceptTypeDraftsQueries from '../../constants/conceptTypeDraftsQueries'
-import { DATE_FORMAT } from '../../constants/dateFormat'
+import Button from '@/js/components/Button/Button'
+import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
+import Table from '@/js/components/Table/Table'
 
 const DraftList = () => {
-  const { user } = useAppContext()
-  const { providerId } = user
-
   const { draftType: paramDraftType } = useParams()
 
   const draftType = urlValueTypeToConceptTypeMap[paramDraftType]
@@ -42,7 +37,6 @@ const DraftList = () => {
   const { data } = useSuspenseQuery(conceptTypeDraftsQueries[draftType], {
     variables: {
       params: {
-        provider: providerId,
         conceptType: draftType,
         limit,
         offset,
@@ -111,6 +105,11 @@ const DraftList = () => {
   }, [])
 
   const [columns, setColumns] = useState([
+    {
+      dataKey: 'providerId',
+      className: 'col-auto',
+      title: 'Provider'
+    },
     {
       dataKey: 'revisionDate',
       title: 'Last Modified (UTC)',
@@ -209,7 +208,7 @@ const DraftList = () => {
                     generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
                     generateRowKey={({ conceptId }) => `row_${conceptId}`}
                     data={items}
-                    noDataMessage={`No ${draftType} drafts exist for the provider ${providerId}`}
+                    noDataMessage={`No ${draftType} drafts exist`}
                     count={count}
                     setPage={setPage}
                     limit={limit}

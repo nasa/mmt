@@ -8,28 +8,26 @@ let s3Client
  * Retrieve a list of templates from S3
  * @param {Object} event Details about the HTTP request that it received
  */
-const getTemplates = async (event) => {
+const getTemplates = async () => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {
     s3Client = getS3Client()
   }
 
-  const { pathParameters } = event
-  const { providerId } = pathParameters
-  const prefix = `${providerId}/`
-
   try {
-    const objectList = await s3ListObjects(s3Client, prefix)
+    const objectList = await s3ListObjects(s3Client)
 
     const body = objectList.map((object) => {
-      const [guid, hashedName] = object.Key.replace(prefix, '').split('/')
+      const [providerId, guid, hashedName] = object.Key.split('/')
+
       const name = Buffer.from(hashedName, 'base64').toString()
 
       return {
         id: guid,
+        lastModified: object.LastModified,
         name,
-        lastModified: object.LastModified
+        providerId
       }
     })
 

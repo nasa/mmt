@@ -112,7 +112,7 @@ const Button = React.forwardRef(({
             'd-flex': !inline,
             'd-inline-flex p-0': inline,
             'button--naked': naked,
-            'px-2': iconOnly,
+            'px-2': iconOnly && !inline,
             [className]: className
           }
         ])

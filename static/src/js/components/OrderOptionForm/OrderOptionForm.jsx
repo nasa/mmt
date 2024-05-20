@@ -9,24 +9,25 @@ import validator from '@rjsf/validator-ajv8'
 
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import GridLayout from '../GridLayout/GridLayout'
+import orderOption from '@/js/schemas/orderOption'
+import orderOptionUiSchema from '@/js/schemas/uiSchemas/OrderOption'
 
-import orderOption from '../../schemas/orderOption'
-import orderOptionUiSchema from '../../schemas/uiSchemas/OrderOption'
+import { CREATE_ORDER_OPTION } from '@/js/operations/mutations/createOrderOption'
+import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
+import { UPDATE_ORDER_OPTION } from '@/js/operations/mutations/updateOrderOption'
 
-import { CREATE_ORDER_OPTION } from '../../operations/mutations/createOrderOption'
-import { GET_ORDER_OPTION } from '../../operations/queries/getOrderOption'
-import { UPDATE_ORDER_OPTION } from '../../operations/mutations/updateOrderOption'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
 
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import useAppContext from '../../hooks/useAppContext'
+import errorLogger from '@/js/utils/errorLogger'
+import removeEmpty from '@/js/utils/removeEmpty'
 
-import errorLogger from '../../utils/errorLogger'
-import removeEmpty from '../../utils/removeEmpty'
+import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
 
 /**
  * Renders a OrderOptionForm component
@@ -70,6 +71,7 @@ const OrderOptionForm = () => {
   })
 
   const [nativeId, setNativeId] = useState()
+  const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
   const fields = {
     TitleField: CustomTitleField,
@@ -208,6 +210,16 @@ const OrderOptionForm = () => {
     }
   }
 
+  const handleSetProviderOrSubmit = () => {
+    if (conceptId === 'new') {
+      setChooseProviderModalOpen(true)
+
+      return
+    }
+
+    handleSubmit()
+  }
+
   const handleClear = () => {
     setDraft(originalDraft)
     addNotification({
@@ -217,42 +229,60 @@ const OrderOptionForm = () => {
   }
 
   return (
-    <Container className="order-option-form__container mx-0" fluid>
-      <Row>
-        <Col>
-          <Form
-            fields={fields}
-            formContext={
-              {
-                focusField,
-                setFocusField
+    <>
+      <Container className="order-option-form__container mx-0" fluid>
+        <Row>
+          <Col>
+            <Form
+              fields={fields}
+              formContext={
+                {
+                  focusField,
+                  setFocusField
+                }
               }
-            }
-            widgets={widgets}
-            schema={orderOption}
-            validator={validator}
-            templates={templates}
-            uiSchema={orderOptionUiSchema}
-            onChange={handleChange}
-            formData={formData}
-            onSubmit={handleSubmit}
-            showErrorList="false"
-          >
-            <div className="d-flex gap-2">
-              <Button type="submit">
-                Submit
-              </Button>
-              <Button
-                onClick={handleClear}
-                variant="secondary"
-              >
-                Clear
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              widgets={widgets}
+              schema={orderOption}
+              validator={validator}
+              templates={templates}
+              uiSchema={orderOptionUiSchema}
+              onChange={handleChange}
+              formData={formData}
+              onSubmit={handleSetProviderOrSubmit}
+              showErrorList="false"
+            >
+              <div className="d-flex gap-2">
+                <Button type="submit">
+                  Submit
+                </Button>
+                <Button
+                  onClick={handleClear}
+                  variant="secondary"
+                >
+                  Clear
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+      <ChooseProviderModal
+        show={chooseProviderModalOpen}
+        primaryActionType="Submit"
+        toggleModal={
+          () => {
+            setChooseProviderModalOpen(false)
+          }
+        }
+        type="order option"
+        onSubmit={
+          () => {
+            handleSubmit()
+            setChooseProviderModalOpen(false)
+          }
+        }
+      />
+    </>
   )
 }
 

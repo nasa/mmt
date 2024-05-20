@@ -132,8 +132,6 @@ const TemplateForm = () => {
       const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
 
       if (response) {
-        delete response.pathParameters
-
         setDraft({
           ummMetadata: response
         })

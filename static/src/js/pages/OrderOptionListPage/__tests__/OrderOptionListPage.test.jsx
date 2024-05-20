@@ -31,7 +31,8 @@ describe('OrderOptionListPage', () => {
     test('render the page and calls OrderOptionList', async () => {
       setup()
 
-      expect(screen.getByText('MMT_2 Order Options')).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'Order Options' })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Order Options' })).toBeInTheDocument()
       expect(OrderOptionList).toHaveBeenCalled(1)
     })
   })

@@ -30,7 +30,6 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Navbar from 'react-bootstrap/Navbar'
 import Spinner from 'react-bootstrap/Spinner'
 import {
-  FaCheck,
   FaExclamationCircle,
   FaExternalLinkAlt,
   FaQuestionCircle,
@@ -39,14 +38,14 @@ import {
   FaSignOutAlt
 } from 'react-icons/fa'
 
-import { GET_PROVIDERS } from '../../operations/queries/getProviders'
+import { GET_PROVIDERS } from '@/js/operations/queries/getProviders'
 
-import useAppContext from '../../hooks/useAppContext'
+import useAppContext from '@/js/hooks/useAppContext'
 
-import Button from '../Button/Button'
-import For from '../For/For'
+import isTokenExpired from '@/js/utils/isTokenExpired'
 
-import isTokenExpired from '../../utils/isTokenExpired'
+import Button from '@/js/components/Button/Button'
+import For from '@/js/components/For/For'
 
 import './Header.scss'
 
@@ -63,9 +62,7 @@ const Header = () => {
   const {
     user,
     login,
-    logout,
-    providerIds,
-    setProviderId
+    logout
   } = useAppContext()
   const navigate = useNavigate()
 
@@ -184,7 +181,7 @@ const Header = () => {
                     id="user-dropdown"
                     as={Badge}
                     bg={null}
-                    className="header__user-dropdown-toggle pointer me-1"
+                    className="header__user-dropdown-toggle pointer"
                     role="button"
                   >
                     {`${user.name} `}
@@ -214,54 +211,6 @@ const Header = () => {
                       <FaSignOutAlt className="me-2" />
                       Logout
                     </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                <Dropdown align="end">
-                  <Dropdown.Toggle
-                    id="provider-dropdown"
-                    as={Badge}
-                    bg={null}
-                    className="header__prov-dropdown-toggle pointer"
-                    role="button"
-                  >
-                    {user.providerId}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu
-                    className="header__prov-dropdown bg-blue-light border-blue-light shadow text-white"
-                  >
-                    {
-                      providerIds?.length > 0 && (
-                        <>
-                          <span className="header__prov-dropdown-header d-block px-3 my-2 fw-bold">Choose a provider context</span>
-                          <div className="header__prov-dropdown-items-wrapper">
-                            <For each={providerIds}>
-                              {
-                                (providerId) => (
-                                  <Dropdown.Item
-                                    key={providerId}
-                                    className="header__prov-dropdown-item d-flex align-items-center justify-content-between text-white"
-                                    active={providerId === user.providerId}
-                                    onClick={() => setProviderId(providerId)}
-                                  >
-                                    {providerId}
-                                    {
-                                      providerId === user.providerId && (
-                                        <Badge className="ms-2 d-flex align-items-center" bg="indigo">
-                                          <FaCheck className="me-1" />
-                                          {' Selected'}
-                                        </Badge>
-                                      )
-                                    }
-                                  </Dropdown.Item>
-                                )
-                              }
-                            </For>
-                          </div>
-                        </>
-                      )
-                    }
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

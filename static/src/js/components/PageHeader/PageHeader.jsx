@@ -10,10 +10,10 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu'
 import DropdownToggle from 'react-bootstrap/DropdownToggle'
 import { Link } from 'react-router-dom'
 
-import Button from '../Button/Button'
-import CustomMenu from '../CustomMenu/CustomMenu'
-import CustomToggle from '../CustomToggle/CustomToggle'
-import For from '../For/For'
+import Button from '@/js/components/Button/Button'
+import CustomMenu from '@/js/components/CustomMenu/CustomMenu'
+import CustomToggle from '@/js/components/CustomToggle/CustomToggle'
+import For from '@/js/components/For/For'
 
 /**
  * @typedef {Object} PrimaryAction
@@ -42,12 +42,39 @@ import For from '../For/For'
  * @property {Boolean} active A boolean flag to trigger the active state
  */
 
+/**
+ * @typedef {Object} PageHeaderProps
+ * @property {AdditionalAction[]} additionalActions An array of objects that configure the additional actions.
+ * @property {Breadcrumb[]} breadcrumbs An array of objects that configure the breadcrumbs.
+ * @property {String} pageType A string that defines the page type.
+ * @property {PrimaryAction[]} primaryActions An array of objects that configure the primary actions.
+ * @property {String} title The text for the title.
+ * @property {String} titleBadge The text for a title badge.
+ */
+
+/*
+ * Renders a `PageHeader` component.
+ *
+ * The component is renders a button, optionally displaying an icon
+ *
+ * @param {PageHeaderProps} props
+ *
+ * @component
+ * @example <caption>Render a button with an icon</caption>
+ * return (
+ *   <PageHeader
+ *      pageType="primary"
+ *      title="This is the page title"
+ *   />
+ * )
+ */
 const PageHeader = ({
   additionalActions,
   breadcrumbs,
   pageType,
   primaryActions,
-  title
+  title,
+  titleBadge
 }) => (
   <header
     className={
@@ -87,17 +114,20 @@ const PageHeader = ({
       )
     }
     <div className="d-flex w-100 align-items-center justify-content-between">
-      <h2
-        className="m-0 text-gray-200 fs-2"
-        style={
-          {
-            fontWeight: 700,
-            letterSpacing: '-0.015rem'
+      <div className="d-flex align-items-center">
+        <h2
+          className="m-0 text-gray-200 fs-4"
+          style={
+            {
+              fontWeight: 700,
+              letterSpacing: '-0.015rem'
+            }
           }
-        }
-      >
-        {title}
-      </h2>
+        >
+          {title}
+        </h2>
+        {titleBadge && <Badge className="ms-2" bg="light-dark text-secondary" size="sm">{titleBadge}</Badge>}
+      </div>
       {
         primaryActions && (
           <div className="d-flex flex-row">
@@ -243,7 +273,8 @@ PageHeader.defaultProps = {
   additionalActions: null,
   breadcrumbs: [],
   pageType: 'primary',
-  primaryActions: []
+  primaryActions: [],
+  titleBadge: null
 }
 
 PageHeader.propTypes = {
@@ -275,7 +306,8 @@ PageHeader.propTypes = {
       variant: PropTypes.string.isRequired
     }).isRequired
   ),
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  titleBadge: PropTypes.string
 }
 
 export default PageHeader
