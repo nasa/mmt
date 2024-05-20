@@ -24,8 +24,11 @@ const Permission = () => {
 
   const {
     catalogItemIdentity,
-    groupPermissions
+    collections,
+    groups
   } = acl
+
+  const { items: groupItems } = groups
 
   const {
     collectionApplicable,
@@ -36,20 +39,18 @@ const Permission = () => {
 
   const {
     accessValue: collectionAccessValue = {},
-    collections = {},
     temporal = null
   } = collectionIdentifier || {}
 
   const { count: collectionCount, items: collectionItems } = collections || {}
 
   // Builds group list array with items for the table
-  const groupList = groupPermissions.map(({
-    group: groupObject,
+  const groupList = groupItems.map(({
+    id,
+    name,
     permissions,
     userType
   }) => {
-    const { name, id } = groupObject || {}
-
     let groupName = name
     if (userType === 'guest') {
       groupName = 'All Guest Users'

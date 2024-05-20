@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 
-// Query to retrieve acls
 export const GET_COLLECTION_PERMISSION = gql`
   query GetCollectionPermission($conceptId: String!, $collectionParams: CollectionsInput) {
     acl(conceptId: $conceptId) {
@@ -12,31 +11,26 @@ export const GET_COLLECTION_PERMISSION = gql`
       revisionId
       systemIdentity
       catalogItemIdentity {
+        collectionIdentifier
         collectionApplicable
         granuleApplicable
         granuleIdentifier
-        name
-        providerId
-        collectionIdentifier {
-          accessValue
-          collections (params: $collectionParams) {
-            count
-            items {
-              conceptId
-              shortName
-              title
-              version
-            }
-          }
-          temporal
+      }
+      collections (params: $collectionParams) {
+        count
+        items {
+          conceptId
+          shortName
+          title
+          version
         }
       }
-      groupPermissions {
-        permissions
-        userType
-        group {
-          name
+      groups {
+        items {
+          permissions
+          userType
           id
+          name
         }
       }
     }

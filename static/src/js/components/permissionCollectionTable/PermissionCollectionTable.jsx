@@ -41,6 +41,16 @@ const PermissionCollectionTable = () => {
   const sortFn = useCallback((key, order) => {
     let nextSortKey
 
+    if (!order) {
+      setSearchParams((currentParams) => {
+        currentParams.delete('sortKey')
+
+        return Object.fromEntries(currentParams)
+      })
+
+      return
+    }
+
     searchParams.set('sortKey', nextSortKey)
 
     setSearchParams((currentParams) => {
@@ -66,7 +76,6 @@ const PermissionCollectionTable = () => {
       </EllipsisLink>
     )
   }, [])
-
   const collectionColumns = [
     {
       className: 'col-auto',
@@ -95,13 +104,13 @@ const PermissionCollectionTable = () => {
         {
           items && (
             <Table
+              id="permission-collection-table"
               columns={collectionColumns}
-              count={count}
-              data={items}
               generateCellKey={({ conceptId: columnConceptId }, dataKey) => `column_${dataKey}_${columnConceptId}`}
               generateRowKey={({ conceptId: rowConceptId }) => `row_${rowConceptId}`}
-              id="permission-collection-table"
+              data={items}
               limit={20}
+              count={count}
               noDataMessage="No collections found"
               sortKey={sortKey}
             />
