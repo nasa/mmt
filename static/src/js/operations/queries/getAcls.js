@@ -4,21 +4,22 @@ import { gql } from '@apollo/client'
 export const GET_ACLS = gql`
   query Acls($params: AclsInput) {
     acls(params: $params) {
-      count,
       items {
         acl
-        name
-        conceptId
-        groupPermissions {
-        permissions
-        userType
-        group {
-          id
-          name
-        }
-      }
-      providerIdentity
+        groupPermissions
+        providerIdentity
       }
     }
   }
 `
+
+// Example Variables:
+// {
+//   "params": {
+//     "includeFullAcl": true,
+//     "pageNum": 1,
+//     "pageSize": 20,
+//     "permittedUser": "typical",
+//     "target": "PROVIDER_CONTEXT"
+//  }
+// }
