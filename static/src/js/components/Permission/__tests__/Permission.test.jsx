@@ -22,6 +22,7 @@ const setup = ({
   const mockPermission = {
     __typename: 'Acl',
     conceptId: 'ACL00000-CMR',
+    collections: null,
     identityType: 'Catalog Item',
     location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
     name: 'Mock Permission',
@@ -42,24 +43,31 @@ const setup = ({
         temporal: null
       }
     },
-    groupPermissions: [
-      {
-        __typename: 'GroupPermission',
-        permissions: [
-          'read'
-        ],
-        userType: 'guest',
-        group: null
-      },
-      {
-        __typename: 'GroupPermission',
-        permissions: [
-          'read'
-        ],
-        userType: 'registered',
-        group: null
-      }
-    ]
+    groups: {
+      __typename: 'AclGroupList',
+      items: [
+        {
+          __typename: 'GroupPermission',
+          permissions: [
+            'read'
+          ],
+          userType: 'guest',
+          group: null,
+          id: null,
+          name: null
+        },
+        {
+          __typename: 'GroupPermission',
+          permissions: [
+            'read'
+          ],
+          userType: 'registered',
+          group: null,
+          id: null,
+          name: null
+        }
+      ]
+    }
   }
 
   const mocks = [{
@@ -140,6 +148,7 @@ describe('Permission', () => {
               acl: {
                 __typename: 'Acl',
                 conceptId: 'ACL00000-CMR',
+                collections: null,
                 identityType: 'Catalog Item',
                 location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
                 name: 'Mock Permission',
@@ -160,24 +169,31 @@ describe('Permission', () => {
                     temporal: null
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -210,6 +226,26 @@ describe('Permission', () => {
                 providerIdentity: null,
                 revisionId: 5,
                 systemIdentity: null,
+                collections: {
+                  __typename: 'CollectionList',
+                  count: 2,
+                  items: [
+                    {
+                      __typename: 'Collection',
+                      conceptId: 'C1200450598-MMT_2',
+                      shortName: 'Collection 1',
+                      title: 'Mock collection 1',
+                      version: '1'
+                    },
+                    {
+                      __typename: 'Collection',
+                      conceptId: 'C1200427406-MMT_2',
+                      shortName: 'Collection 2',
+                      title: 'Mock collection 2',
+                      version: '1'
+                    }
+                  ]
+                },
                 catalogItemIdentity: {
                   __typename: 'CatalogItemIdentity',
                   collectionApplicable: true,
@@ -220,47 +256,34 @@ describe('Permission', () => {
                   collectionIdentifier: {
                     __typename: 'CollectionIdentifier',
                     accessValue: null,
-                    collections: {
-                      __typename: 'CollectionList',
-                      count: 2,
-                      items: [
-                        {
-                          __typename: 'Collection',
-                          conceptId: 'C1200450598-MMT_2',
-                          shortName: 'Collection 1',
-                          title: 'Mock collection 1',
-                          version: '1'
-                        },
-                        {
-                          __typename: 'Collection',
-                          conceptId: 'C1200427406-MMT_2',
-                          shortName: 'Collection 2',
-                          title: 'Mock collection 2',
-                          version: '1'
-                        }
-                      ]
-                    },
                     temporal: null
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -288,6 +311,7 @@ describe('Permission', () => {
               acl: {
                 __typename: 'Acl',
                 conceptId: 'ACL00000-CMR',
+                collections: null,
                 identityType: 'Catalog Item',
                 location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
                 name: 'Mock Permission',
@@ -319,7 +343,6 @@ describe('Permission', () => {
                       maxValue: 100000,
                       includeUndefinedValue: true
                     },
-                    collections: null,
                     temporal: {
                       startDate: '2018-04-01T04:07:58Z',
                       stopDate: '2023-03-29T04:11:01Z',
@@ -327,24 +350,31 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -371,6 +401,7 @@ describe('Permission', () => {
               acl: {
                 __typename: 'Acl',
                 conceptId: 'ACL00000-CMR',
+                collections: null,
                 identityType: 'Catalog Item',
                 location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
                 name: 'Mock Permission',
@@ -402,7 +433,6 @@ describe('Permission', () => {
                       maxValue: 1,
                       includeUndefinedValue: true
                     },
-                    collections: null,
                     temporal: {
                       startDate: '2018-04-01T04:07:58Z',
                       stopDate: '2023-03-29T04:11:01Z',
@@ -410,24 +440,31 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -454,6 +491,7 @@ describe('Permission', () => {
               acl: {
                 __typename: 'Acl',
                 conceptId: 'ACL00000-CMR',
+                collections: null,
                 identityType: 'Catalog Item',
                 location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
                 name: 'Mock Permission',
@@ -481,28 +519,34 @@ describe('Permission', () => {
                       maxValue: 1,
                       includeUndefinedValue: true
                     },
-                    collections: null,
                     temporal: null
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }
@@ -529,6 +573,7 @@ describe('Permission', () => {
               acl: {
                 __typename: 'Acl',
                 conceptId: 'ACL00000-CMR',
+                collections: null,
                 identityType: 'Catalog Item',
                 location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
                 name: 'Mock Permission',
@@ -552,7 +597,6 @@ describe('Permission', () => {
                   collectionIdentifier: {
                     __typename: 'CollectionIdentifier',
                     accessValue: null,
-                    collections: null,
                     temporal: {
                       startDate: '2018-04-01T04:07:58Z',
                       stopDate: '2023-03-29T04:11:01Z',
@@ -560,24 +604,31 @@ describe('Permission', () => {
                     }
                   }
                 },
-                groupPermissions: [
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'guest',
-                    group: null
-                  },
-                  {
-                    __typename: 'GroupPermission',
-                    permissions: [
-                      'read'
-                    ],
-                    userType: 'registered',
-                    group: null
-                  }
-                ]
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      group: null,
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      group: null,
+                      id: null,
+                      name: null
+                    }
+                  ]
+                }
               }
             }
           }

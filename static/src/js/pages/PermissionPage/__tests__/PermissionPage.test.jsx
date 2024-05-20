@@ -23,8 +23,9 @@ const setup = ({
   const mockPermission = {
     __typename: 'Acl',
     catalogItemIdentity: null,
+    collections: null,
     conceptId: 'ACL00000-CMR',
-    groupPermissions: null,
+    groups: null,
     identityType: null,
     location: null,
     name: 'Permission page test',

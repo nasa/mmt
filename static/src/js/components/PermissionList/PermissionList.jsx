@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
 import { useSuspenseQuery } from '@apollo/client'
 import { Col, Row } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 
+import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
@@ -16,7 +16,7 @@ const PermissionList = () => {
   const limit = 20
   const offset = (activePage - 1) * limit
 
-  const { data } = useSuspenseQuery(GET_ACLS, {
+  const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSIONS, {
     variables: {
       params: {
         identityType: 'catalog_item',

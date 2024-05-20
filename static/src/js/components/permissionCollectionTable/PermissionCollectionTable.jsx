@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
+import { Col, Row } from 'react-bootstrap'
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
 
@@ -29,25 +30,35 @@ const PermissionCollectionTable = () => {
   }
 
   const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
-    variables: params,
-    fetchPolicy: 'no-cache'
+    variables: params
   })
 
   const { acl } = data
-  const { catalogItemIdentity } = acl
-  const { collectionIdentifier } = catalogItemIdentity
-  const { collections } = collectionIdentifier
+  const { collections } = acl
 
-  const { items } = collections
+  const { items, count } = collections || {}
 
   const sortFn = useCallback((key, order) => {
     let nextSortKey
+
+    if (!order) {
+      setSearchParams((currentParams) => {
+        currentParams.delete('sortKey')
+
+        return Object.fromEntries(currentParams)
+      })
+
+      return
+    }
 
     searchParams.set('sortKey', nextSortKey)
 
     setSearchParams((currentParams) => {
       if (order === 'ascending') nextSortKey = `-${key}`
       if (order === 'descending') nextSortKey = key
+
+      // Reset the page parameter
+      currentParams.delete('page')
 
       // Set the sort key
       currentParams.set('sortKey', nextSortKey)
@@ -88,17 +99,26 @@ const PermissionCollectionTable = () => {
   ]
 
   return (
-    <Table
-      id="permission-collection-table"
-      columns={collectionColumns}
-      generateCellKey={({ conceptId: columnConceptId }, dataKey) => `column_${dataKey}_${columnConceptId}`}
-      generateRowKey={({ conceptId: rowConceptId }) => `row_${rowConceptId}`}
-      data={items}
-      limit={20}
-      count={20}
-      noDataMessage="No collections found"
-      sortKey={sortKey}
-    />
+    <Row>
+      <Col md={12}>
+        {
+          items && (
+            <Table
+              id="permission-collection-table"
+              columns={collectionColumns}
+              generateCellKey={({ conceptId: columnConceptId }, dataKey) => `column_${dataKey}_${columnConceptId}`}
+              generateRowKey={({ conceptId: rowConceptId }) => `row_${rowConceptId}`}
+              data={items}
+              limit={20}
+              count={count}
+              noDataMessage="No collections found"
+              sortKey={sortKey}
+            />
+          )
+        }
+      </Col>
+    </Row>
+
   )
 }
 

@@ -15,11 +15,32 @@ import {
 import AppContext from '@/js/context/AppContext'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
+import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
 import PermissionCollectionTable from '../PermissionCollectionTable'
 
 const mockPermission = {
   __typename: 'Acl',
   conceptId: 'ACL00000-CMR',
+  collections: {
+    __typename: 'CollectionList',
+    count: 1,
+    items: [
+      {
+        __typename: 'Collection',
+        conceptId: 'C1200450691-MMT_2',
+        shortName: 'Collection 1',
+        title: 'Mock Collection 1',
+        version: '1'
+      },
+      {
+        __typename: 'Collection',
+        conceptId: 'C1200450692-MMT_2',
+        shortName: 'Collection 2',
+        title: 'Mock Collection 2',
+        version: '2'
+      }
+    ]
+  },
   identityType: 'Catalog Item',
   location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
   name: 'Mock Permission',
@@ -36,39 +57,21 @@ const mockPermission = {
     collectionIdentifier: {
       __typename: 'CollectionIdentifier',
       accessValue: null,
-      collections: {
-        __typename: 'CollectionList',
-        count: 1,
-        items: [
-          {
-            __typename: 'Collection',
-            conceptId: 'C1200450691-MMT_2',
-            shortName: 'Collection 1',
-            title: 'Mock Collection 1',
-            version: '1'
-          },
-          {
-            __typename: 'Collection',
-            conceptId: 'C1200450692-MMT_2',
-            shortName: 'Collection 2',
-            title: 'Mock Collection 2',
-            version: '2'
-          }
-        ]
-      },
       temporal: null
     }
   },
-  groupPermissions: {
-    __typename: 'GroupPermissionList',
-    groupPermission: [
+  groups: {
+    __typename: 'AclGroupList',
+    items: [
       {
         __typename: 'GroupPermission',
         permissions: [
           'read'
         ],
         userType: 'guest',
-        group: null
+        group: null,
+        id: null,
+        name: null
       },
       {
         __typename: 'GroupPermission',
@@ -76,7 +79,9 @@ const mockPermission = {
           'read'
         ],
         userType: 'registered',
-        group: null
+        group: null,
+        id: null,
+        name: null
       }
     ]
   }
@@ -109,6 +114,29 @@ const setup = ({
     >
       <MockedProvider
         mocks={mocks}
+        cache={
+          new InMemoryCache({
+            dataIdFromObject: (object) => {
+              const { __typename: typeName, conceptId } = object
+              if ([
+                'Acl',
+                'Collection',
+                'Draft',
+                'Grid',
+                'OrderOption',
+                'Permission',
+                'Service',
+                'Subscription',
+                'Tool',
+                'Variable'
+              ].includes(typeName)) {
+                return conceptId
+              }
+
+              return defaultDataIdFromObject(object)
+            }
+          })
+        }
       >
         <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
           <Routes>

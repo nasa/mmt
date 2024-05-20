@@ -11,8 +11,7 @@ import userEvent from '@testing-library/user-event'
 
 import AppContext from '@/js/context/AppContext'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
-
+import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 import PermissionList from '../PermissionList'
 
 const setup = ({
@@ -136,7 +135,7 @@ const setup = ({
 
   const mocks = [{
     request: {
-      query: GET_ACLS,
+      query: GET_COLLECTION_PERMISSIONS,
       variables: {
         params: {
           identityType: 'catalog_item',
@@ -194,7 +193,7 @@ describe('PermissionList', () => {
         overrideMocks: [
           {
             request: {
-              query: GET_ACLS,
+              query: GET_COLLECTION_PERMISSIONS,
               variables: {
                 params: {
                   identityType: 'catalog_item',
@@ -228,7 +227,7 @@ describe('PermissionList', () => {
         overrideMocks: [
           {
             request: {
-              query: GET_ACLS,
+              query: GET_COLLECTION_PERMISSIONS,
               variables: {
                 params: {
                   identityType: 'catalog_item',
@@ -300,7 +299,7 @@ describe('PermissionList', () => {
           },
           {
             request: {
-              query: GET_ACLS,
+              query: GET_COLLECTION_PERMISSIONS,
               variables: {
                 params: {
                   identityType: 'catalog_item',
