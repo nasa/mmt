@@ -26,6 +26,7 @@ import SystemPermissionsPage from './pages/SystemPermissionsPage/SystemPermissio
 
 import AuthCallbackContainer from './components/AuthCallbackContainer/AuthCallbackContainer'
 import AuthRequiredContainer from './components/AuthRequiredContainer/AuthRequiredContainer'
+import CheckPermissions from './components/CheckPermissions/CheckPermissions'
 import Layout from './components/Layout/Layout'
 import Notifications from './components/Notifications/Notifications'
 import Page from './components/Page/Page'
@@ -42,12 +43,11 @@ import getPermittedUser from './utils/getPermittedUser'
 import useAppContext from './hooks/useAppContext'
 import useNotificationsContext from './hooks/useNotificationsContext'
 
-import { GET_ACLS } from './operations/queries/getAcls'
+import { GET_AVAILABLE_PROVIDERS } from './operations/queries/getAvailableProviders'
 
 import withProviders from './providers/withProviders/withProviders'
 
 import '../css/index.scss'
-import CheckPermissions from './components/CheckPermissions/CheckPermissions'
 
 /**
  * Renders the `App` component
@@ -75,8 +75,7 @@ export const App = () => {
 
   const permittedUser = getPermittedUser(user)
 
-  // TODO fix this name, GET_ACLS isn't useful
-  const [getProviders] = useLazyQuery(GET_ACLS, {
+  const [getProviders] = useLazyQuery(GET_AVAILABLE_PROVIDERS, {
     variables: {
       params: {
         limit: 500,
@@ -89,7 +88,7 @@ export const App = () => {
       const { items } = acls
 
       if (items.length > 0) {
-        const providerList = items.map(({ acl }) => acl.provider_identity.provider_id)
+        const providerList = items.map((item) => item.providerIdentity.provider_id)
 
         setProviderIds(providerList)
 

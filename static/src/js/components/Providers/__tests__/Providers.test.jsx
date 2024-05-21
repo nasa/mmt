@@ -2,8 +2,9 @@ import { render, screen } from '@testing-library/react'
 import React, { Suspense } from 'react'
 import { MockedProvider } from '@apollo/client/testing'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
-import AppContext from '../../../context/AppContext'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
+
+import AppContext from '@/js/context/AppContext'
 
 import Providers from '../Providers'
 
@@ -12,7 +13,7 @@ const setup = ({
 }) => {
   const mocks = [{
     request: {
-      query: GET_ACLS,
+      query: GET_AVAILABLE_PROVIDERS,
       variables: {
         params: {
           limit: 500,
@@ -27,16 +28,12 @@ const setup = ({
           __typename: 'AclList',
           items: [
             {
-              acl: {},
-              groupPermissions: {},
               providerIdentity: {
                 target: 'PROVIDER_CONTEXT',
                 provider_id: 'MMT_1'
               }
             },
             {
-              acl: {},
-              groupPermissions: {},
               providerIdentity: {
                 target: 'PROVIDER_CONTEXT',
                 provider_id: 'MMT_2'
@@ -85,7 +82,7 @@ describe('Providers', () => {
       setup({
         overrideMocks: [{
           request: {
-            query: GET_ACLS,
+            query: GET_AVAILABLE_PROVIDERS,
             variables: {
               params: {
                 limit: 500,

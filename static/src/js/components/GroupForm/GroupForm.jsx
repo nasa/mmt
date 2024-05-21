@@ -16,13 +16,13 @@ import groupUiSchema from '@/js/schemas/uiSchemas/Group'
 import systemGroupUiSchema from '@/js/schemas/uiSchemas/SystemGroup'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
 
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import useAppContext from '@/js/hooks/useAppContext'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
 import getPermittedUser from '@/js/utils/getPermittedUser'
 
 import errorLogger from '@/js/utils/errorLogger'
@@ -76,7 +76,7 @@ const GroupForm = ({ isAdminPage }) => {
   })
 
   const permittedUser = getPermittedUser(user)
-  const { data: providerData } = useSuspenseQuery(GET_ACLS, {
+  const { data: providerData } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
     skip: isAdminPage,
     variables: {
       params: {

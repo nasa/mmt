@@ -8,8 +8,11 @@ import { Outlet, useParams } from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 
 import App from '../App'
-import { GET_ACLS } from '../operations/queries/getAcls'
+
+import { GET_AVAILABLE_PROVIDERS } from '../operations/queries/getAvailableProviders'
+
 import errorLogger from '../utils/errorLogger'
+
 import AppContext from '../context/AppContext'
 import NotificationsContext from '../context/NotificationsContext'
 
@@ -77,7 +80,7 @@ const setup = (overrideMocks, overrideAppContext) => {
   const mocks = [
     {
       request: {
-        query: GET_ACLS,
+        query: GET_AVAILABLE_PROVIDERS,
         variables: {
           params: {
             limit: 500,
@@ -89,7 +92,11 @@ const setup = (overrideMocks, overrideAppContext) => {
       result: {
         data: {
           acls: {
-            items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+            items: [{
+              providerIdentity: {
+                provider_id: 'MMT_2'
+              }
+            }]
           }
         }
       }
@@ -277,7 +284,7 @@ describe('App component', () => {
         const mocks = [
           {
             request: {
-              query: GET_ACLS,
+              query: GET_AVAILABLE_PROVIDERS,
               variables: {
                 params: {
                   limit: 500,
@@ -289,7 +296,11 @@ describe('App component', () => {
             result: {
               data: {
                 acls: {
-                  items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                  items: [{
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
                 }
               }
             }
@@ -309,7 +320,7 @@ describe('App component', () => {
           const mocks = [
             {
               request: {
-                query: GET_ACLS,
+                query: GET_AVAILABLE_PROVIDERS,
                 variables: {
                   params: {
                     limit: 500,
@@ -321,7 +332,11 @@ describe('App component', () => {
               result: {
                 data: {
                   acls: {
-                    items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                    items: [{
+                      providerIdentity: {
+                        provider_id: 'MMT_2'
+                      }
+                    }]
                   }
                 }
               }
@@ -343,7 +358,7 @@ describe('App component', () => {
         const mocks = [
           {
             request: {
-              query: GET_ACLS,
+              query: GET_AVAILABLE_PROVIDERS,
               variables: {
                 params: {
                   limit: 500,
@@ -355,7 +370,11 @@ describe('App component', () => {
             result: {
               data: {
                 acls: {
-                  items: [{ acl: { provider_identity: { provider_id: 'MMT_2' } } }]
+                  items: [{
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
                 }
               }
             }
@@ -380,7 +399,7 @@ describe('App component', () => {
         const mocks = [
           {
             request: {
-              query: GET_ACLS,
+              query: GET_AVAILABLE_PROVIDERS,
               variables: {
                 params: {
                   limit: 500,
@@ -413,7 +432,7 @@ describe('App component', () => {
       const mocks = [
         {
           request: {
-            query: GET_ACLS,
+            query: GET_AVAILABLE_PROVIDERS,
             variables: {
               params: {
                 limit: 500,
