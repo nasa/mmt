@@ -29,6 +29,16 @@ const PermissionList = () => {
   const { acls } = data
   const { count, items } = acls
 
+  const permissionList = items.map((item) => {
+    const { catalogItemIdentity, name } = item
+    const { providerId } = catalogItemIdentity
+
+    return {
+      name,
+      providerId
+    }
+  })
+
   const setPage = (nextPage) => {
     setSearchParams((currentParams) => {
       currentParams.set('page', nextPage)
@@ -55,7 +65,8 @@ const PermissionList = () => {
       dataAccessorFn: buildLinkCell
     },
     {
-      title: 'Actions',
+      dataKey: 'providerId',
+      title: 'Provider',
       className: 'col-auto'
     }
   ]
@@ -103,7 +114,7 @@ const PermissionList = () => {
                     columns={columns}
                     generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
                     generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                    data={items}
+                    data={permissionList}
                     noDataMessage="No permissions found"
                     count={count}
                     setPage={setPage}

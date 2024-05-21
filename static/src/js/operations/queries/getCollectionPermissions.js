@@ -7,6 +7,9 @@ export const GET_COLLECTION_PERMISSIONS = gql`
       items {
         name
         conceptId
+        catalogItemIdentity {
+          providerId
+        }
       }
     }
   }
