@@ -342,7 +342,6 @@ const SystemPermissions = () => {
       <input
         aria-label={`${cellData} ${target.toLowerCase()}`}
         checked={permissions.includes(cellData)}
-        data-testid={`${target.toLowerCase()}_${cellData}`}
         disabled={!permittedPermissions.includes(cellData)}
         name={`${target.toLowerCase()}_${cellData}`}
         onChange={(event) => handleOnChange(event, cellData, rowData)}
@@ -395,7 +394,6 @@ const SystemPermissions = () => {
             <FormLabel className="m-0">
               <input
                 aria-label="Check/Uncheck all permissions"
-                data-testid="toggle-all"
                 name="toggle-all"
                 onChange={handleOnChangeToggleAll}
                 type="checkbox"
@@ -410,7 +408,6 @@ const SystemPermissions = () => {
             data={systemPermissionsForForm}
             generateCellKey={({ target }, dataKey) => `column_${dataKey}_${target}`}
             generateRowKey={({ target }) => `row_${target}`}
-            key={`${id}-permissions-table`}
             limit={Object.keys(systemIdentityPermissions).length}
           />
 
