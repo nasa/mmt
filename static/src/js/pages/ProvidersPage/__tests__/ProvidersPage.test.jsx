@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import Providers from '@/js/components/Providers/Providers'
 
@@ -12,17 +11,13 @@ const setup = () => {
   render(
     <ProvidersPage />
   )
-
-  return {
-    user: userEvent.setup()
-  }
 }
 
 describe('ProvidersPage', () => {
   test('renders the page', async () => {
     setup()
 
-    expect(screen.getByRole('heading', { value: 'Mock group' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { value: 'Mock group' })).toBeVisible()
 
     expect(Providers).toHaveBeenCalledTimes(1)
   })

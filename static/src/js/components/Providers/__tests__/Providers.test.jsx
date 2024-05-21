@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React, { Suspense } from 'react'
 import { MockedProvider } from '@apollo/client/testing'
-import userEvent from '@testing-library/user-event'
 
 import { GET_ACLS } from '@/js/operations/queries/getAcls'
 import AppContext from '../../../context/AppContext'
@@ -48,6 +47,7 @@ const setup = ({
       }
     }
   }]
+
   render(
     <AppContext.Provider value={
       {
@@ -66,10 +66,6 @@ const setup = ({
       </MockedProvider>
     </AppContext.Provider>
   )
-
-  return {
-    user: userEvent.setup()
-  }
 }
 
 describe('Providers', () => {
@@ -77,9 +73,7 @@ describe('Providers', () => {
     test('displays the provider list', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('You have permissions to manage metadata records for the following providers.')).toBeInTheDocument()
+      expect(await screen.findByText('You have permissions to manage metadata records for the following providers.')).toBeVisible()
 
       expect(screen.getByText('MMT_1')).toBeInTheDocument()
       expect(screen.getByText('MMT_2')).toBeInTheDocument()
@@ -111,9 +105,7 @@ describe('Providers', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('You do not have access to any providers.')).toBeInTheDocument()
+      expect(await screen.findByText('You do not have access to any providers.')).toBeVisible()
     })
   })
 })
