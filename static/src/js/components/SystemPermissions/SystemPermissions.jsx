@@ -322,7 +322,7 @@ const SystemPermissions = () => {
       })
     } else {
       addNotification({
-        message: 'Not all system permissions saved successfully, please check the form and try again.',
+        message: 'Some permissions failed to update. Please check the form and try again.',
         variant: 'danger'
       })
     }
