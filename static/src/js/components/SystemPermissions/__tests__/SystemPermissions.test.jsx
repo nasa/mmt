@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { Cookies } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -10,11 +14,16 @@ import {
 import userEvent from '@testing-library/user-event'
 import { describe } from 'vitest'
 
+import NotificationsContext from '@/js/context/NotificationsContext'
+
 import {
   GET_SYSTEM_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getSystemIdentityPermissions'
 
-import { GET_GROUP } from '../../../operations/queries/getGroup'
+import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
+import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 import SystemPermissions from '../SystemPermissions'
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
@@ -78,8 +87,7 @@ const setup = ({
       variables: {
         params: {
           identityType: 'system',
-          limit: 50,
-          permittedGroup: '1234-abcd-5678-efgh'
+          limit: 50
         }
       }
     },
@@ -101,15 +109,9 @@ const setup = ({
                     'read'
                   ],
                   group_id: '1234-abcd-5678-efgh'
-                },
-                {
-                  permissions: [
-                    'read'
-                  ],
-                  group_id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
                 }
               ],
-              conceptId: 'ACL1200216198-CMR'
+              conceptId: 'ACL1200000001-CMR'
             },
             {
               systemIdentity: {
@@ -130,7 +132,21 @@ const setup = ({
                   group_id: '1234-abcd-5678-efgh'
                 }
               ],
-              conceptId: 'ACL1200216108-CMR'
+              conceptId: 'ACL1200000002-CMR'
+            },
+            {
+              systemIdentity: {
+                target: 'TAG_GROUP',
+                provider_id: 'MMT_1'
+              },
+              identityType: 'System',
+              groupPermissions: [
+                {
+                  permissions: [],
+                  group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                }
+              ],
+              conceptId: 'ACL1200000004-CMR'
             }
           ]
         }
@@ -139,55 +155,730 @@ const setup = ({
   },
   ...additionalMocks]
 
-  render(
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
 
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
+  const user = userEvent.setup()
+
+  render(
+    <NotificationsContext.Provider value={notificationContext}>
       <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
-        <Routes>
-          <Route
-            path="/groups"
-          >
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+
+          <Routes>
             <Route
-              path=":id"
-              element={
-                (
-                  <ErrorBoundary>
-                    <Suspense>
-                      <SystemPermissions />
-                    </Suspense>
-                  </ErrorBoundary>
-                )
-              }
-            />
-          </Route>
-        </Routes>
+              path="/groups"
+            >
+              <Route
+                path=":id"
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <SystemPermissions />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MockedProvider>
       </MemoryRouter>
-    </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
 describe('SystemPermissions', () => {
-  describe('when showing the list of permissions for the groups provider permissions', () => {
-    test('renders the full table of checkboxes with correct options checked', async () => {
-      setup({})
+  describe('when showing the list of permissions for the groups system permissions', () => {
+    describe('when toggling the un/check all checkbox', () => {
+      test('unchecks all checkboxes', async () => {
+        const { user } = setup({})
 
-      await waitForResponse()
+        const checkAll = await screen.findByRole('checkbox', { name: 'Check/Uncheck all permissions' })
+        await user.click(checkAll)
 
-      expect(screen.queryByText('CMR Dashboard Admin')).toBeInTheDocument()
-      expect(screen.queryByText('Ingest Operations')).toBeInTheDocument()
+        const table = screen.getByRole('table')
 
-      const checkboxes = screen.getAllByRole('checkbox', { checked: true })
-      expect(checkboxes.length).toBe(3)
+        const checkedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
+        expect(checkedCheckboxes.length).toBe(50)
 
-      expect(checkboxes[0]).toHaveAttribute('name', 'dashboard_admin_read')
-      expect(checkboxes[1]).toHaveAttribute('name', 'ingest_management_acl_read')
-      expect(checkboxes[2]).toHaveAttribute('name', 'ingest_management_acl_update')
+        await user.click(checkAll)
+
+        const uncheckedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
+        expect(uncheckedCheckboxes.length).toBe(0)
+      })
+    })
+  })
+
+  describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
+    test('creates a new Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: CREATE_ACL,
+            variables: {
+              groupPermissions: [{
+                permissions: [
+                  'create'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              systemIdentity: {
+                target: 'ANY_ACL'
+              }
+            }
+          },
+          result: {
+            data: {
+              createAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000001-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'system',
+                limit: 50
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                count: 30,
+                cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                items: [
+                  {
+                    systemIdentity: {
+                      target: 'ANY_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'create'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000003-CMR'
+                  }, {
+                    systemIdentity: {
+                      target: 'DASHBOARD_ADMIN',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'INGEST_MANAGEMENT_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      },
+                      {
+                        permissions: [
+                          'read',
+                          'update'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'TAG_GROUP',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      }
+                    ],
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const createAnyAclCheckbox = await screen.findByRole('checkbox', {
+        name: 'create any_acl',
+        checked: false
+      })
+
+      await user.click(createAnyAclCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create any_acl',
+        checked: true
+      })).toBeVisible()
+    })
+  })
+
+  describe('when adding permissions for a target that already has an Acl in CMR but doesnt include the selected group', () => {
+    test('adds the selected group to the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000004-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              }, {
+                permissions: [
+                  'update'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              systemIdentity: {
+                target: 'TAG_GROUP'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000004-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'system',
+                limit: 50
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                count: 30,
+                cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                items: [
+                  {
+                    systemIdentity: {
+                      target: 'ANY_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'create'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000003-CMR'
+                  }, {
+                    systemIdentity: {
+                      target: 'DASHBOARD_ADMIN',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'INGEST_MANAGEMENT_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      },
+                      {
+                        permissions: [
+                          'read',
+                          'update'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'TAG_GROUP',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      },
+                      {
+                        permissions: [
+                          'update'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const updateTagGroupCheckbox = await screen.findByRole('checkbox', {
+        name: 'update tag_group',
+        checked: false
+      })
+
+      await user.click(updateTagGroupCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'update tag_group',
+        checked: true
+      })).toBeVisible()
+    })
+  })
+
+  describe('when updating permissions for a target that already has an Acl in CMR that includes the selected group', () => {
+    test('updates the permissions for the selected group in the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000002-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              },
+              {
+                permissions: [
+                  'read'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              systemIdentity: {
+                target: 'INGEST_MANAGEMENT_ACL'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000002-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'system',
+                limit: 50
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                count: 30,
+                cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                items: [
+                  {
+                    systemIdentity: {
+                      target: 'ANY_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'create'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000003-CMR'
+                  }, {
+                    systemIdentity: {
+                      target: 'DASHBOARD_ADMIN',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'INGEST_MANAGEMENT_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      },
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'TAG_GROUP',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      }
+                    ],
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const updateIngestManagementAclCheckbox = await screen.findByRole('checkbox', {
+        name: 'update ingest_management_acl',
+        checked: true
+      })
+
+      await user.click(updateIngestManagementAclCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'update ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+    })
+  })
+
+  describe('when removing all permissions for a group that belongs to an Acl in CMR', () => {
+    test('removes the selected group from the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000002-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              }],
+              systemIdentity: {
+                target: 'INGEST_MANAGEMENT_ACL'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000002-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'system',
+                limit: 50
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                count: 30,
+                cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                items: [
+                  {
+                    systemIdentity: {
+                      target: 'ANY_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'create'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000003-CMR'
+                  }, {
+                    systemIdentity: {
+                      target: 'DASHBOARD_ADMIN',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'INGEST_MANAGEMENT_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      }
+                    ],
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'TAG_GROUP',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      }
+                    ],
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const readIngestManagementAclCheckbox = await screen.findByRole('checkbox', {
+        name: 'read ingest_management_acl',
+        checked: true
+      })
+
+      await user.click(readIngestManagementAclCheckbox)
+
+      const updateIngestManagementAclCheckbox = await screen.findByRole('checkbox', {
+        name: 'update ingest_management_acl',
+        checked: true
+      })
+
+      await user.click(updateIngestManagementAclCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'read ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+    })
+  })
+
+  describe('when removing all permissions for a group that belongs to an Acl in CMR and its the last group in the Acl', () => {
+    test('removes the Acl from CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: DELETE_ACL,
+            variables: {
+              conceptId: 'ACL1200000001-CMR'
+            }
+          },
+          result: {
+            data: {
+              deleteAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000001-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'system',
+                limit: 50
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                count: 30,
+                cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                items: [
+                  {
+                    systemIdentity: {
+                      target: 'ANY_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [
+                          'create'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'INGEST_MANAGEMENT_ACL',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      },
+                      {
+                        permissions: [
+                          'read'
+                        ],
+                        group_id: '1234-abcd-5678-efgh'
+                      }
+                    ],
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    systemIdentity: {
+                      target: 'TAG_GROUP',
+                      provider_id: 'MMT_1'
+                    },
+                    identityType: 'System',
+                    groupPermissions: [
+                      {
+                        permissions: [],
+                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                      }
+                    ],
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const readDashboardAdminAclCheckbox = await screen.findByRole('checkbox', {
+        name: 'read dashboard_admin',
+        checked: true
+      })
+
+      await user.click(readDashboardAdminAclCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'read dashboard_admin',
+        checked: false
+      })).toBeVisible()
     })
   })
 })
