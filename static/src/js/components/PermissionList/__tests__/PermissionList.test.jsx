@@ -69,7 +69,13 @@ const setup = ({
         },
         conceptId: 'ACL1200216197-CMR',
         name: 'All Collections',
-        providerIdentity: null
+        providerIdentity: null,
+        catalogItemIdentity: {
+          name: 'All Granules',
+          providerId: 'MMT_2',
+          collectionApplicable: false,
+          granuleApplicable: true
+        }
       },
       {
         __typename: 'Acl',
@@ -118,17 +124,18 @@ const setup = ({
               group_id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
             }
           ],
-          legacy_guid: '13F00E3E-CFF0-3536-83DD-01569A04BDBB',
-          catalog_item_identity: {
-            name: 'All Granules',
-            provider_id: 'MMT_2',
-            collection_applicable: false,
-            granule_applicable: true
-          }
+          legacy_guid: '13F00E3E-CFF0-3536-83DD-01569A04BDBB'
+
         },
         conceptId: 'ACL1200216196-CMR',
         name: 'All Granules',
-        providerIdentity: null
+        providerIdentity: null,
+        catalogItemIdentity: {
+          name: 'All Granules',
+          providerId: 'MMT_2',
+          collectionApplicable: false,
+          granuleApplicable: true
+        }
       }
     ]
   }
@@ -244,53 +251,15 @@ describe('PermissionList', () => {
                   items: [
                     {
                       __typename: 'Acl',
-                      acl: {
-                        group_permissions: [
-                          {
-                            permissions: [
-                              'read'
-                            ],
-                            user_type: 'guest'
-                          },
-                          {
-                            permissions: [
-                              'read'
-                            ],
-                            user_type: 'registered'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'dac6baa0-5564-4d3e-b151-113d78966548'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'adb932a3-0c53-4b22-abee-d362cf60ff1b'
-                          }
-                        ],
-                        catalog_item_identity: {
-                          name: 'All Collections',
-                          provider_id: 'MMT_2',
-                          granule_applicable: false,
-                          collection_applicable: true
-                        },
-                        legacy_guid: 'C888DB7F-AF5B-BC22-61ED-BBD6F4965F76'
-                      },
                       conceptId: 'ACL1200216197-CMR',
                       name: 'All Collections',
-                      providerIdentity: null
+                      providerIdentity: null,
+                      catalogItemIdentity: {
+                        name: 'All Collections',
+                        providerId: 'MMT_2',
+                        granuleApplicable: false,
+                        collectionApplicable: true
+                      }
                     }
                   ]
                 }
@@ -315,50 +284,11 @@ describe('PermissionList', () => {
                   count: 25,
                   items: [
                     {
-                      __typename: 'Acl',
-                      acl: {
-                        group_permissions: [
-                          {
-                            permissions: [
-                              'read'
-                            ],
-                            user_type: 'guest'
-                          },
-                          {
-                            permissions: [
-                              'read'
-                            ],
-                            user_type: 'registered'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'dac6baa0-5564-4d3e-b151-113d78966548'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
-                          },
-                          {
-                            permissions: [
-                              'read',
-                              'order'
-                            ],
-                            group_id: 'adb932a3-0c53-4b22-abee-d362cf60ff1b'
-                          }
-                        ],
-                        catalog_item_identity: {
-                          name: 'Page 2 All Collection',
-                          provider_id: 'MMT_2',
-                          granule_applicable: false,
-                          collection_applicable: true
-                        },
-                        legacy_guid: 'C888DB7F-AF5B-BC22-61ED-BBD6F4965F76'
+                      catalogItemIdentity: {
+                        name: 'Page 2 All Collection',
+                        providerId: 'MMT_2',
+                        granuleApplicable: false,
+                        collectionApplicable: true
                       },
                       conceptId: 'ACL1200216197-CMR',
                       name: 'Page 2 All Collection',
