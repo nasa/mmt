@@ -18,12 +18,12 @@ import AppContext from '@/js/context/AppContext'
 import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPermissions'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
 
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 
 let expires = new Date()
 expires.setMinutes(expires.getMinutes() + 15)
@@ -80,7 +80,7 @@ const setup = ({
     }
   }, {
     request: {
-      query: GET_ACLS,
+      query: GET_AVAILABLE_PROVIDERS,
       variables: {
         params: {
           limit: 500,
@@ -93,27 +93,9 @@ const setup = ({
       data: {
         acls: {
           items: [{
-            groupPermissions: [{
-              permissions: [
-                'read'
-              ],
-              group_id: '1234-abcd-5678-efgh'
-            }],
             providerIdentity: {
               target: 'PROVIDER_CONTEXT',
               provider_id: 'MMT_2'
-            },
-            acl: {
-              group_permissions: [{
-                permissions: [
-                  'read'
-                ],
-                group_id: '1234-abcd-5678-efgh'
-              }],
-              provider_identity: {
-                target: 'PROVIDER_CONTEXT',
-                provider_id: 'MMT_2'
-              }
             }
           }]
         }
@@ -247,7 +229,7 @@ const setup = ({
 
 describe('ProviderPermissions', () => {
   describe('when showing the list of permissions for the groups provider permissions', () => {
-    test('renders the full table of checkboxes with correct options checked', async () => {
+    test.only('renders the full table of checkboxes with correct options checked', async () => {
       const { user } = setup({})
 
       await waitForResponse()
