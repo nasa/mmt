@@ -232,15 +232,11 @@ const SystemPermissions = () => {
             if (permissions.length === 0) {
               // If the Acl in CMR only has 1 group (this group) we can delete the Acl now
               if (groupPermissions.length === 1) {
-                console.log(conceptId, '[delete]', target, 'this group is the only group in the Acl and the weve deleted all permissions', permissions)
-
                 // Delete the Acl
                 mutations.push(generateDeleteMutation(conceptId, target))
 
                 return
               }
-
-              console.log(conceptId, '[update]', target, 'remove group from group permission', permissions)
 
               // Remove this group from the group permission
               mutations.push(
@@ -254,10 +250,7 @@ const SystemPermissions = () => {
               return
             }
 
-            // The permissions don't match CMR
-            console.log(conceptId, '[update]', target, permissions)
-
-            // Update the group permission
+            // The permissions don't match CMR, update the group permission
             mutations.push(
               generateUpdateMutation(
                 conceptId,
@@ -276,15 +269,11 @@ const SystemPermissions = () => {
           }
 
           // The permissions match CMR
-          console.log(conceptId, '[no change]', target, permissions)
-
           return
         }
 
         // This group does not exist in the Acl for this target in CMR
         if (permissions.length > 0) {
-          console.log(conceptId, '[update]', target, 'add this group to the group permission', permissions)
-
           // Add this group to the group permission
           mutations.push(generateUpdateMutation(
             conceptId,
@@ -303,8 +292,6 @@ const SystemPermissions = () => {
 
       // This target does not have an Acl in CMR
       if (permissions.length > 0) {
-        console.log('[create]', target, permissions)
-
         // Create a new Acl
         mutations.push(generateCreateMutation([{
           permissions,
@@ -423,7 +410,6 @@ const SystemPermissions = () => {
             data={systemPermissionsForForm}
             generateCellKey={({ target }, dataKey) => `column_${dataKey}_${target}`}
             generateRowKey={({ target }) => `row_${target}`}
-            id={`${id}-permissions-table`}
             key={`${id}-permissions-table`}
             limit={Object.keys(systemIdentityPermissions).length}
           />
