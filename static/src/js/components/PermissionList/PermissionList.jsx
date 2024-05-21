@@ -110,16 +110,16 @@ const PermissionList = () => {
                     }
                   </Row>
                   <Table
-                    columns={columns}
-                    count={count}
-                    data={permissionList}
-                    generateCellKey={({ name, providerId }, dataKey) => `column_${dataKey}_${name}_${providerId}`}
-                    generateRowKey={({ name, providerId }) => `row_${name}_${providerId}`}
                     id="permission-list-table"
-                    limit={limit}
+                    columns={columns}
+                    generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                    generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                    data={permissionList}
                     noDataMessage="No permissions found"
-                    offset={offset}
+                    count={count}
                     setPage={setPage}
+                    limit={limit}
+                    offset={offset}
                   />
 
                   {
