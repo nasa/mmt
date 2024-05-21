@@ -257,14 +257,10 @@ const spatialInformationUiSchema = {
                               md: 6,
                               children: ['Longitude']
                             }
-                          }
-                        ]
-                      },
-                      {
-                        'ui:row': [
+                          },
                           {
                             'ui:col': {
-                              md: 12,
+                              md: 6,
                               children: ['Latitude']
                             }
                           }
