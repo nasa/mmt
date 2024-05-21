@@ -41,16 +41,6 @@ const PermissionCollectionTable = () => {
   const sortFn = useCallback((key, order) => {
     let nextSortKey
 
-    if (!order) {
-      setSearchParams((currentParams) => {
-        currentParams.delete('sortKey')
-
-        return Object.fromEntries(currentParams)
-      })
-
-      return
-    }
-
     searchParams.set('sortKey', nextSortKey)
 
     setSearchParams((currentParams) => {

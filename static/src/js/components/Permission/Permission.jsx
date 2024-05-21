@@ -35,11 +35,11 @@ const Permission = () => {
     collectionIdentifier,
     granuleApplicable,
     granuleIdentifier
-  } = catalogItemIdentity || {}
+  } = catalogItemIdentity
 
   const {
-    accessValue: collectionAccessValue = {},
-    temporal = null
+    accessValue: collectionAccessValue,
+    temporal
   } = collectionIdentifier || {}
 
   const { count: collectionCount, items: collectionItems } = collections || {}
