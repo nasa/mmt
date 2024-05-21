@@ -40,10 +40,12 @@ const Providers = () => {
 
   return (
     <>
-      <Alert variant="light" className="mb-4">
+      <Alert variant="info" className="mb-4">
         <FaQuestionCircle className="me-2 small" />
         {/* eslint-disable-next-line max-len */}
-        To receive assistance with permissions, please reach out to the DAAC Manager responsible for managing the provider.
+        To receive assistance with permissions, please reach out to the provider administrator or Earthdata Operations (
+        <a href="mailto:support@earthdata.nasa.gov">support@earthdata.nasa.gov</a>
+        ).
       </Alert>
 
       {
