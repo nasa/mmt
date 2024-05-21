@@ -215,7 +215,7 @@ const setup = ({
 
 describe('ProviderPermissions', () => {
   describe('when showing the list of permissions for the groups provider permissions', () => {
-    test.only('renders the full table of checkboxes with correct options checked', async () => {
+    test('renders the full table of checkboxes with correct options checked', async () => {
       const { user } = setup({})
 
       await waitForResponse()
