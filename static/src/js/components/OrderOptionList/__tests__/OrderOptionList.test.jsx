@@ -116,6 +116,16 @@ describe('OrderOptionList', () => {
     })
   })
 
+  describe('when getting list of order options results in a success', () => {
+    test('render a table with 2 order options', async () => {
+      setup({})
+
+      await waitForResponse()
+
+      expect(screen.getAllByText('MMT_2')).toHaveLength(2)
+    })
+  })
+
   describe('when clicking the delete button', () => {
     describe('when clicking Yes on the delete modal results in a success', () => {
       test('deletes the order option and hides the modal', async () => {

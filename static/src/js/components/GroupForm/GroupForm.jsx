@@ -36,6 +36,8 @@ import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTex
 import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
+import saveTypes from '@/js/constants/saveTypes'
+import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 /**
  * Renders a GroupForm component
@@ -66,6 +68,7 @@ const GroupForm = ({ isAdminPage }) => {
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
   const [createGroupMutation] = useMutation(CREATE_GROUP)
+
   const [updateGroupMutation] = useMutation(UPDATE_GROUP, {
     refetchQueries: [{
       query: GET_GROUP,
@@ -277,7 +280,7 @@ const GroupForm = ({ isAdminPage }) => {
             >
               <div className="d-flex gap-2">
                 <Button type="submit">
-                  Submit
+                  {saveTypesToHumanizedStringMap[saveTypes.submit]}
                 </Button>
                 <Button
                   onClick={handleClear}
@@ -292,13 +295,13 @@ const GroupForm = ({ isAdminPage }) => {
       </Container>
       <ChooseProviderModal
         show={chooseProviderModalOpen}
-        primaryActionType="Submit"
+        primaryActionType={saveTypesToHumanizedStringMap[saveTypes.submit]}
         toggleModal={
           () => {
             setChooseProviderModalOpen(false)
           }
         }
-        type="Group"
+        type="group"
         onSubmit={
           () => {
             handleSubmit()

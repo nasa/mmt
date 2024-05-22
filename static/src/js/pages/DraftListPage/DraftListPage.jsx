@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { useParams } from 'react-router'
 import { FaPlus } from 'react-icons/fa'
 
-import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
 import DraftList from '@/js/components/DraftList/DraftList'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
@@ -22,7 +22,7 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 const DraftListPageHeader = () => {
   const { draftType } = useParams()
 
-  const conceptType = urlValueTypeToConceptTypeMap[draftType]
+  const conceptType = urlValueTypeToConceptTypeStringMap[draftType]
 
   return (
     <PageHeader

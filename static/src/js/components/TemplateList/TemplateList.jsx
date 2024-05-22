@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import { FaPlus } from 'react-icons/fa'
 
-import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 import deleteTemplate from '@/js/utils/deleteTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
@@ -158,7 +158,7 @@ const TemplateList = () => {
     }
   ]
 
-  const conceptType = urlValueTypeToConceptTypeMap[templateType]
+  const conceptType = urlValueTypeToConceptTypeStringMap[templateType]
 
   const templateListHeader = () => (
     <PageHeader

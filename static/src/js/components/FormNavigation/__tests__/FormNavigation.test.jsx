@@ -8,12 +8,12 @@ import {
 } from 'react-router'
 
 import Providers from '@/js/providers/Providers/Providers'
-import FormNavigation from '../FormNavigation'
-import NavigationItem from '../../NavigationItem/NavigationItem'
+import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
+import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
-import saveTypes from '../../../constants/saveTypes'
+import saveTypes from '@/js/constants/saveTypes'
 
-vi.mock('../../NavigationItem/NavigationItem')
+vi.mock('@/js/components/NavigationItem/NavigationItem')
 
 const setup = ({
   overrideProps = {},

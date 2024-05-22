@@ -58,7 +58,11 @@ const CustomModal = ({
   >
     <Modal.Header>
       <div>
-        {header}
+        {
+          header && (
+            <Modal.Title>{header}</Modal.Title>
+          )
+        }
       </div>
       <Button
         className="text-secondary p-0"

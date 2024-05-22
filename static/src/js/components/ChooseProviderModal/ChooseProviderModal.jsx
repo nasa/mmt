@@ -43,7 +43,13 @@ const ChooseProviderModal = ({
   onSubmit,
   primaryActionType
 }) => {
-  const { providerIds, setProviderId, user: { providerId } } = useAppContext()
+  const {
+    providerIds,
+    setProviderId,
+    user = {}
+  } = useAppContext()
+
+  const { providerId } = user
 
   return (
     <CustomModal

@@ -16,7 +16,7 @@ import { DATE_FORMAT } from '@/js/constants/dateFormat'
 import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeDraftsQueries from '@/js/constants/conceptTypeDraftsQueries'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
-import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
 import Button from '@/js/components/Button/Button'
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
@@ -27,7 +27,7 @@ import Table from '@/js/components/Table/Table'
 const DraftList = () => {
   const { draftType: paramDraftType } = useParams()
 
-  const draftType = urlValueTypeToConceptTypeMap[paramDraftType]
+  const draftType = urlValueTypeToConceptTypeStringMap[paramDraftType]
 
   const [activePage, setActivePage] = useState(1)
 

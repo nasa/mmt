@@ -10,6 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
 
 import saveTypes from '@/js/constants/saveTypes'
+import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 import removeEmpty from '@/js/utils/removeEmpty'
 
@@ -18,14 +19,6 @@ import For from '@/js/components/For/For'
 import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import './FormNavigation.scss'
-
-const humanizedSaveTypes = {
-  [saveTypes.save]: 'Save',
-  [saveTypes.saveAndContinue]: 'Save & Continue',
-  [saveTypes.saveAndCreateDraft]: 'Save & Create Draft',
-  [saveTypes.saveAndPreview]: 'Save & Preview',
-  [saveTypes.saveAndPublish]: 'Save & Publish'
-}
 
 /**
  * FormNavigation
@@ -67,7 +60,7 @@ const FormNavigation = ({
   const onSaveClick = (type) => {
     // If there is no concept id for drafts or id for templates, open the modal
     if (!conceptId && !id) {
-      setChooseProviderModalType(humanizedSaveTypes[type])
+      setChooseProviderModalType(saveTypesToHumanizedStringMap[type])
       setChooseProviderModalOpen(true)
 
       return
@@ -101,7 +94,7 @@ const FormNavigation = ({
               {
                 loading
                   ? 'Saving draft...'
-                  : humanizedSaveTypes[saveTypes.saveAndContinue]
+                  : saveTypesToHumanizedStringMap[saveTypes.saveAndContinue]
               }
             </span>
           </Button>
@@ -119,7 +112,7 @@ const FormNavigation = ({
               onClick={() => onSaveClick(saveTypes.save)}
             >
               <span>
-                {humanizedSaveTypes[saveTypes.save]}
+                {saveTypesToHumanizedStringMap[saveTypes.save]}
               </span>
             </Dropdown.Item>
 
@@ -127,7 +120,7 @@ const FormNavigation = ({
               onClick={() => onSaveClick(saveTypes.saveAndContinue)}
             >
               <span>
-                {humanizedSaveTypes[saveTypes.saveAndContinue]}
+                {saveTypesToHumanizedStringMap[saveTypes.saveAndContinue]}
               </span>
             </Dropdown.Item>
 
@@ -136,7 +129,7 @@ const FormNavigation = ({
                 <Dropdown.Item
                   onClick={() => onSaveClick(saveTypes.saveAndCreateDraft)}
                 >
-                  {humanizedSaveTypes[saveTypes.saveAndCreateDraft]}
+                  {saveTypesToHumanizedStringMap[saveTypes.saveAndCreateDraft]}
                 </Dropdown.Item>
               )
             }
@@ -145,7 +138,7 @@ const FormNavigation = ({
                 <Dropdown.Item
                   onClick={() => onSaveClick(saveTypes.saveAndPublish)}
                 >
-                  {humanizedSaveTypes[saveTypes.saveAndPublish]}
+                  {saveTypesToHumanizedStringMap[saveTypes.saveAndPublish]}
                 </Dropdown.Item>
 
               )
@@ -155,7 +148,7 @@ const FormNavigation = ({
               onClick={() => onSaveClick(saveTypes.saveAndPreview)}
             >
               <span>
-                {humanizedSaveTypes[saveTypes.saveAndPreview]}
+                {saveTypesToHumanizedStringMap[saveTypes.saveAndPreview]}
               </span>
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -210,7 +203,6 @@ const FormNavigation = ({
         onSubmit={
           () => {
             onSave(chooseProviderModalType)
-            setChooseProviderModalOpen(false)
           }
         }
       />

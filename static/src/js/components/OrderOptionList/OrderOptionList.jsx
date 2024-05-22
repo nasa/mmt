@@ -132,8 +132,8 @@ const OrderOptionList = () => {
             iconTitle="Delete Button"
             onClick={
               () => {
-                toggleShowDeleteModal(true)
                 setSelectedOrderOption(rowData)
+                toggleShowDeleteModal(true)
               }
             }
             variant="danger"
@@ -158,6 +158,12 @@ const OrderOptionList = () => {
       dataKey: 'scope',
       title: 'Scope',
       className: 'col-auto'
+    },
+    {
+      dataKey: 'providerId',
+      title: 'Provider',
+      className: 'col-auto',
+      center: true
     },
     {
       dataKey: 'deprecated',

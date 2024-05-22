@@ -11,7 +11,7 @@ import MetadataForm from '@/js/components/MetadataForm/MetadataForm'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
-import urlValueTypeToConceptTypeMap from '@/js/constants/urlValueToConceptTypeMap'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
 /**
@@ -31,7 +31,7 @@ const MetadataFormPageHeader = () => {
   if (conceptId !== 'new') {
     derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   } else {
-    derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
+    derivedConceptType = urlValueTypeToConceptTypeStringMap[draftType]
   }
 
   const { data = {} } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {

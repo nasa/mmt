@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { describe } from 'vitest'
+import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
+import saveTypes from '@/js/constants/saveTypes'
 import AppContext from '../../../context/AppContext'
 import ChooseProviderModal from '../ChooseProviderModal'
 
@@ -20,12 +22,14 @@ const setup = ({
   overrideProps = {},
   overrideContext = {}
 } = {}) => {
+  const user = userEvent.setup()
+
   const props = {
     show: false,
     toggleModal: () => {},
     type: 'draft',
     onSubmit: () => {},
-    primaryActionType: 'Save',
+    primaryActionType: saveTypesToHumanizedStringMap[saveTypes.save],
     ...overrideProps
   }
   const context = {
@@ -46,7 +50,7 @@ const setup = ({
   return {
     container,
     context,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -78,7 +82,7 @@ describe('ChooseProviderModal component', () => {
       expect(screen.getByRole('button', { name: /Close/i })).toBeDefined()
       expect(screen.getByRole('combobox', { name: 'Select a provider' })).toBeDefined()
       expect(screen.getByRole('combobox', { name: 'Select a provider' })).toHaveValue('MMT-2')
-      expect(screen.getByRole('button', { name: 'Save' })).toBeDefined()
+      expect(screen.getByRole('button', { name: saveTypesToHumanizedStringMap[saveTypes.save] })).toBeDefined()
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeDefined()
     })
   })
@@ -164,7 +168,7 @@ describe('ChooseProviderModal component', () => {
         }
       })
 
-      const button = screen.getByRole('button', { name: 'Save' })
+      const button = screen.getByRole('button', { name: saveTypesToHumanizedStringMap[saveTypes.save] })
 
       await user.click(button)
 

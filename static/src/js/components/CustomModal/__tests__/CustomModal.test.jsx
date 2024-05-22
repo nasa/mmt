@@ -4,7 +4,9 @@ import React from 'react'
 import CustomModal from '../CustomModal'
 
 const setup = (overrideProps) => {
+  const user = userEvent.setup()
   const onClick = vi.fn()
+
   const props = {
     show: true,
     message: 'Mock message',
@@ -24,7 +26,7 @@ const setup = (overrideProps) => {
   return {
     container,
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

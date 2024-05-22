@@ -70,7 +70,11 @@ const GroupPageHeader = ({ isAdminPage }) => {
   }
 
   const { group = {} } = data
-  const { members, name, tag: providerId } = group
+  const {
+    members,
+    name,
+    tag: providerId
+  } = group
   const { count } = members
 
   const handleDelete = () => {

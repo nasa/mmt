@@ -30,9 +30,14 @@ const getTemplate = async (event) => {
     const object = objectList.find(({ Key }) => {
       const [objectProviderId, guid] = Key.split('/')
 
-      providerId = objectProviderId
+      // Set the providerId when the guid and id match so it can be returned with the response.
+      if (guid === id) {
+        providerId = objectProviderId
 
-      return guid === id
+        return true
+      }
+
+      return false
     })
 
     const { Key: key } = object
