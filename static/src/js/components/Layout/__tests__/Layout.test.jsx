@@ -79,6 +79,10 @@ describe('Layout component', () => {
             {
               to: '/templates/collections',
               title: 'Templates'
+            },
+            {
+              title: 'Permissions',
+              to: '/permissions'
             }
           ]
         },
@@ -165,6 +169,10 @@ describe('Layout component', () => {
               {
                 to: '/templates/collections',
                 title: 'Templates'
+              },
+              {
+                title: 'Permissions',
+                to: '/permissions'
               }
             ]
           },

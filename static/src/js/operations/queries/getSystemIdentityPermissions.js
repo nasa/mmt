@@ -4,9 +4,14 @@ export const GET_SYSTEM_IDENTITY_PERMISSIONS = gql`
   query GetSystemIdentityPermissions($params: AclsInput) {
     acls(params: $params) {
       items {
-        systemIdentity
-        groupPermissions
         conceptId
+        groups {
+          items {
+            id
+            permissions
+          }
+        }
+        systemIdentity
       }
     }
   }

@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import { FaQuestionCircle } from 'react-icons/fa'
 
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import useAppContext from '@/js/hooks/useAppContext'
 import For from '../For/For'
 
@@ -23,7 +23,7 @@ const Providers = () => {
 
   const { uid } = user
 
-  const { data } = useSuspenseQuery(GET_ACLS, {
+  const { data } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
     variables: {
       params: {
         limit: 500,

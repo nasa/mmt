@@ -99,53 +99,54 @@ const setup = ({
           items: [
             {
               systemIdentity: {
-                target: 'DASHBOARD_ADMIN',
-                provider_id: 'MMT_1'
+                target: 'DASHBOARD_ADMIN'
               },
               identityType: 'System',
-              groupPermissions: [
-                {
+              groups: {
+                items: [{
+                  id: '1234-abcd-5678-efgh',
                   permissions: [
                     'read'
-                  ],
-                  group_id: '1234-abcd-5678-efgh'
-                }
-              ],
+                  ]
+                }]
+              },
               conceptId: 'ACL1200000001-CMR'
             },
             {
               systemIdentity: {
-                target: 'INGEST_MANAGEMENT_ACL',
-                provider_id: 'MMT_1'
+                target: 'INGEST_MANAGEMENT_ACL'
               },
               identityType: 'System',
-              groupPermissions: [
-                {
-                  permissions: [],
-                  group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                },
-                {
-                  permissions: [
-                    'read',
-                    'update'
-                  ],
-                  group_id: '1234-abcd-5678-efgh'
-                }
-              ],
+              groups: {
+                items: [
+                  {
+                    permissions: [],
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                  },
+                  {
+                    permissions: [
+                      'read',
+                      'update'
+                    ],
+                    id: '1234-abcd-5678-efgh'
+                  }
+                ]
+              },
               conceptId: 'ACL1200000002-CMR'
             },
             {
               systemIdentity: {
-                target: 'TAG_GROUP',
-                provider_id: 'MMT_1'
+                target: 'TAG_GROUP'
               },
               identityType: 'System',
-              groupPermissions: [
-                {
-                  permissions: [],
-                  group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                }
-              ],
+              groups: {
+                items: [
+                  {
+                    permissions: [],
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                  }
+                ]
+              },
               conceptId: 'ACL1200000004-CMR'
             }
           ]
@@ -262,68 +263,72 @@ describe('SystemPermissions', () => {
                 items: [
                   {
                     systemIdentity: {
-                      target: 'ANY_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'ANY_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'create'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000003-CMR'
                   }, {
                     systemIdentity: {
-                      target: 'DASHBOARD_ADMIN',
-                      provider_id: 'MMT_1'
+                      target: 'DASHBOARD_ADMIN'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000001-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'INGEST_MANAGEMENT_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'INGEST_MANAGEMENT_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      },
-                      {
-                        permissions: [
-                          'read',
-                          'update'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          permissions: [
+                            'read',
+                            'update'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000002-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'TAG_GROUP',
-                      provider_id: 'MMT_1'
+                      target: 'TAG_GROUP'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000004-CMR'
                   }
                 ]
@@ -400,74 +405,78 @@ describe('SystemPermissions', () => {
                 items: [
                   {
                     systemIdentity: {
-                      target: 'ANY_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'ANY_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'create'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000003-CMR'
                   }, {
                     systemIdentity: {
-                      target: 'DASHBOARD_ADMIN',
-                      provider_id: 'MMT_1'
+                      target: 'DASHBOARD_ADMIN'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000001-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'INGEST_MANAGEMENT_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'INGEST_MANAGEMENT_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      },
-                      {
-                        permissions: [
-                          'read',
-                          'update'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          permissions: [
+                            'read',
+                            'update'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000002-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'TAG_GROUP',
-                      provider_id: 'MMT_1'
+                      target: 'TAG_GROUP'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      },
-                      {
-                        permissions: [
-                          'update'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          permissions: [
+                            'update'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000004-CMR'
                   }
                 ]
@@ -545,67 +554,71 @@ describe('SystemPermissions', () => {
                 items: [
                   {
                     systemIdentity: {
-                      target: 'ANY_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'ANY_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'create'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000003-CMR'
                   }, {
                     systemIdentity: {
-                      target: 'DASHBOARD_ADMIN',
-                      provider_id: 'MMT_1'
+                      target: 'DASHBOARD_ADMIN'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000001-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'INGEST_MANAGEMENT_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'INGEST_MANAGEMENT_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      },
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000002-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'TAG_GROUP',
-                      provider_id: 'MMT_1'
+                      target: 'TAG_GROUP'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000004-CMR'
                   }
                 ]
@@ -677,61 +690,65 @@ describe('SystemPermissions', () => {
                 items: [
                   {
                     systemIdentity: {
-                      target: 'ANY_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'ANY_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'create'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000003-CMR'
                   }, {
                     systemIdentity: {
-                      target: 'DASHBOARD_ADMIN',
-                      provider_id: 'MMT_1'
+                      target: 'DASHBOARD_ADMIN'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000001-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'INGEST_MANAGEMENT_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'INGEST_MANAGEMENT_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000002-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'TAG_GROUP',
-                      provider_id: 'MMT_1'
+                      target: 'TAG_GROUP'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000004-CMR'
                   }
                 ]
@@ -808,52 +825,55 @@ describe('SystemPermissions', () => {
                 items: [
                   {
                     systemIdentity: {
-                      target: 'ANY_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'ANY_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [
-                          'create'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000003-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'INGEST_MANAGEMENT_ACL',
-                      provider_id: 'MMT_1'
+                      target: 'INGEST_MANAGEMENT_ACL'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      },
-                      {
-                        permissions: [
-                          'read'
-                        ],
-                        group_id: '1234-abcd-5678-efgh'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000002-CMR'
                   },
                   {
                     systemIdentity: {
-                      target: 'TAG_GROUP',
-                      provider_id: 'MMT_1'
+                      target: 'TAG_GROUP'
                     },
                     identityType: 'System',
-                    groupPermissions: [
-                      {
-                        permissions: [],
-                        group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                      }
-                    ],
+                    groups: {
+                      items: [
+                        {
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
                     conceptId: 'ACL1200000004-CMR'
                   }
                 ]

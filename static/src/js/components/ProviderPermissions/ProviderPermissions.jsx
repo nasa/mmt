@@ -19,7 +19,7 @@ import useAppContext from '@/js/hooks/useAppContext'
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 
 import getPermittedUser from '@/js/utils/getPermittedUser'
 
@@ -44,7 +44,7 @@ const ProviderPermissions = () => {
   const [providerPermissions, setProviderPermissions] = useState([])
   const [provider, setProvider] = useState()
 
-  const { data: providerData } = useSuspenseQuery(GET_ACLS, {
+  const { data: providerData } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
     variables: {
       params: {
         limit: 500,
@@ -80,9 +80,10 @@ const ProviderPermissions = () => {
         }
 
         if (acl) {
-          const { groupPermissions = [] } = acl
+          const { groups = {} } = acl
+          const { items: targetedAclGroups = [] } = groups
 
-          const { permissions = [] } = groupPermissions.find((gp) => gp.group_id === id)
+          const { permissions = [] } = targetedAclGroups.find((gp) => gp.id === id)
 
           return {
             ...row,

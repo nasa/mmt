@@ -15,9 +15,9 @@ import Providers from '@/js/providers/Providers/Providers'
 import errorLogger from '@/js/utils/errorLogger'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
-import { GET_ACLS } from '@/js/operations/queries/getAcls'
 
 import GroupForm from '../GroupForm'
 
@@ -55,7 +55,7 @@ const setup = ({
             [
               {
                 request: {
-                  query: GET_ACLS,
+                  query: GET_AVAILABLE_PROVIDERS,
                   variables: {
                     params: {
                       limit: 500,
@@ -68,27 +68,9 @@ const setup = ({
                   data: {
                     acls: {
                       items: [{
-                        groupPermissions: [{
-                          permissions: [
-                            'read'
-                          ],
-                          group_id: '1234-abcd-5678-efgh'
-                        }],
                         providerIdentity: {
                           target: 'PROVIDER_CONTEXT',
                           provider_id: 'MMT_2'
-                        },
-                        acl: {
-                          group_permissions: [{
-                            permissions: [
-                              'read'
-                            ],
-                            group_id: '1234-abcd-5678-efgh'
-                          }],
-                          provider_identity: {
-                            target: 'PROVIDER_CONTEXT',
-                            provider_id: 'MMT_2'
-                          }
                         }
                       }]
                     }
