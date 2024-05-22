@@ -112,7 +112,7 @@ To setup cmr-graphql, follow the [https://github.com/nasa/cmr-graphql](readme).
 After you have set up cmr-graphql, to start it and point it to your local CMR, run:
 
 ```bash
-    CMR_ROOT_URL=http://localhost:4000 EDL_PASSWORD=<password here> npm start
+    CMR_ROOT_URL=http://localhost:4000 EDL_CLIENT_ID=<client id> EDL_PASSWORD=<password> npm start
 ```
 
 _Note: This should be run from within the mmt directory._
@@ -140,7 +140,7 @@ To run GraphDB in docker, run:
 In order to run serverless-offline, which is used for mimicking API Gateway to call lambda functions, run:
 
 ```bash
-    EDL_PASSWORD=<password here> npm run offline
+    EDL_PASSWORD=<password> npm run offline
 ```
 
 _Note: The EDL_PASSWORD environment variable is required for group member queries to function._
