@@ -6,7 +6,7 @@
 
 The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are web applications designed to assist users in managing metadata and interfacing with the CMR.
 
-### Links
+## Links
 
 - [MMT Users Guide](https://wiki.earthdata.nasa.gov/display/ED/Metadata+Management+Tool+%28MMT%29+User%27s+Guide)
 - [Draft MMT Users Guide](https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide)
@@ -70,8 +70,8 @@ CMR comes with redis in the jar, but it is not compiled to run on Macs.  If you 
 
 For more information, see:
 
- - [https://www.devglan.com/blog/install-redis-windows-and-mac](https://www.devglan.com/blog/install-redis-windows-and-mac)
- - [https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8](https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8)
+- [https://www.devglan.com/blog/install-redis-windows-and-mac](https://www.devglan.com/blog/install-redis-windows-and-mac)
+- [https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8](https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8)
 
 ##### 4. Running the CMR npm scripts
 
@@ -112,7 +112,7 @@ To setup cmr-graphql, follow the [https://github.com/nasa/cmr-graphql](readme).
 After you have set up cmr-graphql, to start it and point it to your local CMR, run:
 
 ```bash
-    CMR_ROOT_URL=http://localhost:4000 npm start
+    CMR_ROOT_URL=http://localhost:4000 EDL_PASSWORD=<password here> npm start
 ```
 
 _Note: This should be run from within the mmt directory._
@@ -171,29 +171,29 @@ To run the test suite, run:
 
 CSS should follow the following guidelines:
 
-* Prefer [Bootstrap](https://getbootstrap.com/docs/5.0/) styles when writing custom components
-* If the desired look can not be achieved with Bootstrap, additional styling should be accomplished by:
-  * Creating a scss file for the custom component
-    * Classes should be defined on the elements following the [BEM methodology](https://getbem.com/)
-    * Sass should be written take advantage of nesting to prevent repetition of the blocks and elements
+- Prefer [Bootstrap](https://getbootstrap.com/docs/5.0/) styles when writing custom components
+- If the desired look can not be achieved with Bootstrap, additional styling should be accomplished by:
+  - Creating a scss file for the custom component
+    - Classes should be defined on the elements following the [BEM methodology](https://getbem.com/)
+    - Sass should be written take advantage of nesting to prevent repetition of the blocks and elements
 
 #### Things to keep in mind
 
 These will help create more maintainable css:
 
-* Use Bootstrap variables where possible
-  * Bootstrap provides css variables for things like colors, sizes, etc which should be used when possible.
-    * Bootstrap variables are used with the `var()` syntax in css
-* Aim to keep specificity low
-  * Most elements should only require a single class name
-  * Avoid chaining selectors, descendant selectors, or other ways of increasing specificity
-* Use consistent modifier class names, starting with `--is`. Add more to the list below as new states are required.
-  * `--is-active`,
-  * `--is-complete`
-  * `--is-errored`
+- Use Bootstrap variables where possible
+  - Bootstrap provides css variables for things like colors, sizes, etc which should be used when possible.
+    - Bootstrap variables are used with the `var()` syntax in css
+- Aim to keep specificity low
+  - Most elements should only require a single class name
+  - Avoid chaining selectors, descendant selectors, or other ways of increasing specificity
+- Use consistent modifier class names, starting with `--is`. Add more to the list below as new states are required.
+  - `--is-active`,
+  - `--is-complete`
+  - `--is-errored`
 
 ### Helpful links
 
-* [Bootstrap Docs](https://getbootstrap.com/docs/5.0/)
-* [BEM methodology](https://getbem.com/)
-* [Specificity MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
+- [Bootstrap Docs](https://getbootstrap.com/docs/5.0/)
+- [BEM methodology](https://getbem.com/)
+- [Specificity MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
