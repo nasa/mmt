@@ -389,7 +389,7 @@ describe('Permission', () => {
   })
 
   describe('when a collection and granule has access and min and max values are equal', () => {
-    test.only('renders collection and granule text with access and min and max values are equal', async () => {
+    test('renders collection and granule text with access and min and max values are equal', async () => {
       setup({
         overrideMocks: [{
           request: {
