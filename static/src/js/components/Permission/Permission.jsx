@@ -124,9 +124,9 @@ const Permission = () => {
   const buildAccessAndTemporalText = (accessValue, temporalObj) => {
     const sentenceFragments = []
     if (accessValue && temporalObj) {
-      sentenceFragments.push(buildAccessConstraintText(accessValue), ' and', buildTemporalText(temporalObj))
+      sentenceFragments.push(buildAccessConstraintText(accessValue), 'and', buildTemporalText(temporalObj))
 
-      return sentenceFragments
+      return sentenceFragments.join(' ')
     }
 
     if (accessValue) {
@@ -137,7 +137,7 @@ const Permission = () => {
       sentenceFragments.push(buildTemporalText(temporalObj))
     }
 
-    return sentenceFragments
+    return sentenceFragments.join(' ')
   }
 
   const collectionConstraintSummary = () => {
