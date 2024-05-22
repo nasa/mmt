@@ -66,6 +66,7 @@ const PermissionCollectionTable = () => {
       </EllipsisLink>
     )
   }, [])
+
   const collectionColumns = [
     {
       className: 'col-auto',
@@ -94,13 +95,13 @@ const PermissionCollectionTable = () => {
         {
           items && (
             <Table
-              id="permission-collection-table"
               columns={collectionColumns}
+              count={count}
+              data={items}
               generateCellKey={({ conceptId: columnConceptId }, dataKey) => `column_${dataKey}_${columnConceptId}`}
               generateRowKey={({ conceptId: rowConceptId }) => `row_${rowConceptId}`}
-              data={items}
+              id="permission-collection-table"
               limit={20}
-              count={count}
               noDataMessage="No collections found"
               sortKey={sortKey}
             />
