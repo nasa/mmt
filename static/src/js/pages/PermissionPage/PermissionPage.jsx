@@ -38,7 +38,7 @@ const PermissionPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: 'Collection Permission',
+            label: 'Collection Permissions',
             to: '/permissions'
           },
           {

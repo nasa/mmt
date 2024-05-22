@@ -76,21 +76,21 @@ const Permission = () => {
       minValue
     } = accessValue || {}
 
-    const accessFragment = [' that have access constraint values']
+    const accessFragment = ['that have access constraint values']
 
     if (minValue && maxValue) {
       if (minValue === maxValue) {
-        accessFragment.push(` equal to ${minValue}`)
+        accessFragment.push(`equal to ${minValue}`)
       } else {
-        accessFragment.push(` between ${minValue} and ${maxValue}`)
+        accessFragment.push(`between ${minValue} and ${maxValue}`)
       }
 
       if (includeUndefinedValue) {
-        accessFragment.push(' (or are undefined)')
+        accessFragment.push('(or are undefined)')
       }
     }
 
-    return accessFragment
+    return accessFragment.join(' ')
   }
 
   // Builds text for temporal constraints
@@ -105,20 +105,20 @@ const Permission = () => {
 
     switch (mask) {
       case 'contains':
-        temporalFragment.push(' contained within')
+        temporalFragment.push('contained within')
         break
       case 'intersect':
-        temporalFragment.push(' having some overlap with')
+        temporalFragment.push('having some overlap with')
         break
       case 'disjoint':
-        temporalFragment.push(' outside of')
+        temporalFragment.push('outside of')
         break
       default: break
     }
 
-    temporalFragment.push(` the date range ${startDate} to ${stopDate}`)
+    temporalFragment.push(`the date range ${startDate} to ${stopDate}`)
 
-    return temporalFragment
+    return temporalFragment.join(' ')
   }
 
   const buildAccessAndTemporalText = (accessValue, temporalObj) => {
@@ -145,17 +145,17 @@ const Permission = () => {
 
     if (collectionApplicable) {
       if (collectionCount) {
-        sentenceFragments.push(` grants its assigned groups access to ${collectionCount} collection${collectionCount > 1 ? 's' : ''}`)
+        sentenceFragments.push(`grants its assigned groups access to ${collectionCount} collection${collectionCount > 1 ? 's' : ''}`)
       } else {
-        sentenceFragments.push(' grants its assigned groups access to all of its collections')
+        sentenceFragments.push('grants its assigned groups access to all of its collections')
       }
 
       sentenceFragments.push(buildAccessAndTemporalText(collectionAccessValue, temporal))
     } else {
-      sentenceFragments.push(' does not grant access to collections')
+      sentenceFragments.push('does not grant access to collections')
     }
 
-    return sentenceFragments
+    return sentenceFragments.join(' ')
   }
 
   const granuleConstraintSummary = () => {
@@ -167,22 +167,22 @@ const Permission = () => {
     const sentenceFragments = ['This permission']
 
     if (granuleApplicable) {
-      sentenceFragments.push(' grants its assigned groups access to granules')
+      sentenceFragments.push('grants its assigned groups access to granules')
 
       sentenceFragments.push(buildAccessAndTemporalText(granuleAccessValue, granuleTemporal))
 
       if (collectionCount) {
-        sentenceFragments.push(` that belong to the ${collectionCount} collection${collectionCount > 1 ? 's' : ''}`)
+        sentenceFragments.push(`that belong to the ${collectionCount} collection${collectionCount > 1 ? 's' : ''}`)
       } else {
-        sentenceFragments.push(' that belong to any of its collections')
+        sentenceFragments.push('that belong to any of its collections')
       }
 
       sentenceFragments.push(buildAccessAndTemporalText(collectionAccessValue, temporal))
     } else {
-      sentenceFragments.push(' does not grant access to granules')
+      sentenceFragments.push('does not grant access to granules')
     }
 
-    return sentenceFragments
+    return sentenceFragments.join(' ')
   }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION_PERMISSIONS = gql`
-  query Acls($params: AclsInput) {
+  query GetCollectionPermissions($params: AclsInput) {
     acls(params: $params) {
       count
       items {

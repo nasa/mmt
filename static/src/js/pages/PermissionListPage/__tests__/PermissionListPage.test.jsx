@@ -30,7 +30,7 @@ describe('PermissionListPage', () => {
     test('render the page and calls PermissionList', async () => {
       setup()
 
-      expect(screen.getByText('Permissions')).toBeInTheDocument()
+      expect(screen.getAllByText('Collection Permissions')[0]).toBeInTheDocument()
       expect(PermissionList).toHaveBeenCalled(1)
     })
   })

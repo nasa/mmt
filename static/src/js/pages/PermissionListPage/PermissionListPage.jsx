@@ -25,7 +25,7 @@ const PermissionListPageHeader = () => (
       ]
     }
     pageType="secondary"
-    title="Permissions"
+    title="Collection Permissions"
   />
 )
 
