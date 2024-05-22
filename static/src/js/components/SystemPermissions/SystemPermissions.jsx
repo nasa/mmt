@@ -91,9 +91,10 @@ const SystemPermissions = () => {
           [key]: acl
         }))
 
-        const { groupPermissions = [] } = acl
+        const { groups } = acl
+        const { items: aclGroups = [] } = groups
 
-        const groupPermission = groupPermissions.find((gp) => gp.group_id === id)
+        const groupPermission = aclGroups.find((gp) => gp.id === id)
 
         // If a group permission exists for this group
         if (groupPermission) {
@@ -124,7 +125,10 @@ const SystemPermissions = () => {
   const generateUpdateMutation = (conceptId, groupPermissions, target) => ({
     variables: {
       conceptId,
-      groupPermissions,
+      groupPermissions: groupPermissions.map((gp) => ({
+        group_id: gp.id,
+        permissions: gp.permissions
+      })),
       systemIdentity: {
         target
       }
@@ -141,7 +145,10 @@ const SystemPermissions = () => {
    */
   const generateCreateMutation = (groupPermissions, target) => ({
     variables: {
-      groupPermissions,
+      groupPermissions: groupPermissions.map((gp) => ({
+        group_id: gp.id,
+        permissions: gp.permissions
+      })),
       systemIdentity: {
         target
       }
@@ -213,9 +220,10 @@ const SystemPermissions = () => {
       if (Object.keys(currentAcls).includes(target)) {
         const { [target]: targetedAcl } = currentAcls
 
-        const { conceptId, groupPermissions = [] } = targetedAcl
+        const { conceptId, groups = [] } = targetedAcl
+        const { items: targetedAclGroups = [] } = groups
 
-        const groupPermission = groupPermissions.find((gp) => gp.group_id === id)
+        const groupPermission = targetedAclGroups.find((gp) => gp.id === id)
 
         let currentPermissions = []
 
@@ -231,7 +239,7 @@ const SystemPermissions = () => {
             // If the form is being submitted with no permissions
             if (permissions.length === 0) {
               // If the Acl in CMR only has 1 group (this group) we can delete the Acl now
-              if (groupPermissions.length === 1) {
+              if (targetedAclGroups.length === 1) {
                 // Delete the Acl
                 mutations.push(generateDeleteMutation(conceptId, target))
 
@@ -242,7 +250,7 @@ const SystemPermissions = () => {
               mutations.push(
                 generateUpdateMutation(
                   conceptId,
-                  groupPermissions.filter((gp) => gp.group_id !== id),
+                  targetedAclGroups.filter((gp) => gp.id !== id),
                   target
                 )
               )
@@ -255,10 +263,10 @@ const SystemPermissions = () => {
               generateUpdateMutation(
                 conceptId,
                 [
-                  ...groupPermissions.filter((gp) => gp.group_id !== id),
+                  ...targetedAclGroups.filter((gp) => gp.id !== id),
                   {
                     permissions,
-                    group_id: id
+                    id
                   }
                 ],
                 target
@@ -278,10 +286,10 @@ const SystemPermissions = () => {
           mutations.push(generateUpdateMutation(
             conceptId,
             [
-              ...groupPermissions,
+              ...targetedAclGroups,
               {
                 permissions,
-                group_id: id
+                id
               }],
             target
           ))
@@ -295,7 +303,7 @@ const SystemPermissions = () => {
         // Create a new Acl
         mutations.push(generateCreateMutation([{
           permissions,
-          group_id: id
+          id
         }], target))
       }
     })
@@ -408,6 +416,7 @@ const SystemPermissions = () => {
             data={systemPermissionsForForm}
             generateCellKey={({ target }, dataKey) => `column_${dataKey}_${target}`}
             generateRowKey={({ target }) => `row_${target}`}
+            id="system-permissions-table"
             limit={Object.keys(systemIdentityPermissions).length}
           />
 

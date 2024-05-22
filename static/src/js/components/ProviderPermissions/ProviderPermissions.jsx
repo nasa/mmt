@@ -80,9 +80,10 @@ const ProviderPermissions = () => {
         }
 
         if (acl) {
-          const { groupPermissions = [] } = acl
+          const { groups = {} } = acl
+          const { items: targetedAclGroups = [] } = groups
 
-          const { permissions = [] } = groupPermissions.find((gp) => gp.group_id === id)
+          const { permissions = [] } = targetedAclGroups.find((gp) => gp.id === id)
 
           return {
             ...row,

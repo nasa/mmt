@@ -125,20 +125,22 @@ const setup = ({
                 provider_id: 'MMT_1'
               },
               identityType: 'Provider',
-              groupPermissions: [
-                {
-                  permissions: [
-                    'read'
-                  ],
-                  group_id: '1234-abcd-5678-efgh'
-                },
-                {
-                  permissions: [
-                    'read'
-                  ],
-                  group_id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
-                }
-              ],
+              groups: {
+                items: [
+                  {
+                    permissions: [
+                      'read'
+                    ],
+                    id: '1234-abcd-5678-efgh'
+                  },
+                  {
+                    permissions: [
+                      'read'
+                    ],
+                    id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
+                  }
+                ]
+              },
               conceptId: 'ACL1200216198-CMR'
             },
             {
@@ -147,38 +149,22 @@ const setup = ({
                 provider_id: 'MMT_1'
               },
               identityType: 'Provider',
-              groupPermissions: [
-                {
-                  permissions: [],
-                  group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
-                },
-                {
-                  permissions: [
-                    'delete',
-                    'create'
-                  ],
-                  group_id: '1234-abcd-5678-efgh'
-                }
-              ],
-              conceptId: 'ACL1200216108-CMR'
-            },
-            {
-              providerIdentity: {
-                target: 'CATALOG_ITEM_ACL',
-                provider_id: 'MMT_1'
+              groups: {
+                items: [
+                  {
+                    permissions: [],
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                  },
+                  {
+                    permissions: [
+                      'delete',
+                      'create'
+                    ],
+                    id: '1234-abcd-5678-efgh'
+                  }
+                ]
               },
-              identityType: 'Provider',
-              groupPermissions: [
-                {
-                  permissions: [],
-                  user_type: 'registered'
-                },
-                {
-                  permissions: [],
-                  user_type: 'guest'
-                }
-              ],
-              conceptId: 'ACL1200216192-CMR'
+              conceptId: 'ACL1200216108-CMR'
             }
           ]
         }
