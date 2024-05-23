@@ -354,6 +354,21 @@ describe('SystemPermissions', () => {
         name: 'create any_acl',
         checked: true
       })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read any_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update any_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete any_acl',
+        checked: false
+      })).toBeVisible()
     })
   })
 
@@ -499,8 +514,23 @@ describe('SystemPermissions', () => {
 
       // After submission, the data is reloaded -- make sure the checkbox is checked
       expect(await screen.findByRole('checkbox', {
+        name: 'create tag_group',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read tag_group',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
         name: 'update tag_group',
         checked: true
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete tag_group',
+        checked: false
       })).toBeVisible()
     })
   })
@@ -640,8 +670,24 @@ describe('SystemPermissions', () => {
       await user.click(submitButton)
 
       // After submission, the data is reloaded -- make sure the checkbox is checked
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'create ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read ingest_management_acl',
+        checked: true
+      })).toBeVisible()
+
       expect(await screen.findByRole('checkbox', {
         name: 'update ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete ingest_management_acl',
         checked: false
       })).toBeVisible()
     })
@@ -778,12 +824,22 @@ describe('SystemPermissions', () => {
 
       // After submission, the data is reloaded -- make sure the checkbox is checked
       expect(await screen.findByRole('checkbox', {
+        name: 'create ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
         name: 'read ingest_management_acl',
         checked: false
       })).toBeVisible()
 
       expect(await screen.findByRole('checkbox', {
         name: 'update ingest_management_acl',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete ingest_management_acl',
         checked: false
       })).toBeVisible()
     })
@@ -896,7 +952,22 @@ describe('SystemPermissions', () => {
 
       // After submission, the data is reloaded -- make sure the checkbox is checked
       expect(await screen.findByRole('checkbox', {
+        name: 'create dashboard_admin',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
         name: 'read dashboard_admin',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update dashboard_admin',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete dashboard_admin',
         checked: false
       })).toBeVisible()
     })

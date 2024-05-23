@@ -6,8 +6,7 @@ import {
   ApolloProvider,
   InMemoryCache,
   Observable,
-  createHttpLink,
-  defaultDataIdFromObject
+  createHttpLink
 } from '@apollo/client'
 
 import { setContext } from '@apollo/client/link/context'
@@ -88,29 +87,40 @@ const GraphQLProvider = ({ children }) => {
 
     return new ApolloClient({
       cache: new InMemoryCache({
-        dataIdFromObject: (object) => {
-          const { __typename: typeName, conceptId, revisionId } = object
-          if ([
-            'Collection',
-            'Draft',
-            'Grid',
-            'OrderOption',
-            'Service',
-            'Tool',
-            'Variable'
-          ].includes(typeName)) {
-            return `${conceptId}-${revisionId}`
+        typePolicies: {
+          Acl: {
+            keyFields: ['conceptId']
+          },
+          AclGroup: {
+            keyFields: false
+          },
+          Collection: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          Draft: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          Grid: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          OrderOption: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          Permission: {
+            keyFields: ['conceptId']
+          },
+          Service: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          Subscription: {
+            keyFields: ['conceptId']
+          },
+          Tool: {
+            keyFields: ['conceptId', 'revisionId']
+          },
+          Variable: {
+            keyFields: ['conceptId', 'revisionId']
           }
-
-          if ([
-            'Acl',
-            'Permission',
-            'Subscription'
-          ].includes(typeName)) {
-            return conceptId
-          }
-
-          return defaultDataIdFromObject(object)
         }
       }),
       link: ApolloLink.from([authLink, responseDelayLink, httpLink])
