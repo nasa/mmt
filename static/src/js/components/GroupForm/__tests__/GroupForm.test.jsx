@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -232,6 +236,10 @@ describe('GroupForm', () => {
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
+        const modal = screen.getByRole('dialog')
+        const modalSubmit = within(modal).getByRole('button', { name: 'Submit' })
+        await user.click(modalSubmit)
+
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/groups/1234-abcd-5678-efgh')
       })
@@ -353,6 +361,10 @@ describe('GroupForm', () => {
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
+
+        const modal = screen.getByRole('dialog')
+        const modalSubmit = within(modal).getByRole('button', { name: 'Submit' })
+        await user.click(modalSubmit)
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Error creating group', 'GroupForm: createGroupMutation')

@@ -6,27 +6,27 @@ import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
-
 import { CollectionPreview } from '@edsc/metadata-preview'
-import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
-import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
 
-import CustomModal from '../CustomModal/CustomModal'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import Page from '../Page/Page'
-import PageHeader from '../PageHeader/PageHeader'
-import PreviewProgress from '../PreviewProgress/PreviewProgress'
+import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration.'
+import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
 
-import delateTemplate from '../../utils/deleteTemplate'
-import errorLogger from '../../utils/errorLogger'
-import getTemplate from '../../utils/getTemplate'
-import parseError from '../../utils/parseError'
+import delateTemplate from '@/js/utils/deleteTemplate'
+import errorLogger from '@/js/utils/errorLogger'
+import getTemplate from '@/js/utils/getTemplate'
+import parseError from '@/js/utils/parseError'
 
-import useAppContext from '../../hooks/useAppContext'
-import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import DraftPreviewPlaceholder from '../DraftPreviewPlaceholder/DraftPreviewPlaceholder'
-import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import useAppContext from '@/js/hooks/useAppContext'
+import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import DraftPreviewPlaceholder from '@/js/components/DraftPreviewPlaceholder/DraftPreviewPlaceholder'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+import PreviewProgress from '@/js/components/PreviewProgress/PreviewProgress'
 
 import './TemplatePreview.scss'
 
@@ -65,11 +65,12 @@ const TemplatePreview = () => {
   const { addNotification } = useNotificationsContext()
   const { id } = useParams()
 
-  const { token, providerId } = user
+  const { token } = user
 
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [providerId, setProviderId] = useState()
 
   const {
     ingestMutation,
@@ -83,14 +84,14 @@ const TemplatePreview = () => {
   }
 
   useEffect(() => {
-    const fetchTemplates = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
-
+    const fetchTemplate = async () => {
+      const { response, error: fetchTemplateError } = await getTemplate(token, id)
       if (response) {
-        delete response.pathParameters
+        const { providerId: templateProviderId, template } = response
 
+        setProviderId(templateProviderId)
         setDraft({
-          ummMetadata: { ...response }
+          ummMetadata: { ...template }
         })
       } else {
         setError(fetchTemplateError)
@@ -100,7 +101,7 @@ const TemplatePreview = () => {
     }
 
     setLoading(true)
-    fetchTemplates()
+    fetchTemplate()
   }, [])
 
   const handleCreateCollectionDraft = () => {
@@ -164,6 +165,7 @@ const TemplatePreview = () => {
   const templatePreviewPageHeader = () => (
     <PageHeader
       title={templateName}
+      titleBadge={providerId}
       pageType="secondary"
       breadcrumbs={
         [
@@ -199,7 +201,6 @@ const TemplatePreview = () => {
   )
 
   const pageHeader = templatePreviewPageHeader()
-
   if (loading) {
     return (
       <Page

@@ -1,16 +1,14 @@
 import React, { Suspense } from 'react'
-
+import { useParams } from 'react-router'
 import { FaPlus } from 'react-icons/fa'
 
-import { useParams } from 'react-router'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import LoadingTable from '../../components/LoadingTable/LoadingTable'
-import DraftList from '../../components/DraftList/DraftList'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
-import useAppContext from '../../hooks/useAppContext'
-import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
+import DraftList from '@/js/components/DraftList/DraftList'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 /**
  * Renders a DraftPageHeader component
@@ -24,14 +22,11 @@ import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeM
 const DraftListPageHeader = () => {
   const { draftType } = useParams()
 
-  const { user } = useAppContext()
-  const { providerId } = user
-
-  const conceptType = urlValueTypeToConceptTypeMap[draftType]
+  const conceptType = urlValueTypeToConceptTypeStringMap[draftType]
 
   return (
     <PageHeader
-      title={`${providerId} ${conceptType} Drafts`}
+      title={`${conceptType} Drafts`}
       breadcrumbs={
         [
           {

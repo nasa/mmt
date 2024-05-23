@@ -44,6 +44,7 @@ const mockDraft = {
         longName: 'Tool TD1200000092 long name',
         __typename: 'Tool'
       },
+      providerId: 'MMT_2',
       __typename: 'Draft'
     },
     {
@@ -55,6 +56,7 @@ const mockDraft = {
         longName: null,
         __typename: 'Tool'
       },
+      providerId: 'MMT_2',
       __typename: 'Draft'
     },
     {
@@ -69,6 +71,7 @@ const mockDraft = {
         longName: null,
         __typename: 'Tool'
       },
+      providerId: 'MMT_2',
       __typename: 'Draft'
     }
   ],
@@ -81,7 +84,6 @@ const setup = ({ overrideMocks = false }) => {
       query: GET_TOOL_DRAFTS,
       variables: {
         params: {
-          provider: 'MMT_2',
           conceptType: 'Tool',
           limit: 20,
           offset: 0,
@@ -161,7 +163,6 @@ describe('DraftList', () => {
             query: GET_TOOL_DRAFTS,
             variables: {
               params: {
-                provider: 'MMT_2',
                 conceptType: 'Tool',
                 limit: 20,
                 offset: 0,
@@ -187,7 +188,7 @@ describe('DraftList', () => {
       const rows = screen.getAllByRole('row')
 
       expect(within(rows[1]).getByRole('cell', {
-        name: 'No Tool drafts exist for the provider MMT_2'
+        name: 'No Tool drafts exist'
       })).toBeInTheDocument()
     })
   })

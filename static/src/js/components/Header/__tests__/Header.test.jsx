@@ -195,64 +195,6 @@ describe('Header component', () => {
       expect(screen.getByText('Search Collections')).not.toHaveClass('show')
     })
 
-    test('displays the provider dropdown', () => {
-      setup({
-        overrideContext: {
-          user: {
-            name: 'User Name',
-            token: {
-              tokenValue: 'ABC-1',
-              tokenExp: expires.valueOf()
-            },
-            providerId: 'MMT_2'
-          },
-          login: vi.fn(),
-          logout: vi.fn()
-        }
-      })
-
-      expect(screen.getByRole('button', { name: 'MMT_2' })).toBeInTheDocument()
-    })
-
-    describe('when a provider is selected from the dropdown', () => {
-      test('updates the selected provider in the state', async () => {
-        const { context } = setup({
-          overrideContext: {
-            user: {
-              name: 'User Name',
-              token: {
-                tokenValue: 'ABC-1',
-                tokenExp: expires.valueOf()
-              },
-              providerId: 'MMT_2'
-            },
-            providerIds: [
-              'MMT_TEST',
-              'MMT_3'
-            ],
-            login: vi.fn(),
-            logout: vi.fn()
-          }
-        })
-
-        const providerDropdownButton = screen.getByRole('button', { name: 'MMT_2' })
-        await userEvent.click(providerDropdownButton)
-
-        await waitFor(() => {
-          expect(providerDropdownButton).toHaveAttribute('aria-expanded', 'true')
-        })
-
-        const providerOption = await screen.findByText('MMT_TEST')
-
-        await userEvent.click(providerOption)
-
-        await waitFor(() => {
-          expect(context.setProviderId).toHaveBeenCalledTimes(1)
-          expect(context.setProviderId).toHaveBeenCalledWith('MMT_TEST')
-        })
-      })
-    })
-
     describe('when the search submit dropdown button is clicked', () => {
       test('displays the search submit button', async () => {
         const user = userEvent.setup()

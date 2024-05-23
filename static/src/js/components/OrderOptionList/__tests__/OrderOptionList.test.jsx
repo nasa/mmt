@@ -33,6 +33,7 @@ const setup = ({
         name: 'Test order option 1',
         form: 'some form',
         nativeId: 'Test-Native-Id-1',
+        providerId: 'MMT_2',
         scope: 'PROVIDER',
         sortKey: '',
         associationDetails: null,
@@ -46,6 +47,7 @@ const setup = ({
         name: 'Test order option 2',
         form: 'some form',
         nativeId: 'Test-Native-Id',
+        providerId: 'MMT_2',
         scope: 'PROVIDER',
         sortKey: '',
         associationDetails: null,
@@ -59,7 +61,6 @@ const setup = ({
       query: GET_ORDER_OPTIONS,
       variables: {
         params: {
-          providerId: 'MMT_2',
           limit: 20,
           offset: 0
         }
@@ -115,6 +116,16 @@ describe('OrderOptionList', () => {
     })
   })
 
+  describe('when getting list of order options results in a success', () => {
+    test('render a table with 2 order options', async () => {
+      setup({})
+
+      await waitForResponse()
+
+      expect(screen.getAllByText('MMT_2')).toHaveLength(2)
+    })
+  })
+
   describe('when clicking the delete button', () => {
     describe('when clicking Yes on the delete modal results in a success', () => {
       test('deletes the order option and hides the modal', async () => {
@@ -140,11 +151,7 @@ describe('OrderOptionList', () => {
             {
               request: {
                 query: GET_ORDER_OPTIONS,
-                variables: {
-                  params: {
-                    providerId: 'MMT_2'
-                  }
-                }
+                variables: {}
               },
               result: {
                 data: {
@@ -158,6 +165,7 @@ describe('OrderOptionList', () => {
                         name: 'Test order option 1',
                         form: 'some form',
                         nativeId: 'Test-Native-Id-1',
+                        providerId: 'MMT_2',
                         scope: 'PROVIDER',
                         sortKey: '',
                         associationDetails: null,
@@ -174,7 +182,6 @@ describe('OrderOptionList', () => {
                 query: GET_ORDER_OPTIONS,
                 variables: {
                   params: {
-                    providerId: 'MMT_2',
                     limit: 20,
                     offset: 0
                   }
@@ -192,6 +199,7 @@ describe('OrderOptionList', () => {
                         name: 'Test order option 1',
                         form: 'some form',
                         nativeId: 'Test-Native-Id-1',
+                        providerId: 'MMT_2',
                         scope: 'PROVIDER',
                         sortKey: '',
                         associationDetails: null,
@@ -279,7 +287,6 @@ describe('OrderOptionList', () => {
               query: GET_ORDER_OPTIONS,
               variables: {
                 params: {
-                  providerId: 'MMT_2',
                   limit: 20,
                   offset: 0
                 }
@@ -312,7 +319,6 @@ describe('OrderOptionList', () => {
               query: GET_ORDER_OPTIONS,
               variables: {
                 params: {
-                  providerId: 'MMT_2',
                   limit: 20,
                   offset: 0
                 }
@@ -330,6 +336,7 @@ describe('OrderOptionList', () => {
                       name: 'Test order option 1',
                       form: 'some form',
                       nativeId: 'Test-Native-Id-1',
+                      providerId: 'MMT_2',
                       scope: 'PROVIDER',
                       sortKey: '',
                       associationDetails: null,
@@ -343,6 +350,7 @@ describe('OrderOptionList', () => {
                       name: 'Test order option 2',
                       form: 'some form',
                       nativeId: 'Test-Native-Id',
+                      providerId: 'MMT_2',
                       scope: 'PROVIDER',
                       sortKey: '',
                       associationDetails: null,
@@ -359,7 +367,6 @@ describe('OrderOptionList', () => {
               query: GET_ORDER_OPTIONS,
               variables: {
                 params: {
-                  providerId: 'MMT_2',
                   limit: 20,
                   offset: 20
                 }
@@ -377,6 +384,7 @@ describe('OrderOptionList', () => {
                       name: 'Test order option 1',
                       form: 'some form',
                       nativeId: 'Test-Native-Id-1',
+                      providerId: 'MMT_2',
                       scope: 'PROVIDER',
                       sortKey: '',
                       associationDetails: null,
@@ -390,6 +398,7 @@ describe('OrderOptionList', () => {
                       name: 'Test order option 2',
                       form: 'some form',
                       nativeId: 'Test-Native-Id',
+                      providerId: 'MMT_2',
                       scope: 'PROVIDER',
                       sortKey: '',
                       associationDetails: null,

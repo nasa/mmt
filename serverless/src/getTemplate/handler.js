@@ -18,14 +18,28 @@ const getTemplate = async (event) => {
   }
 
   const { pathParameters } = event
-  const { id, providerId } = pathParameters
-  const prefix = `${providerId}/${id}`
+  const { id } = pathParameters
 
   try {
     // We only know the provider and the id, but we need the full filename to retrieve the contents
     // Use the provider and id to find the correct file
-    const objectList = await s3ListObjects(s3Client, prefix)
-    const [object] = objectList
+    const objectList = await s3ListObjects(s3Client)
+
+    let providerId
+
+    const object = objectList.find(({ Key }) => {
+      const [objectProviderId, guid] = Key.split('/')
+
+      // Set the providerId when the guid and id match so it can be returned with the response.
+      if (guid === id) {
+        providerId = objectProviderId
+
+        return true
+      }
+
+      return false
+    })
+
     const { Key: key } = object
 
     // Retrieve the file from S3
@@ -38,14 +52,19 @@ const getTemplate = async (event) => {
     const response = await s3Client.send(getCommand)
 
     const { $metadata: metadata } = response
+
     const { httpStatusCode: statusCode } = metadata
 
     // Transform the body into a string to return
-    const { Body: body } = response
-    const strBody = await body.transformToString()
+    const { Body: responseBody } = response
+
+    const body = {
+      template: JSON.parse(await responseBody.transformToString()),
+      providerId
+    }
 
     return {
-      body: strBody,
+      body: JSON.stringify(body),
       statusCode,
       headers: defaultResponseHeaders
     }

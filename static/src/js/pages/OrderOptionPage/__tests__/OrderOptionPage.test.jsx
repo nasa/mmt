@@ -119,6 +119,7 @@ describe('OrderOptionPage', () => {
       await waitForResponse()
 
       expect(screen.queryByText('Order Options')).toBeInTheDocument()
+      expect(screen.queryByText('MMT_2')).toBeInTheDocument()
       expect(screen.queryByText('Mock form')).toBeInTheDocument()
     })
   })

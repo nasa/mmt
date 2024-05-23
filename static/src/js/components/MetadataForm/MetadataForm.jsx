@@ -31,7 +31,7 @@ import formConfigurations from '../../schemas/uiForms'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import saveTypes from '../../constants/saveTypes'
-import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
+import urlValueTypeToConceptTypeStringMap from '../../constants/urlValueToConceptStringMap'
 
 import useAppContext from '../../hooks/useAppContext'
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -75,7 +75,7 @@ const MetadataForm = () => {
   if (conceptId !== 'new') {
     derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   } else {
-    derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
+    derivedConceptType = urlValueTypeToConceptTypeStringMap[draftType]
   }
 
   const {

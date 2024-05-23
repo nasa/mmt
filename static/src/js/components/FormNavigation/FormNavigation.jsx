@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router'
+import validator from '@rjsf/validator-ajv8'
+import { cloneDeep } from 'lodash-es'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
-import validator from '@rjsf/validator-ajv8'
-import { cloneDeep } from 'lodash-es'
 
-import { useParams } from 'react-router'
-import NavigationItem from '../NavigationItem/NavigationItem'
-import For from '../For/For'
+import saveTypes from '@/js/constants/saveTypes'
+import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
-import saveTypes from '../../constants/saveTypes'
+import removeEmpty from '@/js/utils/removeEmpty'
 
-import removeEmpty from '../../utils/removeEmpty'
+import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
+import For from '@/js/components/For/For'
+import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import './FormNavigation.scss'
 
@@ -48,9 +50,24 @@ const FormNavigation = ({
   // uiSchema,
   visitedFields
 }) => {
+  const { conceptId, id } = useParams()
+  const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
+  const [chooseProviderModalType, setChooseProviderModalType] = useState(null)
   const { templateType } = useParams()
   const cleanedDraft = cloneDeep(removeEmpty(draft))
   const { errors } = validator.validateFormData(cleanedDraft, schema)
+
+  const onSaveClick = (type) => {
+    // If there is no concept id for drafts or id for templates, open the modal
+    if (!conceptId && !id) {
+      setChooseProviderModalType(saveTypesToHumanizedStringMap[type])
+      setChooseProviderModalOpen(true)
+
+      return
+    }
+
+    onSave(type)
+  }
 
   return (
     <>
@@ -59,7 +76,7 @@ const FormNavigation = ({
           <Button
             className="text-white"
             disabled={loading}
-            onClick={() => onSave(saveTypes.saveAndContinue)}
+            onClick={() => onSaveClick(saveTypes.saveAndContinue)}
             variant="success"
           >
             {
@@ -77,7 +94,7 @@ const FormNavigation = ({
               {
                 loading
                   ? 'Saving draft...'
-                  : 'Save & Continue'
+                  : saveTypesToHumanizedStringMap[saveTypes.saveAndContinue]
               }
             </span>
           </Button>
@@ -92,46 +109,46 @@ const FormNavigation = ({
 
           <Dropdown.Menu>
             <Dropdown.Item
-              onClick={() => onSave(saveTypes.save)}
+              onClick={() => onSaveClick(saveTypes.save)}
             >
               <span>
-                Save
+                {saveTypesToHumanizedStringMap[saveTypes.save]}
               </span>
             </Dropdown.Item>
 
             <Dropdown.Item
-              onClick={() => onSave(saveTypes.saveAndContinue)}
+              onClick={() => onSaveClick(saveTypes.saveAndContinue)}
             >
               <span>
-                Save &amp; Continue
+                {saveTypesToHumanizedStringMap[saveTypes.saveAndContinue]}
               </span>
             </Dropdown.Item>
 
             {
               templateType && (
                 <Dropdown.Item
-                  onClick={() => onSave(saveTypes.saveAndCreateDraft)}
+                  onClick={() => onSaveClick(saveTypes.saveAndCreateDraft)}
                 >
-                  Save &amp; Create Draft
+                  {saveTypesToHumanizedStringMap[saveTypes.saveAndCreateDraft]}
                 </Dropdown.Item>
               )
             }
             {
               !templateType && (
                 <Dropdown.Item
-                  onClick={() => onSave(saveTypes.saveAndPublish)}
+                  onClick={() => onSaveClick(saveTypes.saveAndPublish)}
                 >
-                  Save &amp; Publish
+                  {saveTypesToHumanizedStringMap[saveTypes.saveAndPublish]}
                 </Dropdown.Item>
 
               )
             }
 
             <Dropdown.Item
-              onClick={() => onSave(saveTypes.saveAndPreview)}
+              onClick={() => onSaveClick(saveTypes.saveAndPreview)}
             >
               <span>
-                Save &amp; Preview
+                {saveTypesToHumanizedStringMap[saveTypes.saveAndPreview]}
               </span>
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -173,6 +190,22 @@ const FormNavigation = ({
           }
         </For>
       </ListGroup>
+
+      <ChooseProviderModal
+        show={chooseProviderModalOpen}
+        primaryActionType={chooseProviderModalType}
+        toggleModal={
+          () => {
+            setChooseProviderModalOpen(false)
+          }
+        }
+        type={!templateType ? 'draft' : 'template'}
+        onSubmit={
+          () => {
+            onSave(chooseProviderModalType)
+          }
+        }
+      />
     </>
   )
 }

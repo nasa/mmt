@@ -153,6 +153,15 @@ describe('DraftPreview', () => {
     expect(breadcrumbTwo).toHaveClass('active')
   })
 
+  test('renders the provider id in a badge', async () => {
+    setup({})
+
+    await waitForResponse()
+
+    expect(screen.getByText('MMT_2')).toBeInTheDocument()
+    expect(screen.getByText('MMT_2')).toHaveClass('badge')
+  })
+
   describe('when clicking the Delete button', () => {
     test('shows the DeleteDraftModal', async () => {
       const { user } = setup({})

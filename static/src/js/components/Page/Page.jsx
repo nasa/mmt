@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Placeholder from 'react-bootstrap/Placeholder'
 
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
 
 import './Page.scss'
 
@@ -17,7 +17,7 @@ const PageHeaderPlaceholder = () => (
       <Placeholder style={
         {
           width: '25rem',
-          height: '2rem'
+          height: '1.5rem'
         }
       }
       />

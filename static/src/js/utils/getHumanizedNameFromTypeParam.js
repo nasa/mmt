@@ -1,4 +1,4 @@
-import typeParamToHumanizedNameMap from '../constants/typeParamToHumanizedNameMap'
+import typeParamToHumanizedStringMap from '../constants/typeParamToHumanizedStringMap'
 
 /**
  * Takes a type from the url and returns a humanized singular or plural version
@@ -7,7 +7,7 @@ import typeParamToHumanizedNameMap from '../constants/typeParamToHumanizedNameMa
  */
 
 const getHumanizedNameFromTypeParam = (type, plural) => {
-  const humanizedName = typeParamToHumanizedNameMap[type]
+  const humanizedName = typeParamToHumanizedStringMap[type]
 
   return plural ? `${humanizedName}s` : humanizedName
 }

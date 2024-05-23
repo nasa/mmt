@@ -28,7 +28,7 @@ import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
 import getTagCount from '../../utils/getTagCount'
 import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
-import typeParamToHumanizedNameMap from '../../constants/typeParamToHumanizedNameMap'
+import typeParamToHumanizedStringMap from '../../constants/typeParamToHumanizedStringMap'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import { DATE_FORMAT } from '../../constants/dateFormat'
 
@@ -54,7 +54,7 @@ const SearchList = ({ limit }) => {
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
 
-  if (!typeParamToHumanizedNameMap[conceptType]) {
+  if (!typeParamToHumanizedStringMap[conceptType]) {
     return (
       <Navigate to="/404" replace />
     )

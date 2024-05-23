@@ -6,13 +6,13 @@ import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
 
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import MetadataForm from '../../components/MetadataForm/MetadataForm'
-import Page from '../../components/Page/Page'
-import PageHeader from '../../components/PageHeader/PageHeader'
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import urlValueTypeToConceptTypeMap from '../../constants/urlValueToConceptTypeMap'
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import MetadataForm from '@/js/components/MetadataForm/MetadataForm'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
 /**
  * Renders a MetadataFormPageHeader component
@@ -31,7 +31,7 @@ const MetadataFormPageHeader = () => {
   if (conceptId !== 'new') {
     derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
   } else {
-    derivedConceptType = urlValueTypeToConceptTypeMap[draftType]
+    derivedConceptType = urlValueTypeToConceptTypeStringMap[draftType]
   }
 
   const { data = {} } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {

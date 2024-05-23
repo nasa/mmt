@@ -2,7 +2,8 @@ import React from 'react'
 import {
   render,
   screen,
-  waitFor
+  waitFor,
+  within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -347,6 +348,10 @@ describe('TemplateForm', () => {
 
         const button = screen.getByRole('button', { name: 'Save & Continue' })
         await user.click(button)
+
+        const modal = screen.getByRole('dialog')
+        const modalButton = within(modal).getByRole('button', { name: 'Save & Continue' })
+        await user.click(modalButton)
 
         await waitForResponse()
 

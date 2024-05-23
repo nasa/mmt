@@ -1,8 +1,8 @@
-const typeParamToHumanizedNameMap = {
+const typeParamToHumanizedStringMap = {
   collections: 'collection',
   services: 'service',
   tools: 'tool',
   variables: 'variable'
 }
 
-export default typeParamToHumanizedNameMap
+export default typeParamToHumanizedStringMap

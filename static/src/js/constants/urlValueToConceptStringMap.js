@@ -1,4 +1,4 @@
-const urlValueTypeToConceptTypeMap = {
+const urlValueTypeToConceptTypeStringMap = {
   variables: 'Variable',
   collections: 'Collection',
   tools: 'Tool',
@@ -6,4 +6,4 @@ const urlValueTypeToConceptTypeMap = {
   cmr: 'CMR'
 }
 
-export default urlValueTypeToConceptTypeMap
+export default urlValueTypeToConceptTypeStringMap

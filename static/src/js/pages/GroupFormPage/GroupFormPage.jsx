@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
+
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import GroupForm from '@/js/components/GroupForm/GroupForm'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-
-import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 /**
  * Renders a GroupFormPageHeader component
@@ -32,7 +32,7 @@ const GroupFormPageHeader = ({ isAdminPage }) => {
   })
 
   const { group } = data || {}
-  const { name } = group || {}
+  const { name, tag: providerId } = group || {}
 
   const newTitle = `New ${isAdminPage ? 'System ' : ''}Group`
   const pageTitle = id === 'new' ? newTitle : `Edit ${name}`
@@ -41,6 +41,7 @@ const GroupFormPageHeader = ({ isAdminPage }) => {
   return (
     <PageHeader
       title={pageTitle}
+      titleBadge={providerId}
       breadcrumbs={
         [
           {

@@ -312,6 +312,31 @@ const createAcls = async (groupConceptIds) => {
       console.log('ANY_ACL CRUD access for Administrators_2 and read for registered users:', jsonData)
     })
 
+  // ACL for admin and typical user to have provider context for MMT_1
+  await fetch('http://localhost:3011/acls', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: systemToken
+    },
+    body: JSON.stringify({
+      group_permissions: [{
+        group_id: groupConceptIds.MMT_1,
+        permissions: ['read']
+      }, {
+        group_id: groupConceptIds.Administrators_2,
+        permissions: ['read']
+      }],
+      provider_identity: {
+        target: 'PROVIDER_CONTEXT',
+        provider_id: 'MMT_1'
+      }
+    })
+  }).then((response) => response.json())
+    .then((jsonData) => {
+      console.log('ACL for admin and typical user to read PROVIDER_CONTEXT for MMT_1:', jsonData)
+    })
+
   // ACL for admin and typical user to have provider context for MMT_2
   await fetch('http://localhost:3011/acls', {
     method: 'POST',

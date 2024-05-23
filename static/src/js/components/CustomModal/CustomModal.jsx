@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal'
 import { FaTimes } from 'react-icons/fa'
 
-import Button from '../Button/Button'
+import Button from '@/js/components/Button/Button'
 
 /**
  * @typedef {Object} CustomModalActionDef
@@ -53,52 +53,61 @@ const CustomModal = ({
     show={show}
     size={size}
     centered
+    backdrop
     onHide={() => toggleModal(false)}
   >
+    <Modal.Header>
+      <div>
+        {
+          header && (
+            <Modal.Title>{header}</Modal.Title>
+          )
+        }
+      </div>
+      <Button
+        className="text-secondary p-0"
+        naked
+        variant="link"
+        onClick={
+          () => {
+            toggleModal(false)
+          }
+        }
+        Icon={FaTimes}
+        iconTitle="X icon"
+        iconOnly
+        inline
+      >
+        Close
+      </Button>
+    </Modal.Header>
+    <Modal.Body>{message}</Modal.Body>
     {
-      !!header && (
-        <Modal.Header>
-          <div>{header}</div>
-          <Button
-            className="text-secondary"
-            naked
-            variant="link"
-            onClick={
-              () => {
-                toggleModal(false)
-              }
-            }
-            Icon={FaTimes}
-            iconTitle="X icon"
-            iconOnly
-          >
-            Close
-          </Button>
-        </Modal.Header>
+      actions && (
+        <Modal.Footer>
+          {
+            actions.map((item) => {
+              const { label, variant, onClick } = item
+
+              return (
+                <Button
+                  key={label}
+                  variant={variant}
+                  onClick={onClick}
+                >
+                  {label}
+                </Button>
+              )
+            })
+          }
+        </Modal.Footer>
       )
     }
-    <Modal.Body>{message}</Modal.Body>
-    <Modal.Footer>
-      {
-        actions.map((item) => {
-          const { label, variant, onClick } = item
-
-          return (
-            <Button
-              key={label}
-              variant={variant}
-              onClick={onClick}
-            >
-              {label}
-            </Button>
-          )
-        })
-      }
-    </Modal.Footer>
   </Modal>
 )
 
 CustomModal.defaultProps = {
+  actions: null,
   header: null,
   message: null,
   size: null
@@ -109,7 +118,7 @@ CustomModal.propTypes = {
     label: PropTypes.string.isRequired,
     variant: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired
-  })).isRequired,
+  })),
   header: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node

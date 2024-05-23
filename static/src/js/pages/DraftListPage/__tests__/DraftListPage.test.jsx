@@ -4,7 +4,11 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import AppContext from '../../../context/AppContext'
 import DraftListPage from '../DraftListPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
@@ -61,7 +65,8 @@ describe('DraftListPage', () => {
 
       expect(screen.getByText('New Draft')).toBeInTheDocument()
       expect(screen.getByText('A plus icon')).toBeInTheDocument()
-      expect(screen.getByText('MMT_2 Tool Drafts')).toBeInTheDocument()
+      expect(within(screen.getByRole('navigation', { name: 'breadcrumb' })).getByText('Tool Drafts')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Tool Drafts' })).toBeInTheDocument()
     })
   })
 })

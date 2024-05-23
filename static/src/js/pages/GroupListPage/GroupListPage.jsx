@@ -32,7 +32,8 @@ const GroupListPageHeader = ({ isAdminPage }) => {
         [
           {
             label: title,
-            to: `${isAdminPage ? '/admin' : ''}/groups`
+            to: `${isAdminPage ? '/admin' : ''}/groups`,
+            active: true
           }
         ]
       }

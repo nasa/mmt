@@ -6,12 +6,12 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
  * @param {Object} token A users token
  * @param {string} id An id for a collection template
  */
-const getTemplate = async (providerId, token, id) => {
+const getTemplate = async (token, id) => {
   const { apiHost } = getApplicationConfig()
   const { tokenValue } = token
 
   try {
-    const response = await fetch(`${apiHost}/providers/${providerId}/templates/${id}`, {
+    const response = await fetch(`${apiHost}/templates/${id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${tokenValue}`
