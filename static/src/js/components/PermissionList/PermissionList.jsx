@@ -30,10 +30,15 @@ const PermissionList = () => {
   const { count, items } = acls
 
   const permissionList = items.map((item) => {
-    const { catalogItemIdentity, name } = item
+    const {
+      catalogItemIdentity,
+      conceptId,
+      name
+    } = item
     const { providerId } = catalogItemIdentity
 
     return {
+      conceptId,
       name,
       providerId
     }
