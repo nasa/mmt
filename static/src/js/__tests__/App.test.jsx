@@ -5,21 +5,13 @@ import {
   waitFor
 } from '@testing-library/react'
 import { Outlet, useParams } from 'react-router'
-import { MockedProvider } from '@apollo/client/testing'
 
-import App from '../App'
+import App from '@/js/App'
 
-import { GET_AVAILABLE_PROVIDERS } from '../operations/queries/getAvailableProviders'
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/utils/errorLogger')
 
-import errorLogger from '../utils/errorLogger'
-
-import AppContext from '../context/AppContext'
-import NotificationsContext from '../context/NotificationsContext'
-
-vi.mock('../components/ErrorBanner/ErrorBanner')
-vi.mock('../utils/errorLogger')
-
-vi.mock('../pages/SearchPage/SearchPage', () => ({
+vi.mock('@/js/pages/SearchPage/SearchPage', () => ({
   default: vi.fn(() => {
     const { type } = useParams()
 
@@ -29,102 +21,49 @@ vi.mock('../pages/SearchPage/SearchPage', () => ({
   })
 }))
 
-vi.mock('../pages/HomePage/HomePage', () => ({
+vi.mock('@/js/pages/HomePage/HomePage', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-home-page">Home Page</div>
   ))
 }))
 
-vi.mock('../pages/DraftsPage/DraftsPage', () => ({
+vi.mock('@/js/pages/DraftsPage/DraftsPage', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-drafts-page">Drafts Page</div>
   ))
 }))
 
-vi.mock('../components/Notifications/Notifications', () => ({
+vi.mock('@/js/components/Notifications/Notifications', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-notifications" />
   ))
 }))
 
-vi.mock('../providers/Providers/Providers', () => ({
+vi.mock('@/js/providers/Providers/Providers', () => ({
   default: vi.fn(({ children }) => (
     <div data-testid="mock-providers">{children}</div>
   ))
 }))
 
-vi.mock('../components/AuthRequiredContainer/AuthRequiredContainer', () => ({
+vi.mock('@/js/components/AuthRequiredLayout/AuthRequiredLayout', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-auth-required-container"><Outlet /></div>
   ))
 }))
 
-vi.mock('../components/Layout/Layout', () => ({
+vi.mock('@/js/components/Layout/Layout', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-layout"><Outlet /></div>
   ))
 }))
 
-const setup = (overrideMocks, overrideAppContext) => {
-  const appContext = {
-    user: { uid: 'typical' },
-    setProviderId: vi.fn(),
-    setProviderIds: vi.fn(),
-    ...overrideAppContext
-  }
-
-  const notificationContext = {
-    addNotification: vi.fn()
-  }
-
-  const mocks = [
-    {
-      request: {
-        query: GET_AVAILABLE_PROVIDERS,
-        variables: {
-          params: {
-            limit: 500,
-            permittedUser: 'typical',
-            target: 'PROVIDER_CONTEXT'
-          }
-        }
-      },
-      result: {
-        data: {
-          acls: {
-            items: [{
-              providerIdentity: {
-                provider_id: 'MMT_2'
-              }
-            }]
-          }
-        }
-      }
-    }
-  ]
-
-  const container = render(
-    <AppContext.Provider value={appContext}>
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider mocks={overrideMocks || mocks}>
-          <App />
-        </MockedProvider>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+const setup = () => {
+  render(
+    <App />
   )
-
-  return {
-    container,
-    appContext,
-    notificationContext
-  }
 }
 
 describe('App component', () => {
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
   describe('when rendering the "/" route', () => {
     test('renders the notifications', async () => {
       window.history.pushState({}, '', '/')
@@ -274,185 +213,6 @@ describe('App component', () => {
       })
 
       window.history.pushState({}, '', '/')
-    })
-  })
-
-  // Fetches providers
-  describe('when providers are fetched', () => {
-    describe('when there are provider ids', () => {
-      test('sets the provider ids', async () => {
-        const mocks = [
-          {
-            request: {
-              query: GET_AVAILABLE_PROVIDERS,
-              variables: {
-                params: {
-                  limit: 500,
-                  permittedUser: 'typical',
-                  target: 'PROVIDER_CONTEXT'
-                }
-              }
-            },
-            result: {
-              data: {
-                acls: {
-                  items: [{
-                    providerIdentity: {
-                      provider_id: 'MMT_2'
-                    }
-                  }]
-                }
-              }
-            }
-          }
-        ]
-
-        const { appContext } = setup(mocks)
-
-        await waitFor(() => {
-          expect(appContext.setProviderIds).toHaveBeenCalledTimes(1)
-          expect(appContext.setProviderIds).toHaveBeenCalledWith(['MMT_2'])
-        })
-      })
-
-      describe('when the user has no provider selected', () => {
-        test('sets the provider id', async () => {
-          const mocks = [
-            {
-              request: {
-                query: GET_AVAILABLE_PROVIDERS,
-                variables: {
-                  params: {
-                    limit: 500,
-                    permittedUser: 'typical',
-                    target: 'PROVIDER_CONTEXT'
-                  }
-                }
-              },
-              result: {
-                data: {
-                  acls: {
-                    items: [{
-                      providerIdentity: {
-                        provider_id: 'MMT_2'
-                      }
-                    }]
-                  }
-                }
-              }
-            }
-          ]
-
-          const { appContext } = setup(mocks)
-
-          await waitFor(() => {
-            expect(appContext.setProviderId).toHaveBeenCalledTimes(1)
-            expect(appContext.setProviderId).toHaveBeenCalledWith('MMT_2')
-          })
-        })
-      })
-    })
-
-    describe('when the user has a provider selected', () => {
-      test('does not set the provider id', async () => {
-        const mocks = [
-          {
-            request: {
-              query: GET_AVAILABLE_PROVIDERS,
-              variables: {
-                params: {
-                  limit: 500,
-                  permittedUser: 'typical',
-                  target: 'PROVIDER_CONTEXT'
-                }
-              }
-            },
-            result: {
-              data: {
-                acls: {
-                  items: [{
-                    providerIdentity: {
-                      provider_id: 'MMT_2'
-                    }
-                  }]
-                }
-              }
-            }
-          }
-        ]
-
-        const user = {
-          uid: 'typical',
-          providerId: 'MMT_2'
-        }
-
-        const { appContext } = setup(mocks, { user })
-
-        await waitFor(() => {
-          expect(appContext.setProviderId).toHaveBeenCalledTimes(0)
-        })
-      })
-    })
-
-    describe('when there are no provider ids', () => {
-      test('does not set the provider ids', async () => {
-        const mocks = [
-          {
-            request: {
-              query: GET_AVAILABLE_PROVIDERS,
-              variables: {
-                params: {
-                  limit: 500,
-                  permittedUser: 'typical',
-                  target: 'PROVIDER_CONTEXT'
-                }
-              }
-            },
-            result: {
-              data: {
-                acls: {
-                  items: []
-                }
-              }
-            }
-          }
-        ]
-
-        const { appContext } = setup(mocks)
-
-        await waitFor(() => {
-          expect(appContext.setProviderIds).toHaveBeenCalledTimes(0)
-        })
-      })
-    })
-  })
-
-  describe('when the request results in an error', () => {
-    test('call errorLogger and triggers a notification', async () => {
-      const mocks = [
-        {
-          request: {
-            query: GET_AVAILABLE_PROVIDERS,
-            variables: {
-              params: {
-                limit: 500,
-                permittedUser: 'typical',
-                target: 'PROVIDER_CONTEXT'
-              }
-            }
-          },
-          error: new Error('An error occurred')
-        }
-      ]
-
-      const { notificationContext } = setup(mocks)
-
-      await waitFor(() => {
-        expect(notificationContext.addNotification).toHaveBeenCalledTimes(1)
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'Error fetching providers')
-      })
     })
   })
 })

@@ -1,4 +1,8 @@
-import React, { Suspense } from 'react'
+import React, {
+  Suspense,
+  useEffect,
+  useRef
+} from 'react'
 import {
   render,
   screen,
@@ -14,75 +18,90 @@ import {
 import Form from '@rjsf/core'
 import * as router from 'react-router'
 
-import { Cookies, CookiesProvider } from 'react-cookie'
-import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
-import errorLogger from '../../../utils/errorLogger'
+import errorLogger from '@/js/utils/errorLogger'
 
-import relatedUrlsUiSchema from '../../../schemas/uiSchemas/tools/relatedUrls'
-import toolInformationUiSchema from '../../../schemas/uiSchemas/tools/toolInformation'
-import ummTSchema from '../../../schemas/umm/ummTSchema'
+import relatedUrlsUiSchema from '@/js/schemas/uiSchemas/tools/relatedUrls'
+import toolInformationUiSchema from '@/js/schemas/uiSchemas/tools/toolInformation'
+import ummTSchema from '@/js/schemas/umm/ummTSchema'
+import toolsConfiguration from '@/js/schemas/uiForms/toolsConfiguration'
 
-import BoundingRectangleField from '../../BoundingRectangleField/BoundingRectangleField'
-import CustomArrayFieldTemplate from '../../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomCountrySelectWidget from '../../CustomCountrySelectWidget/CustomCountrySelectWidget'
-import CustomDateTimeWidget from '../../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../../CustomFieldTemplate/CustomFieldTemplate'
-import CustomRadioWidget from '../../CustomRadioWidget/CustomRadioWidget'
-import CustomSelectWidget from '../../CustomSelectWidget/CustomSelectWidget'
-import CustomTextareaWidget from '../../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import FormNavigation from '../../FormNavigation/FormNavigation'
-import GridLayout from '../../GridLayout/GridLayout'
-import JsonPreview from '../../JsonPreview/JsonPreview'
-import KeywordPicker from '../../KeywordPicker/KeywordPicker'
+import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomCountrySelectWidget from '@/js/components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '@/js/components/CustomRadioWidget/CustomRadioWidget'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import OneOfField from '@/js/components/OneOfField/OneOfField'
+import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
+
+import Providers from '@/js/providers/Providers/Providers'
+
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
+
 import MetadataForm from '../MetadataForm'
-import Providers from '../../../providers/Providers/Providers'
-import StreetAddressField from '../../StreetAddressField/StreetAddressField'
-import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
-
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import OneOfField from '../../OneOfField/OneOfField'
-import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
 
 vi.mock('@rjsf/core', () => ({
   default: vi.fn(({
     onChange,
     onBlur,
-    formData
-  }) => (
-    // This mock component renders a single input field for a 'Name' field. This allows the
-    // tests that need to call onChange/onBlur to actually modify the state/context in MetadataForm
-    <mock-Component data-testid="MockForm">
-      <input
-        id="Name"
-        name="Name"
-        onChange={
-          (event) => {
-            const { value } = event.target
+    formData,
+    formContext = {}
+  }) => {
+    const { focusField } = formContext
+    const shouldFocus = focusField === 'Name'
+    const focusRef = useRef()
 
-            onChange({
-              formData: {
-                Name: value
-              }
-            })
+    useEffect(() => {
+      // This useEffect for shouldFocus lets the refs be in place before trying to use them
+      if (shouldFocus) {
+        focusRef.current?.focus()
+      }
+    }, [shouldFocus])
+
+    return (
+      // This mock component renders a single input field for a 'Name' field. This allows the
+      // tests that need to call onChange/onBlur to actually modify the state/context in MetadataForm
+      <mock-Component data-testid="MockForm">
+        <input
+          id="Name"
+          name="Name"
+          ref={focusRef}
+          onChange={
+            (event) => {
+              const { value } = event.target
+
+              onChange({
+                formData: {
+                  Name: value
+                }
+              })
+            }
           }
-        }
-        onBlur={() => onBlur('mock-name')}
-        value={formData.Name || ''}
-      />
-    </mock-Component>
-  ))
+          onBlur={() => onBlur('mock-name')}
+          value={formData.Name || ''}
+        />
+      </mock-Component>
+    )
+  })
 }))
 
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../JsonPreview/JsonPreview')
-vi.mock('../../FormNavigation/FormNavigation')
-vi.mock('../../../utils/errorLogger')
-
-global.fetch = vi.fn()
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/components/JsonPreview/JsonPreview')
+vi.mock('@/js/components/FormNavigation/FormNavigation')
+vi.mock('@/js/utils/errorLogger')
 
 const mockedUsedNavigate = vi.fn()
 
@@ -137,6 +156,7 @@ const mockDraft = {
     potentialAction: null,
     quality: null,
     relatedUrls: null,
+    revisionId: '2',
     searchAction: null,
     supportedBrowsers: null,
     supportedInputFormats: null,
@@ -161,6 +181,30 @@ const setup = ({
 }) => {
   const mocks = [{
     request: {
+      query: GET_AVAILABLE_PROVIDERS,
+      variables: {
+        params: {
+          limit: 500,
+          // Don't have an easy way to get a real uid into the context here
+          permittedUser: undefined,
+          target: 'PROVIDER_CONTEXT'
+        }
+      }
+    },
+    result: {
+      data: {
+        acls: {
+          items: [{
+            conceptId: 'mock-id-2',
+            providerIdentity: {
+              provider_id: 'MMT_2'
+            }
+          }]
+        }
+      }
+    }
+  }, {
+    request: {
       query: conceptTypeDraftQueries.Tool,
       variables: {
         params: {
@@ -176,75 +220,57 @@ const setup = ({
     }
   }, ...additionalMocks]
 
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies(
-    {
-      loginInfo: ({
-        providerId: 'MMT_2',
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires.valueOf()
-        }
-      })
-    }
-  )
-  cookie.HAS_DOCUMENT_COOKIE = false
+  const user = userEvent.setup()
 
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
+    <Providers>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/drafts/:draftType"
+            >
               <Route
-                path="/drafts/:draftType"
-              >
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <MetadataForm />
-                      </Suspense>
-                    )
-                  }
-                  path="new"
-                />
-                <Route
-                  path=":conceptId/:sectionName"
-                  element={
-                    (
-                      <Suspense>
-                        <MetadataForm />
-                      </Suspense>
-                    )
-                  }
-                />
-                <Route
-                  path=":conceptId/:sectionName/:fieldName"
-                  element={
-                    (
-                      <Suspense>
-                        <MetadataForm />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                element={
+                  (
+                    <Suspense>
+                      <MetadataForm />
+                    </Suspense>
+                  )
+                }
+                path="new"
+              />
+              <Route
+                path=":conceptId/:sectionName"
+                element={
+                  (
+                    <Suspense>
+                      <MetadataForm />
+                    </Suspense>
+                  )
+                }
+              />
+              <Route
+                path=":conceptId/:sectionName/:fieldName"
+                element={
+                  (
+                    <Suspense>
+                      <MetadataForm />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -391,7 +417,7 @@ describe('MetadataForm', () => {
   describe('when FormNavigation sends onCancel', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
-        vi.importActual('../../FormNavigation/FormNavigation').default
+        vi.importActual('@/js/components/FormNavigation/FormNavigation').default
       )
     })
 
@@ -408,7 +434,7 @@ describe('MetadataForm', () => {
       })
 
       expect(nameField).toHaveValue('Test Name')
-      expect(FormNavigation).toHaveBeenCalledTimes(12)
+      expect(FormNavigation).toHaveBeenCalledTimes(13)
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
         visitedFields: ['mock-name']
       }), {})
@@ -429,7 +455,7 @@ describe('MetadataForm', () => {
   describe('when FormNavigation sends onChange', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
-        vi.importActual('../../FormNavigation/FormNavigation').default
+        vi.importActual('@/js/components/FormNavigation/FormNavigation').default
       )
     })
 
@@ -453,7 +479,7 @@ describe('MetadataForm', () => {
   describe('when FormNavigation sends onBlur', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
-        vi.importActual('../../FormNavigation/FormNavigation').default
+        vi.importActual('@/js/components/FormNavigation/FormNavigation').default
       )
     })
 
@@ -478,7 +504,7 @@ describe('MetadataForm', () => {
   describe('when FormNavigation sends onSave', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
-        vi.importActual('../../FormNavigation/FormNavigation').default
+        vi.importActual('@/js/components/FormNavigation/FormNavigation').default
       )
     })
 
@@ -760,20 +786,7 @@ describe('MetadataForm', () => {
         pageUrl: '/drafts/tools/TD1000000-MMT/tool-information/Name'
       })
 
-      await waitForResponse()
-
-      expect(Form).toHaveBeenCalledTimes(2)
-      expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-        formContext: expect.objectContaining({
-          focusField: null
-        })
-      }), {})
-
-      expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-        formContext: expect.objectContaining({
-          focusField: 'Name'
-        })
-      }), {})
+      expect(await screen.findByRole('textbox', { value: 'Name' })).toHaveFocus()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })

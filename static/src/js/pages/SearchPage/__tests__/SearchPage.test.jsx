@@ -20,7 +20,6 @@ import {
 } from './__mocks__/searchResults'
 
 import SearchPage from '../SearchPage'
-import AppContext from '../../../context/AppContext'
 
 const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
   const mocks = [
@@ -36,37 +35,24 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
     }
   }
 
-  const { container } = render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'TESTPROV'
-        }
-      }
-    }
-    >
-      <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <Routes>
-            <Route
-              path="/:type"
-              element={<SearchPage {...props} />}
-            />
-            <Route
-              path="/404"
-              element={<div>404 page</div>}
-            />
-          </Routes>
-        </MockedProvider>
-      </MemoryRouter>
-    </AppContext.Provider>
+  render(
+    <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <Routes>
+          <Route
+            path="/:type"
+            element={<SearchPage {...props} />}
+          />
+          <Route
+            path="/404"
+            element={<div>404 page</div>}
+          />
+        </Routes>
+      </MockedProvider>
+    </MemoryRouter>
   )
-
-  return {
-    container
-  }
 }
 
 describe('SearchPage component', () => {
@@ -97,9 +83,10 @@ describe('SearchPage component', () => {
     })
   })
 
-  // TODO figure out how to suppress the error that this generates in the test output
   describe('when encountering an error', () => {
-    test.skip('displays an error', async () => {
+    test('displays an error', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       setup([singlePageCollectionSearchError])
 
       await waitFor(() => {

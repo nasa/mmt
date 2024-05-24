@@ -34,6 +34,7 @@ export const TOOL_DRAFT = gql`
           potentialAction
           quality
           relatedUrls
+          revisionId
           searchAction
           supportedBrowsers
           supportedInputFormats

@@ -9,8 +9,6 @@ import React, { Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
-import AppContext from '@/js/context/AppContext'
-
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 import PermissionList from '../PermissionList'
 
@@ -159,22 +157,13 @@ const setup = ({
   }]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <MockedProvider mocks={overrideMocks || mocks}>
-        <BrowserRouter initialEntries="">
-          <Suspense>
-            <PermissionList />
-          </Suspense>
-        </BrowserRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+    <MockedProvider mocks={overrideMocks || mocks}>
+      <BrowserRouter initialEntries="">
+        <Suspense>
+          <PermissionList />
+        </Suspense>
+      </BrowserRouter>
+    </MockedProvider>
   )
 
   return {

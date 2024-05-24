@@ -4,32 +4,30 @@ import {
   screen,
   within
 } from '@testing-library/react'
-
 import { BrowserRouter } from 'react-router-dom'
 import * as router from 'react-router'
+
+import AuthContext from '@/js/context/AuthContext'
+
 import HomePage from '../HomePage'
-import AppContext from '../../../context/AppContext'
 
 const setup = ({
   overrideContext = {}
 } = {}) => {
+  vi.setSystemTime('2024-01-01')
+
   const context = {
-    user: {},
-    login: vi.fn(),
-    logout: vi.fn(),
+    tokenExpires: new Date().getTime() - 1,
     ...overrideContext
   }
+
   render(
-    <AppContext.Provider value={context}>
+    <AuthContext.Provider value={context}>
       <BrowserRouter>
         <HomePage />
       </BrowserRouter>
-    </AppContext.Provider>
+    </AuthContext.Provider>
   )
-
-  return {
-    context
-  }
 }
 
 describe('HomePage component', () => {
@@ -60,14 +58,7 @@ describe('HomePage component', () => {
 
       setup({
         overrideContext: {
-          user: {
-            name: 'User Name',
-            token: {
-              tokenValue: 'ABC-1',
-              tokenExp: expires.valueOf()
-            },
-            providerId: 'MMT-2'
-          }
+          tokenExpires: new Date().getTime() + 1
         }
       })
 

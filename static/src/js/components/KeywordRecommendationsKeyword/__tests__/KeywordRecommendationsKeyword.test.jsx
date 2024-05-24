@@ -5,9 +5,8 @@ import {
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword'
 
-global.fetch = vi.fn()
+import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword'
 
 const setup = ({
   overrideKeyword
@@ -19,6 +18,9 @@ const setup = ({
   }
   const addKeyword = vi.fn()
   const removeKeyword = vi.fn()
+
+  const user = userEvent.setup()
+
   const container = render(
     <KeywordRecommendationsKeyword
       keyword={keyword}
@@ -29,7 +31,7 @@ const setup = ({
 
   return {
     container,
-    user: userEvent.setup(),
+    user,
     addKeyword,
     removeKeyword
   }
@@ -43,7 +45,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('mock keyword')).toBeInTheDocument()
     })
 
@@ -53,7 +57,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('Recommended')).toHaveClass('badge')
     })
 
@@ -63,7 +69,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByRole('img', { name: 'Accepted' })).toBeInTheDocument()
     })
 
@@ -73,7 +81,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       const listitem = screen.queryByRole('listitem')
       expect(within(listitem).getByRole('img', { name: 'Remove' })).toBeInTheDocument()
     })
@@ -84,9 +94,12 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: true
       }
+
       const { container, user, removeKeyword } = setup({ overrideKeyword })
+
       const listitem = container.queryByRole('listitem')
       await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
+
       expect(removeKeyword).toBeCalledTimes(1)
     })
   })
@@ -98,7 +111,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('mock keyword')).toBeInTheDocument()
     })
 
@@ -108,7 +123,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('Recommended')).toHaveClass('badge')
     })
 
@@ -118,7 +135,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.queryByRole('img', { name: 'Accepted' })).not.toBeInTheDocument()
     })
 
@@ -128,7 +147,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       const listitem = screen.queryByRole('listitem')
       expect(within(listitem).queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
     })
@@ -139,7 +160,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByRole('img', { name: 'Add' })).toBeInTheDocument()
     })
 
@@ -149,7 +172,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: true
       }
+
       const { user, addKeyword } = setup({ overrideKeyword })
+
       await user.click(screen.queryByRole('img', { name: 'Add' }))
       expect(addKeyword).toBeCalledTimes(1)
     })
@@ -162,7 +187,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('mock keyword')).toBeInTheDocument()
     })
 
@@ -172,7 +199,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.queryByRole('img', { name: 'Recommended' })).not.toBeInTheDocument()
     })
 
@@ -182,7 +211,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByRole('img', { name: 'Accepted' })).toBeInTheDocument()
     })
 
@@ -192,7 +223,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       const listitem = screen.queryByRole('listitem')
       expect(within(listitem).getByRole('img', { name: 'Remove' })).toBeInTheDocument()
     })
@@ -203,9 +236,12 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: true,
         recommended: false
       }
+
       const { container, user, removeKeyword } = setup({ overrideKeyword })
+
       const listitem = container.queryByRole('listitem')
       await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
+
       expect(removeKeyword).toBeCalledTimes(1)
     })
   })
@@ -217,7 +253,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.getByText('mock keyword')).toBeInTheDocument()
     })
 
@@ -227,7 +265,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.queryByText('Recommended')).not.toBeInTheDocument()
     })
 
@@ -237,7 +277,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.queryByRole('img', { name: 'Accepted' })).not.toBeInTheDocument()
     })
 
@@ -247,7 +289,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       expect(screen.queryByRole('img', { name: 'Add' })).toBeInTheDocument()
     })
 
@@ -257,7 +301,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       const { user, addKeyword } = setup({ overrideKeyword })
+
       await user.click(screen.queryByRole('button'))
       expect(addKeyword).toBeCalledTimes(1)
     })
@@ -268,7 +314,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         accepted: false,
         recommended: false
       }
+
       setup({ overrideKeyword })
+
       const listitem = screen.queryByRole('listitem')
       expect(within(listitem).queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
     })

@@ -7,8 +7,9 @@ import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
+import crypto from 'crypto'
 
-import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration.'
+import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
 
 import delateTemplate from '@/js/utils/deleteTemplate'
@@ -17,6 +18,7 @@ import getTemplate from '@/js/utils/getTemplate'
 import parseError from '@/js/utils/parseError'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useAuthContext from '@/js/hooks/useAuthContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
@@ -58,14 +60,14 @@ const TemplatePreviewPlaceholder = () => (
 const TemplatePreview = () => {
   const {
     draft = {},
-    setDraft,
-    user
+    setDraft
   } = useAppContext()
+
+  const { token } = useAuthContext()
+
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
   const { id } = useParams()
-
-  const { token } = user
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
@@ -91,7 +93,7 @@ const TemplatePreview = () => {
 
         setProviderId(templateProviderId)
         setDraft({
-          ummMetadata: { ...template }
+          ummMetadata: template
         })
       } else {
         setError(fetchTemplateError)

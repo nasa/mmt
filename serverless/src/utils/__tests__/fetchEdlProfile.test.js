@@ -13,18 +13,19 @@ describe('fetchEdlProfile', () => {
   test('returns the users profile', async () => {
     global.fetch = vi.fn(() => Promise.resolve({
       json: () => Promise.resolve({
+        nams_auid: 'user.name',
         uid: 'user.name',
         first_name: 'User',
         last_name: 'Name'
       })
     }))
 
-    const profile = await fetchEdlProfile({ Authorization: 'Bearer mock-token' })
+    const profile = await fetchEdlProfile('mock-token')
 
     expect(profile).toEqual({
+      auid: 'user.name',
       uid: 'user.name',
-      first_name: 'User',
-      last_name: 'Name'
+      name: 'User Name'
     })
 
     expect(fetch).toHaveBeenCalledTimes(1)
@@ -42,7 +43,7 @@ describe('fetchEdlProfile', () => {
     fetch.mockImplementationOnce(() => Promise.reject(new Error('Error calling EDL')))
     const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
 
-    const token = await fetchEdlProfile()
+    const token = await fetchEdlProfile('mock-token')
       .catch((error) => {
         expect(error.message).toEqual('Error calling EDL')
       })

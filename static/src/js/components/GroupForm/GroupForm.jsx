@@ -16,14 +16,11 @@ import groupUiSchema from '@/js/schemas/uiSchemas/Group'
 import systemGroupUiSchema from '@/js/schemas/uiSchemas/SystemGroup'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
 
-import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import useAppContext from '@/js/hooks/useAppContext'
-
-import getPermittedUser from '@/js/utils/getPermittedUser'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
@@ -38,6 +35,7 @@ import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import saveTypes from '@/js/constants/saveTypes'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 /**
  * Renders a GroupForm component
@@ -54,8 +52,7 @@ const GroupForm = ({ isAdminPage }) => {
     originalDraft,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    user
+    setSavedDraft
   } = useAppContext()
 
   const navigate = useNavigate()
@@ -80,24 +77,12 @@ const GroupForm = ({ isAdminPage }) => {
     }]
   })
 
-  const permittedUser = getPermittedUser(user)
-  const { data: providerData } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
-    skip: isAdminPage,
-    variables: {
-      params: {
-        limit: 500,
-        permittedUser,
-        target: 'PROVIDER_CONTEXT'
-      }
-    }
-  })
+  const { providerIds } = useAvailableProviders()
 
   const updatedGroupSchema = isAdminPage ? systemGroupSchema : groupSchema
 
   if (!isAdminPage) {
-    updatedGroupSchema.properties.provider.enum = providerData?.acls.items?.map(
-      (item) => item.providerIdentity.provider_id
-    )
+    updatedGroupSchema.properties.provider.enum = providerIds
   }
 
   const fields = {
@@ -295,7 +280,7 @@ const GroupForm = ({ isAdminPage }) => {
       </Container>
       <ChooseProviderModal
         show={chooseProviderModalOpen}
-        primaryActionType={saveTypesToHumanizedStringMap[saveTypes.submit]}
+        primaryActionType={saveTypes.submit}
         toggleModal={
           () => {
             setChooseProviderModalOpen(false)

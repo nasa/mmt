@@ -1,8 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { FaFileDownload } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
@@ -70,7 +66,7 @@ const DraftList = () => {
         {cellData}
       </EllipsisLink>
     )
-  }, [])
+  }, [draftType, paramDraftType])
 
   const buildEllipsisTextCell = useCallback((originalCellData) => {
     let cellData = originalCellData
@@ -83,7 +79,7 @@ const DraftList = () => {
         {cellData}
       </EllipsisText>
     )
-  }, [])
+  }, [draftType])
 
   const buildActionsCell = useCallback((cellData, rowData) => {
     const { conceptId, ummMetadata } = rowData
@@ -104,7 +100,35 @@ const DraftList = () => {
     )
   }, [])
 
-  const [columns, setColumns] = useState([
+  const collectionColumns = [
+    {
+      dataKey: 'ummMetadata.ShortName',
+      title: 'Short Name',
+      className: 'col-auto',
+      dataAccessorFn: buildPrimaryEllipsisLink
+    },
+    {
+      dataKey: 'ummMetadata.EntryTitle',
+      title: 'Entry Title',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell
+    }
+  ]
+  const nonCollectionColumns = [
+    {
+      dataKey: 'ummMetadata.Name',
+      title: 'Name',
+      className: 'col-auto',
+      dataAccessorFn: buildPrimaryEllipsisLink
+    },
+    {
+      dataKey: 'ummMetadata.LongName',
+      title: 'Long Name',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell
+    }
+  ]
+  const commonColumns = [
     {
       dataKey: 'providerId',
       className: 'col-auto',
@@ -121,47 +145,11 @@ const DraftList = () => {
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
     }
-  ])
+  ]
 
-  useEffect(() => {
-    let newColumns = [...columns]
-
-    if (draftType === conceptIdTypes.C) {
-      newColumns = [
-        {
-          dataKey: 'ummMetadata.ShortName',
-          title: 'Short Name',
-          className: 'col-auto',
-          dataAccessorFn: buildPrimaryEllipsisLink
-        },
-        {
-          dataKey: 'ummMetadata.EntryTitle',
-          title: 'Entry Title',
-          className: 'col-auto',
-          dataAccessorFn: buildEllipsisTextCell
-        },
-        ...newColumns
-      ]
-    } else {
-      newColumns = [
-        {
-          dataKey: 'ummMetadata.Name',
-          title: 'Name',
-          className: 'col-auto',
-          dataAccessorFn: buildPrimaryEllipsisLink
-        },
-        {
-          dataKey: 'ummMetadata.LongName',
-          title: 'Long Name',
-          className: 'col-auto',
-          dataAccessorFn: buildEllipsisTextCell
-        },
-        ...newColumns
-      ]
-    }
-
-    setColumns(newColumns)
-  }, [])
+  const columns = draftType === conceptIdTypes.C
+    ? [...collectionColumns, ...commonColumns]
+    : [...nonCollectionColumns, ...commonColumns]
 
   return (
     <Row>

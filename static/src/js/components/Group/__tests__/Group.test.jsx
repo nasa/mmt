@@ -8,13 +8,9 @@ import {
 } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
-import AppContext from '../../../context/AppContext'
-
-import { GET_GROUP } from '../../../operations/queries/getGroup'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 import Group from '../Group'
-
-vi.mock('../../../utils/errorLogger')
 
 const setup = ({
   overrideMocks = false
@@ -51,37 +47,28 @@ const setup = ({
     }
   }]
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={overrideMocks || mocks}
     >
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
-          <Routes>
+      <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
+        <Routes>
+          <Route
+            path="/groups"
+          >
             <Route
-              path="/groups"
-            >
-              <Route
-                path=":id"
-                element={
-                  (
-                    <Suspense>
-                      <Group />
-                    </Suspense>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+              path=":id"
+              element={
+                (
+                  <Suspense>
+                    <Group />
+                  </Suspense>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 
   return {

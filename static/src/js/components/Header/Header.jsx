@@ -1,51 +1,20 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams
-} from 'react-router-dom'
-import {
-  capitalize,
-  isNil,
-  omitBy,
-  orderBy
-} from 'lodash-es'
-import { useQuery } from '@apollo/client'
-import Alert from 'react-bootstrap/Alert'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownMenu from 'react-bootstrap/DropdownMenu'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import FormGroup from 'react-bootstrap/FormGroup'
-import FormLabel from 'react-bootstrap/FormLabel'
-import FormSelect from 'react-bootstrap/FormSelect'
-import InputGroup from 'react-bootstrap/InputGroup'
 import Navbar from 'react-bootstrap/Navbar'
-import Spinner from 'react-bootstrap/Spinner'
 import {
-  FaExclamationCircle,
   FaExternalLinkAlt,
   FaQuestionCircle,
-  FaSearch,
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa'
 
-import { GET_PROVIDERS } from '@/js/operations/queries/getProviders'
+import Button from '@/js/components/Button/Button'
 
-import useAppContext from '@/js/hooks/useAppContext'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
 import isTokenExpired from '@/js/utils/isTokenExpired'
-
-import Button from '@/js/components/Button/Button'
-import For from '@/js/components/For/For'
 
 import './Header.scss'
 
@@ -60,67 +29,13 @@ import './Header.scss'
  */
 const Header = () => {
   const {
-    user,
     login,
-    logout
-  } = useAppContext()
-  const navigate = useNavigate()
+    logout,
+    user,
+    tokenExpires
+  } = useAuthContext()
 
-  const [searchParams] = useSearchParams()
-  const { type: searchTypeFromPath = 'collections' } = useParams()
-  const [searchType, setSearchType] = useState(searchTypeFromPath)
-  const [searchProvider, setSearchProvider] = useState()
-
-  // Set the input with the value from the keyword search param if one exists
-  const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
-
-  const isLoggedIn = !isTokenExpired(user?.token) && user?.name
-
-  useEffect(() => {
-    const currentSearchProvider = searchParams.get('provider')
-
-    if (currentSearchProvider) {
-      setSearchProvider(currentSearchProvider)
-    }
-  }, [searchParams])
-
-  const {
-    data: providersData,
-    loading: providersLoading,
-    error: providersError
-  } = useQuery(GET_PROVIDERS)
-
-  // Callback for the search input change
-  const onSearchChange = (e) => {
-    const { target: { value } } = e
-    setSearchKeyword(value)
-  }
-
-  // Callback for submitting the search form
-  const onSearchSubmit = () => {
-    const allParams = {
-      keyword: searchKeyword,
-      provider: searchProvider
-    }
-
-    // Remove any null search params
-    const prunedParams = omitBy(allParams, isNil)
-
-    const params = new URLSearchParams(prunedParams)
-
-    // Navigate to the search params with any of the defined params in the url
-    navigate(`/${searchType}?${params.toString()}`)
-  }
-
-  // Callback for the search type change
-  const onSearchTypeChange = useCallback((e) => {
-    setSearchType(e.target.value)
-  }, [])
-
-  // Callback for changing the provider select value
-  const onSearchProviderChange = useCallback((e) => {
-    setSearchProvider(e.target.value)
-  }, [])
+  const isLoggedIn = !isTokenExpired(tokenExpires)
 
   return (
     <header className="header bg-primary z-n3 px-4">
@@ -161,11 +76,7 @@ const Header = () => {
                   Icon={FaSignInAlt}
                   iconTitle="Door with arrow pointing inward"
                   variant="blue-light"
-                  onClick={
-                    () => {
-                      login()
-                    }
-                  }
+                  onClick={login}
                 >
                   Log in with Launchpad
                 </Button>
@@ -202,11 +113,7 @@ const Header = () => {
 
                     <Dropdown.Item
                       className="text-white bg-blue-light"
-                      onClick={
-                        () => {
-                          logout()
-                        }
-                      }
+                      onClick={logout}
                     >
                       <FaSignOutAlt className="me-2" />
                       Logout
@@ -214,161 +121,6 @@ const Header = () => {
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
-            )
-          }
-
-          {
-            isLoggedIn && (
-              <Form
-                className="flex-grow-1 w-100"
-                onSubmit={
-                  (e) => {
-                    onSearchSubmit()
-                    e.preventDefault()
-                  }
-                }
-              >
-                <FormGroup>
-                  <InputGroup>
-                    <FormLabel className="visually-hidden" htmlFor="search_mmt">Search</FormLabel>
-
-                    <FormControl
-                      id="search_mmt"
-                      className="rounded-start-1 border-0"
-                      type="text"
-                      placeholder="Enter a search term"
-                      size="sm"
-                      value={searchKeyword}
-                      onChange={onSearchChange}
-                    />
-
-                    <Dropdown align="end" as={ButtonGroup}>
-                      <Button
-                        size="sm"
-                        className="d-flex align-items-center col-4 border-0"
-                        variant="indigo"
-                        onClick={onSearchSubmit}
-                        type="submit"
-                      >
-                        <FaSearch className="me-2" />
-                        {`Search ${capitalize(searchType)}`}
-                      </Button>
-
-                      <Dropdown.Toggle
-                        split
-                        variant="indigo"
-                        id="search-options-dropdown"
-                        aria-label="Search Options"
-                      />
-
-                      <DropdownMenu id="search-options-dropdown" className="bg-indigo text-light p-3 shadow">
-                        <div className="mb-2 text-align-right">
-                          <FormGroup>
-                            <FormLabel className="d-block fw-bold mb-3" htmlFor="metadata-type">Choose metadata type</FormLabel>
-                            <div className="align-middle mb-4">
-                              <Form.Check
-                                id="search-type_collections"
-                                className="d-inline-flex align-items-center gap-2"
-                                inline
-                                type="radio"
-                                name="metadata-type"
-                                label="Collections"
-                                value="collections"
-                                checked={searchType === 'collections'}
-                                onChange={onSearchTypeChange}
-                              />
-
-                              <Form.Check
-                                id="search-type_variables"
-                                className="d-inline-flex align-items-center gap-2"
-                                inline
-                                type="radio"
-                                label="Variables"
-                                name="metadata-type"
-                                value="variables"
-                                checked={searchType === 'variables'}
-                                onChange={onSearchTypeChange}
-                              />
-
-                              <Form.Check
-                                id="search-type_services"
-                                className="d-inline-flex align-items-center gap-2"
-                                inline
-                                type="radio"
-                                label="Services"
-                                name="metadata-type"
-                                value="services"
-                                checked={searchType === 'services'}
-                                onChange={onSearchTypeChange}
-                              />
-
-                              <Form.Check
-                                id="search-type_tools"
-                                className="d-inline-flex align-items-center gap-2"
-                                inline
-                                type="radio"
-                                label="Tools"
-                                name="metadata-type"
-                                value="tools"
-                                checked={searchType === 'tools'}
-                                onChange={onSearchTypeChange}
-                              />
-                            </div>
-                          </FormGroup>
-                        </div>
-
-                        <div>
-                          <FormLabel className="d-block fw-bold mb-3">Select a provider</FormLabel>
-                          {
-                            providersLoading && (
-                              <div className="d-flex align-items-center gap-2">
-                                <Spinner size="sm" />
-                                Loading available providers...
-                              </div>
-                            )
-                          }
-                          {
-                            !providersLoading && providersError && (
-                              <Alert className="d-flex align-items-center gap-2 mb-0" variant="danger">
-                                <FaExclamationCircle title="An exclamation point in a circle" />
-                                There was an error loading available providers
-                              </Alert>
-                            )
-                          }
-                          {
-                            !providersLoading && !providersError && (
-                              <FormSelect
-                                name="provider"
-                                size="sm"
-                                value={searchProvider}
-                                onChange={onSearchProviderChange}
-                              >
-                                <option value="">Search all providers</option>
-                                {
-                                  (!providersLoading && !providersError) && (
-                                    <For each={orderBy(providersData.providers.items, ['providerId'], ['asc'])}>
-                                      {
-                                        ({ providerId, shortName }) => (
-                                          <option
-                                            key={shortName}
-                                            value={providerId}
-                                          >
-                                            {providerId}
-                                          </option>
-                                        )
-                                      }
-                                    </For>
-                                  )
-                                }
-                              </FormSelect>
-                            )
-                          }
-                        </div>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </InputGroup>
-                </FormGroup>
-              </Form>
             )
           }
         </Navbar.Collapse>

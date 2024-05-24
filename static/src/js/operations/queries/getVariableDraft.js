@@ -30,6 +30,7 @@ export const VARIABLE_DRAFT = gql`
           offset
           pageTitle: name
           relatedUrls
+          revisionId
           samplingIdentifiers
           scale
           scienceKeywords

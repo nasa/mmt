@@ -11,8 +11,6 @@ import Notifications from '../Notifications'
 import Providers from '../../../providers/Providers/Providers'
 import useNotificationsContext from '../../../hooks/useNotificationsContext'
 
-global.fetch = vi.fn()
-
 const MockComponent = () => {
   const { addNotification } = useNotificationsContext()
 
@@ -42,6 +40,8 @@ const setup = (overrideNotifications) => {
     removeNotification
   }
 
+  const user = userEvent.setup()
+
   render(
     <Providers>
       <Notifications />
@@ -51,7 +51,7 @@ const setup = (overrideNotifications) => {
 
   return {
     contextValue,
-    user: userEvent.setup()
+    user
   }
 }
 

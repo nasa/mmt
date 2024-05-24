@@ -1,12 +1,8 @@
-const isTokenExpired = (token) => {
-  if (token == null || Object.keys(token) === 0) {
-    return true
-  }
-
-  const now = new Date()
-  const { tokenValue, tokenExp } = token
-
-  return (tokenValue === null || tokenValue === undefined || tokenValue === '') || now > tokenExp
-}
+/**
+ * Is the tokenExpires value in the past
+ * @param {Date} tokenExpires
+ * @returns {Boolean}
+ */
+const isTokenExpired = (tokenExpires = 0) => tokenExpires < new Date().getTime()
 
 export default isTokenExpired

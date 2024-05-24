@@ -4,14 +4,13 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { Cookies, CookiesProvider } from 'react-cookie'
+
+import Providers from '@/js/providers/Providers/Providers'
+import fetchCmrKeywords from '@/js/utils/fetchCmrKeywords'
 
 import useControlledKeywords from '../useControlledKeywords'
-import Providers from '../../providers/Providers/Providers'
-import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 
-vi.mock('../../utils/fetchCmrKeywords')
-global.fetch = vi.fn()
+vi.mock('@/js/utils/fetchCmrKeywords')
 
 const TestComponent = ({
   /* eslint-disable react/prop-types */
@@ -42,32 +41,14 @@ const TestComponent = ({
 }
 
 const setup = (keywordType, schemaKeywords, controlledKeywordsMap) => {
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies({
-    loginInfo: {
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      },
-      providerId: 'MMT_2'
-    }
-  })
-  cookie.HAS_DOCUMENT_COOKIE = false
-
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <TestComponent
-          keywordType={keywordType}
-          schemaKeywords={schemaKeywords}
-          controlledKeywordsMap={controlledKeywordsMap}
-        />
-      </Providers>
-    </CookiesProvider>
+    <Providers>
+      <TestComponent
+        keywordType={keywordType}
+        schemaKeywords={schemaKeywords}
+        controlledKeywordsMap={controlledKeywordsMap}
+      />
+    </Providers>
   )
 }
 

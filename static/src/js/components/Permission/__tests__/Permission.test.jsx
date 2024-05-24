@@ -1,4 +1,3 @@
-import AppContext from '@/js/context/AppContext'
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react'
 import React, { Suspense } from 'react'
@@ -83,39 +82,28 @@ const setup = ({
   }]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={overrideMocks || mocks}
     >
-
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
-          <Routes>
+      <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
+        <Routes>
+          <Route
+            path="/permissions"
+          >
             <Route
-              path="/permissions"
-            >
-              <Route
-                path=":conceptId"
-                element={
-                  (
-                    <Suspense>
-                      <Permission />
-                    </Suspense>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-
-    </AppContext.Provider>
+              path=":conceptId"
+              element={
+                (
+                  <Suspense>
+                    <Permission />
+                  </Suspense>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 
   return {

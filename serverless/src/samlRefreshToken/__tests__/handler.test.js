@@ -1,8 +1,6 @@
 import samlRefreshToken from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 
-vi.mock('../../../../static/src/js/utils/fetchEdlProfile')
-
 describe('samlRefreshToken', () => {
   const headers = new Headers({})
   headers.getSetCookie = vi.fn(() => (['SBXSESSION=refresh_token']))

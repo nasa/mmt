@@ -8,13 +8,9 @@ import {
 } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
-import AppContext from '../../../context/AppContext'
-
-import { GET_ORDER_OPTION } from '../../../operations/queries/getOrderOption'
+import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
 
 import OrderOption from '../OrderOption'
-
-vi.mock('../../../utils/errorLogger')
 
 const setup = ({
   overrideMocks = false
@@ -54,42 +50,36 @@ const setup = ({
       }
     }
   }]
+
+  const user = userEvent.setup()
+
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={overrideMocks || mocks}
     >
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <MemoryRouter initialEntries={['/order-options/OO12000000-MMT_2']}>
-          <Routes>
+      <MemoryRouter initialEntries={['/order-options/OO12000000-MMT_2']}>
+        <Routes>
+          <Route
+            path="/order-options"
+          >
             <Route
-              path="/order-options"
-            >
-              <Route
-                path=":conceptId"
-                element={
-                  (
-                    <Suspense>
-                      <OrderOption />
-                    </Suspense>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+              path=":conceptId"
+              element={
+                (
+                  <Suspense>
+                    <OrderOption />
+                  </Suspense>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

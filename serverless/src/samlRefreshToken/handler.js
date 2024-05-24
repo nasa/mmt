@@ -1,17 +1,19 @@
-import { getSamlConfig } from '../../../sharedUtils/getConfig'
+import cookie from 'cookie'
 
-const cookieParser = require('cookie')
+import { getSamlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Retrieves the launchpad token from the given headers
- * @param {*} headers the headers are coming from the keep alive response.
+ * @param {Object} headers the headers are coming from the keep alive response.
  */
 const findLaunchpadTokenInHeaders = (headers) => {
   const setCookie = headers.getSetCookie()
   let launchpadToken = null
+
   setCookie.forEach((cookieString) => {
-    const cookies = cookieParser.parse(cookieString)
+    const cookies = cookie.parse(cookieString)
     const cookieValue = cookies[getSamlConfig().cookieName]
+
     if (cookieValue != null) {
       launchpadToken = cookieValue
     }
@@ -24,8 +26,8 @@ const findLaunchpadTokenInHeaders = (headers) => {
  * Handles refreshing user's token
  * @param {Object} event Details about the HTTP request that it received
  */
-
 const samlRefreshToken = async (event) => {
+  // TODO This needs to be reimplemented to use the JWT
   const { headers } = event
   const { token } = headers
 

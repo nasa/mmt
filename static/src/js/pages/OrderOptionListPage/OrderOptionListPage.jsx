@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react'
-
 import { FaPlus } from 'react-icons/fa'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'

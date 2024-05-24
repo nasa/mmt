@@ -8,8 +8,16 @@ export const GET_COLLECTION_DRAFTS = gql`
       items {
         providerId
         conceptId
+        revisionId
         revisionDate
         ummMetadata
+        previewMetadata {
+          ... on Collection {
+            conceptId
+            revisionId
+            shortName
+          }
+        }
       }
     }
   }

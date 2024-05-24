@@ -2,20 +2,22 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
-import AppContext from '../../../context/AppContext'
+
+import AppContext from '@/js/context/AppContext'
+import AuthContext from '@/js/context/AuthContext'
+
+import errorLogger from '@/js/utils/errorLogger'
+import getTemplates from '@/js/utils/getTemplates'
+import deleteTemplate from '@/js/utils/deleteTemplate'
+import NotificationsContext from '@/js/context/NotificationsContext'
+
 import TemplateList from '../TemplateList'
 
-import errorLogger from '../../../utils/errorLogger'
-import getTemplates from '../../../utils/getTemplates'
-import deleteTemplate from '../../../utils/deleteTemplate'
-import NotificationsContext from '../../../context/NotificationsContext'
-
-vi.mock('../../../utils/deleteTemplate')
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../../utils/getTemplates')
+vi.mock('@/js/utils/deleteTemplate')
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/getTemplates')
 
 const setup = () => {
   const props = {
@@ -26,37 +28,39 @@ const setup = () => {
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
-    <AppContext.Provider value={
+    <AuthContext.Provider value={
       {
-        user: {
-          providerId: 'MMT_2'
-        }
+        token: 'mock-jwt'
       }
     }
     >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider>
-          <BrowserRouter initialEntries="">
-            <TemplateList {...props} />
-          </BrowserRouter>
-        </MockedProvider>
-      </NotificationsContext.Provider>
-
-    </AppContext.Provider>
+      <AppContext.Provider value={
+        {
+          providerId: 'MMT_2'
+        }
+      }
+      >
+        <NotificationsContext.Provider value={notificationContext}>
+          <MockedProvider>
+            <BrowserRouter initialEntries="">
+              <TemplateList {...props} />
+            </BrowserRouter>
+          </MockedProvider>
+        </NotificationsContext.Provider>
+      </AppContext.Provider>
+    </AuthContext.Provider>
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
 describe('TemplateList', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   describe('when template type Collection is given ', () => {
     describe('when retrieving templates results in success', () => {
       test('renders Collection Template List', async () => {
@@ -78,10 +82,9 @@ describe('TemplateList', () => {
         )
 
         setup()
-        await waitForResponse()
 
+        expect(await screen.findByText('Showing 2 collection templates'))
         expect(getTemplates).toHaveBeenCalledTimes(1)
-        expect(screen.getByText('Showing 2 collection templates'))
       })
     })
 
@@ -93,9 +96,7 @@ describe('TemplateList', () => {
 
         setup()
 
-        await waitForResponse()
-
-        expect(screen.getByText('Mock Network Error')).toBeInTheDocument()
+        expect(await screen.findByText('Mock Network Error')).toBeInTheDocument()
       })
     })
 
@@ -116,6 +117,7 @@ describe('TemplateList', () => {
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         const { user } = setup()
+
         const button = screen.getByRole('button', { name: /New Template/ })
         await user.click(button)
 
@@ -142,9 +144,7 @@ describe('TemplateList', () => {
 
         const { user } = setup()
 
-        await waitForResponse()
-
-        const editLink = screen.getByRole('link', { name: 'Edit' })
+        const editLink = await screen.findByRole('link', { name: 'Edit' })
         await user.click(editLink)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
@@ -172,9 +172,7 @@ describe('TemplateList', () => {
 
           const { user } = setup()
 
-          await waitForResponse()
-
-          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          const deleteLink = await screen.findByRole('button', { name: 'Delete' })
           await user.click(deleteLink)
 
           expect(screen.getByText('Are you sure you want to delete this template?')).toBeInTheDocument()
@@ -182,7 +180,6 @@ describe('TemplateList', () => {
           const yesButton = screen.getByRole('button', { name: 'Yes' })
           await user.click(yesButton)
 
-          await waitForResponse()
           expect(deleteTemplate).toHaveBeenCalledTimes(1)
         })
       })
@@ -204,15 +201,11 @@ describe('TemplateList', () => {
 
           const { user } = setup()
 
-          await waitForResponse()
-
-          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          const deleteLink = await screen.findByRole('button', { name: 'Delete' })
           await user.click(deleteLink)
 
           const yesButton = screen.getByRole('button', { name: 'Yes' })
           await user.click(yesButton)
-
-          await waitForResponse()
 
           expect(errorLogger).toHaveBeenCalledTimes(1)
           expect(errorLogger).toHaveBeenCalledWith('Error deleting template', 'TemplateList: deleteTemplate')
@@ -234,15 +227,11 @@ describe('TemplateList', () => {
 
           const { user } = setup()
 
-          await waitForResponse()
-
-          const deleteLink = screen.getByRole('button', { name: 'Delete' })
+          const deleteLink = await screen.findByRole('button', { name: 'Delete' })
           await user.click(deleteLink)
 
           const noButton = screen.getByRole('button', { name: 'No' })
           await user.click(noButton)
-
-          await waitForResponse()
 
           expect(deleteTemplate).toHaveBeenCalledTimes(0)
         })

@@ -7,39 +7,40 @@ import {
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
-
 import { GraphQLError } from 'graphql'
+
+import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
+
+import { GET_TOOL_DRAFTS } from '@/js/operations/queries/getToolDrafts'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
 import DraftList from '../DraftList'
-
-import AppContext from '../../../context/AppContext'
-
-import constructDownloadableFile from '../../../utils/constructDownloadableFile'
-
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
-import { GET_TOOL_DRAFTS } from '../../../operations/queries/getToolDrafts'
 
 vi.mock('react-bootstrap/Placeholder', () => ({ default: vi.fn() }))
 
-vi.mock('../../../hooks/useDraftsQuery')
-vi.mock('../../../utils/constructDownloadableFile')
+vi.mock('@/js/hooks/useDraftsQuery')
+vi.mock('@/js/utils/constructDownloadableFile')
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
   useParams: vi.fn().mockImplementation(() => ({ draftType: 'tools' }))
 }))
 
-const mockDraft = {
+const mockDrafts = {
   count: 3,
   items: [
     {
       conceptId: 'TD1200000092-MMT_2',
       revisionDate: '2023-12-08T17:56:09.385Z',
+      revisionId: '1',
       ummMetadata: {
         Name: 'Tool TD1200000092 short name',
         LongName: 'Tool TD1200000092 long name'
       },
       name: 'Tool TD1200000092 short name',
       previewMetadata: {
+        conceptId: 'TD1200000092-MMT_2',
+        revisionId: '1',
         name: 'Tool TD1200000092 short name',
         longName: 'Tool TD1200000092 long name',
         __typename: 'Tool'
@@ -50,8 +51,11 @@ const mockDraft = {
     {
       conceptId: 'TD1200000093-MMT_2',
       revisionDate: '2023-11-08T17:56:09.385Z',
+      revisionId: '1',
       ummMetadata: {},
       previewMetadata: {
+        conceptId: 'TD1200000093-MMT_2',
+        revisionId: '1',
         name: null,
         longName: null,
         __typename: 'Tool'
@@ -62,11 +66,14 @@ const mockDraft = {
     {
       conceptId: 'TD1200000094-MMT_2',
       revisionDate: '2023-10-08T17:56:09.385Z',
+      revisionId: '1',
       ummMetadata: {
         Name: 'Tool TD1200000094 short name',
         LongName: 'Tool TD1200000094 long name'
       },
       previewMetadata: {
+        conceptId: 'TD1200000094-MMT_2',
+        revisionId: '1',
         name: null,
         longName: null,
         __typename: 'Tool'
@@ -93,31 +100,21 @@ const setup = ({ overrideMocks = false }) => {
     },
     result: {
       data: {
-        drafts: mockDraft
+        drafts: mockDrafts
       }
     }
   }]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <MockedProvider mocks={overrideMocks || mocks}>
-        <BrowserRouter initialEntries="">
-          <ErrorBoundary>
-            <Suspense>
-              <DraftList />
-            </Suspense>
-          </ErrorBoundary>
-
-        </BrowserRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+    <MockedProvider mocks={overrideMocks || mocks}>
+      <BrowserRouter initialEntries="">
+        <ErrorBoundary>
+          <Suspense>
+            <DraftList />
+          </Suspense>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </MockedProvider>
   )
 
   return {
@@ -194,14 +191,15 @@ describe('DraftList', () => {
   })
 
   describe('when draft type Tool is given, error shown', () => {
-    test.skip('renders Tool draft list', async () => {
+    test('renders Tool draft list', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       setup({
         overrideMocks: [{
           request: {
             query: GET_TOOL_DRAFTS,
             variables: {
               params: {
-                provider: 'MMT_2',
                 conceptType: 'Tool',
                 limit: 20,
                 offset: 0,
@@ -231,7 +229,7 @@ describe('DraftList', () => {
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
       expect(constructDownloadableFile).toHaveBeenCalledWith(
-        JSON.stringify(mockDraft.items[0].ummMetadata, null, 2),
+        JSON.stringify(mockDrafts.items[0].ummMetadata, null, 2),
         'TD1200000092-MMT_2'
       )
     })

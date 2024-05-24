@@ -3,13 +3,13 @@ import updateTemplate from '../updateTemplate'
 describe('updateTemplates', () => {
   describe('when updateTemplates response is ok', () => {
     test('return a success response', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      global.fetch.mockResolvedValue({
         ok: true,
         data: 'mock-data'
       })
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const ummMetadata = {
         mock: 'mock ummMetadata'
       }
@@ -28,13 +28,13 @@ describe('updateTemplates', () => {
 
   describe('when updateTemplates response is not ok', () => {
     test('return a error response', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      global.fetch.mockResolvedValue({
         ok: false,
         data: 'mock-error-data'
       })
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const ummMetadata = {
         mock: 'mock ummMetadata'
       }
@@ -58,7 +58,7 @@ describe('updateTemplates', () => {
       fetch.mockImplementationOnce(() => Promise.reject(new Error('Templates are down')))
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const ummMetadata = {
         mock: 'mock ummMetadata'
       }

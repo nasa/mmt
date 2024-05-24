@@ -11,9 +11,9 @@ import {
 
 import { setContext } from '@apollo/client/link/context'
 
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
-import useAppContext from '../../hooks/useAppContext'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 /**
  * @typedef {Object} GraphQLProviderProps
@@ -33,10 +33,7 @@ import useAppContext from '../../hooks/useAppContext'
  */
 const GraphQLProvider = ({ children }) => {
   const { graphQlHost } = getApplicationConfig()
-  const appContext = useAppContext()
-  const { user } = appContext
-  const { token } = user
-  const { tokenValue } = token || {}
+  const { tokenValue } = useAuthContext()
 
   // Custom middleware link that delays responses for mutations
   const responseDelayLink = new ApolloLink((operation, forward) => new Observable((observer) => {
@@ -106,9 +103,9 @@ const GraphQLProvider = ({ children }) => {
           OrderOption: {
             keyFields: ['conceptId', 'revisionId']
           },
-          Permission: {
-            keyFields: ['conceptId']
-          },
+          // Permission: {
+          //   keyFields: ['conceptId']
+          // },
           Service: {
             keyFields: ['conceptId', 'revisionId']
           },

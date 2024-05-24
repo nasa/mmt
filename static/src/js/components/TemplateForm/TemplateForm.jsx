@@ -6,48 +6,50 @@ import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { kebabCase } from 'lodash-es'
+import crypto from 'crypto'
 
-import useAppContext from '../../hooks/useAppContext'
+import useAppContext from '@/js/hooks/useAppContext'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
-import collectionsTemplateConfiguration from '../../schemas/uiForms/collectionTemplatesConfiguration.'
-import collectionsUiSchema from '../../schemas/uiSchemas/collections'
-import ummCTemplateSchema from '../../schemas/umm/ummCTemplateSchema'
+import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
+import collectionsUiSchema from '@/js/schemas/uiSchemas/collections'
+import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
 
-import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import FormNavigation from '../FormNavigation/FormNavigation'
-import GridLayout from '../GridLayout/GridLayout'
-import JsonPreview from '../JsonPreview/JsonPreview'
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import OneOfField from '../OneOfField/OneOfField'
-import Page from '../Page/Page'
-import PageHeader from '../PageHeader/PageHeader'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
+import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomCountrySelectWidget from '@/js/components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '@/js/components/CustomRadioWidget/CustomRadioWidget'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
+import OneOfField from '@/js/components/OneOfField/OneOfField'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
 
-import createTemplate from '../../utils/createTemplate'
-import errorLogger from '../../utils/errorLogger'
-import getFormSchema from '../../utils/getFormSchema'
-import getNextFormName from '../../utils/getNextFormName'
-import getTemplate from '../../utils/getTemplate'
-import parseError from '../../utils/parseError'
-import toKebabCase from '../../utils/toKebabCase'
-import updateTemplate from '../../utils/updateTemplate'
+import createTemplate from '@/js/utils/createTemplate'
+import errorLogger from '@/js/utils/errorLogger'
+import getFormSchema from '@/js/utils/getFormSchema'
+import getNextFormName from '@/js/utils/getNextFormName'
+import getTemplate from '@/js/utils/getTemplate'
+import parseError from '@/js/utils/parseError'
+import toKebabCase from '@/js/utils/toKebabCase'
+import updateTemplate from '@/js/utils/updateTemplate'
 
-import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import saveTypes from '../../constants/saveTypes'
+import saveTypes from '@/js/constants/saveTypes'
 
 const TemplateForm = () => {
   const {
@@ -61,9 +63,13 @@ const TemplateForm = () => {
   const {
     draft,
     originalDraft,
+    providerId,
     setDraft,
-    user
+    setProviderId
   } = useAppContext()
+
+  const { user } = useAuthContext()
+  const { token } = user
 
   const {
     ingestMutation,
@@ -72,7 +78,6 @@ const TemplateForm = () => {
     loading: ingestLoading
   } = useIngestDraftMutation()
 
-  const { token, providerId } = user
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
   const [error, setErrors] = useState()
@@ -132,8 +137,11 @@ const TemplateForm = () => {
       const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
 
       if (response) {
+        const { providerId: templateProviderId, template } = response
+
+        setProviderId(templateProviderId)
         setDraft({
-          ummMetadata: response
+          ummMetadata: template
         })
       } else { setErrors(fetchTemplateError) }
 

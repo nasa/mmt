@@ -10,139 +10,97 @@ import {
   Route,
   Routes
 } from 'react-router'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 
 import Providers from '@/js/providers/Providers/Providers'
 
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
 import errorLogger from '@/js/utils/errorLogger'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
 
 import GroupForm from '../GroupForm'
 
-vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/utils/errorLogger')
 
-global.fetch = vi.fn()
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   mocks = [],
   pageUrl
 }) => {
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={
-            [
-              {
-                request: {
-                  query: GET_AVAILABLE_PROVIDERS,
-                  variables: {
-                    params: {
-                      limit: 500,
-                      permittedUser: undefined,
-                      target: 'PROVIDER_CONTEXT'
-                    }
-                  }
-                },
-                result: {
-                  data: {
-                    acls: {
-                      items: [{
-                        providerIdentity: {
-                          target: 'PROVIDER_CONTEXT',
-                          provider_id: 'MMT_2'
-                        }
-                      }]
-                    }
-                  }
+    <Providers>
+      <MockedProvider
+        mocks={mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/groups"
+            >
+              <Route
+                element={
+                  (
+                    <Suspense>
+                      <GroupForm />
+                    </Suspense>
+                  )
                 }
-              },
-              ...mocks]
-          }
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
+                path="new"
+              />
               <Route
-                path="/groups"
-              >
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <GroupForm />
-                      </Suspense>
-                    )
-                  }
-                  path="new"
-                />
-                <Route
-                  path=":id/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupForm />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
+                path=":id/edit"
+                element={
+                  (
+                    <Suspense>
+                      <GroupForm />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/groups"
+            >
               <Route
-                path="/admin/groups"
-              >
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <GroupForm isAdminPage />
-                      </Suspense>
-                    )
-                  }
-                  path="new"
-                />
-                <Route
-                  path=":id/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupForm isAdminPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                element={
+                  (
+                    <Suspense>
+                      <GroupForm isAdminPage />
+                    </Suspense>
+                  )
+                }
+                path="new"
+              />
+              <Route
+                path=":id/edit"
+                element={
+                  (
+                    <Suspense>
+                      <GroupForm isAdminPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -153,7 +111,7 @@ describe('GroupForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        global.fetch = vi.fn().mockResolvedValue({
+        global.fetch.mockResolvedValue({
           ok: true,
           json: () => Promise.resolve([{
             id: 'testuser1',
@@ -207,9 +165,7 @@ describe('GroupForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const membersField = screen.getAllByRole('combobox').at(1)
 
@@ -250,7 +206,7 @@ describe('GroupForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-        global.fetch = vi.fn().mockResolvedValue({
+        global.fetch.mockResolvedValue({
           ok: true,
           json: () => Promise.resolve([{
             id: 'testuser1',
@@ -304,9 +260,7 @@ describe('GroupForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const membersField = screen.getByRole('combobox')
 
@@ -346,9 +300,8 @@ describe('GroupForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const providerField = screen.getAllByRole('combobox').at(0)
+        const comboboxes = await screen.findAllByRole('combobox')
+        const providerField = comboboxes[0]
         await user.click(providerField)
         const option = screen.getByRole('option', { name: 'MMT_2' })
         await user.click(option)
@@ -376,9 +329,8 @@ describe('GroupForm', () => {
         const { user } = setup({
           pageUrl: '/groups/new'
         })
-        await waitForResponse()
 
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Test Name')
 
         const clearButton = screen.getByRole('button', { name: 'Clear' })
@@ -486,10 +438,8 @@ describe('GroupForm', () => {
           }
         )
 
-        await waitForResponse()
-        await waitForResponse()
-
-        const providerField = screen.getAllByRole('combobox').at(0)
+        const comboboxes = await screen.findAllByRole('combobox')
+        const providerField = comboboxes[0]
         await user.click(providerField)
         const option = screen.getByRole('option', { name: 'MMT_2' })
         await user.click(option)
@@ -601,9 +551,7 @@ describe('GroupForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Mock group updated')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
@@ -663,10 +611,8 @@ describe('GroupForm', () => {
           ]
         })
 
-        await waitForResponse()
-        await waitForResponse()
-
-        const providerField = screen.getAllByRole('combobox').at(0)
+        const comboboxes = await screen.findAllByRole('combobox')
+        const providerField = comboboxes[0]
         await user.click(providerField)
         const option = screen.getByRole('option', { name: 'MMT_2' })
         await user.click(option)

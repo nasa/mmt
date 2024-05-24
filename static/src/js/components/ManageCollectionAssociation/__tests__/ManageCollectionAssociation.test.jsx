@@ -9,6 +9,13 @@ import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
+
+import NotificationsContext from '@/js/context/NotificationsContext'
+import errorLogger from '@/js/utils/errorLogger'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
 import ManageCollectionAssociation from '../ManageCollectionAssociation'
 
 import {
@@ -21,15 +28,9 @@ import {
   toolRecordSortSearch,
   variableRecord
 } from './__mocks__/manageCollectionAssociationResults'
-import AppContext from '../../../context/AppContext'
-import NotificationsContext from '../../../context/NotificationsContext'
-import errorLogger from '../../../utils/errorLogger'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
-import { DELETE_ASSOCIATION } from '../../../operations/mutations/deleteAssociation'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../../components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 
 const setup = ({
   additionalMocks = [],
@@ -47,60 +48,51 @@ const setup = ({
   }
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'TESTPROV'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1200000-TEST/collection-association']}>
-          <MockedProvider
-            mocks={overrideMocks || mocks}
-            cache={
-              new InMemoryCache({
-                dataIdFromObject: (object) => {
-                  const { __typename: typeName, conceptId } = object
-                  if ([
-                    'Acl',
-                    'Collection',
-                    'Draft',
-                    'Grid',
-                    'OrderOption',
-                    'Permission',
-                    'Service',
-                    'Subscription',
-                    'Tool',
-                    'Variable'
-                  ].includes(typeName)) {
-                    return conceptId
-                  }
+    <NotificationsContext.Provider value={notificationContext}>
+      <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1200000-TEST/collection-association']}>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+          cache={
+            new InMemoryCache({
+              dataIdFromObject: (object) => {
+                const { __typename: typeName, conceptId } = object
+                if ([
+                  'Acl',
+                  'Collection',
+                  'Draft',
+                  'Grid',
+                  'OrderOption',
+                  'Permission',
+                  'Service',
+                  'Subscription',
+                  'Tool',
+                  'Variable'
+                ].includes(typeName)) {
+                  return conceptId
+                }
 
-                  return defaultDataIdFromObject(object)
-                }
-              })
-            }
-          >
-            <Routes>
-              <Route
-                path={overridePaths || 'tools/:conceptId/collection-association'}
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <ManageCollectionAssociation />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-            </Routes>
-          </MockedProvider>
-        </MemoryRouter>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+                return defaultDataIdFromObject(object)
+              }
+            })
+          }
+        >
+          <Routes>
+            <Route
+              path={overridePaths || 'tools/:conceptId/collection-association'}
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense>
+                      <ManageCollectionAssociation />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
+          </Routes>
+        </MockedProvider>
+      </MemoryRouter>
+    </NotificationsContext.Provider>
   )
 
   return {

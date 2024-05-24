@@ -2,13 +2,15 @@ import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import { useNavigate } from 'react-router'
 
-import For from '../../components/For/For'
-import Page from '../../components/Page/Page'
-import Panel from '../../components/Panel/Panel'
+import useAuthContext from '@/js/hooks/useAuthContext'
+
+import For from '@/js/components/For/For'
+import Page from '@/js/components/Page/Page'
+import Panel from '@/js/components/Panel/Panel'
+
+import isTokenExpired from '@/js/utils/isTokenExpired'
 
 import './HomePage.scss'
-import useAppContext from '../../hooks/useAppContext'
-import isTokenExpired from '../../utils/isTokenExpired'
 
 /**
  * Renders a `HomePage` component
@@ -22,15 +24,14 @@ import isTokenExpired from '../../utils/isTokenExpired'
 const HomePage = () => {
   const navigate = useNavigate()
 
-  const { user } = useAppContext()
-  const { token } = user
-  const isExpired = isTokenExpired(token)
+  const { tokenExpires } = useAuthContext()
+  const isExpired = isTokenExpired(tokenExpires)
 
   useEffect(() => {
     if (!isExpired) {
       navigate('/collections', { replace: true })
     }
-  }, [token])
+  }, [isExpired])
 
   const panels = [
     {

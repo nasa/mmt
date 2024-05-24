@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import AppContext from '@/js/context/AppContext'
+import AuthContext from '@/js/context/AuthContext'
 
 import CustomAsyncMultiSelectWidget from '../CustomAsyncMultiSelectWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
@@ -39,24 +39,22 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
-    <AppContext.Provider value={
+    <AuthContext.Provider value={
       {
-        user: {
-          token: {
-            tokenValue: 'mock-token'
-          }
-        }
+        token: 'mock-jwt'
       }
     }
     >
       <CustomAsyncMultiSelectWidget {...props} />
-    </AppContext.Provider>
+    </AuthContext.Provider>
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -146,7 +144,7 @@ describe('CustomAsyncMultiSelectWidget', () => {
 
   describe('when user selects a value from the option list', () => {
     test('renders a select element with selected value', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      global.fetch.mockResolvedValue({
         ok: true,
         json: () => Promise.resolve([{
           id: 'testuser1',

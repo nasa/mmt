@@ -19,7 +19,6 @@ import usePermissions from '@/js/hooks/usePermissions'
 import GroupPage from '../GroupPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
 
-import AppContext from '../../../context/AppContext'
 import NotificationsContext from '../../../context/NotificationsContext'
 
 import { DELETE_GROUP } from '../../../operations/mutations/deleteGroup'
@@ -73,59 +72,51 @@ const setup = ({
   const notificationContext = {
     addNotification: vi.fn()
   }
-  render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
-              <Route
-                path="/groups"
-              >
-                <Route
-                  path=":id"
-                  element={
-                    (
-                      <ErrorBoundary>
-                        <Suspense>
-                          <GroupPage />
-                        </Suspense>
-                      </ErrorBoundary>
-                    )
-                  }
-                />
-              </Route>
 
+  render(
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/groups"
+            >
               <Route
-                path="/admin/groups"
-              >
-                <Route
-                  path=":id"
-                  element={
-                    (
-                      <ErrorBoundary>
-                        <Suspense>
-                          <GroupPage isAdminPage />
-                        </Suspense>
-                      </ErrorBoundary>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+                path=":id"
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <GroupPage />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+
+            <Route
+              path="/admin/groups"
+            >
+              <Route
+                path=":id"
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <GroupPage isAdminPage />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {

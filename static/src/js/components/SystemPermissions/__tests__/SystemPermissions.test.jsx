@@ -4,7 +4,6 @@ import {
   screen,
   within
 } from '@testing-library/react'
-import { Cookies } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -12,7 +11,6 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
 
 import NotificationsContext from '@/js/context/NotificationsContext'
 
@@ -27,24 +25,6 @@ import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 import SystemPermissions from '../SystemPermissions'
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
 
 const setup = ({
   additionalMocks = [],

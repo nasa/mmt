@@ -1,12 +1,11 @@
-import { getSamlConfig } from '../../../sharedUtils/getConfig'
+import { SAML } from '@node-saml/node-saml'
 
-const { SAML } = require('@node-saml/node-saml')
+import { getSamlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Handles login authentication
  * @param {Object} event Details about the HTTP request that it received
  */
-
 const samlLogin = async (event) => {
   const options = getSamlConfig()
 

@@ -52,13 +52,10 @@ const defaultAuthContext = {
   login: vi.fn(),
   logout: vi.fn(),
   setUser: vi.fn(),
+  tokenValue: 'launchpad_token',
   user: {
     name: 'User Name',
-    auid: 'username',
-    token: {
-      tokenValue: 'launchpad_token',
-      tokenExp: 1234
-    }
+    auid: 'username'
   }
 }
 
@@ -122,12 +119,9 @@ describe('GraphQLProvider component', () => {
 
   describe('when the token does not exist', () => {
     test('creates the ApolloClient', async () => {
-      const undefinedUserAuthContext = { ...defaultAuthContext }
-      delete undefinedUserAuthContext.user.token
       setup({
-        user: {
-          ...undefinedUserAuthContext.user
-        }
+        ...defaultAuthContext,
+        tokenValue: undefined
       })
 
       expect(ApolloClient).toHaveBeenCalledTimes(1)
@@ -205,13 +199,7 @@ describe('GraphQLProvider component', () => {
           <AuthContext.Provider value={
             {
               ...defaultAuthContext,
-              user: {
-                ...defaultAuthContext.user,
-                token: {
-                  tokenValue: 'new_launchpad_token',
-                  tokenExp: 5678
-                }
-              }
+              tokenValue: 'new_launchpad_token'
             }
           }
           >

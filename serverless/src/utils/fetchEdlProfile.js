@@ -1,18 +1,16 @@
-import { getEdlConfig } from '../../../sharedUtils/getConfig'
-import { downcaseKeys } from './downcaseKeys'
 import fetchEdlClientToken from './fetchEdlClientToken'
+
+import { getEdlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Returns the user's EDL profile based on the launchpad token provided
  * @param {Object} headers Lambda event headers
  */
-const fetchEdlProfile = async (headers) => {
-  const { authorization: authorizationToken = '' } = downcaseKeys(headers)
-  const tokenParts = authorizationToken.split(' ')
-  const token = tokenParts[1]
-
-  if (token === 'ABC-1') {
+const fetchEdlProfile = async (launchpadToken) => {
+  if (launchpadToken === 'ABC-1') {
     return {
+      auid: 'admin',
+      name: 'Admin User',
       uid: 'admin'
     }
   }
@@ -22,7 +20,7 @@ const fetchEdlProfile = async (headers) => {
   const clientToken = await fetchEdlClientToken()
 
   return fetch(`${host}/api/nams/edl_user`, {
-    body: `token=${token}`,
+    body: `token=${launchpadToken}`,
     method: 'POST',
     headers: {
       Authorization: `Bearer ${clientToken}`,
@@ -30,6 +28,21 @@ const fetchEdlProfile = async (headers) => {
     }
   })
     .then((response) => response.json())
+    .then((profile) => {
+      const firstName = profile.first_name
+      const lastName = profile.last_name
+      let name = [firstName, lastName].filter(Boolean).join(' ')
+
+      if (name.trim().length === 0) {
+        name = profile.uid
+      }
+
+      return {
+        auid: profile.nams_auid,
+        name,
+        uid: profile.uid
+      }
+    })
     .catch((error) => {
       console.log('fetchEdlProfile Error: ', error)
 

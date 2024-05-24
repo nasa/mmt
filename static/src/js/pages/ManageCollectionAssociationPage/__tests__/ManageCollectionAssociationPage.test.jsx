@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import AppContext from '../../../context/AppContext'
+
 import ManageCollectionAssociationPage from '../ManageCollectionAssociationPage'
 import { collectionResult } from './__mocks__/collectionResult'
 
@@ -23,30 +23,20 @@ const setup = () => {
   ]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={mocks}
     >
-      <MockedProvider
-        mocks={mocks}
+      <MemoryRouter initialEntries={
+        [{
+          pathname: '/collections/C00000001-TESTPROV/collection-association'
+        }]
+      }
       >
-        <MemoryRouter initialEntries={
-          [{
-            pathname: '/collections/C00000001-TESTPROV/collection-association'
-          }]
-        }
-        >
-          <Routes>
-            <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociationPage />} />
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-
-    </AppContext.Provider>
+        <Routes>
+          <Route path="/:type/:conceptId/collection-association" element={<ManageCollectionAssociationPage />} />
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 }
 

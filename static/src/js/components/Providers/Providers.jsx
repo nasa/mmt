@@ -1,12 +1,11 @@
 import React from 'react'
-import { useSuspenseQuery } from '@apollo/client'
 import Alert from 'react-bootstrap/Alert'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import { FaQuestionCircle } from 'react-icons/fa'
 
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-import useAppContext from '@/js/hooks/useAppContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
 import For from '../For/For'
 
 /**
@@ -19,24 +18,7 @@ import For from '../For/For'
  * )
  */
 const Providers = () => {
-  const { user } = useAppContext()
-
-  const { uid } = user
-
-  const { data } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
-    variables: {
-      params: {
-        limit: 500,
-        permittedUser: uid,
-        target: 'PROVIDER_CONTEXT'
-      }
-    }
-  })
-
-  const { acls } = data
-  const { items } = acls
-
-  const providerList = items?.map((item) => item.providerIdentity.provider_id)
+  const { providerIds } = useAvailableProviders()
 
   return (
     <>
@@ -49,7 +31,7 @@ const Providers = () => {
       </Alert>
 
       {
-        (!providerList || providerList.length === 0) && (
+        (!providerIds || providerIds.length === 0) && (
           <p>
             You do not have access to any providers.
           </p>
@@ -57,14 +39,14 @@ const Providers = () => {
       }
 
       {
-        providerList && providerList.length > 0 && (
+        providerIds && providerIds.length > 0 && (
           <>
             <p>
               You have permissions to manage metadata records for the following providers.
             </p>
 
             <ListGroup>
-              <For each={providerList}>
+              <For each={providerIds}>
                 {
                   (providerId) => (
                     <ListGroupItem key={providerId}>

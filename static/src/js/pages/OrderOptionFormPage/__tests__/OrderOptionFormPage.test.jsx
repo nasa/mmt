@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -8,76 +7,64 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
+
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import Providers from '../../../providers/Providers/Providers'
 import { GET_ORDER_OPTION } from '../../../operations/queries/getOrderOption'
 
 import OrderOptionFormPage from '../OrderOptionFormPage'
 
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   mocks,
   pageUrl
 }) => {
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={mocks}
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
+    <Providers>
+      <MockedProvider
+        mocks={mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/order-options"
+            >
               <Route
-                path="/order-options"
-              >
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <OrderOptionFormPage />
-                      </Suspense>
-                    )
-                  }
-                  path="new"
-                />
-                <Route
-                  path=":conceptId/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <OrderOptionFormPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                element={
+                  (
+                    <Suspense>
+                      <OrderOptionFormPage />
+                    </Suspense>
+                  )
+                }
+                path="new"
+              />
+              <Route
+                path=":conceptId/edit"
+                element={
+                  (
+                    <Suspense>
+                      <OrderOptionFormPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -88,9 +75,7 @@ describe('OrderOptionFormPage', () => {
         pageUrl: '/order-options/new'
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Order Options')).toBeInTheDocument()
+      expect(await screen.findByText('Order Options')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'New Order Option' })).toBeInTheDocument()
     })
   })
@@ -130,9 +115,7 @@ describe('OrderOptionFormPage', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Order Options')).toBeInTheDocument()
+      expect(await screen.findByText('Order Options')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })

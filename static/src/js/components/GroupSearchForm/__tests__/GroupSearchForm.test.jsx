@@ -6,7 +6,6 @@ import {
   Route,
   Routes
 } from 'react-router'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 
@@ -14,28 +13,6 @@ import { GET_PROVIDERS } from '@/js/operations/queries/getProviders'
 import GroupSearchForm from '../GroupSearchForm'
 
 import Providers from '../../../providers/Providers/Providers'
-
-vi.mock('../../../utils/errorLogger')
-
-global.fetch = vi.fn()
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
 
 const setup = (initialPath = '/groups') => {
   const mocks = [{
@@ -64,43 +41,43 @@ const setup = (initialPath = '/groups') => {
     }
   }]
 
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={mocks}
-        >
-          <MemoryRouter initialEntries={[initialPath]}>
-            <Routes>
-              <Route
-                path="/groups"
-                element={
-                  (
-                    <Suspense>
-                      <GroupSearchForm />
-                    </Suspense>
-                  )
-                }
-              />
-              <Route
-                path="/admin/groups"
-                element={
-                  (
-                    <Suspense>
-                      <GroupSearchForm isAdminPage />
-                    </Suspense>
-                  )
-                }
-              />
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+    <Providers>
+      <MockedProvider
+        mocks={mocks}
+      >
+        <MemoryRouter initialEntries={[initialPath]}>
+          <Routes>
+            <Route
+              path="/groups"
+              element={
+                (
+                  <Suspense>
+                    <GroupSearchForm />
+                  </Suspense>
+                )
+              }
+            />
+            <Route
+              path="/admin/groups"
+              element={
+                (
+                  <Suspense>
+                    <GroupSearchForm isAdminPage />
+                  </Suspense>
+                )
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -154,7 +131,7 @@ describe('GroupSearchForm', () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-      global.fetch = vi.fn().mockResolvedValue({
+      global.fetch.mockResolvedValue({
         ok: true,
         json: () => Promise.resolve([{
           id: 'testuser1',

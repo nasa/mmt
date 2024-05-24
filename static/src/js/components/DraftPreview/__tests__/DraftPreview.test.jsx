@@ -8,24 +8,24 @@ import {
   Routes
 } from 'react-router-dom'
 
-import ummTSchema from '../../../schemas/umm/ummTSchema'
-import toolsConfiguration from '../../../schemas/uiForms/toolsConfiguration'
+import ummTSchema from '@/js/schemas/umm/ummTSchema'
+import toolsConfiguration from '@/js/schemas/uiForms/toolsConfiguration'
 
-import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
+
+import Providers from '@/js/providers/Providers/Providers'
+
+import PreviewProgress from '@/js/components/PreviewProgress/PreviewProgress'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import MetadataPreview from '@/js/components/MetadataPreview/MetadataPreview'
 
 import DraftPreview from '../DraftPreview'
-import PreviewProgress from '../../PreviewProgress/PreviewProgress'
-import Providers from '../../../providers/Providers/Providers'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
-import MetadataPreview from '../../MetadataPreview/MetadataPreview'
 
-vi.mock('../../../utils/createTemplate')
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../PreviewProgress/PreviewProgress')
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../MetadataPreview/MetadataPreview')
-
-global.fetch = vi.fn()
+vi.mock('@/js/utils/createTemplate')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/components/PreviewProgress/PreviewProgress')
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 
 const mockedUsedNavigate = vi.fn()
 
@@ -74,6 +74,7 @@ const mockDraft = {
     potentialAction: null,
     quality: null,
     relatedUrls: null,
+    revisionId: '2',
     searchAction: null,
     supportedBrowsers: null,
     supportedInputFormats: null,
@@ -114,6 +115,8 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  const user = userEvent.setup()
+
   render(
     <Providers>
       <MockedProvider
@@ -144,7 +147,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -8,10 +8,17 @@ import {
 import * as router from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
-import AppContext from '../../../context/AppContext'
-import NotificationsContext from '../../../context/NotificationsContext'
+
+import AppContext from '@/js/context/AppContext'
+import NotificationsContext from '@/js/context/NotificationsContext'
+
+import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+
+import errorLogger from '@/js/utils/errorLogger'
+
 import CollectionAssociationForm from '../CollectionAssociationForm'
-import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
+
 import {
   CollectionAssociationRequest,
   CollectionResultsWithPages,
@@ -27,11 +34,9 @@ import {
   ingestVariableDraftErrorResponse,
   CollectionSortRequest
 } from './__mocks__/CollectionAssociationResults'
-import errorLogger from '../../../utils/errorLogger'
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/utils/errorLogger')
 
 const setup = ({
   additionalMocks = [],
@@ -43,12 +48,12 @@ const setup = ({
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <AppContext.Provider value={
       {
-        user: {
-          providerId: 'MMT_2'
-        },
+        providerId: 'MMT_2',
         keywords: {}
       }
     }
@@ -71,7 +76,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

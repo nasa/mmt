@@ -17,9 +17,9 @@ import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConc
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 
+import useAuthContext from '@/js/hooks/useAuthContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import usePublishMutation from '@/js/hooks/usePublishMutation'
-import useAppContext from '@/js/hooks/useAppContext'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 import conceptTypes from '@/js/constants/conceptTypes'
@@ -51,11 +51,9 @@ const DraftPageHeader = () => {
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
 
-  const { user } = useAppContext()
+  const { token } = useAuthContext()
 
   const { addNotification } = useNotificationsContext()
-
-  const { token } = user
 
   const {
     publishMutation,

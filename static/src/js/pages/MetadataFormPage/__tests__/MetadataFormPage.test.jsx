@@ -12,18 +12,16 @@ import {
   Routes
 } from 'react-router-dom'
 
-import { Cookies, CookiesProvider } from 'react-cookie'
-import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
+
+import Providers from '@/js/providers/Providers/Providers'
 
 import MetadataFormPage from '../MetadataFormPage'
-import Providers from '../../../providers/Providers/Providers'
 
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../JsonPreview/JsonPreview')
-vi.mock('../../FormNavigation/FormNavigation')
-vi.mock('../../../utils/errorLogger')
-
-global.fetch = vi.fn()
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/components/JsonPreview/JsonPreview')
+vi.mock('@/js/components/FormNavigation/FormNavigation')
+vi.mock('@/js/utils/errorLogger')
 
 const mockedUsedNavigate = vi.fn()
 
@@ -78,6 +76,7 @@ const mockDraft = {
     potentialAction: null,
     quality: null,
     relatedUrls: null,
+    revisionId: '2',
     searchAction: null,
     supportedBrowsers: null,
     supportedInputFormats: null,
@@ -117,61 +116,41 @@ const setup = ({
     }
   }, ...additionalMocks]
 
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies(
-    {
-      loginInfo: ({
-        providerId: 'MMT_2',
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires.valueOf()
-        }
-      })
-    }
-  )
-  cookie.HAS_DOCUMENT_COOKIE = false
-
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
+    <Providers>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/drafts/:draftType"
+            >
               <Route
-                path="/drafts/:draftType"
-              >
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <MetadataFormPage />
-                      </Suspense>
-                    )
-                  }
-                  path="new"
-                />
-                <Route
-                  path=":conceptId/:sectionName"
-                  element={
-                    (
-                      <Suspense>
-                        <MetadataFormPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                element={
+                  (
+                    <Suspense>
+                      <MetadataFormPage />
+                    </Suspense>
+                  )
+                }
+                path="new"
+              />
+              <Route
+                path=":conceptId/:sectionName"
+                element={
+                  (
+                    <Suspense>
+                      <MetadataFormPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
@@ -272,6 +251,7 @@ describe('MetadataFormPage', () => {
                     potentialAction: null,
                     quality: null,
                     relatedUrls: null,
+                    revisionId: '2',
                     searchAction: null,
                     supportedBrowsers: null,
                     supportedInputFormats: null,

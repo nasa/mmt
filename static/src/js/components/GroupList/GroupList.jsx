@@ -13,12 +13,12 @@ import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 import errorLogger from '@/js/utils/errorLogger'
 
-import Button from '../Button/Button'
-import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
-import CustomModal from '../CustomModal/CustomModal'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import EllipsisText from '../EllipsisText/EllipsisText'
-import Table from '../Table/Table'
+import Button from '@/js/components/Button/Button'
+import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
+import Table from '@/js/components/Table/Table'
 
 /**
  * Renders a GroupList component

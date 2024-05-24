@@ -1,10 +1,5 @@
 import React, { Suspense } from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
-import { Cookies } from 'react-cookie'
+import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -13,35 +8,21 @@ import {
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
 
-import AppContext from '@/js/context/AppContext'
-
 import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPermissions'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
 
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   additionalMocks = [],
@@ -80,29 +61,6 @@ const setup = ({
     }
   }, {
     request: {
-      query: GET_AVAILABLE_PROVIDERS,
-      variables: {
-        params: {
-          limit: 500,
-          permittedUser: 'typical',
-          target: 'PROVIDER_CONTEXT'
-        }
-      }
-    },
-    result: {
-      data: {
-        acls: {
-          items: [{
-            providerIdentity: {
-              target: 'PROVIDER_CONTEXT',
-              provider_id: 'MMT_2'
-            }
-          }]
-        }
-      }
-    }
-  }, {
-    request: {
       query: GET_PROVIDER_IDENTITY_PERMISSIONS,
       variables: {
         params: {
@@ -116,15 +74,12 @@ const setup = ({
     result: {
       data: {
         acls: {
-          count: 30,
-          cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
           items: [
             {
               providerIdentity: {
                 target: 'AUDIT_REPORT',
-                provider_id: 'MMT_1'
+                provider_id: 'MMT_2'
               },
-              identityType: 'Provider',
               groups: {
                 items: [
                   {
@@ -146,9 +101,8 @@ const setup = ({
             {
               providerIdentity: {
                 target: 'AUTHENTICATOR_DEFINITION',
-                provider_id: 'MMT_1'
+                provider_id: 'MMT_2'
               },
-              identityType: 'Provider',
               groups: {
                 items: [
                   {
@@ -173,43 +127,37 @@ const setup = ({
   },
   ...additionalMocks]
 
-  const context = {
-    user: {
-      uid: 'typical'
-    }
-  }
+  const user = userEvent.setup()
 
   render(
-    <AppContext.Provider value={context}>
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
-          <Routes>
+    <MockedProvider
+      mocks={overrideMocks || mocks}
+    >
+      <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
+        <Routes>
+          <Route
+            path="/groups"
+          >
             <Route
-              path="/groups"
-            >
-              <Route
-                path=":id"
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <ProviderPermissions />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+              path=":id"
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense>
+                      <ProviderPermissions />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -218,26 +166,21 @@ describe('ProviderPermissions', () => {
     test('renders the full table of checkboxes with correct options checked', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
-      const selectInput = screen.getByRole('combobox')
+      const selectInput = await screen.findByRole('combobox')
       await user.click(selectInput)
+
       const option1 = screen.getByRole('option', { name: 'MMT_2' })
       await user.click(option1)
-
-      await waitForResponse()
 
       expect(screen.queryByText('Audit Reports')).toBeInTheDocument()
       expect(screen.queryByText('Authenticator Definitions')).toBeInTheDocument()
 
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox', { checked: true })
-        expect(checkboxes.length).toBe(3)
+      const checkboxes = await screen.findAllByRole('checkbox', { checked: true })
+      expect(checkboxes.length).toBe(3)
 
-        expect(checkboxes[0]).toHaveAttribute('name', 'audit_report_read')
-        expect(checkboxes[1]).toHaveAttribute('name', 'authenticator_definition_create')
-        expect(checkboxes[2]).toHaveAttribute('name', 'authenticator_definition_delete')
-      })
+      expect(checkboxes[0]).toHaveAttribute('name', 'audit_report_read')
+      expect(checkboxes[1]).toHaveAttribute('name', 'authenticator_definition_create')
+      expect(checkboxes[2]).toHaveAttribute('name', 'authenticator_definition_delete')
     })
   })
 })

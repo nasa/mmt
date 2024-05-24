@@ -7,11 +7,14 @@ export const GET_TOOL_DRAFTS = gql`
       count
       items {
         conceptId
+        revisionId
         providerId
         revisionDate
         ummMetadata
         previewMetadata {
           ... on Tool {
+            conceptId
+            revisionId
             name
             longName
           }

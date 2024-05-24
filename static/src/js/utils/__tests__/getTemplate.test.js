@@ -10,7 +10,7 @@ describe('getTemplate', () => {
       }))
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const id = 'Mock Id'
 
       const response = await getTemplate(providerId, token, id)
@@ -30,7 +30,7 @@ describe('getTemplate', () => {
       fetch.mockImplementationOnce(() => Promise.reject(new Error('Templates are down')))
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const id = 'Mock Id'
 
       const response = await getTemplate(providerId, token, id)

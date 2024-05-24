@@ -41,8 +41,7 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
  * )
  */
 const OrderOptionPageHeader = () => {
-  const { user } = useAppContext()
-  const { providerId } = user
+  const { providerId } = useAppContext()
 
   const navigate = useNavigate()
 

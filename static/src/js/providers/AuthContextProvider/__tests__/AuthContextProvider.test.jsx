@@ -1,17 +1,11 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
-
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Cookies, CookiesProvider } from 'react-cookie'
+
 import AuthContextProvider from '../AuthContextProvider'
 import useAuthContext from '../../../hooks/useAuthContext'
 import checkAndRefreshToken from '../../../utils/checkAndRefreshToken'
 import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
-import errorLogger from '../../../utils/errorLogger'
 
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
@@ -25,9 +19,21 @@ vi.mock('../../../utils/checkAndRefreshToken', () => ({
   default: vi.fn()
 }))
 
+vi.mock('jsonwebtoken', async () => ({
+  default: {
+    decode: vi.fn().mockReturnValue({
+      edlProfile: {
+        name: 'Test User'
+      }
+    })
+  }
+}))
+
 const MockComponent = () => {
   const {
-    user, login, logout, updateLoginInfo
+    login,
+    logout,
+    user
   } = useAuthContext()
 
   return (
@@ -39,22 +45,13 @@ const MockComponent = () => {
       </div>
       <button
         type="button"
-        onClick={
-          () => {
-            login()
-            updateLoginInfo('mock_user')
-          }
-        }
+        onClick={login}
       >
         Log in
       </button>
       <button
         type="button"
-        onClick={
-          () => {
-            logout()
-          }
-        }
+        onClick={logout}
       >
         Log out
       </button>
@@ -62,115 +59,53 @@ const MockComponent = () => {
   )
 }
 
-const setup = (overrideCookie) => {
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies(
-    overrideCookie || {
-      launchpadToken: 'mock-launchpad-token'
-    }
-  )
-  cookie.HAS_DOCUMENT_COOKIE = false
+const setup = () => {
+  const user = userEvent.setup()
 
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <AuthContextProvider>
-        <NotificationsContextProvider>
-          <MockComponent />
-        </NotificationsContextProvider>
-      </AuthContextProvider>
-    </CookiesProvider>
+    <AuthContextProvider>
+      <NotificationsContextProvider>
+        <MockComponent />
+      </NotificationsContextProvider>
+    </AuthContextProvider>
   )
+
+  return { user }
 }
+
+beforeEach(() => {
+  delete window.location
+  window.location = {}
+})
 
 describe('AuthContextProvider component', () => {
   describe('when app starts up', () => {
-    beforeEach(() => {
-      vi.resetAllMocks()
-    })
-
     describe('when log in is triggered', () => {
       test('logs the user in', async () => {
-        delete window.location
-        window.location = {}
+        const { user } = setup()
 
-        global.fetch = vi.fn(() => Promise.resolve({
-          json: () => Promise.resolve({
-            email: 'test.user@localhost',
-            first_name: 'User',
-            last_name: 'Name',
-            name: 'User Name',
-            uid: 'mock_user'
-          })
-        }))
-
-        setup({
-          launchpadToken: 'mock-launchpad-token'
-        })
-
-        const user = userEvent.setup()
         const button = screen.getByRole('button', { name: 'Log in' })
 
         await user.click(button)
 
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/collections')}`
+        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/')}`
         expect(window.location.href).toEqual(expectedPath)
       })
     })
 
     describe('when logged in', () => {
       test('shows the name', async () => {
-        delete window.location
-        window.location = {}
+        global.localStorage.setItem('token', 'mock-jwt')
 
-        global.fetch = vi.fn(() => Promise.resolve({
-          json: () => Promise.resolve({
-            email: 'test.user@localhost',
-            first_name: 'User',
-            last_name: 'Name',
-            name: 'User Name',
-            uid: 'mock_user'
-          })
-        }))
+        setup()
 
-        setup({
-          launchpadToken: 'mock-launchpad-token'
-        })
-
-        const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in' })
-        await user.click(button)
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/collections')}`
-        expect(window.location.href).toEqual(expectedPath)
-
-        await waitFor(() => {
-          const userName = screen.getByText('User Name: User Name', { exact: true })
-          expect(userName).toBeInTheDocument()
-        })
-      })
-
-      test('shows errors if can not retrieve name from urs', async () => {
-        delete window.location
-        window.location = {}
-
-        global.fetch = vi.fn(() => Promise.reject(new Error('URS is down')))
-
-        setup({
-          launchpadToken: 'mock-launchpad-token'
-        })
-
-        const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: 'Log in' })
-        await user.click(button)
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toBeCalledWith('Error retrieving profile for mock_user, message=Error: URS is down', 'AuthContextProvider')
+        const userName = await screen.findByText('User Name: Test User', { exact: true })
+        expect(userName).toBeInTheDocument()
       })
     })
 
-    describe('when refresh token', () => {
+    // Skipping because we don't have refresh logic right now
+    describe.skip('when refresh token', () => {
       beforeEach(() => {
         vi.useFakeTimers()
       })
@@ -213,38 +148,15 @@ describe('AuthContextProvider component', () => {
 
     describe('when log out is triggered', () => {
       test('logs the user out', async () => {
-        delete window.location
-        window.location = {}
+        const { user } = setup()
 
-        let expires = new Date()
-        expires.setMinutes(expires.getMinutes() + 15)
-        expires = new Date(expires)
-
-        setup({
-          launchpadToken: 'mock-launchpad-token',
-          loginInfo: {
-            auid: 'username',
-            name: 'User Name',
-            token: {
-              tokenValue: 'mock-token',
-              tokenExp: expires.valueOf()
-            }
-          }
-        })
-
-        const user = userEvent.setup()
-
-        await waitFor(() => {
-          const userName = screen.getByText('User Name: User Name', { exact: true })
-          expect(userName).toBeInTheDocument()
-        })
+        const userName = await screen.findByText('User Name: Test User', { exact: true })
+        expect(userName).toBeInTheDocument()
 
         const logoutButton = screen.getByRole('button', { name: 'Log out' })
-
         await user.click(logoutButton)
 
-        const newUserName = screen.queryByText('User Name: User Name', { exact: true })
-
+        const newUserName = screen.queryByText('User Name: Test User', { exact: true })
         expect(newUserName).not.toBeInTheDocument()
       })
     })

@@ -9,45 +9,45 @@ import Form from '@rjsf/core'
 import Row from 'react-bootstrap/Row'
 import pluralize from 'pluralize'
 
-import BoundingRectangleField from '../BoundingRectangleField/BoundingRectangleField'
-import CustomArrayTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomCountrySelectWidget from '../CustomCountrySelectWidget/CustomCountrySelectWidget'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomRadioWidget from '../CustomRadioWidget/CustomRadioWidget'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextareaWidget from '../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import FormNavigation from '../FormNavigation/FormNavigation'
-import GridLayout from '../GridLayout/GridLayout'
-import JsonPreview from '../JsonPreview/JsonPreview'
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
-import OneOfField from '../OneOfField/OneOfField'
-import StreetAddressField from '../StreetAddressField/StreetAddressField'
+import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
+import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomCountrySelectWidget from '@/js/components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '@/js/components/CustomRadioWidget/CustomRadioWidget'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import OneOfField from '@/js/components/OneOfField/OneOfField'
+import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
 
-import formConfigurations from '../../schemas/uiForms'
+import formConfigurations from '@/js/schemas/uiForms'
 
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
-import saveTypes from '../../constants/saveTypes'
-import urlValueTypeToConceptTypeStringMap from '../../constants/urlValueToConceptStringMap'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
+import saveTypes from '@/js/constants/saveTypes'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 
-import errorLogger from '../../utils/errorLogger'
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import getFormSchema from '../../utils/getFormSchema'
-import getNextFormName from '../../utils/getNextFormName'
-import getUiSchema from '../../utils/getUiSchema'
-import getUmmSchema from '../../utils/getUmmSchema'
-import removeEmpty from '../../utils/removeEmpty'
-import toKebabCase from '../../utils/toKebabCase'
+import errorLogger from '@/js/utils/errorLogger'
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
+import getFormSchema from '@/js/utils/getFormSchema'
+import getNextFormName from '@/js/utils/getNextFormName'
+import getUiSchema from '@/js/utils/getUiSchema'
+import getUmmSchema from '@/js/utils/getUmmSchema'
+import removeEmpty from '@/js/utils/removeEmpty'
+import toKebabCase from '@/js/utils/toKebabCase'
 
-import usePublishMutation from '../../hooks/usePublishMutation'
+import usePublishMutation from '@/js/hooks/usePublishMutation'
 
 import './MetadataForm.scss'
 
@@ -65,10 +65,9 @@ const MetadataForm = () => {
     setDraft,
     setOriginalDraft,
     setSavedDraft,
-    user
+    providerId
   } = useAppContext()
 
-  const { providerId } = user
   const { addNotification } = useNotificationsContext()
   let derivedConceptType
 

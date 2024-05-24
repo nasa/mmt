@@ -1,12 +1,13 @@
-import { getApplicationConfig, getSamlConfig } from '../../../sharedUtils/getConfig'
-import parseSaml from '../../../static/src/js/utils/parseSaml'
+import cookie from 'cookie'
 
-const { URLSearchParams } = require('url')
-const cookie = require('cookie')
+import createJwt from '../utils/createJwt'
+import fetchEdlProfile from '../utils/fetchEdlProfile'
+
+import { getApplicationConfig, getSamlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Pulls the launchpad token out of the cookie header
- * @param {*} cookieString
+ * @param {String} cookieString
  * @returns the launchpad token
  */
 const getLaunchpadToken = (cookieString) => {
@@ -25,30 +26,25 @@ const getLaunchpadToken = (cookieString) => {
  */
 const samlCallback = async (event) => {
   const { body, headers } = event
-  const { Cookie } = headers
+  const { Cookie: headerCookie } = headers
   const { mmtHost } = getApplicationConfig()
 
   const params = new URLSearchParams(body)
   const path = params.get('RelayState')
 
-  const launchpadToken = getLaunchpadToken(Cookie)
-  const samlResponse = parseSaml(params.get('SAMLResponse'))
-  const { auid } = samlResponse
+  const launchpadToken = getLaunchpadToken(headerCookie)
 
-  // There appears to be a limitation in AWS to only allow sending 1 cookie, so we are sending
-  // 1 cookie with multiple values in a base 64 encoded json string.
-  let setCookie = `launchpadToken=${launchpadToken}; Secure; Path=/; Domain=.earthdatacloud.nasa.gov`
+  const edlProfile = await fetchEdlProfile(launchpadToken)
 
-  if (process.env.IS_OFFLINE) {
-    setCookie = `launchpadToken=${launchpadToken}; Path=/`
-  }
+  // Create JWT with launchpad token and edl profile
+  const jwt = createJwt(launchpadToken, edlProfile)
 
-  const location = `${mmtHost}/auth_callback?target=${encodeURIComponent(path)}&auid=${encodeURIComponent(auid)}`
+  const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}&jwt=${jwt}`
 
   const response = {
     statusCode: 303,
     headers: {
-      'Set-Cookie': setCookie,
+      // 'Set-Cookie': setCookie,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',

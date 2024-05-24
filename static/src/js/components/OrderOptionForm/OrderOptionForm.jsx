@@ -16,8 +16,8 @@ import { CREATE_ORDER_OPTION } from '@/js/operations/mutations/createOrderOption
 import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
 import { UPDATE_ORDER_OPTION } from '@/js/operations/mutations/updateOrderOption'
 
-import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
@@ -44,13 +44,11 @@ const OrderOptionForm = () => {
   const {
     draft,
     originalDraft,
+    providerId,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    user
+    setSavedDraft
   } = useAppContext()
-
-  const { providerId } = user
 
   const navigate = useNavigate()
 
@@ -270,7 +268,7 @@ const OrderOptionForm = () => {
       </Container>
       <ChooseProviderModal
         show={chooseProviderModalOpen}
-        primaryActionType={saveTypesToHumanizedStringMap[saveTypes.submit]}
+        primaryActionType={saveTypes.submit}
         toggleModal={
           () => {
             setChooseProviderModalOpen(false)

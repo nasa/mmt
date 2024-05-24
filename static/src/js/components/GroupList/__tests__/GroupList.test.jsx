@@ -17,14 +17,13 @@ import {
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 
-import AppContext from '@/js/context/AppContext'
 import NotificationsContext from '@/js/context/NotificationsContext'
 
 import usePermissions from '@/js/hooks/usePermissions'
 
 import GroupList from '../GroupList'
 
-vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/usePermissions').mockReturnValue({ hasSystemGroup: true })
 
 const mockGroups = {
@@ -83,43 +82,34 @@ const setup = ({
   }
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider mocks={overrideMocks || mocks}>
-          <MemoryRouter initialEntries={[initialEntries]}>
-            <Routes>
-              <Route
-                path="/groups"
-                element={
-                  (
-                    <Suspense>
-                      <GroupList />
-                    </Suspense>
-                  )
-                }
-              />
-              <Route
-                path="/admin/groups"
-                element={
-                  (
-                    <Suspense>
-                      <GroupList isAdminPage />
-                    </Suspense>
-                  )
-                }
-              />
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider mocks={overrideMocks || mocks}>
+        <MemoryRouter initialEntries={[initialEntries]}>
+          <Routes>
+            <Route
+              path="/groups"
+              element={
+                (
+                  <Suspense>
+                    <GroupList />
+                  </Suspense>
+                )
+              }
+            />
+            <Route
+              path="/admin/groups"
+              element={
+                (
+                  <Suspense>
+                    <GroupList isAdminPage />
+                  </Suspense>
+                )
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {

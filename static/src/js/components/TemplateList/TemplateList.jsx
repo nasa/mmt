@@ -15,6 +15,7 @@ import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useAuthContext from '@/js/hooks/useAuthContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
@@ -38,16 +39,14 @@ import Table from '@/js/components/Table/Table'
  */
 const TemplateList = () => {
   const { templateType } = useParams()
-  const { user } = useAppContext()
-  const { token } = user
+  const { token } = useAuthContext()
+  const { providerId } = useAppContext()
 
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedDeleteId, setSelectedDeleteId] = useState()
-
-  const { providerId } = user
 
   const { addNotification } = useNotificationsContext()
 

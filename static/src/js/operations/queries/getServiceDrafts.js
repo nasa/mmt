@@ -7,11 +7,14 @@ export const GET_SERVICE_DRAFTS = gql`
       count
       items {
         conceptId
+        revisionId
         providerId
         revisionDate
         ummMetadata
         previewMetadata {
           ... on Service {
+            conceptId
+            revisionId
             name
             longName
           }

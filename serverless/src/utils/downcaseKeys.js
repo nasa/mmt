@@ -1,6 +1,6 @@
 /**
  * Downcase all keys of an object
- * @param {*} obj Object to transform
+ * @param {Object} obj Object to transform
  * @returns Object with all keys downcased
  */
 export const downcaseKeys = (obj = {}) => {

@@ -8,11 +8,9 @@ import conceptTypeDraftsQueries from '../constants/conceptTypeDraftsQueries'
 
 const useDraftsQuery = ({ draftType, limit, offset }) => {
   const {
+    providerId,
     setDraft,
-    setOriginalDraft,
-    user: {
-      providerId
-    }
+    setOriginalDraft
   } = useAppContext()
   const [drafts, setDrafts] = useState({})
   const [error, setError] = useState()

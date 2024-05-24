@@ -12,6 +12,8 @@ provider:
   environment:
     COLLECTION_TEMPLATES_BUCKET_NAME: ${self:custom.collectionTemplatesBucketName}
     EDL_PASSWORD: ${env:EDL_PASSWORD, ''}
+    JWT_SECRET: ${env:JWT_SECRET, 'local-secret'}
+    JWT_VALID_TIME: ${env:JWT_VALID_TIME, '900000'}
   vpc:
     securityGroupIds:
       - Fn::ImportValue: ${self:provider.stage}-LambdaSecurityGroup

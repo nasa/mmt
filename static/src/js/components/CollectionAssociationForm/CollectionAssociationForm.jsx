@@ -22,39 +22,39 @@ import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
 
-import Button from '../Button/Button'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import EllipsisText from '../EllipsisText/EllipsisText'
-import ErrorBanner from '../ErrorBanner/ErrorBanner'
-import GridLayout from '../GridLayout/GridLayout'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
-import OneOfField from '../OneOfField/OneOfField'
-import Pagination from '../Pagination/Pagination'
-import Table from '../Table/Table'
+import Button from '@/js/components/Button/Button'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
+import OneOfField from '@/js/components/OneOfField/OneOfField'
+import Pagination from '@/js/components/Pagination/Pagination'
+import Table from '@/js/components/Table/Table'
 
-import collectionAssociation from '../../schemas/collectionAssociation'
-import collectionAssociationUiSchema from '../../schemas/uiSchemas/CollectionAssociation'
+import collectionAssociation from '@/js/schemas/collectionAssociation'
+import collectionAssociationUiSchema from '@/js/schemas/uiSchemas/CollectionAssociation'
 
-import collectionAssociationSearch from '../../utils/collectionAssociationSearch'
-import errorLogger from '../../utils/errorLogger'
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
-import getUmmVersion from '../../utils/getUmmVersion'
-import parseError from '../../utils/parseError'
-import removeEmpty from '../../utils/removeEmpty'
+import collectionAssociationSearch from '@/js/utils/collectionAssociationSearch'
+import errorLogger from '@/js/utils/errorLogger'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
+import getUmmVersion from '@/js/utils/getUmmVersion'
+import parseError from '@/js/utils/parseError'
+import removeEmpty from '@/js/utils/removeEmpty'
 
-import useAppContext from '../../hooks/useAppContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
-import { CREATE_ASSOCIATION } from '../../operations/mutations/createAssociation'
-import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
-import { INGEST_DRAFT } from '../../operations/mutations/ingestDraft'
+import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
+import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 
-import conceptTypes from '../../constants/conceptTypes'
+import conceptTypes from '@/js/constants/conceptTypes'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -67,8 +67,7 @@ import conceptTypes from '../../constants/conceptTypes'
  */
 const CollectionAssociationForm = ({ metadata }) => {
   const { conceptId } = useParams()
-  const { user } = useAppContext()
-  const { providerId } = user
+  const { providerId } = useAppContext()
 
   const navigate = useNavigate()
 

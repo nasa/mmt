@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form'
 import FormSelect from 'react-bootstrap/FormSelect'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
+import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import For from '@/js/components/For/For'
@@ -44,12 +47,13 @@ const ChooseProviderModal = ({
   primaryActionType
 }) => {
   const {
-    providerIds,
-    setProviderId,
-    user = {}
+    providerId,
+    setProviderId
   } = useAppContext()
 
-  const { providerId } = user
+  const { providerIds } = useAvailableProviders()
+
+  const humanizedActionType = saveTypesToHumanizedStringMap[primaryActionType]
 
   return (
     <CustomModal
@@ -92,7 +96,7 @@ const ChooseProviderModal = ({
       actions={
         [
           {
-            label: `${primaryActionType}`,
+            label: `${humanizedActionType}`,
             variant: 'success',
             onClick: () => {
               onSubmit()
