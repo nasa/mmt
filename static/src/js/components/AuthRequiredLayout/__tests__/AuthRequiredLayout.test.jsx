@@ -3,14 +3,19 @@ import { render, screen } from '@testing-library/react'
 import {
   MemoryRouter,
   Routes,
-  Route,
-  Navigate
+  Route
 } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
 
 import APP_LOADING_TOKEN from '@/js/constants/appLoadingToken'
 import AuthRequiredLayout from '../AuthRequiredLayout'
+
+import * as getConfig from '../../../../../../sharedUtils/getConfig'
+
+vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+  apiHost: 'https://example.com'
+}))
 
 vi.mock('react-router', async () => ({
   ...await vi.importActual('react-router'),
@@ -46,6 +51,11 @@ const setup = (isLoggedIn = false, tokenValue = 'mock-token') => {
   )
 }
 
+beforeEach(() => {
+  delete window.location
+  window.location = {}
+})
+
 describe('AuthRequiredContainer component', () => {
   describe('when the user has not authenticated', () => {
     test('redirects the user to login', () => {
@@ -53,10 +63,7 @@ describe('AuthRequiredContainer component', () => {
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
 
-      expect(Navigate).toHaveBeenCalledTimes(1)
-      expect(Navigate).toHaveBeenCalledWith({
-        to: 'http://localhost:4001/dev/saml-login?target=%2Ftools'
-      }, {})
+      expect(window.location.href).toEqual('https://example.com/saml-login?target=%2Ftools')
     })
   })
 
@@ -65,8 +72,6 @@ describe('AuthRequiredContainer component', () => {
       setup(true)
 
       expect(screen.queryByText('Mock Component')).toBeInTheDocument()
-
-      expect(Navigate).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -75,8 +80,6 @@ describe('AuthRequiredContainer component', () => {
       setup(undefined, APP_LOADING_TOKEN)
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
-
-      expect(Navigate).toHaveBeenCalledTimes(0)
     })
   })
 })

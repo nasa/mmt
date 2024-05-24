@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Navigate,
-  Outlet,
-  useLocation
-} from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
 
@@ -31,9 +27,9 @@ const AuthRequiredLayout = () => {
   if (isExpired) {
     const nextPath = location.pathname + location.search
 
-    return (
-      <Navigate to={`${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`} />
-    )
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
+
+    return null
   }
 
   return <Outlet />

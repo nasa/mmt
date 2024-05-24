@@ -72,6 +72,7 @@ const AuthContextProvider = ({ children }) => {
       localStorage.removeItem('token')
 
       setTokenValue(null)
+      setTokenExpires(null)
       setUser({})
     } catch (error) {
       // Saving error

@@ -15,12 +15,10 @@ const createJwt = (launchpadToken, edlProfile) => {
   const token = jwt.sign(
     {
       launchpadToken,
-      edlProfile
+      edlProfile,
+      exp: Math.floor(new Date().getTime() / 1000) + parseInt(JWT_VALID_TIME, 10)
     },
-    JWT_SECRET,
-    {
-      expiresIn: `${JWT_VALID_TIME}ms`
-    }
+    JWT_SECRET
   )
 
   return token

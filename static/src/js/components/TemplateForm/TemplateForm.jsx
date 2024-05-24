@@ -68,8 +68,7 @@ const TemplateForm = () => {
     setProviderId
   } = useAppContext()
 
-  const { user } = useAuthContext()
-  const { token } = user
+  const { token } = useAuthContext()
 
   const {
     ingestMutation,
