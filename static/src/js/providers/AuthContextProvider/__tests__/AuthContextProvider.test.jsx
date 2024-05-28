@@ -2,12 +2,13 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import useAuthContext from '@/js/hooks/useAuthContext'
+import checkAndRefreshToken from '@/js/utils/checkAndRefreshToken'
+import errorLogger from '@/js/utils/errorLogger'
+import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import AuthContextProvider from '../AuthContextProvider'
-import useAuthContext from '../../../hooks/useAuthContext'
-import checkAndRefreshToken from '../../../utils/checkAndRefreshToken'
-import NotificationsContextProvider from '../../NotificationsContextProvider/NotificationsContextProvider'
 
-vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/utils/errorLogger')
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
@@ -15,7 +16,7 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   }))
 }))
 
-vi.mock('../../../utils/checkAndRefreshToken', () => ({
+vi.mock('@/js/utils/checkAndRefreshToken', () => ({
   default: vi.fn()
 }))
 
@@ -158,6 +159,44 @@ describe('AuthContextProvider component', () => {
 
         const newUserName = screen.queryByText('User Name: Test User', { exact: true })
         expect(newUserName).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when there is an error reading the localstorage', () => {
+      test('calls errorLogger', async () => {
+        global.localStorage.getItem = vi.fn(() => { throw new Error('error reading storage') })
+        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+        setup()
+
+        expect(consoleMock).toHaveBeenCalledTimes(1)
+        expect(consoleMock).toHaveBeenCalledWith('Error fetching token: Error: error reading storage')
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith(
+          new Error('error reading storage'),
+          'AuthContextProvider: local storage get'
+        )
+      })
+    })
+
+    describe('when there is an error setting the localstorage', () => {
+      test('calls errorLogger', async () => {
+        global.localStorage.setItem('token', 'mock-jwt')
+        global.localStorage.getItem = vi.fn().mockReturnValue('mock-jwt')
+        global.localStorage.setItem = vi.fn(() => { throw new Error('error setting storage') })
+        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+        setup()
+
+        expect(consoleMock).toHaveBeenCalledTimes(1)
+        expect(consoleMock).toHaveBeenCalledWith('Error saving token: Error: error setting storage')
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith(
+          new Error('error setting storage'),
+          'AuthContextProvider: local storage set/remove'
+        )
       })
     })
   })

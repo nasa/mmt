@@ -11,6 +11,8 @@ import AuthContext from '@/js/context/AuthContext'
 
 import APP_LOADING_TOKEN from '@/js/constants/appLoadingToken'
 
+import errorLogger from '@/js/utils/errorLogger'
+
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const { apiHost } = getApplicationConfig()
@@ -77,15 +79,20 @@ const AuthContextProvider = ({ children }) => {
     } catch (error) {
       // Saving error
       console.log(`Error saving token: ${error}`)
+      errorLogger(error, 'AuthContextProvider: local storage set/remove')
     }
   }
 
   // On page load, try to fetch the token from local storage and save to state
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = localStorage.getItem('token')
-
-      saveToken(fetchedToken)
+      try {
+        const fetchedToken = localStorage.getItem('token')
+        saveToken(fetchedToken)
+      } catch (error) {
+        console.log(`Error fetching token: ${error}`)
+        errorLogger(error, 'AuthContextProvider: local storage get')
+      }
     }
 
     fetchToken()

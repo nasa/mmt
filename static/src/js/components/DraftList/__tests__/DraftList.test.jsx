@@ -4,7 +4,7 @@ import {
   screen,
   within
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, useParams } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { GraphQLError } from 'graphql'
@@ -12,12 +12,13 @@ import { GraphQLError } from 'graphql'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 
 import { GET_TOOL_DRAFTS } from '@/js/operations/queries/getToolDrafts'
+import { GET_COLLECTION_DRAFTS } from '@/js/operations/queries/getCollectionDrafts'
+
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
 import DraftList from '../DraftList'
 
 vi.mock('react-bootstrap/Placeholder', () => ({ default: vi.fn() }))
-
 vi.mock('@/js/hooks/useDraftsQuery')
 vi.mock('@/js/utils/constructDownloadableFile')
 
@@ -26,7 +27,7 @@ vi.mock('react-router-dom', async () => ({
   useParams: vi.fn().mockImplementation(() => ({ draftType: 'tools' }))
 }))
 
-const mockDrafts = {
+const mockToolDrafts = {
   count: 3,
   items: [
     {
@@ -85,6 +86,65 @@ const mockDrafts = {
   __typename: 'DraftList'
 }
 
+const mockCollectionDrafts = {
+  count: 3,
+  items: [
+    {
+      conceptId: 'CD1200000092-MMT_2',
+      revisionDate: '2023-12-08T17:56:09.385Z',
+      revisionId: '1',
+      ummMetadata: {
+        ShortName: 'Collection CD1200000092 short name',
+        EntryTitle: 'Collection CD1200000092 entry title'
+      },
+      shortName: 'Collection CD1200000092 short name',
+      previewMetadata: {
+        conceptId: 'CD1200000092-MMT_2',
+        revisionId: '1',
+        shortName: 'Collection CD1200000092 short name',
+        entryTitle: 'Collection CD1200000092 entry title',
+        __typename: 'Collection'
+      },
+      providerId: 'MMT_2',
+      __typename: 'Draft'
+    },
+    {
+      conceptId: 'CD1200000093-MMT_2',
+      revisionDate: '2023-11-08T17:56:09.385Z',
+      revisionId: '1',
+      ummMetadata: {},
+      previewMetadata: {
+        conceptId: 'CD1200000093-MMT_2',
+        revisionId: '1',
+        shortName: null,
+        entryTitle: null,
+        __typename: 'Collection'
+      },
+      providerId: 'MMT_2',
+      __typename: 'Draft'
+    },
+    {
+      conceptId: 'CD1200000094-MMT_2',
+      revisionDate: '2023-10-08T17:56:09.385Z',
+      revisionId: '1',
+      ummMetadata: {
+        ShortName: 'Collection CD1200000094 short name',
+        EntryTitle: 'Collection CD1200000094 entry title'
+      },
+      previewMetadata: {
+        conceptId: 'CD1200000094-MMT_2',
+        revisionId: '1',
+        shortName: null,
+        entryTitle: null,
+        __typename: 'Collection'
+      },
+      providerId: 'MMT_2',
+      __typename: 'Draft'
+    }
+  ],
+  __typename: 'DraftList'
+}
+
 const setup = ({ overrideMocks = false }) => {
   const mocks = [{
     request: {
@@ -100,7 +160,7 @@ const setup = ({ overrideMocks = false }) => {
     },
     result: {
       data: {
-        drafts: mockDrafts
+        drafts: mockToolDrafts
       }
     }
   }]
@@ -127,8 +187,56 @@ describe('DraftList', () => {
     vi.clearAllMocks()
   })
 
+  describe('when draft type Collection is given', () => {
+    test('renders Collection draft list', async () => {
+      useParams.mockImplementation(() => ({ draftType: 'collections' }))
+
+      setup({
+        overrideMocks: [{
+          request: {
+            query: GET_COLLECTION_DRAFTS,
+            variables: {
+              params: {
+                conceptType: 'Collection',
+                limit: 20,
+                offset: 0,
+                sortKey: ['-revision_date']
+              }
+            }
+          },
+          result: {
+            data: {
+              drafts: mockCollectionDrafts
+            }
+          }
+        }]
+      })
+
+      await waitForResponse()
+
+      const rows = screen.getAllByRole('row')
+
+      expect(within(rows[1]).getByRole('cell', { name: 'Collection CD1200000092 short name' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Collection CD1200000092 entry title' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Friday, December 8, 2023 5:56 PM' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
+
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Short Name>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Entry Title>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: 'Wednesday, November 8, 2023 5:56 PM' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
+
+      expect(within(rows[3]).getByRole('cell', { name: 'Collection CD1200000094 short name' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Collection CD1200000094 entry title' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Sunday, October 8, 2023 5:56 PM' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
+    })
+  })
+
   describe('when draft type Tool is given', () => {
     test('renders Tool draft list', async () => {
+      useParams.mockImplementation(() => ({ draftType: 'tools' }))
+
       setup({})
 
       await waitForResponse()
@@ -229,7 +337,7 @@ describe('DraftList', () => {
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
       expect(constructDownloadableFile).toHaveBeenCalledWith(
-        JSON.stringify(mockDrafts.items[0].ummMetadata, null, 2),
+        JSON.stringify(mockToolDrafts.items[0].ummMetadata, null, 2),
         'TD1200000092-MMT_2'
       )
     })
