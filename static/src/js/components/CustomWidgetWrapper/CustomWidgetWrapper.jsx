@@ -138,7 +138,8 @@ CustomWidgetWrapper.defaultProps = {
   charactersUsed: null,
   description: null,
   maxLength: null,
-  required: null
+  required: null,
+  title: null
 }
 
 CustomWidgetWrapper.propTypes = {
@@ -149,7 +150,7 @@ CustomWidgetWrapper.propTypes = {
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   scrollRef: PropTypes.shape({}).isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string
 }
 
 export default CustomWidgetWrapper
