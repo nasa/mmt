@@ -106,21 +106,17 @@ const PermissionFormPagePlaceholder = () => (
     </Col>
   </Row>
 )
-const PermissionFormPage = () => {
-  console.log('yo this is a new page')
-
-  return (
-    <Page
-      pageType="secondary"
-      header={<PermissionFormPageHeader />}
-    >
-      <ErrorBoundary>
-        <Suspense fallback={<PermissionFormPagePlaceholder />}>
-          <PermissionForm />
-        </Suspense>
-      </ErrorBoundary>
-    </Page>
-  )
-}
+const PermissionFormPage = () => (
+  <Page
+    pageType="secondary"
+    header={<PermissionFormPageHeader />}
+  >
+    <ErrorBoundary>
+      <Suspense fallback={<PermissionFormPagePlaceholder />}>
+        <PermissionForm />
+      </Suspense>
+    </ErrorBoundary>
+  </Page>
+)
 
 export default PermissionFormPage

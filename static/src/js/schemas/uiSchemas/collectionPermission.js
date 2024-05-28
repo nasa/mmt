@@ -18,14 +18,10 @@ const collectionPermissionUiSchema = {
                     md: 4,
                     children: ['name']
                   }
-                }
-              ]
-            },
-            {
-              'ui:row': [
+                },
                 {
                   'ui:col': {
-                    md: 12,
+                    md: 4,
                     children: ['accessPermission']
                   }
                 }
@@ -36,7 +32,36 @@ const collectionPermissionUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
+                    children: ['collectionSelection']
+                  }
+                }
+              ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    style: {
+                      marginLeft: '10px',
+                      borderLeft: 'solid 5px rgb(240,240,240)'
+                    },
+                    md: 12,
                     children: ['accessConstraintFilter']
+                  }
+                }
+              ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    style: {
+                      marginLeft: '10px',
+                      marginBottom: '5px',
+                      borderLeft: 'solid 5px rgb(240,240,240)'
+                    },
+                    md: 12,
+                    children: ['temporalConstraintFilter']
                   }
                 }
               ]
@@ -45,6 +70,33 @@ const collectionPermissionUiSchema = {
         }
       }
     ]
+  },
+  collectionSelection: {
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['selectedCollection']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    selectedCollection: {
+      'ui:field': 'CollectionSelector'
+    }
   },
   accessPermission: {
     'ui:title': 'Access to permission',
@@ -110,11 +162,13 @@ const collectionPermissionUiSchema = {
 
   },
   accessConstraintFilter: {
-    'ui:title': 'Access Constraint Filter',
-    'ui:heading-level': 'h4',
+    'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
         {
+          'ui:group': 'Access Constraint Filter',
+          'ui:group-description': true,
+
           'ui:col': {
             md: 12,
             children: [
@@ -122,8 +176,14 @@ const collectionPermissionUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      md: 12,
+                      md: 6,
                       children: ['collectionAssessConstraint']
+                    }
+                  },
+                  {
+                    'ui:col': {
+                      md: 6,
+                      children: ['granuleAssessConstraint']
                     }
                   }
                 ]
@@ -131,29 +191,217 @@ const collectionPermissionUiSchema = {
             ]
           }
         }
+
       ]
     },
     collectionAssessConstraint: {
       'ui:field': 'layout',
+      'ui:clear': true,
       'ui:layout_grid': {
         'ui:row': [
           {
             'ui:group': 'Collection',
             'ui:col': {
-              md: 6,
+              md: 12,
               children: [
                 {
                   'ui:row': [
                     {
                       'ui:col': {
-                        md: 12,
-                        children: ['minValue']
+
+                        md: 6,
+                        children: ['minimumValue']
                       }
                     },
                     {
                       'ui:col': {
-                        md: 12,
-                        children: ['maxValue']
+                        md: 6,
+                        children: ['maximumValue']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['includeUndefined']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      includeUndefined: {
+        'ui:widget': CustomCheckboxWidget
+      }
+    },
+    granuleAssessConstraint: {
+      'ui:disabled': true,
+      'ui:clear': true,
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:group': 'Granule',
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+
+                        md: 6,
+                        children: ['minimumValue']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['maximumValue']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['includeUndefined']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      includeUndefined: {
+        'ui:widget': CustomCheckboxWidget
+      }
+    }
+
+  },
+  temporalConstraintFilter: {
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'Temporal Constraint Filter',
+          'ui:group-description': true,
+
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 6,
+                      children: ['collectionTemporalConstraint']
+                    }
+                  },
+                  {
+                    'ui:col': {
+                      md: 6,
+                      children: ['granuleTemporalConstraint']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+
+      ]
+    },
+    collectionTemporalConstraint: {
+      'ui:field': 'layout',
+      'ui:clear': true,
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:group': 'Collection',
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+
+                        md: 6,
+                        children: ['startDate']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['stopDate']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['musk']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      includeUndefined: {
+        'ui:widget': CustomCheckboxWidget
+      }
+    },
+    granuleTemporalConstraint: {
+      'ui:disabled': true,
+      'ui:clear': true,
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:group': 'Granule',
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+
+                        md: 6,
+                        children: ['startDate']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['stopDate']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 6,
+                        children: ['musk']
                       }
                     }
                   ]
@@ -164,6 +412,7 @@ const collectionPermissionUiSchema = {
         ]
       }
     }
+
   }
 }
 

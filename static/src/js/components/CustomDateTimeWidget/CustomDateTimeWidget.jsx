@@ -33,6 +33,7 @@ import 'react-datepicker/dist/react-datepicker.css'
  * @param {CustomDateTimeWidget} props
  */
 const CustomDateTimeWidget = ({
+  disabled,
   id,
   label,
   onBlur,
@@ -106,6 +107,7 @@ const CustomDateTimeWidget = ({
     >
       <DatePicker
         className="w-100 p-2 form-control"
+        disabled={disabled}
         dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
         dropdownMode="select"
         id={id}
@@ -129,10 +131,12 @@ const CustomDateTimeWidget = ({
 }
 
 CustomDateTimeWidget.defaultProps = {
+  disabled: false,
   value: null
 }
 
 CustomDateTimeWidget.propTypes = {
+  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
