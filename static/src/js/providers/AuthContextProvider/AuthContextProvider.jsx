@@ -78,7 +78,6 @@ const AuthContextProvider = ({ children }) => {
       setUser({})
     } catch (error) {
       // Saving error
-      console.log(`Error saving token: ${error}`)
       errorLogger(error, 'AuthContextProvider: local storage set/remove')
     }
   }
@@ -90,7 +89,6 @@ const AuthContextProvider = ({ children }) => {
         const fetchedToken = localStorage.getItem('token')
         saveToken(fetchedToken)
       } catch (error) {
-        console.log(`Error fetching token: ${error}`)
         errorLogger(error, 'AuthContextProvider: local storage get')
       }
     }
@@ -115,7 +113,7 @@ const AuthContextProvider = ({ children }) => {
     login,
     logout,
     setToken: saveToken,
-    setUser,
+    setUser, // TODO do I need this?
     token,
     tokenExpires,
     tokenValue,

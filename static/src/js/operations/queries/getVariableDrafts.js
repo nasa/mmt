@@ -7,14 +7,11 @@ export const GET_VARIABLE_DRAFTS = gql`
       count
       items {
         conceptId
-        revisionId
         providerId
         revisionDate
         ummMetadata
         previewMetadata {
           ... on Variable {
-            conceptId
-            revisionId
             name
             longName
           }

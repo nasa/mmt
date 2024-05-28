@@ -15,6 +15,15 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
+const keyFieldsFunction = (object) => {
+  const {
+    conceptId,
+    revisionId
+  } = object
+
+  return `${conceptId}-${revisionId}`
+}
+
 /**
  * @typedef {Object} GraphQLProviderProps
  * @property {ReactNode} children The children to be rendered.
@@ -86,37 +95,34 @@ const GraphQLProvider = ({ children }) => {
       cache: new InMemoryCache({
         typePolicies: {
           Acl: {
-            keyFields: ['conceptId']
+            keyFields: keyFieldsFunction
           },
           AclGroup: {
             keyFields: false
           },
           Collection: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Draft: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Grid: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           OrderOption: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
-          // Permission: {
-          //   keyFields: ['conceptId']
-          // },
           Service: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Subscription: {
-            keyFields: ['conceptId']
+            keyFields: keyFieldsFunction
           },
           Tool: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Variable: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           }
         }
       }),

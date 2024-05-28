@@ -44,7 +44,6 @@ const samlCallback = async (event) => {
   const response = {
     statusCode: 303,
     headers: {
-      // 'Set-Cookie': setCookie,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',

@@ -22,9 +22,8 @@ const AuthRequiredLayout = () => {
 
   const isExpired = isTokenExpired(tokenExpires)
 
-  const location = useLocation()
-
   if (isExpired) {
+    const location = useLocation()
     const nextPath = location.pathname + location.search
 
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`

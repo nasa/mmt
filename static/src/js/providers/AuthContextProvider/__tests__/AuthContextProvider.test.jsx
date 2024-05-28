@@ -165,12 +165,8 @@ describe('AuthContextProvider component', () => {
     describe('when there is an error reading the localstorage', () => {
       test('calls errorLogger', async () => {
         global.localStorage.getItem = vi.fn(() => { throw new Error('error reading storage') })
-        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
 
         setup()
-
-        expect(consoleMock).toHaveBeenCalledTimes(1)
-        expect(consoleMock).toHaveBeenCalledWith('Error fetching token: Error: error reading storage')
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
@@ -185,12 +181,8 @@ describe('AuthContextProvider component', () => {
         global.localStorage.setItem('token', 'mock-jwt')
         global.localStorage.getItem = vi.fn().mockReturnValue('mock-jwt')
         global.localStorage.setItem = vi.fn(() => { throw new Error('error setting storage') })
-        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
 
         setup()
-
-        expect(consoleMock).toHaveBeenCalledTimes(1)
-        expect(consoleMock).toHaveBeenCalledWith('Error saving token: Error: error setting storage')
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
