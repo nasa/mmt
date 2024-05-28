@@ -18,10 +18,11 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 const keyFieldsFunction = (object) => {
   const {
     conceptId,
-    revisionId
+    revisionId,
+    __typename
   } = object
 
-  return `${conceptId}-${revisionId}`
+  return [__typename, conceptId, revisionId].filter(Boolean).join('-')
 }
 
 /**

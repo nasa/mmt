@@ -27,6 +27,7 @@ describe('samlCallback', () => {
 
   beforeEach(() => {
     process.env = { ...OLD_ENV }
+    process.env.COOKIE_DOMAIN = 'example.com'
     process.env.JWT_SECRET = 'JWT_SECRET'
     process.env.JWT_VALID_TIME = 900000
 
@@ -53,10 +54,14 @@ describe('samlCallback', () => {
       const response = await samlCallback(event)
 
       const { headers, statusCode } = response
-      const { Location } = headers
+      const {
+        Location,
+        'Set-Cookie': setCookie
+      } = headers
 
-      expect(statusCode).toBe(303)
-      expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome&jwt=mock-jwt')
+      expect(statusCode).toEqual(303)
+      expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
+      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Secure; Domain=example.com; Max-Age=900')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -83,10 +88,14 @@ describe('samlCallback', () => {
 
       const response = await samlCallback(event)
       const { headers, statusCode } = response
-      const { Location } = headers
+      const {
+        Location,
+        'Set-Cookie': setCookie
+      } = headers
 
-      expect(statusCode).toBe(303)
-      expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome&jwt=mock-jwt')
+      expect(statusCode).toEqual(303)
+      expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
+      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Secure; Domain=example.com; Max-Age=900')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -114,10 +123,14 @@ describe('samlCallback', () => {
 
       const response = await samlCallback(event)
       const { headers, statusCode } = response
-      const { Location } = headers
+      const {
+        Location,
+        'Set-Cookie': setCookie
+      } = headers
 
-      expect(statusCode).toBe(303)
-      expect(Location).toBe('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome&jwt=mock-jwt')
+      expect(statusCode).toEqual(303)
+      expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
+      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Secure; Domain=example.com; Max-Age=900')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('ABC-1', mockEdlProfile)

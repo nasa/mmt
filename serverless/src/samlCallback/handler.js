@@ -39,11 +39,15 @@ const samlCallback = async (event) => {
   // Create JWT with launchpad token and edl profile
   const jwt = createJwt(launchpadToken, edlProfile)
 
-  const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}&jwt=${jwt}`
+  const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}`
+
+  const { COOKIE_DOMAIN } = process.env
+  const setCookie = `_mmt_jwt=${jwt}; SameSite=Strict; Path=/; Secure; Domain=${COOKIE_DOMAIN}; Max-Age=900`
 
   const response = {
     statusCode: 303,
     headers: {
+      'Set-Cookie': setCookie,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',

@@ -8,7 +8,6 @@ import {
 
 import AuthContext from '@/js/context/AuthContext'
 
-import APP_LOADING_TOKEN from '@/js/constants/appLoadingToken'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -22,13 +21,14 @@ vi.mock('react-router', async () => ({
   Navigate: vi.fn()
 }))
 
-const setup = (isLoggedIn = false, tokenValue = 'mock-token') => {
+const setup = (isLoggedIn = false, authLoading = false) => {
   vi.setSystemTime('2024-01-01')
 
   const now = new Date().getTime()
 
   const context = {
-    tokenValue,
+    authLoading,
+    tokenValue: 'mock-token',
     tokenExpires: isLoggedIn ? now + 1 : now - 1
   }
 
@@ -77,7 +77,7 @@ describe('AuthRequiredContainer component', () => {
 
   describe('when the app is still loading the token', () => {
     test('should not redirect the user', () => {
-      setup(undefined, APP_LOADING_TOKEN)
+      setup(undefined, true)
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
     })

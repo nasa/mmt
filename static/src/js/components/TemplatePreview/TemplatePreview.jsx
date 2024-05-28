@@ -8,6 +8,7 @@ import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
 import crypto from 'crypto'
+import { useCookies } from 'react-cookie'
 
 import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
@@ -18,7 +19,6 @@ import getTemplate from '@/js/utils/getTemplate'
 import parseError from '@/js/utils/parseError'
 
 import useAppContext from '@/js/hooks/useAppContext'
-import useAuthContext from '@/js/hooks/useAuthContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
@@ -29,6 +29,8 @@ import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlacehold
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import PreviewProgress from '@/js/components/PreviewProgress/PreviewProgress'
+
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import './TemplatePreview.scss'
 
@@ -63,7 +65,8 @@ const TemplatePreview = () => {
     setDraft
   } = useAppContext()
 
-  const { token } = useAuthContext()
+  const [cookies] = useCookies([MMT_COOKIE])
+  const { [MMT_COOKIE]: mmtJwt } = cookies
 
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
@@ -87,7 +90,7 @@ const TemplatePreview = () => {
 
   useEffect(() => {
     const fetchTemplate = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(token, id)
+      const { response, error: fetchTemplateError } = await getTemplate(mmtJwt, id)
       if (response) {
         const { providerId: templateProviderId, template } = response
 
@@ -116,7 +119,7 @@ const TemplatePreview = () => {
   }
 
   const handleDelete = async () => {
-    const { response } = await delateTemplate(providerId, token, id)
+    const { response } = await delateTemplate(providerId, mmtJwt, id)
     if (response.ok) {
       addNotification({
         message: 'Template deleted successfully',

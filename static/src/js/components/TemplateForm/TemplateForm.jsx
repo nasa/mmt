@@ -7,9 +7,9 @@ import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { kebabCase } from 'lodash-es'
 import crypto from 'crypto'
+import { useCookies } from 'react-cookie'
 
 import useAppContext from '@/js/hooks/useAppContext'
-import useAuthContext from '@/js/hooks/useAuthContext'
 
 import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import collectionsUiSchema from '@/js/schemas/uiSchemas/collections'
@@ -50,6 +50,7 @@ import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import saveTypes from '@/js/constants/saveTypes'
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 const TemplateForm = () => {
   const {
@@ -68,7 +69,8 @@ const TemplateForm = () => {
     setProviderId
   } = useAppContext()
 
-  const { token } = useAuthContext()
+  const [cookies] = useCookies([MMT_COOKIE])
+  const { [MMT_COOKIE]: mmtJwt } = cookies
 
   const {
     ingestMutation,
@@ -133,7 +135,7 @@ const TemplateForm = () => {
   // Fetching collection template if ID is present and draft is not loaded
   useEffect(() => {
     const fetchTemplate = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(providerId, token, id)
+      const { response, error: fetchTemplateError } = await getTemplate(providerId, mmtJwt, id)
 
       if (response) {
         const { providerId: templateProviderId, template } = response
@@ -157,7 +159,7 @@ const TemplateForm = () => {
     setSaveLoading(true)
     let savedId = null
     if (id === 'new') {
-      const response = await createTemplate(providerId, token, ummMetadata)
+      const response = await createTemplate(providerId, mmtJwt, ummMetadata)
 
       if (response.id) {
         savedId = response.id
@@ -172,7 +174,7 @@ const TemplateForm = () => {
 
       setSaveLoading(false)
     } else {
-      const response = await updateTemplate(providerId, token, ummMetadata, id)
+      const response = await updateTemplate(providerId, mmtJwt, ummMetadata, id)
 
       if (response.ok) {
         addNotification({

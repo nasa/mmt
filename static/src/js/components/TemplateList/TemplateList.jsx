@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import { FaPlus } from 'react-icons/fa'
+import { useCookies } from 'react-cookie'
 
 import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 import deleteTemplate from '@/js/utils/deleteTemplate'
@@ -15,10 +16,10 @@ import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 
 import useAppContext from '@/js/hooks/useAppContext'
-import useAuthContext from '@/js/hooks/useAuthContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import Button from '@/js/components/Button/Button'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -39,8 +40,10 @@ import Table from '@/js/components/Table/Table'
  */
 const TemplateList = () => {
   const { templateType } = useParams()
-  const { token } = useAuthContext()
   const { providerId } = useAppContext()
+
+  const [cookies] = useCookies([MMT_COOKIE])
+  const { [MMT_COOKIE]: mmtJwt } = cookies
 
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()
@@ -51,7 +54,7 @@ const TemplateList = () => {
   const { addNotification } = useNotificationsContext()
 
   const fetchTemplates = async () => {
-    const { response, error } = await getTemplates(token)
+    const { response, error } = await getTemplates(mmtJwt)
     setErrors(error)
     setTemplateList(response)
     setLoading(false)
@@ -79,7 +82,7 @@ const TemplateList = () => {
   }, [])
 
   const handleDelete = async () => {
-    const { response } = await deleteTemplate(providerId, token, selectedDeleteId)
+    const { response } = await deleteTemplate(providerId, mmtJwt, selectedDeleteId)
     if (response.ok) {
       toggleShowDeleteModal(false)
       addNotification({

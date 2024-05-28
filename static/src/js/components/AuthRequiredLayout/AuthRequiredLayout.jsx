@@ -3,8 +3,6 @@ import { Outlet, useLocation } from 'react-router'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
 
-import APP_LOADING_TOKEN from '@/js/constants/appLoadingToken'
-
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
@@ -12,18 +10,22 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 const AuthRequiredLayout = () => {
   const { apiHost } = getApplicationConfig()
   const {
+    authLoading,
     tokenExpires,
     tokenValue
   } = useAuthContext()
 
-  if (tokenValue === APP_LOADING_TOKEN) {
+  const location = useLocation()
+
+  // If the app is still loading the auth context, return null to 'wait'
+  if (authLoading) {
     return null
   }
 
   const isExpired = isTokenExpired(tokenExpires)
 
-  if (isExpired) {
-    const location = useLocation()
+  // If we have a token value that has expired, redirect to login the user again
+  if (tokenValue && isExpired) {
     const nextPath = location.pathname + location.search
 
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
@@ -31,6 +33,7 @@ const AuthRequiredLayout = () => {
     return null
   }
 
+  // If the user has a non-expired token, render the Outlet component
   return <Outlet />
 }
 

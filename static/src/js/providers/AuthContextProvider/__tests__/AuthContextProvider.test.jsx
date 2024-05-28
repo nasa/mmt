@@ -1,11 +1,17 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { useCookies } from 'react-cookie'
+import jwt from 'jsonwebtoken'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
 import checkAndRefreshToken from '@/js/utils/checkAndRefreshToken'
 import errorLogger from '@/js/utils/errorLogger'
+
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
+
+import MMT_COOKIE from '@/js/constants/mmtCookie'
+
 import AuthContextProvider from '../AuthContextProvider'
 
 vi.mock('@/js/utils/errorLogger')
@@ -28,6 +34,11 @@ vi.mock('jsonwebtoken', async () => ({
       }
     })
   }
+}))
+
+vi.mock('react-cookie', async () => ({
+  ...await vi.importActual('react-cookie'),
+  useCookies: vi.fn()
 }))
 
 const MockComponent = () => {
@@ -83,6 +94,12 @@ describe('AuthContextProvider component', () => {
   describe('when app starts up', () => {
     describe('when log in is triggered', () => {
       test('logs the user in', async () => {
+        useCookies.mockImplementation(() => ([
+          {},
+          vi.fn(),
+          vi.fn()
+        ]))
+
         const { user } = setup()
 
         const button = screen.getByRole('button', { name: 'Log in' })
@@ -96,7 +113,13 @@ describe('AuthContextProvider component', () => {
 
     describe('when logged in', () => {
       test('shows the name', async () => {
-        global.localStorage.setItem('token', 'mock-jwt')
+        useCookies.mockImplementation(() => ([
+          {
+            [MMT_COOKIE]: 'mock-jwt'
+          },
+          vi.fn(),
+          vi.fn()
+        ]))
 
         setup()
 
@@ -149,6 +172,14 @@ describe('AuthContextProvider component', () => {
 
     describe('when log out is triggered', () => {
       test('logs the user out', async () => {
+        useCookies.mockImplementation(() => ([
+          {
+            [MMT_COOKIE]: 'mock-jwt'
+          },
+          vi.fn(),
+          vi.fn()
+        ]))
+
         const { user } = setup()
 
         const userName = await screen.findByText('User Name: Test User', { exact: true })
@@ -162,32 +193,23 @@ describe('AuthContextProvider component', () => {
       })
     })
 
-    describe('when there is an error reading the localstorage', () => {
+    describe('when there is an error decoding the token', () => {
       test('calls errorLogger', async () => {
-        global.localStorage.getItem = vi.fn(() => { throw new Error('error reading storage') })
+        jwt.decode.mockImplementation(() => { throw new Error('Error decoding jwt') })
+        useCookies.mockImplementation(() => ([
+          {
+            [MMT_COOKIE]: 'mock-jwt'
+          },
+          vi.fn(),
+          vi.fn()
+        ]))
 
         setup()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
-          new Error('error reading storage'),
-          'AuthContextProvider: local storage get'
-        )
-      })
-    })
-
-    describe('when there is an error setting the localstorage', () => {
-      test('calls errorLogger', async () => {
-        global.localStorage.setItem('token', 'mock-jwt')
-        global.localStorage.getItem = vi.fn().mockReturnValue('mock-jwt')
-        global.localStorage.setItem = vi.fn(() => { throw new Error('error setting storage') })
-
-        setup()
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith(
-          new Error('error setting storage'),
-          'AuthContextProvider: local storage set/remove'
+          new Error('Error decoding jwt'),
+          'AuthContextProvider: decoding JWT'
         )
       })
     })

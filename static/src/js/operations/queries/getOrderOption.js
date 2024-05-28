@@ -24,7 +24,6 @@ export const GET_ORDER_OPTION = gql`
           shortName
           version
           provider
-          revisionId
         }
       }
     }

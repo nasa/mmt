@@ -45,6 +45,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-bootstrap-typeahead": "^6.3.2",
+    "react-cookie": "^7.1.4",
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",

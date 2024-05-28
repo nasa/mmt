@@ -5,11 +5,12 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
+import { useCookies } from 'react-cookie'
 import jwt from 'jsonwebtoken'
 
 import AuthContext from '@/js/context/AuthContext'
 
-import APP_LOADING_TOKEN from '@/js/constants/appLoadingToken'
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import errorLogger from '@/js/utils/errorLogger'
 
@@ -34,11 +35,18 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  // The MMT JWT
-  const [token, setToken] = useState()
+  const [
+    cookies,
+    // eslint-disable-next-line no-unused-vars
+    setCookie,
+    removeCookie
+  ] = useCookies([MMT_COOKIE])
+  const { [MMT_COOKIE]: mmtJwt } = cookies
+
+  const [authLoading, setAuthLoading] = useState(true)
 
   // The user's Launchpad Token
-  const [tokenValue, setTokenValue] = useState(APP_LOADING_TOKEN)
+  const [tokenValue, setTokenValue] = useState()
 
   // The timestamp the JWT (and Launchpad) expires
   const [tokenExpires, setTokenExpires] = useState()
@@ -48,12 +56,10 @@ const AuthContextProvider = ({ children }) => {
 
   // Parse the new token
   const saveToken = async (newToken) => {
-    setToken(newToken)
+    setAuthLoading(false)
 
     try {
       if (newToken) {
-        localStorage.setItem('token', newToken)
-
         // Decode the token to get the launchpadToken and edlProfile
         const decodedToken = jwt.decode(newToken)
 
@@ -71,31 +77,21 @@ const AuthContextProvider = ({ children }) => {
         return
       }
 
-      localStorage.removeItem('token')
+      removeCookie(MMT_COOKIE)
 
       setTokenValue(null)
       setTokenExpires(null)
       setUser({})
     } catch (error) {
       // Saving error
-      errorLogger(error, 'AuthContextProvider: local storage set/remove')
+      errorLogger(error, 'AuthContextProvider: decoding JWT')
     }
   }
 
-  // On page load, try to fetch the token from local storage and save to state
+  // On page load, save the token from the cookie into the state
   useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const fetchedToken = localStorage.getItem('token')
-        saveToken(fetchedToken)
-      } catch (error) {
-        errorLogger(error, 'AuthContextProvider: local storage get')
-      }
-    }
-
-    fetchToken()
-      .catch(console.error)
-  }, [])
+    saveToken(mmtJwt)
+  }, [mmtJwt])
 
   // Login redirect
   const login = useCallback(() => {
@@ -110,18 +106,17 @@ const AuthContextProvider = ({ children }) => {
   }, [])
 
   const providerValue = useMemo(() => ({
+    authLoading,
     login,
     logout,
     setToken: saveToken,
-    setUser, // TODO do I need this?
-    token,
     tokenExpires,
     tokenValue,
     user
   }), [
+    authLoading,
     login,
     logout,
-    token,
     tokenExpires,
     tokenValue,
     user

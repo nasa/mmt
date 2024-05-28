@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async'
 import PropTypes from 'prop-types'
 import { debounce, startCase } from 'lodash-es'
+import { useCookies } from 'react-cookie'
 
-import useAuthContext from '@/js/hooks/useAuthContext'
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
@@ -57,7 +58,8 @@ const CustomAsyncMultiSelectWidget = ({
   uiSchema,
   value
 }) => {
-  const { token } = useAuthContext()
+  const [cookies] = useCookies([MMT_COOKIE])
+  const { [MMT_COOKIE]: mmtJwt } = cookies
 
   const multiSelectScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -124,7 +126,7 @@ const CustomAsyncMultiSelectWidget = ({
       fetch(`${host}${endpoint}?${parameter}=${inputValue}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${mmtJwt}`
         }
       })
         .then((response) => response.json())
