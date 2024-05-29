@@ -1,15 +1,19 @@
-import { useSuspenseQuery } from '@apollo/client'
 import React, { Suspense, useCallback } from 'react'
-import { Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router'
+import { useSuspenseQuery } from '@apollo/client'
+
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
+import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
+import Table from '@/js/components/Table/Table'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import Table from '../Table/Table'
+
 import './Permission.scss'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import PermissionCollectionTable from '../permissionCollectionTable/PermissionCollectionTable'
-import LoadingTable from '../LoadingTable/LoadingTable'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const Permission = () => {
   const { conceptId } = useParams()

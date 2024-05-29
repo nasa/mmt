@@ -1,13 +1,15 @@
 import React, { useCallback } from 'react'
-
 import { useSuspenseQuery } from '@apollo/client'
-import { Col, Row } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import Table from '@/js/components/Table/Table'
+
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
-import ControlledPaginatedContent from '../ControlledPaginatedContent/ControlledPaginatedContent'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import Table from '../Table/Table'
 
 const PermissionList = () => {
   const [searchParams, setSearchParams] = useSearchParams()
