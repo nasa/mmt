@@ -20,28 +20,29 @@ import {
   FaEye,
   FaTrash
 } from 'react-icons/fa'
+import crypto from 'crypto'
 
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
-import deleteMutationTypes from '../../constants/deleteMutationTypes'
-import conceptTypes from '../../constants/conceptTypes'
+import conceptTypeQueries from '@/js//constants/conceptTypeQueries'
+import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
+import conceptTypes from '@/js//constants/conceptTypes'
 
-import useNotificationsContext from '../../hooks/useNotificationsContext'
-import useAppContext from '../../hooks/useAppContext'
-import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
+import useAppContext from '@/js/hooks/useAppContext'
+import useIngestDraftMutation from '@/js//hooks/useIngestDraftMutation'
+import useNotificationsContext from '@/js//hooks/useNotificationsContext'
 
-import CustomModal from '../CustomModal/CustomModal'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import For from '../For/For'
-import MetadataPreview from '../MetadataPreview/MetadataPreview'
-import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
-import Page from '../Page/Page'
-import PageHeader from '../PageHeader/PageHeader'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import For from '@/js/components/For/For'
+import MetadataPreview from '@/js/components/MetadataPreview/MetadataPreview'
+import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
 
-import errorLogger from '../../utils/errorLogger'
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
-import removeMetadataKeys from '../../utils/removeMetadataKeys'
-import constructDownloadableFile from '../../utils/constructDownloadableFile'
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import errorLogger from '@/js//utils/errorLogger'
+import getConceptTypeByConceptId from '@/js//utils/getConceptTypeByConceptId'
+import removeMetadataKeys from '@/js//utils/removeMetadataKeys'
+import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
+import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
 
 import './PublishPreview.scss'
 
@@ -57,8 +58,7 @@ import './PublishPreview.scss'
 const PublishPreviewHeader = () => {
   const { conceptId } = useParams()
 
-  const { user } = useAppContext()
-  const { providerId } = user
+  const { providerId } = useAppContext()
 
   const navigate = useNavigate()
 

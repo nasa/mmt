@@ -1,10 +1,9 @@
 import { escapeRegExp } from 'lodash-es'
+
 import samlLogin from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 
 beforeEach(() => {
-  vi.clearAllMocks()
-
   vi.spyOn(getConfig, 'getSamlConfig').mockImplementation(() => ({
     host: 'https://mmt.localtest.earthdata.nasa.gov',
     callbackUrl: 'https://mmt.localtest.earthdata.nasa.gov/saml/acs',
@@ -31,6 +30,7 @@ describe('samlLogin', () => {
     const response = await samlLogin(event)
 
     expect(response.statusCode).toBe(307)
+
     const regexp = `^${escapeRegExp('https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso?SAMLRequest=')}.*RelayState=mock_target$`
     expect(response.headers.Location).toMatch(RegExp(regexp))
   })
@@ -41,6 +41,7 @@ describe('samlLogin', () => {
     const response = await samlLogin(event)
 
     expect(response.statusCode).toBe(307)
+
     const regexp = `^${escapeRegExp('https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso?SAMLRequest=')}.*`
     expect(response.headers.Location).toMatch(RegExp(regexp))
   })

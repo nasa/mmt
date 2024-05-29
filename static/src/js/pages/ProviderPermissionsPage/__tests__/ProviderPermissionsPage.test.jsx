@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
-import { Cookies } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -23,24 +22,6 @@ vi.mock('@/js/components/ProviderPermissions/ProviderPermissions', () => ({
     <div data-testid="mock-provider-permissions">Provider Permissions</div>
   ))
 }))
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
 
 const setup = ({
   additionalMocks = [],
@@ -161,8 +142,9 @@ const setup = ({
   },
   ...additionalMocks]
 
-  render(
+  const user = userEvent.setup()
 
+  render(
     <MockedProvider
       mocks={overrideMocks || mocks}
     >
@@ -190,7 +172,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -199,9 +181,7 @@ describe('ProviderPermissionPage', () => {
     test('renders the full table of checkboxes with correct options checked', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByRole('link', { name: 'Groups' })).toBeInTheDocument()
+      expect(await screen.findByRole('link', { name: 'Groups' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Groups' })).toHaveAttribute('href', '/groups')
       expect(screen.getByRole('link', { name: 'Mock group' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Mock group' })).toHaveAttribute('href', '/groups/1234-abcd-5678-efgh')

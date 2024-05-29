@@ -1,11 +1,9 @@
 import React, { useCallback, useState } from 'react'
-
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Row from 'react-bootstrap/Row'
-
-import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import Select from 'react-select'
 
@@ -14,14 +12,10 @@ import Table from '@/js/components/Table/Table'
 
 import providerIdentityPermissions from '@/js/constants/providerIdentityPermissions'
 
-import useAppContext from '@/js/hooks/useAppContext'
-
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-
-import getPermittedUser from '@/js/utils/getPermittedUser'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 /**
  * Renders a ProviderPermissions component
@@ -35,24 +29,10 @@ import getPermittedUser from '@/js/utils/getPermittedUser'
 const ProviderPermissions = () => {
   const { id } = useParams()
 
-  const {
-    user
-  } = useAppContext()
-
-  const permittedUser = getPermittedUser(user)
-
   const [providerPermissions, setProviderPermissions] = useState([])
   const [provider, setProvider] = useState()
 
-  const { data: providerData } = useSuspenseQuery(GET_AVAILABLE_PROVIDERS, {
-    variables: {
-      params: {
-        limit: 500,
-        permittedUser,
-        target: 'PROVIDER_CONTEXT'
-      }
-    }
-  })
+  const { providerIds } = useAvailableProviders()
 
   const [
     getProviderIdentityPermissions,
@@ -183,9 +163,9 @@ const ProviderPermissions = () => {
             className="mb-3"
             onChange={handleOnChange}
             options={
-              providerData.acls.items.map((item) => ({
-                label: item.providerIdentity.provider_id,
-                value: item.providerIdentity.provider_id
+              providerIds.map((providerId) => ({
+                label: providerId,
+                value: providerId
               }))
             }
           />

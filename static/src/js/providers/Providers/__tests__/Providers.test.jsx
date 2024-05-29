@@ -9,8 +9,6 @@ import NotificationsContextProvider from '../../NotificationsContextProvider/Not
 import AuthContextProvider from '../../AuthContextProvider/AuthContextProvider'
 import GraphQLProvider from '../../GraphQLProvider/GraphQLProvider'
 
-global.fetch = vi.fn()
-
 vi.mock('../../AuthContextProvider/AuthContextProvider', () => ({
   default: vi.fn(({ children }) => (
     <mock-Component data-testid="AuthContextProvider">

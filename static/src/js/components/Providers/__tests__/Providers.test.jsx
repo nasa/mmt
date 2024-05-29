@@ -1,73 +1,25 @@
 import { render, screen } from '@testing-library/react'
-import React, { Suspense } from 'react'
-import { MockedProvider } from '@apollo/client/testing'
+import React from 'react'
 
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-
-import AppContext from '@/js/context/AppContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import Providers from '../Providers'
 
-const setup = ({
-  overrideMocks = false
-}) => {
-  const mocks = [{
-    request: {
-      query: GET_AVAILABLE_PROVIDERS,
-      variables: {
-        params: {
-          limit: 500,
-          permittedUser: 'mock-user',
-          target: 'PROVIDER_CONTEXT'
-        }
-      }
-    },
-    result: {
-      data: {
-        acls: {
-          __typename: 'AclList',
-          items: [
-            {
-              providerIdentity: {
-                target: 'PROVIDER_CONTEXT',
-                provider_id: 'MMT_1'
-              }
-            },
-            {
-              providerIdentity: {
-                target: 'PROVIDER_CONTEXT',
-                provider_id: 'MMT_2'
-              }
-            }
-          ]
-        }
-      }
-    }
-  }]
+vi.mock('@/js/hooks/useAvailableProviders')
 
+const setup = () => {
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          uid: 'mock-user'
-        }
-      }
-    }
-    >
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <Suspense>
-          <Providers />
-        </Suspense>
-      </MockedProvider>
-    </AppContext.Provider>
+    <Providers />
   )
 }
 
 describe('Providers', () => {
   describe('when the user has providers', () => {
     test('displays the provider list', async () => {
+      useAvailableProviders.mockReturnValue({
+        providerIds: ['MMT_1', 'MMT_2']
+      })
+
       setup({})
 
       expect(await screen.findByText('You have permissions to manage metadata records for the following providers.')).toBeVisible()
@@ -79,28 +31,11 @@ describe('Providers', () => {
 
   describe('when the user has no available providers', () => {
     test('renders a message', async () => {
-      setup({
-        overrideMocks: [{
-          request: {
-            query: GET_AVAILABLE_PROVIDERS,
-            variables: {
-              params: {
-                limit: 500,
-                permittedUser: 'mock-user',
-                target: 'PROVIDER_CONTEXT'
-              }
-            }
-          },
-          result: {
-            data: {
-              acls: {
-                __typename: 'AclList',
-                items: []
-              }
-            }
-          }
-        }]
+      useAvailableProviders.mockReturnValue({
+        providerIds: []
       })
+
+      setup()
 
       expect(await screen.findByText('You do not have access to any providers.')).toBeVisible()
     })

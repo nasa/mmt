@@ -8,8 +8,6 @@ import {
 
 import usePermissions from '@/js/hooks/usePermissions'
 
-import AppContext from '../../../context/AppContext'
-
 import GroupList from '../../../components/GroupList/GroupList'
 import GroupSearchForm from '../../../components/GroupSearchForm/GroupSearchForm'
 import GroupListPage from '../GroupListPage'
@@ -25,31 +23,22 @@ const setup = (
   usePermissions.mockReturnValue({ hasSystemGroup })
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <MemoryRouter initialEntries={[pageUrl]}>
-        <Routes>
-          <Route
-            path="/groups"
-            element={(
-              <GroupListPage />
-            )}
-          />
-          <Route
-            path="/admin/groups"
-            element={(
-              <GroupListPage isAdminPage />
-            )}
-          />
-        </Routes>
-      </MemoryRouter>
-    </AppContext.Provider>
+    <MemoryRouter initialEntries={[pageUrl]}>
+      <Routes>
+        <Route
+          path="/groups"
+          element={(
+            <GroupListPage />
+          )}
+        />
+        <Route
+          path="/admin/groups"
+          element={(
+            <GroupListPage isAdminPage />
+          )}
+        />
+      </Routes>
+    </MemoryRouter>
   )
 }
 

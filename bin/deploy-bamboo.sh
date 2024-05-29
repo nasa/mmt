@@ -28,7 +28,7 @@ config="`jq '.saml.entryPoint = $newValue' --arg newValue $bamboo_SAML_ENTRY_POI
 config="`jq '.saml.launchpadRoot = $newValue' --arg newValue $bamboo_SAML_LAUNCHPAD_ROOT <<< $config`"
 config="`jq '.edl.host = $newValue' --arg newValue $bamboo_EDL_HOST <<< $config`"
 config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
-   
+
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
@@ -66,6 +66,9 @@ dockerRun() {
     docker run \
         -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
+        -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
+        -e "JWT_SECRET=$bamboo_JWT_SECRET" \
+        -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
         -e "NODE_ENV=production" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \

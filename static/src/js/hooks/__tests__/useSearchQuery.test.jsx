@@ -6,7 +6,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import { GET_VARIABLES } from '../../operations/queries/getVariables'
 import useSearchQuery from '../useSearchQuery'
-import AppContext from '../../context/AppContext'
 
 const TestComponent = ({ type }) => {
   const { results, loading, error } = useSearchQuery({
@@ -149,20 +148,11 @@ const setup = (overrideMocks, overrideType) => {
   ]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'TESTPROV'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={overrideMocks || mocks}
     >
-      <MockedProvider
-        mocks={overrideMocks || mocks}
-      >
-        <TestComponent type={overrideType} />
-      </MockedProvider>
-    </AppContext.Provider>
+      <TestComponent type={overrideType} />
+    </MockedProvider>
   )
 }
 

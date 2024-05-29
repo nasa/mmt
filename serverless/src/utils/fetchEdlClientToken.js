@@ -1,4 +1,3 @@
-import base64 from 'base-64'
 import { getEdlConfig } from '../../../sharedUtils/getConfig'
 
 /**
@@ -11,7 +10,7 @@ const fetchEdlClientToken = async () => {
   const { EDL_PASSWORD: password } = process.env
 
   const url = `${host}/oauth/token`
-  const authorizationHeader = `Basic ${base64.encode(`${uid}:${password}`)}`
+  const authorizationHeader = `Basic ${Buffer.from(`${uid}:${password}`).toString('base64')}`
 
   const response = await fetch(url, {
     method: 'POST',

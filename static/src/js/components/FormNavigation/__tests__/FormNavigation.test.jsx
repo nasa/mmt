@@ -12,8 +12,14 @@ import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
 import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import saveTypes from '@/js/constants/saveTypes'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 vi.mock('@/js/components/NavigationItem/NavigationItem')
+
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   overrideProps = {},
@@ -43,6 +49,8 @@ const setup = ({
     ...overrideProps
   }
 
+  const user = userEvent.setup({})
+
   render(
     <Providers>
       <MemoryRouter initialEntries={[overrideInitialEntries || '/tool-drafts/TD1000000-MMT/mock-section-name']}>
@@ -62,7 +70,7 @@ const setup = ({
 
   return {
     props,
-    user: userEvent.setup({})
+    user
   }
 }
 

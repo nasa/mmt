@@ -10,78 +10,102 @@ import {
   Route,
   Routes
 } from 'react-router'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 
+import Providers from '@/js/providers/Providers/Providers'
+
+import errorLogger from '@/js/utils/errorLogger'
+
+import { CREATE_ORDER_OPTION } from '@/js/operations/mutations/createOrderOption'
+import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
+import { UPDATE_ORDER_OPTION } from '@/js/operations/mutations/updateOrderOption'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
+
 import OrderOptionForm from '../OrderOptionForm'
 
-import Providers from '../../../providers/Providers/Providers'
+vi.mock('@/js/utils/errorLogger')
 
-import errorLogger from '../../../utils/errorLogger'
-
-import { CREATE_ORDER_OPTION } from '../../../operations/mutations/createOrderOption'
-import { GET_ORDER_OPTION } from '../../../operations/queries/getOrderOption'
-import { UPDATE_ORDER_OPTION } from '../../../operations/mutations/updateOrderOption'
-
-vi.mock('../../../utils/errorLogger')
-
-global.fetch = vi.fn()
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies({
-  loginInfo: {
-    providerId: 'MMT_2',
-    name: 'User Name',
-    token: {
-      tokenValue: 'ABC-1',
-      tokenExp: expires.valueOf()
-    }
+vi.mock('jsonwebtoken', async () => ({
+  default: {
+    decode: vi.fn().mockReturnValue({
+      edlProfile: {
+        name: 'Test User'
+      }
+    })
   }
-})
-cookie.HAS_DOCUMENT_COOKIE = false
+}))
 
-const setup = ({ mocks, pageUrl }) => {
+const setup = ({
+  mocks = [],
+  pageUrl
+}) => {
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider mocks={mocks}>
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
-              <Route path="/order-options">
-                <Route
-                  element={
-                    (
-                      <Suspense>
-                        <OrderOptionForm />
-                      </Suspense>
-                    )
+    <Providers>
+      <MockedProvider mocks={
+        [{
+          request: {
+            query: GET_AVAILABLE_PROVIDERS,
+            variables: {
+              params: {
+                limit: 500,
+                // Don't have an easy way to get a real uid into the context here
+                permittedUser: undefined,
+                target: 'PROVIDER_CONTEXT'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [{
+                  conceptId: 'mock-id',
+                  providerIdentity: {
+                    target: 'PROVIDER_CONTEXT',
+                    provider_id: 'MMT_2'
                   }
-                  path="new"
-                />
-                <Route
-                  path=":conceptId/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <OrderOptionForm />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                }]
+              }
+            }
+          }
+        },
+        ...mocks]
+      }
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route path="/order-options">
+              <Route
+                element={
+                  (
+                    <Suspense>
+                      <OrderOptionForm />
+                    </Suspense>
+                  )
+                }
+                path="new"
+              />
+              <Route
+                path=":conceptId/edit"
+                element={
+                  (
+                    <Suspense>
+                      <OrderOptionForm />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

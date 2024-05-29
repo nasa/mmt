@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/async'
 import PropTypes from 'prop-types'
 import { debounce, startCase } from 'lodash-es'
 
-import useAppContext from '@/js/hooks/useAppContext'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
@@ -57,10 +57,7 @@ const CustomAsyncMultiSelectWidget = ({
   uiSchema,
   value
 }) => {
-  const {
-    user
-  } = useAppContext()
-  const { token } = user
+  const { mmtJwt } = useMMTCookie()
 
   const multiSelectScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -122,13 +119,12 @@ const CustomAsyncMultiSelectWidget = ({
         host,
         parameter
       } = searchOptions
-      const { tokenValue } = token
 
       // Call the API to retrieve values
       fetch(`${host}${endpoint}?${parameter}=${inputValue}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${tokenValue}`
+          Authorization: `Bearer ${mmtJwt}`
         }
       })
         .then((response) => response.json())

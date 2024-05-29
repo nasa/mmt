@@ -5,15 +5,15 @@ import Row from 'react-bootstrap/Row'
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import errorLogger from '../../utils/errorLogger'
-import removeMetadataKeys from '../../utils/removeMetadataKeys'
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
+import errorLogger from '@/js/utils/errorLogger'
+import removeMetadataKeys from '@/js/utils/removeMetadataKeys'
 
-import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
-import useAppContext from '../../hooks/useAppContext'
-import useIngestDraftMutation from '../../hooks/useIngestDraftMutation'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
+import useAppContext from '@/js/hooks/useAppContext'
+import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import CollectionAssociationForm from '../CollectionAssociationForm/CollectionAssociationForm'
 
@@ -31,8 +31,7 @@ import Button from '../Button/Button'
 const DraftCollectionAssociation = () => {
   const { conceptId } = useParams()
 
-  const { user } = useAppContext()
-  const { providerId } = user
+  const { providerId } = useAppContext()
 
   const [fetchedDraft, setFetchedDraft] = useState()
   const [currentSelectedAssociation, setCurrentSelectedAssociation] = useState({})

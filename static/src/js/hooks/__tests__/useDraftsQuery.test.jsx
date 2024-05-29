@@ -78,11 +78,15 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'TD1000000000-TESTPROV',
                 revisionDate: '2023-11-30 00:00:00',
+                revisionId: '1',
+                providerId: 'TESTPROV',
                 ummMetadata: {
                   Name: 'Tool Draft 1',
                   LongName: 'Tool Draft 1 Long Name'
                 },
                 previewMetadata: {
+                  conceptId: 'TD1000000000-TESTPROV',
+                  revisionId: '1',
                   name: 'Tool Draft 1',
                   longname: 'Tool Draft 1 Long Name'
                 }
@@ -90,11 +94,15 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'TD1000000001-TESTPROV',
                 revisionDate: '2023-11-30 01:00:00',
+                revisionId: '1',
+                providerId: 'TESTPROV',
                 ummMetadata: {
                   Name: 'Tool Draft 2',
                   LongName: 'Tool Draft 2 Long Name'
                 },
                 previewMetadata: {
+                  conceptId: 'TD1000000001-TESTPROV',
+                  revisionId: '1',
                   name: 'Tool Draft 2',
                   longname: 'Tool Draft 2 Long Name'
                 }
@@ -102,11 +110,15 @@ const setup = (overrideMocks) => {
               {
                 conceptId: 'TD1000000002-TESTPROV',
                 revisionDate: '2023-11-30 02:00:00',
+                revisionId: '1',
+                providerId: 'TESTPROV',
                 ummMetadata: {
                   Name: 'Tool Draft 3',
                   LongName: 'Tool Draft 3 Long Name'
                 },
                 previewMetadata: {
+                  conceptId: 'TD1000000002-TESTPROV',
+                  revisionId: '1',
                   name: 'Tool Draft 3',
                   longname: 'Tool Draft 3 Long Name'
                 }
@@ -121,9 +133,7 @@ const setup = (overrideMocks) => {
   render(
     <AppContext.Provider value={
       {
-        user: {
-          providerId: 'TESTPROV'
-        },
+        providerId: 'TESTPROV',
         setDraft: vi.fn(),
         setOriginalDraft: vi.fn()
       }
@@ -231,11 +241,15 @@ describe('useDraftsQuery', () => {
                   {
                     conceptId: 'TD1000000000-TESTPROV',
                     revisionDate: '2023-11-30 00:00:00',
+                    revisionId: '1',
+                    providerId: 'TESTPROV',
                     ummMetadata: {
                       Name: 'Tool Draft 1',
                       LongName: 'Tool Draft 1 Long Name'
                     },
                     previewMetadata: {
+                      conceptId: 'TD10000000000-TESTPROV',
+                      revisionId: '1',
                       name: 'Tool Draft 1',
                       longname: 'Tool Draft 1 Long Name'
                     }
@@ -243,11 +257,15 @@ describe('useDraftsQuery', () => {
                   {
                     conceptId: 'TD1000000001-TESTPROV',
                     revisionDate: '2023-11-30 01:00:00',
+                    revisionId: '1',
+                    providerId: 'TESTPROV',
                     ummMetadata: {
                       Name: 'Tool Draft 2',
                       LongName: 'Tool Draft 2 Long Name'
                     },
                     previewMetadata: {
+                      conceptId: 'TD10000000001-TESTPROV',
+                      revisionId: '1',
                       name: 'Tool Draft 2',
                       longname: 'Tool Draft 2 Long Name'
                     }
@@ -255,11 +273,15 @@ describe('useDraftsQuery', () => {
                   {
                     conceptId: 'TD1000000002-TESTPROV',
                     revisionDate: '2023-11-30 02:00:00',
+                    revisionId: '1',
+                    providerId: 'TESTPROV',
                     ummMetadata: {
                       Name: 'Tool Draft 3',
                       LongName: 'Tool Draft 3 Long Name'
                     },
                     previewMetadata: {
+                      conceptId: 'TD1000000002-TESTPROV',
+                      revisionId: '1',
                       name: 'Tool Draft 3',
                       longname: 'Tool Draft 3 Long Name'
                     }

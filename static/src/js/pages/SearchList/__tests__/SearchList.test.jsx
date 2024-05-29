@@ -27,7 +27,6 @@ import {
 } from './__mocks__/searchResults'
 
 import SearchList from '../SearchList'
-import AppContext from '../../../context/AppContext'
 
 const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
   const mocks = [
@@ -43,43 +42,30 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
     }
   }
 
-  const { container } = render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'TESTPROV'
-        }
-      }
-    }
-    >
-      <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <Routes>
-            <Route
-              path="/:type"
-              element={
-                (
-                  <Suspense fallback="Loading...">
-                    <SearchList {...props} />
-                  </Suspense>
-                )
-              }
-            />
-            <Route
-              path="/404"
-              element={<div>404 page</div>}
-            />
-          </Routes>
-        </MockedProvider>
-      </MemoryRouter>
-    </AppContext.Provider>
+  render(
+    <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <Routes>
+          <Route
+            path="/:type"
+            element={
+              (
+                <Suspense fallback="Loading...">
+                  <SearchList {...props} />
+                </Suspense>
+              )
+            }
+          />
+          <Route
+            path="/404"
+            element={<div>404 page</div>}
+          />
+        </Routes>
+      </MockedProvider>
+    </MemoryRouter>
   )
-
-  return {
-    container
-  }
 }
 
 describe('SearchPage component', () => {

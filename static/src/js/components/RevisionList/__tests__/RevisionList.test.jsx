@@ -15,8 +15,6 @@ import {
 import userEvent from '@testing-library/user-event'
 import { collectionRevisions } from './__mocks__/revisionResults'
 
-import AppContext from '../../../context/AppContext'
-
 import RevisionList from '../RevisionList'
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 import NotificationsContext from '../../../context/NotificationsContext'
@@ -53,41 +51,32 @@ const setup = ({
   }
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'TESTPROV'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MemoryRouter initialEntries={overrideInitialEntries || ['/collections/C1200000104-MMT_2/revisions']}>
-          <MockedProvider
-            mocks={overrideMocks || mocks}
-          >
-            <Routes>
-              <Route
-                path="/:type/:conceptId/revisions"
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense fallback="Loading...">
-                        <RevisionList {...props} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-              <Route
-                path="/404"
-                element={<div>404 page</div>}
-              />
-            </Routes>
-          </MockedProvider>
-        </MemoryRouter>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MemoryRouter initialEntries={overrideInitialEntries || ['/collections/C1200000104-MMT_2/revisions']}>
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+          <Routes>
+            <Route
+              path="/:type/:conceptId/revisions"
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense fallback="Loading...">
+                      <RevisionList {...props} />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
+            <Route
+              path="/404"
+              element={<div>404 page</div>}
+            />
+          </Routes>
+        </MockedProvider>
+      </MemoryRouter>
+    </NotificationsContext.Provider>
   )
 
   return {

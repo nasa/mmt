@@ -4,7 +4,6 @@ import {
   screen,
   within
 } from '@testing-library/react'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
 
@@ -14,7 +13,6 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { beforeEach } from 'vitest'
 import Providers from '../../../providers/Providers/Providers'
 import TemplatePreview from '../TemplatePreview'
 import PreviewProgress from '../../PreviewProgress/PreviewProgress'
@@ -31,44 +29,49 @@ vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
 
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
-
 const setup = () => {
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider>
-          <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
-            <Routes>
-              <Route
-                element={<TemplatePreview />}
-                path="templates/:templateType/:id"
-              />
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+    <Providers>
+      <MockedProvider>
+        <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
+          <Routes>
+            <Route
+              element={<TemplatePreview />}
+              path="templates/:templateType/:id"
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
+  }
+}
+
+const mutationSetup = ({ mocks }) => {
+  const user = userEvent.setup()
+
+  render(
+    <Providers>
+      <MockedProvider mocks={mocks}>
+        <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
+          <Routes>
+            <Route
+              element={<TemplatePreview />}
+              path="templates/:templateType/:id"
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
+  )
+
+  return {
+    user
   }
 }
 
@@ -220,35 +223,6 @@ describe('TemplatePreview', () => {
   })
 
   describe('Create Collection Draft button', () => {
-    const mutationSetup = ({ mocks }) => {
-      render(
-        <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-          <Providers>
-            <MockedProvider mocks={mocks}>
-              <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
-                <Routes>
-                  <Route
-                    element={<TemplatePreview />}
-                    path="templates/:templateType/:id"
-                  />
-                </Routes>
-              </MemoryRouter>
-            </MockedProvider>
-          </Providers>
-        </CookiesProvider>
-      )
-
-      return {
-        user: userEvent.setup()
-      }
-    }
-
-    Object.defineProperty(globalThis, 'crypto', {
-      value: {
-        randomUUID: () => 'mock-uuid'
-      }
-    })
-
     beforeEach(() => {
       getTemplate.mockReturnValue({
         response: {
@@ -293,9 +267,7 @@ describe('TemplatePreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const createButton = screen.getByRole('button', { name: /Create Draft/ })
+        const createButton = await screen.findByRole('button', { name: /Create Draft/ })
         await user.click(createButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)

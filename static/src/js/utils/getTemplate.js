@@ -8,13 +8,12 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
  */
 const getTemplate = async (token, id) => {
   const { apiHost } = getApplicationConfig()
-  const { tokenValue } = token
 
   try {
     const response = await fetch(`${apiHost}/templates/${id}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${tokenValue}`
+        Authorization: `Bearer ${token}`
       }
     })
     const data = await response.json()

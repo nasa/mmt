@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/client/testing'
 
 import { GET_PERMISSIONS } from '@/js/operations/queries/getPermissions'
 
-import AppContext from '@/js/context/AppContext'
+import AuthContext from '@/js/context/AuthContext'
 
 import usePermissions from '../usePermissions'
 
@@ -75,7 +75,7 @@ const setup = ({
   ]
 
   render(
-    <AppContext.Provider value={
+    <AuthContext.Provider value={
       {
         user
       }
@@ -86,7 +86,7 @@ const setup = ({
       >
         <TestComponent />
       </MockedProvider>
-    </AppContext.Provider>
+    </AuthContext.Provider>
   )
 }
 

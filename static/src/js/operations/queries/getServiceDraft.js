@@ -33,10 +33,10 @@ export const SERVICE_DRAFT = gql`
           serviceKeywords
           serviceOptions
           serviceOrganizations
+          serviceQuality
           supportedInputProjections
           supportedOutputProjections
           supportedReformattings
-          serviceQuality
           type
           url
           useConstraints

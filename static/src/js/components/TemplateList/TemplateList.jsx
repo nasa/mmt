@@ -15,6 +15,7 @@ import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
@@ -38,8 +39,9 @@ import Table from '@/js/components/Table/Table'
  */
 const TemplateList = () => {
   const { templateType } = useParams()
-  const { user } = useAppContext()
-  const { token } = user
+  const { providerId } = useAppContext()
+
+  const { mmtJwt } = useMMTCookie()
 
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()
@@ -47,12 +49,10 @@ const TemplateList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedDeleteId, setSelectedDeleteId] = useState()
 
-  const { providerId } = user
-
   const { addNotification } = useNotificationsContext()
 
   const fetchTemplates = async () => {
-    const { response, error } = await getTemplates(token)
+    const { response, error } = await getTemplates(mmtJwt)
     setErrors(error)
     setTemplateList(response)
     setLoading(false)
@@ -80,7 +80,7 @@ const TemplateList = () => {
   }, [])
 
   const handleDelete = async () => {
-    const { response } = await deleteTemplate(providerId, token, selectedDeleteId)
+    const { response } = await deleteTemplate(providerId, mmtJwt, selectedDeleteId)
     if (response.ok) {
       toggleShowDeleteModal(false)
       addNotification({

@@ -13,42 +13,50 @@ import {
 } from 'react-router-dom'
 import * as router from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import Form from '@rjsf/core'
 
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
-import Providers from '../../../providers/Providers/Providers'
+import Providers from '@/js/providers/Providers/Providers'
+
+import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomCountrySelectWidget from '@/js/components/CustomCountrySelectWidget/CustomCountrySelectWidget'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomRadioWidget from '@/js/components/CustomRadioWidget/CustomRadioWidget'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import OneOfField from '@/js/components/OneOfField/OneOfField'
+import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
+
+import createTemplate from '@/js/utils/createTemplate'
+import errorLogger from '@/js/utils/errorLogger'
+import getTemplate from '@/js/utils/getTemplate'
+import updateTemplate from '@/js/utils/updateTemplate'
+
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
 import TemplateForm from '../TemplateForm'
 
-import BoundingRectangleField from '../../BoundingRectangleField/BoundingRectangleField'
-import CustomArrayFieldTemplate from '../../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomCountrySelectWidget from '../../CustomCountrySelectWidget/CustomCountrySelectWidget'
-import CustomDateTimeWidget from '../../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../../CustomFieldTemplate/CustomFieldTemplate'
-import CustomRadioWidget from '../../CustomRadioWidget/CustomRadioWidget'
-import CustomSelectWidget from '../../CustomSelectWidget/CustomSelectWidget'
-import CustomTextareaWidget from '../../CustomTextareaWidget/CustomTextareaWidget'
-import CustomTextWidget from '../../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import FormNavigation from '../../FormNavigation/FormNavigation'
-import GridLayout from '../../GridLayout/GridLayout'
-import KeywordPicker from '../../KeywordPicker/KeywordPicker'
-import OneOfField from '../../OneOfField/OneOfField'
-import StreetAddressField from '../../StreetAddressField/StreetAddressField'
+vi.mock('@/js/utils/createTemplate')
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/getTemplate')
+vi.mock('@/js/utils/updateTemplate')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/components/FormNavigation/FormNavigation')
 
-import createTemplate from '../../../utils/createTemplate'
-import errorLogger from '../../../utils/errorLogger'
-import getTemplate from '../../../utils/getTemplate'
-import updateTemplate from '../../../utils/updateTemplate'
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-
-vi.mock('../../../utils/createTemplate')
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../../utils/getTemplate')
-vi.mock('../../../utils/updateTemplate')
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../FormNavigation/FormNavigation')
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const mockedUsedNavigate = vi.fn()
 
@@ -87,48 +95,53 @@ vi.mock('@rjsf/core', () => ({
   ))
 }))
 
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
-
 const setup = ({ pageUrl }) => {
+  const user = userEvent.setup()
+
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider>
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
-              <Route
-                element={<TemplateForm />}
-                path="templates/:templateType/new"
-              />
-              <Route
-                path="templates/:templateType/:id/:sectionName"
-                element={<TemplateForm />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+    <Providers>
+      <MockedProvider>
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              element={<TemplateForm />}
+              path="templates/:templateType/new"
+            />
+            <Route
+              path="templates/:templateType/:id/:sectionName"
+              element={<TemplateForm />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user: userEvent.setup()
+    user
+  }
+}
+
+const mutationSetup = ({ mocks }) => {
+  const user = userEvent.setup()
+
+  render(
+    <Providers>
+      <MockedProvider mocks={mocks}>
+        <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
+          <Routes>
+            <Route
+              element={<TemplateForm />}
+              path="templates/:templateType/:id"
+            />
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
+  )
+
+  return {
+    user
   }
 }
 
@@ -177,9 +190,12 @@ describe('TemplateForm', () => {
     test('renders the Form component for the collection-information page', async () => {
       getTemplate.mockReturnValue({
         response: {
-          TemplateName: 'Mock Template',
-          ShortName: 'Template Form Test',
-          Version: '1.0.0'
+          template: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          },
+          providerId: 'MMT_2'
         }
       })
 
@@ -241,7 +257,7 @@ describe('TemplateForm', () => {
   describe('when saving and navigating', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
-        vi.importActual('../../FormNavigation/FormNavigation').default
+        vi.importActual('@/js/components/FormNavigation/FormNavigation').default
       )
     })
 
@@ -461,41 +477,15 @@ describe('TemplateForm', () => {
     })
 
     describe('when clicking on save and create draft', () => {
-      const mutationSetup = ({ mocks }) => {
-        render(
-          <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-            <Providers>
-              <MockedProvider mocks={mocks}>
-                <MemoryRouter initialEntries={['/templates/collections/1234-abcd-5678-efgh']}>
-                  <Routes>
-                    <Route
-                      element={<TemplateForm />}
-                      path="templates/:templateType/:id"
-                    />
-                  </Routes>
-                </MemoryRouter>
-              </MockedProvider>
-            </Providers>
-          </CookiesProvider>
-        )
-
-        return {
-          user: userEvent.setup()
-        }
-      }
-
-      Object.defineProperty(globalThis, 'crypto', {
-        value: {
-          randomUUID: () => 'mock-uuid'
-        }
-      })
-
       beforeEach(() => {
         getTemplate.mockReturnValue({
           response: {
-            TemplateName: 'Mock Template',
-            ShortName: 'Template Form Test',
-            Version: '1.0.0'
+            template: {
+              TemplateName: 'Mock Template',
+              ShortName: 'Template Form Test',
+              Version: '1.0.0'
+            },
+            providerId: 'MMT_2'
           }
         })
       })
@@ -531,9 +521,7 @@ describe('TemplateForm', () => {
             }]
           })
 
-          await waitForResponse()
-
-          const dropdown = screen.getByRole('button', { name: 'Save Options' })
+          const dropdown = await screen.findByRole('button', { name: 'Save Options' })
           await user.click(dropdown)
 
           const button = screen.getByRole('button', { name: 'Save & Create Draft' })

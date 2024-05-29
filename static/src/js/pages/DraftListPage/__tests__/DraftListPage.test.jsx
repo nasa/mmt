@@ -9,7 +9,7 @@ import {
   screen,
   within
 } from '@testing-library/react'
-import AppContext from '../../../context/AppContext'
+
 import DraftListPage from '../DraftListPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
 
@@ -22,37 +22,28 @@ vi.mock('react-router-dom', async () => ({
 
 const setup = () => {
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
+    <MemoryRouter initialEntries={
+      [{
+        pathname: '/drafts/tools'
+      }]
     }
     >
-      <MemoryRouter initialEntries={
-        [{
-          pathname: '/drafts/tools'
-        }]
-      }
-      >
-        <Routes>
-          <Route
-            path="/drafts/:draftType/*"
-            element={
-              (
-                <ErrorBoundary>
-                  <Suspense>
-                    <DraftListPage />
-                  </Suspense>
-                </ErrorBoundary>
-              )
-            }
+      <Routes>
+        <Route
+          path="/drafts/:draftType/*"
+          element={
+            (
+              <ErrorBoundary>
+                <Suspense>
+                  <DraftListPage />
+                </Suspense>
+              </ErrorBoundary>
+            )
+          }
 
-          />
-        </Routes>
-      </MemoryRouter>
-    </AppContext.Provider>
+        />
+      </Routes>
+    </MemoryRouter>
   )
 }
 

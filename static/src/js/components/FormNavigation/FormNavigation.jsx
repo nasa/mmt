@@ -60,7 +60,7 @@ const FormNavigation = ({
   const onSaveClick = (type) => {
     // If there is no concept id for drafts or id for templates, open the modal
     if (!conceptId && !id) {
-      setChooseProviderModalType(saveTypesToHumanizedStringMap[type])
+      setChooseProviderModalType(type)
       setChooseProviderModalOpen(true)
 
       return

@@ -8,12 +8,11 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
  */
 const createTemplate = async (providerId, token, ummMetadata) => {
   const { apiHost } = getApplicationConfig()
-  const { tokenValue } = token
 
   const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${tokenValue}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({
       ...ummMetadata

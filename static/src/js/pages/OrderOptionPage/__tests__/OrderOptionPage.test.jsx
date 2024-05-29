@@ -1,9 +1,5 @@
 import React, { Suspense } from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
 
@@ -69,12 +65,13 @@ const setup = ({
   const notificationContext = {
     addNotification: vi.fn()
   }
+
+  const user = userEvent.setup()
+
   render(
     <AppContext.Provider value={
       {
-        user: {
-          providerId: 'MMT_2'
-        }
+        providerId: 'MMT_2'
       }
     }
     >
@@ -108,7 +105,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -116,9 +113,8 @@ describe('OrderOptionPage', () => {
   describe('when showing the header', () => {
     test('renders the header', async () => {
       setup({})
-      await waitForResponse()
 
-      expect(screen.queryByText('Order Options')).toBeInTheDocument()
+      expect(await screen.findByText('Order Options')).toBeInTheDocument()
       expect(screen.queryByText('MMT_2')).toBeInTheDocument()
       expect(screen.queryByText('Mock form')).toBeInTheDocument()
     })
@@ -149,12 +145,8 @@ describe('OrderOptionPage', () => {
         ]
       })
 
-      await waitForResponse()
-
-      await waitFor(() => {
-        expect(screen.queryByText('Sorry!')).toBeInTheDocument()
-        expect(screen.queryByText('An error occurred')).toBeInTheDocument()
-      })
+      expect(await screen.findByText('Sorry!')).toBeInTheDocument()
+      expect(screen.queryByText('An error occurred')).toBeInTheDocument()
     })
   })
 
@@ -217,9 +209,8 @@ describe('OrderOptionPage', () => {
             }
           ]
         })
-        await waitForResponse()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this order option?')).toBeInTheDocument()
@@ -227,8 +218,6 @@ describe('OrderOptionPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
 
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/order-options')
@@ -251,9 +240,8 @@ describe('OrderOptionPage', () => {
             }
           ]
         })
-        await waitForResponse()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this order option?')).toBeInTheDocument()
@@ -261,9 +249,7 @@ describe('OrderOptionPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        await waitForResponse()
-
-        expect(screen.queryByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
+        expect(await screen.findByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
       })
     })
 
@@ -271,9 +257,7 @@ describe('OrderOptionPage', () => {
       test('hides delete modal', async () => {
         const { user } = setup({})
 
-        await waitForResponse()
-
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this order option?')).toBeInTheDocument()

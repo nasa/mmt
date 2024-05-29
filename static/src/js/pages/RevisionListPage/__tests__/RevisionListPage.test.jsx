@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import AppContext from '../../../context/AppContext'
+
 import RevisionListPage from '../RevisionListPage'
 import { singlePageCollectionSearch } from './__mocks__/searchResults'
 
@@ -23,30 +23,20 @@ const setup = () => {
   ]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
+    <MockedProvider
+      mocks={mocks}
     >
-      <MockedProvider
-        mocks={mocks}
+      <MemoryRouter initialEntries={
+        [{
+          pathname: '/collections/C00000001-TESTPROV/revisions'
+        }]
+      }
       >
-        <MemoryRouter initialEntries={
-          [{
-            pathname: '/collections/C00000001-TESTPROV/revisions'
-          }]
-        }
-        >
-          <Routes>
-            <Route path="/:type/:conceptId/revisions" element={<RevisionListPage />} />
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-
-    </AppContext.Provider>
+        <Routes>
+          <Route path="/:type/:conceptId/revisions" element={<RevisionListPage />} />
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 }
 

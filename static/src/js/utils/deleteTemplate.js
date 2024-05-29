@@ -8,12 +8,11 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
  */
 const delateTemplate = async (providerId, token, id) => {
   const { apiHost } = getApplicationConfig()
-  const { tokenValue } = token
 
   const response = await fetch(`${apiHost}/providers/${providerId}/templates/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${tokenValue}`
+      Authorization: `Bearer ${token}`
     }
   })
   const data = await response

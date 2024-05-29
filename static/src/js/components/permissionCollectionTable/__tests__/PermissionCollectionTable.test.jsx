@@ -12,7 +12,6 @@ import {
   Routes
 } from 'react-router'
 
-import AppContext from '@/js/context/AppContext'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
 import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
@@ -104,60 +103,51 @@ const setup = ({
   }, ...additionalMock]
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <MockedProvider
-        mocks={mocks}
-        cache={
-          new InMemoryCache({
-            dataIdFromObject: (object) => {
-              const { __typename: typeName, conceptId } = object
-              if ([
-                'Acl',
-                'Collection',
-                'Draft',
-                'Grid',
-                'OrderOption',
-                'Permission',
-                'Service',
-                'Subscription',
-                'Tool',
-                'Variable'
-              ].includes(typeName)) {
-                return conceptId
-              }
-
-              return defaultDataIdFromObject(object)
+    <MockedProvider
+      mocks={mocks}
+      cache={
+        new InMemoryCache({
+          dataIdFromObject: (object) => {
+            const { __typename: typeName, conceptId } = object
+            if ([
+              'Acl',
+              'Collection',
+              'Draft',
+              'Grid',
+              'OrderOption',
+              'Permission',
+              'Service',
+              'Subscription',
+              'Tool',
+              'Variable'
+            ].includes(typeName)) {
+              return conceptId
             }
-          })
-        }
-      >
-        <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
-          <Routes>
+
+            return defaultDataIdFromObject(object)
+          }
+        })
+      }
+    >
+      <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
+        <Routes>
+          <Route
+            path="/permissions"
+          >
             <Route
-              path="/permissions"
-            >
-              <Route
-                path=":conceptId"
-                element={
-                  (
-                    <Suspense>
-                      <PermissionCollectionTable />
-                    </Suspense>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-    </AppContext.Provider>
+              path=":conceptId"
+              element={
+                (
+                  <Suspense>
+                    <PermissionCollectionTable />
+                  </Suspense>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
 
   return {

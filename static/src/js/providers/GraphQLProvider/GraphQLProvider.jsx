@@ -11,9 +11,19 @@ import {
 
 import { setContext } from '@apollo/client/link/context'
 
+import useAuthContext from '@/js/hooks/useAuthContext'
+
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
-import useAppContext from '../../hooks/useAppContext'
+const keyFieldsFunction = (object) => {
+  const {
+    conceptId,
+    revisionId,
+    __typename
+  } = object
+
+  return [__typename, conceptId, revisionId].filter(Boolean).join('-')
+}
 
 /**
  * @typedef {Object} GraphQLProviderProps
@@ -33,10 +43,7 @@ import useAppContext from '../../hooks/useAppContext'
  */
 const GraphQLProvider = ({ children }) => {
   const { graphQlHost } = getApplicationConfig()
-  const appContext = useAppContext()
-  const { user } = appContext
-  const { token } = user
-  const { tokenValue } = token || {}
+  const { tokenValue } = useAuthContext()
 
   // Custom middleware link that delays responses for mutations
   const responseDelayLink = new ApolloLink((operation, forward) => new Observable((observer) => {
@@ -89,37 +96,34 @@ const GraphQLProvider = ({ children }) => {
       cache: new InMemoryCache({
         typePolicies: {
           Acl: {
-            keyFields: ['conceptId']
+            keyFields: keyFieldsFunction
           },
           AclGroup: {
             keyFields: false
           },
           Collection: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Draft: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Grid: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           OrderOption: {
-            keyFields: ['conceptId', 'revisionId']
-          },
-          Permission: {
-            keyFields: ['conceptId']
+            keyFields: keyFieldsFunction
           },
           Service: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Subscription: {
-            keyFields: ['conceptId']
+            keyFields: keyFieldsFunction
           },
           Tool: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           },
           Variable: {
-            keyFields: ['conceptId', 'revisionId']
+            keyFields: keyFieldsFunction
           }
         }
       }),

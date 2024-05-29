@@ -3,7 +3,7 @@ import createTemplate from '../createTemplate'
 describe('createTemplates', () => {
   describe('when createTemplate response is ok', () => {
     test('return a success response with template id', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      global.fetch.mockResolvedValue({
         ok: true,
         json: () => Promise.resolve({
           id: 'New Template'
@@ -11,7 +11,7 @@ describe('createTemplates', () => {
       })
 
       const providerId = 'mock-provider-id'
-      const token = { tokenValue: 'mockToken' }
+      const token = 'mock-jwt'
       const ummMetadata = {
         mock: 'mock ummMetadata'
       }

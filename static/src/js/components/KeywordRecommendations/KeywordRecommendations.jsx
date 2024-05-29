@@ -13,17 +13,17 @@ import {
   FaTimesCircle
 } from 'react-icons/fa'
 
-import useAppContext from '../../hooks/useAppContext'
+import useAppContext from '@/js/hooks/useAppContext'
 
-import errorLogger from '../../utils/errorLogger'
-import getKeywordRecommendations from '../../utils/getKeywordRecommendations'
-import removeEmpty from '../../utils/removeEmpty'
-import sendKeywordRecommendationsFeedback from '../../utils/sendKeywordRecommendationsFeedback'
+import errorLogger from '@/js/utils/errorLogger'
+import getKeywordRecommendations from '@/js/utils/getKeywordRecommendations'
+import removeEmpty from '@/js/utils/removeEmpty'
+import sendKeywordRecommendationsFeedback from '@/js/utils/sendKeywordRecommendationsFeedback'
 
-import Button from '../Button/Button'
-import For from '../For/For'
-import KeywordRecommendationsKeyword from '../KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
-import LoadingBanner from '../LoadingBanner/LoadingBanner'
+import Button from '@/js/components/Button/Button'
+import For from '@/js/components/For/For'
+import KeywordRecommendationsKeyword from '@/js/components/KeywordRecommendationsKeyword/KeywordRecommendationsKeyword'
+import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
 
 /**
  * Renders the KeywordRecommendations component
@@ -39,11 +39,14 @@ const KeywordRecommendations = ({ formData, onChange }) => {
   const [draftKeywords, setDraftKeywords] = useState([])
   const [requestId, setRequestId] = useState(null)
   const [isLoading, setLoading] = useState(false)
+
+  const stateRef = useRef({})
+
   const { draft = {} } = useAppContext()
+
   const { ummMetadata = {} } = draft
   const { ScienceKeywords: scienceKeywords = [] } = ummMetadata
   const { Abstract: abstract } = ummMetadata
-  const stateRef = useRef({})
 
   const instructions = (
     <div className="bg-light p-3">
@@ -75,10 +78,10 @@ const KeywordRecommendations = ({ formData, onChange }) => {
   )
 
   /**
- * Creates a delimited keyword from the keyword's metadata
- * @param {Object} keywordObject
- * @returns the keyword delimited with '>'
- */
+   * Creates a delimited keyword from the keyword's metadata
+   * @param {Object} keywordObject
+   * @returns the keyword delimited with '>'
+   */
   const createDelimitedKeyword = (keyword) => Object.values(keyword).join(' > ')
 
   /**

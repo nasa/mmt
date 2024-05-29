@@ -1,17 +1,21 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo
+  useMemo,
+  useState
 } from 'react'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
+import jwt from 'jsonwebtoken'
 
-import AuthContext from '../../context/AuthContext'
+import AuthContext from '@/js/context/AuthContext'
+
+import MMT_COOKIE from '@/js/constants/mmtCookie'
+
+import useMMTCookie from '@/js/hooks/useMMTCookie'
+
+import errorLogger from '@/js/utils/errorLogger'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
-
-import checkAndRefreshToken from '../../utils/checkAndRefreshToken'
-import errorLogger from '../../utils/errorLogger'
 
 const { apiHost } = getApplicationConfig()
 
@@ -32,144 +36,78 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [
-    cookies,
-    setCookie,
-    removeCookie
-  ] = useCookies(['loginInfo', 'launchpadToken', 'data'])
   const {
-    loginInfo = {},
-    launchpadToken,
-    data
-  } = cookies
+    mmtJwt,
+    removeCookie
+  } = useMMTCookie()
 
-  const setUser = useCallback((arg) => {
-    if (typeof arg === 'function') {
-      const result = arg(loginInfo)
-      setCookie('loginInfo', result)
-    } else {
-      setCookie('loginInfo', arg)
-    }
-  }, [cookies])
+  const [authLoading, setAuthLoading] = useState(true)
 
-  const updateLoginInfo = (auid) => {
-    let expires = new Date()
-    expires.setMinutes(expires.getMinutes() + 15)
-    expires = new Date(expires)
-    const info = {
-      providerId: 'MMT_2',
-      auid,
-      token: {
-        tokenValue: launchpadToken,
-        tokenExp: expires.valueOf()
+  // The user's Launchpad Token
+  const [tokenValue, setTokenValue] = useState()
+
+  // The timestamp the JWT (and Launchpad) expires
+  const [tokenExpires, setTokenExpires] = useState()
+
+  // The user's name and EDL uid
+  const [user, setUser] = useState({})
+
+  // Parse the new token
+  const saveToken = async (newToken) => {
+    setAuthLoading(false)
+
+    try {
+      if (newToken) {
+        // Decode the token to get the launchpadToken and edlProfile
+        const decodedToken = jwt.decode(newToken)
+
+        const {
+          edlProfile,
+          exp,
+          launchpadToken
+        } = decodedToken
+
+        // `exp` comes back in seconds since epoch, we need milliseconds
+        setTokenExpires(exp * 1000)
+        setTokenValue(launchpadToken)
+        setUser(edlProfile)
+
+        return
       }
-    }
-    setUser(info)
 
-    // We've moved the launchpad token into the loginInfo, so no need to store it twice.
-    removeCookie('launchpadToken', {
-      path: '/',
-      domain: '.earthdatacloud.nasa.gov',
-      secure: true
-    })
+      removeCookie(MMT_COOKIE)
+
+      setTokenValue(null)
+      setTokenExpires(null)
+      setUser({})
+    } catch (error) {
+      // Saving error
+      errorLogger(error, 'AuthContextProvider: decoding JWT')
+    }
   }
 
+  // On page load, save the token from the cookie into the state
   useEffect(() => {
-    // TODO: https://bugs.earthdata.nasa.gov/browse/MMT-3612
-    // Remove this code after about 2 months, prior versions used data and we just need
-    // to clean up that cookie for users, as it was causing header size issues.
-    if (data) {
-      removeCookie('data', {
-        path: '/',
-        domain: '.earthdatacloud.nasa.gov',
-        secure: true
-      })
-    }
-  }, [data])
+    saveToken(mmtJwt)
+  }, [mmtJwt])
 
-  useEffect(() => {
-    if (!loginInfo || !loginInfo.auid) return
-
-    const {
-      name,
-      auid,
-      token
-    } = loginInfo
-
-    const { tokenValue } = token
-    // TODO No cookie is set here
-    const fetchProfileAndSetLoginCookie = async () => {
-      await fetch(`${apiHost}/edl-profile`, {
-        headers: {
-          Authorization: `Bearer ${tokenValue}`
-        }
-      })
-        .then(async (response) => {
-          const {
-            error,
-            name: profileName,
-            uid
-          } = await response.json()
-
-          if (error) {
-            errorLogger(`Error retrieving profile for ${auid}, message: `, error, 'AuthContextProvider')
-            setUser({})
-
-            return
-          }
-
-          setUser((prevUser) => ({
-            ...prevUser,
-            uid,
-            name: profileName
-          }))
-        }).catch((error) => {
-          errorLogger(`Error retrieving profile for ${auid}, message=${error.toString()}`, 'AuthContextProvider')
-
-          setUser({})
-        })
-    }
-
-    if (!name) {
-      fetchProfileAndSetLoginCookie()
-    }
-  }, [loginInfo])
-
-  const handleRefreshToken = (refreshToken) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      token: refreshToken
-    }))
-  }
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      checkAndRefreshToken(loginInfo, handleRefreshToken)
-    }, 5000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [loginInfo])
-
+  // Login redirect
   const login = useCallback(() => {
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/collections')}`
-  }, [])
-
-  const logout = useCallback(() => {
-    setUser({})
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
   }, [])
 
   const providerValue = useMemo(() => ({
+    authLoading,
     login,
-    logout,
-    setUser,
-    updateLoginInfo,
-    user: loginInfo
+    setToken: saveToken,
+    tokenExpires,
+    tokenValue,
+    user
   }), [
-    loginInfo,
-    login,
-    logout
+    authLoading,
+    tokenExpires,
+    tokenValue,
+    user
   ])
 
   return (

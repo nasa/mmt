@@ -10,7 +10,6 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { BrowserRouter } from 'react-router-dom'
 
-import AppContext from '../../../context/AppContext'
 import NotificationsContext from '../../../context/NotificationsContext'
 import OrderOptionList from '../OrderOptionList'
 
@@ -78,24 +77,15 @@ const setup = ({
   }
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider mocks={overrideMocks || mocks}>
-          <BrowserRouter initialEntries="">
-            <Suspense>
-              <OrderOptionList />
-            </Suspense>
-          </BrowserRouter>
-        </MockedProvider>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider mocks={overrideMocks || mocks}>
+        <BrowserRouter initialEntries="">
+          <Suspense>
+            <OrderOptionList />
+          </Suspense>
+        </BrowserRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {

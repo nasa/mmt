@@ -6,7 +6,6 @@ import React, {
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import pluralize from 'pluralize'
-
 import {
   FaCopy,
   FaSave,
@@ -17,9 +16,9 @@ import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConc
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import usePublishMutation from '@/js/hooks/usePublishMutation'
-import useAppContext from '@/js/hooks/useAppContext'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 import conceptTypes from '@/js/constants/conceptTypes'
@@ -51,11 +50,9 @@ const DraftPageHeader = () => {
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
 
-  const { user } = useAppContext()
+  const { mmtJwt } = useMMTCookie()
 
   const { addNotification } = useNotificationsContext()
-
-  const { token } = user
 
   const {
     publishMutation,
@@ -82,7 +79,8 @@ const DraftPageHeader = () => {
   const {
     nativeId,
     providerId,
-    ummMetadata
+    ummMetadata,
+    previewMetadata
   } = draft
 
   const handlePublish = () => {
@@ -110,8 +108,7 @@ const DraftPageHeader = () => {
   }, [publishDraft])
 
   const handleTemplate = async () => {
-    // SetLoading(true)
-    const response = await createTemplate(providerId, token, {
+    const response = await createTemplate(providerId, mmtJwt, {
       TemplateName: '',
       ...ummMetadata
     })
@@ -124,7 +121,6 @@ const DraftPageHeader = () => {
 
       navigate(`/templates/collection/${response.id}`)
     } else {
-      // SetLoading(false)
       errorLogger('Error creating template', 'DraftPreview: handleTemplate')
       addNotification({
         message: 'Error creating template',
@@ -169,7 +165,7 @@ const DraftPageHeader = () => {
   return (
     <>
       <PageHeader
-        title={data?.draft?.previewMetadata?.pageTitle || '<Blank Name>'}
+        title={previewMetadata?.pageTitle || '<Blank Name>'}
         titleBadge={providerId}
         pageType="secondary"
         breadcrumbs={
@@ -179,7 +175,7 @@ const DraftPageHeader = () => {
               to: `/drafts/${derivedConceptType.toLowerCase()}s`
             },
             {
-              label: data?.draft?.previewMetadata?.pageTitle || '<Blank Name>',
+              label: previewMetadata?.pageTitle || '<Blank Name>',
               active: true
             }
           ]

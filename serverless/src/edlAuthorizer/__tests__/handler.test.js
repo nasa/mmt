@@ -2,6 +2,13 @@ import edlAuthorizer from '../handler'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
 
 vi.mock('../../utils/fetchEdlProfile')
+vi.mock('jsonwebtoken', async () => ({
+  default: {
+    verify: vi.fn().mockReturnValue({
+      launchpadToken: 'mock-token'
+    })
+  }
+}))
 
 describe('edlAuthorizer', () => {
   const OLD_ENV = process.env

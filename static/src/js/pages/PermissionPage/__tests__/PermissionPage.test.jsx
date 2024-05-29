@@ -9,8 +9,9 @@ import {
 import userEvent from '@testing-library/user-event'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import AppContext from '@/js/context/AppContext'
+
 import NotificationsContext from '@/js/context/NotificationsContext'
+
 import Permission from '@/js/components/Permission/Permission'
 
 import PermissionPage from '../PermissionPage'
@@ -51,39 +52,30 @@ const setup = ({
   }
 
   render(
-    <AppContext.Provider value={
-      {
-        user: {
-          providerId: 'MMT_2'
-        }
-      }
-    }
-    >
-      <NotificationsContext.Provider value={notificationContext}>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
-            <Routes>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
+          <Routes>
+            <Route
+              path="/permissions"
+            >
               <Route
-                path="/permissions"
-              >
-                <Route
-                  path=":conceptId"
-                  element={
-                    (
-                      <Suspense>
-                        <PermissionPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </NotificationsContext.Provider>
-    </AppContext.Provider>
+                path=":conceptId"
+                element={
+                  (
+                    <Suspense>
+                      <PermissionPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {

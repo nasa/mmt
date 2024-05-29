@@ -12,17 +12,25 @@ import {
   Routes
 } from 'react-router'
 import * as router from 'react-router'
-import { Cookies, CookiesProvider } from 'react-cookie'
-import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
-import MetadataPreview from '../../MetadataPreview/MetadataPreview'
-import Providers from '../../../providers/Providers/Providers'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
+
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import MetadataPreview from '@/js/components/MetadataPreview/MetadataPreview'
+
+import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
+
+import errorLogger from '@/js/utils/errorLogger'
+import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
+
+import { DELETE_TOOL } from '@/js/operations/mutations/deleteTool'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+import { GET_TOOLS } from '@/js/operations/queries/getTools'
+import { GET_COLLECTION_REVISIONS } from '@/js/operations/queries/getCollectionRevisions'
+
+import AppContext from '@/js/context/AppContext'
+
 import PublishPreview from '../PublishPreview'
-import errorLogger from '../../../utils/errorLogger'
-import constructDownloadableFile from '../../../utils/constructDownloadableFile'
-import { DELETE_TOOL } from '../../../operations/mutations/deleteTool'
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import {
   noTagsOrGranulesCollection,
   publishCollectionRecord,
@@ -31,15 +39,11 @@ import {
   collectionRecordWithRevisions,
   variableRecordWithRevisions
 } from './__mocks__/publishPreview'
-import { GET_TOOLS } from '../../../operations/queries/getTools'
-import { GET_COLLECTION_REVISIONS } from '../../../operations/queries/getCollectionRevisions'
 
-vi.mock('../../../utils/constructDownloadableFile')
-vi.mock('../../MetadataPreview/MetadataPreview')
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../../utils/errorLogger')
-
-global.fetch = vi.fn()
+vi.mock('@/js/utils/constructDownloadableFile')
+vi.mock('@/js/components/MetadataPreview/MetadataPreview')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/utils/errorLogger')
 
 const mockedUsedNavigate = vi.fn()
 
@@ -47,12 +51,6 @@ vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
   useNavigate: () => mockedUsedNavigate
 }))
-
-Object.defineProperty(globalThis, 'crypto', {
-  value: {
-    randomUUID: () => 'mock-uuid'
-  }
-})
 
 const mock = {
   accessConstraints: null,
@@ -167,27 +165,16 @@ const setup = ({
   },
   ...additionalMocks]
 
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies(
-    {
-      loginInfo: ({
-        providerId: 'MMT_2',
-        name: 'User Name',
-        token: {
-          tokenValue: 'ABC-1',
-          tokenExp: expires.valueOf()
-        }
-      })
-    }
-  )
-  cookie.HAS_DOCUMENT_COOKIE = false
+  const user = userEvent.setup()
 
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
+    <AppContext.Provider value={
+      {
+        providerId: 'MMT_2'
+      }
+    }
+    >
+      <NotificationsContextProvider>
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
@@ -212,12 +199,12 @@ const setup = ({
             </Routes>
           </MemoryRouter>
         </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+      </NotificationsContextProvider>
+    </AppContext.Provider>
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

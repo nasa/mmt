@@ -13,25 +13,21 @@ import {
 } from 'react-router-dom'
 import * as router from 'react-router'
 
-import { DELETE_DRAFT } from '../../../operations/mutations/deleteDraft'
-import { PUBLISH_DRAFT } from '../../../operations/mutations/publishDraft'
+import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'
+import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
 
-import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
-import errorLogger from '../../../utils/errorLogger'
-import createTemplate from '../../../utils/createTemplate'
+import errorLogger from '@/js/utils/errorLogger'
+import createTemplate from '@/js/utils/createTemplate'
 
-import Providers from '../../../providers/Providers/Providers'
+import Providers from '@/js/providers/Providers/Providers'
 
 import DraftPage from '../DraftPage'
 
-vi.mock('../../../components/MetadataPreview/MetadataPreview')
-vi.mock('../../../utils/createTemplate')
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../PreviewProgress/PreviewProgress')
-
-global.fetch = vi.fn()
+vi.mock('@/js/components/MetadataPreview/MetadataPreview')
+vi.mock('@/js/utils/createTemplate')
+vi.mock('@/js/utils/errorLogger')
 
 const mockDraft = {
   conceptId: 'TD1000000-MMT',
@@ -73,6 +69,7 @@ const mockDraft = {
     potentialAction: null,
     quality: null,
     relatedUrls: null,
+    revisionId: '2',
     searchAction: null,
     supportedBrowsers: null,
     supportedInputFormats: null,
@@ -113,6 +110,8 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  const user = userEvent.setup()
+
   render(
     <Providers>
       <MockedProvider
@@ -135,7 +134,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -392,6 +391,7 @@ describe('DraftPreview', () => {
                         nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
                         offset: null,
                         relatedUrls: null,
+                        revisionId: '22',
                         samplingIdentifiers: null,
                         scale: null,
                         scienceKeywords: null,
@@ -548,6 +548,7 @@ describe('DraftPreview', () => {
       },
       __typename: 'Draft'
     }
+
     describe('when click on save as template results in a success', () => {
       test('should navigate to /templates', async () => {
         const navigateSpy = vi.fn()

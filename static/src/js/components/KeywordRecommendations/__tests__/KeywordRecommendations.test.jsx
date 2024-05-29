@@ -6,18 +6,18 @@ import {
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
+import useAppContext from '@/js/hooks/useAppContext'
+import AppContextProvider from '@/js/providers/AppContextProvider/AppContextProvider'
+import AuthContextProvider from '@/js/providers/AuthContextProvider/AuthContextProvider'
+import sendKeywordRecommendationsFeedback from '@/js/utils/sendKeywordRecommendationsFeedback'
+import getKeywordRecommendations from '@/js/utils/getKeywordRecommendations'
+import errorLogger from '@/js/utils/errorLogger'
+
 import KeywordRecommendations from '../KeywordRecommendations'
-import useAppContext from '../../../hooks/useAppContext'
-import AppContextProvider from '../../../providers/AppContextProvider/AppContextProvider'
-import AuthContextProvider from '../../../providers/AuthContextProvider/AuthContextProvider'
-import sendKeywordRecommendationsFeedback from '../../../utils/sendKeywordRecommendationsFeedback'
-import getKeywordRecommendations from '../../../utils/getKeywordRecommendations'
-import errorLogger from '../../../utils/errorLogger'
 
-global.fetch = vi.fn()
-
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../../utils/getKeywordRecommendations', () => ({
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/getKeywordRecommendations', () => ({
   __esModule: true,
   default: vi.fn(() => (
     {
@@ -88,7 +88,7 @@ vi.mock('../../../utils/getKeywordRecommendations', () => ({
   ))
 }))
 
-vi.mock('../../../utils/sendKeywordRecommendationsFeedback')
+vi.mock('@/js/utils/sendKeywordRecommendationsFeedback')
 
 //
 // Mock component is used to mimic the KeywordPicker component where you can
@@ -169,6 +169,7 @@ const MockComponent = ({ draft: mockDraft }) => {
 }
 
 const setup = ({ draft }) => {
+  const user = userEvent.setup()
   const { unmount, container } = render(
     <AuthContextProvider>
       <AppContextProvider>
@@ -179,7 +180,7 @@ const setup = ({ draft }) => {
 
   return {
     container,
-    user: userEvent.setup(),
+    user,
     unmount
   }
 }

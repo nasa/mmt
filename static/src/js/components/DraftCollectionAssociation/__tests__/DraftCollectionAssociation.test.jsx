@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import userEvent from '@testing-library/user-event'
-import { Cookies } from 'react-cookie'
 import { render, screen } from '@testing-library/react'
 import {
   MemoryRouter,
@@ -9,18 +8,24 @@ import {
 } from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import { GraphQLError } from 'graphql'
-import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
-import DraftCollectionAssociation from '../DraftCollectionAssociation'
-import AppContext from '../../../context/AppContext'
-import NotificationsContext from '../../../context/NotificationsContext'
-import errorLogger from '../../../utils/errorLogger'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
-import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
-vi.mock('../../ErrorBanner/ErrorBanner')
-vi.mock('../../../utils/errorLogger')
-vi.mock('../../../utils/removeMetadataKeys')
+import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
+
+import AppContext from '@/js/context/AppContext'
+import NotificationsContext from '@/js/context/NotificationsContext'
+
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+
+import errorLogger from '@/js/utils/errorLogger'
+
+import DraftCollectionAssociation from '../DraftCollectionAssociation'
+
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/removeMetadataKeys')
 
 const mockDraft = {
   conceptId: 'VD120000000-MMT_2',
@@ -66,6 +71,7 @@ const mockDraft = {
     nativeId: 'Mock Native Id',
     offset: null,
     relatedUrls: null,
+    revisionId: '20',
     samplingIdentifiers: null,
     scale: null,
     scienceKeywords: null,
@@ -101,32 +107,16 @@ const setup = ({
     }
   }, ...additionalMocks]
 
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  const cookie = new Cookies({
-    loginInfo: ({
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      },
-      providerId: 'MMT_2'
-    })
-  })
-  cookie.HAS_DOCUMENT_COOKIE = false
-
   const notificationContext = {
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <AppContext.Provider value={
       {
-        user: {
-          providerId: 'MMT_2'
-        },
+        providerId: 'MMT_2',
         keywords: {}
       }
     }
@@ -161,7 +151,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -179,7 +169,9 @@ describe('Draft Collection Association', () => {
   })
 
   describe('when the request results in an error', () => {
-    test.skip('calls errorLogger and returns an ErrorBanner', async () => {
+    test('calls errorLogger and returns an ErrorBanner', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       setup({
         overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
         overrideMocks: [
@@ -242,6 +234,8 @@ describe('Draft Collection Association', () => {
     })
 
     test('error when saving a draft', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
       const { user } = setup({
         overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
         additionalMocks: [{
@@ -322,6 +316,7 @@ describe('Draft Collection Association', () => {
                   nativeId: 'Mock Native Id',
                   offset: null,
                   relatedUrls: null,
+                  revisionId: '20',
                   samplingIdentifiers: null,
                   scale: null,
                   scienceKeywords: null,

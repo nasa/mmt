@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 
-import useAppContext from './useAppContext'
+import useAuthContext from './useAuthContext'
 
 import { GET_PERMISSIONS } from '../operations/queries/getPermissions'
 
@@ -13,19 +13,20 @@ import { GET_PERMISSIONS } from '../operations/queries/getPermissions'
 const usePermissions = ({
   systemGroup
 }) => {
-  const { user } = useAppContext()
+  const { user } = useAuthContext()
+  const { uid } = user || {}
 
   const { data, loading } = useQuery(GET_PERMISSIONS, {
-    skip: !user.uid,
+    skip: !uid,
     variables: {
       groupPermissionParams: {
         systemObject: 'GROUP',
-        userId: user.uid
+        userId: uid
       }
     }
   })
 
-  if (!user.uid) {
+  if (!uid) {
     return {
       loading: false
     }

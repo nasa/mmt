@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
-import { Cookies, CookiesProvider } from 'react-cookie'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -8,98 +7,77 @@ import {
   Routes
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
-import { describe } from 'vitest'
 
-import Providers from '../../../providers/Providers/Providers'
-import { GET_GROUP } from '../../../operations/queries/getGroup'
+import Providers from '@/js/providers/Providers/Providers'
+import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 import GroupFormPage from '../GroupFormPage'
 
 vi.mock('@/js/components/GroupForm/GroupForm')
-
-let expires = new Date()
-expires.setMinutes(expires.getMinutes() + 15)
-expires = new Date(expires)
-
-const cookie = new Cookies(
-  {
-    loginInfo: ({
-      providerId: 'MMT_2',
-      name: 'User Name',
-      token: {
-        tokenValue: 'ABC-1',
-        tokenExp: expires.valueOf()
-      }
-    })
-  }
-)
-cookie.HAS_DOCUMENT_COOKIE = false
 
 const setup = ({
   mocks,
   pageUrl
 }) => {
   render(
-    <CookiesProvider defaultSetOptions={{ path: '/' }} cookies={cookie}>
-      <Providers>
-        <MockedProvider
-          mocks={mocks}
-        >
-          <MemoryRouter initialEntries={[pageUrl]}>
-            <Routes>
+    <Providers>
+      <MockedProvider
+        mocks={mocks}
+      >
+        <MemoryRouter initialEntries={[pageUrl]}>
+          <Routes>
+            <Route
+              path="/groups"
+            >
               <Route
-                path="/groups"
-              >
-                <Route
-                  path="new"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupFormPage />
-                      </Suspense>
-                    )
-                  }
-                />
-                <Route
-                  path=":id/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupFormPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
+                path="new"
+                element={
+                  (
+                    <Suspense>
+                      <GroupFormPage />
+                    </Suspense>
+                  )
+                }
+              />
               <Route
-                path="/admin/groups"
-              >
-                <Route
-                  path="new"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupFormPage isAdminPage />
-                      </Suspense>
-                    )
-                  }
-                />
-                <Route
-                  path=":id/edit"
-                  element={
-                    (
-                      <Suspense>
-                        <GroupFormPage isAdminPage />
-                      </Suspense>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </Providers>
-    </CookiesProvider>
+                path=":id/edit"
+                element={
+                  (
+                    <Suspense>
+                      <GroupFormPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/groups"
+            >
+              <Route
+                path="new"
+                element={
+                  (
+                    <Suspense>
+                      <GroupFormPage isAdminPage />
+                    </Suspense>
+                  )
+                }
+              />
+              <Route
+                path=":id/edit"
+                element={
+                  (
+                    <Suspense>
+                      <GroupFormPage isAdminPage />
+                    </Suspense>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </Providers>
   )
 
   return {

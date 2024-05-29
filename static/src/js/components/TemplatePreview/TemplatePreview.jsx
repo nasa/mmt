@@ -7,8 +7,9 @@ import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
+import crypto from 'crypto'
 
-import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration.'
+import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
 
 import delateTemplate from '@/js/utils/deleteTemplate'
@@ -18,6 +19,7 @@ import parseError from '@/js/utils/parseError'
 
 import useAppContext from '@/js/hooks/useAppContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -58,14 +60,14 @@ const TemplatePreviewPlaceholder = () => (
 const TemplatePreview = () => {
   const {
     draft = {},
-    setDraft,
-    user
+    setDraft
   } = useAppContext()
+
+  const { mmtJwt } = useMMTCookie()
+
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
   const { id } = useParams()
-
-  const { token } = user
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
@@ -85,13 +87,13 @@ const TemplatePreview = () => {
 
   useEffect(() => {
     const fetchTemplate = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(token, id)
+      const { response, error: fetchTemplateError } = await getTemplate(mmtJwt, id)
       if (response) {
         const { providerId: templateProviderId, template } = response
 
         setProviderId(templateProviderId)
         setDraft({
-          ummMetadata: { ...template }
+          ummMetadata: template
         })
       } else {
         setError(fetchTemplateError)
@@ -114,7 +116,7 @@ const TemplatePreview = () => {
   }
 
   const handleDelete = async () => {
-    const { response } = await delateTemplate(providerId, token, id)
+    const { response } = await delateTemplate(providerId, mmtJwt, id)
     if (response.ok) {
       addNotification({
         message: 'Template deleted successfully',

@@ -1,22 +1,26 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { describe } from 'vitest'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 import saveTypes from '@/js/constants/saveTypes'
+
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
 import AppContext from '../../../context/AppContext'
+
 import ChooseProviderModal from '../ChooseProviderModal'
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
   useNavigate: vi.fn()
 }))
 
-const defaultUser = {
-  name: 'User Name',
-  providerId: 'MMT-2'
-}
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   overrideProps = {},
@@ -29,21 +33,21 @@ const setup = ({
     toggleModal: () => {},
     type: 'draft',
     onSubmit: () => {},
-    primaryActionType: saveTypesToHumanizedStringMap[saveTypes.save],
+    primaryActionType: saveTypes.save,
     ...overrideProps
   }
   const context = {
-    user: defaultUser,
-    login: vi.fn(),
-    logout: vi.fn(),
-    providerIds: [],
     setProviderId: vi.fn(),
     ...overrideContext
   }
 
   const { container } = render(
     <AppContext.Provider value={context}>
-      <ChooseProviderModal {...props} />
+      <ErrorBoundary>
+        <Suspense>
+          <ChooseProviderModal {...props} />
+        </Suspense>
+      </ErrorBoundary>
     </AppContext.Provider>
   )
 
@@ -68,12 +72,6 @@ describe('ChooseProviderModal component', () => {
       setup({
         overrideProps: {
           show: true
-        },
-        overrideContext: {
-          providerIds: [
-            'MMT-1',
-            'MMT-2'
-          ]
         }
       })
 
@@ -81,7 +79,7 @@ describe('ChooseProviderModal component', () => {
       expect(screen.getByText('Choose a provider before saving your draft.')).toBeDefined()
       expect(screen.getByRole('button', { name: /Close/i })).toBeDefined()
       expect(screen.getByRole('combobox', { name: 'Select a provider' })).toBeDefined()
-      expect(screen.getByRole('combobox', { name: 'Select a provider' })).toHaveValue('MMT-2')
+      expect(screen.getByRole('combobox', { name: 'Select a provider' })).toHaveValue('MMT_1')
       expect(screen.getByRole('button', { name: saveTypesToHumanizedStringMap[saveTypes.save] })).toBeDefined()
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeDefined()
     })
@@ -95,23 +93,17 @@ describe('ChooseProviderModal component', () => {
         overrideProps: {
           show: true,
           toggleModal: toggleModalMock
-        },
-        overrideContext: {
-          providerIds: [
-            'MMT-1',
-            'MMT-2'
-          ]
         }
       })
 
       const select = screen.getByRole('combobox', { name: 'Select a provider' })
 
-      expect(select).toHaveValue('MMT-2')
+      expect(select).toHaveValue('MMT_1')
 
-      await user.selectOptions(select, 'MMT-1')
+      await user.selectOptions(select, 'MMT_2')
 
       expect(context.setProviderId).toHaveBeenCalledTimes(1)
-      expect(context.setProviderId).toHaveBeenCalledWith('MMT-1')
+      expect(context.setProviderId).toHaveBeenCalledWith('MMT_2')
     })
   })
 
