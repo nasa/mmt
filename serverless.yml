@@ -44,13 +44,11 @@ functions: ${file(./serverless-configs/${self:provider.name}-functions.yml)}
 #
 resources: ${file(./serverless-configs/${self:provider.name}-resources.yml)}
 
-
 plugins:
   - serverless-esbuild
   - serverless-finch
   - serverless-offline
   - serverless-s3-local
-
 
 custom:
   siteName: mmt-${self:provider.stage}

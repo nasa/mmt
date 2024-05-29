@@ -3,11 +3,13 @@ import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
-import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 
-import { Col, Row } from 'react-bootstrap'
-import EllipsisLink from '../EllipsisLink/EllipsisLink'
-import Table from '../Table/Table'
+import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
+import Table from '@/js/components/Table/Table'
+
+import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
 const PermissionCollectionTable = () => {
   const { conceptId } = useParams()

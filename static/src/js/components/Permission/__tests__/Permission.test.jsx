@@ -8,10 +8,10 @@ import {
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
 
-import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+import Permission from '@/js/components/Permission/Permission'
+import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 
-import Permission from '../Permission'
-import PermissionCollectionTable from '../../permissionCollectionTable/PermissionCollectionTable'
+import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
 vi.mock('../../permissionCollectionTable/PermissionCollectionTable')
 
