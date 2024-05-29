@@ -11,7 +11,6 @@ import validator from '@rjsf/validator-ajv8'
 import collectionPermission from '@/js/schemas/collectionPermission'
 
 import collectionPermissionUiSchema from '@/js/schemas/uiSchemas/collectionPermission'
-import collectionsUiSchema from '@/js/schemas/uiSchemas/collections'
 import useAppContext from '@/js/hooks/useAppContext'
 import removeEmpty from '@/js/utils/removeEmpty'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
@@ -20,12 +19,11 @@ import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
 import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import CustomCheckboxWidget from '../CustomCheckboxWidget/CustomCheckboxWidget'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import OneOfField from '../OneOfField/OneOfField'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
 import CollectionSelector from '../CollectionSelector/CollectionSelector'
+import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
 
 const PermissionForm = () => {
   const {
@@ -39,10 +37,6 @@ const PermissionForm = () => {
   const handleChange = (event) => {
     const { formData } = event
 
-    const { accessPermission } = formData
-    const { permission } = accessPermission || {}
-    const { granule } = permission || {}
-
     if (formData.accessPermission?.permission?.granule) {
       const newUiSchema = {
         ...collectionPermissionUiSchema,
@@ -53,7 +47,7 @@ const PermissionForm = () => {
             'ui:disabled': false
           }
         },
-        temporalConstraintFilter:{
+        temporalConstraintFilter: {
           ...collectionPermissionUiSchema.temporalConstraintFilter,
           granuleTemporalConstraint: {
             ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
@@ -87,7 +81,8 @@ const PermissionForm = () => {
   const fields = {
     keywordPicker: KeywordPicker,
     TitleField: CustomTitleField,
-    CollectionSelector: CollectionSelector,
+    CollectionSelector,
+    GroupPermissionSelect,
     layout: GridLayout,
     OneOfField
   }
@@ -95,13 +90,12 @@ const PermissionForm = () => {
   const widgets = {
     TextWidget: CustomTextWidget,
     SelectWidget: CustomSelectWidget,
-    DateTimeWidget: CustomDateTimeWidget,
+    DateTimeWidget: CustomDateTimeWidget
   }
 
   const templates = {
     ArrayFieldTemplate: CustomArrayFieldTemplate,
-    FieldTemplate: CustomFieldTemplate,
-    // TitleFieldTemplate: CustomTitleFieldTemplate
+    FieldTemplate: CustomFieldTemplate
 
   }
 

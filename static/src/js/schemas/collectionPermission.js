@@ -13,40 +13,161 @@ const collectionPermission = {
     accessConstraintFilter: {
       $ref: '#/definitions/accessConstraintFilterType'
     },
+    collectionSelection: {
+      $ref: '#/definitions/collectionSelectionType'
+    },
     accessPermission: {
       $ref: '#/definitions/accessPermissionType'
+    },
+    temporalConstraintFilter: {
+      $ref: '#/definitions/temporalConstraintFilterType'
+    },
+    groupPermissions: {
+      $ref: '#/definitions/groupPermissionType'
     }
   },
   required: ['name'],
 
   definitions: {
+    collectionSelectionType: {
+      type: 'object',
+      oneOf: [
+        {
+          additionalProperties: false,
+          title: 'All Collections',
+          properties: {
+            allCollection: {
+              title: 'All Collections',
+              type: 'boolean',
+              default: true
+            }
+          }
+        },
+        {
+          additionalProperties: false,
+          title: 'Selected Collection',
+          properties: {
+            selectedCollection: {
+              description: 'Entry Title of the collection',
+              type: 'string'
+            }
+          }
+        }
+      ]
+    },
     accessConstraintFilterType: {
       type: 'object',
       additionalProperties: false,
-      description: 'This object describes a store for a variable instance. A variable instance is when the variable is extracted from the original data files and stored somewhere.',
+      description: 'This object describes the access constraint on a collection or granules for this permission.',
       properties: {
         collectionAssessConstraint: {
-          description: 'This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region.',
           $ref: '#/definitions/collectionAssessConstraintType'
+        },
+        granuleAssessConstraint: {
+          $ref: '#/definitions/granuleAssessConstraintType'
+        }
+      }
+    },
+    temporalConstraintFilterType: {
+      type: 'object',
+      additionalProperties: false,
+      description: 'This object describes the temporal constraint on a collection or granules for this permission.',
+      properties: {
+        collectionTemporalConstraint: {
+          $ref: '#/definitions/collectionTemporalConstraintType'
+        },
+        granuleTemporalConstraint: {
+          $ref: '#/definitions/granuleTemporalConstraintType'
         }
       }
     },
     collectionAssessConstraintType: {
       type: 'object',
       additionalProperties: false,
-      description: 'This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region.',
       properties: {
-        minValue: {
-          description: 'Defines the URL where the credentials are stored.',
+        minimumValue: {
+          description: 'Minimum value for the collection access control .',
           type: 'number',
           minLength: 1,
           maxLength: 10
         },
-        maxValue: {
-          description: 'Defines the URL where the credential documentation are stored.',
+        maximumValue: {
+          description: 'Maximum value for the collection access control.',
           type: 'number',
           minLength: 1,
           maxLength: 10
+        },
+        includeUndefined: {
+          type: 'boolean',
+          title: 'Include Undefined'
+        }
+      }
+    },
+    granuleAssessConstraintType: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        minimumValue: {
+          description: 'Minimum value for the granule access control.',
+          type: 'number',
+          minLength: 1,
+          maxLength: 10
+        },
+        maximumValue: {
+          description: 'Maximum value for the granule access control.',
+          type: 'number',
+          minLength: 1,
+          maxLength: 10
+        },
+        includeUndefined: {
+          type: 'boolean',
+          title: 'Include Undefined'
+        }
+      }
+    },
+    collectionTemporalConstraintType: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        startDate: {
+          description: 'Start date of the temporal collection constraint.',
+          type: 'string',
+          format: 'date-time',
+          minLength: 1,
+          maxLength: 10
+        },
+        stopDate: {
+          description: 'Maximum value for the collection collection control.',
+          type: 'string',
+          format: 'date-time',
+          minLength: 1,
+          maxLength: 10
+        },
+        musk: {
+          enum: ['Intersect', 'Contains', 'Disjoint']
+        }
+      }
+    },
+    granuleTemporalConstraintType: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        startDate: {
+          description: 'Start date of the temporal granule constraint.',
+          type: 'string',
+          format: 'date-time',
+          minLength: 1,
+          maxLength: 10
+        },
+        stopDate: {
+          description: 'Stop date of the temporal granule constraint.',
+          type: 'string',
+          format: 'date-time',
+          minLength: 1,
+          maxLength: 10
+        },
+        musk: {
+          enum: ['Intersect', 'Contains', 'Disjoint']
         }
       }
     },
@@ -71,6 +192,14 @@ const collectionPermission = {
           type: 'boolean',
           title: 'Granules',
           description: 'Apply granule permission'
+        }
+      }
+    },
+    groupPermissionType: {
+      properties: {
+        groupPermission: {
+          description: 'Entry Title of the collection',
+          type: 'string'
         }
       }
     }

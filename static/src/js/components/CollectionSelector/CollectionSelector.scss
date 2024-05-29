@@ -1,0 +1,30 @@
+.collection-selector {
+  &__list-box {
+    margin: 20px;
+  }
+  
+  &__scrollable-list {
+  max-height: 500px;
+  overflow-y: auto;
+  }
+
+  &__list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 8px;
+    border: 1px solid var(--bs-light-dark);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &__list-group-item-secondary {
+    background-color: var(--bs-secondary);
+    color: var(--bs-light-dark);
+  }
+
+  &__list-group-item-primary {
+    background-color: var(--bs-primary);
+  }
+}
