@@ -22,7 +22,6 @@ const AuthRequiredLayout = () => {
   }
 
   const isExpired = isTokenExpired(tokenExpires)
-  console.log('🚀 ~ AuthRequiredLayout ~ isExpired:', isExpired)
 
   // If we have a token value that has expired, redirect to login the user again
   if (isExpired) {
