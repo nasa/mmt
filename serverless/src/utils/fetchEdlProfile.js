@@ -29,8 +29,11 @@ const fetchEdlProfile = async (launchpadToken) => {
   })
     .then((response) => response.json())
     .then((profile) => {
-      const firstName = profile.first_name
-      const lastName = profile.last_name
+      const {
+        first_name: firstName,
+        last_name: lastName
+      } = profile
+
       let name = [firstName, lastName].filter(Boolean).join(' ')
 
       if (name.trim().length === 0) {

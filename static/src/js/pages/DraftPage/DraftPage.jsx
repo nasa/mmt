@@ -6,7 +6,6 @@ import React, {
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import pluralize from 'pluralize'
-import { useCookies } from 'react-cookie'
 import {
   FaCopy,
   FaSave,
@@ -17,12 +16,12 @@ import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConc
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import usePublishMutation from '@/js/hooks/usePublishMutation'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 import conceptTypes from '@/js/constants/conceptTypes'
-import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'
 
@@ -51,8 +50,7 @@ const DraftPageHeader = () => {
 
   const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
 
-  const [cookies] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  const { mmtJwt } = useMMTCookie()
 
   const { addNotification } = useNotificationsContext()
 

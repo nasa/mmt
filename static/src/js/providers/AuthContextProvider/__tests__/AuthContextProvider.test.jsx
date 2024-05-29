@@ -44,7 +44,6 @@ vi.mock('react-cookie', async () => ({
 const MockComponent = () => {
   const {
     login,
-    logout,
     user
   } = useAuthContext()
 
@@ -60,12 +59,6 @@ const MockComponent = () => {
         onClick={login}
       >
         Log in
-      </button>
-      <button
-        type="button"
-        onClick={logout}
-      >
-        Log out
       </button>
     </div>
   )
@@ -128,7 +121,7 @@ describe('AuthContextProvider component', () => {
       })
     })
 
-    // Skipping because we don't have refresh logic right now
+    // Skipping because we don't have refresh logic right now MMT-3749
     describe.skip('when refresh token', () => {
       beforeEach(() => {
         vi.useFakeTimers()
@@ -167,29 +160,6 @@ describe('AuthContextProvider component', () => {
             tokenValue: 'mock-token'
           }
         }, expect.any(Function))
-      })
-    })
-
-    describe('when log out is triggered', () => {
-      test('logs the user out', async () => {
-        useCookies.mockImplementation(() => ([
-          {
-            [MMT_COOKIE]: 'mock-jwt'
-          },
-          vi.fn(),
-          vi.fn()
-        ]))
-
-        const { user } = setup()
-
-        const userName = await screen.findByText('User Name: Test User', { exact: true })
-        expect(userName).toBeInTheDocument()
-
-        const logoutButton = screen.getByRole('button', { name: 'Log out' })
-        await user.click(logoutButton)
-
-        const newUserName = screen.queryByText('User Name: Test User', { exact: true })
-        expect(newUserName).not.toBeInTheDocument()
       })
     })
 

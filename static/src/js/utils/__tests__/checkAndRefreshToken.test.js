@@ -1,7 +1,7 @@
 import checkAndRefreshToken from '../checkAndRefreshToken'
 import * as getConfig from '../../../../../sharedUtils/getConfig'
 
-// Skipping because refreshing is current not implemented
+// Skipping because refreshing is current not implemented, MMT-3749
 describe.skip('check and refresh token', () => {
   beforeEach(() => {
     vi.clearAllMocks()

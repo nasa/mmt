@@ -39,6 +39,7 @@ import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
+import LogoutPage from './pages/LogoutPage/LogoutPage'
 
 /**
  * Renders the `App` component
@@ -76,6 +77,11 @@ export const App = () => {
           element: <AuthCallback />
         }
       ]
+    },
+    {
+      path: '/logout',
+      exact: true,
+      element: <LogoutPage />
     },
     ...Object.keys(REDIRECTS).map((redirectKey) => ({
       path: redirectKey,

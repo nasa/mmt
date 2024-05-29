@@ -7,7 +7,6 @@ import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { kebabCase } from 'lodash-es'
 import crypto from 'crypto'
-import { useCookies } from 'react-cookie'
 
 import useAppContext from '@/js/hooks/useAppContext'
 
@@ -47,10 +46,10 @@ import toKebabCase from '@/js/utils/toKebabCase'
 import updateTemplate from '@/js/utils/updateTemplate'
 
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import saveTypes from '@/js/constants/saveTypes'
-import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 const TemplateForm = () => {
   const {
@@ -69,8 +68,7 @@ const TemplateForm = () => {
     setProviderId
   } = useAppContext()
 
-  const [cookies] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  const { mmtJwt } = useMMTCookie()
 
   const {
     ingestMutation,

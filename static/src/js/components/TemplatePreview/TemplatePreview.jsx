@@ -8,7 +8,6 @@ import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
 import crypto from 'crypto'
-import { useCookies } from 'react-cookie'
 
 import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
@@ -20,6 +19,7 @@ import parseError from '@/js/utils/parseError'
 
 import useAppContext from '@/js/hooks/useAppContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -29,8 +29,6 @@ import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlacehold
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import PreviewProgress from '@/js/components/PreviewProgress/PreviewProgress'
-
-import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import './TemplatePreview.scss'
 
@@ -65,8 +63,7 @@ const TemplatePreview = () => {
     setDraft
   } = useAppContext()
 
-  const [cookies] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  const { mmtJwt } = useMMTCookie()
 
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()

@@ -29,7 +29,7 @@ describe('samlCallback', () => {
     process.env = { ...OLD_ENV }
     process.env.COOKIE_DOMAIN = 'example.com'
     process.env.JWT_SECRET = 'JWT_SECRET'
-    process.env.JWT_VALID_TIME = 900000
+    process.env.JWT_VALID_TIME = 900
 
     const date = new Date(2024)
     vi.setSystemTime(date)

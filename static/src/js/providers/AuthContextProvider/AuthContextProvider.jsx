@@ -5,12 +5,13 @@ import React, {
   useState
 } from 'react'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
 import jwt from 'jsonwebtoken'
 
 import AuthContext from '@/js/context/AuthContext'
 
 import MMT_COOKIE from '@/js/constants/mmtCookie'
+
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import errorLogger from '@/js/utils/errorLogger'
 
@@ -35,13 +36,10 @@ const { apiHost } = getApplicationConfig()
  * )
  */
 const AuthContextProvider = ({ children }) => {
-  const [
-    cookies,
-    // eslint-disable-next-line no-unused-vars
-    setCookie,
+  const {
+    mmtJwt,
     removeCookie
-  ] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  } = useMMTCookie()
 
   const [authLoading, setAuthLoading] = useState(true)
 
@@ -98,25 +96,15 @@ const AuthContextProvider = ({ children }) => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
   }, [])
 
-  // Logout redirect
-  const logout = useCallback(() => {
-    saveToken(null)
-
-    window.location.href = '/'
-  }, [])
-
   const providerValue = useMemo(() => ({
     authLoading,
     login,
-    logout,
     setToken: saveToken,
     tokenExpires,
     tokenValue,
     user
   }), [
     authLoading,
-    login,
-    logout,
     tokenExpires,
     tokenValue,
     user

@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import { FaPlus } from 'react-icons/fa'
-import { useCookies } from 'react-cookie'
 
 import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 import deleteTemplate from '@/js/utils/deleteTemplate'
@@ -16,10 +15,10 @@ import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
-import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import Button from '@/js/components/Button/Button'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -42,8 +41,7 @@ const TemplateList = () => {
   const { templateType } = useParams()
   const { providerId } = useAppContext()
 
-  const [cookies] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  const { mmtJwt } = useMMTCookie()
 
   const [templateList, setTemplateList] = useState([])
   const [errors, setErrors] = useState()

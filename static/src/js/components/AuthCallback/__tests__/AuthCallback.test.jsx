@@ -12,9 +12,16 @@ vi.mock('react-router', async () => ({
   Navigate: vi.fn()
 }))
 
-const setup = (jwt = 'mock-jwt', target = '/mock/target') => {
+const setup = ({
+  authLoading = false,
+  tokenExpires = new Date().getTime() + 1,
+  target = '/mock/target'
+}) => {
+  vi.setSystemTime('2024-01-01')
+
   const context = {
-    setToken: vi.fn()
+    authLoading,
+    tokenExpires
   }
 
   render(
@@ -24,7 +31,6 @@ const setup = (jwt = 'mock-jwt', target = '/mock/target') => {
           [{
             pathname: '/auth_callback',
             search: `?${createSearchParams({
-              jwt,
               target
             })}`
           }]
@@ -34,19 +40,12 @@ const setup = (jwt = 'mock-jwt', target = '/mock/target') => {
       </MemoryRouter>
     </AuthContext.Provider>
   )
-
-  return {
-    context
-  }
 }
 
 describe('AuthCallback component', () => {
-  describe('when the jwt exists', () => {
-    test('calls setToken and Navigate', () => {
-      const { context } = setup()
-
-      expect(context.setToken).toHaveBeenCalledTimes(1)
-      expect(context.setToken).toHaveBeenCalledWith('mock-jwt')
+  describe('token is not expired', () => {
+    test('calls Navigate', () => {
+      setup({})
 
       expect(Navigate).toHaveBeenCalledTimes(1)
       expect(Navigate).toHaveBeenCalledWith({
@@ -56,10 +55,9 @@ describe('AuthCallback component', () => {
 
     describe('when the target does not exist', () => {
       test('calls setToken and Navigate', () => {
-        const { context } = setup('mock-jwt', '')
-
-        expect(context.setToken).toHaveBeenCalledTimes(1)
-        expect(context.setToken).toHaveBeenCalledWith('mock-jwt')
+        setup({
+          target: ''
+        })
 
         expect(Navigate).toHaveBeenCalledTimes(1)
         expect(Navigate).toHaveBeenCalledWith({
@@ -69,16 +67,26 @@ describe('AuthCallback component', () => {
     })
   })
 
-  describe('when the jwt does not exist', () => {
-    test('calls Navigate', () => {
-      const { context } = setup('', '/mock/target')
-
-      expect(context.setToken).toHaveBeenCalledTimes(0)
+  describe('when the token is expired', () => {
+    test('does not call Navigate', () => {
+      setup({
+        tokenExpires: new Date().getTime() - 1
+      })
 
       expect(Navigate).toHaveBeenCalledTimes(1)
       expect(Navigate).toHaveBeenCalledWith({
         to: '/'
       }, {})
+    })
+  })
+
+  describe('when the auth is loading', () => {
+    test('does not call Navigate', () => {
+      setup({
+        authLoading: true
+      })
+
+      expect(Navigate).toHaveBeenCalledTimes(0)
     })
   })
 })

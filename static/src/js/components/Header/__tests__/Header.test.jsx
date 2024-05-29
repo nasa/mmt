@@ -37,7 +37,6 @@ const setup = ({
       name: 'User Name'
     },
     login: vi.fn(),
-    logout: vi.fn(),
     tokenExpires,
     ...overrideContext
   }
@@ -104,24 +103,6 @@ describe('Header component', () => {
 
       expect(screen.getByText('User Name')).toBeInTheDocument()
       expect(screen.getByText('User Name').className).toContain('badge')
-    })
-  })
-
-  describe('when the clicks log out', () => {
-    test('displays the search submit button', async () => {
-      const { context, user } = setup({
-        loggedIn: true
-      })
-
-      const userDropdownButton = screen.queryByRole('button', { name: 'User Name' })
-
-      await user.click(userDropdownButton)
-
-      const logoutButton = screen.queryByRole('button', { name: 'Logout' })
-
-      await user.click(logoutButton)
-
-      expect(context.logout).toHaveBeenCalledTimes(1)
     })
   })
 })

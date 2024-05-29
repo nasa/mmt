@@ -27,7 +27,7 @@ const findLaunchpadTokenInHeaders = (headers) => {
  * @param {Object} event Details about the HTTP request that it received
  */
 const samlRefreshToken = async (event) => {
-  // TODO This needs to be reimplemented to use the JWT
+  // TODO MMT-3749 This needs to be reimplemented to use the JWT
   const { headers } = event
   const { token } = headers
 

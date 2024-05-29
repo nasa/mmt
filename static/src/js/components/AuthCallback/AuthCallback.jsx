@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Navigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
+import isTokenExpired from '@/js/utils/isTokenExpired'
 
 /**
  * This class handles the authenticated redirect from our saml lambda function.
@@ -11,18 +12,17 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 export const AuthCallback = () => {
   const [searchParams] = useSearchParams()
 
-  const { setToken } = useAuthContext()
+  const { authLoading, tokenExpires } = useAuthContext()
 
   const target = searchParams.get('target')
-  const jwt = searchParams.get('jwt')
 
-  useEffect(() => {
-    // Call setToken when the jwt exists to update the auth context
-    if (jwt) setToken(jwt)
-  }, [jwt])
+  // If we are still loading the token from the cookie, don't Navigate yet
+  if (authLoading) return null
 
-  if (jwt) {
-    // If the jwt exists, forward the user to the target URL
+  const isExpired = isTokenExpired(tokenExpires)
+
+  // If we have a good token, Navigate to the target location
+  if (!isExpired) {
     return (
       <Navigate to={target || '/'} />
     )

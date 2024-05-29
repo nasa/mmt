@@ -30,7 +30,6 @@ import './Header.scss'
 const Header = () => {
   const {
     login,
-    logout,
     user,
     tokenExpires
   } = useAuthContext()
@@ -113,7 +112,7 @@ const Header = () => {
 
                     <Dropdown.Item
                       className="text-white bg-blue-light"
-                      onClick={logout}
+                      href="/logout"
                     >
                       <FaSignOutAlt className="me-2" />
                       Logout

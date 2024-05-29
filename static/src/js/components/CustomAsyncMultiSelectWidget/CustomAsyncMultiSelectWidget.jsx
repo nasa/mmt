@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async'
 import PropTypes from 'prop-types'
 import { debounce, startCase } from 'lodash-es'
-import { useCookies } from 'react-cookie'
 
-import MMT_COOKIE from '@/js/constants/mmtCookie'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import shouldFocusField from '../../utils/shouldFocusField'
@@ -58,8 +57,7 @@ const CustomAsyncMultiSelectWidget = ({
   uiSchema,
   value
 }) => {
-  const [cookies] = useCookies([MMT_COOKIE])
-  const { [MMT_COOKIE]: mmtJwt } = cookies
+  const { mmtJwt } = useMMTCookie()
 
   const multiSelectScrollRef = useRef(null)
   const focusRef = useRef(null)
