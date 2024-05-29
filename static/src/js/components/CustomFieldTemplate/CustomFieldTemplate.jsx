@@ -44,7 +44,7 @@ const CustomFieldTemplate = ({
             <Button
               title={label}
               className="d-flex justify-content-end"
-              variant="danger"
+              variant="secondary"
               size="sm"
               disabled={disabled}
               onClick={handleClick}

@@ -57,6 +57,20 @@ const collectionPermissionUiSchema = {
                   'ui:col': {
                     style: {
                       marginLeft: '10px',
+                      borderLeft: 'solid 5px rgb(240,240,240)'
+                    },
+                    md: 12,
+                    children: ['groupPermissions']
+                  }
+                }
+              ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    style: {
+                      marginLeft: '10px',
                       marginBottom: '5px',
                       borderLeft: 'solid 5px rgb(240,240,240)'
                     },
@@ -84,6 +98,16 @@ const collectionPermissionUiSchema = {
                   {
                     'ui:col': {
                       md: 12,
+                      children: ['allCollection']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
                       children: ['selectedCollection']
                     }
                   }
@@ -94,8 +118,38 @@ const collectionPermissionUiSchema = {
         }
       ]
     },
+    allCollection: {
+      'ui:widget': CustomCheckboxWidget
+    },
     selectedCollection: {
       'ui:field': 'CollectionSelector'
+    }
+  },
+  groupPermissions: {
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['groupPermission']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    groupPermission: {
+      'ui:field': 'GroupPermissionSelect'
     }
   },
   accessPermission: {
