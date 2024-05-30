@@ -87,7 +87,8 @@ const setup = ({
                   id: '1234-abcd-5678-efgh',
                   permissions: [
                     'read'
-                  ]
+                  ],
+                  userType: null
                 }]
               },
               conceptId: 'ACL1200000001-CMR'
@@ -101,14 +102,16 @@ const setup = ({
                 items: [
                   {
                     permissions: [],
-                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                    userType: null
                   },
                   {
                     permissions: [
                       'read',
                       'update'
                     ],
-                    id: '1234-abcd-5678-efgh'
+                    id: '1234-abcd-5678-efgh',
+                    userType: null
                   }
                 ]
               },
@@ -123,7 +126,8 @@ const setup = ({
                 items: [
                   {
                     permissions: [],
-                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                    userType: null
                   }
                 ]
               },
@@ -252,7 +256,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'create'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -268,7 +273,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -283,14 +289,16 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         },
                         {
                           permissions: [
                             'read',
                             'update'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -305,7 +313,8 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         }
                       ]
                     },
@@ -409,7 +418,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'create'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -425,7 +435,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -440,14 +451,16 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         },
                         {
                           permissions: [
                             'read',
                             'update'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -462,13 +475,15 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         },
                         {
                           permissions: [
                             'update'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -573,7 +588,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'create'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -589,7 +605,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -604,13 +621,15 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         },
                         {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -625,7 +644,8 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         }
                       ]
                     },
@@ -725,7 +745,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'create'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -741,7 +762,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -756,7 +778,8 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         }
                       ]
                     },
@@ -771,7 +794,8 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         }
                       ]
                     },
@@ -870,7 +894,8 @@ describe('SystemPermissions', () => {
                           permissions: [
                             'create'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -885,13 +910,15 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         },
                         {
                           permissions: [
                             'read'
                           ],
-                          id: '1234-abcd-5678-efgh'
+                          id: '1234-abcd-5678-efgh',
+                          userType: null
                         }
                       ]
                     },
@@ -906,7 +933,8 @@ describe('SystemPermissions', () => {
                       items: [
                         {
                           permissions: [],
-                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                          userType: null
                         }
                       ]
                     },

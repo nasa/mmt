@@ -9,6 +9,7 @@ export const GET_SYSTEM_IDENTITY_PERMISSIONS = gql`
           items {
             id
             permissions
+            userType
           }
         }
         systemIdentity

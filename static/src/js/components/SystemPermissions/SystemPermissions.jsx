@@ -3,15 +3,14 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { useParams } from 'react-router-dom'
+import { isEqual } from 'lodash-es'
 
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Row from 'react-bootstrap/Row'
-
-import { isEqual } from 'lodash-es'
-import { useParams } from 'react-router-dom'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
 
 import Button from '@/js/components/Button/Button'
 import Table from '@/js/components/Table/Table'
@@ -26,6 +25,9 @@ import {
   GET_SYSTEM_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getSystemIdentityPermissions'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
+import generateCreateMutation from '@/js/operations/utils/generateCreateAclMutation'
+import generateDeleteMutation from '@/js/operations/utils/generateDeleteAclMutation'
+import generateUpdateMutation from '@/js/operations/utils/generateUpdateAclMutation'
 
 /**
  * Renders a SystemPermissions component
@@ -114,62 +116,6 @@ const SystemPermissions = () => {
     setSystemPermissionsForForm(tableItems)
   }, [data])
 
-  /**
-   * Generates an update mutation object for updating ACL permissions.
-   *
-   * @param {string} conceptId - The concept ID.
-   * @param {object} groupPermissions - The group permissions.
-   * @param {string} target - The target.
-   * @returns {object} - The update mutation object.
-   */
-  const generateUpdateMutation = (conceptId, groupPermissions, target) => ({
-    variables: {
-      conceptId,
-      groupPermissions: groupPermissions.map((gp) => ({
-        group_id: gp.id,
-        permissions: gp.permissions
-      })),
-      systemIdentity: {
-        target
-      }
-    },
-    mutation: updateAcl
-  })
-
-  /**
-   * Generates a mutation object for creating ACL (Access Control List) for a target with group permissions.
-   *
-   * @param {Array} groupPermissions - The group permissions for the ACL.
-   * @param {string} target - The target for which the ACL is being created.
-   * @returns {Object} - The mutation object.
-   */
-  const generateCreateMutation = (groupPermissions, target) => ({
-    variables: {
-      groupPermissions: groupPermissions.map((gp) => ({
-        group_id: gp.id,
-        permissions: gp.permissions
-      })),
-      systemIdentity: {
-        target
-      }
-    },
-    mutation: createAcl
-  })
-
-  /**
-   * Generates a delete mutation for a given concept ID and target.
-   *
-   * @param {string} conceptId - The concept ID to be deleted.
-   * @param {string} target - The target of the delete mutation.
-   * @returns {object} - The delete mutation object.
-   */
-  const generateDeleteMutation = (conceptId) => ({
-    variables: {
-      conceptId
-    },
-    mutation: deleteAcl
-  })
-
   const handleOnChangeToggleAll = (event) => {
     const allPermissions = systemPermissionsForForm.map((permission) => {
       const { target } = permission
@@ -241,7 +187,7 @@ const SystemPermissions = () => {
               // If the Acl in CMR only has 1 group (this group) we can delete the Acl now
               if (targetedAclGroups.length === 1) {
                 // Delete the Acl
-                mutations.push(generateDeleteMutation(conceptId, target))
+                mutations.push(generateDeleteMutation(deleteAcl, conceptId))
 
                 return
               }
@@ -249,9 +195,14 @@ const SystemPermissions = () => {
               // Remove this group from the group permission
               mutations.push(
                 generateUpdateMutation(
+                  updateAcl,
                   conceptId,
                   targetedAclGroups.filter((gp) => gp.id !== id),
-                  target
+                  {
+                    systemIdentity: {
+                      target
+                    }
+                  }
                 )
               )
 
@@ -261,6 +212,7 @@ const SystemPermissions = () => {
             // The permissions don't match CMR, update the group permission
             mutations.push(
               generateUpdateMutation(
+                updateAcl,
                 conceptId,
                 [
                   ...targetedAclGroups.filter((gp) => gp.id !== id),
@@ -269,7 +221,11 @@ const SystemPermissions = () => {
                     id
                   }
                 ],
-                target
+                {
+                  systemIdentity: {
+                    target
+                  }
+                }
               )
             )
 
@@ -284,6 +240,7 @@ const SystemPermissions = () => {
         if (permissions.length > 0) {
           // Add this group to the group permission
           mutations.push(generateUpdateMutation(
+            updateAcl,
             conceptId,
             [
               ...targetedAclGroups,
@@ -291,7 +248,11 @@ const SystemPermissions = () => {
                 permissions,
                 id
               }],
-            target
+            {
+              systemIdentity: {
+                target
+              }
+            }
           ))
 
           return
@@ -301,10 +262,18 @@ const SystemPermissions = () => {
       // This target does not have an Acl in CMR
       if (permissions.length > 0) {
         // Create a new Acl
-        mutations.push(generateCreateMutation([{
-          permissions,
-          id
-        }], target))
+        mutations.push(generateCreateMutation(
+          createAcl,
+          [{
+            permissions,
+            id
+          }],
+          {
+            systemIdentity: {
+              target
+            }
+          }
+        ))
       }
     })
 

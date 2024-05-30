@@ -11,10 +11,11 @@ import { GET_AVAILABLE_PROVIDERS } from '../operations/queries/getAvailableProvi
  */
 const useAvailableProviders = () => {
   const { providerId, setProviderId } = useAppContext()
+
   const { user } = useAuthContext()
   const { uid } = user || {}
 
-  const { data: providerData } = useQuery(GET_AVAILABLE_PROVIDERS, {
+  const { data = {} } = useQuery(GET_AVAILABLE_PROVIDERS, {
     variables: {
       params: {
         limit: 500,
@@ -24,7 +25,10 @@ const useAvailableProviders = () => {
     }
   })
 
-  const providerIds = providerData?.acls.items?.map(
+  const { acls = {} } = data
+  const { items = [] } = acls
+
+  const providerIds = items.map(
     (item) => item.providerIdentity.provider_id
   )
 
