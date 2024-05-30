@@ -9,6 +9,7 @@ export const GET_PROVIDER_IDENTITY_PERMISSIONS = gql`
           items {
             id
             permissions
+            userType
           }
         }
         providerIdentity

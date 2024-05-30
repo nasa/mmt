@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -11,13 +15,18 @@ import userEvent from '@testing-library/user-event'
 import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPermissions'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
+import NotificationsContext from '@/js/context/NotificationsContext'
+
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import {
   GET_PROVIDER_IDENTITY_PERMISSIONS
 } from '@/js/operations/queries/getProviderIdentityPermissions'
 
+import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
+import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
+import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({
@@ -65,7 +74,6 @@ const setup = ({
       variables: {
         params: {
           identityType: 'provider',
-          permittedGroup: '1234-abcd-5678-efgh',
           limit: 50,
           provider: 'MMT_2'
         }
@@ -83,20 +91,15 @@ const setup = ({
               groups: {
                 items: [
                   {
+                    userType: null,
                     permissions: [
                       'read'
                     ],
                     id: '1234-abcd-5678-efgh'
-                  },
-                  {
-                    permissions: [
-                      'read'
-                    ],
-                    id: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
                   }
                 ]
               },
-              conceptId: 'ACL1200216198-CMR'
+              conceptId: 'ACL1200000001-CMR'
             },
             {
               providerIdentity: {
@@ -106,19 +109,36 @@ const setup = ({
               groups: {
                 items: [
                   {
+                    userType: null,
                     permissions: [],
                     id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
                   },
                   {
+                    userType: null,
                     permissions: [
-                      'delete',
                       'create'
                     ],
                     id: '1234-abcd-5678-efgh'
                   }
                 ]
               },
-              conceptId: 'ACL1200216108-CMR'
+              conceptId: 'ACL1200000002-CMR'
+            },
+            {
+              providerIdentity: {
+                target: 'EXTENDED_SERVICE',
+                provider_id: 'MMT_2'
+              },
+              groups: {
+                items: [
+                  {
+                    userType: null,
+                    permissions: [],
+                    id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                  }
+                ]
+              },
+              conceptId: 'ACL1200000003-CMR'
             }
           ]
         }
@@ -127,33 +147,39 @@ const setup = ({
   },
   ...additionalMocks]
 
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
+
   const user = userEvent.setup()
 
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
+    <NotificationsContext.Provider value={notificationContext}>
       <MemoryRouter initialEntries={['/groups/1234-abcd-5678-efgh']}>
-        <Routes>
-          <Route
-            path="/groups"
-          >
+        <MockedProvider
+          mocks={overrideMocks || mocks}
+        >
+          <Routes>
             <Route
-              path=":id"
-              element={
-                (
-                  <ErrorBoundary>
-                    <Suspense>
-                      <ProviderPermissions />
-                    </Suspense>
-                  </ErrorBoundary>
-                )
-              }
-            />
-          </Route>
-        </Routes>
+              path="/groups"
+            >
+              <Route
+                path=":id"
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <ProviderPermissions />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MockedProvider>
       </MemoryRouter>
-    </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {
@@ -163,8 +189,160 @@ const setup = ({
 
 describe('ProviderPermissions', () => {
   describe('when showing the list of permissions for the groups provider permissions', () => {
-    test('renders the full table of checkboxes with correct options checked', async () => {
-      const { user } = setup({})
+    describe('when toggling the un/check all checkbox', () => {
+      test('unchecks all checkboxes', async () => {
+        const { user } = setup({})
+
+        const selectInput = await screen.findByRole('combobox')
+        await user.click(selectInput)
+
+        const option1 = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option1)
+
+        const checkAll = await screen.findByRole('checkbox', { name: 'Check/Uncheck all permissions' })
+        await user.click(checkAll)
+
+        const table = screen.getByRole('table')
+
+        const checkedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
+        expect(checkedCheckboxes.length).toBe(60)
+
+        await user.click(checkAll)
+
+        const uncheckedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
+        expect(uncheckedCheckboxes.length).toBe(0)
+      })
+    })
+  })
+
+  describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
+    test('creates a new Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: CREATE_ACL,
+            variables: {
+              groupPermissions: [{
+                permissions: [
+                  'create'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              providerIdentity: {
+                target: 'GROUP',
+                provider_id: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              createAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000004-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'provider',
+                limit: 50,
+                provider: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [
+                  {
+                    providerIdentity: {
+                      target: 'AUDIT_REPORT',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'AUTHENTICATOR_DEFINITION',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'EXTENDED_SERVICE',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'GROUP',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
 
       const selectInput = await screen.findByRole('combobox')
       await user.click(selectInput)
@@ -172,15 +350,688 @@ describe('ProviderPermissions', () => {
       const option1 = screen.getByRole('option', { name: 'MMT_2' })
       await user.click(option1)
 
-      expect(screen.queryByText('Audit Reports')).toBeInTheDocument()
-      expect(screen.queryByText('Authenticator Definitions')).toBeInTheDocument()
+      const createGroupheckbox = await screen.findByRole('checkbox', {
+        name: 'create group',
+        checked: false
+      })
 
-      const checkboxes = await screen.findAllByRole('checkbox', { checked: true })
-      expect(checkboxes.length).toBe(3)
+      await user.click(createGroupheckbox)
 
-      expect(checkboxes[0]).toHaveAttribute('name', 'audit_report_read')
-      expect(checkboxes[1]).toHaveAttribute('name', 'authenticator_definition_create')
-      expect(checkboxes[2]).toHaveAttribute('name', 'authenticator_definition_delete')
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create group',
+        checked: true
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read group',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update group',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete group',
+        checked: false
+      })).toBeVisible()
+    })
+  })
+
+  describe('when adding permissions for a target that already has an Acl in CMR but doesnt include the selected group', () => {
+    test('adds the selected group to the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000003-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              }, {
+                permissions: [
+                  'create'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              providerIdentity: {
+                target: 'EXTENDED_SERVICE',
+                provider_id: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000003-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'provider',
+                limit: 50,
+                provider: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [
+                  {
+                    providerIdentity: {
+                      target: 'AUDIT_REPORT',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'AUTHENTICATOR_DEFINITION',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'EXTENDED_SERVICE',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'GROUP',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const selectInput = await screen.findByRole('combobox')
+      await user.click(selectInput)
+
+      const option1 = screen.getByRole('option', { name: 'MMT_2' })
+      await user.click(option1)
+
+      const createExtendedServiceCheckbox = await screen.findByRole('checkbox', {
+        name: 'create extended_service',
+        checked: false
+      })
+
+      await user.click(createExtendedServiceCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create extended_service',
+        checked: true
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read extended_service',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update extended_service',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete extended_service',
+        checked: false
+      })).toBeVisible()
+    })
+  })
+
+  describe('when updating permissions for a target that already has an Acl in CMR that includes the selected group', () => {
+    test('updates the permissions for the selected group in the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000002-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              }, {
+                permissions: [
+                  'create',
+                  'delete'
+                ],
+                group_id: '1234-abcd-5678-efgh'
+              }],
+              providerIdentity: {
+                target: 'AUTHENTICATOR_DEFINITION',
+                provider_id: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000003-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'provider',
+                limit: 50,
+                provider: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [
+                  {
+                    providerIdentity: {
+                      target: 'AUDIT_REPORT',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'AUTHENTICATOR_DEFINITION',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'delete',
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'EXTENDED_SERVICE',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'GROUP',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const selectInput = await screen.findByRole('combobox')
+      await user.click(selectInput)
+
+      const option1 = screen.getByRole('option', { name: 'MMT_2' })
+      await user.click(option1)
+
+      const deleteAuthenticationDefinitionCheckbox = await screen.findByRole('checkbox', {
+        name: 'delete authenticator_definition',
+        checked: false
+      })
+
+      await user.click(deleteAuthenticationDefinitionCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create authenticator_definition',
+        checked: true
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read authenticator_definition',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update authenticator_definition',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete authenticator_definition',
+        checked: true
+      })).toBeVisible()
+    })
+  })
+
+  describe('when removing all permissions for a group that belongs to an Acl in CMR', () => {
+    test('removes the selected group from the Acl in CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: UPDATE_ACL,
+            variables: {
+              conceptId: 'ACL1200000002-CMR',
+              groupPermissions: [{
+                permissions: [],
+                group_id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+              }],
+              providerIdentity: {
+                target: 'AUTHENTICATOR_DEFINITION',
+                provider_id: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              updateAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000003-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'provider',
+                limit: 50,
+                provider: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [
+                  {
+                    providerIdentity: {
+                      target: 'AUDIT_REPORT',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [
+                            'read'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000001-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'AUTHENTICATOR_DEFINITION',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'EXTENDED_SERVICE',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'GROUP',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const selectInput = await screen.findByRole('combobox')
+      await user.click(selectInput)
+
+      const option1 = screen.getByRole('option', { name: 'MMT_2' })
+      await user.click(option1)
+
+      const createAuthenticationDefinitionCheckbox = await screen.findByRole('checkbox', {
+        name: 'create authenticator_definition',
+        checked: true
+      })
+
+      await user.click(createAuthenticationDefinitionCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create authenticator_definition',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read authenticator_definition',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update authenticator_definition',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete authenticator_definition',
+        checked: false
+      })).toBeVisible()
+    })
+  })
+
+  describe('when removing all permissions for a group that belongs to an Acl in CMR and its the last group in the Acl', () => {
+    test('removes the Acl from CMR', async () => {
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: DELETE_ACL,
+            variables: {
+              conceptId: 'ACL1200000001-CMR'
+            }
+          },
+          result: {
+            data: {
+              deleteAcl: {
+                revisionId: '4',
+                conceptId: 'ACL1200000001-CMR'
+              }
+            }
+          }
+        }, {
+          request: {
+            query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+            variables: {
+              params: {
+                identityType: 'provider',
+                limit: 50,
+                provider: 'MMT_2'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [
+                  {
+                    providerIdentity: {
+                      target: 'AUTHENTICATOR_DEFINITION',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000002-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'EXTENDED_SERVICE',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000003-CMR'
+                  },
+                  {
+                    providerIdentity: {
+                      target: 'GROUP',
+                      provider_id: 'MMT_2'
+                    },
+                    groups: {
+                      items: [
+                        {
+                          userType: null,
+                          permissions: [],
+                          id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                        },
+                        {
+                          userType: null,
+                          permissions: [
+                            'create'
+                          ],
+                          id: '1234-abcd-5678-efgh'
+                        }
+                      ]
+                    },
+                    conceptId: 'ACL1200000004-CMR'
+                  }
+                ]
+              }
+            }
+          }
+        }]
+      })
+
+      const selectInput = await screen.findByRole('combobox')
+      await user.click(selectInput)
+
+      const option1 = screen.getByRole('option', { name: 'MMT_2' })
+      await user.click(option1)
+
+      const readAuditReportCheckbox = await screen.findByRole('checkbox', {
+        name: 'read audit_report',
+        checked: true
+      })
+
+      await user.click(readAuditReportCheckbox)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+      await user.click(submitButton)
+
+      // After submission, the data is reloaded -- make sure the checkbox is checked
+      expect(await screen.findByRole('checkbox', {
+        name: 'create audit_report',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'read audit_report',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'update audit_report',
+        checked: false
+      })).toBeVisible()
+
+      expect(await screen.findByRole('checkbox', {
+        name: 'delete audit_report',
+        checked: false
+      })).toBeVisible()
     })
   })
 })
