@@ -1,12 +1,18 @@
-import React, { Suspense, useState } from 'react'
+import React, {
+  Suspense,
+  useEffect,
+  useState
+} from 'react'
+
+import PropTypes from 'prop-types'
 
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Placeholder from 'react-bootstrap/Placeholder'
 import Popover from 'react-bootstrap/Popover'
 import Row from 'react-bootstrap/Row'
-import Placeholder from 'react-bootstrap/Placeholder'
 
 import {
   FaMinus,
@@ -18,11 +24,28 @@ import { useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
+import './CollectionSelector.scss'
+import { debounce } from 'lodash-es'
+import camelcaseKeys from 'camelcase-keys'
+
+import useAuthContext from '@/js/hooks/useAuthContext'
+
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
-import './CollectionSelector.scss'
-
+/*
+ * Renders a `CollectionSelectorPlaceholder` component.
+ *
+ * This component renders the collection selector form page placeholder
+ *
+ * @param {CollectionSelectorPlaceholder} props
+ *
+ * @component
+ * @example <caption>Render the collection selector form page placeholder</caption>
+ * return (
+ *   <CollectionSelectorPlaceholder />
+ * )
+ */
 const CollectionSelectorPlaceholder = () => (
   <Row>
     <Col className="p-3">
@@ -74,9 +97,24 @@ const CollectionSelectorPlaceholder = () => (
     </Col>
   </Row>
 )
+
+/**
+ * @typedef {Object} CollectionSelectorProps
+ * @property {Function} onChange A callback function triggered when the user selects collections.
+ * @property {Object} formData An Object with the saved metadata
+ */
+/**
+ * Renders a CollectionSelector component
+ *
+ * @component
+ * @example <caption>Render a CollectionSelector</caption>
+ * return (
+ *   <CollectionSelector />
+ * )
+ */
 const CollectionSelector = ({
   onChange,
-  formData = {}
+  formData
 }) => (
   <ErrorBoundary>
     <Suspense fallback={<CollectionSelectorPlaceholder />}>
@@ -85,29 +123,45 @@ const CollectionSelector = ({
   </ErrorBoundary>
 )
 
-const CollectionSelectorComponent = ({ onChange, formData }) => {
-  console.log('🚀 ~ CollectionSelectorComponent ~ formData:', formData)
-  const [selected, setSelected] = useState([])
+CollectionSelector.defaultProps = {
+  formData: {}
+}
 
+CollectionSelector.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.shape({})
+}
+
+/**
+ * @typedef {Object} CollectionSelectorComponentProps
+ * @property {Function} onChange A callback function triggered when the user selects collections.
+ * @property {Object} formData An Object with the saved metadata
+ */
+/**
+ * Renders a CollectionSelectorComponent component
+ *
+ * @component
+ * @example <caption>Render a CollectionSelectorComponent</caption>
+ * return (
+ *   <CollectionSelectorComponent />
+ * )
+ */
+const CollectionSelectorComponent = ({ onChange, formData }) => {
+  const { tokenValue } = useAuthContext()
+
+  const [selected, setSelected] = useState([])
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
   const [selectedAvailable, setSelectedAvailable] = useState([])
   const [selectedSelected, setSelectedSelected] = useState([])
 
-  const { data } = useSuspenseQuery(
-    GET_PERMISSION_COLLECTIONS,
-    {
-      variables: {
-        params: {
-          limit: 1000
-        }
-      }
-    }
-  )
+  const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS)
 
-  const { collections } = data
+  const { collections } = collectionList
   const { items } = collections
+
+  const [available, setAvailable] = useState(items)
 
   const moveToSelected = () => {
     const newSelected = selectedAvailable.filter(
@@ -148,13 +202,60 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
       : [...selectedSelected, item])
   }
 
-  const filteredAvailable = items.filter(
-    (item) => item.shortName.toLowerCase().includes(searchAvailable.toLowerCase())
-  )
-
   const filteredSelected = selected.filter(
     (item) => item.shortName.toLowerCase().includes(searchSelected.toLowerCase())
   )
+
+  const [prevSearchTerm, setPrevSearchTerm] = useState('')
+
+  const loadOptions = debounce((inputValue, callback) => {
+    if (inputValue.length >= 3) {
+      fetch(`https://cmr.sit.earthdata.nasa.gov/search/collections.umm_json?keyword=${encodeURI(inputValue)}&page_size=20`, {
+        method: 'GET',
+        headers: {
+          // Authorization: tokenValue,
+          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE3MTk4NjMzNjksImlhdCI6MTcxNDY3OTM2OSwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.nY9ID2hCK2Qp_F-_GbRtJYRcnO-pWEe-K3WPYZoDRmhKJWeimZX-eaJXTX7fAIH_Vvz_j6Ip5Mo7JY8Y8FR5kftPRWQIp1EvTRHbjlWJImcQv98Iaeuuuw3UnMFVJdcoErCv1_JQpBn_8z3Agx7A5O6JCDGPq__Lo1pZF6CLqnvYSu1mHd4OSPT_8wFP6mpV2MAHwx_n0q-vcAxZBfXkVcKZpp-0NhIp9QhUi0_d-lM19T2Kev26dwfZ35_cHnc2MNEwTuXtSHORRxkbruVofhDTnIlU-dO4skJW_-A_0anHcv9ifpr2PeMOVba0pKQGm8hS7b1eaEy2kKJ5NuSrCg'
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const options = data.items.map((item) => {
+            const { meta, umm } = item
+            console.log('🚀 ~ options ~ meta:', meta)
+            const {
+              'concept-id': conceptId,
+              'provider-id': providerId
+            } = meta
+
+            const camelcaseData = camelcaseKeys(umm, { deep: true })
+
+            return {
+              ...camelcaseData,
+              conceptId,
+              provider: providerId
+            }
+          })
+
+          callback(options)
+        })
+    }
+  }, 1000)
+
+  useEffect(() => {
+    const handleSearch = (inputValue) => {
+      if (inputValue !== prevSearchTerm) {
+        if (inputValue.length >= 3) {
+          loadOptions(inputValue, setAvailable)
+        } else {
+          setAvailable(items)
+        }
+
+        setPrevSearchTerm(inputValue)
+      }
+    }
+
+    handleSearch(searchAvailable)
+  }, [searchAvailable, loadOptions])
 
   const popover = (item) => {
     const {
@@ -241,10 +342,16 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
             type="text"
             value={searchAvailable}
           />
-          <div className="border rounded p-3 collection-selector__scrollable-list">
-            <ul className="list-unstyled">
+          <div className="collection-selector__list-group border rounded p-3">
+            {/* {
+              loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '500px' }}>
+                  <Spinner animation="border" />
+                </div>
+              ) : ( */}
+            <ul className="list-unstyled h-100">
               {
-                filteredAvailable.map((item) => {
+                available.map((item) => {
                   const {
                     conceptId
                   } = item
@@ -268,16 +375,18 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
                         {displayItem(item)}
                       </li>
                     </OverlayTrigger>
-
                   )
                 })
               }
             </ul>
+            {/* )
+            } */}
           </div>
+
           <div className="text-muted mt-2">
             Showing
             {' '}
-            {filteredAvailable.length}
+            {available.length}
             {' '}
             items
           </div>
@@ -318,7 +427,7 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
             onChange={(e) => setSearchSelected(e.target.value)}
             className="mb-3"
           />
-          <div className="border rounded p-3 scrollable-list">
+          <div className="collection-selector__list-group border rounded p-3">
 
             <ul className="list-unstyled">
               {
@@ -362,7 +471,17 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
         </div>
       </Col>
     </Row>
+
   )
+}
+
+CollectionSelectorComponent.defaultProps = {
+  formData: {}
+}
+
+CollectionSelectorComponent.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.shape({})
 }
 
 export default CollectionSelector
