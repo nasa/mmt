@@ -213,8 +213,7 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
       fetch(`https://cmr.sit.earthdata.nasa.gov/search/collections.umm_json?keyword=${encodeURI(inputValue)}&page_size=20`, {
         method: 'GET',
         headers: {
-          // Authorization: tokenValue,
-          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfc2l0IiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6ImRtaXN0cnkiLCJleHAiOjE3MTk4NjMzNjksImlhdCI6MTcxNDY3OTM2OSwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.nY9ID2hCK2Qp_F-_GbRtJYRcnO-pWEe-K3WPYZoDRmhKJWeimZX-eaJXTX7fAIH_Vvz_j6Ip5Mo7JY8Y8FR5kftPRWQIp1EvTRHbjlWJImcQv98Iaeuuuw3UnMFVJdcoErCv1_JQpBn_8z3Agx7A5O6JCDGPq__Lo1pZF6CLqnvYSu1mHd4OSPT_8wFP6mpV2MAHwx_n0q-vcAxZBfXkVcKZpp-0NhIp9QhUi0_d-lM19T2Kev26dwfZ35_cHnc2MNEwTuXtSHORRxkbruVofhDTnIlU-dO4skJW_-A_0anHcv9ifpr2PeMOVba0pKQGm8hS7b1eaEy2kKJ5NuSrCg'
+          Authorization: tokenValue
         }
       })
         .then((response) => response.json())
