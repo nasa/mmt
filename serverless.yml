@@ -12,7 +12,7 @@ provider:
   environment:
     COLLECTION_TEMPLATES_BUCKET_NAME: ${self:custom.collectionTemplatesBucketName}
     EDL_PASSWORD: ${env:EDL_PASSWORD, ''}
-    COOKIE_DOMAIN: ${env:COOKIE_DOMAIN, 'localhost'}
+    COOKIE_DOMAIN: ${env:COOKIE_DOMAIN, '.localhost'}
     JWT_SECRET: ${env:JWT_SECRET, 'local-secret'}
     JWT_VALID_TIME: ${env:JWT_VALID_TIME, '900'}
   vpc:

@@ -17,7 +17,7 @@ import errorLogger from '@/js/utils/errorLogger'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
-const { apiHost } = getApplicationConfig()
+const { apiHost, cookieDomain } = getApplicationConfig()
 
 /**
  * @typedef {Object} AuthContextProviderProps
@@ -38,7 +38,7 @@ const { apiHost } = getApplicationConfig()
 const AuthContextProvider = ({ children }) => {
   const {
     mmtJwt,
-    removeCookie
+    setCookie
   } = useMMTCookie()
 
   const [authLoading, setAuthLoading] = useState(true)
@@ -75,7 +75,12 @@ const AuthContextProvider = ({ children }) => {
         return
       }
 
-      removeCookie(MMT_COOKIE)
+      // `removeCookie` doesn't seem to work on Safari, using `setCookie` with a null value does remove the cookie
+      setCookie(MMT_COOKIE, null, {
+        domain: cookieDomain,
+        maxAge: 0,
+        expires: new Date(0)
+      })
 
       setTokenValue(null)
       setTokenExpires(null)
