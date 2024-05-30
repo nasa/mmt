@@ -8,7 +8,6 @@ import MMT_COOKIE from '../constants/mmtCookie'
 const useMMTCookie = () => {
   const [
     cookies,
-    // eslint-disable-next-line no-unused-vars
     setCookie,
     removeCookie
   ] = useCookies([MMT_COOKIE])
@@ -16,6 +15,7 @@ const useMMTCookie = () => {
 
   return {
     mmtJwt,
+    setCookie,
     removeCookie
   }
 }

@@ -41,8 +41,12 @@ const samlCallback = async (event) => {
 
   const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}`
 
-  const { COOKIE_DOMAIN, JWT_VALID_TIME } = process.env
-  const setCookie = `_mmt_jwt=${jwt}; SameSite=Strict; Path=/; Secure; Domain=${COOKIE_DOMAIN}; Max-Age=${JWT_VALID_TIME}`
+  const { COOKIE_DOMAIN, JWT_VALID_TIME, IS_OFFLINE } = process.env
+
+  let setCookie = `_mmt_jwt=${jwt}; SameSite=Strict; Path=/; Domain=${COOKIE_DOMAIN}; Max-Age=${JWT_VALID_TIME};`
+  if (!IS_OFFLINE) {
+    setCookie += ' Secure;'
+  }
 
   const response = {
     statusCode: 303,

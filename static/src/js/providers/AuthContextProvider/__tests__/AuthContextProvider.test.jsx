@@ -18,7 +18,8 @@ vi.mock('@/js/utils/errorLogger')
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
-    apiHost: 'http://test.com/dev'
+    apiHost: 'http://test.com/dev',
+    cookieDomain: 'example.com'
   }))
 }))
 
@@ -87,9 +88,10 @@ describe('AuthContextProvider component', () => {
   describe('when app starts up', () => {
     describe('when log in is triggered', () => {
       test('logs the user in', async () => {
+        const setCookie = vi.fn()
         useCookies.mockImplementation(() => ([
           {},
-          vi.fn(),
+          setCookie,
           vi.fn()
         ]))
 
@@ -101,6 +103,13 @@ describe('AuthContextProvider component', () => {
 
         const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/')}`
         expect(window.location.href).toEqual(expectedPath)
+
+        expect(setCookie).toHaveBeenCalledTimes(1)
+        expect(setCookie).toHaveBeenCalledWith(MMT_COOKIE, null, {
+          domain: 'example.com',
+          maxAge: 0,
+          expires: new Date(0)
+        })
       })
     })
 
