@@ -13,7 +13,7 @@ import PermissionCollectionTable from '@/js/components/PermissionCollectionTable
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
-vi.mock('../../permissionCollectionTable/PermissionCollectionTable')
+vi.mock('../../PermissionCollectionTable/PermissionCollectionTable')
 
 const setup = ({
   overrideMocks = false
