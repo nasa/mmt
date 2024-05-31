@@ -10,7 +10,12 @@ import {
   Route,
   Routes
 } from 'react-router'
+import { ApolloError } from '@apollo/client'
+
 import userEvent from '@testing-library/user-event'
+
+import SystemPermissions from '@/js/components/SystemPermissions/SystemPermissions'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
 import NotificationsContext from '@/js/context/NotificationsContext'
 
@@ -23,8 +28,9 @@ import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
-import SystemPermissions from '../SystemPermissions'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
+import errorLogger from '@/js/utils/errorLogger'
+
+vi.mock('@/js/utils/errorLogger')
 
 const setup = ({
   additionalMocks = [],
@@ -140,8 +146,9 @@ const setup = ({
   },
   ...additionalMocks]
 
+  const addNotificationMock = vi.fn()
   const notificationContext = {
-    addNotification: vi.fn()
+    addNotification: addNotificationMock
   }
 
   const user = userEvent.setup()
@@ -177,6 +184,7 @@ const setup = ({
   )
 
   return {
+    addNotificationMock,
     user
   }
 }
@@ -199,6 +207,140 @@ describe('SystemPermissions', () => {
 
         const uncheckedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
         expect(uncheckedCheckboxes.length).toBe(0)
+      })
+    })
+  })
+
+  describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
+    describe('when the mutation fails', () => {
+      test('fails to create a new Acl in CMR', async () => {
+        const { addNotificationMock, user } = setup({
+          additionalMocks: [{
+            request: {
+              query: CREATE_ACL,
+              variables: {
+                groupPermissions: [{
+                  permissions: [
+                    'create'
+                  ],
+                  group_id: '1234-abcd-5678-efgh'
+                }],
+                systemIdentity: {
+                  target: 'ANY_ACL'
+                }
+              }
+            },
+            result: {
+              data: null,
+              errors: [{
+                message: 'An error occurred updating an Acl.',
+                locations: [{
+                  line: 2,
+                  column: 3
+                }],
+                paths: ['acls']
+              }]
+            }
+          }, {
+            request: {
+              query: GET_SYSTEM_IDENTITY_PERMISSIONS,
+              variables: {
+                params: {
+                  identityType: 'system',
+                  limit: 50
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  count: 30,
+                  cursor: 'eyJqc29uIjoiW1wicHJvdmlkZXIgLSBtbXRfMSAtIHByb3ZpZGVyX2luZm9ybWF0aW9uXCIsXCJBQ0wxMjAwMjE1Nzg5LUNNUlwiXSJ9',
+                  items: [
+                    {
+                      systemIdentity: {
+                        target: 'DASHBOARD_ADMIN'
+                      },
+                      identityType: 'System',
+                      groups: {
+                        items: [
+                          {
+                            permissions: [
+                              'read'
+                            ],
+                            id: '1234-abcd-5678-efgh',
+                            userType: null
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000001-CMR'
+                    },
+                    {
+                      systemIdentity: {
+                        target: 'INGEST_MANAGEMENT_ACL'
+                      },
+                      identityType: 'System',
+                      groups: {
+                        items: [
+                          {
+                            permissions: [],
+                            id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                            userType: null
+                          },
+                          {
+                            permissions: [
+                              'read',
+                              'update'
+                            ],
+                            id: '1234-abcd-5678-efgh',
+                            userType: null
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000002-CMR'
+                    },
+                    {
+                      systemIdentity: {
+                        target: 'TAG_GROUP'
+                      },
+                      identityType: 'System',
+                      groups: {
+                        items: [
+                          {
+                            permissions: [],
+                            id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f',
+                            userType: null
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000004-CMR'
+                    }
+                  ]
+                }
+              }
+            }
+          }]
+        })
+
+        const createAnyAclCheckbox = await screen.findByRole('checkbox', {
+          name: 'create any_acl',
+          checked: false
+        })
+
+        await user.click(createAnyAclCheckbox)
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+        await user.click(submitButton)
+
+        expect(addNotificationMock).toHaveBeenCalledTimes(1)
+        expect(addNotificationMock).toHaveBeenCalledWith({
+          message: 'Failed to update system permissions.',
+          variant: 'danger'
+        })
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('Failed to create system permissions.', new ApolloError({ errorMessage: 'An error occurred updating an Acl.' }))
       })
     })
   })

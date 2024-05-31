@@ -28,6 +28,8 @@ import generateCreateMutation from '@/js/operations/utils/generateCreateAclMutat
 import generateDeleteMutation from '@/js/operations/utils/generateDeleteAclMutation'
 import generateUpdateMutation from '@/js/operations/utils/generateUpdateAclMutation'
 
+import errorLogger from '@/js/utils/errorLogger'
+
 /**
  * Renders a ProviderPermissions component
  *
@@ -109,9 +111,21 @@ const ProviderPermissions = () => {
     }
   })
 
-  const [updateAcl, { loading: updateLoading }] = useMutation(UPDATE_ACL)
-  const [createAcl, { loading: createLoading }] = useMutation(CREATE_ACL)
-  const [deleteAcl, { loading: deleteLoading }] = useMutation(DELETE_ACL)
+  const [updateAcl, { loading: updateLoading }] = useMutation(UPDATE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to update provider permissions.', error)
+    }
+  })
+  const [createAcl, { loading: createLoading }] = useMutation(CREATE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to create provider permissions.', error)
+    }
+  })
+  const [deleteAcl, { loading: deleteLoading }] = useMutation(DELETE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to delete provider permissions.', error)
+    }
+  })
 
   const handleOnChangeProvider = (event) => {
     setProvider(event.value)
@@ -310,8 +324,18 @@ const ProviderPermissions = () => {
     })
 
     const totalMutations = results.length
-    const successfulMutations = results.filter((result) => result.status === 'fulfilled')
-    const failedMutations = results.filter((result) => result.status === 'rejected')
+    const successfulMutations = results.filter((result) => {
+      const { value = {} } = result
+      const { errors = [] } = value
+
+      return errors == null
+    })
+    const failedMutations = results.filter((result) => {
+      const { value = {} } = result
+      const { errors } = value
+
+      return errors != null
+    })
 
     if (totalMutations === successfulMutations.length) {
       addNotification({

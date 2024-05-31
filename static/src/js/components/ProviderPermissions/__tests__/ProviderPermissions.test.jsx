@@ -10,6 +10,8 @@ import {
   Route,
   Routes
 } from 'react-router'
+import { ApolloError } from '@apollo/client'
+
 import userEvent from '@testing-library/user-event'
 
 import ProviderPermissions from '@/js/components/ProviderPermissions/ProviderPermissions'
@@ -27,6 +29,10 @@ import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
+
+import errorLogger from '@/js/utils/errorLogger'
+
+vi.mock('@/js/utils/errorLogger')
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({
@@ -147,8 +153,9 @@ const setup = ({
   },
   ...additionalMocks]
 
+  const addNotificationMock = vi.fn()
   const notificationContext = {
-    addNotification: vi.fn()
+    addNotification: addNotificationMock
   }
 
   const user = userEvent.setup()
@@ -183,6 +190,7 @@ const setup = ({
   )
 
   return {
+    addNotificationMock,
     user
   }
 }
@@ -211,6 +219,168 @@ describe('ProviderPermissions', () => {
 
         const uncheckedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
         expect(uncheckedCheckboxes.length).toBe(0)
+      })
+    })
+  })
+
+  describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
+    describe('when the mutation fails', () => {
+      test('fails to create a new Acl in CMR', async () => {
+        const { addNotificationMock, user } = setup({
+          additionalMocks: [{
+            request: {
+              query: CREATE_ACL,
+              variables: {
+                groupPermissions: [{
+                  permissions: [
+                    'create'
+                  ],
+                  group_id: '1234-abcd-5678-efgh'
+                }],
+                providerIdentity: {
+                  target: 'GROUP',
+                  provider_id: 'MMT_2'
+                }
+              }
+            },
+            result: {
+              data: null,
+              errors: [{
+                message: 'An error occurred updating an Acl.',
+                locations: [{
+                  line: 2,
+                  column: 3
+                }],
+                paths: ['acls']
+              }]
+            }
+          }, {
+            request: {
+              query: GET_PROVIDER_IDENTITY_PERMISSIONS,
+              variables: {
+                params: {
+                  identityType: 'provider',
+                  limit: 50,
+                  provider: 'MMT_2'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [
+                    {
+                      providerIdentity: {
+                        target: 'AUDIT_REPORT',
+                        provider_id: 'MMT_2'
+                      },
+                      groups: {
+                        items: [
+                          {
+                            userType: null,
+                            permissions: [
+                              'read'
+                            ],
+                            id: '1234-abcd-5678-efgh'
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000001-CMR'
+                    },
+                    {
+                      providerIdentity: {
+                        target: 'AUTHENTICATOR_DEFINITION',
+                        provider_id: 'MMT_2'
+                      },
+                      groups: {
+                        items: [
+                          {
+                            userType: null,
+                            permissions: [],
+                            id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          },
+                          {
+                            userType: null,
+                            permissions: [
+                              'create'
+                            ],
+                            id: '1234-abcd-5678-efgh'
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000002-CMR'
+                    },
+                    {
+                      providerIdentity: {
+                        target: 'EXTENDED_SERVICE',
+                        provider_id: 'MMT_2'
+                      },
+                      groups: {
+                        items: [
+                          {
+                            userType: null,
+                            permissions: [],
+                            id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000003-CMR'
+                    },
+                    {
+                      providerIdentity: {
+                        target: 'GROUP',
+                        provider_id: 'MMT_2'
+                      },
+                      groups: {
+                        items: [
+                          {
+                            userType: null,
+                            permissions: [],
+                            id: '3a07720d-2ac4-4ea5-a0fb-a32dd7c7435f'
+                          },
+                          {
+                            userType: null,
+                            permissions: [
+                              'create'
+                            ],
+                            id: '1234-abcd-5678-efgh'
+                          }
+                        ]
+                      },
+                      conceptId: 'ACL1200000004-CMR'
+                    }
+                  ]
+                }
+              }
+            }
+          }]
+        })
+
+        const selectInput = await screen.findByRole('combobox')
+        await user.click(selectInput)
+
+        const option1 = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(option1)
+
+        const createGroupheckbox = await screen.findByRole('checkbox', {
+          name: 'create group',
+          checked: false
+        })
+
+        await user.click(createGroupheckbox)
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+
+        await user.click(submitButton)
+
+        expect(addNotificationMock).toHaveBeenCalledTimes(1)
+        expect(addNotificationMock).toHaveBeenCalledWith({
+          message: 'Failed to update provider permissions.',
+          variant: 'danger'
+        })
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('Failed to create provider permissions.', new ApolloError({ errorMessage: 'An error occurred updating an Acl.' }))
       })
     })
   })
