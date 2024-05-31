@@ -1,5 +1,6 @@
 import cookie from 'cookie'
 
+import createCookie from '../utils/createCookie'
 import createJwt from '../utils/createJwt'
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 
@@ -41,17 +42,10 @@ const samlCallback = async (event) => {
 
   const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}`
 
-  const { COOKIE_DOMAIN, JWT_VALID_TIME, IS_OFFLINE } = process.env
-
-  let setCookie = `_mmt_jwt=${jwt}; SameSite=Strict; Path=/; Domain=${COOKIE_DOMAIN}; Max-Age=${JWT_VALID_TIME};`
-  if (!IS_OFFLINE) {
-    setCookie += ' Secure;'
-  }
-
   const response = {
     statusCode: 303,
     headers: {
-      'Set-Cookie': setCookie,
+      'Set-Cookie': createCookie(jwt),
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',

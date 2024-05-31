@@ -24,6 +24,7 @@
     "@rjsf/core": "^5.15.0",
     "@rjsf/utils": "^5.15.0",
     "@rjsf/validator-ajv8": "^5.15.0",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vitejs/plugin-react": "^4.1.0",
     "@xmldom/xmldom": "^0.8.10",
     "bootstrap": "^5.3.2",

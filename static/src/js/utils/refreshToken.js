@@ -1,37 +1,32 @@
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
- * Calls refreshToken lambda to request a new token since the current one is about to expire
- * @param {Object} token The users existing launchpad token
+ * Calls refreshToken lambda to request a new token since the current one is about to expire. The new token is set as the MMT cookie
+ * @param {Object} params
+ * @param {String} params.jwt The user's MMT JWT
+ * @param {Function} params.setToken Function to update the token
  */
-const refreshToken = async (token) => {
+const refreshToken = async ({
+  jwt,
+  setToken
+}) => {
   const { apiHost } = getApplicationConfig()
 
-  let expires = new Date()
-  expires.setMinutes(expires.getMinutes() + 15)
-  expires = new Date(expires)
-
-  if (process.env.NODE_ENV === 'development') {
-    return {
-      tokenValue: 'ABC-1',
-      tokenExp: expires.valueOf()
-    }
-  }
-
   const options = {
-    method: 'POST',
+    credentials: 'include',
     headers: {
-      token
-    }
+      Authorization: jwt
+    },
+    method: 'POST'
   }
 
-  return fetch(`${apiHost}/saml-refresh-token`, (options)).then((response) => {
-    const refreshTokenValue = {
-      tokenValue: response.headers.get('token'),
-      tokenExp: expires.valueOf()
-    }
+  await fetch(`${apiHost}/saml-refresh-token`, (options)).then((response) => {
+    // If the refresh token failed, log out the user
+    if (!response.ok) {
+      setToken(null)
 
-    return refreshTokenValue
+      window.location.href = '/'
+    }
   })
 }
 

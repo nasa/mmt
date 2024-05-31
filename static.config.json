@@ -13,7 +13,8 @@
       "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Credentials": true
     },
-    "cookieDomain": ".localhost"
+    "cookieDomain": ".localhost",
+    "tokenValidTime": "900"
   },
   "ummVersions": {
     "ummC": "1.17.3",

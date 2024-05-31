@@ -1,74 +1,75 @@
 import refreshToken from '../refreshToken'
 
+beforeEach(() => {
+  delete window.location
+  window.location = {}
+})
+
 describe('refreshToken in production mode', () => {
-  const OLD_ENV = process.env
+  describe('when the request is successfull', () => {
+    test('does not call setToken or navigate', async () => {
+      global.fetch.mockResolvedValue(Promise.resolve({
+        ok: true,
+        status: 200
+      }))
 
-  beforeEach(() => {
-    process.env = { ...OLD_ENV }
-    vi.clearAllMocks()
+      const setToken = vi.fn()
+      const navigate = vi.fn()
 
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date('2024-01-01'))
-  })
+      await refreshToken({
+        jwt: 'mock_token',
+        setToken,
+        navigate
+      })
 
-  afterEach(() => {
-    process.env = OLD_ENV
-    vi.useRealTimers()
-  })
+      expect(setToken).toHaveBeenCalledTimes(0)
 
-  global.fetch = vi.fn(() => Promise.resolve({
-    headers: new Headers({
-      token: 'new_token'
-    }),
-    json: () => Promise.resolve({
-      ok: true,
-      status: 200
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:4001/dev/saml-refresh-token',
+        {
+          credentials: 'include',
+          headers: {
+            Authorization: 'mock_token'
+          },
+          method: 'POST'
+        }
+      )
     })
-  }))
-
-  test('in production given a valid token, returns a new token', async () => {
-    const newToken = await refreshToken('mock_token')
-
-    expect(newToken.tokenValue).toEqual('new_token')
-    expect(newToken.tokenExp).toEqual(1704068100000)
-
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:4001/dev/saml-refresh-token',
-      {
-        headers: {
-          token: 'mock_token'
-        },
-        method: 'POST'
-      }
-    )
   })
 
-  test('in development given a valid token, returns a new token', async () => {
-    process.env.NODE_ENV = 'development'
-    const newToken = await refreshToken('mock_token')
+  describe('when the request errors', () => {
+    test('calls setToken and navigate to log out the user', async () => {
+      global.fetch.mockResolvedValue(Promise.resolve({
+        ok: false,
+        status: 500
+      }))
 
-    expect(newToken.tokenValue).toEqual('ABC-1')
+      const setToken = vi.fn()
+      const navigate = vi.fn()
 
-    expect(fetch).toHaveBeenCalledTimes(0)
-  })
+      await refreshToken({
+        jwt: 'mock_token',
+        setToken,
+        navigate
+      })
 
-  test('return error response', async () => {
-    fetch.mockImplementationOnce(() => Promise.reject(new Error('error')))
+      expect(setToken).toHaveBeenCalledTimes(1)
+      expect(setToken).toHaveBeenCalledWith(null)
 
-    await refreshToken('mock_token').catch((error) => {
-      expect(error.message).toEqual('error')
+      expect(window.location.href).toEqual('/')
+
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:4001/dev/saml-refresh-token',
+        {
+          credentials: 'include',
+          headers: {
+            Authorization: 'mock_token'
+          },
+          method: 'POST'
+        }
+      )
     })
-
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:4001/dev/saml-refresh-token',
-      {
-        headers: {
-          token: 'mock_token'
-        },
-        method: 'POST'
-      }
-    )
   })
 })

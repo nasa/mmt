@@ -1,12 +1,16 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  act,
+  render,
+  screen
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useCookies } from 'react-cookie'
 import jwt from 'jsonwebtoken'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
-import checkAndRefreshToken from '@/js/utils/checkAndRefreshToken'
 import errorLogger from '@/js/utils/errorLogger'
+import refreshToken from '@/js/utils/refreshToken'
 
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 
@@ -15,16 +19,15 @@ import MMT_COOKIE from '@/js/constants/mmtCookie'
 import AuthContextProvider from '../AuthContextProvider'
 
 vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/refreshToken')
+
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev',
-    cookieDomain: 'example.com'
+    cookieDomain: 'example.com',
+    tokenValidTime: '900'
   }))
-}))
-
-vi.mock('@/js/utils/checkAndRefreshToken', () => ({
-  default: vi.fn()
 }))
 
 vi.mock('jsonwebtoken', async () => ({
@@ -32,7 +35,9 @@ vi.mock('jsonwebtoken', async () => ({
     decode: vi.fn().mockReturnValue({
       edlProfile: {
         name: 'Test User'
-      }
+      },
+      exp: (new Date('2024-01-01').getTime() / 1000) + 900,
+      launchpadToken: 'mock-token'
     })
   }
 }))
@@ -130,8 +135,7 @@ describe('AuthContextProvider component', () => {
       })
     })
 
-    // Skipping because we don't have refresh logic right now MMT-3749
-    describe.skip('when refresh token', () => {
+    describe('when the user token is about to expire', () => {
       beforeEach(() => {
         vi.useFakeTimers()
       })
@@ -140,35 +144,63 @@ describe('AuthContextProvider component', () => {
         vi.useRealTimers()
       })
 
-      test('calls refresh token lambda to exchange for a new token', async () => {
-        let expires = new Date('2024-02-01')
-        expires.setMinutes(expires.getMinutes() - 2)
-        expires = new Date(expires)
+      describe('when the first token\'s timer ends', () => {
+        test('refreshes the user token', async () => {
+          // The first timer will always refresh the token, because the user loaded the page
+          // within the valid timeframe of the token
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
 
-        setup({
-          launchpadToken: 'mock-launchpad-token',
-          loginInfo: {
-            auid: 'username',
-            name: 'User Name',
-            token: {
-              tokenValue: 'mock-token',
-              tokenExp: expires.valueOf()
-            }
-          }
+          setup()
 
+          await act(() => {
+            vi.advanceTimersByTime(14.5 * 60 * 1000) // 14.5 minutes
+          })
+
+          expect(refreshToken).toHaveBeenCalledTimes(1)
+          expect(refreshToken).toHaveBeenCalledWith(expect.objectContaining({
+            jwt: 'mock-jwt'
+          }))
         })
+      })
 
-        vi.advanceTimersByTime(6000)
+      describe('when the user has not been active during the token valid time', () => {
+        // TODO MMT-3750 check warning
+        test('warns the user they will be logged out', async () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
 
-        expect(checkAndRefreshToken).toHaveBeenCalledTimes(1)
-        expect(checkAndRefreshToken).toHaveBeenCalledWith({
-          auid: 'username',
-          name: 'User Name',
-          token: {
-            tokenExp: 1706745480000,
-            tokenValue: 'mock-token'
-          }
-        }, expect.any(Function))
+          setup()
+
+          // The first timeout will have a refresh
+          await act(() => {
+            vi.advanceTimersByTime(14.5 * 60 * 1000) // 14.5 minutes
+          })
+
+          expect(refreshToken).toHaveBeenCalledTimes(1)
+          expect(refreshToken).toHaveBeenCalledWith(expect.objectContaining({
+            jwt: 'mock-jwt'
+          }))
+
+          vi.clearAllMocks()
+
+          // The second timeout will not have the user active, and will not refresh
+          vi.advanceTimersByTime(14.5 * 60 * 1000) // 14.5 minutes
+
+          expect(refreshToken).toHaveBeenCalledTimes(0)
+        })
       })
     })
 
