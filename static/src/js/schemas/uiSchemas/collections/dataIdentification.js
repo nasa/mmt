@@ -214,6 +214,26 @@ const dataIdentificationUiSchema = {
                   {
                     'ui:col': {
                       md: 12,
+                      children: ['LicenseURL']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['LicenseText']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
                       children: ['Description']
                     }
                   }
@@ -235,26 +255,6 @@ const dataIdentificationUiSchema = {
                     'ui:col': {
                       md: 12,
                       children: ['EULAIdentifiers']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['LicenseURL']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['LicenseText']
                     }
                   }
                 ]
