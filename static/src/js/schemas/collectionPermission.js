@@ -23,7 +23,7 @@ const collectionPermission = {
       $ref: '#/definitions/temporalConstraintFilterType'
     },
     groupPermissions: {
-      $ref: '#/definitions/groupPermissionType'
+      type: 'string'
     }
   },
   required: ['name'],
@@ -60,11 +60,11 @@ const collectionPermission = {
       additionalProperties: false,
       description: 'This object describes the access constraint on a collection or granules for this permission.',
       properties: {
-        collectionAssessConstraint: {
-          $ref: '#/definitions/collectionAssessConstraintType'
+        collectionAccessConstraint: {
+          $ref: '#/definitions/collectionAccessConstraintType'
         },
-        granuleAssessConstraint: {
-          $ref: '#/definitions/granuleAssessConstraintType'
+        granuleAccessConstraint: {
+          $ref: '#/definitions/granuleAccessConstraintType'
         }
       }
     },
@@ -81,7 +81,7 @@ const collectionPermission = {
         }
       }
     },
-    collectionAssessConstraintType: {
+    collectionAccessConstraintType: {
       type: 'object',
       additionalProperties: false,
       properties: {
@@ -103,7 +103,7 @@ const collectionPermission = {
         }
       }
     },
-    granuleAssessConstraintType: {
+    granuleAccessConstraintType: {
       type: 'object',
       additionalProperties: false,
       properties: {
@@ -176,8 +176,15 @@ const collectionPermission = {
       additionalProperties: false,
       description: 'Type of permission to apply to',
       properties: {
-        permission: {
-          $ref: '#/definitions/permissionType'
+        collection: {
+          type: 'boolean',
+          title: 'Collections',
+          description: 'Apply collection permissions'
+        },
+        granule: {
+          type: 'boolean',
+          title: 'Granules',
+          description: 'Apply granule permission'
         }
       }
     },
@@ -192,14 +199,6 @@ const collectionPermission = {
           type: 'boolean',
           title: 'Granules',
           description: 'Apply granule permission'
-        }
-      }
-    },
-    groupPermissionType: {
-      properties: {
-        groupPermission: {
-          description: 'Entry Title of the collection',
-          type: 'string'
         }
       }
     }

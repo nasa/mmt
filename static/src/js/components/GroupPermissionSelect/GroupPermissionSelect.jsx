@@ -5,55 +5,108 @@ import {
   Col,
   Row
 } from 'react-bootstrap'
-import Select from 'react-select'
 
 import { useSuspenseQuery } from '@apollo/client'
 
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+import { debounce } from 'lodash-es'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
+import AsyncSelect from 'react-select/async'
 
-const GroupPermissionSelect = () => {
-  const groupVariables = {
-    params: {
-      tags: ['MMT_2', 'CMR'],
-      limit: 200
-    }
-  }
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
-  const { data } = useSuspenseQuery(GET_GROUPS, {
-    variables: groupVariables
-  })
+const GroupPermissionSelect = ({
+  onChange, formData = {}
 
-  const { groups } = data
+}) => {
+  const { providerIds } = useAvailableProviders()
 
-  const { items } = groups
+  const { apiHost } = getApplicationConfig()
 
-  const options = items.map((item) => ({
-    value: item.name,
-    label: item.name,
-    provider: item.tag
-  }))
+  const { mmtJwt } = useMMTCookie()
 
   const [selectedOptions1, setSelectedOptions1] = useState([])
   const [selectedOptions2, setSelectedOptions2] = useState([])
 
+  const { data: initialOptionsData } = useSuspenseQuery(GET_GROUPS, {
+    skip: !providerIds,
+    variables: {
+      params: {
+        tags: providerIds
+      }
+    }
+  })
+
+  const { groups } = initialOptionsData || {}
+
+  const { items } = groups || {}
+
+  const groupList = items?.map((item) => ({
+    value: item.id,
+    label: item.name,
+    provider: item.tag
+  }))
+
+  // Include "All RegisterUser" and "All Guest" in the initial options
+  const additionalOptions = [
+    {
+      value: 'all-guest-user',
+      label: 'All Guest User'
+    },
+    {
+      value: 'all-registered-user',
+      label: 'All Registered Users'
+    }
+  ]
+
+  const initialOptions = groupList && groupList.length > 0
+    ? [...additionalOptions, ...groupList]
+    : additionalOptions
+
   const handleSelectChange1 = (selectedOptions) => {
     setSelectedOptions1(selectedOptions || [])
+    onChange({
+      ...formData,
+      searchGroup: selectedOptions
+    })
   }
 
   const handleSelectChange2 = (selectedOptions) => {
     setSelectedOptions2(selectedOptions || [])
+    onChange({
+      ...formData,
+      searchAndOrderGroup: selectedOptions
+    })
   }
 
+  /**
+   * Function to disable options that are already selected in another select component.
+   *
+   * @param {Array} selectedOptions - The currently selected options in one of the select components.
+   * @returns {Function} - A function that takes the full list of options and returns the options with
+   *                       the ones that are selected in the other component marked as disabled.
+   */
   const disableSelectedOptions = (selectedOptions) => {
     const selectedValues = selectedOptions ? selectedOptions.map((opt) => opt.value) : []
 
-    return options.map((option) => ({
+    return (options) => options?.map((option) => ({
       ...option,
       isDisabled: selectedValues.includes(option.value)
     }))
   }
 
-  const formatOptionLabel = ({ value, label, provider }) => (
+  /**
+   * Function to format the label of each option in the select component.
+   * Adds badges based on the provider of the option.
+   *
+   * @param {Object} option - The option object containing label and provider.
+   * @param {string} option.label - The display label of the option.
+   * @param {string} option.provider - The provider associated with the option.
+   * @returns {JSX.Element} - A JSX element representing the formatted label.
+   */
+  const formatOptionLabel = ({ label, provider }) => (
     <div>
       {label}
       <Badge bg="primary" className="m-2">
@@ -68,6 +121,30 @@ const GroupPermissionSelect = () => {
       }
     </div>
   )
+
+  // Loads the options from the search options endpoint. Uses `debounce` to avoid an API call for every keystroke
+  const loadOptions = debounce((inputValue, callback) => {
+    if (inputValue.length >= 3) {
+      // Call the API to retrieve values
+      fetch(`${apiHost}/groups?query=${inputValue}&tags=${providerIds.toString()}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${mmtJwt}`
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const options = data.map((item) => ({
+            value: item.name,
+            label: item.name,
+            provider: item.tag
+          }))
+
+          // Use the callback function to set the values as select options
+          callback(options)
+        })
+    }
+  }, 1000)
 
   return (
     <>
@@ -98,36 +175,50 @@ const GroupPermissionSelect = () => {
           </Alert>
         </Col>
       </Row>
-      <Row className="mb-5">
+      <Row className="">
         <Col>
-          <Select
-            isMulti
-            value={selectedOptions1}
-            onChange={handleSelectChange1}
-            options={disableSelectedOptions(selectedOptions2)}
-            isClearable
-            formatOptionLabel={formatOptionLabel}
-
-          />
-          <div>
-            {
-              selectedOptions1.map((option) => (
-                <Badge key={option.value} pill bg="primary" className="m-1">
-                  {option.label}
-                </Badge>
-              ))
-            }
-          </div>
+          <CustomWidgetWrapper
+            description="test"
+            id="Search"
+            label="Search"
+            required
+            title="Search"
+          >
+            <AsyncSelect
+              isMulti
+              value={selectedOptions1}
+              onChange={handleSelectChange1}
+              loadOptions={
+                (inputValue, callback) => loadOptions(inputValue, (options) => {
+                  callback(disableSelectedOptions(selectedOptions2)(options))
+                })
+              }
+              defaultOptions={disableSelectedOptions(selectedOptions2)(initialOptions)}
+              formatOptionLabel={formatOptionLabel}
+            />
+          </CustomWidgetWrapper>
         </Col>
         <Col>
-          <Select
-            isMulti
-            value={selectedOptions2}
-            onChange={handleSelectChange2}
-            options={disableSelectedOptions(selectedOptions1)}
-            isClearable
-            formatOptionLabel={formatOptionLabel}
-          />
+          <CustomWidgetWrapper
+            description="test"
+            id="Search, Order, and S3 (If Available)"
+            label="Search, Order, and S3 (If Available)"
+            required
+            title="Search, Order, and S3 (If Available)"
+          >
+            <AsyncSelect
+              isMulti
+              value={selectedOptions2}
+              onChange={handleSelectChange2}
+              loadOptions={
+                (inputValue, callback) => loadOptions(inputValue, (options) => {
+                  callback(disableSelectedOptions(selectedOptions1)(options))
+                })
+              }
+              defaultOptions={disableSelectedOptions(selectedOptions1)(initialOptions)}
+              formatOptionLabel={formatOptionLabel}
+            />
+          </CustomWidgetWrapper>
         </Col>
       </Row>
     </>
