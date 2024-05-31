@@ -139,3 +139,17 @@ getEdlUsers:
           name: edlAuthorizer
           type: request
           resultTtlInSeconds: 0
+
+getEdlGroups:
+  handler: serverless/src/getEdlGroups/handler.default
+  timeout: ${env:LAMBDA_TIMEOUT, '30'}
+  role: IamRoleCustomResourcesLambdaExecution
+  events:
+    - http:
+        method: get
+        cors: ${file(./serverless-configs/${self:provider.name}-cors-configuration.yml)}
+        path: groups
+        authorizer:
+          name: edlAuthorizer
+          type: request
+          resultTtlInSeconds: 0

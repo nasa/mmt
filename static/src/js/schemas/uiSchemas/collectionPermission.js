@@ -21,6 +21,9 @@ const collectionPermissionUiSchema = {
                 },
                 {
                   'ui:col': {
+                    style: {
+                      marginTop: '-10px'
+                    },
                     md: 4,
                     children: ['accessPermission']
                   }
@@ -57,20 +60,6 @@ const collectionPermissionUiSchema = {
                   'ui:col': {
                     style: {
                       marginLeft: '10px',
-                      borderLeft: 'solid 5px rgb(240,240,240)'
-                    },
-                    md: 12,
-                    children: ['groupPermissions']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    style: {
-                      marginLeft: '10px',
                       marginBottom: '5px',
                       borderLeft: 'solid 5px rgb(240,240,240)'
                     },
@@ -79,7 +68,18 @@ const collectionPermissionUiSchema = {
                   }
                 }
               ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 12,
+                    children: ['groupPermissions']
+                  }
+                }
+              ]
             }
+
           ]
         }
       }
@@ -125,11 +125,17 @@ const collectionPermissionUiSchema = {
       'ui:field': 'CollectionSelector'
     }
   },
+
   groupPermissions: {
+    'ui:field': 'GroupPermissionSelect'
+  },
+
+  accessPermission: {
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
         {
+          'ui:group': 'Access Constraint Filter',
           'ui:col': {
             md: 12,
             children: [
@@ -137,8 +143,14 @@ const collectionPermissionUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      md: 12,
-                      children: ['groupPermission']
+                      md: 3,
+                      children: ['collection']
+                    }
+                  },
+                  {
+                    'ui:col': {
+                      md: 4,
+                      children: ['granule']
                     }
                   }
                 ]
@@ -148,72 +160,12 @@ const collectionPermissionUiSchema = {
         }
       ]
     },
-    groupPermission: {
-      'ui:field': 'GroupPermissionSelect'
-    }
-  },
-  accessPermission: {
-    'ui:title': 'Access to permission',
-    'ui:required': true,
-    'ui:heading-level': 'h4',
-    'ui:layout_grid': {
-      'ui:row': [
-        {
-          'ui:col': {
-            md: 12,
-            children: [
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['permission']
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+    collection: {
+      'ui:widget': CustomCheckboxWidget
     },
-    permission: {
-      'ui:field': 'layout',
-      'ui:layout_grid': {
-        'ui:row': [
-          {
-            'ui:col': {
-              md: 6,
-              children: [
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['collection']
-                      }
-                    },
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['granule']
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      },
-      collection: {
-        'ui:widget': CustomCheckboxWidget
-      },
-      granule: {
-        'ui:widget': CustomCheckboxWidget
-      }
+    granule: {
+      'ui:widget': CustomCheckboxWidget
     }
-
   },
   accessConstraintFilter: {
     'ui:field': 'layout',
@@ -231,13 +183,13 @@ const collectionPermissionUiSchema = {
                   {
                     'ui:col': {
                       md: 6,
-                      children: ['collectionAssessConstraint']
+                      children: ['collectionAccessConstraint']
                     }
                   },
                   {
                     'ui:col': {
                       md: 6,
-                      children: ['granuleAssessConstraint']
+                      children: ['granuleAccessConstraint']
                     }
                   }
                 ]
@@ -248,7 +200,7 @@ const collectionPermissionUiSchema = {
 
       ]
     },
-    collectionAssessConstraint: {
+    collectionAccessConstraint: {
       'ui:field': 'layout',
       'ui:clear': true,
       'ui:layout_grid': {
@@ -294,7 +246,7 @@ const collectionPermissionUiSchema = {
         'ui:widget': CustomCheckboxWidget
       }
     },
-    granuleAssessConstraint: {
+    granuleAccessConstraint: {
       'ui:disabled': true,
       'ui:clear': true,
       'ui:field': 'layout',
