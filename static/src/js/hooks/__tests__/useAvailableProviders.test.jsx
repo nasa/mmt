@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
+import { ApolloError } from '@apollo/client'
 
 import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 
@@ -8,8 +9,12 @@ import AuthContext from '@/js/context/AuthContext'
 
 import AppContextProvider from '@/js/providers/AppContextProvider/AppContextProvider'
 
+import errorLogger from '@/js/utils/errorLogger'
+
 import useAvailableProviders from '../useAvailableProviders'
 import useAppContext from '../useAppContext'
+
+vi.mock('@/js/utils/errorLogger')
 
 const TestComponent = () => {
   const { providerId } = useAppContext()
@@ -101,5 +106,43 @@ describe('useAvailableProviders', () => {
     expect(await screen.findByText('Provider IDs:')).toBeInTheDocument()
     expect(screen.queryByText('["MMT_1","MMT_2"]')).toBeInTheDocument()
     expect(screen.queryByText('Selected Provider ID:MMT_1')).toBeInTheDocument()
+  })
+
+  test('returns an empty array on error', async () => {
+    setup({
+      overrideMocks: [
+        {
+          request: {
+            query: GET_AVAILABLE_PROVIDERS,
+            variables: {
+              params: {
+                limit: 500,
+                permittedUser: 'mock-user',
+                target: 'PROVIDER_CONTEXT'
+              }
+            }
+          },
+          result: {
+            data: null,
+            errors: [{
+              message: 'An error occurred in useAvailableProviders.',
+              locations: [{
+                line: 2,
+                column: 3
+              }],
+              paths: ['acls']
+            }]
+          }
+        }
+      ]
+    })
+
+    await waitForResponse()
+
+    expect(errorLogger).toHaveBeenCalledTimes(1)
+    expect(errorLogger).toHaveBeenCalledWith(
+      'Failed fetching available providers',
+      new ApolloError({ errorMessage: 'An error occurred in useAvailableProviders.' })
+    )
   })
 })
