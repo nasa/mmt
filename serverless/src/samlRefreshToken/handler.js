@@ -1,6 +1,11 @@
+import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
 
+import createCookie from '../utils/createCookie'
+import createJwt from '../utils/createJwt'
+
 import { getSamlConfig } from '../../../sharedUtils/getConfig'
+import { downcaseKeys } from '../utils/downcaseKeys'
 
 /**
  * Retrieves the launchpad token from the given headers
@@ -27,38 +32,71 @@ const findLaunchpadTokenInHeaders = (headers) => {
  * @param {Object} event Details about the HTTP request that it received
  */
 const samlRefreshToken = async (event) => {
-  // TODO MMT-3749 This needs to be reimplemented to use the JWT
+  const { IS_OFFLINE, JWT_SECRET } = process.env
+
   const { headers } = event
-  const { token } = headers
+  const { authorization: token = '' } = downcaseKeys(headers)
+
+  // Decode the JWT to get the current launchpad token
+  const decodedJwt = jwt.verify(token, JWT_SECRET)
+  const {
+    edlProfile,
+    launchpadToken: oldToken
+  } = decodedJwt
+
+  // If running offline, return the existing token with a new JWT
+  if (IS_OFFLINE) {
+    const newJwt = createJwt(oldToken, edlProfile)
+
+    return {
+      statusCode: 200,
+      headers: {
+        'Set-Cookie': createCookie(newJwt),
+        'Access-Control-Expose-Headers': 'token',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Credentials': true
+      }
+    }
+  }
 
   const options = getSamlConfig()
   const { launchpadRoot, cookieName, keepAliveOrigin } = options
   const path = '/icam/api/pub/sm/v1/keepalive'
   const fetchUrl = `${launchpadRoot}${path}`
 
+  // Call the keep alive endpoint to get a new token
   const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
       Origin: keepAliveOrigin,
-      cookie: `${cookieName}=${token}`
+      cookie: `${cookieName}=${oldToken}`
     }
   })
+
   const json = await response.json()
 
-  const launchpadToken = findLaunchpadTokenInHeaders(response.headers)
   if (json.status === 'success') {
+    const launchpadToken = findLaunchpadTokenInHeaders(response.headers)
+
+    // Create a new JWT with the new launchpadToken and existing edlProfile
+    const newJwt = createJwt(launchpadToken, edlProfile)
+
     return {
       statusCode: 200,
       headers: {
+        'Set-Cookie': createCookie(newJwt),
         'Access-Control-Expose-Headers': 'token',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'GET, POST',
-        'Access-Control-Allow-Credentials': true,
-        token: launchpadToken
+        'Access-Control-Allow-Credentials': true
       }
     }
   }
+
+  console.log(`Error refreshing launchpad token: ${json.message}`)
 
   return {
     'Access-Control-Expose-Headers': 'message',
