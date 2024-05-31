@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
+
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
+
+import errorLogger from '@/js/utils/errorLogger'
 
 import useAuthContext from './useAuthContext'
 import useAppContext from './useAppContext'
-
-import { GET_AVAILABLE_PROVIDERS } from '../operations/queries/getAvailableProviders'
 
 /**
  * Requests the user's available providers from CMR
@@ -12,25 +14,31 @@ import { GET_AVAILABLE_PROVIDERS } from '../operations/queries/getAvailableProvi
 const useAvailableProviders = () => {
   const { providerId, setProviderId } = useAppContext()
 
+  const [providerIds, setProviderIds] = useState([])
+
   const { user } = useAuthContext()
   const { uid } = user || {}
 
-  const { data = {} } = useQuery(GET_AVAILABLE_PROVIDERS, {
+  useQuery(GET_AVAILABLE_PROVIDERS, {
     variables: {
       params: {
         limit: 500,
         permittedUser: uid,
         target: 'PROVIDER_CONTEXT'
       }
+    },
+    onCompleted: (data) => {
+      const { acls = {} } = data
+      const { items = [] } = acls
+
+      setProviderIds(items.map(
+        (item) => item.providerIdentity.provider_id
+      ))
+    },
+    onError: (error) => {
+      errorLogger('Failed fetching available providers', error)
     }
   })
-
-  const { acls = {} } = data
-  const { items = [] } = acls
-
-  const providerIds = items.map(
-    (item) => item.providerIdentity.provider_id
-  )
 
   useEffect(() => {
     // If a provider has not been selected, and there are providers returned, select the first provider
