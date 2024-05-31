@@ -29,6 +29,8 @@ import generateCreateMutation from '@/js/operations/utils/generateCreateAclMutat
 import generateDeleteMutation from '@/js/operations/utils/generateDeleteAclMutation'
 import generateUpdateMutation from '@/js/operations/utils/generateUpdateAclMutation'
 
+import errorLogger from '@/js/utils/errorLogger'
+
 /**
  * Renders a SystemPermissions component
  *
@@ -61,9 +63,21 @@ const SystemPermissions = () => {
     }
   })
 
-  const [updateAcl, { loading: updateLoading }] = useMutation(UPDATE_ACL)
-  const [createAcl, { loading: createLoading }] = useMutation(CREATE_ACL)
-  const [deleteAcl, { loading: deleteLoading }] = useMutation(DELETE_ACL)
+  const [updateAcl, { loading: updateLoading }] = useMutation(UPDATE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to update system permissions.', error)
+    }
+  })
+  const [createAcl, { loading: createLoading }] = useMutation(CREATE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to create system permissions.', error)
+    }
+  })
+  const [deleteAcl, { loading: deleteLoading }] = useMutation(DELETE_ACL, {
+    onError: (error) => {
+      errorLogger('Failed to delete system permissions.', error)
+    }
+  })
 
   // When the data is fetched from CMR, update the state with the system
   // permissions from Acls and the permissions for the form
@@ -284,8 +298,18 @@ const SystemPermissions = () => {
     refetch()
 
     const totalMutations = results.length
-    const successfulMutations = results.filter((result) => result.status === 'fulfilled')
-    const failedMutations = results.filter((result) => result.status === 'rejected')
+    const successfulMutations = results.filter((result) => {
+      const { value = {} } = result
+      const { errors = [] } = value
+
+      return errors == null
+    })
+    const failedMutations = results.filter((result) => {
+      const { value = {} } = result
+      const { errors } = value
+
+      return errors != null
+    })
 
     if (totalMutations === successfulMutations.length) {
       addNotification({
