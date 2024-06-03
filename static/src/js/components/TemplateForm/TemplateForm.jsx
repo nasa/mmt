@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
-import { kebabCase } from 'lodash-es'
+import { isEmpty, kebabCase } from 'lodash-es'
 import crypto from 'crypto'
 
 import useAppContext from '@/js/hooks/useAppContext'
@@ -65,6 +65,7 @@ const TemplateForm = () => {
     originalDraft,
     providerId,
     setDraft,
+    setOriginalDraft,
     setProviderId
   } = useAppContext()
 
@@ -73,8 +74,7 @@ const TemplateForm = () => {
   const {
     ingestMutation,
     ingestDraft,
-    error: ingestDraftError,
-    loading: ingestLoading
+    error: ingestDraftError
   } = useIngestDraftMutation()
 
   const [visitedFields, setVisitedFields] = useState([])
@@ -124,16 +124,16 @@ const TemplateForm = () => {
 
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
-    setFocusField(fieldName)
+    if (fieldName) setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
     if (fieldName && sectionName) navigate(`/templates/collections/${id}/${sectionName}`, { replace: true })
-  }, [fieldName])
+  }, []) // Should only do this redirect on page load
 
   // Fetching collection template if ID is present and draft is not loaded
   useEffect(() => {
     const fetchTemplate = async () => {
-      const { response, error: fetchTemplateError } = await getTemplate(providerId, mmtJwt, id)
+      const { response, error: fetchTemplateError } = await getTemplate(mmtJwt, id)
 
       if (response) {
         const { providerId: templateProviderId, template } = response
@@ -142,16 +142,20 @@ const TemplateForm = () => {
         setDraft({
           ummMetadata: template
         })
+
+        setOriginalDraft({
+          ummMetadata: template
+        })
       } else { setErrors(fetchTemplateError) }
 
       setLoading(false)
     }
 
-    if (id !== 'new' && !draft) {
+    if (id !== 'new' && isEmpty(draft)) {
       setLoading(true)
       fetchTemplate()
     }
-  }, [id])
+  }, []) // Should only fetch a template on page load
 
   const handleSave = async (type) => {
     setSaveLoading(true)
@@ -240,7 +244,7 @@ const TemplateForm = () => {
         variant: 'danger'
       })
     }
-  }, [ingestLoading])
+  }, [ingestDraft, ingestDraftError])
 
   // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {

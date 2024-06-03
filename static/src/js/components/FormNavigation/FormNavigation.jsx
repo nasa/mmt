@@ -226,8 +226,7 @@ FormNavigation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   schema: PropTypes.shape({}).isRequired,
-  setFocusField: PropTypes.func.isRequired,
-  uiSchema: PropTypes.shape({}).isRequired
+  setFocusField: PropTypes.func.isRequired
 }
 
 export default FormNavigation

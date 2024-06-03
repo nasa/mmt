@@ -80,8 +80,7 @@ const MetadataForm = () => {
   const {
     publishMutation,
     publishDraft,
-    error: publishDraftError,
-    loading: publishDraftLoading = true
+    error: publishDraftError
   } = usePublishMutation()
 
   useEffect(() => {
@@ -96,11 +95,11 @@ const MetadataForm = () => {
 
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
-    setFocusField(fieldName)
+    if (fieldName) setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
     if (fieldName && sectionName) navigate(`/drafts/${draftType}/${conceptId}/${sectionName}`, { replace: true })
-  }, [fieldName])
+  }, []) // Should only do this redirect on page load
 
   const [ingestDraftMutation, {
     loading: ingestDraftLoading
@@ -276,7 +275,7 @@ const MetadataForm = () => {
 
       errorLogger(message, 'PublishMutation: publishMutation')
     }
-  }, [publishDraftLoading, publishDraftError])
+  }, [publishDraft, publishDraftError])
 
   // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {
