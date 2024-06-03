@@ -29,7 +29,6 @@ const getEdlGroups = async (event) => {
     })
 
     const json = await response.json()
-    console.log('🚀 ~ getEdlGroups ~ json:', json)
 
     const formattedValues = json.map((item) => ({
       id: item.group_id,

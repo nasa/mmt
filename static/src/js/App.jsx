@@ -151,6 +151,10 @@ export const App = () => {
               element: <PermissionFormPage />
             },
             {
+              path: '/permissions/:conceptId/edit',
+              element: <PermissionFormPage />
+            },
+            {
               path: '/permissions/:conceptId',
               element: <PermissionPage />
             },
