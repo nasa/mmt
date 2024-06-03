@@ -58,8 +58,8 @@ const FormNavigation = ({
   const { errors } = validator.validateFormData(cleanedDraft, schema)
 
   const onSaveClick = (type) => {
-    // If there is no concept id for drafts or id for templates, open the modal
-    if (!conceptId && !id) {
+    // If there is no concept id for drafts or id for templates, or it is a new draft or template, open the modal
+    if ((!conceptId && !id) || conceptId === 'new') {
       setChooseProviderModalType(type)
       setChooseProviderModalOpen(true)
 

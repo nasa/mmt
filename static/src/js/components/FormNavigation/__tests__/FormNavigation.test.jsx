@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   MemoryRouter,
@@ -13,6 +17,7 @@ import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import saveTypes from '@/js/constants/saveTypes'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+import { describe } from 'vitest'
 
 vi.mock('@/js/components/NavigationItem/NavigationItem')
 
@@ -56,7 +61,7 @@ const setup = ({
             path={overridePath || '/tool-drafts'}
           >
             <Route
-              path={overridePathName || ':conceptId/:sectionName'}
+              path={overridePathName || ':conceptId/:sectionName?'}
               element={<FormNavigation {...props} />}
             />
           </Route>
@@ -217,6 +222,43 @@ describe('FormNavigation', () => {
 
       expect(props.onSave).toHaveBeenCalledTimes(1)
       expect(props.onSave).toHaveBeenCalledWith(saveTypes.saveAndCreateDraft)
+    })
+  })
+
+  describe('when saving a new draft', () => {
+    describe('when on the default route', () => {
+      test('opens the choose provider modal', async () => {
+        const { user } = setup({
+          overrideInitialEntries: '/tool-drafts/new'
+        })
+
+        const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+        await user.click(button)
+
+        const modal = screen.getByRole('dialog')
+        console.log('🚀 ~ test ~ modal:', screen.debug(modal))
+        const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+        expect(modalSubmit).toBeInTheDocument()
+      })
+
+      describe('when on a nested page', () => {
+        test('opens the choose provider modal', async () => {
+          const { user } = setup({
+            overrideInitialEntries: '/tool-drafts/new/mock-section-name'
+          })
+
+          const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+          await user.click(button)
+
+          const modal = screen.getByRole('dialog')
+          const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+          expect(modalSubmit).toBeInTheDocument()
+        })
+      })
     })
   })
 })
