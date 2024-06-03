@@ -237,7 +237,6 @@ describe('FormNavigation', () => {
         await user.click(button)
 
         const modal = screen.getByRole('dialog')
-        console.log('🚀 ~ test ~ modal:', screen.debug(modal))
         const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
 
         expect(modalSubmit).toBeInTheDocument()
