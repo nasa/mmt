@@ -10,23 +10,23 @@ const collectionPermission = {
       minLength: 1,
       maxLength: 85
     },
-    accessConstraintFilter: {
-      $ref: '#/definitions/accessConstraintFilterType'
+    accessPermission: {
+      $ref: '#/definitions/accessPermissionType'
     },
     collectionSelection: {
       $ref: '#/definitions/collectionSelectionType'
     },
-    accessPermission: {
-      $ref: '#/definitions/accessPermissionType'
+    accessConstraintFilter: {
+      $ref: '#/definitions/accessConstraintFilterType'
     },
     temporalConstraintFilter: {
       $ref: '#/definitions/temporalConstraintFilterType'
     },
     groupPermissions: {
-      type: 'string'
+      type: 'object'
     }
   },
-  required: ['name'],
+  required: ['name', 'collectionSelection', 'accessPermission', 'groupPermissions'],
 
   definitions: {
     collectionSelectionType: {
@@ -101,7 +101,9 @@ const collectionPermission = {
           type: 'boolean',
           title: 'Include Undefined'
         }
-      }
+      },
+      required: ['minimumValue', 'maximumValue']
+
     },
     granuleAccessConstraintType: {
       type: 'object',
@@ -109,21 +111,18 @@ const collectionPermission = {
       properties: {
         minimumValue: {
           description: 'Minimum value for the granule access control.',
-          type: 'number',
-          minLength: 1,
-          maxLength: 10
+          type: 'number'
         },
         maximumValue: {
           description: 'Maximum value for the granule access control.',
-          type: 'number',
-          minLength: 1,
-          maxLength: 10
+          type: 'number'
         },
         includeUndefined: {
           type: 'boolean',
           title: 'Include Undefined'
         }
-      }
+      },
+      required: ['minimumValue', 'maximumValue']
     },
     collectionTemporalConstraintType: {
       type: 'object',
@@ -132,21 +131,19 @@ const collectionPermission = {
         startDate: {
           description: 'Start date of the temporal collection constraint.',
           type: 'string',
-          format: 'date-time',
-          minLength: 1,
-          maxLength: 10
+          format: 'date-time'
         },
         stopDate: {
           description: 'Maximum value for the collection collection control.',
           type: 'string',
-          format: 'date-time',
-          minLength: 1,
-          maxLength: 10
+          format: 'date-time'
         },
-        musk: {
+        mask: {
           enum: ['Intersect', 'Contains', 'Disjoint']
         }
-      }
+      },
+      required: ['startDate', 'stopDate']
+
     },
     granuleTemporalConstraintType: {
       type: 'object',
@@ -155,21 +152,18 @@ const collectionPermission = {
         startDate: {
           description: 'Start date of the temporal granule constraint.',
           type: 'string',
-          format: 'date-time',
-          minLength: 1,
-          maxLength: 10
+          format: 'date-time'
         },
         stopDate: {
           description: 'Stop date of the temporal granule constraint.',
           type: 'string',
-          format: 'date-time',
-          minLength: 1,
-          maxLength: 10
+          format: 'date-time'
         },
-        musk: {
+        mask: {
           enum: ['Intersect', 'Contains', 'Disjoint']
         }
-      }
+      },
+      required: ['startDate', 'stopDate']
     },
     accessPermissionType: {
       type: 'object',

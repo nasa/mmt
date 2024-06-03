@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Alert,
   Badge,
   Col,
   Row
 } from 'react-bootstrap'
+
+import PropTypes from 'prop-types'
 
 import { useSuspenseQuery } from '@apollo/client'
 
@@ -19,8 +21,8 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 const GroupPermissionSelect = ({
   onChange, formData = {}
-
 }) => {
+  console.log('🚀 ~ formData:', formData)
   const { providerIds } = useAvailableProviders()
 
   const { apiHost } = getApplicationConfig()
@@ -29,6 +31,18 @@ const GroupPermissionSelect = ({
 
   const [selectedOptions1, setSelectedOptions1] = useState([])
   const [selectedOptions2, setSelectedOptions2] = useState([])
+
+  useEffect(() => {
+    if (formData) {
+      if (formData.searchAndOrderGroup) {
+        setSelectedOptions2(formData.searchAndOrderGroup)
+      }
+
+      if (formData.searchGroup) {
+        setSelectedOptions1(formData.searchGroup)
+      }
+    }
+  }, [formData])
 
   const { data: initialOptionsData } = useSuspenseQuery(GET_GROUPS, {
     skip: !providerIds,
@@ -175,10 +189,31 @@ const GroupPermissionSelect = ({
           </Alert>
         </Col>
       </Row>
-      <Row className="">
-        <Col>
+      <Row>
+        <div>
+          <h5>
+            Group Permission
+            <span>
+              <i
+                aria-label="Required"
+                className="eui-icon eui-required-o text-success ps-1"
+                role="img"
+              />
+            </span>
+          </h5>
+
+        </div>
+        <Col
+          style={
+            {
+              marginLeft: '10px',
+              borderLeft: 'solid 5px rgb(240,240,240)',
+              marginBottom: '20px'
+            }
+          }
+        >
           <CustomWidgetWrapper
-            description="test"
+            description="List of permissions that has only read permission"
             id="Search"
             label="Search"
             required
@@ -200,7 +235,7 @@ const GroupPermissionSelect = ({
         </Col>
         <Col>
           <CustomWidgetWrapper
-            description="test"
+            description="List of permissions that has read and order permission"
             id="Search, Order, and S3 (If Available)"
             label="Search, Order, and S3 (If Available)"
             required
@@ -223,6 +258,15 @@ const GroupPermissionSelect = ({
       </Row>
     </>
   )
+}
+
+GroupPermissionSelect.defaultProps = {
+  formData: {}
+}
+
+GroupPermissionSelect.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.shape({})
 }
 
 export default GroupPermissionSelect

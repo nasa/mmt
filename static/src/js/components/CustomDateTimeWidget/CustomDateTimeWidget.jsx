@@ -44,14 +44,16 @@ const CustomDateTimeWidget = ({
   uiSchema,
   value
 }) => {
-  const [date, setDate] = useState(value ? new Date(value) : null)
   const [showCalender, setShowCalender] = useState(false)
   const datetimeScrollRef = useRef(null)
 
   const { description } = schema
 
-  const dateWithZone = moment.utc(date).format('YYYY-MM-DDTHH:mm:ss.SSS')
-  const fieldValue = new Date(dateWithZone)
+  let dateWithZone = null
+  let fieldValue = null
+
+  dateWithZone = moment.utc(value).format('YYYY-MM-DDTHH:mm:ss.SSS')
+  fieldValue = new Date(dateWithZone)
 
   const { formContext } = registry
   const {
@@ -86,9 +88,6 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    // When a date is selected, this will convert the date to ISO string and set the onChange
-    setDate(newDate)
-
     let formattedDateTime = newDate.toISOString()
     formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
     onChange(formattedDateTime)

@@ -86,6 +86,7 @@ const collectionPermissionUiSchema = {
     ]
   },
   collectionSelection: {
+    'ui:required': true,
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -131,6 +132,7 @@ const collectionPermissionUiSchema = {
   },
 
   accessPermission: {
+    'ui:required': true,
     'ui:field': 'layout',
     'ui:layout_grid': {
       'ui:row': [
@@ -360,7 +362,7 @@ const collectionPermissionUiSchema = {
                     {
                       'ui:col': {
                         md: 6,
-                        children: ['musk']
+                        children: ['mask']
                       }
                     }
                   ]
@@ -407,7 +409,7 @@ const collectionPermissionUiSchema = {
                     {
                       'ui:col': {
                         md: 6,
-                        children: ['musk']
+                        children: ['mask']
                       }
                     }
                   ]

@@ -11,6 +11,7 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 import Permission from '@/js/components/Permission/Permission'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+import { FaEdit } from 'react-icons/fa'
 
 /**
  * Renders a PermissionListPageHeader component
@@ -49,6 +50,17 @@ const PermissionPageHeader = () => {
       }
       pageType="secondary"
       title={name}
+      primaryActions={
+        [
+          {
+            icon: FaEdit,
+            to: 'edit',
+            title: 'Edit',
+            iconTitle: 'A edit icon',
+            variant: 'primary'
+          }
+        ]
+      }
     />
   )
 }

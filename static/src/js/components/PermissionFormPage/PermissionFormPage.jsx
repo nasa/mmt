@@ -18,14 +18,12 @@ const PermissionFormPageHeader = () => {
   const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     skip: conceptId === 'new',
     variables: {
-      params: {
-        conceptId
-      }
+      conceptId
     }
   })
 
-  const { orderOption } = data || {}
-  const { name } = orderOption || {}
+  const { acl } = data || {}
+  const { name } = acl || {}
 
   const pageTitle = conceptId === 'new' ? 'New Collection Permission' : `Edit ${name}`
 
@@ -85,22 +83,6 @@ const PermissionFormPagePlaceholder = () => (
           <Placeholder className="w-100 d-block mb-5 rounded bg-light-dark" style={{ height: '3rem' }} />
           <Placeholder className="w-50 d-block mb-4" />
           <Placeholder className="w-100 d-block mb-5 rounded bg-light-dark" style={{ height: '3rem' }} />
-        </span>
-      </Placeholder>
-    </Col>
-    <Col xs={4}>
-      <Placeholder animation="glow" aria-hidden="true" className="d-block ps-lg-5 ps-md-3 pt-md-3">
-        <span className="d-flex align-items-center w-100 mb-4">
-          <Placeholder.Button className="btn-success me-4" style={{ width: '11rem' }} />
-          <Placeholder className="d-block flex-grow-0" style={{ width: '5rem' }} size="sm" />
-        </span>
-        <span className="d-flex flex-column bg-light p-4 rounded" style={{ height: '20rem' }}>
-          <Placeholder className="w-50 d-block mb-4" size="sm" />
-          <Placeholder className="w-75 d-block mb-4" size="sm" />
-          <Placeholder className="w-50 d-block mb-4" size="sm" />
-          <Placeholder className="w-25 d-block mb-4" size="sm" />
-          <Placeholder className="w-50 d-block mb-4" size="sm" />
-          <Placeholder className="w-75 d-block mb-4" size="sm" />
         </span>
       </Placeholder>
     </Col>
