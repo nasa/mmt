@@ -347,7 +347,7 @@ describe('SystemPermissions', () => {
 
   describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
     test('creates a new Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: CREATE_ACL,
@@ -500,12 +500,18 @@ describe('SystemPermissions', () => {
         name: 'delete any_acl',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'System permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when adding permissions for a target that already has an Acl in CMR but doesnt include the selected group', () => {
     test('adds the selected group to the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -669,12 +675,18 @@ describe('SystemPermissions', () => {
         name: 'delete tag_group',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'System permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when updating permissions for a target that already has an Acl in CMR that includes the selected group', () => {
     test('updates the permissions for the selected group in the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -832,12 +844,18 @@ describe('SystemPermissions', () => {
         name: 'delete ingest_management_acl',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'System permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when removing all permissions for a group that belongs to an Acl in CMR', () => {
     test('removes the selected group from the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -988,12 +1006,18 @@ describe('SystemPermissions', () => {
         name: 'delete ingest_management_acl',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'System permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when removing all permissions for a group that belongs to an Acl in CMR and its the last group in the Acl', () => {
     test('removes the Acl from CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: DELETE_ACL,
@@ -1120,6 +1144,12 @@ describe('SystemPermissions', () => {
         name: 'delete dashboard_admin',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'System permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 })

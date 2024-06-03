@@ -326,7 +326,7 @@ const ProviderPermissions = () => {
     const totalMutations = results.length
     const successfulMutations = results.filter((result) => {
       const { value = {} } = result
-      const { errors = [] } = value
+      const { errors } = value
 
       return errors == null
     })

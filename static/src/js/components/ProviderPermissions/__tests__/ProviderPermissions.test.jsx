@@ -387,7 +387,7 @@ describe('ProviderPermissions', () => {
 
   describe('when adding permissions for a target that does not already have an Acl in CMR', () => {
     test('creates a new Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: CREATE_ACL,
@@ -551,12 +551,18 @@ describe('ProviderPermissions', () => {
         name: 'delete group',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'Provider permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when adding permissions for a target that already has an Acl in CMR but doesnt include the selected group', () => {
     test('adds the selected group to the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -731,12 +737,18 @@ describe('ProviderPermissions', () => {
         name: 'delete extended_service',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'Provider permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when updating permissions for a target that already has an Acl in CMR that includes the selected group', () => {
     test('updates the permissions for the selected group in the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -906,12 +918,18 @@ describe('ProviderPermissions', () => {
         name: 'delete authenticator_definition',
         checked: true
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'Provider permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when removing all permissions for a group that belongs to an Acl in CMR', () => {
     test('removes the selected group from the Acl in CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: UPDATE_ACL,
@@ -1067,12 +1085,18 @@ describe('ProviderPermissions', () => {
         name: 'delete authenticator_definition',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'Provider permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 
   describe('when removing all permissions for a group that belongs to an Acl in CMR and its the last group in the Acl', () => {
     test('removes the Acl from CMR', async () => {
-      const { user } = setup({
+      const { addNotificationMock, user } = setup({
         additionalMocks: [{
           request: {
             query: DELETE_ACL,
@@ -1202,6 +1226,12 @@ describe('ProviderPermissions', () => {
         name: 'delete audit_report',
         checked: false
       })).toBeVisible()
+
+      expect(addNotificationMock).toHaveBeenCalledTimes(1)
+      expect(addNotificationMock).toHaveBeenCalledWith({
+        message: 'Provider permissions updated successfully.',
+        variant: 'success'
+      })
     })
   })
 })
