@@ -93,13 +93,14 @@ const MetadataForm = () => {
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
 
+  // On load, set the focused field and redirect if a field name was present
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
     if (fieldName) setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
     if (fieldName && sectionName) navigate(`/drafts/${draftType}/${conceptId}/${sectionName}`, { replace: true })
-  }, []) // Should only do this redirect on page load
+  }, [])
 
   const [ingestDraftMutation, {
     loading: ingestDraftLoading

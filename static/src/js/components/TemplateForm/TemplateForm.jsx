@@ -122,15 +122,16 @@ const TemplateForm = () => {
     formName: currentSection
   })
 
+  // On load, set the focused field and redirect if a field name was present
   useEffect(() => {
     // If fieldName was pulled from the URL, set it to the focusField
     if (fieldName) setFocusField(fieldName)
 
     // If a fieldName was pulled from the URL, then remove it from the URL. This will happen after the field is focused.
     if (fieldName && sectionName) navigate(`/templates/collections/${id}/${sectionName}`, { replace: true })
-  }, []) // Should only do this redirect on page load
+  }, [])
 
-  // Fetching collection template if ID is present and draft is not loaded
+  // On load, fetching collection template if ID is present and draft is not loaded
   useEffect(() => {
     const fetchTemplate = async () => {
       const { response, error: fetchTemplateError } = await getTemplate(mmtJwt, id)
@@ -155,7 +156,7 @@ const TemplateForm = () => {
       setLoading(true)
       fetchTemplate()
     }
-  }, []) // Should only fetch a template on page load
+  }, [])
 
   const handleSave = async (type) => {
     setSaveLoading(true)
