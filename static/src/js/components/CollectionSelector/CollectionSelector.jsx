@@ -196,17 +196,11 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
   }
 
   const toggleAvailableSelection = (item) => {
-    if (!selected.some((s) => s.conceptId === item.conceptId)) {
-      setSelectedAvailable(selectedAvailable.some((i) => i.conceptId === item.conceptId)
-        ? selectedAvailable.filter((i) => i.conceptId !== item.conceptId)
-        : [...selectedAvailable, item])
-    }
+    setSelectedAvailable([...selectedAvailable, item])
   }
 
   const toggleSelectedSelection = (item) => {
-    setSelectedSelected(selectedSelected.some((i) => i.conceptId === item.conceptId)
-      ? selectedSelected.filter((i) => i.conceptId !== item.conceptId)
-      : [...selectedSelected, item])
+    setSelectedSelected([...selectedSelected, item])
   }
 
   const filteredSelected = selected.filter(
@@ -462,6 +456,8 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
           </div>
           <div className="text-muted mt-2">
             Showing
+            {' '}
+            selected
             {' '}
             {filteredSelected.length}
             {' '}
