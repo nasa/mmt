@@ -1,15 +1,18 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import PermissionList from '@/js/components/PermissionList/PermissionList'
+import { BrowserRouter } from 'react-router-dom'
 
+import PermissionList from '@/js/components/PermissionList/PermissionList'
 import PermissionListPage from '../PermissionListPage'
 
 vi.mock('../../../components/PermissionList/PermissionList')
 
 const setup = () => {
   render(
-    <PermissionListPage />
+    <BrowserRouter>
+      <PermissionListPage />
+    </BrowserRouter>
   )
 }
 
