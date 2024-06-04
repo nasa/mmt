@@ -429,9 +429,7 @@ describe('MetadataForm', () => {
       // Fill out a form field
       const nameField = screen.getByRole('textbox', { id: 'Name' })
       await user.type(nameField, 'Test Name')
-      await waitFor(async () => {
-        await nameField.blur()
-      })
+      await user.tab()
 
       expect(nameField).toHaveValue('Test Name')
       expect(FormNavigation).toHaveBeenCalledTimes(13)

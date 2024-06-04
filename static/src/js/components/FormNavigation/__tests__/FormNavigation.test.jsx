@@ -41,9 +41,6 @@ const setup = ({
     onSave: vi.fn(),
     schema: {},
     setFocusField: vi.fn(),
-    uiSchema: {
-      'section-1': {}
-    },
     validationErrors: [],
     visitedFields: [],
     ...overrideProps
