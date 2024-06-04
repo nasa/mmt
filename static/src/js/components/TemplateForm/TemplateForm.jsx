@@ -331,15 +331,13 @@ const TemplateForm = () => {
             <div className="template-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
               <FormNavigation
                 draft={ummMetadata}
-                fullSchema={ummCTemplateSchema}
                 formSections={collectionsTemplateConfiguration}
                 loading={saveLoading}
-                visitedFields={visitedFields}
-                onSave={handleSave}
                 onCancel={handleCancel}
+                onSave={handleSave}
                 schema={ummCTemplateSchema}
                 setFocusField={setFocusField}
-                uiSchema={collectionsUiSchema}
+                visitedFields={visitedFields}
               />
             </div>
           </Col>

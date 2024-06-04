@@ -323,15 +323,13 @@ const MetadataForm = () => {
           <div className="metadata-form__navigation sticky-top p-0 ps-md-3 ps-lg-5 top-0 pt-md-3">
             <FormNavigation
               draft={ummMetadata}
-              fullSchema={schema}
               formSections={formSections}
               loading={ingestDraftLoading}
-              visitedFields={visitedFields}
-              onSave={handleSave}
               onCancel={handleCancel}
+              onSave={handleSave}
               schema={schema}
               setFocusField={setFocusField}
-              uiSchema={uiSchema}
+              visitedFields={visitedFields}
             />
           </div>
         </Col>
