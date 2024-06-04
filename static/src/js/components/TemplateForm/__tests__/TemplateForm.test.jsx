@@ -473,7 +473,6 @@ describe('TemplateForm', () => {
         }), {})
 
         vi.clearAllMocks()
-        console.log('mocks cleared')
 
         const cancelButton = await screen.findByRole('button', { name: 'Cancel' })
         await user.click(cancelButton)
