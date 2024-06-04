@@ -24,7 +24,6 @@ import Button from 'react-bootstrap/Button'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
-import toTitleCase from '@/js/utils/toTitleCase'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import GridLayout from '../GridLayout/GridLayout'
@@ -33,7 +32,7 @@ import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import OneOfField from '../OneOfField/OneOfField'
+
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
 import CollectionSelector from '../CollectionSelector/CollectionSelector'
 import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
@@ -61,57 +60,28 @@ const PermissionForm = () => {
 
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
-  const handleChange = (event) => {
-    const { formData } = event
-
-    if (formData.accessPermission?.granule) {
-      const newUiSchema = {
-        ...collectionPermissionUiSchema,
-        accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
-          granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': false
-          }
-        },
-        temporalConstraintFilter: {
-          ...collectionPermissionUiSchema.temporalConstraintFilter,
-          granuleTemporalConstraint: {
-            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
-            'ui:disabled': false
-          }
-        }
-      }
-      setUiSchema(newUiSchema)
-    } else {
-      const newUiSchema = {
-        ...collectionPermissionUiSchema,
-        accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
-          granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': true
-          }
-        }
-      }
-      setUiSchema(newUiSchema)
-    }
-
-    setDraft({
-      ...draft,
-      formData: removeEmpty(formData)
-    })
-  }
-
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL)
 
-  useEffect(() => {
-    if (conceptId === 'new') {
-      setDraft({})
-      setOriginalDraft({})
-    }
-  }, [conceptId])
+  const fields = {
+    keywordPicker: KeywordPicker,
+    TitleField: CustomTitleField,
+    CollectionSelector,
+    GroupPermissionSelect,
+    layout: GridLayout
+  }
+
+  const widgets = {
+    TextWidget: CustomTextWidget,
+    SelectWidget: CustomSelectWidget,
+    DateTimeWidget: CustomDateTimeWidget
+  }
+
+  const templates = {
+    ArrayFieldTemplate: CustomArrayFieldTemplate,
+    FieldTemplate: CustomFieldTemplate,
+    TitleField: CustomTitleFieldTemplate
+  }
 
   const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     skip: conceptId === 'new',
@@ -121,23 +91,41 @@ const PermissionForm = () => {
   })
 
   useEffect(() => {
+    if (conceptId === 'new') {
+      setDraft({})
+      setOriginalDraft({})
+    }
+  }, [conceptId])
+
+  useEffect(() => {
     if (data) {
       const { acl } = data
-      console.log('🚀 ~ useEffect ~ acl:', acl)
       const {
         name,
         catalogItemIdentity,
-        groups
+        groups,
+        collections
       } = acl
+
+      const { items } = collections || {}
+
+      const selectedCollections = items?.map((item) => {
+        const { conceptId: collectionConceptId, shortName, title } = item
+
+        return {
+          conceptId: collectionConceptId,
+          entryTitle: title,
+          shortName
+        }
+      })
 
       const searchAndOrderGroupPermission = groups.items.map((item) => {
         const {
-          permissions,
-          userType,
           id,
-          name
+          name,
+          permissions,
+          userType
         } = item
-        console.log('🚀 ~ searchAndOrderGroupPermission ~ item:', item)
 
         if (permissions.length === 2) {
           if (userType) {
@@ -191,36 +179,36 @@ const PermissionForm = () => {
       const {
         accessValue: collectionAccessValue,
         temporal: collectionTemporal
-      } = collectionIdentifier
+      } = collectionIdentifier || {}
 
       const {
         accessValue: granuleAccessValue,
         temporal: granuleTemporal
-      } = granuleIdentifier
+      } = granuleIdentifier || {}
 
       const {
         minValue: collectionMinValue,
         maxValue: collectionMaxValue,
         includeUndefinedValue: collectionIncludeUndefined
-      } = collectionAccessValue
+      } = collectionAccessValue || {}
 
       const {
         minValue: granuleMinValue,
         maxValue: granuleMaxValue,
         includeUndefinedValue: granuleIncludeUndefined
-      } = granuleAccessValue
+      } = granuleAccessValue || {}
 
       const {
         startDate: collectionStartDate,
         stopDate: collectionStopDate,
         mask: collectionMask
-      } = collectionTemporal
+      } = collectionTemporal || {}
 
       const {
         startDate: granuleStartDate,
         stopDate: granuleStopDate,
         mask: granuleMask
-      } = granuleTemporal
+      } = granuleTemporal || {}
 
       const formData = {
         name,
@@ -240,16 +228,19 @@ const PermissionForm = () => {
             includeUndefined: granuleIncludeUndefined
           }
         },
+        collectionSelection: {
+          selectedCollections
+        },
         temporalConstraintFilter: {
           collectionTemporalConstraint: {
             startDate: collectionStartDate,
             stopDate: collectionStopDate,
-            mask: toTitleCase(collectionMask)
+            mask: collectionMask
           },
           granuleTemporalConstraint: {
             startDate: granuleStartDate,
             stopDate: granuleStopDate,
-            mask: toTitleCase(granuleMask)
+            mask: granuleMask
           }
         },
         groupPermissions: {
@@ -258,11 +249,52 @@ const PermissionForm = () => {
         }
 
       }
-      console.log('🚀 ~ useEffect ~ formData:', formData)
 
       setDraft({ formData: removeEmpty(formData) })
     }
   }, [data])
+
+  const handleChange = (event) => {
+    const { formData } = event
+
+    if (formData.accessPermission?.granule) {
+      const newUiSchema = {
+        ...collectionPermissionUiSchema,
+        accessConstraintFilter: {
+          ...collectionPermissionUiSchema.accessConstraintFilter,
+          granuleAccessConstraint: {
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            'ui:disabled': false
+          }
+        },
+        temporalConstraintFilter: {
+          ...collectionPermissionUiSchema.temporalConstraintFilter,
+          granuleTemporalConstraint: {
+            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
+            'ui:disabled': false
+          }
+        }
+      }
+      setUiSchema(newUiSchema)
+    } else {
+      const newUiSchema = {
+        ...collectionPermissionUiSchema,
+        accessConstraintFilter: {
+          ...collectionPermissionUiSchema.accessConstraintFilter,
+          granuleAccessConstraint: {
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            'ui:disabled': true
+          }
+        }
+      }
+      setUiSchema(newUiSchema)
+    }
+
+    setDraft({
+      ...draft,
+      formData: removeEmpty(formData)
+    })
+  }
 
   const { formData } = draft || {}
 
@@ -458,27 +490,6 @@ const PermissionForm = () => {
       message: 'Collection Permission cleared successfully',
       variant: 'success'
     })
-  }
-
-  const fields = {
-    keywordPicker: KeywordPicker,
-    TitleField: CustomTitleField,
-    CollectionSelector,
-    GroupPermissionSelect,
-    layout: GridLayout,
-    OneOfField
-  }
-
-  const widgets = {
-    TextWidget: CustomTextWidget,
-    SelectWidget: CustomSelectWidget,
-    DateTimeWidget: CustomDateTimeWidget
-  }
-
-  const templates = {
-    ArrayFieldTemplate: CustomArrayFieldTemplate,
-    FieldTemplate: CustomFieldTemplate,
-    TitleField: CustomTitleFieldTemplate
   }
 
   const handleSetProviderOrSubmit = () => {

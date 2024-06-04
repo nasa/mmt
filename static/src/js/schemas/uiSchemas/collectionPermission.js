@@ -109,7 +109,7 @@ const collectionPermissionUiSchema = {
                   {
                     'ui:col': {
                       md: 12,
-                      children: ['selectedCollection']
+                      children: ['selectedCollections']
                     }
                   }
                 ]
@@ -122,7 +122,7 @@ const collectionPermissionUiSchema = {
     allCollection: {
       'ui:widget': CustomCheckboxWidget
     },
-    selectedCollection: {
+    selectedCollections: {
       'ui:field': 'CollectionSelector'
     }
   },
