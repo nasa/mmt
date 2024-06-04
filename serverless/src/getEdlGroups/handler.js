@@ -4,7 +4,7 @@ import fetchEdlClientToken from '../utils/fetchEdlClientToken'
 let clientToken
 
 /**
- * Search EDL for users
+ * Search EDL for groups
  * @param {Object} event Details about the HTTP request that it received
  */
 const getEdlGroups = async (event) => {

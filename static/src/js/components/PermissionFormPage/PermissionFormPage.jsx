@@ -1,15 +1,17 @@
-import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import { useSuspenseQuery } from '@apollo/client'
 import React, { Suspense } from 'react'
+import { useSuspenseQuery } from '@apollo/client'
+
 import { useParams } from 'react-router'
-import {
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
-import PageHeader from '../PageHeader/PageHeader'
-import Page from '../Page/Page'
+
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
+
+import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import Page from '../Page/Page'
+import PageHeader from '../PageHeader/PageHeader'
 import PermissionForm from '../PermissionForm/PermissionForm'
 
 const PermissionFormPageHeader = () => {
