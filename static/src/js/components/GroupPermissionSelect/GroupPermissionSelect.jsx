@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  Suspense,
+  useEffect,
+  useState
+} from 'react'
 import {
   Alert,
   Badge,
   Col,
+  Placeholder,
   Row
 } from 'react-bootstrap'
 
@@ -18,11 +23,76 @@ import AsyncSelect from 'react-select/async'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
+/*
+ * Renders a `GroupPermissionSelectPlaceholder` component.
+ *
+ * This component renders the group permission form page placeholder
+ *
+ * @param {GroupPermissionSelectPlaceholder} props
+ *
+ * @component
+ * @example <caption>Render the group permission form page placeholder</caption>
+ * return (
+ *   <GroupPermissionSelectPlaceholder />
+ * )
+ */
+const GroupPermissionSelectPlaceholder = () => (
+  <Row>
+    <Col className="p-3">
+      <div>
+        <Placeholder animation="glow" aria-hidden="true">
+          <div>
+            <Placeholder className="border rounded p-3 h-100 w-100" />
+            <Placeholder className="border rounded p-3 h-100 w-100" />
+            <Placeholder className="border rounded p-3 h-100 w-100" />
+          </div>
+        </Placeholder>
+      </div>
+    </Col>
+  </Row>
+)
+
+/**
+ * @typedef {Object} GroupPermissionSelectProps
+ * @property {Function} onChange A callback function triggered when the user selects collections.
+ * @property {Object} formData An Object with the saved metadata
+ */
+/**
+ * Renders a GroupPermissionSelect component
+ *
+ * @component
+ * @example <caption>Render a GroupPermissionSelect</caption>
+ * return (
+ *   <GroupPermissionSelect />
+ * )
+ */
 const GroupPermissionSelect = ({
-  onChange, formData = {}
+  onChange,
+  formData
+}) => (
+  <ErrorBoundary>
+    <Suspense fallback={<GroupPermissionSelectPlaceholder />}>
+      <GroupPermissionSelectComponent onChange={onChange} formData={formData} />
+    </Suspense>
+  </ErrorBoundary>
+)
+
+GroupPermissionSelect.defaultProps = {
+  formData: []
+}
+
+GroupPermissionSelect.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.shape({}))
+
+}
+
+const GroupPermissionSelectComponent = ({
+  onChange,
+  formData
 }) => {
-  console.log('🚀 ~ formData:', formData)
   const { providerIds } = useAvailableProviders()
 
   const { apiHost } = getApplicationConfig()
@@ -260,13 +330,16 @@ const GroupPermissionSelect = ({
   )
 }
 
-GroupPermissionSelect.defaultProps = {
+GroupPermissionSelectComponent.defaultProps = {
   formData: {}
 }
 
-GroupPermissionSelect.propTypes = {
+GroupPermissionSelectComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.shape({})
+  formData: PropTypes.shape({
+    searchAndOrderGroup: PropTypes.shape({}),
+    searchGroup: PropTypes.shape({})
+  })
 }
 
 export default GroupPermissionSelect

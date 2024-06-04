@@ -30,10 +30,8 @@ const collectionPermission = {
 
   definitions: {
     collectionSelectionType: {
-      type: 'object',
       oneOf: [
         {
-          additionalProperties: false,
           title: 'All Collections',
           properties: {
             allCollection: {
@@ -44,12 +42,12 @@ const collectionPermission = {
           }
         },
         {
-          additionalProperties: false,
           title: 'Selected Collection',
           properties: {
-            selectedCollection: {
+            selectedCollections: {
               description: 'Entry Title of the collection',
-              type: 'string'
+              type: 'array'
+
             }
           }
         }

@@ -64,6 +64,27 @@ const PermissionList = () => {
     )
   }, [])
 
+  const buildActionsCell = useCallback((cellData, rowData) => {
+    const { conceptId } = rowData
+
+    return (
+      <Row>
+        <Col className="col-auto">
+          <Button
+            className="d-flex"
+            Icon={FaEdit}
+            iconTitle="Edit Button"
+            href={`permissions/${conceptId}/edit`}
+            variant="primary"
+            size="sm"
+          >
+            Edit
+          </Button>
+        </Col>
+      </Row>
+    )
+  })
+
   const columns = [
     {
       dataKey: 'name',
@@ -75,6 +96,11 @@ const PermissionList = () => {
       dataKey: 'providerId',
       title: 'Provider',
       className: 'col-auto'
+    },
+    {
+      title: 'Actions',
+      className: 'col-auto',
+      dataAccessorFn: buildActionsCell
     }
   ]
 
