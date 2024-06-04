@@ -45,7 +45,6 @@ const setup = ({
   const user = userEvent.setup()
 
   render(
-
     <Providers>
       <MockedProvider mocks={
         [{
