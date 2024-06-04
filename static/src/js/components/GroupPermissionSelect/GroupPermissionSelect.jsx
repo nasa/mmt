@@ -80,12 +80,12 @@ const GroupPermissionSelect = ({
 )
 
 GroupPermissionSelect.defaultProps = {
-  formData: []
+  formData: {}
 }
 
 GroupPermissionSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.shape({}))
+  formData: PropTypes.shape({})
 
 }
 
@@ -337,8 +337,8 @@ GroupPermissionSelectComponent.defaultProps = {
 GroupPermissionSelectComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    searchAndOrderGroup: PropTypes.shape({}),
-    searchGroup: PropTypes.shape({})
+    searchAndOrderGroup: PropTypes.arrayOf(PropTypes.shape({})),
+    searchGroup: PropTypes.arrayOf(PropTypes.shape({}))
   })
 }
 

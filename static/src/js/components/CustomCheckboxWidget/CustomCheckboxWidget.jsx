@@ -41,7 +41,6 @@ const CustomCheckboxWidget = ({
   return (
     <CustomWidgetWrapper
       id={id}
-      title={null}
       scrollRef={checkboxScrollRef}
     >
       <input
@@ -51,8 +50,10 @@ const CustomCheckboxWidget = ({
         id={label}
         name={label}
         onChange={handleChange}
-        ref={focusField}
+        ref={focusRef}
         type="checkbox"
+        aria-label={label}
+
       />
       {label}
     </CustomWidgetWrapper>

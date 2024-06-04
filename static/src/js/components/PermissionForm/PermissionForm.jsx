@@ -10,33 +10,36 @@ import validator from '@rjsf/validator-ajv8'
 import collectionPermission from '@/js/schemas/collectionPermission'
 
 import collectionPermissionUiSchema from '@/js/schemas/uiSchemas/collectionPermission'
-import useAppContext from '@/js/hooks/useAppContext'
-import removeEmpty from '@/js/utils/removeEmpty'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
+
 import saveTypes from '@/js/constants/saveTypes'
 
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
+
+import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
 import errorLogger from '@/js/utils/errorLogger'
+import removeEmpty from '@/js/utils/removeEmpty'
+
 import Button from 'react-bootstrap/Button'
 
+import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import GridLayout from '../GridLayout/GridLayout'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
 import CollectionSelector from '../CollectionSelector/CollectionSelector'
-import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
+import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '../CustomTitleField/CustomTitleField'
 import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import GridLayout from '../GridLayout/GridLayout'
+import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
+import KeywordPicker from '../KeywordPicker/KeywordPicker'
 
 import ChooseProviderModal from '../ChooseProviderModal/ChooseProviderModal'
 
@@ -119,53 +122,33 @@ const PermissionForm = () => {
         }
       })
 
-      const searchAndOrderGroupPermission = groups.items.map((item) => {
+      const searchAndOrderGroupPermission = []
+      const searchPermission = []
+
+      groups.items?.forEach((item) => {
         const {
           id,
-          name,
+          name: groupName,
           permissions,
           userType
         } = item
 
+        const groupObj = userType
+          ? {
+            value: `all-${userType}-user`,
+            label: `All ${userType} user`,
+            isDisabled: true
+          }
+          : {
+            value: id,
+            label: groupName,
+            isDisabled: true
+          }
+
         if (permissions.length === 2) {
-          if (userType) {
-            return {
-              value: `all-${userType}-user`,
-              label: `All ${userType} user`,
-              isDisabled: true
-            }
-          }
-
-          return {
-            value: id,
-            label: name,
-            isDisabled: true
-          }
-        }
-      })
-
-      const searchPermission = groups.items.map((item) => {
-        const {
-          permissions,
-          userType,
-          id,
-          name
-        } = item
-
-        if (permissions.length === 1) {
-          if (userType) {
-            return {
-              value: `all-${userType}-user`,
-              label: `All ${userType} user`,
-              isDisabled: true
-            }
-          }
-
-          return {
-            value: id,
-            label: name,
-            isDisabled: true
-          }
+          searchAndOrderGroupPermission.push(groupObj)
+        } else {
+          searchPermission.push(groupObj)
         }
       })
 
@@ -179,7 +162,7 @@ const PermissionForm = () => {
       const {
         accessValue: collectionAccessValue,
         temporal: collectionTemporal
-      } = collectionIdentifier || {}
+      } = collectionIdentifier
 
       const {
         accessValue: granuleAccessValue,
@@ -229,6 +212,7 @@ const PermissionForm = () => {
           }
         },
         collectionSelection: {
+          allCollection: true,
           selectedCollections
         },
         temporalConstraintFilter: {
@@ -344,15 +328,15 @@ const PermissionForm = () => {
       stopDate: granuleStopDate
     } = granuleTemporalConstraint || {}
 
-    const { selectedCollection } = collectionSelection
+    const { selectedCollections } = collectionSelection
 
-    const conceptIds = selectedCollection?.map((item) => {
+    const conceptIds = selectedCollections?.map((item) => {
       const { conceptId: selectedConceptId } = item
 
       return selectedConceptId
     })
 
-    const { searchGroup, searchAndOrderGroup } = groupPermissions || {}
+    const { searchGroup, searchAndOrderGroup } = groupPermissions
 
     const searchGroupPermissions = searchGroup?.map((item) => {
       const { value } = item
@@ -444,9 +428,9 @@ const PermissionForm = () => {
           const { createAcl } = getCreateData
 
           const { conceptId: aclConceptId } = createAcl
-          navigate(`/permissions/${aclConceptId}`, { replace: true })
+          navigate(`/permissions/${aclConceptId}`)
         },
-        onError: (getError) => {
+        onError: () => {
           // Add an error notification
           addNotification({
             message: 'Error creating permission',
@@ -454,7 +438,7 @@ const PermissionForm = () => {
           })
 
           // Send the error to the errorLogger
-          errorLogger(getError, 'PermissionForm: createAclMutation')
+          errorLogger('Error creating collection permission', 'PermissionForm: createAclMutation')
         }
       })
     } else {
@@ -468,9 +452,9 @@ const PermissionForm = () => {
           const { updateAcl } = getCreateData
 
           const { conceptId: aclConceptId } = updateAcl
-          navigate(`/permissions/${aclConceptId}`, { replace: true })
+          navigate(`/permissions/${aclConceptId}`)
         },
-        onError: (getError) => {
+        onError: () => {
           // Add an error notification
           addNotification({
             message: 'Error creating permission',
@@ -478,7 +462,7 @@ const PermissionForm = () => {
           })
 
           // Send the error to the errorLogger
-          errorLogger(getError, 'PermissionForm: createAclMutation')
+          errorLogger('Error creating collection permission', 'PermissionForm: updateAclMutation')
         }
       })
     }
