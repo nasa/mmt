@@ -36,7 +36,7 @@ const collectionPermission = {
           properties: {
             allCollection: {
               title: 'All Collections',
-              type: 'boolean',
+              type: 'string',
               default: true
             }
           }
