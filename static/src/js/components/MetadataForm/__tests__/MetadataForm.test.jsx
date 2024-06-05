@@ -761,15 +761,7 @@ describe('MetadataForm', () => {
         pageUrl: '/drafts/tools/TD1000000-MMT/tool-information/Name'
       })
 
-      await waitFor(() => {
-        expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-          formContext: expect.objectContaining({
-            focusField: 'Name'
-          })
-        }), {})
-      })
-
-      expect(Form).toHaveBeenCalledTimes(2)
+      expect(await screen.findByRole('textbox', { value: 'Name' })).toHaveFocus()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })

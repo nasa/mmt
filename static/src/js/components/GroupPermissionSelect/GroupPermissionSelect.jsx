@@ -3,25 +3,27 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import {
-  Alert,
-  Badge,
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
+
+import Alert from 'react-bootstrap/Alert'
+import Badge from 'react-bootstrap/Badge'
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
 
 import PropTypes from 'prop-types'
 
-import { useSuspenseQuery } from '@apollo/client'
+import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 import { debounce } from 'lodash-es'
-import useMMTCookie from '@/js/hooks/useMMTCookie'
+
 import AsyncSelect from 'react-select/async'
 
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+import {
+  GET_GROUPS_FOR_PERMISSION_SELECT
+} from '@/js/operations/queries/getGroupsForPermissionSelect'
+
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
@@ -94,10 +96,6 @@ const GroupPermissionSelectComponent = ({
   formData
 }) => {
   const { providerIds } = useAvailableProviders()
-
-  const { apiHost } = getApplicationConfig()
-
-  const { mmtJwt } = useMMTCookie()
 
   const [searchOptions, setSearchOptions] = useState([])
   const [searchAndOrderOptions, setSearchAndOrderOptions] = useState([])
@@ -204,26 +202,30 @@ const GroupPermissionSelectComponent = ({
     </div>
   )
 
+  const [getGroups] = useLazyQuery(GET_GROUPS_FOR_PERMISSION_SELECT)
+
   // Loads the options from the search options endpoint. Uses `debounce` to avoid an API call for every keystroke
   const loadOptions = debounce((inputValue, callback) => {
     if (inputValue.length >= 3) {
-      // Call the API to retrieve values
-      fetch(`${apiHost}/groups?query=${inputValue}&tags=${providerIds.toString()}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${mmtJwt}`
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const options = data.map((item) => ({
+      getGroups({
+        variables: {
+          params: {
+            name: inputValue,
+            limit: 20,
+            tags: [providerIds.toString(), 'CMR']
+          }
+        },
+        onCompleted: (data) => {
+          const { groups: searchedGroups } = data
+
+          const options = searchedGroups.items.map((item) => ({
             value: item.name,
             label: item.name,
             provider: item.tag
           }))
-
           callback(options)
-        })
+        }
+      })
     }
   }, 1000)
 

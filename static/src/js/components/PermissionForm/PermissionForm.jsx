@@ -1,15 +1,16 @@
 import Form from '@rjsf/core'
 import React, { useEffect, useState } from 'react'
-import {
-  Col,
-  Container,
-  Row
-} from 'react-bootstrap'
+
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
 import validator from '@rjsf/validator-ajv8'
 import collectionPermission from '@/js/schemas/collectionPermission'
 
 import collectionPermissionUiSchema from '@/js/schemas/uiSchemas/collectionPermission'
+
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 import saveTypes from '@/js/constants/saveTypes'
@@ -22,8 +23,6 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
-
-import Button from 'react-bootstrap/Button'
 
 import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'

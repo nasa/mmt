@@ -11,7 +11,10 @@ import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissio
 
 import CollectionSelector from '../CollectionSelector'
 
-const setup = (formData = []) => {
+const setup = ({
+  additionalMocks = [],
+  formData = []
+}) => {
   const user = userEvent.setup()
 
   const props = {
@@ -66,7 +69,7 @@ const setup = (formData = []) => {
               }
             }
           }
-        }]
+        }, ...additionalMocks]
       }
       >
         <CollectionSelector {...props} />
@@ -83,7 +86,7 @@ const setup = (formData = []) => {
 describe('CollectionSelector', () => {
   describe('when adding item to selected collection', () => {
     test('should add the selected collection and calls onChange', async () => {
-      const { user, props } = setup()
+      const { user, props } = setup({})
       await waitForResponse()
 
       const nameField = screen.getByText('Collection 1 | Mock title of collection 1')
@@ -119,7 +122,7 @@ describe('CollectionSelector', () => {
 
   describe('when removing a selected item', () => {
     test('should move the item back to available and calls onChange', async () => {
-      const { user, props } = setup()
+      const { user, props } = setup({})
       await waitForResponse()
 
       const nameField = screen.getByText('Collection 1 | Mock title of collection 1')
@@ -161,7 +164,7 @@ describe('CollectionSelector', () => {
 
   describe('when removing all selected items', () => {
     test('should remove all selected items and calls onChange', async () => {
-      const { user, props } = setup()
+      const { user, props } = setup({})
       await waitForResponse()
 
       const nameField1 = screen.getByText('Collection 1 | Mock title of collection 1')
@@ -189,27 +192,50 @@ describe('CollectionSelector', () => {
 
   describe('when searching for available collection', () => {
     test('should call cmr with filtered data', async () => {
-      global.fetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve({
-          items: [{
-            meta: {
-              'concept-id': 'C1200444618-MMT_2',
-              'provider-id': 'MMT_2'
-            },
-            umm: {
-              shortName: 'Collection 1'
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: GET_PERMISSION_COLLECTIONS,
+            variables: {
+              params: {
+                keyword: 'Col',
+                limit: 20
+              }
             }
-          }]
-        })
+          },
+          result: {
+            data: {
+              collections: {
+                items: [
+                  {
+                    conceptId: 'C1200444618-MMT_2',
+                    directDistributionInformation: {
+                      region: 'us-east-2',
+                      s3BucketAndObjectPrefixNames: [
+                        's3://example1',
+                        's3://example2',
+                        'prefix_bucket/*'
+                      ],
+                      s3CredentialsApiEndpoint: 'https://example.org',
+                      s3CredentialsApiDocumentationUrl: 'https://example.org'
+                    },
+                    shortName: 'Collection 1',
+                    provider: 'MMT_2',
+                    entryTitle: 'Mock title of collection 1',
+                    __typename: 'Collection'
+                  }
+                ],
+                __typename: 'CollectionList'
+              }
+            }
+          }
+        }]
       })
-
-      const { user } = setup()
       await waitForResponse()
 
       const searchField = screen.getByPlaceholderText('Search Available...')
 
-      await user.type(searchField, 'Collection 1')
+      await user.type(searchField, 'Col')
 
       expect(screen.getByText('Showing 1 items')).toBeInTheDocument()
     })
@@ -217,22 +243,46 @@ describe('CollectionSelector', () => {
 
   describe('when searching for selected collection', () => {
     test('should call cmr with filtered data', async () => {
-      global.fetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve({
-          items: [{
-            meta: {
-              'concept-id': 'C1200444618-MMT_2',
-              'provider-id': 'MMT_2'
-            },
-            umm: {
-              shortName: 'Collection 1'
+      const { user } = setup({
+        additionalMocks: [{
+          request: {
+            query: GET_PERMISSION_COLLECTIONS,
+            variables: {
+              params: {
+                keyword: 'Col',
+                limit: 20
+              }
             }
-          }]
-        })
+          },
+          result: {
+            data: {
+              collections: {
+                items: [
+                  {
+                    conceptId: 'C1200444618-MMT_2',
+                    directDistributionInformation: {
+                      region: 'us-east-2',
+                      s3BucketAndObjectPrefixNames: [
+                        's3://example1',
+                        's3://example2',
+                        'prefix_bucket/*'
+                      ],
+                      s3CredentialsApiEndpoint: 'https://example.org',
+                      s3CredentialsApiDocumentationUrl: 'https://example.org'
+                    },
+                    shortName: 'Collection 1',
+                    provider: 'MMT_2',
+                    entryTitle: 'Mock title of collection 1',
+                    __typename: 'Collection'
+                  }
+                ],
+                __typename: 'CollectionList'
+              }
+            }
+          }
+        }]
       })
 
-      const { user } = setup()
       await waitForResponse()
 
       const searchField = screen.getByPlaceholderText('Search Selected...')
@@ -245,18 +295,22 @@ describe('CollectionSelector', () => {
 
   describe('when formData has saved collections', () => {
     test('render the saved collections', async () => {
-      setup([
+      setup(
         {
-          conceptId: 'C1200450598-MMT_2',
-          entryTitle: 'Collection 1 title',
-          shortName: 'Collection 1'
-        },
-        {
-          conceptId: 'C1200427406-MMT_2',
-          entryTitle: 'Collection 2 title',
-          shortName: 'Collection 2'
+          formData: [
+            {
+              conceptId: 'C1200450598-MMT_2',
+              entryTitle: 'Collection 1 title',
+              shortName: 'Collection 1'
+            },
+            {
+              conceptId: 'C1200427406-MMT_2',
+              entryTitle: 'Collection 2 title',
+              shortName: 'Collection 2'
+            }
+          ]
         }
-      ])
+      )
 
       await waitForResponse()
 
