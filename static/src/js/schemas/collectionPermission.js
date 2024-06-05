@@ -137,7 +137,7 @@ const collectionPermission = {
           format: 'date-time'
         },
         mask: {
-          enum: ['Intersect', 'Contains', 'Disjoint']
+          enum: ['intersect', 'contains', 'disjoint']
         }
       },
       required: ['startDate', 'stopDate']
@@ -158,7 +158,7 @@ const collectionPermission = {
           format: 'date-time'
         },
         mask: {
-          enum: ['Intersect', 'Contains', 'Disjoint']
+          enum: ['intersect', 'contains', 'disjoint']
         }
       },
       required: ['startDate', 'stopDate']
