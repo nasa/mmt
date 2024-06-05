@@ -1,5 +1,6 @@
 import React, {
   Suspense,
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -20,15 +21,12 @@ import {
   FaTrash
 } from 'react-icons/fa'
 
-import { useSuspenseQuery } from '@apollo/client'
+import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
 import './CollectionSelector.scss'
-import { debounce } from 'lodash-es'
-import camelcaseKeys from 'camelcase-keys'
-
-import useAuthContext from '@/js/hooks/useAuthContext'
+import { debounce, isEmpty } from 'lodash-es'
 
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -148,8 +146,6 @@ CollectionSelector.propTypes = {
  * )
  */
 const CollectionSelectorComponent = ({ onChange, formData }) => {
-  const { tokenValue } = useAuthContext()
-
   const [selected, setSelected] = useState([])
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
@@ -165,7 +161,7 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
   const [available, setAvailable] = useState(items)
 
   useEffect(() => {
-    if (formData) {
+    if (!isEmpty(formData)) {
       setSelected(formData)
     }
   }, [formData])
@@ -207,54 +203,49 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
     (item) => item.shortName.toLowerCase().includes(searchSelected.toLowerCase())
   )
 
-  const [prevSearchTerm, setPrevSearchTerm] = useState('')
+  const [getCollections] = useLazyQuery(GET_PERMISSION_COLLECTIONS)
 
-  const loadOptions = debounce((inputValue, callback) => {
+  const loadOptions = useCallback(debounce((inputValue, callback) => {
     if (inputValue.length >= 3) {
-      fetch(`https://cmr.sit.earthdata.nasa.gov/search/collections.umm_json?keyword=${encodeURI(inputValue)}&page_size=20`, {
-        method: 'GET',
-        headers: {
-          Authorization: tokenValue
-        }
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const options = data.items.map((item) => {
-            const { meta, umm } = item
-            const {
-              'concept-id': conceptId,
-              'provider-id': providerId
-            } = meta
+      getCollections({
+        variables: {
+          params: {
+            keyword: inputValue,
+            limit: 20
+          }
+        },
+        onCompleted: (data) => {
+          const { collections: collectionsSearch } = data
 
-            const camelcaseData = camelcaseKeys(umm, { deep: true })
+          const options = collectionsSearch.items.map((item) => {
+            const {
+              conceptId,
+              shortName,
+              provider,
+              directDistributionInformation,
+              entryTitle
+            } = item
 
             return {
-              ...camelcaseData,
               conceptId,
-              provider: providerId
+              entryTitle,
+              shortName,
+              provider,
+              directDistributionInformation
             }
           })
 
           callback(options)
-        })
-    }
-  }, 1000)
-
-  useEffect(() => {
-    const handleSearch = (inputValue) => {
-      if (inputValue !== prevSearchTerm) {
-        if (inputValue.length >= 3) {
-          loadOptions(inputValue, setAvailable)
-        } else {
-          setAvailable(items)
         }
-
-        setPrevSearchTerm(inputValue)
-      }
+      })
     }
+  }, 1000), [])
 
-    handleSearch(searchAvailable)
-  }, [searchAvailable, loadOptions])
+  const handleAvailableSearchChange = (e) => {
+    const inputValue = e.target.value
+    setSearchAvailable(inputValue)
+    loadOptions(inputValue, setAvailable)
+  }
 
   const popover = (item) => {
     const {
@@ -336,7 +327,7 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
           <h3 className="text-center">Available Collections</h3>
           <Form.Control
             className="mb-3"
-            onChange={(e) => setSearchAvailable(e.target.value)}
+            onChange={handleAvailableSearchChange}
             placeholder="Search Available..."
             type="text"
             value={searchAvailable}

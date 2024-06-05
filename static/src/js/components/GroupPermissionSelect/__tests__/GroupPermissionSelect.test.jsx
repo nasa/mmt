@@ -6,6 +6,9 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+import {
+  GET_GROUPS_FOR_PERMISSION_SELECT
+} from '@/js/operations/queries/getGroupsForPermissionSelect'
 import GroupPermissionSelect from '../GroupPermissionSelect'
 
 vi.mock('@/js/hooks/useAvailableProviders')
@@ -13,7 +16,10 @@ useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_1', 'MMT_2']
 })
 
-const setup = (formData = {}) => {
+const setup = ({
+  additionalMocks = [],
+  formData = {}
+}) => {
   const user = userEvent.setup()
 
   const props = {
@@ -68,7 +74,7 @@ const setup = (formData = {}) => {
               }
             }
           }
-        }]
+        }, ...additionalMocks]
       }
       >
         <GroupPermissionSelect {...props} />
@@ -85,7 +91,7 @@ const setup = (formData = {}) => {
 describe('GroupPermissionSelect', () => {
   describe('when selecting values for the select', () => {
     test('should select values and call onChange', async () => {
-      const { props, user } = setup()
+      const { props, user } = setup({})
       await waitForResponse()
 
       const searchField = screen.getByText('Select groups for search')
@@ -118,22 +124,44 @@ describe('GroupPermissionSelect', () => {
 
   describe('when searching for groups', () => {
     test('should call groups with and returns filtered data', async () => {
-      global.fetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve([{
-          id: '25780f67-91a5-4540-878b-7be541402f29',
-          name: 'Group 1',
-          tag: 'MMT_2'
-        }])
-      })
+      const { props, user } = setup({
+        additionalMocks: [
+          {
+            request: {
+              query: GET_GROUPS_FOR_PERMISSION_SELECT,
+              variables: {
+                params: {
+                  name: 'Gro',
+                  limit: 20,
+                  tags: ['MMT_1,MMT_2', 'CMR']
+                }
+              }
+            },
+            result: {
+              data: {
+                groups: {
+                  items: [
+                    {
+                      id: '25780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Group 1',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
+                    }
 
-      const { props, user } = setup()
+                  ],
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          }
+        ]
+      })
       await waitForResponse()
 
       const searchField = screen.getByText('Select groups for search')
       await user.click(searchField)
 
-      await user.type(searchField, 'Group 1')
+      await user.type(searchField, 'Gro')
 
       const option1 = screen.getByRole('option', { name: 'Group 1 MMT_2' })
       await user.click(option1)
@@ -155,22 +183,44 @@ describe('GroupPermissionSelect', () => {
 
   describe('when searching for search and order field', () => {
     test('should call groups with and returns filtered data', async () => {
-      global.fetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve([{
-          id: '25780f67-91a5-4540-878b-7be541402f29',
-          name: 'Group 1',
-          tag: 'MMT_2'
-        }])
-      })
+      const { props, user } = setup({
+        additionalMocks: [
+          {
+            request: {
+              query: GET_GROUPS_FOR_PERMISSION_SELECT,
+              variables: {
+                params: {
+                  name: 'Gro',
+                  limit: 20,
+                  tags: ['MMT_1,MMT_2', 'CMR']
+                }
+              }
+            },
+            result: {
+              data: {
+                groups: {
+                  items: [
+                    {
+                      id: '25780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Group 1',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
+                    }
 
-      const { props, user } = setup()
+                  ],
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          }
+        ]
+      })
       await waitForResponse()
 
       const searchField = screen.getByText('Select groups for search and order')
       await user.click(searchField)
 
-      await user.type(searchField, 'Group 1')
+      await user.type(searchField, 'Gro')
 
       const option1 = screen.getByRole('option', { name: 'Group 1 MMT_2' })
       await user.click(option1)
@@ -192,8 +242,8 @@ describe('GroupPermissionSelect', () => {
 
   describe('when formData has saved groups', () => {
     test('renders saved groups', async () => {
-      setup(
-        {
+      setup({
+        formData: {
           searchGroup: [
             {
               value: 'all-guest-user',
@@ -209,7 +259,7 @@ describe('GroupPermissionSelect', () => {
             }
           ]
         }
-      )
+      })
 
       await waitForResponse()
 
