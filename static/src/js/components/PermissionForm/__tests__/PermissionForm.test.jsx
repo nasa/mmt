@@ -359,6 +359,8 @@ describe('PermissionForm', () => {
                         {
                           __typename: 'Collection',
                           conceptId: 'C12000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
                           shortName: 'This is collection 2',
                           title: 'Collection 1',
                           version: '1'
@@ -366,6 +368,8 @@ describe('PermissionForm', () => {
                         {
                           __typename: 'Collection',
                           conceptId: 'C13000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
                           shortName: 'This is collection 1',
                           title: 'Collection 2',
                           version: '1'
@@ -382,7 +386,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: 'guest',
                           id: null,
-                          name: null
+                          name: null,
+                          tag: null
                         },
                         {
                           __typename: 'AclGroup',
@@ -391,7 +396,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: 'registered',
                           id: null,
-                          name: null
+                          name: null,
+                          tag: null
                         }
                       ]
                     }
@@ -519,7 +525,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: 'guest',
                           id: null,
-                          name: null
+                          name: null,
+                          tag: 'MMT'
                         },
                         {
                           __typename: 'AclGroup',
@@ -528,7 +535,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: 'registered',
                           id: null,
-                          name: null
+                          name: null,
+                          tag: null
                         },
                         {
                           __typename: 'AclGroup',
@@ -537,7 +545,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: null,
                           id: '1234-abcd-5678-efgh',
-                          name: 'Mock group'
+                          name: 'Mock group',
+                          tag: 'MMT'
                         },
                         {
                           __typename: 'AclGroup',
@@ -546,7 +555,8 @@ describe('PermissionForm', () => {
                           ],
                           userType: null,
                           id: '1234-abcd-5678',
-                          name: 'Mock group2'
+                          name: 'Mock group2',
+                          tag: 'MMT'
                         }
                       ]
                     }

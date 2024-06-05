@@ -100,6 +100,41 @@ const PermissionForm = () => {
     }
   }, [conceptId])
 
+  const showGranuleFields = (formData) => {
+    if (formData.accessPermission?.granule) {
+      const newUiSchema = {
+        ...collectionPermissionUiSchema,
+        accessConstraintFilter: {
+          ...collectionPermissionUiSchema.accessConstraintFilter,
+          granuleAccessConstraint: {
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            'ui:disabled': false
+          }
+        },
+        temporalConstraintFilter: {
+          ...collectionPermissionUiSchema.temporalConstraintFilter,
+          granuleTemporalConstraint: {
+            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
+            'ui:disabled': false
+          }
+        }
+      }
+      setUiSchema(newUiSchema)
+    } else {
+      const newUiSchema = {
+        ...collectionPermissionUiSchema,
+        accessConstraintFilter: {
+          ...collectionPermissionUiSchema.accessConstraintFilter,
+          granuleAccessConstraint: {
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            'ui:disabled': true
+          }
+        }
+      }
+      setUiSchema(newUiSchema)
+    }
+  }
+
   useEffect(() => {
     if (data) {
       const { acl } = data
@@ -113,11 +148,19 @@ const PermissionForm = () => {
       const { items } = collections || {}
 
       const selectedCollections = items?.map((item) => {
-        const { conceptId: collectionConceptId, shortName, title } = item
+        const {
+          conceptId: collectionConceptId,
+          directDistributionInformation,
+          provider,
+          shortName,
+          title
+        } = item
 
         return {
           conceptId: collectionConceptId,
+          directDistributionInformation,
           entryTitle: title,
+          provider,
           shortName
         }
       })
@@ -130,7 +173,8 @@ const PermissionForm = () => {
           id,
           name: groupName,
           permissions,
-          userType
+          userType,
+          tag
         } = item
 
         const groupObj = userType
@@ -142,6 +186,7 @@ const PermissionForm = () => {
           : {
             value: id,
             label: groupName,
+            provider: tag,
             isDisabled: true
           }
 
@@ -155,7 +200,7 @@ const PermissionForm = () => {
       const {
         collectionApplicable,
         granuleApplicable,
-        collectionIdentifier,
+        collectionIdentifier = {},
         granuleIdentifier,
         providerId: savedProviderId
       } = catalogItemIdentity
@@ -165,7 +210,7 @@ const PermissionForm = () => {
       const {
         accessValue: collectionAccessValue,
         temporal: collectionTemporal
-      } = collectionIdentifier || {}
+      } = collectionIdentifier
 
       const {
         accessValue: granuleAccessValue,
@@ -234,9 +279,9 @@ const PermissionForm = () => {
           searchAndOrderGroup: searchAndOrderGroupPermission,
           searchGroup: searchPermission
         }
-
       }
 
+      showGranuleFields(formData)
       setDraft({ formData: removeEmpty(formData) })
     }
   }, [data])
@@ -244,38 +289,7 @@ const PermissionForm = () => {
   const handleChange = (event) => {
     const { formData } = event
 
-    if (formData.accessPermission?.granule) {
-      const newUiSchema = {
-        ...collectionPermissionUiSchema,
-        accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
-          granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': false
-          }
-        },
-        temporalConstraintFilter: {
-          ...collectionPermissionUiSchema.temporalConstraintFilter,
-          granuleTemporalConstraint: {
-            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
-            'ui:disabled': false
-          }
-        }
-      }
-      setUiSchema(newUiSchema)
-    } else {
-      const newUiSchema = {
-        ...collectionPermissionUiSchema,
-        accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
-          granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': true
-          }
-        }
-      }
-      setUiSchema(newUiSchema)
-    }
+    showGranuleFields(formData)
 
     setDraft({
       ...draft,
@@ -431,6 +445,12 @@ const PermissionForm = () => {
           const { createAcl } = getCreateData
 
           const { conceptId: aclConceptId } = createAcl
+
+          addNotification({
+            message: 'Collection permission created',
+            variant: 'success'
+          })
+
           navigate(`/permissions/${aclConceptId}`)
         },
         onError: () => {
@@ -455,16 +475,20 @@ const PermissionForm = () => {
           const { updateAcl } = getCreateData
 
           const { conceptId: aclConceptId } = updateAcl
+
+          addNotification({
+            message: 'Collection permission updated',
+            variant: 'success'
+          })
+
           navigate(`/permissions/${aclConceptId}`)
         },
         onError: () => {
-          // Add an error notification
           addNotification({
             message: 'Error creating permission',
             variant: 'danger'
           })
 
-          // Send the error to the errorLogger
           errorLogger('Error creating collection permission', 'PermissionForm: updateAclMutation')
         }
       })
