@@ -99,18 +99,16 @@ const GroupPermissionSelectComponent = ({
 
   const { mmtJwt } = useMMTCookie()
 
-  const [selectedOptions1, setSelectedOptions1] = useState([])
-  const [selectedOptions2, setSelectedOptions2] = useState([])
+  const [searchOptions, setSearchOptions] = useState([])
+  const [searchAndOrderOptions, setSearchAndOrderOptions] = useState([])
 
   useEffect(() => {
-    if (formData) {
-      if (formData.searchAndOrderGroup) {
-        setSelectedOptions2(formData.searchAndOrderGroup)
-      }
+    if (formData.searchAndOrderGroup) {
+      setSearchAndOrderOptions(formData.searchAndOrderGroup)
+    }
 
-      if (formData.searchGroup) {
-        setSelectedOptions1(formData.searchGroup)
-      }
+    if (formData.searchGroup) {
+      setSearchOptions(formData.searchGroup)
     }
   }, [formData])
 
@@ -149,16 +147,16 @@ const GroupPermissionSelectComponent = ({
     ? [...additionalOptions, ...groupList]
     : additionalOptions
 
-  const handleSelectChange1 = (selectedOptions) => {
-    setSelectedOptions1(selectedOptions || [])
+  const handleSearch = (selectedOptions) => {
+    setSearchOptions(selectedOptions || [])
     onChange({
       ...formData,
       searchGroup: selectedOptions
     })
   }
 
-  const handleSelectChange2 = (selectedOptions) => {
-    setSelectedOptions2(selectedOptions || [])
+  const handleSearchAndOrder = (selectedOptions) => {
+    setSearchAndOrderOptions(selectedOptions || [])
     onChange({
       ...formData,
       searchAndOrderGroup: selectedOptions
@@ -224,7 +222,6 @@ const GroupPermissionSelectComponent = ({
             provider: item.tag
           }))
 
-          // Use the callback function to set the values as select options
           callback(options)
         })
     }
@@ -291,14 +288,15 @@ const GroupPermissionSelectComponent = ({
           >
             <AsyncSelect
               isMulti
-              value={selectedOptions1}
-              onChange={handleSelectChange1}
+              value={searchOptions}
+              onChange={handleSearch}
+              placeholder="Select groups for search"
               loadOptions={
                 (inputValue, callback) => loadOptions(inputValue, (options) => {
-                  callback(disableSelectedOptions(selectedOptions2)(options))
+                  callback(disableSelectedOptions(searchAndOrderOptions)(options))
                 })
               }
-              defaultOptions={disableSelectedOptions(selectedOptions2)(initialOptions)}
+              defaultOptions={disableSelectedOptions(searchAndOrderOptions)(initialOptions)}
               formatOptionLabel={formatOptionLabel}
             />
           </CustomWidgetWrapper>
@@ -313,14 +311,15 @@ const GroupPermissionSelectComponent = ({
           >
             <AsyncSelect
               isMulti
-              value={selectedOptions2}
-              onChange={handleSelectChange2}
+              value={searchAndOrderOptions}
+              onChange={handleSearchAndOrder}
+              placeholder="Select groups for search and order"
               loadOptions={
                 (inputValue, callback) => loadOptions(inputValue, (options) => {
-                  callback(disableSelectedOptions(selectedOptions1)(options))
+                  callback(disableSelectedOptions(searchOptions)(options))
                 })
               }
-              defaultOptions={disableSelectedOptions(selectedOptions1)(initialOptions)}
+              defaultOptions={disableSelectedOptions(searchOptions)(initialOptions)}
               formatOptionLabel={formatOptionLabel}
             />
           </CustomWidgetWrapper>
