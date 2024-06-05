@@ -162,7 +162,7 @@ const PermissionForm = () => {
       const {
         accessValue: collectionAccessValue,
         temporal: collectionTemporal
-      } = collectionIdentifier
+      } = collectionIdentifier || {}
 
       const {
         accessValue: granuleAccessValue,
