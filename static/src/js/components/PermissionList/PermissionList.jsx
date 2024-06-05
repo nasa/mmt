@@ -11,6 +11,9 @@ import Table from '@/js/components/Table/Table'
 
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 
+import { FaEdit } from 'react-icons/fa'
+import Button from '../Button/Button'
+
 const PermissionList = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
