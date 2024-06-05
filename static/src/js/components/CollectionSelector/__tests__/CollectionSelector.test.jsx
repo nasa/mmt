@@ -22,7 +22,7 @@ const setup = (formData = []) => {
   render(
     <AuthContext.Provider value={
       {
-        token: 'mock-jwt'
+        tokenValue: 'launchpad-token'
       }
     }
     >
@@ -243,8 +243,8 @@ describe('CollectionSelector', () => {
     })
   })
 
-  describe('when searching for selected collection', () => {
-    test('should call cmr with filtered data', async () => {
+  describe('when formData has saved collections', () => {
+    test('render the saved collections', async () => {
       setup([
         {
           conceptId: 'C1200450598-MMT_2',
