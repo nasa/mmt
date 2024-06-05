@@ -349,7 +349,8 @@ describe('PermissionForm', () => {
                       collectionIdentifier: {},
                       collectionApplicable: true,
                       granuleApplicable: false,
-                      granuleIdentifier: null
+                      granuleIdentifier: null,
+                      providerId: 'MM_2'
                     },
                     collections: {
                       __typename: 'CollectionList',
@@ -435,6 +436,7 @@ describe('PermissionForm', () => {
                 variables: {
                   catalogItemIdentity: {
                     name: 'Mock ACLUpdated Name',
+                    providerId: 'MM_2',
                     collectionApplicable: true,
                     granuleApplicable: false,
                     collectionIdentifier: { conceptIds: ['C12000000-MMT_2', 'C13000000-MMT_2'] }
@@ -503,7 +505,8 @@ describe('PermissionForm', () => {
                       collectionIdentifier: {},
                       collectionApplicable: true,
                       granuleApplicable: false,
-                      granuleIdentifier: null
+                      granuleIdentifier: null,
+                      providerId: 'MM_2'
                     },
                     collections: null,
                     groups: {
@@ -588,6 +591,7 @@ describe('PermissionForm', () => {
                 variables: {
                   catalogItemIdentity: {
                     name: 'Mock ACLUpdated Name',
+                    providerId: 'MM_2',
                     collectionApplicable: true,
                     granuleApplicable: false
                   },

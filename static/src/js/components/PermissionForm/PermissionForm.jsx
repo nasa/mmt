@@ -46,9 +46,10 @@ const PermissionForm = () => {
   const {
     draft,
     originalDraft,
-    providerId,
     setDraft,
-    setOriginalDraft
+    setOriginalDraft,
+    providerId,
+    setProviderId
   } = useAppContext()
 
   const navigate = useNavigate()
@@ -155,8 +156,11 @@ const PermissionForm = () => {
         collectionApplicable,
         granuleApplicable,
         collectionIdentifier,
-        granuleIdentifier
+        granuleIdentifier,
+        providerId: savedProviderId
       } = catalogItemIdentity
+
+      setProviderId(savedProviderId)
 
       const {
         accessValue: collectionAccessValue,

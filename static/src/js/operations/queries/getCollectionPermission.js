@@ -14,7 +14,8 @@ export const GET_COLLECTION_PERMISSION = gql`
         collectionIdentifier
         collectionApplicable
         granuleApplicable
-        granuleIdentifier
+        granuleIdentifier,
+        providerId
       }
       collections (params: $collectionParams) {
         count
