@@ -113,7 +113,7 @@ const GroupPermissionSelectComponent = ({
   }, [formData])
 
   const { data: initialOptionsData } = useSuspenseQuery(GET_GROUPS, {
-    skip: !providerIds,
+    skip: providerIds.length === 0,
     variables: {
       params: {
         tags: providerIds
