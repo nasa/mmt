@@ -70,7 +70,7 @@ const PermissionFormPageHeader = () => {
  */
 const PermissionFormPagePlaceholder = () => (
   <Row>
-    <Col className="" xs={8}>
+    <Col xs={8}>
       <Placeholder animation="glow" aria-hidden="true">
         <span className="d-block mb-4 w-100">
           <Placeholder className="w-25 d-block mb-5" style={{ height: '1.75rem' }} />

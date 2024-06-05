@@ -21,6 +21,7 @@ const setup = (overrideProps = {}) => {
         Mock Help
       </span>
     ),
+    onChange: vi.fn(),
     ...overrideProps
   }
 
@@ -44,6 +45,26 @@ describe('CustomFieldTemplate', () => {
       expect(screen.getByText('Mock Child')).toBeInTheDocument()
       expect(screen.getByText('Mock Errors')).toBeInTheDocument()
       expect(screen.getByText('Mock Help')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a field has ui:clear defined', () => {
+    test('rendering the field', async () => {
+      const { user, props } = setup({
+        uiSchema: {
+          'ui:clear': true
+        },
+        label: 'test label'
+      })
+
+      expect(screen.getByText('Mock Child')).toBeInTheDocument()
+      expect(screen.getByText('Mock Errors')).toBeInTheDocument()
+      expect(screen.getByText('Mock Help')).toBeInTheDocument()
+
+      await user.click(screen.getByRole('button'))
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith({})
     })
   })
 })
