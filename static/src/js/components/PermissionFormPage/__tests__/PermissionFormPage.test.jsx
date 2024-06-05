@@ -109,7 +109,8 @@ describe('OrderOptionFormPage', () => {
                   collectionIdentifier: null,
                   collectionApplicable: true,
                   granuleApplicable: false,
-                  granuleIdentifier: null
+                  granuleIdentifier: null,
+                  providerId: 'MMT'
                 },
                 collections: null,
                 groups: {

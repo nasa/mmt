@@ -192,11 +192,17 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
   }
 
   const toggleAvailableSelection = (item) => {
-    setSelectedAvailable([...selectedAvailable, item])
+    if (!selected.some((s) => s.conceptId === item.conceptId)) {
+      setSelectedAvailable(selectedAvailable.some((i) => i.conceptId === item.conceptId)
+        ? selectedAvailable.filter((i) => i.conceptId !== item.conceptId)
+        : [...selectedAvailable, item])
+    }
   }
 
   const toggleSelectedSelection = (item) => {
-    setSelectedSelected([...selectedSelected, item])
+    setSelectedSelected(selectedSelected.some((i) => i.conceptId === item.conceptId)
+      ? selectedSelected.filter((i) => i.conceptId !== item.conceptId)
+      : [...selectedSelected, item])
   }
 
   const filteredSelected = selected.filter(
