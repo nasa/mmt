@@ -61,9 +61,10 @@ const CustomFieldTemplate = ({
 }
 
 CustomFieldTemplate.defaultProps = {
-  disabled: false,
   classNames: '',
+  disabled: false,
   errors: null,
+  label: null,
   uiSchema: {}
 }
 
@@ -73,7 +74,7 @@ CustomFieldTemplate.propTypes = {
   classNames: PropTypes.string,
   errors: PropTypes.shape({}),
   help: PropTypes.shape({}).isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   uiSchema: PropTypes.shape({
     'ui:clear': PropTypes.bool
