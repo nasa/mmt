@@ -1,39 +1,35 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION_PERMISSION = gql`
-  query GetCollectionPermission($conceptId: String!, $collectionParams: CollectionsInput) {
+  query GetCollectionPermission($conceptId: String!) {
     acl(conceptId: $conceptId) {
-      conceptId
-      identityType
-      location
-      name
-      providerIdentity
-      revisionId
-      systemIdentity
       catalogItemIdentity {
-        collectionIdentifier
-        collectionApplicable
-        granuleApplicable
-        granuleIdentifier,
-        providerId
+      providerId
+      collectionApplicable
+      collectionIdentifier
+      granuleApplicable
+      granuleIdentifier
+    }
+    groups {
+      items {
+        id
+        name
+        permissions
+        tag
+        userType
       }
-      collections (params: $collectionParams) {
-        count
-        items {
-          conceptId
-          shortName
-          title
-          version
-        }
+    }
+    collections {
+      items {
+        conceptId,
+        shortName,
+        provider,
+        directDistributionInformation,
+        title
       }
-      groups {
-        items {
-          permissions
-          userType
-          id
-          name
-        }
-      }
+    }
+    conceptId
+    name
     }
   }
 `
