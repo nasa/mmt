@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate'
 
@@ -83,13 +79,11 @@ describe('CustomArrayFieldTemplate', () => {
 
   describe('When adding another array item', () => {
     test('adds another array field', async () => {
-      const { props } = setup()
+      const { props, user } = setup()
 
       const addButton = screen.getByRole('button', { name: 'Plus icon in a circle Add Another Array Field Test' })
 
-      await waitFor(async () => {
-        addButton.click()
-      })
+      await user.click(addButton)
 
       expect(props.onAddClick).toHaveBeenCalledTimes(1)
 
@@ -100,13 +94,11 @@ describe('CustomArrayFieldTemplate', () => {
 
   describe('When removing a array item', () => {
     test('removes a array field', async () => {
-      const { props } = setup()
+      const { props, user } = setup()
 
       const remove = screen.getByRole('button', { name: 'Minus icon in a circle Remove' })
 
-      await waitFor(async () => {
-        remove.click()
-      })
+      await user.click(remove)
 
       expect(props.items[0].onDropIndexClick).toHaveBeenCalledTimes(1)
     })

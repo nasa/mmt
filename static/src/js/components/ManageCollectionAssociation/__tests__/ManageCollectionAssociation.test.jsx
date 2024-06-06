@@ -340,7 +340,7 @@ describe('ManageCollectionAssociation', () => {
         const button = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
         await user.click(button)
 
-        expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+        expect(await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
       })
 
       describe('when clicking an ascending sort button', () => {
@@ -354,7 +354,7 @@ describe('ManageCollectionAssociation', () => {
           const button = await screen.findByRole('button', { name: /Sort Provider in ascending order/ })
           await user.click(button)
 
-          expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+          expect(await screen.findByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
         })
       })
     })

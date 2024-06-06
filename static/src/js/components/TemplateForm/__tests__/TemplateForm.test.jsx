@@ -65,12 +65,6 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
-Object.defineProperty(globalThis, 'crypto', {
-  value: {
-    randomUUID: () => 'mock-uuid'
-  }
-})
-
 vi.mock('@rjsf/core', () => ({
   default: vi.fn(({
     onChange,
@@ -89,6 +83,7 @@ vi.mock('@rjsf/core', () => ({
 
             onChange({
               formData: {
+                ...formData,
                 Name: value
               }
             })
@@ -426,39 +421,52 @@ describe('TemplateForm', () => {
 
     describe('when clicking on onCancel', () => {
       test('resets the form to the original values', async () => {
+        const originalDraft = {
+          TemplateName: 'Mock Template',
+          ShortName: 'Template Form Test',
+          Version: '1.0.0'
+        }
         getTemplate.mockReturnValue({
           response: {
-            TemplateName: 'Mock Template',
-            ShortName: 'Template Form Test',
-            Version: '1.0.0'
+            template: originalDraft,
+            providerId: 'MMT_2'
           }
         })
-
-        updateTemplate.mockReturnValue({ ok: true })
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
 
         // Fill out a form field
-        const nameField = screen.getByRole('textbox', { id: 'Name' })
-        await user.type(nameField, 'Test Name')
-        await waitFor(async () => {
-          await nameField.blur()
-        })
+        const nameField = await screen.findByRole('textbox', { id: 'Name' })
+        await user.type(nameField, 'A')
+        await user.tab()
 
-        expect(nameField).toHaveValue('Test Name')
-        expect(FormNavigation).toHaveBeenCalledTimes(12)
+        expect(await screen.findByRole('textbox', {
+          id: 'Name',
+          value: 'A'
+        })).toBeInTheDocument()
+
+        expect(FormNavigation).toHaveBeenCalledTimes(4)
         expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          draft: {
+            ...originalDraft,
+            Name: 'A'
+          },
           visitedFields: ['mock-name']
         }), {})
 
         vi.clearAllMocks()
 
-        const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+        const cancelButton = await screen.findByRole('button', { name: 'Cancel' })
         await user.click(cancelButton)
 
-        expect(nameField).toHaveValue('')
+        expect(await screen.findByRole('textbox', {
+          id: 'Name',
+          value: ''
+        })).toBeInTheDocument()
+
         expect(FormNavigation).toHaveBeenCalledTimes(1)
         expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          draft: originalDraft,
           visitedFields: []
         }), {})
       })

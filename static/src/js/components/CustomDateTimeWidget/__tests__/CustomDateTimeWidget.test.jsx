@@ -150,12 +150,12 @@ describe('CustomDateTimeWidget', () => {
 
       // Checks if the widget is focused by checking if the description is present.
       await waitFor(() => {
-        expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+        expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+          description: 'Test Description'
+        }), {})
       })
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-        description: 'Test Description'
-      }), {})
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
     })
   })
 
