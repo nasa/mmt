@@ -101,13 +101,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <GridLayout {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

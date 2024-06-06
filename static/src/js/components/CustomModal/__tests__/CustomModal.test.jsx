@@ -1,10 +1,21 @@
+import React from 'react'
+
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import React from 'react'
+
 import CustomModal from '../CustomModal'
 
+vi.mock('react-bootstrap/Modal', () => ({
+  default: {
+    Body: vi.fn(() => <div data-testid="modal-body" />),
+    Header: vi.fn(() => <div data-testid="modal-header" />),
+    Title: vi.fn(() => <div data-testid="modal-title" />),
+    Footer: vi.fn(() => <div data-testid="modal-footer" />),
+    Dialog: vi.fn(() => <div data-testid="modal-dialog" />)
+  }
+}))
+
 const setup = (overrideProps) => {
-  const user = userEvent.setup()
   const onClick = vi.fn()
 
   const props = {
@@ -20,6 +31,8 @@ const setup = (overrideProps) => {
     ],
     ...overrideProps
   }
+
+  const user = userEvent.setup()
 
   const { container } = render(<CustomModal {...props} />)
 
@@ -69,11 +82,13 @@ describe('CustomModal', () => {
 
   describe('when no actions are provided', () => {
     test('does not render the footer', () => {
-      const { container } = setup({
+      setup({
         actions: null
       })
 
-      expect(container.querySelector('.modal-footer')).toEqual(null)
+      expect(screen.getByTestId('modal-header')).toHaveBeenCalledTimes(1)
+      expect(screen.getByTestId('modal-body')).toHaveBeenCalledTimes(1)
+      expect(screen.getByTestId('modal-footer')).toHaveBeenCalledTimes(1)
     })
   })
 

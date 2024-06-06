@@ -39,6 +39,8 @@ const setup = ({
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <MemoryRouter initialEntries={[overrideInitialEntries || `/drafts/tools/TD1000000-MMT/${formSection}`]}>
       <Routes>
@@ -56,7 +58,7 @@ const setup = ({
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

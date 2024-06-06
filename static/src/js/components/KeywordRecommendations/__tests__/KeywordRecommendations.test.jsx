@@ -196,9 +196,8 @@ describe('KeywordRecommendations component', () => {
         }
         setup({ draft })
 
-        await waitFor(() => {
-          expect(screen.getAllByRole('listitem').length).toBe(8)
-        })
+        const listItems = await screen.findAllByRole('listitem')
+        expect(listItems.length).toBe(8)
 
         const keywords = screen.getAllByRole('listitem')
         expect(keywords[0]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD RADIATIVE TRANSFER > CLOUD REFLECTANCE Recommended')
@@ -221,36 +220,29 @@ describe('KeywordRecommendations component', () => {
       }
       const { user, unmount, container } = setup({ draft })
 
-      await waitFor(() => {
-        expect(screen.getAllByRole('listitem').length).toBe(8)
-      })
+      const listItems = await screen.findAllByRole('listitem')
+      expect(listItems.length).toBe(8)
 
       const keywords = screen.getAllByRole('listitem')
       expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE Recommended')
       const addIcon = within(keywords[1]).getByTitle('Add')
       await user.click(addIcon)
 
-      await waitForResponse()
-
-      await waitFor(() => {
-        expect(within(container).getAllByRole('img', { name: 'Remove' }).length).toBe(2)
-      })
+      expect(within(container).getAllByRole('img', { name: 'Remove' }).length).toBe(2)
 
       unmount()
 
-      await waitFor(() => {
-        expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(1)
-        expect(sendKeywordRecommendationsFeedback).toBeCalledWith('b0b399d7-abaf-4bd7-b2bf-5484605ffd97', {
-          '1317aad9-d939-4152-9c30-07be5f193c8b': false,
-          '503c65c1-1cc1-4b8a-acb8-4471994e2666': true,
-          '8c15cd1c-2655-4a12-8f60-d850d0097632': false,
-          'd106d9b6-f401-455b-82d5-d04aeab5d269': false,
-          '9e734f01-893a-4552-b28c-a89e71414715': false,
-          'd5e55c88-f9ba-4fac-8ece-4d1711ab14d7': false,
-          '7927d4d1-a511-4e60-a6ff-ea5d64c8ab93': false,
-          '3da1fc4e-6737-44a3-aadb-8d1b46068495': false
-        }, [])
-      })
+      expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(1)
+      expect(sendKeywordRecommendationsFeedback).toBeCalledWith('b0b399d7-abaf-4bd7-b2bf-5484605ffd97', {
+        '1317aad9-d939-4152-9c30-07be5f193c8b': false,
+        '503c65c1-1cc1-4b8a-acb8-4471994e2666': true,
+        '8c15cd1c-2655-4a12-8f60-d850d0097632': false,
+        'd106d9b6-f401-455b-82d5-d04aeab5d269': false,
+        '9e734f01-893a-4552-b28c-a89e71414715': false,
+        'd5e55c88-f9ba-4fac-8ece-4d1711ab14d7': false,
+        '7927d4d1-a511-4e60-a6ff-ea5d64c8ab93': false,
+        '3da1fc4e-6737-44a3-aadb-8d1b46068495': false
+      }, [])
     })
 
     test('can add a new keyword to formdata', async () => {
@@ -261,34 +253,29 @@ describe('KeywordRecommendations component', () => {
       }
       const { user, unmount } = setup({ draft })
 
-      await waitFor(() => {
-        expect(screen.getAllByRole('listitem').length).toBe(8)
-      })
+      const listItems = await screen.findAllByRole('listitem')
+      expect(listItems.length).toBe(8)
 
       const button = screen.getByRole('button', { name: 'Add New Keyword' })
 
       await user.click(button)
 
-      await waitFor(() => {
-        const keywords = screen.getAllByRole('listitem')
-        expect(keywords.length).toBe(9)
-      })
+      const keywords = screen.getAllByRole('listitem')
+      expect(keywords.length).toBe(9)
 
       unmount()
 
-      await waitFor(() => {
-        expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(1)
-        expect(sendKeywordRecommendationsFeedback).toBeCalledWith('b0b399d7-abaf-4bd7-b2bf-5484605ffd97', {
-          '1317aad9-d939-4152-9c30-07be5f193c8b': false,
-          '503c65c1-1cc1-4b8a-acb8-4471994e2666': false,
-          '8c15cd1c-2655-4a12-8f60-d850d0097632': false,
-          'd106d9b6-f401-455b-82d5-d04aeab5d269': false,
-          '9e734f01-893a-4552-b28c-a89e71414715': false,
-          'd5e55c88-f9ba-4fac-8ece-4d1711ab14d7': false,
-          '7927d4d1-a511-4e60-a6ff-ea5d64c8ab93': false,
-          '3da1fc4e-6737-44a3-aadb-8d1b46068495': false
-        }, ['EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > NEW KEYWORD'])
-      })
+      expect(sendKeywordRecommendationsFeedback).toBeCalledTimes(1)
+      expect(sendKeywordRecommendationsFeedback).toBeCalledWith('b0b399d7-abaf-4bd7-b2bf-5484605ffd97', {
+        '1317aad9-d939-4152-9c30-07be5f193c8b': false,
+        '503c65c1-1cc1-4b8a-acb8-4471994e2666': false,
+        '8c15cd1c-2655-4a12-8f60-d850d0097632': false,
+        'd106d9b6-f401-455b-82d5-d04aeab5d269': false,
+        '9e734f01-893a-4552-b28c-a89e71414715': false,
+        'd5e55c88-f9ba-4fac-8ece-4d1711ab14d7': false,
+        '7927d4d1-a511-4e60-a6ff-ea5d64c8ab93': false,
+        '3da1fc4e-6737-44a3-aadb-8d1b46068495': false
+      }, ['EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > NEW KEYWORD'])
     })
 
     test('handles error fetching recommended keywords', async () => {
@@ -299,6 +286,7 @@ describe('KeywordRecommendations component', () => {
           Abstract: 'cloud cover and the ozone'
         }
       }
+
       setup({ draft })
 
       await waitFor(() => {
@@ -333,8 +321,6 @@ describe('KeywordRecommendations component', () => {
         }
         setup({ draft })
 
-        await waitForResponse()
-
         const keywords = screen.getAllByRole('listitem')
         expect(keywords.length).toBe(2)
       })
@@ -365,17 +351,14 @@ describe('KeywordRecommendations component', () => {
         }
         const { user, unmount } = setup({ draft })
 
-        await waitForResponse()
-
         const keywords = screen.getAllByRole('listitem')
         expect(keywords.length).toBe(2)
         expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE > DELETE ME')
         const removeIcon = within(keywords[1]).getByRole('img', { name: 'Remove' })
         await user.click(removeIcon)
 
-        await waitFor(() => {
-          expect(screen.getAllByRole('listitem').length).toBe(1)
-        })
+        const listItems = await screen.findAllByRole('listitem')
+        expect(listItems.length).toBe(1)
 
         unmount()
 
@@ -388,8 +371,6 @@ describe('KeywordRecommendations component', () => {
     test('renders no recommendations', async () => {
       const draft = {}
       setup({ draft })
-
-      await waitForResponse()
 
       const keywords = screen.queryAllByRole('listitem')
       expect(keywords.length).toBe(0)

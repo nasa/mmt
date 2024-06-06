@@ -142,9 +142,7 @@ describe('DraftPreview', () => {
   test('renders the breadcrumbs', async () => {
     setup({})
 
-    await waitForResponse()
-
-    const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
+    const breadcrumbs = await screen.findByRole('navigation', { name: 'breadcrumb' })
     const breadcrumbOne = within(breadcrumbs).getByText('Tool Drafts')
     const breadcrumbTwo = within(breadcrumbs).getByText('<Blank Name>')
 
@@ -155,9 +153,7 @@ describe('DraftPreview', () => {
   test('renders the provider id in a badge', async () => {
     setup({})
 
-    await waitForResponse()
-
-    expect(screen.getByText('MMT_2')).toBeInTheDocument()
+    expect(await screen.findByText('MMT_2')).toBeInTheDocument()
     expect(screen.getByText('MMT_2')).toHaveClass('badge')
   })
 
@@ -165,9 +161,7 @@ describe('DraftPreview', () => {
     test('shows the DeleteDraftModal', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Delete/ })
+      const button = await screen.findByRole('button', { name: /Delete/ })
       await user.click(button)
 
       expect(screen.getByText('Are you sure you want to delete this draft?')).toBeInTheDocument()
@@ -199,15 +193,11 @@ describe('DraftPreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: /Delete/ })
+        const button = await screen.findByRole('button', { name: /Delete/ })
         await user.click(button)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools')
@@ -233,15 +223,11 @@ describe('DraftPreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: /Delete/ })
+        const button = await screen.findByRole('button', { name: /Delete/ })
         await user.click(button)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'DraftPreview: deleteDraftMutation')
@@ -274,15 +260,11 @@ describe('DraftPreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: /Delete/ })
+        const button = await screen.findByRole('button', { name: /Delete/ })
         await user.click(button)
 
         const noButton = screen.getByRole('button', { name: 'No' })
         await user.click(noButton)
-
-        await waitForResponse()
 
         expect(screen.queryByText('Are you sure you want to delete this draft?')).not.toBeInTheDocument()
 
@@ -316,11 +298,9 @@ describe('DraftPreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: /Publish/ })
+        const button = await screen.findByRole('button', { name: /Publish/ })
         await user.click(button)
-        await waitForResponse()
+
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions/2')
       })
@@ -431,11 +411,9 @@ describe('DraftPreview', () => {
             ]
           })
 
-          await waitForResponse()
-
-          const button = screen.getByRole('button', { name: /Publish/ })
+          const button = await screen.findByRole('button', { name: /Publish/ })
           await user.click(button)
-          await waitForResponse()
+
           expect(navigateSpy).toHaveBeenCalledTimes(1)
           expect(navigateSpy).toHaveBeenCalledWith('/variables/V1000000-MMT/revisions/2')
         })
@@ -579,8 +557,7 @@ describe('DraftPreview', () => {
 
         })
 
-        await waitForResponse()
-        const button = screen.getByRole('button', { name: /Save as Template/ })
+        const button = await screen.findByRole('button', { name: /Save as Template/ })
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
@@ -618,8 +595,7 @@ describe('DraftPreview', () => {
 
         })
 
-        await waitForResponse()
-        const button = screen.getByRole('button', { name: /Save as Template/ })
+        const button = await screen.findByRole('button', { name: /Save as Template/ })
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)

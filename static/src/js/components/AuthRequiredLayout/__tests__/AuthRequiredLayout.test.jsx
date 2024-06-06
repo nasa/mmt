@@ -71,7 +71,7 @@ describe('AuthRequiredContainer component', () => {
     test('should not redirect the user', () => {
       setup(true)
 
-      expect(screen.queryByText('Mock Component')).toBeInTheDocument()
+      expect(screen.getByText('Mock Component')).toBeInTheDocument()
     })
   })
 

@@ -15,6 +15,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <BrowserRouter>
       <CollectionAssociationPreviewProgress {...props} />
@@ -23,7 +25,7 @@ const setup = (overrideProps = {}) => {
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

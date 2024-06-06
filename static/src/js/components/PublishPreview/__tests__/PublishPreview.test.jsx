@@ -212,7 +212,6 @@ describe('PublishPreview', () => {
   describe('when the publish page is called', () => {
     test('renders a Publish Preview with a Published Tool Preview', async () => {
       setup({})
-      await waitForResponse()
 
       expect(MetadataPreview).toHaveBeenCalledTimes(1)
       expect(MetadataPreview).toHaveBeenCalledWith({
@@ -226,9 +225,7 @@ describe('PublishPreview', () => {
     test('show the DeleteModal', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Delete/ })
+      const button = await screen.findByRole('button', { name: /Delete/ })
       await user.click(button)
 
       expect(screen.getByText('Are you sure you want to delete this record?')).toBeInTheDocument()
@@ -260,15 +257,11 @@ describe('PublishPreview', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Delete/ })
+      const button = await screen.findByRole('button', { name: /Delete/ })
       await user.click(button)
 
       const yesButton = screen.getByRole('button', { name: 'Yes' })
       await user.click(yesButton)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools')
@@ -293,16 +286,11 @@ describe('PublishPreview', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Delete/ })
+      const button = await screen.findByRole('button', { name: /Delete/ })
       await user.click(button)
 
       const yesButton = screen.getByRole('button', { name: 'Yes' })
       await user.click(yesButton)
-
-      await waitForResponse()
-      await waitForResponse()
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview: deleteMutation')
@@ -315,9 +303,7 @@ describe('PublishPreview', () => {
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
       const { user } = setup({})
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Delete/ })
+      const button = await screen.findByRole('button', { name: /Delete/ })
 
       await user.click(button)
 
@@ -356,12 +342,8 @@ describe('PublishPreview', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const editButton = screen.getByRole('button', { name: /Edit/ })
+      const editButton = await screen.findByRole('button', { name: /Edit/ })
       await user.click(editButton)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
@@ -387,12 +369,8 @@ describe('PublishPreview', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const editButton = screen.getByRole('button', { name: /Edit/ })
+      const editButton = await screen.findByRole('button', { name: /Edit/ })
       await user.click(editButton)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(0)
       expect(errorLogger).toHaveBeenCalledTimes(1)
@@ -428,12 +406,8 @@ describe('PublishPreview', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const editButton = screen.getByRole('button', { name: /Clone/ })
+      const editButton = await screen.findByRole('button', { name: /Clone/ })
       await user.click(editButton)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
@@ -444,16 +418,12 @@ describe('PublishPreview', () => {
     test('downloads the Tool Record', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
-      const moreActionsButton = screen.queryByText(/More Actions/)
+      const moreActionsButton = await screen.findByText(/More Actions/)
 
       await user.click(moreActionsButton)
 
       const downloadButton = screen.getByRole('button', { name: /Download JSON/ })
       await user.click(downloadButton)
-
-      await waitForResponse()
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
       expect(constructDownloadableFile).toHaveBeenCalledWith(
@@ -473,9 +443,7 @@ describe('PublishPreview', () => {
         overridePathValue: ':conceptId'
       })
 
-      await waitForResponse()
-
-      const moreActionsButton = screen.queryByText(/More Actions/)
+      const moreActionsButton = await screen.findByText(/More Actions/)
 
       await user.click(moreActionsButton)
 
@@ -558,12 +526,8 @@ describe('PublishPreview', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const editButton = screen.getByRole('button', { name: /Edit/ })
+        const editButton = await screen.findByRole('button', { name: /Edit/ })
         await user.click(editButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD1000000-MMT')
@@ -584,12 +548,8 @@ describe('PublishPreview', () => {
         }
       })
 
-      await waitForResponse()
-
-      const viewLatestPublishedRevision = screen.getByRole('button', { name: 'Click here to view the latest published revision' })
+      const viewLatestPublishedRevision = await screen.findByRole('button', { name: 'Click here to view the latest published revision' })
       await user.click(viewLatestPublishedRevision)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
@@ -609,17 +569,13 @@ describe('PublishPreview', () => {
         }
       })
 
-      await waitForResponse()
-
-      const moreActionsButton = screen.queryByText(/More Actions/)
+      const moreActionsButton = await screen.findByText(/More Actions/)
 
       await user.click(moreActionsButton)
 
       const revisionsButton = screen.getByRole('link', { name: 'View Revisions 2' })
 
       await user.click(revisionsButton)
-
-      await waitForResponse()
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions', { replace: false })
@@ -668,9 +624,7 @@ describe('PublishPreview', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const moreActionsButton = screen.queryByText(/More Actions/)
+        const moreActionsButton = await screen.findByText(/More Actions/)
 
         await user.click(moreActionsButton)
 
@@ -680,10 +634,10 @@ describe('PublishPreview', () => {
         const modal = screen.queryByRole('dialog')
 
         expect(modal).toBeInTheDocument()
-        expect(within(modal).queryByText('1 tag')).toBeInTheDocument()
-        expect(within(modal).queryByText('Tag Key:')).toBeInTheDocument()
-        expect(within(modal).queryByText('Description:')).toBeInTheDocument()
-        expect(within(modal).queryByText('Mock tag description')).toBeInTheDocument()
+        expect(within(modal).getByText('1 tag')).toBeInTheDocument()
+        expect(within(modal).getByText('Tag Key:')).toBeInTheDocument()
+        expect(within(modal).getByText('Description:')).toBeInTheDocument()
+        expect(within(modal).getByText('Mock tag description')).toBeInTheDocument()
 
         const closeButton = within(modal).queryByRole('button', { name: 'Close' })
 
@@ -734,9 +688,7 @@ describe('PublishPreview', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const moreActionsButton = screen.queryByText(/More Actions/)
+        const moreActionsButton = await screen.findByText(/More Actions/)
 
         await user.click(moreActionsButton)
 
@@ -746,7 +698,7 @@ describe('PublishPreview', () => {
         const modal = screen.queryByRole('dialog')
 
         expect(modal).toBeInTheDocument()
-        expect(within(modal).queryByText('There are no tags associated with this collection')).toBeInTheDocument()
+        expect(within(modal).getByText('There are no tags associated with this collection')).toBeInTheDocument()
       })
     })
   })
@@ -754,9 +706,7 @@ describe('PublishPreview', () => {
   describe('Granules', () => {
     describe('when the collection has granules', () => {
       test('should display the granule count', async () => {
-        const user = userEvent.setup()
-
-        setup({
+        const { user } = setup({
           overrideInitialEntries: ['/collections/C1000000-MMT/1'],
           overridePath: '/collections',
           overrideMocks: [
@@ -795,9 +745,7 @@ describe('PublishPreview', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const moreActionsButton = screen.queryByText(/More Actions/)
+        const moreActionsButton = await screen.findByText(/More Actions/)
 
         await user.click(moreActionsButton)
 
@@ -807,9 +755,7 @@ describe('PublishPreview', () => {
 
     describe('when the collection has no granules', () => {
       test('should display the granule count with 0', async () => {
-        const user = userEvent.setup()
-
-        setup({
+        const { user } = setup({
           overrideInitialEntries: ['/collections/C1000000-MMT/1'],
           overridePath: '/collections',
           overrideMocks: [
@@ -848,9 +794,7 @@ describe('PublishPreview', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const moreActionsButton = screen.queryByText(/More Actions/)
+        const moreActionsButton = await screen.findByText(/More Actions/)
 
         await user.click(moreActionsButton)
 

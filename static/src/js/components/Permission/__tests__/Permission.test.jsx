@@ -81,6 +81,8 @@ const setup = ({
     }
   }]
 
+  const user = userEvent.setup()
+
   render(
     <MockedProvider
       mocks={overrideMocks || mocks}
@@ -107,7 +109,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -116,9 +118,7 @@ describe('Permission', () => {
     test('render appropriate text', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission grants its assigned groups access to all of its collections')).toBeInTheDocument()
+      expect(await screen.findByText('This permission grants its assigned groups access to all of its collections')).toBeInTheDocument()
       expect(screen.getByText('This permission does not grant access to granules')).toBeInTheDocument()
     })
   })
@@ -188,9 +188,7 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission does not grant access to collections')).toBeInTheDocument()
+      expect(await screen.findByText('This permission does not grant access to collections')).toBeInTheDocument()
       expect(screen.getByText('This permission does not grant access to granules')).toBeInTheDocument()
     })
   })
@@ -278,11 +276,9 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
+      expect(await screen.findByText('This permission grants its assigned groups access to 2 collections')).toBeInTheDocument()
 
       expect(PermissionCollectionTable).toHaveBeenCalled(1)
-
-      expect(screen.getByText('This permission grants its assigned groups access to 2 collections')).toBeInTheDocument()
     })
   })
 
@@ -369,9 +365,7 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission grants its assigned groups access to all of its collections that have access constraint values between 1 and 100000 (or are undefined) and that have a start and end date having some overlap with the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
+      expect(await screen.findByText('This permission grants its assigned groups access to all of its collections that have access constraint values between 1 and 100000 (or are undefined) and that have a start and end date having some overlap with the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
       expect(screen.getByText('This permission grants its assigned groups access to granules that have access constraint values between 1 and 10000 (or are undefined) and that have a start and end date having some overlap with the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z that belong to any of its collections that have access constraint values between 1 and 100000 (or are undefined) and that have a start and end date having some overlap with the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
     })
   })
@@ -459,9 +453,7 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission grants its assigned groups access to all of its collections that have access constraint values equal to 1 (or are undefined) and that have a start and end date contained within the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
+      expect(await screen.findByText('This permission grants its assigned groups access to all of its collections that have access constraint values equal to 1 (or are undefined) and that have a start and end date contained within the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
       expect(screen.getByText('This permission grants its assigned groups access to granules that have access constraint values equal to 1 (or are undefined) and that have a start and end date contained within the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z that belong to any of its collections that have access constraint values equal to 1 (or are undefined) and that have a start and end date contained within the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
     })
   })
@@ -541,9 +533,7 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission grants its assigned groups access to all of its collections that have access constraint values equal to 1 (or are undefined)')).toBeInTheDocument()
+      expect(await screen.findByText('This permission grants its assigned groups access to all of its collections that have access constraint values equal to 1 (or are undefined)')).toBeInTheDocument()
       expect(screen.getByText('This permission grants its assigned groups access to granules that have access constraint values equal to 1 (or are undefined) that belong to any of its collections that have access constraint values equal to 1 (or are undefined)')).toBeInTheDocument()
     })
   })
@@ -623,9 +613,7 @@ describe('Permission', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('This permission grants its assigned groups access to all of its collections that have a start and end date the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
+      expect(await screen.findByText('This permission grants its assigned groups access to all of its collections that have a start and end date the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
       expect(screen.getByText('This permission grants its assigned groups access to granules that have a start and end date outside of the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z that belong to any of its collections that have a start and end date the date range 2018-04-01T04:07:58Z to 2023-03-29T04:11:01Z')).toBeInTheDocument()
     })
   })

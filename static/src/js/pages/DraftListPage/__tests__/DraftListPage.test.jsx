@@ -52,12 +52,11 @@ describe('DraftListPage', () => {
     test('render the header', async () => {
       setup()
 
-      await waitForResponse()
+      expect(await screen.findByRole('heading', { name: 'Tool Drafts' })).toBeInTheDocument()
 
       expect(screen.getByText('New Draft')).toBeInTheDocument()
       expect(screen.getByText('A plus icon')).toBeInTheDocument()
       expect(within(screen.getByRole('navigation', { name: 'breadcrumb' })).getByText('Tool Drafts')).toBeInTheDocument()
-      expect(screen.getByRole('heading', { name: 'Tool Drafts' })).toBeInTheDocument()
     })
   })
 })

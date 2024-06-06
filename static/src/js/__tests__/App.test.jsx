@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Outlet, useParams } from 'react-router'
 
 import App from '@/js/App'
@@ -70,9 +66,7 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-notifications')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-notifications')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
@@ -82,9 +76,7 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-home-page')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-home-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
@@ -96,9 +88,7 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-collections-page')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-collections-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
@@ -110,9 +100,7 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-variables-page')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-variables-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
@@ -124,9 +112,7 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-services-page')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-services-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
@@ -138,79 +124,67 @@ describe('App component', () => {
 
       setup()
 
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-tools-page')).toBeInTheDocument()
-      })
+      expect(await screen.findByTestId('mock-tools-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })
   })
 
   describe('when visiting /manage_collections', () => {
-    test('redirects to /manage-collections', () => {
+    test('redirects to /collections', () => {
       window.history.pushState({}, '', '/manage_collections')
 
       setup()
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/manage-collections')
-      })
+      expect(window.location.href).toEqual('http://localhost:3000/collections')
 
       window.history.pushState({}, '', '/')
     })
   })
 
   describe('when visiting /manage_variables', () => {
-    test('redirects to /manage-variables', () => {
+    test('redirects to /variables', () => {
       window.history.pushState({}, '', '/manage_variables')
 
       setup()
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/manage-variables')
-      })
+      expect(window.location.href).toEqual('http://localhost:3000/variables')
 
       window.history.pushState({}, '', '/')
     })
   })
 
   describe('when visiting /manage_services', () => {
-    test('redirects to /manage-services', () => {
+    test('redirects to /services', () => {
       window.history.pushState({}, '', '/manage_services')
 
       setup()
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/manage-services')
-      })
+      expect(window.location.href).toEqual('http://localhost:3000/services')
 
       window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when visiting /manage-tools', () => {
-    test('redirects to /manage-tools', () => {
+  describe('when visiting /manage_tools', () => {
+    test('redirects to /tools', () => {
       window.history.pushState({}, '', '/manage_tools')
 
       setup()
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/manage-tools')
-      })
+      expect(window.location.href).toEqual('http://localhost:3000/tools')
 
       window.history.pushState({}, '', '/')
     })
   })
 
-  describe('when visiting /manage-cmr', () => {
-    test('redirects to /manage-tools', () => {
-      window.history.pushState({}, '', '/manage-cmr')
+  describe('when visiting /manage_cmr', () => {
+    test('redirects to /collections', () => {
+      window.history.pushState({}, '', '/manage_cmr')
 
       setup()
 
-      waitFor(() => {
-        expect(window.location.href).toEqual('http://localhost:3000/cmr')
-      })
+      expect(window.location.href).toEqual('http://localhost:3000/collections')
 
       window.history.pushState({}, '', '/')
     })

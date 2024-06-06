@@ -80,6 +80,8 @@ const setup = (fieldType, overrideProps = {}, keywordsValue = {}) => {
 
   const draft = {}
 
+  const user = userEvent.setup()
+
   render(
     <AppContext.Provider value={draft}>
       <GridControlledField {...props} />
@@ -88,7 +90,7 @@ const setup = (fieldType, overrideProps = {}, keywordsValue = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

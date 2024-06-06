@@ -160,35 +160,36 @@ describe('TemplateForm', () => {
     test('renders the Form component for the collection-information page', async () => {
       setup({ pageUrl: '/templates/collections/new' })
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(Form).toHaveBeenCalledWith(expect.objectContaining({
+          fields: {
+            BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
+            TitleField: CustomTitleField,
+            keywordPicker: KeywordPicker,
+            layout: GridLayout,
+            streetAddresses: StreetAddressField
+          },
+          formData: {},
+          templates: {
+            ArrayFieldTemplate: CustomArrayFieldTemplate,
+            FieldTemplate: CustomFieldTemplate,
+            TitleFieldTemplate: CustomTitleFieldTemplate
+          },
+          widgets: {
+            CheckboxWidget: CustomRadioWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
+            DateTimeWidget: CustomDateTimeWidget,
+            RadioWidget: CustomRadioWidget,
+            SelectWidget: CustomSelectWidget,
+            TextWidget: CustomTextWidget,
+            TextareaWidget: CustomTextareaWidget
+          }
+        }), {})
+      })
 
       expect(Form).toHaveBeenCalledTimes(2)
-      expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-        fields: {
-          BoundingRectangle: BoundingRectangleField,
-          AnyOfField: expect.any(Function),
-          OneOfField,
-          TitleField: CustomTitleField,
-          keywordPicker: KeywordPicker,
-          layout: GridLayout,
-          streetAddresses: StreetAddressField
-        },
-        formData: {},
-        templates: {
-          ArrayFieldTemplate: CustomArrayFieldTemplate,
-          FieldTemplate: CustomFieldTemplate,
-          TitleFieldTemplate: CustomTitleFieldTemplate
-        },
-        widgets: {
-          CheckboxWidget: CustomRadioWidget,
-          CountrySelectWidget: CustomCountrySelectWidget,
-          DateTimeWidget: CustomDateTimeWidget,
-          RadioWidget: CustomRadioWidget,
-          SelectWidget: CustomSelectWidget,
-          TextWidget: CustomTextWidget,
-          TextareaWidget: CustomTextareaWidget
-        }
-      }), {})
     })
   })
 
@@ -207,41 +208,42 @@ describe('TemplateForm', () => {
 
       setup({ pageUrl: '/templates/collections/e471a24f-0791-4df8-b737-357fddf9d487/collection-information' })
 
-      await waitForResponse()
-
       expect(getTemplate).toHaveBeenCalledTimes(1)
 
+      await waitFor(() => {
+        expect(Form).toHaveBeenCalledWith(expect.objectContaining({
+          fields: {
+            BoundingRectangle: BoundingRectangleField,
+            AnyOfField: expect.any(Function),
+            OneOfField,
+            TitleField: CustomTitleField,
+            keywordPicker: KeywordPicker,
+            layout: GridLayout,
+            streetAddresses: StreetAddressField
+          },
+          formData: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          },
+          templates: {
+            ArrayFieldTemplate: CustomArrayFieldTemplate,
+            FieldTemplate: CustomFieldTemplate,
+            TitleFieldTemplate: CustomTitleFieldTemplate
+          },
+          widgets: {
+            CheckboxWidget: CustomRadioWidget,
+            CountrySelectWidget: CustomCountrySelectWidget,
+            DateTimeWidget: CustomDateTimeWidget,
+            RadioWidget: CustomRadioWidget,
+            SelectWidget: CustomSelectWidget,
+            TextWidget: CustomTextWidget,
+            TextareaWidget: CustomTextareaWidget
+          }
+        }), {})
+      })
+
       expect(Form).toHaveBeenCalledTimes(2)
-      expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-        fields: {
-          BoundingRectangle: BoundingRectangleField,
-          AnyOfField: expect.any(Function),
-          OneOfField,
-          TitleField: CustomTitleField,
-          keywordPicker: KeywordPicker,
-          layout: GridLayout,
-          streetAddresses: StreetAddressField
-        },
-        formData: {
-          TemplateName: 'Mock Template',
-          ShortName: 'Template Form Test',
-          Version: '1.0.0'
-        },
-        templates: {
-          ArrayFieldTemplate: CustomArrayFieldTemplate,
-          FieldTemplate: CustomFieldTemplate,
-          TitleFieldTemplate: CustomTitleFieldTemplate
-        },
-        widgets: {
-          CheckboxWidget: CustomRadioWidget,
-          CountrySelectWidget: CustomCountrySelectWidget,
-          DateTimeWidget: CustomDateTimeWidget,
-          RadioWidget: CustomRadioWidget,
-          SelectWidget: CustomSelectWidget,
-          TextWidget: CustomTextWidget,
-          TextareaWidget: CustomTextareaWidget
-        }
-      }), {})
     })
 
     test('renders a error banner', async () => {
@@ -251,12 +253,13 @@ describe('TemplateForm', () => {
 
       setup({ pageUrl: '/templates/collections/e471a24f-0791-4df8-b737-357fddf9d487/collection-information' })
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(ErrorBanner).toHaveBeenCalledWith(expect.objectContaining({
+          message: 'An error occurred'
+        }), {})
+      })
 
       expect(ErrorBanner).toHaveBeenCalledTimes(1)
-      expect(ErrorBanner).toHaveBeenCalledWith(expect.objectContaining({
-        message: 'An error occurred'
-      }), {})
     })
   })
 
@@ -284,15 +287,11 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
 
-        await waitForResponse()
-
-        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
         await user.click(dropdown)
 
         const button = screen.getByRole('button', { name: 'Save' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/templates/collections/1234-abcd-5678-efgh/collection-information', { replace: true })
@@ -319,12 +318,8 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/templates/collections/1234-abcd-5678-efgh/data-identification')
@@ -348,12 +343,8 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Error saving template', 'TemplateForm: updateTemplate')
@@ -366,16 +357,12 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/new' })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
 
         const modal = screen.getByRole('dialog')
         const modalButton = within(modal).getByRole('button', { name: 'Save & Continue' })
         await user.click(modalButton)
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Error creating template', 'TemplateForm: createTemplate')
@@ -391,18 +378,12 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/new/collection-information' })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
-        await user.click(button)
-
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
 
         const modal = screen.getByRole('dialog')
         const modalButton = within(modal).getByRole('button', { name: 'Save & Continue' })
         await user.click(modalButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/templates/collections/1234-abcd-5678-efgh/data-identification')
@@ -429,14 +410,11 @@ describe('TemplateForm', () => {
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
 
-        await waitForResponse()
-        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
         await user.click(dropdown)
 
         const button = screen.getByRole('button', { name: 'Save & Preview' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/templates/collections/1234-abcd-5678-efgh')
@@ -459,8 +437,6 @@ describe('TemplateForm', () => {
         updateTemplate.mockReturnValue({ ok: true })
 
         const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
-
-        await waitForResponse()
 
         // Fill out a form field
         const nameField = screen.getByRole('textbox', { id: 'Name' })
@@ -576,9 +552,7 @@ describe('TemplateForm', () => {
             }]
           })
 
-          await waitForResponse()
-
-          const dropdown = screen.getByRole('button', { name: 'Save Options' })
+          const dropdown = await screen.findByRole('button', { name: 'Save Options' })
           await user.click(dropdown)
 
           const button = screen.getByRole('button', { name: 'Save & Create Draft' })

@@ -116,6 +116,8 @@ const setup = ({
     }
   }, ...additionalMocks]
 
+  const user = userEvent.setup()
+
   render(
     <Providers>
       <MockedProvider
@@ -154,7 +156,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -165,9 +167,7 @@ describe('MetadataFormPage', () => {
         pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
       })
 
-      await waitForResponse()
-
-      const breadcrumbParent = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbParent = await screen.findByRole('navigation', { name: 'breadcrumb' })
       const breadcrumbLinks = within(breadcrumbParent).getAllByRole('link')
 
       expect(breadcrumbLinks.at(0)).toHaveAttribute('href', '/drafts/tools')
@@ -275,9 +275,7 @@ describe('MetadataFormPage', () => {
         pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
       })
 
-      await waitForResponse()
-
-      const breadcrumbParent = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbParent = await screen.findByRole('navigation', { name: 'breadcrumb' })
       const breadcrumbLinks = within(breadcrumbParent).getAllByRole('link')
 
       expect(breadcrumbLinks.at(0)).toHaveAttribute('href', '/drafts/tools')

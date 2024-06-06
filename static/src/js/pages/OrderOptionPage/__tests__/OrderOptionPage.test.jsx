@@ -115,8 +115,8 @@ describe('OrderOptionPage', () => {
       setup({})
 
       expect(await screen.findByText('Order Options')).toBeInTheDocument()
-      expect(screen.queryByText('MMT_2')).toBeInTheDocument()
-      expect(screen.queryByText('Mock form')).toBeInTheDocument()
+      expect(screen.getByText('MMT_2')).toBeInTheDocument()
+      expect(screen.getByText('Mock form')).toBeInTheDocument()
     })
   })
 
@@ -146,7 +146,7 @@ describe('OrderOptionPage', () => {
       })
 
       expect(await screen.findByText('Sorry!')).toBeInTheDocument()
-      expect(screen.queryByText('An error occurred')).toBeInTheDocument()
+      expect(screen.getByText('An error occurred')).toBeInTheDocument()
     })
   })
 

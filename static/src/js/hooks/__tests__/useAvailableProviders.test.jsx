@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { ApolloError } from '@apollo/client'
 
@@ -101,11 +105,9 @@ describe('useAvailableProviders', () => {
   test('returns the available providers', async () => {
     setup({})
 
-    await waitForResponse()
-
     expect(await screen.findByText('Provider IDs:')).toBeInTheDocument()
-    expect(screen.queryByText('["MMT_1","MMT_2"]')).toBeInTheDocument()
-    expect(screen.queryByText('Selected Provider ID:MMT_1')).toBeInTheDocument()
+    expect(screen.getByText('["MMT_1","MMT_2"]')).toBeInTheDocument()
+    expect(screen.getByText('Selected Provider ID:MMT_1')).toBeInTheDocument()
   })
 
   test('returns an empty array on error', async () => {
@@ -137,9 +139,10 @@ describe('useAvailableProviders', () => {
       ]
     })
 
-    await waitForResponse()
+    await waitFor(() => {
+      expect(errorLogger).toHaveBeenCalledTimes(1)
+    })
 
-    expect(errorLogger).toHaveBeenCalledTimes(1)
     expect(errorLogger).toHaveBeenCalledWith(
       'Failed fetching available providers',
       new ApolloError({ errorMessage: 'An error occurred in useAvailableProviders.' })

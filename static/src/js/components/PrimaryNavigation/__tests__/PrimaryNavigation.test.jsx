@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  within
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -64,7 +60,7 @@ describe('PrimaryNavigation component', () => {
         </MemoryRouter>
       )
 
-      expect(screen.getByText('Home').parentElement.parentElement.className).toContain('active')
+      expect(screen.getByRole('link', { name: 'Home' })).toHaveClass('active')
     })
   })
 
@@ -126,8 +122,7 @@ describe('PrimaryNavigation component', () => {
         </MemoryRouter>
       )
 
-      const link = screen.getByRole('link', { name: 'Link 1' })
-      const button = within(link.parentElement).getByRole('button', { name: 'Open icon' })
+      const button = screen.getByRole('button', { name: 'Open icon' })
 
       await user.click(button)
 

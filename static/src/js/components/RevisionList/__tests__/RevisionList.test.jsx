@@ -2,8 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
-  within,
-  waitFor
+  within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -50,6 +49,8 @@ const setup = ({
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <NotificationsContext.Provider value={notificationContext}>
       <MemoryRouter initialEntries={overrideInitialEntries || ['/collections/C1200000104-MMT_2/revisions']}>
@@ -80,8 +81,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
-
+    user
   }
 }
 
@@ -91,37 +91,30 @@ describe('RevisionList component', () => {
       setup({})
     })
 
-    describe('while the request is loading', () => {
-      test('renders the placeholders', async () => {
-        expect(screen.queryByText('Loading...'))
-      })
-    })
+    test('renders the revisions', async () => {
+      expect(screen.queryByText('Loading...'))
 
-    describe('when the request has loaded', () => {
-      test('renders the data', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(9)
-        })
+      const tableRows = await screen.findAllByRole('row')
+      expect(tableRows.length).toEqual(9)
 
-        const date = new Date(2000, 1, 1, 13)
-        vi.setSystemTime(date)
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row2 = rows[2]
+      const date = new Date(2000, 1, 1, 13)
+      vi.setSystemTime(date)
+      const rows = screen.queryAllByRole('row')
+      const row1 = rows[1]
+      const row2 = rows[2]
 
-        const row1Cells = within(row1).queryAllByRole('cell')
-        const row2Cells = within(row2).queryAllByRole('cell')
-        expect(row1Cells).toHaveLength(4)
-        expect(row1Cells[0].textContent).toBe('8 - Published')
-        expect(row1Cells[1].textContent).toBe('Tuesday, February 1, 2000 6:00 PM')
-        expect(row1Cells[2].textContent).toBe('admin')
-        expect(row1Cells[3].textContent).toBe('')
+      const row1Cells = within(row1).queryAllByRole('cell')
+      const row2Cells = within(row2).queryAllByRole('cell')
+      expect(row1Cells).toHaveLength(4)
+      expect(row1Cells[0].textContent).toBe('8 - Published')
+      expect(row1Cells[1].textContent).toBe('Tuesday, February 1, 2000 6:00 PM')
+      expect(row1Cells[2].textContent).toBe('admin')
+      expect(row1Cells[3].textContent).toBe('')
 
-        expect(row2Cells).toHaveLength(4)
-        expect(row2Cells[0].textContent).toBe('7 - Revision')
-        expect(row2Cells[2].textContent).toBe('admin')
-        expect(row2Cells[3].textContent).toBe('Revert to this revision')
-      })
+      expect(row2Cells).toHaveLength(4)
+      expect(row2Cells[0].textContent).toBe('7 - Revision')
+      expect(row2Cells[2].textContent).toBe('admin')
+      expect(row2Cells[3].textContent).toBe('Revert to this revision')
     })
   })
 
@@ -150,9 +143,7 @@ describe('RevisionList component', () => {
         ]
       })
 
-      await waitForResponse()
-
-      const submitButton = screen.getAllByRole('button', { name: 'Revert to this revision' })
+      const submitButton = await screen.findAllByRole('button', { name: 'Revert to this revision' })
 
       await user.click(submitButton[0])
 
@@ -177,9 +168,7 @@ describe('RevisionList component', () => {
         ]
       })
 
-      await waitForResponse()
-
-      const submitButton = screen.getAllByRole('button', { name: 'Revert to this revision' })
+      const submitButton = await screen.findAllByRole('button', { name: 'Revert to this revision' })
 
       await user.click(submitButton[0])
 

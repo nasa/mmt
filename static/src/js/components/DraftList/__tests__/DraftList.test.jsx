@@ -165,6 +165,8 @@ const setup = ({ overrideMocks = false }) => {
     }
   }]
 
+  const user = userEvent.setup()
+
   render(
     <MockedProvider mocks={overrideMocks || mocks}>
       <BrowserRouter initialEntries="">
@@ -178,7 +180,7 @@ const setup = ({ overrideMocks = false }) => {
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -212,9 +214,7 @@ describe('DraftList', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const rows = screen.getAllByRole('row')
+      const rows = await screen.findAllByRole('row')
 
       expect(within(rows[1]).getByRole('cell', { name: 'Collection CD1200000092 short name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: 'Collection CD1200000092 entry title' })).toBeInTheDocument()
@@ -239,9 +239,7 @@ describe('DraftList', () => {
 
       setup({})
 
-      await waitForResponse()
-
-      const rows = screen.getAllByRole('row')
+      const rows = await screen.findAllByRole('row')
 
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 short name' })).toBeInTheDocument()
       expect(within(rows[1]).getByRole('cell', { name: 'Tool TD1200000092 long name' })).toBeInTheDocument()
@@ -288,9 +286,7 @@ describe('DraftList', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const rows = screen.getAllByRole('row')
+      const rows = await screen.findAllByRole('row')
 
       expect(within(rows[1]).getByRole('cell', {
         name: 'No Tool drafts exist'
@@ -321,18 +317,15 @@ describe('DraftList', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('An error occurred')).toBeInTheDocument()
+      expect(await screen.findByText('An error occurred')).toBeInTheDocument()
     })
   })
 
   describe('when clicking the download json button', () => {
     test('downloads the draft', async () => {
       const { user } = setup({})
-      await waitForResponse()
 
-      const button = screen.getAllByRole('button', { name: /Download JSON/ })
+      const button = await screen.findAllByRole('button', { name: /Download JSON/ })
       await user.click(button[0])
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)

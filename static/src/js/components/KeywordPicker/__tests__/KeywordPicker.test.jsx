@@ -164,13 +164,15 @@ const setup = (overrideProps = {}, includeRecommendedKeywords = false) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <KeywordPicker {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -230,7 +232,7 @@ describe('KeywordPicker', () => {
             ToolTerm: 'CALIBRATION/VALIDATION'
           }]
         })
-        expect(screen.queryByText('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > CALIBRATION/VALIDATION')).toBeInTheDocument()
+        expect(await screen.findByText('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > CALIBRATION/VALIDATION')).toBeInTheDocument()
         // Clicking on the first parent element
         const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
         await user.click(earthScienceServiceBtn)

@@ -73,6 +73,8 @@ const setup = ({
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <NotificationsContext.Provider value={notificationContext}>
       <MockedProvider
@@ -120,7 +122,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -129,10 +131,8 @@ describe('GroupPage', () => {
     test('renders the header', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Groups')).toBeInTheDocument()
-      expect(screen.queryByText('MMT_2')).toBeInTheDocument()
+      expect(await screen.findByText('Groups')).toBeInTheDocument()
+      expect(screen.getByText('MMT_2')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Mock group' })).toBeInTheDocument()
     })
   })
@@ -162,12 +162,8 @@ describe('GroupPage', () => {
         ]
       })
 
-      await waitForResponse()
-
-      await waitFor(() => {
-        expect(screen.queryByText('Sorry!')).toBeInTheDocument()
-        expect(screen.queryByText('An error occurred')).toBeInTheDocument()
-      })
+      expect(await screen.findByText('Sorry!')).toBeInTheDocument()
+      expect(screen.getByText('An error occurred')).toBeInTheDocument()
     })
   })
 
@@ -179,9 +175,7 @@ describe('GroupPage', () => {
 
         setup({})
 
-        await waitForResponse()
-
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         expect(deleteLink).toHaveAttribute('disabled')
       })
     })
@@ -268,9 +262,11 @@ describe('GroupPage', () => {
           ]
         })
 
-        await waitForResponse()
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        expect(await screen.findByRole('heading', { name: 'Mock group' })).toBeInTheDocument()
+
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
@@ -278,8 +274,6 @@ describe('GroupPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
 
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/groups', { replace: true })
@@ -325,9 +319,12 @@ describe('GroupPage', () => {
             }
           ]
         })
-        await waitForResponse()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        expect(await screen.findByRole('heading', { name: 'Mock group' })).toBeInTheDocument()
+
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
@@ -335,9 +332,9 @@ describe('GroupPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        await waitForResponse()
-
-        expect(screen.queryByText('Are you sure you want to delete this group?')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(screen.queryByText('Are you sure you want to delete this group?')).not.toBeInTheDocument()
+        })
       })
     })
 
@@ -372,9 +369,11 @@ describe('GroupPage', () => {
           ]
         })
 
-        await waitForResponse()
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        expect(await screen.findByRole('heading', { name: 'Mock group' })).toBeInTheDocument()
+
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
@@ -470,9 +469,11 @@ describe('GroupPage', () => {
           ]
         })
 
-        await waitForResponse()
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const deleteLink = screen.getByRole('button', { name: 'A trash can icon Delete' })
+        expect(await screen.findByRole('heading', { name: 'Mock group' })).toBeInTheDocument()
+
+        const deleteLink = await screen.findByRole('button', { name: 'A trash can icon Delete' })
         await user.click(deleteLink)
 
         expect(screen.getByText('Are you sure you want to delete this system group?')).toBeInTheDocument()
@@ -480,8 +481,6 @@ describe('GroupPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
 
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/admin/groups', { replace: true })
@@ -524,7 +523,9 @@ describe('GroupPage', () => {
           ]
         })
 
-        await waitForResponse()
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        expect(await screen.findByRole('heading', { name: 'Mock group' })).toBeInTheDocument()
 
         expect(screen.queryByRole('button', { name: 'A edit icon' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: 'A trash can icon Delete' })).not.toBeInTheDocument()

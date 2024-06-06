@@ -164,11 +164,7 @@ describe('useDraftsQuery', () => {
 
       expect(screen.getByText('Loading')).toBeInTheDocument()
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Loading')).not.toBeInTheDocument()
-
-      expect(screen.getByText('Count: 3')).toBeInTheDocument()
+      expect(await screen.findByText('Count: 3')).toBeInTheDocument()
       expect(screen.getByText('TD1000000000-TESTPROV')).toBeInTheDocument()
       expect(screen.getByText('TD1000000001-TESTPROV')).toBeInTheDocument()
       expect(screen.getByText('TD1000000002-TESTPROV')).toBeInTheDocument()
@@ -196,11 +192,8 @@ describe('useDraftsQuery', () => {
 
       expect(screen.getByText('Loading')).toBeInTheDocument()
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Loading')).not.toBeInTheDocument()
+      expect(await screen.findByText('Errored')).toBeInTheDocument()
       expect(screen.queryByText('Count')).not.toBeInTheDocument()
-      expect(screen.getByText('Errored')).toBeInTheDocument()
     })
   })
 
@@ -295,13 +288,7 @@ describe('useDraftsQuery', () => {
 
       expect(screen.getByText('Loading')).toBeInTheDocument()
 
-      // Ensure we wait for both responses
-      await waitForResponse()
-      await waitForResponse()
-
-      expect(screen.queryByText('Loading')).not.toBeInTheDocument()
-
-      expect(screen.getByText('Count: 3')).toBeInTheDocument()
+      expect(await screen.findByText('Count: 3')).toBeInTheDocument()
       expect(screen.getByText('TD1000000000-TESTPROV')).toBeInTheDocument()
       expect(screen.getByText('TD1000000001-TESTPROV')).toBeInTheDocument()
       expect(screen.getByText('TD1000000002-TESTPROV')).toBeInTheDocument()

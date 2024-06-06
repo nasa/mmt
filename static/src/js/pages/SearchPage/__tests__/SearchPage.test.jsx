@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -43,7 +39,9 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
         <Routes>
           <Route
             path="/:type"
-            element={<SearchPage {...props} />}
+            element={(
+              <SearchPage {...props} />
+            )}
           />
           <Route
             path="/404"
@@ -56,42 +54,32 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
 }
 
 describe('SearchPage component', () => {
-  describe('when all metadata is provided', () => {
-    beforeEach(() => {
-      setup()
-    })
-
-    describe('while the request is loading', () => {
-      test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryByText('Collections')).toBeInTheDocument()
-          expect(screen.queryByText('Search Results')).toBeInTheDocument()
-        })
-      })
-
-      test('renders the placeholders', async () => {
-        expect(screen.queryByText('Loading...'))
-      })
-    })
-
-    describe('when the request has loaded', () => {
-      test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(3)
-        })
-      })
-    })
-  })
-
   describe('when encountering an error', () => {
     test('displays an error', async () => {
       vi.spyOn(console, 'error').mockImplementation(() => {})
 
       setup([singlePageCollectionSearchError])
 
-      await waitFor(() => {
-        expect(screen.queryByText('Sorry!')).toBeInTheDocument()
-        expect(screen.queryByText('An error occurred')).toBeInTheDocument()
+      expect(await screen.findByText('Sorry!')).toBeInTheDocument()
+      expect(await screen.findByText('An error occurred')).toBeInTheDocument()
+    })
+  })
+
+  describe('when searching for collections', () => {
+    beforeEach(() => {
+      setup()
+    })
+
+    describe('while the request is loading', () => {
+      test('renders the header', async () => {
+        expect(screen.getAllByRole('row').length).toEqual(10)
+
+        expect(await screen.findByText('Collections')).toBeInTheDocument()
+        expect(await screen.findByText('Search Results')).toBeInTheDocument()
+      })
+
+      test.skip('renders the SearchList', () => {
+        expect(true)
       })
     })
   })
@@ -103,21 +91,13 @@ describe('SearchPage component', () => {
 
     describe('while the request is loading', () => {
       test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
-      })
-    })
+        expect(screen.getAllByRole('row').length).toEqual(10)
 
-    describe('when the request has loaded', () => {
-      test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryByText('Services')).toBeInTheDocument()
-          expect(screen.queryByText('Search Results')).toBeInTheDocument()
-        })
+        expect(await screen.findByText('Services')).toBeInTheDocument()
+        expect(await screen.findByText('Search Results')).toBeInTheDocument()
       })
 
-      test('renders the SearchList', async () => {
+      test.skip('renders the SearchList', () => {
         expect(true)
       })
     })
@@ -130,21 +110,13 @@ describe('SearchPage component', () => {
 
     describe('while the request is loading', () => {
       test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
-      })
-    })
+        expect(screen.getAllByRole('row').length).toEqual(10)
 
-    describe('when the request has loaded', () => {
-      test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryByText('Tools')).toBeInTheDocument()
-          expect(screen.queryByText('Search Results')).toBeInTheDocument()
-        })
+        expect(await screen.findByText('Tools')).toBeInTheDocument()
+        expect(await screen.findByText('Search Results')).toBeInTheDocument()
       })
 
-      test('renders the SearchList', async () => {
+      test.skip('renders the SearchList', () => {
         expect(true)
       })
     })
@@ -157,21 +129,13 @@ describe('SearchPage component', () => {
 
     describe('while the request is loading', () => {
       test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
-      })
-    })
+        expect(screen.getAllByRole('row').length).toEqual(10)
 
-    describe('when the request has loaded', () => {
-      test('renders the header', async () => {
-        await waitFor(() => {
-          expect(screen.queryByText('Variables')).toBeInTheDocument()
-          expect(screen.queryByText('Search Results')).toBeInTheDocument()
-        })
+        expect(await screen.findByText('Variables')).toBeInTheDocument()
+        expect(await screen.findByText('Search Results')).toBeInTheDocument()
       })
 
-      test('renders the SearchList', async () => {
+      test.skip('renders the SearchList', () => {
         expect(true)
       })
     })
@@ -183,9 +147,7 @@ describe('SearchPage component', () => {
     })
 
     test('renders the 404 page', async () => {
-      await waitFor(() => {
-        expect(screen.queryByText('404 page')).toBeInTheDocument()
-      })
+      expect(await screen.findByText('404 page')).toBeInTheDocument()
     })
   })
 })

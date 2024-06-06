@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import {
   act,
   render,
-  screen,
-  waitFor
+  screen
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -76,7 +75,7 @@ describe('Notifications', () => {
     })
 
     describe('when the delay on the notification expires', () => {
-      test('the notification is removed', () => {
+      test('the notification is removed', async () => {
         vi.useFakeTimers()
 
         setup()
@@ -87,9 +86,7 @@ describe('Notifications', () => {
           vi.advanceTimersByTime(4000)
         })
 
-        waitFor(() => {
-          expect(screen.queryByText('Mock notification')).not.toBeInTheDocument()
-        })
+        expect(screen.queryByText('Mock notification')).not.toBeInTheDocument()
       })
     })
   })

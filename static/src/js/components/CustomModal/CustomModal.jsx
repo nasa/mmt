@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Modal from 'react-bootstrap/Modal'
+
 import { FaTimes } from 'react-icons/fa'
 
 import Button from '@/js/components/Button/Button'

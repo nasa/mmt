@@ -16,13 +16,15 @@ const setup = (overrideProps) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <Pagination {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -112,20 +114,24 @@ describe('Pagination', () => {
   })
 
   describe('with the first page selected', () => {
-    test('renders the previous button as disabled', () => {
+    test('renders the classes on each navigation item', () => {
       setup()
+      const navigationItems = screen.getAllByRole('listitem')
 
-      const previousButton = screen.queryByText('Previous', { hidden: true })
+      expect(navigationItems[0]).toHaveClass('disabled')
+      expect(navigationItems[0]).not.toHaveClass('active')
 
-      expect(previousButton.parentElement.parentElement).toHaveClass('disabled')
-    })
+      expect(navigationItems[1]).not.toHaveClass('disabled')
+      expect(navigationItems[1]).toHaveClass('active')
 
-    test('renders the current page item as active', () => {
-      setup()
+      expect(navigationItems[2]).not.toHaveClass('disabled')
+      expect(navigationItems[2]).not.toHaveClass('active')
 
-      const firstPageButton = screen.queryByText('1')
+      expect(navigationItems[3]).not.toHaveClass('disabled')
+      expect(navigationItems[3]).not.toHaveClass('active')
 
-      expect(firstPageButton.parentElement).toHaveClass('active')
+      expect(navigationItems[4]).not.toHaveClass('disabled')
+      expect(navigationItems[4]).not.toHaveClass('active')
     })
   })
 

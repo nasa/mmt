@@ -102,6 +102,8 @@ const setup = ({
     }
   }, ...additionalMock]
 
+  const user = userEvent.setup()
+
   render(
     <MockedProvider
       mocks={mocks}
@@ -151,7 +153,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -175,15 +177,11 @@ describe('PermissionCollectionTable', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const rows = screen.queryAllByRole('row')
+      const rows = await screen.findAllByRole('row')
       const row1 = rows[0]
       const ascendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })
 
       await user.click(ascendingButton)
-
-      await waitForResponse()
 
       expect(within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
@@ -208,15 +206,11 @@ describe('PermissionCollectionTable', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const rows = screen.queryAllByRole('row')
+      const rows = await screen.findAllByRole('row')
       const row1 = rows[0]
       const descendingButton = within(row1).queryByRole('button', { name: /Sort Collection in descending order/ })
 
       await user.click(descendingButton)
-
-      await waitForResponse()
 
       expect(within(row1).queryByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
     })

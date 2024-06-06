@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  within
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as router from 'react-router'
 
@@ -42,9 +38,7 @@ describe('HomePage component', () => {
     })
 
     test('displays the correct content', () => {
-      const parent = screen.getByText('About the Metadata Management Tool (MMT)').parentElement.parentElement
-
-      const text = within(parent).getByText('The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.')
+      const text = screen.getByText('The MMT is a web-based user interface to the NASA EOSDIS Common Metadata Repository (CMR). The MMT allows metadata authors to create and update CMR metadata records by using a data entry form based on the metadata fields in the CMR Unified Metadata Model (UMM). Metadata authors may also publish, view, delete, and manage revisions of CMR metadata records using the MMT.')
       expect(text).toBeInTheDocument()
     })
 
@@ -74,13 +68,13 @@ describe('HomePage component', () => {
 
     test('displays the title', () => {
       const title = screen.getByText('About the Common Metadata Repository (CMR)')
+
       expect(title).toBeInTheDocument()
     })
 
     test('displays the correct content', () => {
-      const parent = screen.getByText('About the Common Metadata Repository (CMR)').parentElement.parentElement
+      const text = screen.getByText('The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.')
 
-      const text = within(parent).getByText('The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.')
       expect(text).toBeInTheDocument()
     })
   })

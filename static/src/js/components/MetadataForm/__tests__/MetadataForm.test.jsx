@@ -4,6 +4,7 @@ import React, {
   useRef
 } from 'react'
 import {
+  act,
   render,
   screen,
   waitFor
@@ -282,56 +283,57 @@ describe('MetadataForm', () => {
           pageUrl: '/drafts/tools/TD1000000-MMT/related-urls'
         })
 
-        await waitForResponse()
+        await waitFor(() => {
+          expect(Form).toHaveBeenCalledWith(expect.objectContaining({
+            fields: {
+              BoundingRectangle: BoundingRectangleField,
+              AnyOfField: expect.any(Function),
+              OneOfField,
+              TitleField: CustomTitleField,
+              keywordPicker: KeywordPicker,
+              layout: GridLayout,
+              streetAddresses: StreetAddressField
+            },
+            formData: {
+              LongName: 'Long Name',
+              MetadataSpecification: {
+                Name: 'UMM-T',
+                URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+                Version: '1.1'
+              }
+            },
+            schema: expect.objectContaining({
+              properties: expect.objectContaining({
+                RelatedURLs: {
+                  description:
+                  'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
+                  type: 'array',
+                  items: {
+                    $ref: '#/definitions/RelatedURLType'
+                  },
+                  minItems: 0
+                }
+              })
+            }),
+            uiSchema: relatedUrlsUiSchema,
+            templates: {
+              ArrayFieldTemplate: CustomArrayFieldTemplate,
+              FieldTemplate: CustomFieldTemplate,
+              TitleFieldTemplate: CustomTitleFieldTemplate
+            },
+            widgets: {
+              CheckboxWidget: CustomRadioWidget,
+              CountrySelectWidget: CustomCountrySelectWidget,
+              DateTimeWidget: CustomDateTimeWidget,
+              RadioWidget: CustomRadioWidget,
+              SelectWidget: CustomSelectWidget,
+              TextWidget: CustomTextWidget,
+              TextareaWidget: CustomTextareaWidget
+            }
+          }), {})
+        })
 
         expect(Form).toHaveBeenCalledTimes(2)
-        expect(Form).toHaveBeenCalledWith(expect.objectContaining({
-          fields: {
-            BoundingRectangle: BoundingRectangleField,
-            AnyOfField: expect.any(Function),
-            OneOfField,
-            TitleField: CustomTitleField,
-            keywordPicker: KeywordPicker,
-            layout: GridLayout,
-            streetAddresses: StreetAddressField
-          },
-          formData: {
-            LongName: 'Long Name',
-            MetadataSpecification: {
-              Name: 'UMM-T',
-              URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-              Version: '1.1'
-            }
-          },
-          schema: expect.objectContaining({
-            properties: expect.objectContaining({
-              RelatedURLs: {
-                description:
-                  'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
-                type: 'array',
-                items: {
-                  $ref: '#/definitions/RelatedURLType'
-                },
-                minItems: 0
-              }
-            })
-          }),
-          uiSchema: relatedUrlsUiSchema,
-          templates: {
-            ArrayFieldTemplate: CustomArrayFieldTemplate,
-            FieldTemplate: CustomFieldTemplate,
-            TitleFieldTemplate: CustomTitleFieldTemplate
-          },
-          widgets: {
-            CheckboxWidget: CustomRadioWidget,
-            CountrySelectWidget: CustomCountrySelectWidget,
-            DateTimeWidget: CustomDateTimeWidget,
-            RadioWidget: CustomRadioWidget,
-            SelectWidget: CustomSelectWidget,
-            TextWidget: CustomTextWidget,
-            TextareaWidget: CustomTextareaWidget
-          }
-        }), {})
       })
     })
 
@@ -342,7 +344,10 @@ describe('MetadataForm', () => {
           pageUrl: '/drafts/tools/new'
         })
 
-        expect(Form).toHaveBeenCalledTimes(2)
+        await waitFor(() => {
+          expect(Form).toHaveBeenCalledTimes(2)
+        })
+
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
           fields: {
             BoundingRectangle: BoundingRectangleField,
@@ -383,32 +388,27 @@ describe('MetadataForm', () => {
       })
     })
 
-    test('renders a FormNavigation component', async () => {
+    test('renders a FormNavigation and JsonPreview component', async () => {
       setup({})
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          draft: {
+            LongName: 'Long Name',
+            MetadataSpecification: {
+              URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+              Name: 'UMM-T',
+              Version: '1.1'
+            }
+          },
+          formSections: toolsConfiguration,
+          loading: false,
+          schema: ummTSchema,
+          visitedFields: []
+        }), {})
+      })
 
       expect(FormNavigation).toHaveBeenCalledTimes(2)
-      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
-        draft: {
-          LongName: 'Long Name',
-          MetadataSpecification: {
-            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-            Name: 'UMM-T',
-            Version: '1.1'
-          }
-        },
-        formSections: toolsConfiguration,
-        loading: false,
-        schema: ummTSchema,
-        visitedFields: []
-      }), {})
-    })
-
-    test('renders a JsonPreview component', async () => {
-      setup({})
-
-      await waitForResponse()
 
       expect(JsonPreview).toHaveBeenCalledTimes(2)
     })
@@ -424,10 +424,8 @@ describe('MetadataForm', () => {
     test('resets the form to the original values', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
       // Fill out a form field
-      const nameField = screen.getByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { id: 'Name' })
       await user.type(nameField, 'Test Name')
       await user.tab()
 
@@ -460,10 +458,8 @@ describe('MetadataForm', () => {
     test('updates the draft context value', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
       // Fill out a form field
-      const nameField = screen.getByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { id: 'Name' })
       await user.type(nameField, 'Test Name')
 
       expect(Form).toHaveBeenCalledWith(expect.objectContaining({
@@ -484,13 +480,12 @@ describe('MetadataForm', () => {
     test('sets the field as a visistedField', async () => {
       const { user } = setup({})
 
-      await waitForResponse()
-
       // Fill out a form field
-      const nameField = screen.getByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { id: 'Name' })
       await user.click(nameField)
-      await waitFor(async () => {
-        await nameField.blur()
+
+      await act(async () => {
+        nameField.blur()
       })
 
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
@@ -541,15 +536,11 @@ describe('MetadataForm', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
         await user.click(dropdown)
 
         const button = screen.getByRole('button', { name: 'Save' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })
@@ -594,12 +585,8 @@ describe('MetadataForm', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/related-urls')
@@ -644,15 +631,11 @@ describe('MetadataForm', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
         await user.click(dropdown)
 
         const button = screen.getByRole('button', { name: 'Save & Preview' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
@@ -716,16 +699,12 @@ describe('MetadataForm', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const dropdown = screen.getByRole('button', { name: 'Save Options' })
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
 
         await user.click(dropdown)
 
         const button = screen.getByRole('button', { name: 'Save & Publish' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions/1')
@@ -760,12 +739,8 @@ describe('MetadataForm', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: 'Save & Continue' })
+        const button = await screen.findByRole('button', { name: 'Save & Continue' })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)
 
@@ -784,7 +759,15 @@ describe('MetadataForm', () => {
         pageUrl: '/drafts/tools/TD1000000-MMT/tool-information/Name'
       })
 
-      expect(await screen.findByRole('textbox', { value: 'Name' })).toHaveFocus()
+      await waitFor(() => {
+        expect(Form).toHaveBeenCalledWith(expect.objectContaining({
+          formContext: expect.objectContaining({
+            focusField: 'Name'
+          })
+        }), {})
+      })
+
+      expect(Form).toHaveBeenCalledTimes(2)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })

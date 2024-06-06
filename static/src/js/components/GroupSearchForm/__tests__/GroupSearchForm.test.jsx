@@ -89,9 +89,7 @@ describe('GroupSearchForm', () => {
 
       const { user } = setup()
 
-      await waitForResponse()
-
-      const nameField = screen.getByRole('textbox', { name: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
 
       await user.type(nameField, 'Test Name')
 
@@ -110,9 +108,8 @@ describe('GroupSearchForm', () => {
 
       const { user } = setup()
 
-      await waitForResponse()
-
-      const providerField = screen.getAllByRole('combobox').at(0)
+      const comboboxes = await screen.findAllByRole('combobox')
+      const providerField = comboboxes[0]
 
       await user.click(providerField)
       const option = screen.getByRole('option', { name: 'MMT_1' })
@@ -144,9 +141,8 @@ describe('GroupSearchForm', () => {
 
       const { user } = setup()
 
-      await waitForResponse()
-
-      const membersField = screen.getAllByRole('combobox').at(1)
+      const comboboxes = await screen.findAllByRole('combobox')
+      const membersField = comboboxes[1]
 
       await user.click(membersField)
       await user.type(membersField, 'test')
@@ -175,9 +171,7 @@ describe('GroupSearchForm', () => {
 
       setup(`/groups?name=Test+Name&providers=MMT_1&members=${encodedUsers}`)
 
-      await waitForResponse()
-
-      const nameField = screen.getByRole('textbox', { name: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
       expect(nameField).toHaveValue('Test Name')
 
       expect(screen.getByText('MMT_1').className).toContain('MultiValueGeneric')
@@ -194,9 +188,7 @@ describe('GroupSearchForm', () => {
 
       const { user } = setup('/admin/groups')
 
-      await waitForResponse()
-
-      const nameField = screen.getByRole('textbox', { name: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
 
       await user.type(nameField, 'Test Name')
 

@@ -4,7 +4,12 @@ import userEvent from '@testing-library/user-event'
 
 import Table from '../Table'
 
-vi.mock('../../DraftList/DraftList')
+vi.mock('@/js/components/DraftList/DraftList')
+vi.mock('react-bootstrap/Placeholder', async () => ({
+  default: vi.fn(() => (
+    <div data-testid="placeholder" />
+  ))
+}))
 
 const setup = (overrideProps = {}) => {
   const props = {
@@ -41,6 +46,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   const { container } = render(
     <Table {...props} />
   )
@@ -48,7 +55,7 @@ const setup = (overrideProps = {}) => {
   return {
     container,
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -81,13 +88,12 @@ describe('Table', () => {
 
   describe('when the data is loading', () => {
     test('renders the loading state', () => {
-      const { container } = setup({
+      setup({
         loading: true
       })
 
-      const skeletons = container.getElementsByClassName('placeholder')
-
-      expect(skeletons).toHaveLength(20)
+      const placeholders = screen.getAllByTestId('placeholder')
+      expect(placeholders.length).toBe(20)
     })
   })
 
@@ -151,9 +157,8 @@ describe('Table', () => {
 
     describe('when a sort key override is defined', () => {
       test('calls the sort function with the override value', async () => {
-        const user = userEvent.setup()
         const sortFn = vi.fn()
-        setup({
+        const { user } = setup({
           sortKey: 'name',
           columns: [
             {
@@ -181,9 +186,8 @@ describe('Table', () => {
     describe('when clicking the ascending sort button', () => {
       describe('when no sort is applied', () => {
         test('applies the ascending sort', async () => {
-          const user = userEvent.setup()
           const sortFn = vi.fn()
-          setup({
+          const { user } = setup({
             columns: [
               {
                 dataKey: 'title',
@@ -208,9 +212,8 @@ describe('Table', () => {
 
       describe('when ascending is applied', () => {
         test('removes the sort', async () => {
-          const user = userEvent.setup()
           const sortFn = vi.fn()
-          setup({
+          const { user } = setup({
             sortKey: '-title',
             columns: [
               {
@@ -238,9 +241,8 @@ describe('Table', () => {
     describe('when clicking the descending sort button', () => {
       describe('when no sort is applied', () => {
         test('applies the descending sort', async () => {
-          const user = userEvent.setup()
           const sortFn = vi.fn()
-          setup({
+          const { user } = setup({
             columns: [
               {
                 dataKey: 'title',
@@ -265,9 +267,8 @@ describe('Table', () => {
 
       describe('when descending is applied', () => {
         test('removes the sort', async () => {
-          const user = userEvent.setup()
           const sortFn = vi.fn()
-          setup({
+          const { user } = setup({
             sortKey: 'title',
             columns: [
               {

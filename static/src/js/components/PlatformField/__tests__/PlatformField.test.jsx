@@ -81,13 +81,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <PlatformField {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
