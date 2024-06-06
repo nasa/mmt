@@ -23,12 +23,15 @@ import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
 import errorLogger from '@/js/utils/errorLogger'
 
+import {
+  GET_COLLECTION_FOR_PERMISSION_FORM
+} from '@/js/operations/queries/getCollectionForPermissionForm'
 import PermissionForm from '../PermissionForm'
 
 vi.mock('@/js/utils/errorLogger')
@@ -329,7 +332,7 @@ describe('PermissionForm', () => {
           mocks: [
             {
               request: {
-                query: GET_COLLECTION_PERMISSION,
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
                 variables: { conceptId: 'ACL1000000-MMT' }
               },
               result: {
@@ -489,7 +492,7 @@ describe('PermissionForm', () => {
           mocks: [
             {
               request: {
-                query: GET_COLLECTION_PERMISSION,
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
                 variables: { conceptId: 'ACL1000000-MMT' }
               },
               result: {

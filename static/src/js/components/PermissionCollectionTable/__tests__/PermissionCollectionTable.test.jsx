@@ -30,8 +30,7 @@ const mockPermission = {
         shortName: 'Collection 1',
         title: 'Mock Collection 1',
         version: '1',
-        provider: 'MMT_2',
-        directDistributionInformation: null
+        provider: 'MMT_2'
       },
       {
         __typename: 'Collection',
@@ -39,8 +38,7 @@ const mockPermission = {
         shortName: 'Collection 2',
         title: 'Mock Collection 2',
         version: '2',
-        provider: 'MMT_2',
-        directDistributionInformation: null
+        provider: 'MMT_2'
       }
     ]
   },
@@ -74,8 +72,7 @@ const mockPermission = {
         userType: 'guest',
         group: null,
         id: null,
-        name: null,
-        tag: null
+        name: null
       },
       {
         __typename: 'GroupPermission',
@@ -85,8 +82,7 @@ const mockPermission = {
         userType: 'registered',
         group: null,
         id: null,
-        name: null,
-        tag: null
+        name: null
       }
     ]
   }

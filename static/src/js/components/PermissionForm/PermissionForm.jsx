@@ -25,11 +25,13 @@ import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
-import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
 import { isEmpty } from 'lodash-es'
+import {
+  GET_COLLECTION_FOR_PERMISSION_FORM
+} from '@/js/operations/queries/getCollectionForPermissionForm'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
@@ -153,7 +155,7 @@ const PermissionForm = () => {
     TitleField: CustomTitleFieldTemplate
   }
 
-  const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
+  const { data } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
       conceptId
