@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -72,7 +72,9 @@ const setup = ({
         }, ...additionalMocks]
       }
       >
-        <CollectionSelector {...props} />
+        <Suspense>
+          <CollectionSelector {...props} />
+        </Suspense>
       </MockedProvider>
     </AuthContext.Provider>
   )
@@ -124,12 +126,20 @@ describe('CollectionSelector', () => {
       const { user, props } = setup({})
 
       const nameField = await screen.findByText('Collection 1 | Mock title of collection 1')
+
+      // Tests selecting and unselecting the available option
+      await user.click(nameField)
+      await user.click(nameField)
       await user.click(nameField)
 
       const addIcon = screen.getByRole('button', { name: '+ icon' })
       await user.click(addIcon)
 
       const selectedField = screen.getAllByText('Collection 1 | Mock title of collection 1')
+
+      // Tests selecting and unselecting the selected option
+      await user.click(selectedField[1])
+      await user.click(selectedField[1])
       await user.click(selectedField[1])
 
       const minusIcon = screen.getByRole('button', { name: '- icon' })

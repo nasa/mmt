@@ -1,5 +1,4 @@
 import React, {
-  Suspense,
   useCallback,
   useEffect,
   useState
@@ -11,7 +10,6 @@ import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Placeholder from 'react-bootstrap/Placeholder'
 import Popover from 'react-bootstrap/Popover'
 import Row from 'react-bootstrap/Row'
 
@@ -29,108 +27,6 @@ import './CollectionSelector.scss'
 import { debounce, isEmpty } from 'lodash-es'
 
 import Button from '../Button/Button'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-
-/*
- * Renders a `CollectionSelectorPlaceholder` component.
- *
- * This component renders the collection selector form page placeholder
- *
- * @param {CollectionSelectorPlaceholder} props
- *
- * @component
- * @example <caption>Render the collection selector form page placeholder</caption>
- * return (
- *   <CollectionSelectorPlaceholder />
- * )
- */
-const CollectionSelectorPlaceholder = () => (
-  <Row>
-    <Col className="p-3">
-      <div className="border rounded p-3">
-        <Placeholder animation="glow" aria-hidden="true">
-          <div className="border rounded p-3 h-100">
-            <Placeholder className="d-flex align-items-center w-100 mb-4 " size="sm" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-          </div>
-        </Placeholder>
-      </div>
-    </Col>
-    <Col xs="auto" className="d-flex flex-column justify-content-center align-items-center">
-      <Placeholder.Button
-        className="btn-primary mb-3"
-      />
-      <Placeholder.Button
-        className="btn-primary mb-3"
-      />
-      <Placeholder.Button
-        className="btn-danger"
-      />
-    </Col>
-    <Col className="p-3">
-      <div className="border rounded p-3">
-        <Placeholder animation="glow" aria-hidden="true">
-          <div className="border rounded p-3 h-100">
-            <Placeholder className="d-flex align-items-center w-100 mb-4 " size="sm" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-          </div>
-        </Placeholder>
-      </div>
-    </Col>
-  </Row>
-)
-
-/**
- * @typedef {Object} CollectionSelectorProps
- * @property {Function} onChange A callback function triggered when the user selects collections.
- * @property {Object} formData An Object with the saved metadata
- */
-/**
- * Renders a CollectionSelector component
- *
- * @component
- * @example <caption>Render a CollectionSelector</caption>
- * return (
- *   <CollectionSelector />
- * )
- */
-const CollectionSelector = ({
-  onChange,
-  formData
-}) => (
-  <ErrorBoundary>
-    <Suspense fallback={<CollectionSelectorPlaceholder />}>
-      <CollectionSelectorComponent onChange={onChange} formData={formData} />
-    </Suspense>
-  </ErrorBoundary>
-)
-
-CollectionSelector.defaultProps = {
-  formData: []
-}
-
-CollectionSelector.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.shape({}))
-
-}
-
 /**
  * @typedef {Object} CollectionSelectorComponentProps
  * @property {Function} onChange A callback function triggered when the user selects collections.
@@ -145,8 +41,9 @@ CollectionSelector.propTypes = {
  *   <CollectionSelectorComponent />
  * )
  */
-const CollectionSelectorComponent = ({ onChange, formData }) => {
+const CollectionSelector = ({ onChange, formData }) => {
   const [selected, setSelected] = useState([])
+
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
@@ -192,11 +89,9 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
   }
 
   const toggleAvailableSelection = (item) => {
-    if (!selected.some((s) => s.conceptId === item.conceptId)) {
-      setSelectedAvailable(selectedAvailable.some((i) => i.conceptId === item.conceptId)
-        ? selectedAvailable.filter((i) => i.conceptId !== item.conceptId)
-        : [...selectedAvailable, item])
-    }
+    setSelectedAvailable(selectedAvailable.some((i) => i.conceptId === item.conceptId)
+      ? selectedAvailable.filter((i) => i.conceptId !== item.conceptId)
+      : [...selectedAvailable, item])
   }
 
   const toggleSelectedSelection = (item) => {
@@ -467,11 +362,11 @@ const CollectionSelectorComponent = ({ onChange, formData }) => {
   )
 }
 
-CollectionSelectorComponent.defaultProps = {
+CollectionSelector.defaultProps = {
   formData: []
 }
 
-CollectionSelectorComponent.propTypes = {
+CollectionSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
   formData: PropTypes.arrayOf(PropTypes.shape({}))
 }
