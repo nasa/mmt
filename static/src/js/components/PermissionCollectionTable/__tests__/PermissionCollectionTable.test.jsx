@@ -29,14 +29,18 @@ const mockPermission = {
         conceptId: 'C1200450691-MMT_2',
         shortName: 'Collection 1',
         title: 'Mock Collection 1',
-        version: '1'
+        version: '1',
+        provider: 'MMT_2',
+        directDistributionInformation: null
       },
       {
         __typename: 'Collection',
         conceptId: 'C1200450692-MMT_2',
         shortName: 'Collection 2',
         title: 'Mock Collection 2',
-        version: '2'
+        version: '2',
+        provider: 'MMT_2',
+        directDistributionInformation: null
       }
     ]
   },
@@ -70,7 +74,8 @@ const mockPermission = {
         userType: 'guest',
         group: null,
         id: null,
-        name: null
+        name: null,
+        tag: null
       },
       {
         __typename: 'GroupPermission',
@@ -80,7 +85,8 @@ const mockPermission = {
         userType: 'registered',
         group: null,
         id: null,
-        name: null
+        name: null,
+        tag: null
       }
     ]
   }
