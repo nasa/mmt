@@ -87,9 +87,8 @@ describe('CollectionSelector', () => {
   describe('when adding item to selected collection', () => {
     test('should add the selected collection and calls onChange', async () => {
       const { user, props } = setup({})
-      await waitForResponse()
 
-      const nameField = screen.getByText('Collection 1 | Mock title of collection 1')
+      const nameField = await screen.findByText('Collection 1 | Mock title of collection 1')
       await user.click(nameField)
 
       const addIcon = screen.getByRole('button', { name: '+ icon' })
@@ -123,9 +122,8 @@ describe('CollectionSelector', () => {
   describe('when removing a selected item', () => {
     test('should move the item back to available and calls onChange', async () => {
       const { user, props } = setup({})
-      await waitForResponse()
 
-      const nameField = screen.getByText('Collection 1 | Mock title of collection 1')
+      const nameField = await screen.findByText('Collection 1 | Mock title of collection 1')
       await user.click(nameField)
 
       const addIcon = screen.getByRole('button', { name: '+ icon' })
@@ -165,9 +163,8 @@ describe('CollectionSelector', () => {
   describe('when removing all selected items', () => {
     test('should remove all selected items and calls onChange', async () => {
       const { user, props } = setup({})
-      await waitForResponse()
 
-      const nameField1 = screen.getByText('Collection 1 | Mock title of collection 1')
+      const nameField1 = await screen.findByText('Collection 1 | Mock title of collection 1')
       await user.click(nameField1)
 
       const addIcon = screen.getByRole('button', { name: '+ icon' })
@@ -231,9 +228,8 @@ describe('CollectionSelector', () => {
           }
         }]
       })
-      await waitForResponse()
 
-      const searchField = screen.getByPlaceholderText('Search Available...')
+      const searchField = await screen.findByPlaceholderText('Search Available...')
 
       await user.type(searchField, 'Col')
 
@@ -283,9 +279,7 @@ describe('CollectionSelector', () => {
         }]
       })
 
-      await waitForResponse()
-
-      const searchField = screen.getByPlaceholderText('Search Selected...')
+      const searchField = await screen.findByPlaceholderText('Search Selected...')
 
       await user.type(searchField, 'Collection 1')
 
@@ -312,12 +306,10 @@ describe('CollectionSelector', () => {
         }
       )
 
-      await waitForResponse()
+      expect(await screen.findByText('Collection 1 | Collection 1 title')).toBeInTheDocument()
+      expect(await screen.findByText('Collection 2 | Collection 2 title')).toBeInTheDocument()
 
-      expect(screen.getByText('Collection 1 | Collection 1 title')).toBeInTheDocument()
-      expect(screen.getByText('Collection 2 | Collection 2 title')).toBeInTheDocument()
-
-      expect(screen.getByText('Showing selected 2 items')).toBeInTheDocument()
+      expect(await screen.findByText('Showing selected 2 items')).toBeInTheDocument()
     })
   })
 })

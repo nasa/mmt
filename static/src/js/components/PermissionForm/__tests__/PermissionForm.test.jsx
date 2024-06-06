@@ -306,7 +306,6 @@ describe('PermissionForm', () => {
         const { user } = setup({
           pageUrl: '/permissions/new'
         })
-        await waitForResponse()
 
         const nameField = screen.getByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Test Name')
@@ -469,9 +468,7 @@ describe('PermissionForm', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Updated Name')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
@@ -626,9 +623,7 @@ describe('PermissionForm', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Updated Name')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })

@@ -92,16 +92,15 @@ describe('GroupPermissionSelect', () => {
   describe('when selecting values for the select', () => {
     test('should select values and call onChange', async () => {
       const { props, user } = setup({})
-      await waitForResponse()
 
-      const searchField = screen.getByText('Select groups for search')
-      await user.click(searchField)
+      const searchField = await screen.findAllByRole('combobox')
+      await user.click(searchField[0])
 
       const option1 = screen.getByRole('option', { name: 'All Guest User' })
       await user.click(option1)
 
-      const searchAndOrderField = screen.getByText('Select groups for search and order')
-      await user.click(searchAndOrderField)
+      const searchAndOrderField = await screen.findAllByRole('combobox')
+      await user.click(searchAndOrderField[1])
 
       const option2 = screen.getByRole('option', { name: 'All Registered Users' })
 
@@ -156,12 +155,12 @@ describe('GroupPermissionSelect', () => {
           }
         ]
       })
-      await waitForResponse()
 
-      const searchField = screen.getByText('Select groups for search')
-      await user.click(searchField)
+      const searchField = await screen.findAllByRole('combobox')
 
-      await user.type(searchField, 'Gro')
+      await user.click(searchField[0])
+
+      await user.type(searchField[0], 'Gro')
 
       const option1 = screen.getByRole('option', { name: 'Group 1 MMT_2' })
       await user.click(option1)
@@ -215,12 +214,11 @@ describe('GroupPermissionSelect', () => {
           }
         ]
       })
-      await waitForResponse()
 
-      const searchField = screen.getByText('Select groups for search and order')
-      await user.click(searchField)
+      const searchField = await screen.findAllByRole('combobox')
+      await user.click(searchField[1])
 
-      await user.type(searchField, 'Gro')
+      await user.type(searchField[1], 'Gro')
 
       const option1 = screen.getByRole('option', { name: 'Group 1 MMT_2' })
       await user.click(option1)
@@ -261,10 +259,8 @@ describe('GroupPermissionSelect', () => {
         }
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('All guest user')).toBeInTheDocument()
-      expect(screen.queryByText('All registered user')).toBeInTheDocument()
+      expect(await screen.findByText('All guest user')).toBeInTheDocument()
+      expect(await screen.findByText('All registered user')).toBeInTheDocument()
     })
   })
 })
