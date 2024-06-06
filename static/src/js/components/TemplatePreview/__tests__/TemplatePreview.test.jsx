@@ -78,7 +78,7 @@ const mutationSetup = ({ mocks }) => {
 
 describe('TemplatePreview', () => {
   describe('when showing template preview', () => {
-    test.skip('render a template preview', async () => {
+    test('render a template preview', async () => {
       getTemplate.mockReturnValue({
         response: {
           template: {
@@ -93,8 +93,125 @@ describe('TemplatePreview', () => {
       setup()
 
       await waitFor(() => {
-        // TODO: What do we want to test here?
-        expect(PreviewProgress).toHaveBeenCalledWith({})
+        expect(PreviewProgress).toHaveBeenCalledWith(expect.objectContaining({
+          draftJson: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          },
+          validationErrors: [
+            {
+              message: "must have required property 'EntryTitle'",
+              name: 'required',
+              params: {
+                missingProperty: 'EntryTitle'
+              },
+              property: 'EntryTitle',
+              schemaPath: '#/required',
+              stack: "must have required property 'EntryTitle'"
+            },
+            {
+              message: "must have required property 'Abstract'",
+              name: 'required',
+              params: {
+                missingProperty: 'Abstract'
+              },
+              property: 'Abstract',
+              schemaPath: '#/required',
+              stack: "must have required property 'Abstract'"
+            },
+            {
+              message: "must have required property 'DOI'",
+              name: 'required',
+              params: {
+                missingProperty: 'DOI'
+              },
+              property: 'DOI',
+              schemaPath: '#/required',
+              stack: "must have required property 'DOI'"
+            },
+            {
+              message: "must have required property 'DataCenters'",
+              name: 'required',
+              params: {
+                missingProperty: 'DataCenters'
+              },
+              property: 'DataCenters',
+              schemaPath: '#/required',
+              stack: "must have required property 'DataCenters'"
+            },
+            {
+              message: "must have required property 'ProcessingLevel'",
+              name: 'required',
+              params: {
+                missingProperty: 'ProcessingLevel'
+              },
+              property: 'ProcessingLevel',
+              schemaPath: '#/required',
+              stack: "must have required property 'ProcessingLevel'"
+            },
+            {
+              message: "must have required property 'ScienceKeywords'",
+              name: 'required',
+              params: {
+                missingProperty: 'ScienceKeywords'
+              },
+              property: 'ScienceKeywords',
+              schemaPath: '#/required',
+              stack: "must have required property 'ScienceKeywords'"
+            },
+            {
+              message: "must have required property 'TemporalExtents'",
+              name: 'required',
+              params: {
+                missingProperty: 'TemporalExtents'
+              },
+              property: 'TemporalExtents',
+              schemaPath: '#/required',
+              stack: "must have required property 'TemporalExtents'"
+            },
+            {
+              message: "must have required property 'SpatialExtent'",
+              name: 'required',
+              params: {
+                missingProperty: 'SpatialExtent'
+              },
+              property: 'SpatialExtent',
+              schemaPath: '#/required',
+              stack: "must have required property 'SpatialExtent'"
+            },
+            {
+              message: "must have required property 'Platforms'",
+              name: 'required',
+              params: {
+                missingProperty: 'Platforms'
+              },
+              property: 'Platforms',
+              schemaPath: '#/required',
+              stack: "must have required property 'Platforms'"
+            },
+            {
+              message: "must have required property 'CollectionProgress'",
+              name: 'required',
+              params: {
+                missingProperty: 'CollectionProgress'
+              },
+              property: 'CollectionProgress',
+              schemaPath: '#/required',
+              stack: "must have required property 'CollectionProgress'"
+            },
+            {
+              message: "must have required property 'MetadataSpecification'",
+              name: 'required',
+              params: {
+                missingProperty: 'MetadataSpecification'
+              },
+              property: 'MetadataSpecification',
+              schemaPath: '#/required',
+              stack: "must have required property 'MetadataSpecification'"
+            }
+          ]
+        }), {})
       })
 
       expect(PreviewProgress).toHaveBeenCalledTimes(1)

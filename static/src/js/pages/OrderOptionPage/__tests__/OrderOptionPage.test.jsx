@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
 
@@ -249,7 +253,9 @@ describe('OrderOptionPage', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        expect(await screen.findByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(screen.queryByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
+        })
       })
     })
 
@@ -265,7 +271,9 @@ describe('OrderOptionPage', () => {
         const noButton = screen.getByRole('button', { name: 'No' })
         await user.click(noButton)
 
-        expect(screen.queryByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(screen.queryByText('Are you sure you want to delete this order option?')).not.toBeInTheDocument()
+        })
       })
     })
   })
