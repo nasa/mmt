@@ -23,22 +23,7 @@ const MockComponent = () => {
   return null
 }
 
-const setup = (overrideNotifications) => {
-  const notifications = [{
-    id: 'notifications-1',
-    variant: 'success',
-    message: 'Mock notification',
-    show: true
-  }]
-  const hideNotification = vi.fn()
-  const removeNotification = vi.fn()
-
-  const contextValue = {
-    notifications: overrideNotifications || notifications,
-    hideNotification,
-    removeNotification
-  }
-
+const setup = () => {
   const user = userEvent.setup()
 
   render(
@@ -49,7 +34,6 @@ const setup = (overrideNotifications) => {
   )
 
   return {
-    contextValue,
     user
   }
 }
@@ -82,8 +66,8 @@ describe('Notifications', () => {
 
         expect(screen.getByText('Mock notification')).toBeInTheDocument()
 
-        act(() => {
-          vi.advanceTimersByTime(4000)
+        await act(() => {
+          vi.advanceTimersByTimeAsync(4001)
         })
 
         expect(screen.queryByText('Mock notification')).not.toBeInTheDocument()

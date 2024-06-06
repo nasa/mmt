@@ -1,24 +1,24 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import Placeholder from 'react-bootstrap/Placeholder'
 
 import MetadataPreviewPlaceholder from '../MetadataPreviewPlaceholder'
 
-vi.mock('react-icons/fa')
+vi.mock('react-bootstrap/Placeholder', () => ({
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  default: vi.fn((props) => <div {...props} />)
+}))
 
 const setup = () => {
-  const { container } = render(
+  render(
     <MetadataPreviewPlaceholder />
   )
-
-  return {
-    container
-  }
 }
 
 describe('MetadataPreviewPlaceholder', () => {
   test('renders the placeholders', () => {
-    const { container } = setup()
+    setup()
 
-    expect(container.getElementsByClassName('placeholder')).toHaveLength(15)
+    expect(Placeholder).toHaveBeenCalledTimes(16)
   })
 })

@@ -105,8 +105,9 @@ describe('useAvailableProviders', () => {
   test('returns the available providers', async () => {
     setup({})
 
-    expect(await screen.findByText('Provider IDs:')).toBeInTheDocument()
-    expect(screen.getByText('["MMT_1","MMT_2"]')).toBeInTheDocument()
+    expect(screen.getByText('Provider IDs:')).toBeInTheDocument()
+
+    expect(await screen.findByText('["MMT_1","MMT_2"]')).toBeInTheDocument()
     expect(screen.getByText('Selected Provider ID:MMT_1')).toBeInTheDocument()
   })
 

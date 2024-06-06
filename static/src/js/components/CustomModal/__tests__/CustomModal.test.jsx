@@ -2,18 +2,25 @@ import React from 'react'
 
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
+import Modal from 'react-bootstrap/Modal'
 
 import CustomModal from '../CustomModal'
 
-vi.mock('react-bootstrap/Modal', () => ({
-  default: {
-    Body: vi.fn(() => <div data-testid="modal-body" />),
-    Header: vi.fn(() => <div data-testid="modal-header" />),
-    Title: vi.fn(() => <div data-testid="modal-title" />),
-    Footer: vi.fn(() => <div data-testid="modal-footer" />),
-    Dialog: vi.fn(() => <div data-testid="modal-dialog" />)
+vi.mock('react-bootstrap/Modal', async () => {
+  const actualModal = await vi.importActual('react-bootstrap/Modal')
+
+  return {
+    default: Object.assign(actualModal.default, {
+      /* eslint-disable react/jsx-props-no-spreading */
+      Body: vi.fn((props) => <div {...props} />),
+      Header: vi.fn((props) => <div {...props} />),
+      Title: vi.fn((props) => <div {...props} />),
+      Footer: vi.fn((props) => <div {...props} />),
+      Dialog: vi.fn((props) => <div {...props} />)
+      /* eslint-enable */
+    })
   }
-}))
+})
 
 const setup = (overrideProps) => {
   const onClick = vi.fn()
@@ -86,9 +93,9 @@ describe('CustomModal', () => {
         actions: null
       })
 
-      expect(screen.getByTestId('modal-header')).toHaveBeenCalledTimes(1)
-      expect(screen.getByTestId('modal-body')).toHaveBeenCalledTimes(1)
-      expect(screen.getByTestId('modal-footer')).toHaveBeenCalledTimes(1)
+      expect(Modal.Header).toHaveBeenCalledTimes(1)
+      expect(Modal.Body).toHaveBeenCalledTimes(1)
+      expect(Modal.Footer).toHaveBeenCalledTimes(0)
     })
   })
 
