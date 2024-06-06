@@ -267,7 +267,7 @@ const PermissionForm = () => {
       const {
         collectionApplicable,
         granuleApplicable,
-        collectionIdentifier = {},
+        collectionIdentifier,
         granuleIdentifier,
         providerId: savedProviderId
       } = catalogItemIdentity
@@ -277,7 +277,7 @@ const PermissionForm = () => {
       const {
         accessValue: collectionAccessValue,
         temporal: collectionTemporal
-      } = collectionIdentifier
+      } = collectionIdentifier || {}
 
       const {
         accessValue: granuleAccessValue,
