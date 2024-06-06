@@ -133,8 +133,6 @@ const TemplateForm = () => {
 
   // On load, fetching collection template if ID is present and draft is not loaded
   useEffect(() => {
-    // SetDraft({})
-
     const fetchTemplate = async () => {
       const { response, error: fetchTemplateError } = await getTemplate(mmtJwt, id)
 

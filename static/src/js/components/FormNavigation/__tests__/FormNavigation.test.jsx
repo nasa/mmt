@@ -17,7 +17,6 @@ import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import saveTypes from '@/js/constants/saveTypes'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
-import { describe } from 'vitest'
 
 vi.mock('@/js/components/NavigationItem/NavigationItem')
 
