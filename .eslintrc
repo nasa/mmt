@@ -9,14 +9,13 @@
 
   "overrides": [
     {
-      "files": [ "**/__tests__/**/*.js?(x)" ]
+      "files": [ "**/__tests__/**/*.js?(x)" ],
+      "extends": ["plugin:testing-library/react"]
     }
   ],
 
-  // Use AirBnb settings as a base
   "extends": [
-    "@edsc",
-    "plugin:testing-library/react"
+    "@edsc"
   ],
 
   // Define version settings

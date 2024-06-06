@@ -421,13 +421,13 @@ describe('MetadataPreview', () => {
     test('renders a Collection Preview component', async () => {
       setup({
         overrideProps: {
-          conceptId: 'CD000000-MMT',
+          conceptId: 'C1000000-MMT',
           conceptType: 'Collection'
         },
         mock: [{
           request: {
             query: conceptTypeQueries.Collection,
-            variables: { params: { conceptId: 'CD000000-MMT' } }
+            variables: { params: { conceptId: 'C1000000-MMT' } }
           },
           result: {
             data: {
@@ -435,14 +435,21 @@ describe('MetadataPreview', () => {
             }
           }
         }],
-        initialEntries: '/CD1000000-MMT',
+        initialEntries: '/C1000000-MMT',
         overrideRoute: '/:conceptId',
         overridePath: '/'
       })
 
       await waitFor(() => {
-        // TODO: what is this test testing? It seemed redundant but the paths are different
-        expect(CollectionPreview).toHaveBeenCalledWith({})
+        expect(CollectionPreview).toHaveBeenCalledWith({
+          cmrHost: 'https://cmr.earthdata.nasa.gov',
+          conceptId: 'C1000000-MMT',
+          conceptType: 'collection',
+          conceptUrlTemplate: '/{conceptType}/{conceptId}',
+          isPlugin: true,
+          collection: mockCollection,
+          token: null
+        }, {})
       })
 
       expect(CollectionPreview).toHaveBeenCalledTimes(1)
