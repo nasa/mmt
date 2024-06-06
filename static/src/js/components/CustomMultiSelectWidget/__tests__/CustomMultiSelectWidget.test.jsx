@@ -43,13 +43,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <CustomMultiSelectWidget {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

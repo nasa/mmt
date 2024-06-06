@@ -1,15 +1,18 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PreviewMapTemplate from '../PreviewMapTemplate'
 
 const setup = ({ props }) => {
-  render(
+  const user = userEvent.setup()
+
+  const { container } = render(
     <PreviewMapTemplate {...props} />
   )
 
   return {
-    user: userEvent.setup()
+    container,
+    user
   }
 }
 
@@ -25,7 +28,8 @@ describe('PreviewMapTemplate', () => {
       }
 
       setup({ props })
-      expect(document.querySelector('a').getAttribute('href')).toBe('https://search.sit.earthdata.nasa.gov/search/map?sp=10%2C20')
+
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?sp=10%2C20')
     })
   })
 
@@ -42,7 +46,8 @@ describe('PreviewMapTemplate', () => {
       }
 
       setup({ props })
-      expect(document.querySelector('a').getAttribute('href')).toBe('https://search.sit.earthdata.nasa.gov/search/map?sb=-40%2C10%2C50%2C70')
+
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?sb=-40%2C10%2C50%2C70')
     })
   })
 
@@ -75,7 +80,8 @@ describe('PreviewMapTemplate', () => {
       }
 
       setup({ props })
-      expect(document.querySelector('a').getAttribute('href')).toBe('https://search.sit.earthdata.nasa.gov/search/map?polygon=-30%2C50%2C10%2C40%2C35%2C50%2C-30%2C50')
+
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?polygon=-30%2C50%2C10%2C40%2C35%2C50%2C-30%2C50')
     })
   })
 
@@ -86,8 +92,9 @@ describe('PreviewMapTemplate', () => {
         type: ''
       }
 
-      setup({ props })
-      expect(document.querySelector('a').getAttribute('href')).toBe(null)
+      const { container } = setup({ props })
+
+      expect(container).toBeEmptyDOMElement()
     })
   })
 })

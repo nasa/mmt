@@ -19,6 +19,8 @@ const setup = ({
   mocks,
   pageUrl
 }) => {
+  const user = userEvent.setup()
+
   render(
     <Providers>
       <MockedProvider
@@ -81,7 +83,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -92,9 +94,7 @@ describe('GroupFormPage', () => {
         pageUrl: '/groups/new'
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Groups')).toBeInTheDocument()
+      expect(await screen.findByText('Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'New Group' })).toBeInTheDocument()
     })
   })
@@ -105,15 +105,13 @@ describe('GroupFormPage', () => {
         pageUrl: '/admin/groups/new'
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('System Groups')).toBeInTheDocument()
+      expect(await screen.findByText('System Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'New System Group' })).toBeInTheDocument()
     })
   })
 
   describe('when showing the header for a group with name', () => {
-    test('show render the header with name', async () => {
+    test('render the header with name', async () => {
       setup({
         pageUrl: '/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
         mocks: [{
@@ -138,15 +136,13 @@ describe('GroupFormPage', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('Groups')).toBeInTheDocument()
+      expect(await screen.findByText('Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })
 
   describe('when showing the header for a system group with name', () => {
-    test('show render the header with name', async () => {
+    test('render the header with name', async () => {
       setup({
         pageUrl: '/admin/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
         mocks: [{
@@ -171,15 +167,13 @@ describe('GroupFormPage', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByText('System Groups')).toBeInTheDocument()
+      expect(await screen.findByText('System Groups')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'Edit Test Name' })).toBeInTheDocument()
     })
   })
 
   describe('when showing the header for a system group with name', () => {
-    test('show render the header with name', async () => {
+    test('render the header with name', async () => {
       setup({
         pageUrl: '/admin/groups/dce1859e-774c-4561-9451-fc9d77906015/edit',
         mocks: [{
@@ -204,9 +198,7 @@ describe('GroupFormPage', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('CMR')).toBeInTheDocument()
+      expect(await screen.findByText('CMR')).toBeInTheDocument()
     })
   })
 })

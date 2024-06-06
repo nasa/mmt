@@ -1,6 +1,10 @@
 import React, { Suspense } from 'react'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import {
   MemoryRouter,
   Route,
@@ -160,9 +164,7 @@ describe('Draft Collection Association', () => {
     test('renders the association details in the Currently Selected Collection table', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('C1200000112-MMT_2')).toBeInTheDocument()
+      expect(await screen.findByText('C1200000112-MMT_2')).toBeInTheDocument()
       expect(screen.getByText('Association 1')).toBeInTheDocument()
       expect(screen.getByText('1')).toBeInTheDocument()
     })
@@ -192,7 +194,12 @@ describe('Draft Collection Association', () => {
         ]
       })
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(ErrorBanner).toHaveBeenCalledWith({
+          dataTestId: 'error-banner__message',
+          message: 'An error occurred'
+        }, {})
+      })
 
       expect(ErrorBanner).toHaveBeenCalledTimes(2)
     })
@@ -222,13 +229,10 @@ describe('Draft Collection Association', () => {
           }
         }]
       })
-      await waitForResponse()
 
-      const clearButton = screen.getByRole('button', { name: 'Clear Collection Association' })
+      const clearButton = await screen.findByRole('button', { name: 'Clear Collection Association' })
 
       await user.click(clearButton)
-
-      await waitForResponse()
 
       expect(screen.getByText('No Collection Selected')).toBeInTheDocument()
     })
@@ -251,13 +255,10 @@ describe('Draft Collection Association', () => {
           error: new Error('An error occurred')
         }]
       })
-      await waitForResponse()
 
-      const clearButton = screen.getByRole('button', { name: 'Clear Collection Association' })
+      const clearButton = await screen.findByRole('button', { name: 'Clear Collection Association' })
 
       await user.click(clearButton)
-
-      await waitForResponse()
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
@@ -335,9 +336,7 @@ describe('Draft Collection Association', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('No Collection Selected')).toBeInTheDocument()
+      expect(await screen.findByText('No Collection Selected')).toBeInTheDocument()
     })
   })
 })

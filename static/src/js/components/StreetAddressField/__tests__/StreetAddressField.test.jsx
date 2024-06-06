@@ -26,13 +26,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <StreetAddressField {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

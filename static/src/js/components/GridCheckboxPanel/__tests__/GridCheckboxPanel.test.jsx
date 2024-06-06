@@ -126,13 +126,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <GridCheckboxPanel {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -88,9 +88,7 @@ describe('CollectionAssociationForm', () => {
         overrideMock: mockToolWithAssociation
       })
 
-      await waitForResponse()
-
-      const searchField = screen.getByText('Select Search Field')
+      const searchField = await screen.findByText('Select Search Field')
 
       await user.click(searchField)
 
@@ -102,8 +100,6 @@ describe('CollectionAssociationForm', () => {
 
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
-
-      await waitForResponse()
 
       const firstCheckbox = screen.getAllByRole('checkbox')[0]
       const secondCheckbox = screen.getAllByRole('checkbox')[1]
@@ -134,8 +130,8 @@ describe('CollectionAssociationForm', () => {
           error: new Error('An error occurred')
         }]
       })
-      await waitForResponse()
-      const searchField = screen.getByText('Select Search Field')
+
+      const searchField = await screen.findByText('Select Search Field')
       await user.click(searchField)
 
       const selectField = screen.getByText('Entry Title')
@@ -287,14 +283,12 @@ describe('CollectionAssociationForm', () => {
             }
           ]
         })
-        await waitForResponse()
 
-        const searchField = screen.getByText('Select Search Field')
+        const searchField = await screen.findByText('Select Search Field')
         await user.click(searchField)
 
         const selectField = screen.getByText('Temporal Extent')
         await user.click(selectField)
-        await waitForResponse()
 
         const startField = screen.getByText('Range Start')
         await user.type(startField, '1978-01-01T00:00:00Z')
@@ -315,9 +309,8 @@ describe('CollectionAssociationForm', () => {
       const { user } = setup({
         additionalMocks: [CollectionAssociationRequest, CollectionResultsWithPages]
       })
-      await waitForResponse()
 
-      const searchField = screen.getByText('Select Search Field')
+      const searchField = await screen.findByText('Select Search Field')
       await user.click(searchField)
 
       const selectField = screen.getByText('Entry Title')
@@ -328,7 +321,6 @@ describe('CollectionAssociationForm', () => {
 
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
-      await waitForResponse()
 
       const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
       await user.click(paginationButton)
@@ -346,9 +338,7 @@ describe('CollectionAssociationForm', () => {
         additionalMocks: [CollectionAssociationRequest, createAssociationRequest]
       })
 
-      await waitForResponse()
-
-      const searchField = screen.getByText('Select Search Field')
+      const searchField = await screen.findByText('Select Search Field')
 
       await user.click(searchField)
 
@@ -361,7 +351,6 @@ describe('CollectionAssociationForm', () => {
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
 
-      await waitForResponse()
       const firstCheckbox = screen.getAllByRole('checkbox')[1]
 
       await user.click(firstCheckbox)
@@ -381,9 +370,7 @@ describe('CollectionAssociationForm', () => {
         additionalMocks: [CollectionAssociationRequest, createAssociationErrorRequest]
       })
 
-      await waitForResponse()
-
-      const searchField = screen.getByText('Select Search Field')
+      const searchField = await screen.findByText('Select Search Field')
 
       await user.click(searchField)
 
@@ -396,8 +383,6 @@ describe('CollectionAssociationForm', () => {
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
 
-      await waitForResponse()
-
       const firstCheckbox = screen.getAllByRole('checkbox')[0]
 
       await user.click(firstCheckbox)
@@ -407,8 +392,6 @@ describe('CollectionAssociationForm', () => {
       const createSelectedAssociationButton = screen.getByRole('button', { name: 'Associate Selected Collections' })
 
       await user.click(createSelectedAssociationButton)
-
-      await waitForResponse()
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Unable to create association', 'Collection Association Form: createAssociationForm')
@@ -428,9 +411,7 @@ describe('CollectionAssociationForm', () => {
           overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search']
         })
 
-        await waitForResponse()
-
-        const searchField = screen.getByText('Select Search Field')
+        const searchField = await screen.findByText('Select Search Field')
 
         await user.click(searchField)
 
@@ -443,7 +424,6 @@ describe('CollectionAssociationForm', () => {
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
 
-        await waitForResponse()
         const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
 
         await user.click(createAssociationButton[0])
@@ -462,9 +442,7 @@ describe('CollectionAssociationForm', () => {
           overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search']
         })
 
-        await waitForResponse()
-
-        const searchField = screen.getByText('Select Search Field')
+        const searchField = await screen.findByText('Select Search Field')
 
         await user.click(searchField)
 
@@ -477,13 +455,9 @@ describe('CollectionAssociationForm', () => {
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
 
-        await waitForResponse()
-
         const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
 
         await user.click(createAssociationButton[0])
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Unable to update association', 'Collection Association Form: createAssociationForm')
@@ -503,9 +477,8 @@ describe('CollectionAssociationForm', () => {
           overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
           overridePath: '/drafts/variables/:conceptId/collection-association'
         })
-        await waitForResponse()
 
-        const searchField = screen.getByText('Select Search Field')
+        const searchField = await screen.findByText('Select Search Field')
         await user.click(searchField)
 
         const selectField = screen.getByText('Entry Title')
@@ -516,13 +489,10 @@ describe('CollectionAssociationForm', () => {
 
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
-        await waitForResponse()
 
         const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
 
         await user.click(createAssociationButton[0])
-
-        await waitForResponse()
 
         expect(navigateSpy).toHaveBeenCalledTimes(2)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD120000000-MMT_2')
@@ -538,9 +508,8 @@ describe('CollectionAssociationForm', () => {
           overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
           overridePath: '/drafts/variables/:conceptId/collection-association'
         })
-        await waitForResponse()
 
-        const searchField = screen.getByText('Select Search Field')
+        const searchField = await screen.findByText('Select Search Field')
         await user.click(searchField)
 
         const selectField = screen.getByText('Entry Title')
@@ -551,13 +520,10 @@ describe('CollectionAssociationForm', () => {
 
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
-        await waitForResponse()
 
         const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
 
         await user.click(createAssociationButton[0])
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
@@ -571,9 +537,7 @@ describe('CollectionAssociationForm', () => {
         additionalMocks: [CollectionAssociationRequest]
       })
 
-      await waitForResponse()
-
-      const searchField = screen.getByText('Select Search Field')
+      const searchField = await screen.findByText('Select Search Field')
       await user.click(searchField)
 
       const selectField = screen.getByText('Entry Title')
@@ -584,7 +548,6 @@ describe('CollectionAssociationForm', () => {
 
       const searchForCollections = screen.getByText('Search for Collection')
       await user.click(searchForCollections)
-      await waitForResponse()
 
       const sortShortName = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
       await user.click(sortShortName)
@@ -604,9 +567,8 @@ describe('CollectionAssociationForm', () => {
         overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search?searchField=entryTitle&searchFieldValue=*&sortKey=-shortName']
       })
 
-      await waitForResponse()
-
-      expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+      const sortButton = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
+      expect(sortButton).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })
 })

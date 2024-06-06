@@ -13,6 +13,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <Button {...props}>
       Click me!
@@ -21,7 +23,7 @@ const setup = (overrideProps = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -19,6 +19,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <BrowserRouter>
       <ProgressSection {...props} />
@@ -26,7 +28,7 @@ const setup = (overrideProps = {}) => {
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -58,6 +58,8 @@ const PreviewMapTemplate = ({ type, formData }) => {
     }
   }, [formData])
 
+  if (!searchQuery) return null
+
   return (
     <div>
       <a href={searchQuery} target="_blank" rel="noopener noreferrer">

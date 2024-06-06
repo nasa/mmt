@@ -45,8 +45,7 @@ describe('RevisionListPage', () => {
     test('render the header', async () => {
       setup()
 
-      await waitForResponse()
-      expect(screen.getByText('Collections')).toBeInTheDocument()
+      expect(await screen.findByText('Collections')).toBeInTheDocument()
       expect(screen.getByText('Collection Title 1')).toBeInTheDocument()
       expect(screen.getByText('2 Collection Revisions')).toBeInTheDocument()
     })

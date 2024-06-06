@@ -17,13 +17,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <CustomWidgetWrapper {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

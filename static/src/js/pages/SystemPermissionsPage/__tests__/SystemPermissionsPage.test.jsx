@@ -186,7 +186,7 @@ describe('SystemPermissionPage', () => {
       expect(screen.getByRole('link', { name: 'Mock group' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Mock group' })).toHaveAttribute('href', '/admin/groups/1234-abcd-5678-efgh')
 
-      expect(screen.queryByText('Mock group System Permissions')).toBeInTheDocument()
+      expect(screen.getByText('Mock group System Permissions')).toBeInTheDocument()
 
       expect(screen.getByTestId('mock-system-permissions')).toBeInTheDocument()
     })

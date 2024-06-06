@@ -35,13 +35,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <CustomArrayFieldTemplate {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -45,7 +45,7 @@ describe('ManageCollectionAssociationPage', () => {
     test('render the header', async () => {
       setup()
 
-      await waitForResponse()
+      expect(await screen.findByRole('heading', { name: 'Collection Title 1 Collection Associations' })).toBeInTheDocument()
 
       expect(screen.getByRole('link', { name: 'Collections' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Collections' })).toHaveAttribute('href', '/collections')
@@ -53,7 +53,6 @@ describe('ManageCollectionAssociationPage', () => {
       expect(screen.getByRole('link', { name: 'Collection Title 1' })).toHaveAttribute('href', '/collections/C00000001-TESTPROV')
       expect(screen.getAllByRole('listitem').at(2)).toBeInTheDocument()
       expect(screen.getAllByRole('listitem').at(2)).toHaveTextContent('Collection Associations')
-      expect(screen.getByRole('heading', { name: 'Collection Title 1 Collection Associations' })).toBeInTheDocument()
     })
   })
 })

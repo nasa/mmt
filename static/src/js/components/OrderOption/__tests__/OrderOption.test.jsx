@@ -87,9 +87,8 @@ describe('OrderOption', () => {
   describe('when getting order option results in a success', () => {
     test('renders the order options', async () => {
       setup({})
-      await waitForResponse()
 
-      expect(screen.getByText('Mock order option description')).toBeInTheDocument()
+      expect(await screen.findByText('Mock order option description')).toBeInTheDocument()
       expect(screen.getByText('Mock form')).toBeInTheDocument()
     })
   })

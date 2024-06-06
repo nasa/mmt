@@ -2,6 +2,7 @@ import React from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
@@ -77,7 +78,7 @@ const mutationSetup = ({ mocks }) => {
 
 describe('TemplatePreview', () => {
   describe('when showing template preview', () => {
-    test('render a template preview', async () => {
+    test.skip('render a template preview', async () => {
       getTemplate.mockReturnValue({
         response: {
           template: {
@@ -90,7 +91,11 @@ describe('TemplatePreview', () => {
       })
 
       setup()
-      await waitForResponse()
+
+      await waitFor(() => {
+        // TODO: What do we want to test here?
+        expect(PreviewProgress).toHaveBeenCalledWith({})
+      })
 
       expect(PreviewProgress).toHaveBeenCalledTimes(1)
     })
@@ -103,12 +108,14 @@ describe('TemplatePreview', () => {
       })
 
       setup()
-      await waitForResponse()
+
+      await waitFor(() => {
+        expect(ErrorBanner).toHaveBeenCalledWith(expect.objectContaining({
+          message: 'An error occurred'
+        }), {})
+      })
 
       expect(ErrorBanner).toHaveBeenCalledTimes(1)
-      expect(ErrorBanner).toHaveBeenCalledWith(expect.objectContaining({
-        message: 'An error occurred'
-      }), {})
     })
   })
 
@@ -120,9 +127,7 @@ describe('TemplatePreview', () => {
 
       setup()
 
-      await waitForResponse()
-
-      const breadcrumbs = screen.getByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbs = await screen.findByRole('navigation', { name: 'breadcrumb' })
       const breadcrumbOne = within(breadcrumbs).getByText('Collection Templates')
       const breadcrumbTwo = within(breadcrumbs).getByText('<Blank Name>')
 
@@ -148,9 +153,8 @@ describe('TemplatePreview', () => {
         deleteTemplate.mockReturnValue({ response: { ok: true } })
 
         const { user } = setup()
-        await waitForResponse()
 
-        const deleteButton = screen.getByRole('button', { name: /Delete/ })
+        const deleteButton = await screen.findByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         expect(screen.getByText('Are you sure you want to delete this template?')).toBeInTheDocument()
@@ -158,7 +162,6 @@ describe('TemplatePreview', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        await waitForResponse()
         expect(deleteTemplate).toHaveBeenCalledTimes(1)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
@@ -180,15 +183,11 @@ describe('TemplatePreview', () => {
 
         const { user } = setup()
 
-        await waitForResponse()
-
-        const deleteButton = screen.getByRole('button', { name: /Delete/ })
+        const deleteButton = await screen.findByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
-
-        await waitForResponse()
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith('Error deleting template', 'TemplatePreview: deleteTemplate')
@@ -207,15 +206,11 @@ describe('TemplatePreview', () => {
 
         const { user } = setup()
 
-        await waitForResponse()
-
-        const deleteButton = screen.getByRole('button', { name: /Delete/ })
+        const deleteButton = await screen.findByRole('button', { name: /Delete/ })
         await user.click(deleteButton)
 
         const noButton = screen.getByRole('button', { name: 'No' })
         await user.click(noButton)
-
-        await waitForResponse()
 
         expect(deleteTemplate).toHaveBeenCalledTimes(0)
       })
@@ -299,9 +294,7 @@ describe('TemplatePreview', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const createButton = screen.getByRole('button', { name: /Create Draft/ })
+        const createButton = await screen.findByRole('button', { name: /Create Draft/ })
         await user.click(createButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)

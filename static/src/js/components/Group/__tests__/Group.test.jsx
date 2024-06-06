@@ -46,6 +46,9 @@ const setup = ({
       }
     }
   }]
+
+  const user = userEvent.setup()
+
   render(
     <MockedProvider
       mocks={overrideMocks || mocks}
@@ -72,7 +75,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -81,9 +84,7 @@ describe('GroupPreview', () => {
     test('renders the group', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('Mock group description')).toBeInTheDocument()
+      expect(await screen.findByText('Mock group description')).toBeInTheDocument()
 
       expect(screen.getByText('Test User')).toBeInTheDocument()
       expect(screen.getByText('test@example.com')).toBeInTheDocument()

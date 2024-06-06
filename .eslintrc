@@ -7,9 +7,16 @@
     "jest": true
   },
 
+  "overrides": [
+    {
+      "files": [ "**/__tests__/**/*.js?(x)" ]
+    }
+  ],
+
   // Use AirBnb settings as a base
   "extends": [
-    "@edsc"
+    "@edsc",
+    "plugin:testing-library/react"
   ],
 
   // Define version settings
@@ -43,7 +50,6 @@
 
   // Define any global variables to avoid no-undef errors
   "globals": {
-    "waitForResponse": "readonly",
     "vi": "readonly"
   }
 }

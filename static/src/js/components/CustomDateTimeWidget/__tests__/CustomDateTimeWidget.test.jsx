@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  act,
   render,
   screen,
   waitFor
@@ -34,13 +35,15 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <CustomDateTimeWidget {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -52,12 +55,12 @@ beforeEach(() => {
 
 describe('CustomDateTimeWidget', () => {
   describe('when the field is required', () => {
-    test('renders the dateTime widget with a required icon', () => {
+    test('renders the dateTime widget with a required icon', async () => {
       setup({
         required: true
       })
 
-      expect(screen.getByRole('img', { name: 'Required' })).toBeInTheDocument()
+      expect(await screen.findByRole('img', { name: 'Required' })).toBeInTheDocument()
 
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
@@ -74,9 +77,9 @@ describe('CustomDateTimeWidget', () => {
     test('shows the field description', async () => {
       setup()
 
-      const field = screen.getByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
-      await waitFor(async () => {
+      await act(async () => {
         field.focus()
       })
 
@@ -93,9 +96,9 @@ describe('CustomDateTimeWidget', () => {
     test('blurs the field', async () => {
       const { props } = setup()
 
-      const field = screen.getByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
-      await waitFor(async () => {
+      await act(async () => {
         field.focus()
         field.blur()
       })
@@ -112,7 +115,7 @@ describe('CustomDateTimeWidget', () => {
     test('calls onChange', async () => {
       const { props, user } = setup()
 
-      const field = screen.getByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
       await user.type(field, '1')
 
@@ -122,15 +125,16 @@ describe('CustomDateTimeWidget', () => {
   })
 
   describe('when the field has a custom title', () => {
-    test('uses the schema title', () => {
+    test('uses the schema title', async () => {
       setup({
         uiSchema: {
           'ui:title': 'Schema Title'
         }
       })
 
+      expect(await screen.findByText('Schema Title')).toBeInTheDocument()
+
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
-      expect(screen.getByText('Schema Title')).toBeInTheDocument()
     })
   })
 
@@ -147,20 +151,21 @@ describe('CustomDateTimeWidget', () => {
       // Checks if the widget is focused by checking if the description is present.
       await waitFor(() => {
         expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
-        expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
-          description: 'Test Description'
-        }), {})
       })
+
+      expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
+        description: 'Test Description'
+      }), {})
     })
   })
 
   describe('When a date is already save in the form', () => {
-    test('shows the date', () => {
+    test('shows the date', async () => {
       setup({
         value: '2023-12-05T00:00:00.000Z'
       })
 
-      const field = screen.getByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
       expect(field).toHaveValue('2023-12-05T00:00:00.000Z')
     })

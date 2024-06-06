@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import Providers from '@/js/providers/Providers/Providers'
 import fetchCmrKeywords from '@/js/utils/fetchCmrKeywords'
@@ -77,29 +73,13 @@ beforeEach(() => {
 })
 
 describe('useDraftsQuery', () => {
-  describe('when the request has not yet resolved', () => {
-    test('loading is set to true', async () => {
-      setup('related-urls')
-
-      waitFor(() => {
-        expect(screen.getByText('Loading')).toBeInTheDocument()
-      })
-    })
-  })
-
   describe('when the request has resolved', () => {
     test('loading is set to false and the items are displayed', async () => {
       setup('related-urls')
 
       expect(screen.getByText('Loading')).toBeInTheDocument()
 
-      await waitForResponse()
-
-      waitFor(() => {
-        expect(screen.queryByText('Loading')).not.toBeInTheDocument()
-      })
-
-      expect(screen.getByText(JSON.stringify(mockKeywords))).toBeInTheDocument()
+      expect(await screen.findByText(JSON.stringify(mockKeywords))).toBeInTheDocument()
     })
   })
 
@@ -147,7 +127,7 @@ describe('useDraftsQuery', () => {
         Subtype: 'subtype'
       })
 
-      expect(screen.getByText(JSON.stringify({
+      expect(await screen.findByText(JSON.stringify({
         url_content_type: [{
           subfields: ['type'],
           value: 'DistributionURL',

@@ -51,6 +51,8 @@ const setup = ({
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <NotificationsContext.Provider value={notificationContext}>
       <MockedProvider
@@ -79,7 +81,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -88,9 +90,10 @@ describe('PermissionPage', () => {
     test('render the page and calls Permission', async () => {
       setup({})
 
-      await waitForResponse()
+      const pageContent = await screen.findAllByText('Permission page test')
 
-      expect(screen.getAllByText('Permission page test')[0]).toBeInTheDocument()
+      expect(pageContent[0]).toBeInTheDocument()
+
       expect(Permission).toHaveBeenCalled(1)
     })
   })

@@ -2,7 +2,6 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
-  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -81,6 +80,8 @@ const setup = ({
     addNotification: vi.fn()
   }
 
+  const user = userEvent.setup()
+
   render(
     <NotificationsContext.Provider value={notificationContext}>
       <MockedProvider mocks={overrideMocks || mocks}>
@@ -113,7 +114,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -122,9 +123,7 @@ describe('GroupList', () => {
     test('renders a table with 2 groups', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 2 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
     })
@@ -155,9 +154,7 @@ describe('GroupList', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('Showing 2 groups')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 2 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
 
@@ -218,9 +215,7 @@ describe('GroupList', () => {
         }]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('Showing 21-22 of 22 groups')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 21-22 of 22 groups')).toBeInTheDocument()
       expect(screen.getByText('Test group 1')).toBeInTheDocument()
       expect(screen.getByText('Test group 2')).toBeInTheDocument()
     })
@@ -278,18 +273,15 @@ describe('GroupList', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const deleteLink = screen.getAllByRole('button', { name: 'Delete Button Delete' })
+        const deleteLink = await screen.findAllByRole('button', { name: 'Delete Button Delete' })
         await user.click(deleteLink[1])
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
-        await waitForResponse()
 
-        expect(screen.getByText('Showing 1 groups')).toBeInTheDocument()
+        expect(await screen.findByText('Showing 1 groups')).toBeInTheDocument()
       })
     })
 
@@ -308,9 +300,8 @@ describe('GroupList', () => {
             }
           ]
         })
-        await waitForResponse()
 
-        const deleteLink = screen.getAllByRole('button', { name: 'Delete Button Delete' })
+        const deleteLink = await screen.findAllByRole('button', { name: 'Delete Button Delete' })
         await user.click(deleteLink[1])
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
@@ -326,9 +317,7 @@ describe('GroupList', () => {
       test('hides delete modal', async () => {
         const { user } = setup({})
 
-        await waitForResponse()
-
-        const deleteLink = screen.getAllByRole('button', { name: 'Delete Button Delete' })
+        const deleteLink = await screen.findAllByRole('button', { name: 'Delete Button Delete' })
         await user.click(deleteLink[1])
 
         expect(screen.getByText('Are you sure you want to delete this group?')).toBeInTheDocument()
@@ -370,9 +359,7 @@ describe('GroupList', () => {
         ]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('No groups found')).toBeInTheDocument()
+      expect(await screen.findByText('No groups found')).toBeInTheDocument()
     })
   })
 
@@ -440,9 +427,7 @@ describe('GroupList', () => {
         ]
       })
 
-      await waitForResponse()
-
-      const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
+      const pagination = await screen.findAllByRole('navigation', { name: 'Pagination Navigation' })
 
       expect(pagination).toHaveLength(2)
 
@@ -452,9 +437,9 @@ describe('GroupList', () => {
 
       await user.click(paginationButton)
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Test group 21')
-      })
+      const paginationCells = await screen.findAllByRole('cell')
+      const firstCell = paginationCells[0]
+      expect(firstCell.textContent).toContain('Test group 21')
     })
   })
 
@@ -484,7 +469,7 @@ describe('GroupList', () => {
         }]
       })
 
-      await waitForResponse()
+      expect(await screen.findByText('Showing 2 groups')).toBeInTheDocument()
 
       expect(screen.queryByText('Actions')).not.toBeInTheDocument()
       expect(screen.queryByRole('button', { name: 'Edit Button Edit' })).not.toBeInTheDocument()

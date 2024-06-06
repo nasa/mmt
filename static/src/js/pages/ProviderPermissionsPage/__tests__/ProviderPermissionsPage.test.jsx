@@ -186,7 +186,7 @@ describe('ProviderPermissionPage', () => {
       expect(screen.getByRole('link', { name: 'Mock group' })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: 'Mock group' })).toHaveAttribute('href', '/groups/1234-abcd-5678-efgh')
 
-      expect(screen.queryByText('Mock group Provider Permissions')).toBeInTheDocument()
+      expect(screen.getByText('Mock group Provider Permissions')).toBeInTheDocument()
 
       expect(screen.getByTestId('mock-provider-permissions')).toBeInTheDocument()
     })

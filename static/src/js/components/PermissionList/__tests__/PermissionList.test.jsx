@@ -2,7 +2,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
-  waitFor,
   within
 } from '@testing-library/react'
 import React, { Suspense } from 'react'
@@ -156,6 +155,8 @@ const setup = ({
     }
   }]
 
+  const user = userEvent.setup()
+
   render(
     <MockedProvider mocks={overrideMocks || mocks}>
       <BrowserRouter initialEntries="">
@@ -167,7 +168,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -176,9 +177,7 @@ describe('PermissionList', () => {
     test('renders a table with 2 permission', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('All Collections')).toBeInTheDocument()
+      expect(await screen.findByText('All Collections')).toBeInTheDocument()
       expect(screen.getByText('All Granules')).toBeInTheDocument()
     })
   })
@@ -211,9 +210,7 @@ describe('PermissionList', () => {
 
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('No permissions found')).toBeInTheDocument()
+      expect(await screen.findByText('No permissions found')).toBeInTheDocument()
     })
   })
 
@@ -292,9 +289,7 @@ describe('PermissionList', () => {
 
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('Showing 1-20 of 25 permissions')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 1-20 of 25 permissions')).toBeInTheDocument()
 
       const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
 
@@ -304,9 +299,9 @@ describe('PermissionList', () => {
 
       await user.click(paginationButton)
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Page 2 All Collection')
-      })
+      const paginationLinks = await screen.findAllByRole('cell')
+
+      expect(paginationLinks[0].textContent).toContain('Page 2 All Collection')
     })
   })
 })

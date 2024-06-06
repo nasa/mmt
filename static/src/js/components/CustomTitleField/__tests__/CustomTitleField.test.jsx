@@ -17,13 +17,16 @@ const setup = (overrideProps = {}) => {
     },
     ...overrideProps
   }
+
+  const user = userEvent.setup()
+
   render(
     <CustomTitleField {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

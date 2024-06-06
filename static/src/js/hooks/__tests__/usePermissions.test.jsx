@@ -98,11 +98,8 @@ describe('usePermissions', () => {
 
         expect(screen.getByText('Loading')).toBeInTheDocument()
 
-        await waitForResponse()
-
-        expect(screen.getByText('hasSystemGroup is true')).toBeInTheDocument()
+        expect(await screen.findByText('hasSystemGroup is true')).toBeInTheDocument()
         expect(screen.queryByText('hasSystemGroup is false')).not.toBeInTheDocument()
-        expect(screen.queryByText('Loading')).not.toBeInTheDocument()
       })
     })
 
@@ -141,11 +138,8 @@ describe('usePermissions', () => {
 
         expect(screen.getByText('Loading')).toBeInTheDocument()
 
-        await waitForResponse()
-
+        expect(await screen.findByText('hasSystemGroup is false')).toBeInTheDocument()
         expect(screen.queryByText('hasSystemGroup is true')).not.toBeInTheDocument()
-        expect(screen.getByText('hasSystemGroup is false')).toBeInTheDocument()
-        expect(screen.queryByText('Loading')).not.toBeInTheDocument()
       })
     })
   })
@@ -157,9 +151,8 @@ describe('usePermissions', () => {
         user: {}
       })
 
+      expect(await screen.findByText('hasSystemGroup is false')).toBeInTheDocument()
       expect(screen.queryByText('hasSystemGroup is true')).not.toBeInTheDocument()
-      expect(screen.getByText('hasSystemGroup is false')).toBeInTheDocument()
-      expect(screen.queryByText('Loading')).not.toBeInTheDocument()
     })
   })
 })

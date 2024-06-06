@@ -15,6 +15,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <ControlledPaginatedContent {...props}>
       {
@@ -37,7 +39,7 @@ const setup = (overrideProps = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -46,19 +48,19 @@ describe('ControlledPaginatedContent', () => {
     test('calculates the total pages', () => {
       setup()
 
-      expect(screen.queryByText('Total Pages: 4')).toBeInTheDocument()
+      expect(screen.getByText('Total Pages: 4')).toBeInTheDocument()
     })
 
     test('calculates the first result', () => {
       setup()
 
-      expect(screen.queryByText('First Result: 1')).toBeInTheDocument()
+      expect(screen.getByText('First Result: 1')).toBeInTheDocument()
     })
 
     test('calculates the last position', () => {
       setup()
 
-      expect(screen.queryByText('Last Result: 25')).toBeInTheDocument()
+      expect(screen.getByText('Last Result: 25')).toBeInTheDocument()
     })
 
     test('generates the pagination correctly', () => {
@@ -79,7 +81,7 @@ describe('ControlledPaginatedContent', () => {
         activePage: 4
       })
 
-      expect(screen.queryByText('First Result: 76')).toBeInTheDocument()
+      expect(screen.getByText('First Result: 76')).toBeInTheDocument()
     })
 
     test('calculates the last position', () => {
@@ -87,7 +89,7 @@ describe('ControlledPaginatedContent', () => {
         activePage: 4
       })
 
-      expect(screen.queryByText('Last Result: 99')).toBeInTheDocument()
+      expect(screen.getByText('Last Result: 99')).toBeInTheDocument()
     })
 
     test('generates the pagination correctly', () => {

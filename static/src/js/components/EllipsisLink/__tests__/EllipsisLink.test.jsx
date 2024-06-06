@@ -103,7 +103,7 @@ describe('EllipsisLink', () => {
         children: 'This is a really really long cell data string'
       })
 
-      const cell = await screen.getByText('This is a really really long cell data string')
+      const cell = screen.getByText('This is a really really long cell data string')
 
       await user.hover(cell)
 

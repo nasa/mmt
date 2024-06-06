@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import {
   MemoryRouter,
   Route,
@@ -46,6 +50,8 @@ const setup = ({
   const notificationContext = {
     addNotification: vi.fn()
   }
+
+  const user = userEvent.setup()
 
   render(
     <NotificationsContext.Provider value={notificationContext}>
@@ -96,7 +102,7 @@ const setup = ({
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
@@ -105,9 +111,7 @@ describe('ManageCollectionAssociation', () => {
     test('renders the collection association page with the associated collections', async () => {
       setup({})
 
-      await waitForResponse()
-
-      expect(screen.getByText('Showing 2 collection associations')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 2 collection associations')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
     })
@@ -119,10 +123,12 @@ describe('ManageCollectionAssociation', () => {
         overrideMocks: [toolRecordSearchError]
       })
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(errorLogger).toHaveBeenCalledWith('Unable to get draft', 'Manage Collection Association: getMetadata Query')
+      })
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
-      expect(errorLogger).toHaveBeenCalledWith('Unable to get draft', 'Manage Collection Association: getMetadata Query')
+
       expect(ErrorBanner).toHaveBeenCalledTimes(1)
     })
   })
@@ -143,10 +149,9 @@ describe('ManageCollectionAssociation', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const firstCheckbox = screen.getAllByRole('checkbox')[0]
-        const secondCheckbox = screen.getAllByRole('checkbox')[1]
+        const checkboxes = await screen.findAllByRole('checkbox')
+        const firstCheckbox = checkboxes[0]
+        const secondCheckbox = checkboxes[1]
 
         await user.click(secondCheckbox)
         await user.click(firstCheckbox)
@@ -161,9 +166,7 @@ describe('ManageCollectionAssociation', () => {
         const noButton = screen.getByRole('button', { name: 'No' })
         await user.click(noButton)
 
-        await waitForResponse()
-
-        expect(screen.getByText('Showing 2 collection associations')).toBeInTheDocument()
+        expect(await screen.findByText('Showing 2 collection associations')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
@@ -184,10 +187,9 @@ describe('ManageCollectionAssociation', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const firstCheckbox = screen.getAllByRole('checkbox')[0]
-        const secondCheckbox = screen.getAllByRole('checkbox')[1]
+        const checkboxes = await screen.findAllByRole('checkbox')
+        const firstCheckbox = checkboxes[0]
+        const secondCheckbox = checkboxes[1]
 
         await user.click(secondCheckbox)
         await user.click(firstCheckbox)
@@ -202,10 +204,11 @@ describe('ManageCollectionAssociation', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        await waitForResponse()
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledWith('Unable to disassociate collection record for Tool', 'Manage Collection Association: deleteAssociation Mutation')
+        })
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Unable to disassociate collection record for Tool', 'Manage Collection Association: deleteAssociation Mutation')
       })
     })
 
@@ -219,9 +222,8 @@ describe('ManageCollectionAssociation', () => {
           ]
         })
 
-        await waitForResponse()
-
-        const firstCheckbox = screen.getAllByRole('checkbox')[0]
+        const checkboxes = await screen.findAllByRole('checkbox')
+        const firstCheckbox = checkboxes[0]
 
         await user.click(firstCheckbox)
 
@@ -234,8 +236,6 @@ describe('ManageCollectionAssociation', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
-        await waitForResponse()
-
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
     })
@@ -247,13 +247,9 @@ describe('ManageCollectionAssociation', () => {
         additionalMocks: [toolRecordSearch]
       })
 
-      await waitForResponse()
-
-      const refreshButton = screen.getByRole('link', { name: 'refresh the page' })
+      const refreshButton = await screen.findByRole('link', { name: 'refresh the page' })
 
       await user.click(refreshButton)
-
-      await waitForResponse()
 
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
     })
@@ -265,14 +261,13 @@ describe('ManageCollectionAssociation', () => {
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({})
-      await waitForResponse()
 
-      const addCollectionAssociationButton = screen.getByRole('button', { name: 'Add Collection Associations' })
+      const addCollectionAssociationButton = await screen.findByRole('button', { name: 'Add Collection Associations' })
 
       await user.click(addCollectionAssociationButton)
 
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/T1200000-TEST/collection-association-search')
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -283,12 +278,8 @@ describe('ManageCollectionAssociation', () => {
         overrideMocks: [toolRecordSortSearch]
       })
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
+      const button = await screen.findByRole('button', { name: /Sort Provider in ascending order/ })
       await user.click(button)
-
-      await waitForResponse()
 
       expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
@@ -299,12 +290,8 @@ describe('ManageCollectionAssociation', () => {
         additionalMocks: [toolRecordSortSearch]
       })
 
-      await waitForResponse()
-
-      const button = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
+      const button = await screen.findByRole('button', { name: /Sort Provider in ascending order/ })
       await user.click(button)
-
-      await waitForResponse()
 
       expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
@@ -324,12 +311,8 @@ describe('ManageCollectionAssociation', () => {
         overrideInitialEntries: ['/tools/T1200000-TEST/collection-association']
       })
 
-      await waitForResponse()
-
-      const test = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
+      const test = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
       await user.click(test)
-
-      await waitForResponse()
 
       expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
@@ -343,9 +326,7 @@ describe('ManageCollectionAssociation', () => {
         overrideMocks: [variableRecord]
       })
 
-      await waitForResponse()
-
-      expect(screen.getByText('CIESIN_SEDAC_ESI_2002')).toBeInTheDocument()
+      expect(await screen.findByText('CIESIN_SEDAC_ESI_2002')).toBeInTheDocument()
     })
 
     describe('when clicking an ascending sort button for variable', () => {
@@ -356,12 +337,8 @@ describe('ManageCollectionAssociation', () => {
           overrideMocks: [variableRecord, sortVariableRecord]
         })
 
-        await waitForResponse()
-
-        const button = screen.getByRole('button', { name: /Sort Short Name in ascending order/ })
+        const button = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
         await user.click(button)
-
-        await waitForResponse()
 
         expect(screen.queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
       })
@@ -374,12 +351,8 @@ describe('ManageCollectionAssociation', () => {
             overrideMocks: [variableRecord, sortProvider]
           })
 
-          await waitForResponse()
-
-          const button = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
+          const button = await screen.findByRole('button', { name: /Sort Provider in ascending order/ })
           await user.click(button)
-
-          await waitForResponse()
 
           expect(screen.queryByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
         })

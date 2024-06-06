@@ -63,13 +63,15 @@ const setup = (overrideProps = {}, mockControlledKeywords = true) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <CustomSelectWidget {...props} />
   )
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -21,7 +21,7 @@ const setup = ({
 
   const user = userEvent.setup()
 
-  const container = render(
+  const { container } = render(
     <KeywordRecommendationsKeyword
       keyword={keyword}
       addKeyword={addKeyword}
@@ -95,9 +95,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: true
       }
 
-      const { container, user, removeKeyword } = setup({ overrideKeyword })
+      const { user, removeKeyword } = setup({ overrideKeyword })
 
-      const listitem = container.queryByRole('listitem')
+      const listitem = screen.queryByRole('listitem')
       await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
 
       expect(removeKeyword).toBeCalledTimes(1)
@@ -237,9 +237,9 @@ describe('KeywordRecommendationsKeyword component', () => {
         recommended: false
       }
 
-      const { container, user, removeKeyword } = setup({ overrideKeyword })
+      const { user, removeKeyword } = setup({ overrideKeyword })
 
-      const listitem = container.queryByRole('listitem')
+      const listitem = screen.queryByRole('listitem')
       await user.click(within(listitem).getByRole('img', { name: 'Remove' }))
 
       expect(removeKeyword).toBeCalledTimes(1)
@@ -292,7 +292,7 @@ describe('KeywordRecommendationsKeyword component', () => {
 
       setup({ overrideKeyword })
 
-      expect(screen.queryByRole('img', { name: 'Add' })).toBeInTheDocument()
+      expect(screen.getByRole('img', { name: 'Add' })).toBeInTheDocument()
     })
 
     test('responds to clicking +', async () => {

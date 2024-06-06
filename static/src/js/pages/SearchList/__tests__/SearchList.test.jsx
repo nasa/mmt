@@ -2,8 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
-  within,
-  waitFor
+  within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -42,6 +41,8 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
     }
   }
 
+  const user = userEvent.setup()
+
   render(
     <MemoryRouter initialEntries={overrideInitialEntries || ['/collections?keyword=test']}>
       <MockedProvider
@@ -66,6 +67,10 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
       </MockedProvider>
     </MemoryRouter>
   )
+
+  return {
+    user
+  }
 }
 
 describe('SearchPage component', () => {
@@ -77,38 +82,35 @@ describe('SearchPage component', () => {
     describe('while the request is loading', () => {
       test('renders the placeholders', async () => {
         expect(screen.getByText('Loading...')).toBeInTheDocument()
-      })
 
-      test('renders the headers', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(3)
-        })
+        const table = await screen.findByRole('table')
 
-        const rows = screen.queryAllByRole('row')
+        const tableRows = within(table).getAllByRole('row')
 
-        const headerRow = rows[0]
+        expect(tableRows.length).toEqual(3)
 
-        expect(headerRow.children[0].textContent).toContain('Short Name')
-        expect(headerRow.children[1].textContent).toContain('Version')
-        expect(headerRow.children[2].textContent).toContain('Entry Title')
-        expect(headerRow.children[3].textContent).toContain('Provider')
-        expect(headerRow.children[4].textContent).toContain('Granule Count')
-        expect(headerRow.children[5].textContent).toContain('Tags')
-        expect(headerRow.children[6].textContent).toContain('Last Modified')
+        expect(within(table).getAllByRole('columnheader')[0].textContent).toContain('Short Name')
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Version')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Entry Title')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[4].textContent).toContain('Granule Count')
+        expect(within(table).getAllByRole('columnheader')[5].textContent).toContain('Tags')
+        expect(within(table).getAllByRole('columnheader')[6].textContent).toContain('Last Modified')
       })
     })
 
     describe('when the request has loaded', () => {
       test('renders the data', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(3)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row2 = rows[2]
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(3)
+
+        const row1 = tableRows[1]
         const row1Cells = within(row1).queryAllByRole('cell')
-        const row2Cells = within(row2).queryAllByRole('cell')
 
         expect(row1Cells).toHaveLength(7)
         expect(row1Cells[0].textContent).toBe('Collection Short Name 1')
@@ -118,6 +120,9 @@ describe('SearchPage component', () => {
         expect(row1Cells[4].textContent).toBe('1000')
         expect(row1Cells[5].textContent).toBe('1')
         expect(row1Cells[6].textContent).toBe('Thursday, November 30, 2023 12:00 AM')
+
+        const row2 = tableRows[2]
+        const row2Cells = within(row2).queryAllByRole('cell')
 
         expect(row2Cells).toHaveLength(7)
         expect(row2Cells[0].textContent).toBe('Collection Short Name 2')
@@ -133,13 +138,15 @@ describe('SearchPage component', () => {
       test('displays the modal', async () => {
         const user = userEvent.setup()
 
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(3)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row1Cells = within(row1).queryAllByRole('cell')
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(3)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         const button = within(row1Cells[5]).queryByRole('button', { name: '1' })
 
@@ -148,11 +155,11 @@ describe('SearchPage component', () => {
         const modal = screen.queryByRole('dialog')
 
         expect(modal).toBeInTheDocument()
-        expect(within(modal).queryByText('1 tag')).toBeInTheDocument()
-        expect(within(modal).queryByText('Tag Key:')).toBeInTheDocument()
-        expect(within(modal).queryByText('test.tag.one')).toBeInTheDocument()
-        expect(within(modal).queryByText('Description:')).toBeInTheDocument()
-        expect(within(modal).queryByText('Mock tag description')).toBeInTheDocument()
+        expect(within(modal).getByText('1 tag')).toBeInTheDocument()
+        expect(within(modal).getByText('Tag Key:')).toBeInTheDocument()
+        expect(within(modal).getByText('test.tag.one')).toBeInTheDocument()
+        expect(within(modal).getByText('Description:')).toBeInTheDocument()
+        expect(within(modal).getByText('Mock tag description')).toBeInTheDocument()
       })
     })
 
@@ -160,13 +167,15 @@ describe('SearchPage component', () => {
       test('closes the modal', async () => {
         const user = userEvent.setup()
 
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(3)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row1Cells = within(row1).queryAllByRole('cell')
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(3)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         const button = within(row1Cells[5]).queryByRole('button', { name: '1' })
 
@@ -189,11 +198,9 @@ describe('SearchPage component', () => {
     test('shows the pagination', async () => {
       setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 })
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-      })
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-      const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })
+      const pagination = await screen.findAllByRole('navigation', { name: 'Pagination Navigation' })
 
       expect(pagination).toHaveLength(2)
 
@@ -209,102 +216,85 @@ describe('SearchPage component', () => {
     })
 
     describe('when clicking a pagination item', () => {
-      test('shows the pagination', async () => {
+      test('navigates correctly and shows the correct pagination links', async () => {
         const user = userEvent.setup()
 
         setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 })
 
-        await waitFor(() => {
-          expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const pagination = screen.queryAllByRole('navigation', { name: 'Pagination Navigation' })[0]
-        const paginationButton = within(pagination).getByRole('button', { name: 'Goto Page 2' })
+        const paginationContainers = await screen.findAllByRole('navigation', { name: 'Pagination Navigation' })
+
+        const paginationNavigation = paginationContainers[0]
+
+        const paginationButton = within(paginationNavigation).getByRole('button', { name: 'Goto Page 2' })
 
         await user.click(paginationButton)
 
-        await waitFor(() => {
-          expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 4')
-        })
+        const paginationCells = await screen.findAllByRole('cell')
 
-        expect(within(pagination).queryByLabelText('Current Page, Page 2')).toBeInTheDocument()
+        expect(paginationCells[0].textContent).toContain('Collection Short Name 4')
+
+        expect(within(paginationNavigation).getByLabelText('Current Page, Page 2')).toBeInTheDocument()
       })
     })
   })
 
   describe('when clicking an ascending sort button', () => {
-    test('sorts and shows the button as active', async () => {
-      const user = userEvent.setup()
+    test('sorts and shows the the correctly classed sort buttons', async () => {
+      const {
+        user
+      } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 })
 
-      setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 })
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-      })
+      const table = await screen.findByRole('table')
 
-      const rows = screen.queryAllByRole('row')
-      const row1 = rows[0]
-      const ascendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })
+      const tableRows = within(table).getAllByRole('row')
+
+      expect(tableRows.length).toEqual(4)
+
+      const shortNameHeader = within(table).getAllByRole('columnheader')[0]
+
+      const ascendingButton = within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })
 
       await user.click(ascendingButton)
 
-      await waitFor(() => {
-        const dataRow1 = screen.queryAllByRole('row')[1]
-        expect(within(dataRow1).queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
-      })
+      const dataRow1 = await within(table).findAllByRole('row')
 
-      expect(within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
+      expect(within(dataRow1[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
+
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
   })
 
   describe('when clicking an descending sort button', () => {
-    test('sorts and shows the button as active', async () => {
-      const user = userEvent.setup()
+    test('sorts and shows the correctly classed the sort buttons', async () => {
+      const {
+        user
+      } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Desc], { limit: 3 })
 
-      setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Desc], { limit: 3 })
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-      })
+      const table = await screen.findByRole('table')
 
-      const rows = screen.queryAllByRole('row')
-      const row1 = rows[0]
-      const descendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in descending order/ })
+      const tableRows = within(table).getAllByRole('row')
+
+      expect(tableRows.length).toEqual(4)
+
+      const shortNameHeader = within(table).getAllByRole('columnheader')[0]
+
+      const descendingButton = within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })
 
       await user.click(descendingButton)
 
-      await waitFor(() => {
-        const dataRow1 = screen.queryAllByRole('row')[1]
-        expect(within(dataRow1).queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
-      })
+      const dataRow1 = await within(table).findAllByRole('row')
 
-      expect(within(row1).queryByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
-    })
-  })
+      expect(within(dataRow1[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
 
-  describe('when clicking an active sort button', () => {
-    test('sorts and shows the button as inactive', async () => {
-      const user = userEvent.setup()
-
-      setup([multiPageCollectionSearchPage1Asc, multiPageCollectionSearchPage1], { limit: 3 }, ['/collections?&keyword=test&sortKey=-shortName'])
-
-      await waitFor(() => {
-        const dataRow1 = screen.queryAllByRole('row')[1]
-        expect(within(dataRow1).queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
-      })
-
-      const rows = screen.queryAllByRole('row')
-      const row1 = rows[0]
-      const ascendingButton = within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })
-
-      await user.click(ascendingButton)
-
-      await waitFor(() => {
-        const dataRow1 = screen.queryAllByRole('row')[1]
-        expect(within(dataRow1).queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-      })
-
-      expect(within(row1).queryByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
     })
   })
 
@@ -314,22 +304,26 @@ describe('SearchPage component', () => {
 
       setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1TitleAsc], { limit: 3 })
 
-      await waitFor(() => {
-        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
-      })
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-      const rows = screen.queryAllByRole('row')
-      const row1 = rows[0]
-      const ascendingButton = within(row1).queryByRole('button', { name: /Sort Entry Title in ascending order/ })
+      const table = await screen.findByRole('table')
 
-      await user.click(ascendingButton)
+      const tableRows = within(table).getAllByRole('row')
 
-      await waitFor(() => {
-        const dataRow1 = screen.queryAllByRole('row')[1]
-        expect(within(dataRow1).queryAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
-      })
+      expect(tableRows.length).toEqual(4)
 
-      expect(within(row1).queryByRole('button', { name: /Sort Entry Title in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
+      const entryTitleHeader = within(table).getAllByRole('columnheader')[2]
+
+      const descendingButton = within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })
+
+      await user.click(descendingButton)
+
+      const dataRow1 = await within(table).findAllByRole('row')
+
+      expect(within(dataRow1[1]).getAllByRole('cell')[2].textContent).toContain('Collection Title 3')
+
+      expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in descending order/ })).toHaveClass('table__sort-button--inactive')
+      expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
   })
 
@@ -338,36 +332,32 @@ describe('SearchPage component', () => {
       setup([singlePageServicesSearch], {}, ['/services?&keyword='])
     })
 
-    describe('while the request is loading', () => {
-      test('renders the headers', async () => {
-        // Await waitFor(() => {
-        //   expect(screen.queryAllByRole('row').length).toEqual(2)
-        // })
-
-        // const rows = screen.queryAllByRole('row')
-
-        // const headerRow = rows[0]
-
-        // expect(headerRow.children[0].textContent).toContain('Name')
-        // expect(headerRow.children[1].textContent).toContain('Long Name')
-        // expect(headerRow.children[2].textContent).toContain('Provider')
-        // expect(headerRow.children[3].textContent).toContain('Last Modified')
-
-        await waitFor(() => {
-          expect(screen.queryByText('Loading...')).toBeInTheDocument()
-        })
-      })
-    })
-
     describe('when the request has loaded', () => {
-      test('renders the data', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+      test('renders the headers', async () => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row1Cells = within(row1).queryAllByRole('cell')
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(2)
+
+        expect(within(table).getAllByRole('columnheader')[0].textContent).toContain('Name')
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Last Modified')
+      })
+
+      test('renders the data', async () => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(2)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('Service Name 1')
@@ -385,30 +375,32 @@ describe('SearchPage component', () => {
 
     describe('while the request is loading', () => {
       test('renders the headers', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
+        const table = await screen.findByRole('table')
 
-        const headerRow = rows[0]
+        const tableRows = within(table).getAllByRole('row')
 
-        expect(headerRow.children[0].textContent).toContain('Name')
-        expect(headerRow.children[1].textContent).toContain('Long Name')
-        expect(headerRow.children[2].textContent).toContain('Provider')
-        expect(headerRow.children[3].textContent).toContain('Last Modified')
+        expect(tableRows.length).toEqual(2)
+
+        expect(within(table).getAllByRole('columnheader')[0].textContent).toContain('Name')
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Last Modified')
       })
     })
 
     describe('when the request has loaded', () => {
       test('renders the data', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row1Cells = within(row1).queryAllByRole('cell')
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(2)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('Tool Name 1')
@@ -426,30 +418,31 @@ describe('SearchPage component', () => {
 
     describe('while the request is loading', () => {
       test('renders the headers', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
+        const table = await screen.findByRole('table')
 
-        const headerRow = rows[0]
+        const tableRows = within(table).getAllByRole('row')
 
-        expect(headerRow.children[0].textContent).toContain('Name')
-        expect(headerRow.children[1].textContent).toContain('Long Name')
-        expect(headerRow.children[2].textContent).toContain('Provider')
-        expect(headerRow.children[3].textContent).toContain('Last Modified')
+        expect(tableRows.length).toEqual(2)
+
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Last Modified')
       })
     })
 
     describe('when the request has loaded', () => {
       test('renders the data', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
-        const row1 = rows[1]
-        const row1Cells = within(row1).queryAllByRole('cell')
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(2)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         expect(row1Cells).toHaveLength(4)
         expect(row1Cells[0].textContent).toBe('Variable Name 1')
@@ -467,37 +460,36 @@ describe('SearchPage component', () => {
 
     describe('when the request resolves', () => {
       test('renders the results', async () => {
-        await waitFor(() => {
-          expect(screen.queryAllByRole('row').length).toEqual(2)
-        })
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-        const rows = screen.queryAllByRole('row')
+        const table = await screen.findByRole('table')
 
-        const headerRow = rows[0]
+        const tableRows = within(table).getAllByRole('row')
 
-        expect(headerRow.children[0].textContent).toContain('Name')
-        expect(headerRow.children[1].textContent).toContain('Long Name')
-        expect(headerRow.children[2].textContent).toContain('Provider')
-        expect(headerRow.children[3].textContent).toContain('Last Modified')
+        expect(tableRows.length).toEqual(2)
+
+        const row1 = tableRows[1]
+        const row1Cells = within(row1).queryAllByRole('cell')
+
+        expect(row1Cells).toHaveLength(4)
+
+        expect(row1Cells[0].textContent).toContain('Tool Name 1')
+        expect(row1Cells[1].textContent).toContain('Long Name')
+        expect(row1Cells[2].textContent).toContain('TESTPROV')
+        expect(row1Cells[3].textContent).toContain('Thursday, November 30, 2023 12:00 AM')
       })
     })
 
     test('renders the search query', async () => {
-      await waitFor(() => {
-        expect(screen.queryByText('1 tool for: Provider “TESTPROV”')).toBeInTheDocument()
-      })
+      expect(await screen.findByText('1 tool for: Provider “TESTPROV”')).toBeInTheDocument()
     })
   })
 
   describe('when an invalid type is passed', () => {
-    beforeEach(() => {
-      setup(null, {}, ['/asdf?keyword='])
-    })
-
     test('renders the 404 page', async () => {
-      await waitFor(() => {
-        expect(screen.queryByText('404 page')).toBeInTheDocument()
-      })
+      setup(null, {}, ['/asdf?keyword='])
+
+      expect(await screen.findByText('404 page')).toBeInTheDocument()
     })
   })
 })

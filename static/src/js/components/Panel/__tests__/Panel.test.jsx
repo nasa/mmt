@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  within
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import Panel from '../Panel'
 
@@ -16,19 +12,16 @@ const setup = () => (
 )
 
 describe('Panel component', () => {
-  beforeEach(() => {
-    setup()
-  })
-
   test('displays the title', () => {
-    const title = screen.getByText('This is the test title')
-    expect(title).toBeInTheDocument()
+    setup()
+
+    expect(screen.getByText('This is the test title')).toBeInTheDocument()
   })
 
   test('displays the correct content', () => {
-    const parent = screen.getByText('This is the test title').parentElement.parentElement
+    setup()
 
-    const text = within(parent).getByText('This is the test panel content')
-    expect(text).toBeInTheDocument()
+    expect(screen.getByText('This is the test title')).toBeInTheDocument()
+    expect(screen.getByText('This is the test panel content')).toBeInTheDocument()
   })
 })

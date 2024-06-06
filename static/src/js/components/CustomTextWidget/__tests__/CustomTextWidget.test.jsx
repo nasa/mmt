@@ -39,6 +39,8 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
+  const user = userEvent.setup()
+
   render(
     <BrowserRouter>
       <CustomTextWidget {...props} />
@@ -47,7 +49,7 @@ const setup = (overrideProps = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

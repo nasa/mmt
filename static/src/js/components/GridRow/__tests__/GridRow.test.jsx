@@ -103,15 +103,16 @@ const setup = (overrideProps = {}) => {
     ...overrideProps
   }
 
-  const component = render(
+  const user = userEvent.setup()
+
+  const { container } = render(
     <GridRow {...props} />
   )
-  const { container } = component
 
   return {
     container,
     props,
-    user: userEvent.setup()
+    user
   }
 }
 

@@ -160,9 +160,7 @@ describe('OrderOptionForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const formField = screen.getByRole('textbox', { name: 'Form XML' })
 
@@ -206,9 +204,7 @@ describe('OrderOptionForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const formField = screen.getByRole('textbox', { name: 'Form XML' })
 
@@ -236,9 +232,8 @@ describe('OrderOptionForm', () => {
         const { user } = setup({
           pageUrl: '/order-options/new'
         })
-        await waitForResponse()
 
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Test Name')
 
         const clearButton = screen.getByRole('button', { name: 'Clear' })
@@ -341,9 +336,7 @@ describe('OrderOptionForm', () => {
           }
         )
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Updated Name')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
@@ -408,9 +401,7 @@ describe('OrderOptionForm', () => {
           }]
         })
 
-        await waitForResponse()
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Updated Name')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })

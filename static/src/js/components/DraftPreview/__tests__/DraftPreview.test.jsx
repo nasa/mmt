@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -156,85 +156,86 @@ describe('DraftPreview', () => {
     test('renders a PreviewProgress and MetadataPreview component', async () => {
       setup({})
 
-      await waitForResponse()
+      await waitFor(() => {
+        expect(PreviewProgress).toHaveBeenCalledWith({
+          draftJson: {
+            LongName: 'Long Name',
+            MetadataSpecification: {
+              Name: 'UMM-T',
+              URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+              Version: '1.1'
+            }
+          },
+          schema: ummTSchema,
+          sections: toolsConfiguration,
+          validationErrors: [{
+            name: 'required',
+            property: 'Name',
+            message: "must have required property 'Name'",
+            params: { missingProperty: 'Name' },
+            stack: "must have required property 'Name'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'Type',
+            message: "must have required property 'Type'",
+            params: { missingProperty: 'Type' },
+            stack: "must have required property 'Type'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'Version',
+            message: "must have required property 'Version'",
+            params: { missingProperty: 'Version' },
+            stack: "must have required property 'Version'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'Description',
+            message: "must have required property 'Description'",
+            params: { missingProperty: 'Description' },
+            stack: "must have required property 'Description'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'ToolKeywords',
+            message: "must have required property 'ToolKeywords'",
+            params: { missingProperty: 'ToolKeywords' },
+            stack: "must have required property 'ToolKeywords'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'Organizations',
+            message: "must have required property 'Organizations'",
+            params: { missingProperty: 'Organizations' },
+            stack: "must have required property 'Organizations'",
+            schemaPath: '#/required'
+          }, {
+            name: 'required',
+            property: 'URL',
+            message: "must have required property 'URL'",
+            params: { missingProperty: 'URL' },
+            stack: "must have required property 'URL'",
+            schemaPath: '#/required'
+          }, {
+            name: 'enum',
+            property: '.MetadataSpecification.URL',
+            message: 'must be equal to one of the allowed values',
+            params: { allowedValues: ['https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0'] },
+            stack: '.MetadataSpecification.URL must be equal to one of the allowed values',
+            schemaPath: '#/definitions/MetadataSpecificationType/properties/URL/enum'
+          }, {
+            name: 'enum',
+            property: '.MetadataSpecification.Version',
+            message: 'must be equal to one of the allowed values',
+            params: { allowedValues: ['1.2.0'] },
+            stack: '.MetadataSpecification.Version must be equal to one of the allowed values',
+            schemaPath: '#/definitions/MetadataSpecificationType/properties/Version/enum'
+          }]
+        }, {})
+      })
 
       expect(PreviewProgress).toHaveBeenCalledTimes(1)
-      expect(PreviewProgress).toHaveBeenCalledWith({
-        draftJson: {
-          LongName: 'Long Name',
-          MetadataSpecification: {
-            Name: 'UMM-T',
-            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-            Version: '1.1'
-          }
-        },
-        schema: ummTSchema,
-        sections: toolsConfiguration,
-        validationErrors: [{
-          name: 'required',
-          property: 'Name',
-          message: "must have required property 'Name'",
-          params: { missingProperty: 'Name' },
-          stack: "must have required property 'Name'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'Type',
-          message: "must have required property 'Type'",
-          params: { missingProperty: 'Type' },
-          stack: "must have required property 'Type'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'Version',
-          message: "must have required property 'Version'",
-          params: { missingProperty: 'Version' },
-          stack: "must have required property 'Version'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'Description',
-          message: "must have required property 'Description'",
-          params: { missingProperty: 'Description' },
-          stack: "must have required property 'Description'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'ToolKeywords',
-          message: "must have required property 'ToolKeywords'",
-          params: { missingProperty: 'ToolKeywords' },
-          stack: "must have required property 'ToolKeywords'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'Organizations',
-          message: "must have required property 'Organizations'",
-          params: { missingProperty: 'Organizations' },
-          stack: "must have required property 'Organizations'",
-          schemaPath: '#/required'
-        }, {
-          name: 'required',
-          property: 'URL',
-          message: "must have required property 'URL'",
-          params: { missingProperty: 'URL' },
-          stack: "must have required property 'URL'",
-          schemaPath: '#/required'
-        }, {
-          name: 'enum',
-          property: '.MetadataSpecification.URL',
-          message: 'must be equal to one of the allowed values',
-          params: { allowedValues: ['https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0'] },
-          stack: '.MetadataSpecification.URL must be equal to one of the allowed values',
-          schemaPath: '#/definitions/MetadataSpecificationType/properties/URL/enum'
-        }, {
-          name: 'enum',
-          property: '.MetadataSpecification.Version',
-          message: 'must be equal to one of the allowed values',
-          params: { allowedValues: ['1.2.0'] },
-          stack: '.MetadataSpecification.Version must be equal to one of the allowed values',
-          schemaPath: '#/definitions/MetadataSpecificationType/properties/Version/enum'
-        }]
-      }, {})
 
       expect(MetadataPreview).toHaveBeenCalledTimes(1)
       expect(MetadataPreview).toHaveBeenCalledWith({

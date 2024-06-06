@@ -9,6 +9,8 @@ import ProgressField from '../ProgressField'
 import progressCircleTypes from '../../../constants/progressCircleTypes'
 
 const setup = (fieldInfo) => {
+  const user = userEvent.setup()
+
   render(
     <BrowserRouter>
       <ProgressField
@@ -19,7 +21,7 @@ const setup = (fieldInfo) => {
   )
 
   return {
-    user: userEvent.setup()
+    user
   }
 }
 
