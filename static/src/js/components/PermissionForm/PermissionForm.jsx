@@ -28,7 +28,8 @@ import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
-import CollectionSelector from '../CollectionSelector/CollectionSelector'
+import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
+import { isEmpty } from 'lodash-es'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
@@ -41,6 +42,72 @@ import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelec
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
 
 import ChooseProviderModal from '../ChooseProviderModal/ChooseProviderModal'
+
+/**
+ * Validates the form data for the access constraints and temporal constraints.
+ *
+ * @param {Object} formData - The data submitted in the form.
+ * @param {Object} errors - The errors object to record validation errors.
+ * @returns {Object} - The errors object with any validation errors added.
+ */
+const validate = (formData, errors) => {
+  const collectionMinValue = formData.accessConstraintFilter
+    ?.collectionAccessConstraint?.minimumValue
+
+  const collectionMaxValue = formData.accessConstraintFilter
+    ?.collectionAccessConstraint?.maximumValue
+  const granuleMinValue = formData.accessConstraintFilter?.granuleAccessConstraint?.minimumValue
+  const granuleMaxValue = formData.accessConstraintFilter?.granuleAccessConstraint?.maximumValue
+
+  // Validate collectionAccessConstraint
+  if (collectionMinValue !== undefined
+    && collectionMaxValue !== undefined
+    && collectionMinValue >= collectionMaxValue) {
+    errors.accessConstraintFilter.collectionAccessConstraint.minimumValue.addError('Minimum value should be less than Maximum value')
+    errors.accessConstraintFilter.collectionAccessConstraint.maximumValue.addError('Maximum value should be greater than Minimum value')
+  }
+
+  // Validate granuleAccessConstraint
+  if (granuleMinValue !== undefined
+    && granuleMaxValue !== undefined
+    && granuleMinValue >= granuleMaxValue) {
+    errors.accessConstraintFilter.granuleAccessConstraint.minimumValue.addError('Minimum value should be less than Maximum value')
+    errors.accessConstraintFilter.granuleAccessConstraint.maximumValue.addError('Maximum value should be greater than Minimum value')
+  }
+
+  // Validate collectionTemporalConstraint startDate and stopDate
+  const collectionStartDate = new Date(
+    formData.temporalConstraintFilter?.collectionTemporalConstraint?.startDate
+  )
+  const collectionStopDate = new Date(
+    formData.temporalConstraintFilter?.collectionTemporalConstraint?.stopDate
+  )
+
+  if (collectionStartDate && collectionStopDate && collectionStartDate >= collectionStopDate) {
+    errors.temporalConstraintFilter.collectionTemporalConstraint.startDate.addError('Start date should be earlier than Stop date')
+    errors.temporalConstraintFilter.collectionTemporalConstraint.stopDate.addError('Stop date should be later than Start date')
+  }
+
+  // Validate granuleTemporalConstraint startDate and stopDate
+  const granuleStartDate = new Date(
+    formData.temporalConstraintFilter?.granuleTemporalConstraint?.startDate
+  )
+  const granuleStopDate = new Date(
+    formData.temporalConstraintFilter?.granuleTemporalConstraint?.stopDate
+  )
+
+  if (granuleStartDate && granuleStopDate && granuleStartDate >= granuleStopDate) {
+    errors.temporalConstraintFilter.granuleTemporalConstraint.startDate.addError('Start date should be earlier than Stop date')
+    errors.temporalConstraintFilter.granuleTemporalConstraint.stopDate.addError('Stop date should be later than Start date')
+  }
+
+  // Validate groupPermissions
+  if (isEmpty(formData.groupPermissions) || formData.groupPermissions.length === 0) {
+    errors.groupPermissions.addError('At least one group permission must be specified')
+  }
+
+  return errors
+}
 
 const PermissionForm = () => {
   const {
@@ -69,7 +136,7 @@ const PermissionForm = () => {
   const fields = {
     keywordPicker: KeywordPicker,
     TitleField: CustomTitleField,
-    CollectionSelector,
+    CollectionSelector: CollectionSelectorPage,
     GroupPermissionSelect,
     layout: GridLayout
   }
@@ -535,6 +602,7 @@ const PermissionForm = () => {
               formData={formData}
               onSubmit={handleSetProviderOrSubmit}
               showErrorList="false"
+              customValidate={validate}
             >
               <div className="d-flex gap-2">
                 <Button

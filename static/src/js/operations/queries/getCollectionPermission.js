@@ -25,7 +25,8 @@ export const GET_COLLECTION_PERMISSION = gql`
         shortName,
         provider,
         directDistributionInformation,
-        title
+        title,
+        version
       }
     }
     conceptId

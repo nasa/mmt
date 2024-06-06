@@ -165,7 +165,6 @@ const collectionPermission = {
     },
     accessPermissionType: {
       type: 'object',
-      additionalProperties: false,
       description: 'Type of permission to apply to',
       properties: {
         collection: {
@@ -179,6 +178,7 @@ const collectionPermission = {
           description: 'Apply granule permission'
         }
       }
+
     },
     permissionType: {
       properties: {

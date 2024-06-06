@@ -634,4 +634,122 @@ describe('PermissionForm', () => {
       })
     })
   })
+
+  describe('form validation', () => {
+    describe('when min value is larger than max value', () => {
+      test('render eroor', async () => {
+        const { user } = setup({
+          pageUrl: '/permissions/new'
+        })
+
+        await waitForResponse()
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
+
+        await user.type(nameField, 'Test Name')
+        await user.click(granuleCheckbox)
+
+        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+
+        // Fills out collection field
+        await user.type(minValue[0], '10')
+        await user.type(maxValue[0], '5')
+
+        // Fills out granule field
+        await user.type(minValue[1], '1')
+        await user.type(maxValue[1], '10')
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        expect(await screen.findByText('Minimum value should be less than Maximum value')).toBeInTheDocument()
+      })
+    })
+
+    describe('when granule min value is larger than max value', () => {
+      test('render min max error', async () => {
+        const { user } = setup({
+          pageUrl: '/permissions/new'
+        })
+
+        await waitForResponse()
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
+
+        await user.type(nameField, 'Test Name')
+        await user.click(granuleCheckbox)
+
+        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+
+        // Fills out collection field
+        await user.type(minValue[0], '1')
+        await user.type(maxValue[0], '5')
+
+        // Fills out granule field
+        await user.type(minValue[1], '10')
+        await user.type(maxValue[1], '5')
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        expect(await screen.findByText('Minimum value should be less than Maximum value')).toBeInTheDocument()
+      })
+    })
+
+    describe('when collection start date is larger than stop date', () => {
+      test('render min max error', async () => {
+        const { user } = setup({
+          pageUrl: '/permissions/new'
+        })
+
+        await waitForResponse()
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
+
+        await user.type(nameField, 'Test Name')
+        await user.click(granuleCheckbox)
+
+        const startDate = screen.getAllByRole('textbox', { name: 'Start Date' })
+        const stopDate = screen.getAllByRole('textbox', { name: 'Stop Date' })
+
+        // Fills out collection field
+        await user.type(startDate[0], '2024-06-06T00:00:00.000Z')
+        await user.type(stopDate[0], '2024-06-04T00:00:00.000Z')
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        expect(await screen.findByText('Start date should be earlier than Stop date')).toBeInTheDocument()
+      })
+    })
+
+    describe('when granule start date is larger than stop date', () => {
+      test('render min max error', async () => {
+        const { user } = setup({
+          pageUrl: '/permissions/new'
+        })
+
+        await waitForResponse()
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
+
+        await user.type(nameField, 'Test Name')
+        await user.click(granuleCheckbox)
+
+        const startDate = screen.getAllByRole('textbox', { name: 'Start Date' })
+        const stopDate = screen.getAllByRole('textbox', { name: 'Stop Date' })
+
+        // Fills out granule field
+        await user.type(startDate[1], '2024-06-06T00:00:00.000Z')
+        await user.type(stopDate[1], '2024-06-04T00:00:00.000Z')
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        expect(await screen.findByText('Start date should be earlier than Stop date')).toBeInTheDocument()
+      })
+    })
+  })
 })
