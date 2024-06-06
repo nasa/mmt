@@ -403,7 +403,7 @@ describe('OrderOptionList', () => {
 
       await user.click(paginationButton)
 
-      expect(screen.queryAllByRole('cell')[0].textContent).toContain('Test order option 1')
+      expect((await screen.findAllByRole('cell'))[0].textContent).toContain('Test order option 1')
     })
   })
 })
