@@ -50,16 +50,22 @@ const FormNavigation = ({
   // uiSchema,
   visitedFields
 }) => {
-  const { conceptId, id } = useParams()
+  // If the concept id or a template id are undefined, assume a new draft or template is being created
+  const { conceptId = 'new', id = 'new' } = useParams()
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
   const [chooseProviderModalType, setChooseProviderModalType] = useState(null)
   const { templateType } = useParams()
   const cleanedDraft = cloneDeep(removeEmpty(draft))
   const { errors } = validator.validateFormData(cleanedDraft, schema)
 
+  const isTemplate = !!templateType
+
   const onSaveClick = (type) => {
-    // If there is no concept id for drafts or id for templates, open the modal
-    if (!conceptId && !id) {
+    // If editing a new draft, open the provider selection modal
+    if (
+      (!isTemplate && conceptId === 'new')
+      || (isTemplate && id === 'new')
+    ) {
       setChooseProviderModalType(type)
       setChooseProviderModalOpen(true)
 
@@ -125,7 +131,7 @@ const FormNavigation = ({
             </Dropdown.Item>
 
             {
-              templateType && (
+              isTemplate && (
                 <Dropdown.Item
                   onClick={() => onSaveClick(saveTypes.saveAndCreateDraft)}
                 >
@@ -134,7 +140,7 @@ const FormNavigation = ({
               )
             }
             {
-              !templateType && (
+              !isTemplate && (
                 <Dropdown.Item
                   onClick={() => onSaveClick(saveTypes.saveAndPublish)}
                 >

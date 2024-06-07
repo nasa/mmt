@@ -43,10 +43,7 @@ describe('updateTemplates', () => {
       const response = await updateTemplate(providerId, token, ummMetadata, id)
 
       expect(response).toEqual({
-        error: {
-          ok: false,
-          data: 'mock-error-data'
-        }
+        error: 'Error updating template'
       })
 
       expect(fetch).toHaveBeenCalledTimes(1)

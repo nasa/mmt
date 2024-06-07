@@ -45,7 +45,7 @@ const MetadataFormPageHeader = () => {
   })
 
   const { draft = {} } = data
-  const { previewMetadata = {} } = draft
+  const { previewMetadata = {}, providerId } = draft
   const { pageTitle } = previewMetadata
 
   const displayTitle = pageTitle || '<Blank Name>'
@@ -55,6 +55,7 @@ const MetadataFormPageHeader = () => {
   return (
     <PageHeader
       title={title}
+      titleBadge={providerId}
       pageType="secondary"
       breadcrumbs={
         [

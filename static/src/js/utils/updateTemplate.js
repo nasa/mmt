@@ -20,13 +20,12 @@ const updateTemplate = async (providerId, token, ummMetadata, id) => {
         ...ummMetadata
       })
     })
-    const data = await response
 
     if (response.ok) {
-      return data
+      return response
     }
 
-    return { error: response }
+    throw new Error('Failed to update template')
   } catch (e) {
     return {
       error: 'Error updating template'

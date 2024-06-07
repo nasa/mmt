@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   MemoryRouter,
@@ -56,7 +60,7 @@ const setup = ({
             path={overridePath || '/tool-drafts'}
           >
             <Route
-              path={overridePathName || ':conceptId/:sectionName'}
+              path={overridePathName || ':conceptId?/:sectionName?'}
               element={<FormNavigation {...props} />}
             />
           </Route>
@@ -217,6 +221,80 @@ describe('FormNavigation', () => {
 
       expect(props.onSave).toHaveBeenCalledTimes(1)
       expect(props.onSave).toHaveBeenCalledWith(saveTypes.saveAndCreateDraft)
+    })
+  })
+
+  describe('when saving a new draft', () => {
+    describe('when on the default route', () => {
+      test('opens the choose provider modal', async () => {
+        const { user } = setup({
+          overrideInitialEntries: '/tool-drafts/new'
+        })
+
+        const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+        await user.click(button)
+
+        const modal = screen.getByRole('dialog')
+        const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+        expect(modalSubmit).toBeInTheDocument()
+      })
+
+      describe('when on a nested page', () => {
+        test('opens the choose provider modal', async () => {
+          const { user } = setup({
+            overrideInitialEntries: '/tool-drafts/new/mock-section-name'
+          })
+
+          const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+          await user.click(button)
+
+          const modal = screen.getByRole('dialog')
+          const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+          expect(modalSubmit).toBeInTheDocument()
+        })
+      })
+    })
+  })
+
+  describe('when saving a new template', () => {
+    describe('when on the default route', () => {
+      test('opens the choose provider modal', async () => {
+        const { user } = setup({
+          overrideInitialEntries: '/templates/collections/new',
+          overridePath: '/templates/collections'
+        })
+
+        const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+        await user.click(button)
+
+        const modal = screen.getByRole('dialog')
+        const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+        expect(modalSubmit).toBeInTheDocument()
+      })
+
+      describe('when on a nested page', () => {
+        test('opens the choose provider modal', async () => {
+          const { user } = setup({
+            overrideInitialEntries: '/templates/collections/new/mock-section-name',
+            overridePath: '/templates/collections'
+          })
+
+          const button = screen.getByRole('button', { name: 'Save & Continue' })
+
+          await user.click(button)
+
+          const modal = screen.getByRole('dialog')
+          const modalSubmit = within(modal).getByRole('button', { name: 'Save & Continue' })
+
+          expect(modalSubmit).toBeInTheDocument()
+        })
+      })
     })
   })
 })

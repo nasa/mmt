@@ -2,7 +2,6 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Calls /providers/{providerId}/template/{id} lambda to get a single template
- * @param {string} providerId A provider id that a given user is using
  * @param {Object} token A users token
  * @param {string} id An id for a collection template
  */
