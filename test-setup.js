@@ -21,3 +21,9 @@ vi.mock('crypto', () => ({
     randomUUID: () => 'mock-uuid'
   }
 }))
+
+Object.defineProperty(globalThis, 'crypto', {
+  value: {
+    randomUUID: () => 'mock-uuid'
+  }
+})

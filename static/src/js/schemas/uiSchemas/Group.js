@@ -20,16 +20,6 @@ const groupUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
-                    md: 3,
-                    children: ['provider']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
                     md: 12,
                     children: ['name']
                   }

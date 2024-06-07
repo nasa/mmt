@@ -16,9 +16,7 @@ import pluralize from 'pluralize'
 
 import { DELETE_ORDER_OPTION } from '@/js/operations/mutations/deleteOrderOption'
 import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
-import { GET_ORDER_OPTIONS } from '@/js/operations/queries/getOrderOptions'
 
-import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
@@ -41,8 +39,6 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
  * )
  */
 const OrderOptionPageHeader = () => {
-  const { providerId } = useAppContext()
-
   const navigate = useNavigate()
 
   const { addNotification } = useNotificationsContext()
@@ -52,14 +48,14 @@ const OrderOptionPageHeader = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const [deleteOrderOptionMutation] = useMutation(DELETE_ORDER_OPTION, {
-    refetchQueries: [{
-      query: GET_ORDER_OPTIONS,
-      variables: {
-        params: {
-          providerId
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of orderOptions from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          orderOptions: () => {}
         }
-      }
-    }]
+      })
+    }
   })
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
@@ -79,7 +75,8 @@ const OrderOptionPageHeader = () => {
   const { orderOption = {} } = data
   const {
     name,
-    nativeId
+    nativeId,
+    providerId
   } = orderOption
 
   const handleDelete = () => {

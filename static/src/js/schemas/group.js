@@ -16,11 +16,6 @@ const group = {
       minLength: 1,
       maxLength: 255
     },
-    provider: {
-      description: 'The provider to create this group in.',
-      type: 'string',
-      enum: ['MMT_1', 'MMT_2'] // Overwritten by GroupForm.jsx
-    },
     members: {
       description: 'Group Members',
       type: 'array',
@@ -39,7 +34,7 @@ const group = {
       }
     }
   },
-  required: ['name', 'description', 'provider']
+  required: ['name', 'description']
 }
 
 export default group

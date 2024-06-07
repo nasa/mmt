@@ -28,8 +28,6 @@ import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import { GET_TOOLS } from '@/js/operations/queries/getTools'
 import { GET_COLLECTION_REVISIONS } from '@/js/operations/queries/getCollectionRevisions'
 
-import AppContext from '@/js/context/AppContext'
-
 import PublishPreview from '../PublishPreview'
 import {
   noTagsOrGranulesCollection,
@@ -168,39 +166,32 @@ const setup = ({
   const user = userEvent.setup()
 
   render(
-    <AppContext.Provider value={
-      {
-        providerId: 'MMT_2'
-      }
-    }
-    >
-      <NotificationsContextProvider>
-        <MockedProvider
-          mocks={overrideMocks || mocks}
-        >
-          <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
-            <Routes>
+    <NotificationsContextProvider>
+      <MockedProvider
+        mocks={overrideMocks || mocks}
+      >
+        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
+          <Routes>
+            <Route
+              path={overridePath || '/tools'}
+            >
               <Route
-                path={overridePath || '/tools'}
-              >
-                <Route
-                  path={overridePathValue || ':conceptId/:revisionId'}
-                  element={
-                    (
-                      <ErrorBoundary>
-                        <Suspense>
-                          <PublishPreview {...props} />
-                        </Suspense>
-                      </ErrorBoundary>
-                    )
-                  }
-                />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </MockedProvider>
-      </NotificationsContextProvider>
-    </AppContext.Provider>
+                path={overridePathValue || ':conceptId/:revisionId'}
+                element={
+                  (
+                    <ErrorBoundary>
+                      <Suspense>
+                        <PublishPreview {...props} />
+                      </Suspense>
+                    </ErrorBoundary>
+                  )
+                }
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </MockedProvider>
+    </NotificationsContextProvider>
   )
 
   return {
@@ -264,7 +255,7 @@ describe('PublishPreview', () => {
       await user.click(yesButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools')
+      expect(navigateSpy).toHaveBeenCalledWith('/tools')
     })
   })
 

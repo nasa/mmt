@@ -86,6 +86,7 @@ describe('FormNavigation', () => {
         displayName: 'Section 1',
         properties: ['Field1']
       },
+      sectionIndex: 0,
       setFocusField: props.setFocusField,
       validationErrors: [],
       visitedFields: []
@@ -97,6 +98,7 @@ describe('FormNavigation', () => {
         displayName: 'Section 2',
         properties: ['Field2']
       },
+      sectionIndex: 1,
       setFocusField: props.setFocusField,
       validationErrors: [],
       visitedFields: []

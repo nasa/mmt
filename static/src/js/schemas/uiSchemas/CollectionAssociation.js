@@ -1,5 +1,3 @@
-import CustomRadioWidget from '../../components/CustomRadioWidget/CustomRadioWidget'
-
 const collectionAssociationUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
@@ -18,12 +16,6 @@ const collectionAssociationUiSchema = {
                     md: 12,
                     children: ['SearchField']
                   }
-                },
-                {
-                  'ui:col': {
-                    md: 12,
-                    children: ['ProviderFilter']
-                  }
                 }
               ]
             }
@@ -34,14 +26,6 @@ const collectionAssociationUiSchema = {
   },
   SearchField: {
     'ui:required': true
-  },
-  ProviderFilter: {
-    'ui:widget': CustomRadioWidget,
-    'ui:options': {
-      trueOptionLabel: 'Search only my collections',
-      falseOptionLabel: 'Search all collections',
-      showClear: false
-    }
   }
 }
 

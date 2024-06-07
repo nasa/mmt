@@ -42,6 +42,7 @@ const setup = ({
     form: 'Mock form',
     name: 'Mock order option',
     pageTitle: 'Mock order option',
+    providerId: 'MMT_2',
     nativeId: '1234-abcd-5678-efgh',
     revisionDate: '2024-04-16T18:20:12.124Z',
     revisionId: '1',

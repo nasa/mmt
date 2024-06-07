@@ -83,17 +83,17 @@ describe('OrderOptionFormPage', () => {
   describe('when showing the header for an order orderOption with name', () => {
     test('show render the header with name', async () => {
       setup({
-        pageUrl: '/order-options/OO1000000-MMT/edit',
+        pageUrl: '/order-options/OO1000000-MMT_2/edit',
         mocks: [{
           request: {
             query: GET_ORDER_OPTION,
-            variables: { params: { conceptId: 'OO1000000-MMT' } }
+            variables: { params: { conceptId: 'OO1000000-MMT_2' } }
           },
           result: {
             data: {
               orderOption: {
                 associationDetails: {},
-                conceptId: 'OO1000000-MMT',
+                conceptId: 'OO1000000-MMT_2',
                 collections: {
                   count: 0,
                   items: []
@@ -106,6 +106,7 @@ describe('OrderOptionFormPage', () => {
                 revisionId: '1',
                 revisionDate: '2024-04-23T15:03:34.399Z',
                 pageTitle: 'Test Name',
+                providerId: 'MMT_2',
                 scope: 'PROVIDER',
                 sortKey: null,
                 __typename: 'OrderOption'

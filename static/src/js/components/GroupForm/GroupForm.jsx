@@ -35,7 +35,6 @@ import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import saveTypes from '@/js/constants/saveTypes'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
-import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 /**
  * Renders a GroupForm component
@@ -50,8 +49,10 @@ const GroupForm = ({ isAdminPage }) => {
   const {
     draft,
     originalDraft,
+    providerId,
     setDraft,
     setOriginalDraft,
+    setProviderId,
     setSavedDraft
   } = useAppContext()
 
@@ -64,7 +65,16 @@ const GroupForm = ({ isAdminPage }) => {
   const [focusField, setFocusField] = useState(null)
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
-  const [createGroupMutation] = useMutation(CREATE_GROUP)
+  const [createGroupMutation] = useMutation(CREATE_GROUP, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of groups from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          groups: () => {}
+        }
+      })
+    }
+  })
 
   const [updateGroupMutation] = useMutation(UPDATE_GROUP, {
     refetchQueries: [{
@@ -77,13 +87,7 @@ const GroupForm = ({ isAdminPage }) => {
     }]
   })
 
-  const { providerIds } = useAvailableProviders()
-
   const updatedGroupSchema = isAdminPage ? systemGroupSchema : groupSchema
-
-  if (!isAdminPage) {
-    updatedGroupSchema.properties.provider.enum = providerIds
-  }
 
   const fields = {
     TitleField: CustomTitleField,
@@ -129,8 +133,11 @@ const GroupForm = ({ isAdminPage }) => {
       const formData = {
         description,
         name,
-        provider: isAdminPage ? undefined : tag,
         members: memberObjects
+      }
+
+      if (!isAdminPage) {
+        setProviderId(tag)
       }
 
       setDraft({ formData })
@@ -160,12 +167,9 @@ const GroupForm = ({ isAdminPage }) => {
   const handleSubmit = () => {
     const groupVariables = {
       ...formData,
-      tag: isAdminPage ? 'CMR' : formData.provider,
+      tag: isAdminPage ? 'CMR' : providerId,
       // Members needs to default to an empty string if no members are provided by the form
-      members: formData.members?.length > 0 ? formData.members.map((member) => member.id).join(', ') : '',
-
-      // `provider` is not a variable in the GraphQL mutation
-      provider: undefined
+      members: formData.members?.length > 0 ? formData.members.map((member) => member.id).join(', ') : ''
     }
 
     if (id === 'new') {

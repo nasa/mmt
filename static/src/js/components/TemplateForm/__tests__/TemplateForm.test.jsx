@@ -525,11 +525,14 @@ describe('TemplateForm', () => {
           const button = screen.getByRole('button', { name: 'Save & Create Draft' })
           await user.click(button)
 
+          await waitFor(() => {
+            expect(updateTemplate).toHaveBeenCalledWith('MMT_2', null, {
+              ShortName: 'Template Form Test',
+              Version: '1.0.0'
+            }, '1234-abcd-5678-efgh')
+          })
+
           expect(updateTemplate).toHaveBeenCalledTimes(1)
-          expect(updateTemplate).toHaveBeenCalledWith('MMT_2', null, {
-            ShortName: 'Template Form Test',
-            Version: '1.0.0'
-          }, '1234-abcd-5678-efgh')
 
           expect(navigateSpy).toHaveBeenCalledTimes(1)
           expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT')

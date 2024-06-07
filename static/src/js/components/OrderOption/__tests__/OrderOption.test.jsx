@@ -28,6 +28,7 @@ const setup = ({
     name: 'Mock order option',
     nativeId: '1234-abcd-5678-efgh',
     pageTitle: 'Mock order option',
+    providerId: 'MMT_2',
     revisionDate: '2024-04-16T18:20:12.124Z',
     revisionId: '1',
     scope: 'PROVIDER',

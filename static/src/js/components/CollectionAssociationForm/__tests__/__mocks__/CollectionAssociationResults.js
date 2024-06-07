@@ -391,7 +391,7 @@ export const CollectionAssociationRequest = {
       params: {
         limit: 20,
         offset: 0,
-        provider: 'MMT_2',
+        provider: null,
         sortKey: null,
         options: { entryTitle: { pattern: true } },
         entryTitle: '*'
@@ -461,7 +461,7 @@ export const CollectionResultsWithPages = {
       params: {
         limit: 20,
         offset: 40,
-        provider: 'MMT_2',
+        provider: null,
         sortKey: null,
         options: { entryTitle: { pattern: true } },
         entryTitle: '*'
@@ -568,6 +568,14 @@ export const ingestVariableDraftResponse = {
     variables: {
       conceptType: 'Variable',
       metadata: {
+        MetadataSpecification: {
+          URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+          Name: 'UMM-Var',
+          Version: '1.9.0'
+        },
+        Name: 'Variable Draft Association Test',
+        LongName: 'Mock Long Name',
+        Definition: 'Mock Definition',
         _private: {
           CollectionAssociation: {
             collectionConceptId: 'C12000001123-MMT_2',
@@ -576,6 +584,7 @@ export const ingestVariableDraftResponse = {
           }
         }
       },
+      nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
       providerId: 'MMT_2',
       ummVersion: '1.9.0'
     }
@@ -596,6 +605,14 @@ export const ingestVariableDraftErrorResponse = {
     variables: {
       conceptType: 'Variable',
       metadata: {
+        MetadataSpecification: {
+          URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
+          Name: 'UMM-Var',
+          Version: '1.9.0'
+        },
+        Name: 'Variable Draft Association Test',
+        LongName: 'Mock Long Name',
+        Definition: 'Mock Definition',
         _private: {
           CollectionAssociation: {
             collectionConceptId: 'C12000001123-MMT_2',
@@ -604,6 +621,7 @@ export const ingestVariableDraftErrorResponse = {
           }
         }
       },
+      nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
       providerId: 'MMT_2',
       ummVersion: '1.9.0'
     }

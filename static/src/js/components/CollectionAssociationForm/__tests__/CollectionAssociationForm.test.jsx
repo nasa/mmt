@@ -120,7 +120,7 @@ describe('CollectionAssociationForm', () => {
               params: {
                 limit: 20,
                 offset: 0,
-                provider: 'MMT_2',
+                provider: null,
                 sortKey: null,
                 options: { entryTitle: { pattern: true } },
                 entryTitle: '*'
@@ -473,7 +473,7 @@ describe('CollectionAssociationForm', () => {
 
         const { user } = setup({
           additionalMocks: [CollectionAssociationRequest, ingestVariableDraftResponse],
-          overrideMock: { mockVariableDraft },
+          overrideMock: mockVariableDraft,
           overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
           overridePath: '/drafts/variables/:conceptId/collection-association'
         })
@@ -503,7 +503,7 @@ describe('CollectionAssociationForm', () => {
       test('should call the errorLogger', async () => {
         const { user } = setup({
           additionalMocks: [CollectionAssociationRequest, ingestVariableDraftErrorResponse],
-          overrideMock: { mockVariableDraft },
+          overrideMock: mockVariableDraft,
 
           overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
           overridePath: '/drafts/variables/:conceptId/collection-association'

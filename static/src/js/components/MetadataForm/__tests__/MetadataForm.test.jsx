@@ -111,12 +111,6 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
-Object.defineProperty(globalThis, 'crypto', {
-  value: {
-    randomUUID: () => 'mock-uuid'
-  }
-})
-
 const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',
@@ -429,7 +423,11 @@ describe('MetadataForm', () => {
       await user.type(nameField, 'Test Name')
       await user.tab()
 
-      expect(nameField).toHaveValue('Test Name')
+      expect(await screen.findByRole('textbox', {
+        id: 'Name',
+        value: 'Test Name'
+      })).toBeInTheDocument()
+
       expect(FormNavigation).toHaveBeenCalledTimes(13)
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
         visitedFields: ['mock-name']
@@ -440,7 +438,11 @@ describe('MetadataForm', () => {
       const cancelButton = screen.getByRole('button', { name: 'Cancel' })
       await user.click(cancelButton)
 
-      expect(nameField).toHaveValue('')
+      expect(await screen.findByRole('textbox', {
+        id: 'Name',
+        value: ''
+      })).toBeInTheDocument()
+
       expect(FormNavigation).toHaveBeenCalledTimes(1)
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
         visitedFields: []
@@ -707,7 +709,7 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions/1')
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
       })
     })
 

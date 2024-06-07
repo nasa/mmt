@@ -58,7 +58,16 @@ const OrderOptionForm = () => {
 
   const [focusField, setFocusField] = useState(null)
 
-  const [createOrderOptionMutation] = useMutation(CREATE_ORDER_OPTION)
+  const [createOrderOptionMutation] = useMutation(CREATE_ORDER_OPTION, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of orderOptions from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          orderOptions: () => {}
+        }
+      })
+    }
+  })
   const [updateOrderOptionMutation] = useMutation(UPDATE_ORDER_OPTION, {
     refetchQueries: [{
       query: GET_ORDER_OPTION,

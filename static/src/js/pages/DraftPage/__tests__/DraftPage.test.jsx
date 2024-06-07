@@ -138,7 +138,7 @@ const setup = ({
   }
 }
 
-describe('DraftPreview', () => {
+describe('DraftPage', () => {
   test('renders the breadcrumbs', async () => {
     setup({})
 
@@ -273,7 +273,7 @@ describe('DraftPreview', () => {
     })
 
     describe('when clicking on Publish Draft button with no errors', () => {
-      test('calls the publish mutation and navigates to the conceptId/revisionId page', async () => {
+      test('calls the publish mutation and navigates to the concept page', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -302,7 +302,7 @@ describe('DraftPreview', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions/2')
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
       })
     })
 
@@ -415,7 +415,7 @@ describe('DraftPreview', () => {
           await user.click(button)
 
           expect(navigateSpy).toHaveBeenCalledTimes(1)
-          expect(navigateSpy).toHaveBeenCalledWith('/variables/V1000000-MMT/revisions/2')
+          expect(navigateSpy).toHaveBeenCalledWith('/variables/V1000000-MMT')
         })
       })
     })

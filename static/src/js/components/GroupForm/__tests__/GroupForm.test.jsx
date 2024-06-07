@@ -15,22 +15,16 @@ import * as router from 'react-router'
 
 import Providers from '@/js/providers/Providers/Providers'
 
-import useAvailableProviders from '@/js/hooks/useAvailableProviders'
-
 import errorLogger from '@/js/utils/errorLogger'
 
 import { CREATE_GROUP } from '@/js/operations/mutations/createGroup'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
 
 import GroupForm from '../GroupForm'
 
 vi.mock('@/js/utils/errorLogger')
-
-vi.mock('@/js/hooks/useAvailableProviders')
-useAvailableProviders.mockReturnValue({
-  providerIds: ['MMT_1', 'MMT_2']
-})
 
 const setup = ({
   mocks = [],
@@ -41,7 +35,36 @@ const setup = ({
   render(
     <Providers>
       <MockedProvider
-        mocks={mocks}
+        mocks={
+          [
+            {
+              request: {
+                query: GET_AVAILABLE_PROVIDERS,
+                variables: {
+                  params: {
+                    limit: 500,
+                    // Don't have an easy way to get a real uid into the context here
+                    permittedUser: undefined,
+                    target: 'PROVIDER_CONTEXT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acls: {
+                    items: [{
+                      conceptId: 'mock-id-2',
+                      providerIdentity: {
+                        provider_id: 'MMT_2'
+                      }
+                    }]
+                  }
+                }
+              }
+            },
+            ...mocks
+          ]
+        }
       >
         <MemoryRouter initialEntries={[pageUrl]}>
           <Routes>
@@ -167,12 +190,7 @@ describe('GroupForm', () => {
 
         const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
-        const membersField = screen.getAllByRole('combobox').at(1)
-
-        const providerField = screen.getAllByRole('combobox').at(0)
-        await user.click(providerField)
-        const option = screen.getByRole('option', { name: 'MMT_2' })
-        await user.click(option)
+        const membersField = screen.getByRole('combobox')
 
         await user.type(nameField, 'Test Name')
         await user.type(descriptionField, 'Test Description')
@@ -300,13 +318,7 @@ describe('GroupForm', () => {
           }
         )
 
-        const comboboxes = await screen.findAllByRole('combobox')
-        const providerField = comboboxes[0]
-        await user.click(providerField)
-        const option = screen.getByRole('option', { name: 'MMT_2' })
-        await user.click(option)
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
 
         await user.type(nameField, 'Test Name')
@@ -438,13 +450,7 @@ describe('GroupForm', () => {
           }
         )
 
-        const comboboxes = await screen.findAllByRole('combobox')
-        const providerField = comboboxes[0]
-        await user.click(providerField)
-        const option = screen.getByRole('option', { name: 'MMT_2' })
-        await user.click(option)
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Mock group updated')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
@@ -611,13 +617,7 @@ describe('GroupForm', () => {
           ]
         })
 
-        const comboboxes = await screen.findAllByRole('combobox')
-        const providerField = comboboxes[0]
-        await user.click(providerField)
-        const option = screen.getByRole('option', { name: 'MMT_2' })
-        await user.click(option)
-
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         await user.type(nameField, 'Mock group updated')
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })

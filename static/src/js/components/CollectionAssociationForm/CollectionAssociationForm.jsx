@@ -47,7 +47,6 @@ import getUmmVersion from '@/js/utils/getUmmVersion'
 import parseError from '@/js/utils/parseError'
 import removeEmpty from '@/js/utils/removeEmpty'
 
-import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
@@ -67,7 +66,6 @@ import conceptTypes from '@/js/constants/conceptTypes'
  */
 const CollectionAssociationForm = ({ metadata }) => {
   const { conceptId } = useParams()
-  const { providerId } = useAppContext()
 
   const navigate = useNavigate()
 
@@ -159,13 +157,9 @@ const CollectionAssociationForm = ({ metadata }) => {
 
   const handleCollectionSearch = () => {
     const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
-    const { searchField, providerFilter } = formattedFormData
+    const { searchField } = formattedFormData
 
     setSearchParams((currentParams) => {
-      if (providerFilter) {
-        currentParams.set('provider', providerId)
-      }
-
       if (Object.keys(searchField).includes('rangeStart')) {
         const rangeStart = Object.values(searchField).at(0)
         const rangeEnd = Object.values(searchField).at(1)
@@ -267,8 +261,11 @@ const CollectionAssociationForm = ({ metadata }) => {
     shortName,
     version
   ) => {
-    const { nativeId } = fetchedDraft
-    const { ummMetadata } = fetchedDraft
+    const {
+      nativeId,
+      providerId,
+      ummMetadata
+    } = fetchedDraft
 
     const associationDetailDraft = {
       ...ummMetadata,
@@ -280,6 +277,7 @@ const CollectionAssociationForm = ({ metadata }) => {
         }
       }
     }
+
     ingestDraftMutation({
       variables: {
         conceptType: derivedConceptType,

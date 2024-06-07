@@ -8,7 +8,16 @@ const useIngestDraftMutation = () => {
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
 
-  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          drafts: () => {}
+        }
+      })
+    }
+  })
 
   const ingestMutation = useCallback(async (conceptType, metadata, nativeId, providerId) => {
     await ingestDraftMutation({

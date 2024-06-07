@@ -30,7 +30,6 @@ export const TOOL_DRAFT = gql`
           nativeId
           organizations
           pageTitle: name
-          pageTitle: name
           potentialAction
           quality
           relatedUrls

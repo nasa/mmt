@@ -30,6 +30,7 @@ export const GET_COLLECTION = gql`
       platforms
       processingLevel
       projects
+      providerId: provider
       publicationReferences
       purpose
       quality
