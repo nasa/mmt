@@ -13,7 +13,6 @@ import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
 import Table from '@/js/components/Table/Table'
 
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
-import conceptTypes from '@/js/constants/conceptTypes'
 
 import useAccessibleEvent from '@/js/hooks/useAccessibleEvent'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
@@ -22,7 +21,6 @@ import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
 
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
-import toKebabCase from '@/js/utils/toKebabCase'
 
 /**
  * Renders a ManageCollectionAssociation component
@@ -79,6 +77,8 @@ const ManageCollectionAssociation = () => {
         message: 'Collection Associations Deleted Successfully!',
         variant: 'success'
       })
+
+      setCollectionConceptIds([])
     },
     onError: () => {
       addNotification({
@@ -156,36 +156,12 @@ const ManageCollectionAssociation = () => {
     )
   })
 
-  const associatedCollectionColumns = [
+  const columns = [
     {
       title: 'Actions',
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
     },
-    {
-      dataKey: 'shortName',
-      title: 'Short Name',
-      className: 'col-auto',
-      dataAccessorFn: buildEllipsisTextCell,
-      sortFn: (_, order) => sortFn('shortName', order)
-    },
-    {
-      dataKey: 'version',
-      title: 'Version',
-      className: 'col-auto',
-      align: 'center'
-    },
-    {
-      dataKey: 'provider',
-      title: 'Provider',
-      className: 'col-auto',
-      align: 'center',
-      dataAccessorFn: buildEllipsisTextCell,
-      sortFn: (_, order) => sortFn('provider', order)
-    }
-  ]
-
-  const variableCollectionColumns = [
     {
       dataKey: 'shortName',
       title: 'Short Name',
@@ -234,21 +210,11 @@ const ManageCollectionAssociation = () => {
 
   const { items, count } = associatedCollections
 
-  let associationColumns = associatedCollectionColumns
-  if (derivedConceptType === 'Variable') {
-    associationColumns = variableCollectionColumns
-  }
-
   return (
     <>
       <div className="mt-4">
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
-          {
-            derivedConceptType === 'Variable' && (
-              <span>Each variable can only be associated with a single collection.</span>
-            )
-          }
           {' '}
           Association operations may take some time. If you are not seeing what you expect below,
           please
@@ -280,57 +246,41 @@ const ManageCollectionAssociation = () => {
       <Table
         className="m-5"
         id="associated-collections"
-        columns={associationColumns}
+        columns={columns}
         data={items}
         generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
         generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
         noDataMessage="No collection associations found."
         limit={count}
       />
-      {
-        (items && derivedConceptType !== conceptTypes.Variable) && (
-          <>
-            <Button
-              variant="danger"
-              disabled={collectionConceptIds.length === 0}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...accessibleEventProps}
-            >
-              Delete Selected Associations
-            </Button>
-            <CustomModal
-              message="Are you sure you want to delete the selected collection associations?"
-              show={showDeleteModal}
-              toggleModal={toggleShowDeleteModal}
-              actions={
-                [
-                  {
-                    label: 'No',
-                    variant: 'secondary',
-                    onClick: () => { toggleShowDeleteModal(false) }
-                  },
-                  {
-                    label: 'Yes',
-                    variant: 'primary',
-                    onClick: handleDeleteAssociation
-                  }
-                ]
-              }
-            />
-          </>
-        )
-      }
-      {/* Only render the Update Collection Association button if the concept type is Variable */}
-      {
-        (items && derivedConceptType === conceptTypes.Variable) && (
-          <Button
-            variant="primary"
-            to={`/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`}
-          >
-            Update Collection Association
-          </Button>
-        )
-      }
+
+      <Button
+        variant="danger"
+        disabled={collectionConceptIds.length === 0}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...accessibleEventProps}
+      >
+        Delete Selected Associations
+      </Button>
+      <CustomModal
+        message="Are you sure you want to delete the selected collection associations?"
+        show={showDeleteModal}
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDeleteAssociation
+            }
+          ]
+        }
+      />
     </>
   )
 }

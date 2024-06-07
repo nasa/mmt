@@ -1,6 +1,5 @@
 import { DELETE_ASSOCIATION } from '../../../../operations/mutations/deleteAssociation'
 import { GET_TOOL } from '../../../../operations/queries/getTool'
-import { GET_VARIABLE } from '../../../../operations/queries/getVariable'
 
 export const toolRecordSearch = {
   request: {

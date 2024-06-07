@@ -25,12 +25,9 @@ import ManageCollectionAssociation from '../ManageCollectionAssociation'
 import {
   deleteAssociationResponse,
   deletedAssociationResponse,
-  sortProvider,
-  sortVariableRecord,
   toolRecordSearch,
   toolRecordSearchError,
-  toolRecordSortSearch,
-  variableRecord
+  toolRecordSortSearch
 } from './__mocks__/manageCollectionAssociationResults'
 
 vi.mock('@/js/utils/errorLogger')
@@ -318,24 +315,24 @@ describe('ManageCollectionAssociation', () => {
     })
   })
 
-  describe('when the conceptType is a variable', () => {
-    test('should render variable table', async () => {
-      setup({
-        overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
-        overridePaths: 'variables/:conceptId/collection-association',
-        overrideMocks: [variableRecord]
-      })
+  // Describe('when the conceptType is a variable', () => {
+  //   test('should render variable table', async () => {
+  //     setup({
+  //       overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
+  //       overridePaths: 'variables/:conceptId/collection-association',
+  //       overrideMocks: [variableRecord]
+  //     })
 
       expect(await screen.findByText('CIESIN_SEDAC_ESI_2002')).toBeInTheDocument()
     })
 
-    describe('when clicking an ascending sort button for variable', () => {
-      test('sorts short name and show the button as active', async () => {
-        const { user } = setup({
-          overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
-          overridePaths: 'variables/:conceptId/collection-association',
-          overrideMocks: [variableRecord, sortVariableRecord]
-        })
+  //   describe('when clicking an ascending sort button for variable', () => {
+  //     test('sorts short name and show the button as active', async () => {
+  //       const { user } = setup({
+  //         overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
+  //         overridePaths: 'variables/:conceptId/collection-association',
+  //         overrideMocks: [variableRecord, sortVariableRecord]
+  //       })
 
         const button = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
         await user.click(button)
@@ -343,15 +340,17 @@ describe('ManageCollectionAssociation', () => {
         expect(await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
       })
 
-      describe('when clicking an ascending sort button', () => {
-        test('sorts provider and show the button as active', async () => {
-          const { user } = setup({
-            overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
-            overridePaths: 'variables/:conceptId/collection-association',
-            overrideMocks: [variableRecord, sortProvider]
-          })
+  //     describe('when clicking an ascending sort button', () => {
+  //       test('sorts provider and show the button as active', async () => {
+  //         const { user } = setup({
+  //           overrideInitialEntries: ['/variables/V1200000104-SEDAC/collection-association'],
+  //           overridePaths: 'variables/:conceptId/collection-association',
+  //           overrideMocks: [variableRecord, sortProvider]
+  //         })
 
-          const button = await screen.findByRole('button', { name: /Sort Provider in ascending order/ })
+          await waitForResponse()
+
+          const button = screen.getByRole('button', { name: /Sort Provider in ascending order/ })
           await user.click(button)
 
           expect(await screen.findByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')

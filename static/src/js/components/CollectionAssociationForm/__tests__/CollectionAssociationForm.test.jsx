@@ -13,7 +13,6 @@ import AppContext from '@/js/context/AppContext'
 import NotificationsContext from '@/js/context/NotificationsContext'
 
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 
 import errorLogger from '@/js/utils/errorLogger'
 
@@ -24,14 +23,9 @@ import {
   CollectionResultsWithPages,
   createAssociationErrorRequest,
   createAssociationRequest,
-  ingestVariableErrorRequest,
-  ingestVariableRequest,
   mockTool,
-  mockVariableDraft,
   mockVariable,
   mockToolWithAssociation,
-  ingestVariableDraftResponse,
-  ingestVariableDraftErrorResponse,
   CollectionSortRequest
 } from './__mocks__/CollectionAssociationResults'
 
@@ -148,19 +142,8 @@ describe('CollectionAssociationForm', () => {
     })
 
     describe('when searching for temporal extent', () => {
-      // Todo:
-      // Spent part of afternoon with Deep, no resolution on this
-      // test below.
-      // For whatever reason the test below is not working on
-      // intel (older  machines), works fine on Deep's machine (silicon)
-      // though.   Maybe some kind of race condition?
-      // (verified same version of node, npm, env vars, etc.)
-      // Also strange test works fine running as a single file, just does
-      // not work when run in the full test suite (e.g. npm run test)
-      // Need to revisit this.
-      test.skip('show fill out temporal extent form', async () => {
+      test('show fill out temporal extent form', async () => {
         const { user } = setup({
-          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association?searchField=entryTitle&provider=MMT_2&searchFieldValue=*'],
           additionalMocks: [
             {
               request: {
@@ -171,8 +154,7 @@ describe('CollectionAssociationForm', () => {
                     offset: 0,
                     provider: 'MMT_2',
                     sortKey: null,
-                    options: { entryTitle: { pattern: true } },
-                    entryTitle: '*'
+                    temporal: '1977-12-31T00:00:00.000Z,1977-12-31T00:00:00.000Z'
                   }
                 }
               },

@@ -1,5 +1,4 @@
 import { CREATE_ASSOCIATION } from '../../../../operations/mutations/createAssociation'
-import { INGEST_DRAFT } from '../../../../operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
 
 export const mockToolWithAssociation = {
@@ -335,55 +334,6 @@ export const mockVariable = {
   __typename: 'Variable'
 }
 
-export const mockVariableDraft = {
-  conceptId: 'VD1200000093-MMT_2',
-  conceptType: 'variable-draft',
-  deleted: false,
-  name: 'Variable Draft Association Test',
-  nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
-  providerId: 'MMT_2',
-  revisionDate: '2024-03-21T13:51:16.403Z',
-  revisionId: '1',
-  ummMetadata: {
-    MetadataSpecification: {
-      URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
-      Name: 'UMM-Var',
-      Version: '1.9.0'
-    },
-    Name: 'Variable Draft Association Test',
-    LongName: 'Mock Long Name',
-    Definition: 'Mock Definition'
-  },
-  previewMetadata: {
-    additionalIdentifiers: null,
-    associationDetails: null,
-    conceptId: 'VD1200000093-MMT_2',
-    dataType: null,
-    definition: 'Mock Definition',
-    dimensions: null,
-    fillValues: null,
-    indexRanges: null,
-    instanceInformation: null,
-    longName: 'Mock Long Name',
-    measurementIdentifiers: null,
-    name: 'Variable Draft Association Test',
-    nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
-    offset: null,
-    relatedUrls: null,
-    samplingIdentifiers: null,
-    scale: null,
-    scienceKeywords: null,
-    sets: null,
-    standardName: null,
-    units: null,
-    validRanges: null,
-    variableSubType: null,
-    variableType: null,
-    __typename: 'Variable'
-  },
-  __typename: 'Draft'
-}
-
 export const CollectionAssociationRequest = {
   request: {
     query: GET_COLLECTIONS,
@@ -568,14 +518,6 @@ export const ingestVariableDraftResponse = {
     variables: {
       conceptType: 'Variable',
       metadata: {
-        MetadataSpecification: {
-          URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
-          Name: 'UMM-Var',
-          Version: '1.9.0'
-        },
-        Name: 'Variable Draft Association Test',
-        LongName: 'Mock Long Name',
-        Definition: 'Mock Definition',
         _private: {
           CollectionAssociation: {
             collectionConceptId: 'C12000001123-MMT_2',
@@ -584,7 +526,6 @@ export const ingestVariableDraftResponse = {
           }
         }
       },
-      nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
       providerId: 'MMT_2',
       ummVersion: '1.9.0'
     }
@@ -605,14 +546,6 @@ export const ingestVariableDraftErrorResponse = {
     variables: {
       conceptType: 'Variable',
       metadata: {
-        MetadataSpecification: {
-          URL: 'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0',
-          Name: 'UMM-Var',
-          Version: '1.9.0'
-        },
-        Name: 'Variable Draft Association Test',
-        LongName: 'Mock Long Name',
-        Definition: 'Mock Definition',
         _private: {
           CollectionAssociation: {
             collectionConceptId: 'C12000001123-MMT_2',
@@ -621,7 +554,6 @@ export const ingestVariableDraftErrorResponse = {
           }
         }
       },
-      nativeId: 'MMT_a19bafe7-682e-44cf-84f5-f9252de0e14b',
       providerId: 'MMT_2',
       ummVersion: '1.9.0'
     }
@@ -629,6 +561,8 @@ export const ingestVariableDraftErrorResponse = {
   error: new Error('An error occurred')
 }
 
+=======
+>>>>>>> 8d4e22cf3 (MMT_3702: Fixes variable association)
 export const CollectionSortRequest = {
   request: {
     query: GET_COLLECTIONS,

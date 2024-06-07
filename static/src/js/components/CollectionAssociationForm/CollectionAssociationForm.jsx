@@ -30,7 +30,6 @@ import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
 import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
 import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
 import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
-import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
@@ -43,17 +42,13 @@ import collectionAssociationUiSchema from '@/js/schemas/uiSchemas/CollectionAsso
 import collectionAssociationSearch from '@/js/utils/collectionAssociationSearch'
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
-import getUmmVersion from '@/js/utils/getUmmVersion'
-import parseError from '@/js/utils/parseError'
+
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
-
-import conceptTypes from '@/js/constants/conceptTypes'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -73,7 +68,6 @@ const CollectionAssociationForm = ({ metadata }) => {
 
   const [searchFormData, setSearchFormData] = useState({})
   const [focusField, setFocusField] = useState(null)
-  const [error, setError] = useState()
   const [searchParams, setSearchParams] = useSearchParams()
   const [collectionLoading, setCollectionLoading] = useState()
   const [showSelectCollection, setShowSelectCollection] = useState(false)
@@ -320,13 +314,11 @@ const CollectionAssociationForm = ({ metadata }) => {
   ), [])
 
   // Creates an action cell based on the current concept type
-  // Tools or services -> Checkboxes
-  // Variables -> Create Association button
   const buildActionsCell = useCallback((cellData, rowData) => {
     let disabled = false
     let checked = null
 
-    const { conceptId: collectionConceptId, shortName, version } = rowData
+    const { conceptId: collectionConceptId } = rowData
     const { associationDetails } = fetchedDraft
     const { collections } = associationDetails || {}
 
@@ -339,36 +331,6 @@ const CollectionAssociationForm = ({ metadata }) => {
         disabled = true
         checked = true
       }
-    }
-
-    if (derivedConceptType === conceptTypes.Variable) {
-      return (
-        <div className="d-flex">
-          <Button
-            className="d-flex"
-            disabled={disabled}
-            onClick={
-              () => {
-                if (conceptId.startsWith('VD')) {
-                  handleVariableDraftAssociation(
-                    collectionConceptId,
-                    shortName,
-                    version
-                  )
-                } else {
-                  handleVariableAssociation(
-                    collectionConceptId
-                  )
-                }
-              }
-            }
-            variant="secondary"
-            size="sm"
-          >
-            Create Association
-          </Button>
-        </div>
-      )
     }
 
     return (
@@ -453,14 +415,6 @@ const CollectionAssociationForm = ({ metadata }) => {
 
       return Object.fromEntries(currentParams)
     })
-  }
-
-  if (error) {
-    const message = parseError(error)
-
-    return (
-      <ErrorBanner message={message} />
-    )
   }
 
   if (loading) {
@@ -565,7 +519,6 @@ const CollectionAssociationForm = ({ metadata }) => {
                 columns={collectionColumns}
                 loading={collectionLoading}
                 data={items}
-                error={error}
                 generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
                 generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
                 noDataMessage="No Collections Found."
@@ -573,17 +526,13 @@ const CollectionAssociationForm = ({ metadata }) => {
                 offset={offset}
                 sortKey={sortKeyParam}
               />
-              {
-                derivedConceptType !== conceptTypes.Variable && (
-                  <Button
-                    className="d-flex"
-                    onClick={handleAssociateSelectedCollection}
-                    variant="primary"
-                  >
-                    Associate Selected Collections
-                  </Button>
-                )
-              }
+              <Button
+                className="d-flex"
+                onClick={handleAssociateSelectedCollection}
+                variant="primary"
+              >
+                Associate Selected Collections
+              </Button>
             </>
           )
         }
