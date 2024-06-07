@@ -382,8 +382,11 @@ describe('TemplatePreview', () => {
         const createButton = await screen.findByRole('button', { name: /Create Draft/ })
         await user.click(createButton)
 
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT')
+        })
+
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT')
       })
     })
 

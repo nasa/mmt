@@ -5,12 +5,23 @@ import { PUBLISH_DRAFT } from '../operations/mutations/publishDraft'
 
 import getUmmVersion from '../utils/getUmmVersion'
 
-const usePublishMutation = () => {
+const usePublishMutation = (queryName) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState()
   const [publishDraft, setPublishDraft] = useState()
 
-  const [publishDraftMutation] = useMutation(PUBLISH_DRAFT)
+  const [publishDraftMutation] = useMutation(PUBLISH_DRAFT, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          drafts: () => {},
+          // Remove the list of published concepts from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          [queryName]: () => {}
+        }
+      })
+    }
+  })
 
   const { conceptId } = useParams()
 

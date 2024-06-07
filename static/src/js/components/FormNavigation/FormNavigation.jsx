@@ -187,6 +187,7 @@ const FormNavigation = ({
                   // TODO MMT-3479
                   // required={required}
                   section={section}
+                  sectionIndex={index}
                   setFocusField={setFocusField}
                   validationErrors={errors}
                   visitedFields={visitedFields}

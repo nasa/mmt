@@ -27,6 +27,7 @@ export const GET_VARIABLE = gql`
       name
       nativeId
       offset
+      pageTitle: name
       providerId
       relatedUrls
       revisionDate

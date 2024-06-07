@@ -19,7 +19,6 @@ import usePermissions from '@/js/hooks/usePermissions'
 
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUP } from '@/js/operations/queries/getGroup'
-import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 
 import errorLogger from '@/js/utils/errorLogger'
 
@@ -46,15 +45,14 @@ const GroupPageHeader = ({ isAdminPage }) => {
   })
 
   const [deleteGroupMutation] = useMutation(DELETE_GROUP, {
-    refetchQueries: [{
-      query: GET_GROUPS,
-      variables: {
-        params: {
-          name: '',
-          tags: isAdminPage ? ['CMR'] : undefined
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of groups from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          groups: () => {}
         }
-      }
-    }]
+      })
+    }
   })
 
   const { data } = useSuspenseQuery(GET_GROUP, {

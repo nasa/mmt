@@ -134,7 +134,7 @@ describe('OrderOptionForm', () => {
               result: {
                 data: {
                   createOrderOption: {
-                    conceptId: 'OO1000000-MMT',
+                    conceptId: 'OO1000000-MMT_2',
                     revisionId: '1'
                   }
                 }
@@ -145,14 +145,14 @@ describe('OrderOptionForm', () => {
                 query: GET_ORDER_OPTION,
                 variables: {
                   params: {
-                    conceptId: 'OO1000000-MMT'
+                    conceptId: 'OO1000000-MMT_2'
                   }
                 }
               },
               result: {
                 data: {
                   orderOption: {
-                    conceptId: 'OO1000000-MMT'
+                    conceptId: 'OO1000000-MMT_2'
                   }
                 }
               }
@@ -178,7 +178,7 @@ describe('OrderOptionForm', () => {
         await user.click(modalButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT_2')
       })
     })
 
@@ -252,17 +252,17 @@ describe('OrderOptionForm', () => {
 
         const { user } = setup(
           {
-            pageUrl: '/order-options/OO1000000-MMT/edit',
+            pageUrl: '/order-options/OO1000000-MMT_2/edit',
             mocks: [{
               request: {
                 query: GET_ORDER_OPTION,
-                variables: { params: { conceptId: 'OO1000000-MMT' } }
+                variables: { params: { conceptId: 'OO1000000-MMT_2' } }
               },
               result: {
                 data: {
                   orderOption: {
                     associationDetails: {},
-                    conceptId: 'OO1000000-MMT',
+                    conceptId: 'OO1000000-MMT_2',
                     collections: {
                       count: 0,
                       items: []
@@ -273,6 +273,7 @@ describe('OrderOptionForm', () => {
                     name: 'Test Name',
                     nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
                     pageTitle: 'Test Name',
+                    providerId: 'MMT_2',
                     revisionId: '1',
                     revisionDate: '2024-04-23T15:03:34.399Z',
                     scope: 'PROVIDER',
@@ -298,7 +299,7 @@ describe('OrderOptionForm', () => {
               result: {
                 data: {
                   updateOrderOption: {
-                    conceptId: 'OO1000000-MMT',
+                    conceptId: 'OO1000000-MMT_2',
                     revisionId: '2'
                   }
                 }
@@ -307,13 +308,13 @@ describe('OrderOptionForm', () => {
             {
               request: {
                 query: GET_ORDER_OPTION,
-                variables: { params: { conceptId: 'OO1000000-MMT' } }
+                variables: { params: { conceptId: 'OO1000000-MMT_2' } }
               },
               result: {
                 data: {
                   orderOption: {
                     associationDetails: {},
-                    conceptId: 'OO1000000-MMT',
+                    conceptId: 'OO1000000-MMT_2',
                     collections: {
                       count: 0,
                       items: []
@@ -324,6 +325,7 @@ describe('OrderOptionForm', () => {
                     name: 'Test Name',
                     nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
                     pageTitle: 'Test Name',
+                    providerId: 'MMT_2',
                     revisionId: '1',
                     revisionDate: '2024-04-23T15:03:34.399Z',
                     scope: 'PROVIDER',
@@ -343,7 +345,7 @@ describe('OrderOptionForm', () => {
         await user.click(submitButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT_2')
       })
     })
 
@@ -353,17 +355,17 @@ describe('OrderOptionForm', () => {
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         const { user } = setup({
-          pageUrl: '/order-options/OO1000000-MMT/edit',
+          pageUrl: '/order-options/OO1000000-MMT_2/edit',
           mocks: [{
             request: {
               query: GET_ORDER_OPTION,
-              variables: { params: { conceptId: 'OO1000000-MMT' } }
+              variables: { params: { conceptId: 'OO1000000-MMT_2' } }
             },
             result: {
               data: {
                 orderOption: {
                   associationDetails: {},
-                  conceptId: 'OO1000000-MMT',
+                  conceptId: 'OO1000000-MMT_2',
                   collections: {
                     count: 0,
                     items: []
@@ -374,6 +376,7 @@ describe('OrderOptionForm', () => {
                   name: 'Test Name',
                   nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
                   pageTitle: 'Test Name',
+                  providerId: 'MMT_2',
                   revisionId: '1',
                   revisionDate: '2024-04-23T15:03:34.399Z',
                   scope: 'PROVIDER',

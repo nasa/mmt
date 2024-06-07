@@ -45,10 +45,20 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 const DraftPageHeader = () => {
   const { conceptId } = useParams()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const navigate = useNavigate()
 
-  const [deleteDraftMutation] = useMutation(DELETE_DRAFT)
+  const [deleteDraftMutation] = useMutation(DELETE_DRAFT, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          drafts: () => {}
+        }
+      })
+    }
+  })
 
   const { mmtJwt } = useMMTCookie()
 
@@ -57,13 +67,11 @@ const DraftPageHeader = () => {
   const {
     publishMutation,
     publishDraft
-  } = usePublishMutation()
+  } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
-
-  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -96,9 +104,9 @@ const DraftPageHeader = () => {
 
   useEffect(() => {
     if (publishDraft) {
-      const { conceptId: publishConceptId, revisionId } = publishDraft
+      const { conceptId: publishConceptId } = publishDraft
 
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/revisions/${revisionId}`)
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
 
       addNotification({
         message: 'Draft published',

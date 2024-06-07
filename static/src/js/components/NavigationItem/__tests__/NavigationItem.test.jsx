@@ -33,6 +33,7 @@ const setup = ({
       displayName: 'Mock Section Name',
       properties: ['Name', 'URL', 'RelatedURLs']
     },
+    sectionIndex: 0,
     setFocusField: vi.fn(),
     validationErrors: [],
     visitedFields: [],
@@ -50,6 +51,10 @@ const setup = ({
           <Route
             element={<NavigationItem {...props} />}
             path={overridePathValue || ':draftType/:conceptId/:sectionName'}
+          />
+          <Route
+            element={<NavigationItem {...props} />}
+            path={overridePathValue || ':draftType/new'}
           />
         </Route>
       </Routes>
@@ -259,6 +264,47 @@ describe('NavigationItem', () => {
         expect(screen.getByRole('img', { name: 'Mock Section Name 2' }).className).toContain('eui-fa-circle-o')
 
         expect(NavigationItemError).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    describe('when section name is not in the URL', () => {
+      test('displays the error message', () => {
+        const { props } = setup({
+          overrideInitialEntries: '/drafts/tools/new',
+          overrideProps: {
+            validationErrors: [{
+              message: "must have required property 'Name'",
+              name: 'required',
+              params: {
+                missingProperty: 'Name'
+              },
+              property: 'Name',
+              schemaPath: '#/required',
+              stack: "must have required property 'Name'"
+            }],
+            visitedFields: ['Name']
+          }
+        })
+
+        expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
+        expect(screen.getByRole('img', { name: 'Mock Section Name' }).className).toContain('eui-fa-times-circle')
+
+        expect(NavigationItemError).toHaveBeenCalledTimes(1)
+        expect(NavigationItemError).toHaveBeenCalledWith({
+          className: null,
+          error: {
+            message: "must have required property 'Name'",
+            name: 'required',
+            params: {
+              missingProperty: 'Name'
+            },
+            property: 'Name',
+            schemaPath: '#/required',
+            stack: "must have required property 'Name'"
+          },
+          setFocusField: props.setFocusField,
+          visitedFields: ['Name']
+        }, {})
       })
     })
   })

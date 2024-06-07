@@ -30,12 +30,6 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
-Object.defineProperty(globalThis, 'crypto', {
-  value: {
-    randomUUID: () => 'mock-uuid'
-  }
-})
-
 const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',

@@ -11,6 +11,7 @@ export const GET_ORDER_OPTION = gql`
       name
       nativeId
       pageTitle: name
+      providerId
       revisionId
       revisionDate
       scope

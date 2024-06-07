@@ -81,7 +81,7 @@ const MetadataForm = () => {
     publishMutation,
     publishDraft,
     error: publishDraftError
-  } = usePublishMutation()
+  } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   useEffect(() => {
     if (conceptId === 'new') {
@@ -104,7 +104,27 @@ const MetadataForm = () => {
 
   const [ingestDraftMutation, {
     loading: ingestDraftLoading
-  }] = useMutation(INGEST_DRAFT)
+  }] = useMutation(INGEST_DRAFT, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          drafts: () => {},
+          draft(existingDraftsRef, { DELETE }) {
+            const { __ref: draftRef = '' } = existingDraftsRef
+
+            // If the ref includes this conceptId, delete it to force a refetch of the data
+            if (draftRef.includes(conceptId)) {
+              return DELETE
+            }
+
+            return existingDraftsRef
+          }
+
+        }
+      })
+    }
+  })
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
     skip: conceptId === 'new',
@@ -123,7 +143,6 @@ const MetadataForm = () => {
   }, [data])
 
   const {
-    // Name,
     nativeId = `MMT_${crypto.randomUUID()}`,
     ummMetadata = {}
   } = draft || {}
@@ -163,7 +182,6 @@ const MetadataForm = () => {
   }
   const templates = {
     ArrayFieldTemplate: CustomArrayTemplate,
-    // DescriptionFieldTemplate: CustomDescriptionFieldTemplate,
     FieldTemplate: CustomFieldTemplate,
     TitleFieldTemplate: CustomTitleFieldTemplate
   }
@@ -254,14 +272,14 @@ const MetadataForm = () => {
 
   useEffect(() => {
     if (publishDraft) {
-      const { conceptId: publishConceptId, revisionId } = publishDraft
+      const { conceptId: publishConceptId } = publishDraft
 
       addNotification({
         message: `${publishConceptId} Published`,
         variant: 'success'
       })
 
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}/revisions/${revisionId}`)
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
     }
 
     if (publishDraftError) {

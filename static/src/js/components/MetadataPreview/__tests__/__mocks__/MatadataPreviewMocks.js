@@ -689,6 +689,7 @@ export const mockCollection = {
       longName: 'Environmental Performance Index'
     }
   ],
+  providerId: 'MMT_2',
   publicationReferences: null,
   purpose: "To provide quantitative metrics for evaluating a country's environmental performance in different policy categories relative to clearly defined targets.",
   quality: null,

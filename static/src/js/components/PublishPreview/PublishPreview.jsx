@@ -20,13 +20,11 @@ import {
   FaEye,
   FaTrash
 } from 'react-icons/fa'
-import crypto from 'crypto'
 
 import conceptTypeQueries from '@/js//constants/conceptTypeQueries'
 import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
 import conceptTypes from '@/js//constants/conceptTypes'
 
-import useAppContext from '@/js/hooks/useAppContext'
 import useIngestDraftMutation from '@/js//hooks/useIngestDraftMutation'
 import useNotificationsContext from '@/js//hooks/useNotificationsContext'
 
@@ -58,8 +56,6 @@ import './PublishPreview.scss'
 const PublishPreviewHeader = () => {
   const { conceptId } = useParams()
 
-  const { providerId } = useAppContext()
-
   const navigate = useNavigate()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
@@ -76,7 +72,16 @@ const PublishPreviewHeader = () => {
   }
 
   const { addNotification } = useNotificationsContext()
-  const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType])
+  const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType], {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of the derivedContceptType from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          [pluralize(derivedConceptType).toLowerCase()]: () => {}
+        }
+      })
+    }
+  })
 
   const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
@@ -92,6 +97,7 @@ const PublishPreviewHeader = () => {
     granules,
     nativeId,
     pageTitle = '<Blank Name>',
+    providerId,
     revisions,
     tagDefinitions,
     ummMetadata
@@ -168,8 +174,8 @@ const PublishPreviewHeader = () => {
         // Hide the modal
         toggleShowDeleteModal(false)
 
-        // Navigate to the manage page
-        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}`)
+        // Navigate to the search page
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}`)
       },
       onError: (deleteError) => {
         // Add an error notification

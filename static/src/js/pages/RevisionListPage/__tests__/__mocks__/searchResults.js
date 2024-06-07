@@ -65,7 +65,7 @@ export const singlePageCollectionSearch = {
         version: '1',
         revisionId: 2,
         pageTitle: 'Collection Title 1',
-        provider: 'TESTPROV',
+        providerId: 'TESTPROV',
         revisions: {
           count: 2,
           items: [
