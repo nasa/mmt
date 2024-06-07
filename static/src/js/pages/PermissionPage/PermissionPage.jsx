@@ -1,17 +1,24 @@
-import { useSuspenseQuery } from '@apollo/client'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import Permission from '@/js/components/Permission/Permission'
 
+import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import { FaEdit } from 'react-icons/fa'
+
+import { FaEdit, FaTrash } from 'react-icons/fa'
+
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
+import errorLogger from '@/js/utils/errorLogger'
 
 /**
  * Renders a PermissionListPageHeader component
@@ -25,6 +32,18 @@ import { FaEdit } from 'react-icons/fa'
 const PermissionPageHeader = () => {
   const { conceptId } = useParams()
 
+  const { addNotification } = useNotificationsContext()
+
+  const navigate = useNavigate()
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
+  const [deleteAclMutation] = useMutation(DELETE_ACL)
+
   const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     variables: {
       conceptId
@@ -34,34 +53,89 @@ const PermissionPageHeader = () => {
   const { acl } = data
   const { name } = acl
 
+  const handleDelete = () => {
+    deleteAclMutation({
+      variables: {
+        conceptId
+      },
+      onCompleted: () => {
+        addNotification({
+          message: 'Order Option was successfully deleted.',
+          variant: 'success'
+        })
+
+        navigate('/permissions')
+      },
+      onError: () => {
+        addNotification({
+          message: 'Error deleting order option',
+          variant: 'danger'
+        })
+
+        errorLogger('Unable delete collection permission', 'Permission Page: deleteAcl Mutation')
+
+        setShowDeleteModal(false)
+      }
+    })
+  }
+
   return (
-    <PageHeader
-      breadcrumbs={
-        [
-          {
-            label: 'Collection Permissions',
-            to: '/permissions'
-          },
-          {
-            label: name,
-            active: true
-          }
-        ]
-      }
-      pageType="secondary"
-      title={name}
-      primaryActions={
-        [
-          {
-            icon: FaEdit,
-            to: 'edit',
-            title: 'Edit',
-            iconTitle: 'A edit icon',
-            variant: 'primary'
-          }
-        ]
-      }
-    />
+    <>
+      <PageHeader
+        breadcrumbs={
+          [
+            {
+              label: 'Collection Permissions',
+              to: '/permissions'
+            },
+            {
+              label: name,
+              active: true
+            }
+          ]
+        }
+        pageType="secondary"
+        title={name}
+        primaryActions={
+          [
+            {
+              icon: FaEdit,
+              to: 'edit',
+              title: 'Edit',
+              iconTitle: 'A edit icon',
+              variant: 'primary'
+            },
+            {
+              icon: FaTrash,
+              onClick: () => toggleShowDeleteModal(true),
+              title: 'Delete',
+              iconTitle: 'A trash can icon',
+              variant: 'danger'
+            }
+          ]
+        }
+      />
+      <CustomModal
+        message="Are you sure you want to delete this collection permission?"
+        show={showDeleteModal}
+        size="lg"
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+            }
+          ]
+        }
+      />
+    </>
   )
 }
 
