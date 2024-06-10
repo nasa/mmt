@@ -282,7 +282,7 @@ describe('CollectionAssociationForm', () => {
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
 
-        expect(screen.getByText('Collection Associations Short Name 1')).toBeInTheDocument()
+        expect(await screen.findByText('Collection Associations Short Name 1')).toBeInTheDocument()
       })
     })
   })
@@ -308,7 +308,7 @@ describe('CollectionAssociationForm', () => {
       const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
       await user.click(paginationButton)
 
-      expect(screen.getByText('Collection Associations Short Name 1')).toBeInTheDocument()
+      expect(await screen.findByText('Collection Associations Short Name 1')).toBeInTheDocument()
     })
   })
 
