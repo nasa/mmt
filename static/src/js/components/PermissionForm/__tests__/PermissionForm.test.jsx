@@ -647,8 +647,7 @@ describe('PermissionForm', () => {
           pageUrl: '/permissions/new'
         })
 
-        await waitForResponse()
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
 
         await user.type(nameField, 'Test Name')
@@ -678,8 +677,7 @@ describe('PermissionForm', () => {
           pageUrl: '/permissions/new'
         })
 
-        await waitForResponse()
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
 
         await user.type(nameField, 'Test Name')
@@ -709,8 +707,7 @@ describe('PermissionForm', () => {
           pageUrl: '/permissions/new'
         })
 
-        await waitForResponse()
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
 
         await user.type(nameField, 'Test Name')
@@ -736,8 +733,7 @@ describe('PermissionForm', () => {
           pageUrl: '/permissions/new'
         })
 
-        await waitForResponse()
-        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
         const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
 
         await user.type(nameField, 'Test Name')
