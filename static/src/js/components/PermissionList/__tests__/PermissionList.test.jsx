@@ -5,7 +5,7 @@ import {
   within
 } from '@testing-library/react'
 import React, { Suspense } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+
 import userEvent from '@testing-library/user-event'
 
 import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
@@ -15,6 +15,7 @@ import NotificationsContext from '@/js/context/NotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
 
+import { MemoryRouter } from 'react-router'
 import PermissionList from '../PermissionList'
 
 vi.mock('../../../utils/errorLogger')
@@ -168,11 +169,11 @@ const setup = ({
   render(
     <NotificationsContext.Provider value={notificationContext}>
       <MockedProvider mocks={overrideMocks || mocks}>
-        <BrowserRouter initialEntries="">
+        <MemoryRouter>
           <Suspense>
             <PermissionList />
           </Suspense>
-        </BrowserRouter>
+        </MemoryRouter>
       </MockedProvider>
     </NotificationsContext.Provider>
   )
@@ -328,7 +329,7 @@ describe('PermissionList', () => {
                     params: {
                       identityType: 'catalog_item',
                       limit: 20,
-                      offset: 20
+                      offset: 0
                     }
                   }
                 },
@@ -376,7 +377,7 @@ describe('PermissionList', () => {
                     params: {
                       identityType: 'catalog_item',
                       limit: 20,
-                      offset: 20
+                      offset: 0
                     }
                   }
                 },
@@ -418,7 +419,7 @@ describe('PermissionList', () => {
                     params: {
                       identityType: 'catalog_item',
                       limit: 20,
-                      offset: 20
+                      offset: 0
                     }
                   }
                 },
@@ -484,7 +485,7 @@ describe('PermissionList', () => {
                     params: {
                       identityType: 'catalog_item',
                       limit: 20,
-                      offset: 20
+                      offset: 0
                     }
                   }
                 },
