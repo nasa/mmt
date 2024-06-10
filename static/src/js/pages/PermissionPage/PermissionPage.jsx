@@ -4,6 +4,8 @@ import React, { Suspense, useState } from 'react'
 
 import { useNavigate, useParams } from 'react-router'
 
+import { FaEdit, FaTrash } from 'react-icons/fa'
+
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
@@ -13,8 +15,6 @@ import Permission from '@/js/components/Permission/Permission'
 
 import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-
-import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
@@ -42,7 +42,16 @@ const PermissionPageHeader = () => {
     setShowDeleteModal(nextState)
   }
 
-  const [deleteAclMutation] = useMutation(DELETE_ACL)
+  const [deleteAclMutation] = useMutation(DELETE_ACL, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of permissions from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          permissions: () => {}
+        }
+      })
+    }
+  })
 
   const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     variables: {
