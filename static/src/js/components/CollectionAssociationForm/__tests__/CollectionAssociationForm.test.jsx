@@ -142,7 +142,7 @@ describe('CollectionAssociationForm', () => {
     })
 
     describe('when searching for temporal extent', () => {
-      test('show fill out temporal extent form', async () => {
+      test('searches for collection using temporal extent', async () => {
         const { user } = setup({
           additionalMocks: [
             {
