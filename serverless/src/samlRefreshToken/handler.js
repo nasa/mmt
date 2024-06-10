@@ -4,7 +4,7 @@ import cookie from 'cookie'
 import createCookie from '../utils/createCookie'
 import createJwt from '../utils/createJwt'
 
-import { getSamlConfig } from '../../../sharedUtils/getConfig'
+import { getApplicationConfig, getSamlConfig } from '../../../sharedUtils/getConfig'
 import { downcaseKeys } from '../utils/downcaseKeys'
 
 /**
@@ -32,7 +32,11 @@ const findLaunchpadTokenInHeaders = (headers) => {
  * @param {Object} event Details about the HTTP request that it received
  */
 const samlRefreshToken = async (event) => {
-  const { IS_OFFLINE, JWT_SECRET } = process.env
+  const {
+    IS_OFFLINE,
+    JWT_SECRET
+  } = process.env
+  const { mmtHost } = getApplicationConfig()
 
   const { headers } = event
   const { authorization: token = '' } = downcaseKeys(headers)
@@ -52,10 +56,9 @@ const samlRefreshToken = async (event) => {
       statusCode: 200,
       headers: {
         'Set-Cookie': createCookie(newJwt),
-        'Access-Control-Expose-Headers': 'token',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Credentials': true
       }
     }
@@ -87,10 +90,9 @@ const samlRefreshToken = async (event) => {
       statusCode: 200,
       headers: {
         'Set-Cookie': createCookie(newJwt),
-        'Access-Control-Expose-Headers': 'token',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Credentials': true
       }
     }

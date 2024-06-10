@@ -1,9 +1,10 @@
-origin: '*'
+origin: 'https://mmt.sit.earthdatacloud.nasa.gov'
 headers:
+  - Access-Control-Allow-Origin
+  - Access-Control-Allow-Credentials
   - Access-Control-Request-Headers
   - Access-Control-Request-Methods
   - Authorization
   - Origin
   - User-Agent
-  - token
-  - expires
+allowCredentials: true

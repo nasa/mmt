@@ -15,6 +15,9 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
+const { graphQlHost } = getApplicationConfig()
+
+// Function to determine the key used for caching objects
 const keyFieldsFunction = (object) => {
   const {
     conceptId,
@@ -24,6 +27,81 @@ const keyFieldsFunction = (object) => {
 
   return [__typename, conceptId, revisionId].filter(Boolean).join('-')
 }
+
+// Define the Apollo Client Cache settings
+const cache = new InMemoryCache({
+  typePolicies: {
+    Acl: {
+      keyFields: keyFieldsFunction
+    },
+    AclGroup: {
+      keyFields: false
+    },
+    Collection: {
+      keyFields: keyFieldsFunction
+    },
+    Draft: {
+      keyFields: keyFieldsFunction
+    },
+    Grid: {
+      keyFields: keyFieldsFunction
+    },
+    OrderOption: {
+      keyFields: keyFieldsFunction
+    },
+    Service: {
+      keyFields: keyFieldsFunction
+    },
+    Subscription: {
+      keyFields: keyFieldsFunction
+    },
+    Tool: {
+      keyFields: keyFieldsFunction
+    },
+    Variable: {
+      keyFields: keyFieldsFunction
+    }
+  }
+})
+
+// Custom middleware link that delays responses for mutations
+const responseDelayLink = new ApolloLink((operation, forward) => new Observable((observer) => {
+  const subscription = forward(operation).subscribe({
+    next: (result) => {
+      // Check if the operation is a mutation
+      if (operation.query.definitions.some(
+        // TODO ignore group calls to save time
+        (def) => def.operation === 'mutation'
+      )) {
+        // Delay the response by 1 second for mutations because CMR has to update elastic indexes
+        setTimeout(() => {
+          observer.next(result)
+          observer.complete()
+        }, 1000)
+      } else {
+        // Immediately pass through for queries
+        observer.next(result)
+        observer.complete()
+      }
+    },
+    error: observer.error.bind(observer),
+    complete: () => {
+      if (!operation.query.definitions.some(
+        (def) => def.operation === 'mutation'
+      )) {
+        // Immediately pass through for queries
+        observer.complete()
+      }
+    }
+  })
+
+  return () => subscription.unsubscribe()
+}))
+
+// Create the HTTP link for Apollo client
+const httpLink = createHttpLink({
+  uri: graphQlHost
+})
 
 /**
  * @typedef {Object} GraphQLProviderProps
@@ -42,48 +120,9 @@ const keyFieldsFunction = (object) => {
  * )
  */
 const GraphQLProvider = ({ children }) => {
-  const { graphQlHost } = getApplicationConfig()
   const { tokenValue } = useAuthContext()
 
-  // Custom middleware link that delays responses for mutations
-  const responseDelayLink = new ApolloLink((operation, forward) => new Observable((observer) => {
-    const subscription = forward(operation).subscribe({
-      next: (result) => {
-        // Check if the operation is a mutation
-        if (operation.query.definitions.some(
-          // TODO ignore group calls to save time
-          (def) => def.operation === 'mutation'
-        )) {
-          // Delay the response by 1 second for mutations because CMR has to update elastic indexes
-          setTimeout(() => {
-            observer.next(result)
-            observer.complete()
-          }, 1000)
-        } else {
-          // Immediately pass through for queries
-          observer.next(result)
-          observer.complete()
-        }
-      },
-      error: observer.error.bind(observer),
-      complete: () => {
-        if (!operation.query.definitions.some(
-          (def) => def.operation === 'mutation'
-        )) {
-          // Immediately pass through for queries
-          observer.complete()
-        }
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }))
-
   const client = useMemo(() => {
-    const httpLink = createHttpLink({
-      uri: graphQlHost
-    })
-
     const authLink = setContext((_, { headers }) => ({
       headers: {
         ...headers,
@@ -93,40 +132,7 @@ const GraphQLProvider = ({ children }) => {
     }))
 
     return new ApolloClient({
-      cache: new InMemoryCache({
-        typePolicies: {
-          Acl: {
-            keyFields: keyFieldsFunction
-          },
-          AclGroup: {
-            keyFields: false
-          },
-          Collection: {
-            keyFields: keyFieldsFunction
-          },
-          Draft: {
-            keyFields: keyFieldsFunction
-          },
-          Grid: {
-            keyFields: keyFieldsFunction
-          },
-          OrderOption: {
-            keyFields: keyFieldsFunction
-          },
-          Service: {
-            keyFields: keyFieldsFunction
-          },
-          Subscription: {
-            keyFields: keyFieldsFunction
-          },
-          Tool: {
-            keyFields: keyFieldsFunction
-          },
-          Variable: {
-            keyFields: keyFieldsFunction
-          }
-        }
-      }),
+      cache,
       link: ApolloLink.from([authLink, responseDelayLink, httpLink])
     })
   }, [tokenValue])
