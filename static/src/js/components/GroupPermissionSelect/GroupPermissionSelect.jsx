@@ -10,13 +10,14 @@ import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Row from 'react-bootstrap/Row'
 
+import { debounce } from 'lodash-es'
+
 import PropTypes from 'prop-types'
 
 import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
-import { debounce } from 'lodash-es'
 
 import AsyncSelect from 'react-select/async'
 
@@ -91,6 +92,20 @@ GroupPermissionSelect.propTypes = {
 
 }
 
+/**
+ * @typedef {Object} GroupPermissionSelectComponentProps
+ * @property {Function} onChange A callback function triggered when the user selects collections.
+ * @property {Object} formData An Object with the saved metadata
+ */
+/**
+ * Renders a GroupPermissionSelectComponent component
+ *
+ * @component
+ * @example <caption>Render a GroupPermissionSelectComponent</caption>
+ * return (
+ *   <GroupPermissionSelectComponent />
+ * )
+ */
 const GroupPermissionSelectComponent = ({
   onChange,
   formData

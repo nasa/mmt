@@ -7,6 +7,7 @@ import Button from '../Button/Button'
  * CustomFieldTemplate
  * @typedef {Object} CustomFieldTemplate
  * @property {String} className custom className for the div
+ * @property {Boolean} disable Should disable a field
  * @property {Object} help An object that has the form information
  * @property {Object} error An object that has the form errors
  * @property {Object} children An object that has the form fields
@@ -40,7 +41,6 @@ const CustomFieldTemplate = ({
       {
         clear && (
           <div className="d-flex justify-content-end">
-
             <Button
               title={label}
               className="d-flex justify-content-end"

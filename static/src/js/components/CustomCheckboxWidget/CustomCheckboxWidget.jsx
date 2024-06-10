@@ -5,13 +5,28 @@ import shouldFocusField from '@/js/utils/shouldFocusField'
 
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
+/**
+ * CustomRadioWidget
+ * @typedef {Object} CustomRadioWidget
+ * @property {Boolean} disable Should disable a field.
+ * @property {String} id The id of the widget.
+ * @property {String} label The label of the widget.
+ * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} registry An Object that has all the props that are in registry.
+ * @property {String} value An option is saved to the draft.
+ */
+
+/**
+ * Renders Custom Radio Field Template
+ * @param {CustomRadioWidget} props
+ */
 const CustomCheckboxWidget = ({
   disabled,
   id,
   label,
   onChange,
-  value,
-  registry
+  registry,
+  value
 }) => {
   const checkboxScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -53,11 +68,9 @@ const CustomCheckboxWidget = ({
         ref={focusRef}
         type="checkbox"
         aria-label={label}
-
       />
       {label}
     </CustomWidgetWrapper>
-
   )
 }
 

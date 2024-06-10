@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import PropTypes from 'prop-types'
-import {
-  Col,
-  Placeholder,
-  Row
-} from 'react-bootstrap'
+
+import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
+import Row from 'react-bootstrap/Row'
+
 import CollectionSelector from '@/js/components/CollectionSelector/CollectionSelector'
 
 /*
@@ -22,23 +22,25 @@ import CollectionSelector from '@/js/components/CollectionSelector/CollectionSel
  * )
  */
 const CollectionSelectorPlaceholder = () => (
-  <Row>
-    <Col className="p-3">
+  <Row className="m-1">
+    <Col>
       <div className="border rounded p-3">
+        <Placeholder className="w-25 d-block mb-4" />
+        <Placeholder className="d-flex align-items-center h-100 w-100 mb-4" size="lg" />
         <Placeholder animation="glow" aria-hidden="true">
           <div className="border rounded p-3 h-100">
-            <Placeholder className="d-flex align-items-center w-100 mb-4 " size="sm" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
           </div>
         </Placeholder>
+        <Placeholder className="border rounded mt-3 h-100 w-25 mb-2" />
       </div>
     </Col>
     <Col xs="auto" className="d-flex flex-column justify-content-center align-items-center">
@@ -54,20 +56,22 @@ const CollectionSelectorPlaceholder = () => (
     </Col>
     <Col className="p-3">
       <div className="border rounded p-3">
+        <Placeholder className="w-25 d-block mb-4" />
+        <Placeholder className="d-flex align-items-center h-100 w-100 mb-4" size="lg" />
         <Placeholder animation="glow" aria-hidden="true">
           <div className="border rounded p-3 h-100">
-            <Placeholder className="d-flex align-items-center w-100 mb-4 " size="sm" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
-            <Placeholder className="border rounded p-3 h-100 w-100" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
+            <Placeholder className="border rounded p-3 h-100 w-100 mb-2" />
           </div>
         </Placeholder>
+        <Placeholder className="border rounded mt-3 h-100 w-25 mb-2" />
       </div>
     </Col>
   </Row>

@@ -2,6 +2,8 @@ import { useSuspenseQuery } from '@apollo/client'
 
 import React, { Suspense } from 'react'
 
+import { FaEdit } from 'react-icons/fa'
+
 import { useParams } from 'react-router'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
@@ -11,7 +13,6 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 import Permission from '@/js/components/Permission/Permission'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import { FaEdit } from 'react-icons/fa'
 
 /**
  * Renders a PermissionListPageHeader component

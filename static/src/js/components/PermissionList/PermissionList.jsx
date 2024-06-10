@@ -86,7 +86,7 @@ const PermissionList = () => {
         </Col>
       </Row>
     )
-  })
+  }, [])
 
   const columns = [
     {

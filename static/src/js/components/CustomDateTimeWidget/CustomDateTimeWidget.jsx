@@ -17,6 +17,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 /**
  * CustomDateTimeWidget
  * @typedef {Object} CustomDateTimeWidget
+ * @property {Boolean} disable Should disable a field.
  * @property {String} id The id of the widget.
  * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
@@ -49,11 +50,8 @@ const CustomDateTimeWidget = ({
 
   const { description } = schema
 
-  let dateWithZone = null
-  let fieldValue = null
-
-  dateWithZone = moment.utc(value).format('YYYY-MM-DDTHH:mm:ss.SSS')
-  fieldValue = new Date(dateWithZone)
+  const dateWithZone = moment.utc(value).format('YYYY-MM-DDTHH:mm:ss.SSS')
+  const fieldValue = new Date(dateWithZone)
 
   const { formContext } = registry
   const {

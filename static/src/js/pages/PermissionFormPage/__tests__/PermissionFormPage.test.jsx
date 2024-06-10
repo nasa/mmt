@@ -6,16 +6,15 @@ import {
   Route,
   Routes
 } from 'react-router'
-import userEvent from '@testing-library/user-event'
 
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import Providers from '../../../providers/Providers/Providers'
-import PermissionFormPage from '../PermissionFormPage'
-import PermissionForm from '../../PermissionForm/PermissionForm'
 
-vi.mock('../../PermissionForm/PermissionForm')
+import PermissionFormPage from '../PermissionFormPage'
+import PermissionForm from '../../../components/PermissionForm/PermissionForm'
+
+vi.mock('../../../components/PermissionForm/PermissionForm')
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({
@@ -26,48 +25,40 @@ const setup = ({
   mocks,
   pageUrl
 }) => {
-  const user = userEvent.setup()
-
   render(
-    <Providers>
-      <MockedProvider
-        mocks={mocks}
-      >
-        <MemoryRouter initialEntries={[pageUrl]}>
-          <Routes>
+    <MockedProvider
+      mocks={mocks}
+    >
+      <MemoryRouter initialEntries={[pageUrl]}>
+        <Routes>
+          <Route
+            path="/permissions"
+          >
             <Route
-              path="/permissions"
-            >
-              <Route
-                element={
-                  (
-                    <Suspense>
-                      <PermissionFormPage />
-                    </Suspense>
-                  )
-                }
-                path="new"
-              />
-              <Route
-                path=":conceptId/edit"
-                element={
-                  (
-                    <Suspense>
-                      <PermissionFormPage />
-                    </Suspense>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </MockedProvider>
-    </Providers>
+              element={
+                (
+                  <Suspense>
+                    <PermissionFormPage />
+                  </Suspense>
+                )
+              }
+              path="new"
+            />
+            <Route
+              path=":conceptId/edit"
+              element={
+                (
+                  <Suspense>
+                    <PermissionFormPage />
+                  </Suspense>
+                )
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </MockedProvider>
   )
-
-  return {
-    user
-  }
 }
 
 describe('OrderOptionFormPage', () => {
@@ -77,9 +68,10 @@ describe('OrderOptionFormPage', () => {
         pageUrl: '/permissions/new'
       })
 
+      expect(await screen.findByText('Collection Permission')).toBeInTheDocument()
+
       expect(PermissionForm).toBeCalledTimes(1)
 
-      expect(await screen.findByText('Collection Permission')).toBeInTheDocument()
       expect(screen.getByRole('heading', { value: 'New Collection Permission' })).toBeInTheDocument()
     })
   })

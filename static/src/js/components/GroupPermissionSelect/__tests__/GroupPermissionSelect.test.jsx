@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
-import AuthContext from '@/js/context/AuthContext'
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -28,58 +27,51 @@ const setup = ({
   }
 
   render(
-    <AuthContext.Provider value={
-      {
-        token: 'mock-jwt'
-      }
-    }
-    >
-      <MockedProvider mocks={
-        [{
-          request: {
-            query: GET_GROUPS,
-            variables: { params: { tags: ['MMT_1', 'MMT_2'] } }
-          },
-          result: {
-            data: {
-              groups: {
-                __typename: 'GroupList',
-                count: 2,
-                items: [
-                  {
-                    __typename: 'Group',
-                    description: 'This is a mock group 1',
-                    id: '25780f67-91a5-4540-878b-7be541402f29',
-                    members: {
-                      __typename: 'GroupMemberList',
-                      count: 2
-                    },
-                    name: 'Group 1',
-                    tag: 'MMT_2'
+    <MockedProvider mocks={
+      [{
+        request: {
+          query: GET_GROUPS,
+          variables: { params: { tags: ['MMT_1', 'MMT_2'] } }
+        },
+        result: {
+          data: {
+            groups: {
+              __typename: 'GroupList',
+              count: 2,
+              items: [
+                {
+                  __typename: 'Group',
+                  description: 'This is a mock group 1',
+                  id: '25780f67-91a5-4540-878b-7be541402f29',
+                  members: {
+                    __typename: 'GroupMemberList',
+                    count: 2
                   },
-                  {
-                    __typename: 'Group',
-                    description: 'This is a mock group 2',
-                    id: 'd3d81f54-f3b8-4557-bfc4-f84a25fe0f75',
-                    members: {
-                      __typename: 'GroupMemberList',
-                      count: 3
-                    },
-                    name: 'Group 2',
-                    tag: 'CMR'
-                  }
+                  name: 'Group 1',
+                  tag: 'MMT_2'
+                },
+                {
+                  __typename: 'Group',
+                  description: 'This is a mock group 2',
+                  id: 'd3d81f54-f3b8-4557-bfc4-f84a25fe0f75',
+                  members: {
+                    __typename: 'GroupMemberList',
+                    count: 3
+                  },
+                  name: 'Group 2',
+                  tag: 'CMR'
+                }
 
-                ]
+              ]
 
-              }
             }
           }
-        }, ...additionalMocks]
-      }
-      >
-        <GroupPermissionSelect {...props} />
-      </MockedProvider>
-    </AuthContext.Provider>
+        }
+      }, ...additionalMocks]
+    }
+    >
+      <GroupPermissionSelect {...props} />
+    </MockedProvider>
   )
 
   return {
@@ -260,7 +252,7 @@ describe('GroupPermissionSelect', () => {
       })
 
       expect(await screen.findByText('All guest user')).toBeInTheDocument()
-      expect(await screen.findByText('All registered user')).toBeInTheDocument()
+      expect(screen.getByText('All registered user')).toBeInTheDocument()
     })
   })
 })

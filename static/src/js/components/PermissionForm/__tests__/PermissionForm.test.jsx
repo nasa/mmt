@@ -41,6 +41,8 @@ useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_1', 'MMT_2']
 })
 
+vi.spyOn(console, 'error').mockImplementation(() => {})
+
 const setup = ({
   mocks = [],
   pageUrl
@@ -640,7 +642,7 @@ describe('PermissionForm', () => {
 
   describe('form validation', () => {
     describe('when min value is larger than max value', () => {
-      test('render eroor', async () => {
+      test('render error', async () => {
         const { user } = setup({
           pageUrl: '/permissions/new'
         })

@@ -2,12 +2,12 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 
-import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 import CustomCheckboxWidget from '../CustomCheckboxWidget'
 
-vi.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
+vi.importActual('../../CustomWidgetWrapper/CustomWidgetWrapper')
 
 const setup = (overrideProps = {}) => {
+  const user = userEvent.setup()
   const props = {
     id: 'mock-id',
     label: 'Test Field',
@@ -33,15 +33,9 @@ const setup = (overrideProps = {}) => {
 
   return {
     props,
-    user: userEvent.setup()
+    user
   }
 }
-
-beforeEach(() => {
-  CustomWidgetWrapper.mockImplementation(
-    vi.importActual('../../CustomWidgetWrapper/CustomWidgetWrapper').default
-  )
-})
 
 describe('CustomCheckboxWidget', () => {
   describe('when the checking a value', () => {

@@ -2,10 +2,12 @@ import React, { Suspense } from 'react'
 
 import { MockedProvider } from '@apollo/client/testing'
 
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-import AuthContext from '@/js/context/AuthContext'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
@@ -23,60 +25,54 @@ const setup = ({
   }
 
   render(
-    <AuthContext.Provider value={
-      {
-        tokenValue: 'launchpad-token'
-      }
-    }
-    >
-      <MockedProvider mocks={
-        [{
-          request: {
-            query: GET_PERMISSION_COLLECTIONS,
-            variables: {}
-          },
-          result: {
-            data: {
-              collections: {
-                items: [
-                  {
-                    conceptId: 'C1200444618-MMT_2',
-                    directDistributionInformation: {
-                      region: 'us-east-2',
-                      s3BucketAndObjectPrefixNames: [
-                        's3://example1',
-                        's3://example2',
-                        'prefix_bucket/*'
-                      ],
-                      s3CredentialsApiEndpoint: 'https://example.org',
-                      s3CredentialsApiDocumentationUrl: 'https://example.org'
-                    },
-                    shortName: 'Collection 1',
-                    provider: 'MMT_2',
-                    entryTitle: 'Mock title of collection 1',
-                    __typename: 'Collection'
+    <MockedProvider mocks={
+      [{
+        request: {
+          query: GET_PERMISSION_COLLECTIONS,
+          variables: {}
+        },
+        result: {
+          data: {
+            collections: {
+              items: [
+                {
+                  conceptId: 'C1200444618-MMT_2',
+                  directDistributionInformation: {
+                    region: 'us-east-2',
+                    s3BucketAndObjectPrefixNames: [
+                      's3://example1',
+                      's3://example2',
+                      'prefix_bucket/*'
+                    ],
+                    s3CredentialsApiEndpoint: 'https://example.org',
+                    s3CredentialsApiDocumentationUrl: 'https://example.org'
                   },
-                  {
-                    conceptId: 'C1200482349-MMT_2',
-                    directDistributionInformation: null,
-                    shortName: 'Collection 2',
-                    provider: 'MMT_2',
-                    entryTitle: 'Mock title of collection 2',
-                    __typename: 'Collection'
-                  }
-                ],
-                __typename: 'CollectionList'
-              }
+                  shortName: 'Collection 1',
+                  provider: 'MMT_2',
+                  entryTitle: 'Mock title of collection 1',
+                  __typename: 'Collection'
+                },
+                {
+                  conceptId: 'C1200482349-MMT_2',
+                  directDistributionInformation: null,
+                  shortName: 'Collection 2',
+                  provider: 'MMT_2',
+                  entryTitle: 'Mock title of collection 2',
+                  __typename: 'Collection'
+                }
+              ],
+              __typename: 'CollectionList'
             }
           }
-        }, ...additionalMocks]
-      }
-      >
-        <Suspense>
-          <CollectionSelector {...props} />
-        </Suspense>
-      </MockedProvider>
-    </AuthContext.Provider>
+        }
+      }, ...additionalMocks]
+    }
+    >
+      <Suspense>
+        <CollectionSelector {...props} />
+      </Suspense>
+    </MockedProvider>
+
   )
 
   return {
@@ -93,7 +89,7 @@ describe('CollectionSelector', () => {
       const nameField = await screen.findByText('Collection 1 | Mock title of collection 1')
       await user.click(nameField)
 
-      const addIcon = screen.getByRole('button', { name: '+ icon' })
+      const addIcon = screen.getByRole('button', { name: 'plus icon' })
       await user.click(addIcon)
 
       expect(screen.getByText('Showing selected 1 items')).toBeInTheDocument()
@@ -125,24 +121,31 @@ describe('CollectionSelector', () => {
     test('should move the item back to available and calls onChange', async () => {
       const { user, props } = setup({})
 
-      const nameField = await screen.findByText('Collection 1 | Mock title of collection 1')
+      const nameField = await screen.findByLabelText('Collection 1 | Mock title of collection 1')
 
-      // Tests selecting and unselecting the available option
-      await user.click(nameField)
-      await user.click(nameField)
+      // Selects the available option
       await user.click(nameField)
 
-      const addIcon = screen.getByRole('button', { name: '+ icon' })
+      const addIcon = screen.getByRole('button', { name: 'plus icon' })
       await user.click(addIcon)
 
-      const selectedField = screen.getAllByText('Collection 1 | Mock title of collection 1')
+      const selectedField = await screen.findByLabelText('Selected Collection 1 | Mock title of collection 1')
 
-      // Tests selecting and unselecting the selected option
-      await user.click(selectedField[1])
-      await user.click(selectedField[1])
-      await user.click(selectedField[1])
+      await user.click(selectedField)
+      await waitFor(() => {
+        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center collection-selector__list-group-item-secondary')
+      })
 
-      const minusIcon = screen.getByRole('button', { name: '- icon' })
+      await user.click(selectedField)
+
+      await waitFor(() => {
+        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center collection-selector__list-group-item-secondary')
+      })
+
+      await user.click(selectedField)
+
+      const minusIcon = screen.getByRole('button', { name: 'minus icon' })
+
       await user.click(minusIcon)
 
       expect(screen.getByText('Showing selected 0 items')).toBeInTheDocument()
@@ -167,6 +170,25 @@ describe('CollectionSelector', () => {
           shortName: 'Collection 1'
         }
       ])
+
+      // Tests selecting and unselecting available items
+      await user.click(nameField)
+
+      await waitFor(() => {
+        expect(nameField).toHaveClass('collection-selector__list-group-item-primary')
+      })
+
+      await user.click(nameField)
+
+      await waitFor(() => {
+        expect(nameField).not.toHaveClass('collection-selector__list-group-item-primary')
+      })
+
+      await user.click(nameField)
+
+      // Tests selecting and unselecting the selected option
+      await user.click(selectedField[1])
+      await user.click(selectedField[1])
     })
   })
 
@@ -177,7 +199,7 @@ describe('CollectionSelector', () => {
       const nameField1 = await screen.findByText('Collection 1 | Mock title of collection 1')
       await user.click(nameField1)
 
-      const addIcon = screen.getByRole('button', { name: '+ icon' })
+      const addIcon = screen.getByRole('button', { name: 'plus icon' })
 
       await user.click(addIcon)
 
@@ -243,7 +265,7 @@ describe('CollectionSelector', () => {
 
       await user.type(searchField, 'Col')
 
-      expect(screen.getByText('Showing 1 items')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 1 items')).toBeInTheDocument()
     })
   })
 
@@ -317,9 +339,9 @@ describe('CollectionSelector', () => {
       )
 
       expect(await screen.findByText('Collection 1 | Collection 1 title')).toBeInTheDocument()
-      expect(await screen.findByText('Collection 2 | Collection 2 title')).toBeInTheDocument()
+      expect(screen.getByText('Collection 2 | Collection 2 title')).toBeInTheDocument()
 
-      expect(await screen.findByText('Showing selected 2 items')).toBeInTheDocument()
+      expect(screen.getByText('Showing selected 2 items')).toBeInTheDocument()
     })
   })
 })

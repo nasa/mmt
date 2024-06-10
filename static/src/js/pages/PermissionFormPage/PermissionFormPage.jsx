@@ -9,11 +9,20 @@ import Row from 'react-bootstrap/Row'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import Page from '../Page/Page'
-import PageHeader from '../PageHeader/PageHeader'
-import PermissionForm from '../PermissionForm/PermissionForm'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+import Page from '../../components/Page/Page'
+import PageHeader from '../../components/PageHeader/PageHeader'
+import PermissionForm from '../../components/PermissionForm/PermissionForm'
 
+/**
+ * Renders a PermissionFormPageHeader component
+ *
+ * @component
+ * @example <caption>Render a PermissionFormPageHeader</caption>
+ * return (
+ *   <PermissionFormPageHeader />
+ * )
+ */
 const PermissionFormPageHeader = () => {
   const { conceptId = 'new' } = useParams()
 
@@ -90,6 +99,16 @@ const PermissionFormPagePlaceholder = () => (
     </Col>
   </Row>
 )
+
+/**
+ * Renders a PermissionFormPage component
+ *
+ * @component
+ * @example <caption>Render a PermissionFormPage</caption>
+ * return (
+ *   <PermissionFormPage />
+ * )
+ */
 const PermissionFormPage = () => (
   <Page
     pageType="secondary"

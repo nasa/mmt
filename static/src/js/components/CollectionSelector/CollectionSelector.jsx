@@ -23,10 +23,13 @@ import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
-import './CollectionSelector.scss'
 import { debounce, isEmpty } from 'lodash-es'
 
 import Button from '../Button/Button'
+import For from '../For/For'
+
+import './CollectionSelector.scss'
+
 /**
  * @typedef {Object} CollectionSelectorComponentProps
  * @property {Function} onChange A callback function triggered when the user selects collections.
@@ -64,18 +67,23 @@ const CollectionSelector = ({ onChange, formData }) => {
   }, [formData])
 
   const moveToSelected = () => {
-    const newSelected = selectedAvailable.filter(
-      (item) => !selected.some((s) => s.conceptId === item.conceptId)
+    const newSelectedCollections = selectedAvailable.filter(
+      (availableItem) => !selected.some(
+        (selectedItem) => selectedItem.conceptId === availableItem.conceptId
+      )
     )
 
-    setSelected([...selected, ...newSelected])
+    const updatedSelectedCollections = [...selected, ...newSelectedCollections]
+    setSelected(updatedSelectedCollections)
     setSelectedAvailable([])
-    onChange([...selected, ...newSelected])
+    onChange(updatedSelectedCollections)
   }
 
   const moveToAvailable = () => {
     setSelected(selected.filter(
-      (item) => !selectedSelected.some((s) => s.conceptId === item.conceptId)
+      (selectedItem) => !selectedSelected.some(
+        (selectedSelectedItem) => selectedSelectedItem.conceptId === selectedItem.conceptId
+      )
     ))
 
     setSelectedSelected([])
@@ -88,16 +96,24 @@ const CollectionSelector = ({ onChange, formData }) => {
     setSelectedSelected([])
   }
 
-  const toggleAvailableSelection = (item) => {
-    setSelectedAvailable(selectedAvailable.some((i) => i.conceptId === item.conceptId)
-      ? selectedAvailable.filter((i) => i.conceptId !== item.conceptId)
-      : [...selectedAvailable, item])
+  const toggleAvailableSelection = (availableItem) => {
+    setSelectedAvailable(selectedAvailable.some(
+      (selectedAvailableItem) => selectedAvailableItem.conceptId === availableItem.conceptId
+    )
+      ? selectedAvailable.filter(
+        (selectedAvailableItem) => selectedAvailableItem.conceptId !== availableItem.conceptId
+      )
+      : [...selectedAvailable, availableItem])
   }
 
-  const toggleSelectedSelection = (item) => {
-    setSelectedSelected(selectedSelected.some((i) => i.conceptId === item.conceptId)
-      ? selectedSelected.filter((i) => i.conceptId !== item.conceptId)
-      : [...selectedSelected, item])
+  const toggleSelectedSelection = (selectedItem) => {
+    setSelectedSelected(selectedSelected.some(
+      (selectedSelectedItem) => selectedSelectedItem.conceptId === selectedItem.conceptId
+    )
+      ? selectedSelected.filter(
+        (selectedSelectedItem) => selectedSelectedItem.conceptId !== selectedItem.conceptId
+      )
+      : [...selectedSelected, selectedItem])
   }
 
   const filteredSelected = selected.filter(
@@ -188,44 +204,11 @@ const CollectionSelector = ({ onChange, formData }) => {
     )
   }
 
-  const displayItem = (item) => {
-    const {
-      provider,
-      directDistributionInformation,
-      entryTitle,
-      shortName
-    } = item
-
-    return (
-      <div>
-        {
-          directDistributionInformation ? (
-            <span>
-              {shortName}
-              {' '}
-              |
-              {' '}
-              {entryTitle}
-              <i className="fa fa-cloud m-1" />
-            </span>
-          ) : `${shortName} | ${entryTitle}`
-        }
-        <Badge
-          className="m-1"
-          pill
-          bg="secondary"
-        >
-          {provider}
-        </Badge>
-      </div>
-    )
-  }
-
   return (
-    <Row className="collection-selector__list-box">
-      <Col className="p-3">
+    <Row className="m-2">
+      <Col>
         <div className="border rounded p-3">
-          <h3 className="text-center">Available Collections</h3>
+          <h5 className="text-center">Available Collections</h5>
           <Form.Control
             className="mb-3"
             onChange={handleAvailableSearchChange}
@@ -235,37 +218,62 @@ const CollectionSelector = ({ onChange, formData }) => {
           />
           <div className="collection-selector__list-group border rounded p-3">
             <ul className="list-unstyled h-100">
-              {
-                available.map((item) => {
-                  const {
-                    conceptId
-                  } = item
+              <For each={available}>
+                {
+                  (
+                    item
+                  ) => {
+                    const {
+                      conceptId,
+                      directDistributionInformation,
+                      entryTitle,
+                      provider,
+                      shortName
+                    } = item
 
-                  return (
-                    <OverlayTrigger
-                      key={conceptId}
-                      overlay={popover(item)}
-                      placement="top"
-                    >
-                      <li
-                        aria-hidden="true"
-                        className={
-                          `collection-selector__list-group-item d-flex justify-content-between align-items-center 
-                          ${selected.some((s) => s.conceptId === item.conceptId) ? 'collection-selector__list-group-item-secondary' : ''} 
-                          ${selectedAvailable.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
-                        }
+                    const title = `${shortName} | ${entryTitle}`
+
+                    return (
+                      <OverlayTrigger
                         key={conceptId}
-                        onClick={() => toggleAvailableSelection(item)}
+                        overlay={popover(item)}
+                        placement="top"
                       >
-                        {displayItem(item)}
-                      </li>
-                    </OverlayTrigger>
-                  )
-                })
-              }
+                        <li
+                          aria-hidden="true"
+                          aria-label={title}
+                          className={
+                            `collection-selector__list-group-item d-flex justify-content-between align-items-center
+                          ${selected.some((s) => s.conceptId === conceptId) ? 'collection-selector__list-group-item-secondary' : ''}
+                          ${selectedAvailable.some((i) => i.conceptId === conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
+                          }
+                          key={conceptId}
+                          onClick={() => toggleAvailableSelection(item)}
+                        >
+                          <div>
+                            {
+                              directDistributionInformation ? (
+                                <span>
+                                  {title}
+                                  <i className="fa fa-cloud m-1" />
+                                </span>
+                              ) : title
+                            }
+                            <Badge
+                              className="m-1"
+                              pill
+                              bg="secondary"
+                            >
+                              {provider}
+                            </Badge>
+                          </div>
+                        </li>
+                      </OverlayTrigger>
+                    )
+                  }
+                }
+              </For>
             </ul>
-            {/* )
-            } */}
           </div>
 
           <div className="text-muted mt-2">
@@ -282,7 +290,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           className="mb-2"
           Icon={FaPlus}
           iconOnly
-          iconTitle="+ icon"
+          iconTitle="plus icon"
           onClick={moveToSelected}
           variant="primary"
         />
@@ -290,7 +298,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           className="mb-2"
           Icon={FaMinus}
           iconOnly
-          iconTitle="- icon"
+          iconTitle="minus icon"
           onClick={moveToAvailable}
           variant="primary"
         />
@@ -302,9 +310,9 @@ const CollectionSelector = ({ onChange, formData }) => {
           variant="danger"
         />
       </Col>
-      <Col className="p-3">
+      <Col>
         <div className="border rounded p-3 h-100">
-          <h3 className="text-center">Selected Collections</h3>
+          <h5 className="text-center">Selected Collections</h5>
           <Form.Control
             type="text"
             placeholder="Search Selected..."
@@ -315,35 +323,59 @@ const CollectionSelector = ({ onChange, formData }) => {
           <div className="collection-selector__list-group border rounded p-3">
 
             <ul className="list-unstyled">
-              {
-                filteredSelected.map((item) => {
-                  const {
-                    conceptId
-                  } = item
+              <For each={filteredSelected}>
+                {
+                  (item) => {
+                    const {
+                      conceptId,
+                      directDistributionInformation,
+                      entryTitle,
+                      provider,
+                      shortName
+                    } = item
 
-                  return (
-                    <OverlayTrigger
-                      key={item.conceptId}
-                      overlay={popover(item)}
-                      placement="top"
-                    >
+                    const title = `${shortName} | ${entryTitle}`
 
-                      <li
-                        aria-hidden="true"
-                        className={
-                          `collection-selector__list-group-item d-flex justify-content-between align-items-center 
-                        ${selectedSelected.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
-                        }
-                        key={conceptId}
-                        onClick={() => toggleSelectedSelection(item)}
+                    return (
+                      <OverlayTrigger
+                        key={item.conceptId}
+                        overlay={popover(item)}
+                        placement="top"
                       >
-                        {displayItem(item)}
-                      </li>
-                    </OverlayTrigger>
 
-                  )
-                })
-              }
+                        <li
+                          aria-hidden="true"
+                          aria-label={`Selected ${title}`}
+                          className={
+                            `collection-selector__list-group-item d-flex justify-content-between align-items-center 
+                        ${selectedSelected.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
+                          }
+                          key={conceptId}
+                          onClick={() => toggleSelectedSelection(item)}
+                        >
+                          <div>
+                            {
+                              directDistributionInformation ? (
+                                <span>
+                                  {title}
+                                  <i className="fa fa-cloud m-1" />
+                                </span>
+                              ) : title
+                            }
+                            <Badge
+                              className="m-1"
+                              pill
+                              bg="secondary"
+                            >
+                              {provider}
+                            </Badge>
+                          </div>
+                        </li>
+                      </OverlayTrigger>
+                    )
+                  }
+                }
+              </For>
             </ul>
           </div>
           <div className="text-muted mt-2">
@@ -358,7 +390,6 @@ const CollectionSelector = ({ onChange, formData }) => {
         </div>
       </Col>
     </Row>
-
   )
 }
 
