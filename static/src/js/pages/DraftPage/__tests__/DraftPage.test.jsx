@@ -395,7 +395,6 @@ describe('DraftPage', () => {
                   variables: {
                     draftConceptId: 'VD1200000-MMT',
                     nativeId: 'MMT_46e9d61a-10ab-4f53-890e-06c09c2dfc80',
-                    collectionConceptId: 'C1200000033-SEDAC',
                     ummVersion: '1.9.0'
                   }
                 },

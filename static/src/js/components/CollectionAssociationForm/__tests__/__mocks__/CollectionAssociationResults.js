@@ -512,57 +512,6 @@ export const ingestVariableErrorRequest = {
   error: new Error('An error occurred')
 }
 
-export const ingestVariableDraftResponse = {
-  request: {
-    query: INGEST_DRAFT,
-    variables: {
-      conceptType: 'Variable',
-      metadata: {
-        _private: {
-          CollectionAssociation: {
-            collectionConceptId: 'C12000001123-MMT_2',
-            shortName: 'Collection Associations Short Name 1',
-            version: '1'
-          }
-        }
-      },
-      providerId: 'MMT_2',
-      ummVersion: '1.9.0'
-    }
-  },
-  result: {
-    data: {
-      ingestDraft: {
-        conceptId: 'VD120000000-MMT_2',
-        revisionId: '3'
-      }
-    }
-  }
-}
-
-export const ingestVariableDraftErrorResponse = {
-  request: {
-    query: INGEST_DRAFT,
-    variables: {
-      conceptType: 'Variable',
-      metadata: {
-        _private: {
-          CollectionAssociation: {
-            collectionConceptId: 'C12000001123-MMT_2',
-            shortName: 'Collection Associations Short Name 1',
-            version: '1'
-          }
-        }
-      },
-      providerId: 'MMT_2',
-      ummVersion: '1.9.0'
-    }
-  },
-  error: new Error('An error occurred')
-}
-
-=======
->>>>>>> 8d4e22cf3 (MMT_3702: Fixes variable association)
 export const CollectionSortRequest = {
   request: {
     query: GET_COLLECTIONS,

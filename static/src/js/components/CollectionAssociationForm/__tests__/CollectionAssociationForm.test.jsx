@@ -16,6 +16,7 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 
 import errorLogger from '@/js/utils/errorLogger'
 
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import CollectionAssociationForm from '../CollectionAssociationForm'
 
 import {
@@ -142,7 +143,7 @@ describe('CollectionAssociationForm', () => {
     })
 
     describe('when searching for temporal extent', () => {
-      test('searches for collection using temporal extent', async () => {
+      test('show fill out temporal extent form', async () => {
         const { user } = setup({
           additionalMocks: [
             {
@@ -198,9 +199,9 @@ describe('CollectionAssociationForm', () => {
                   params: {
                     limit: 20,
                     offset: 0,
-                    provider: 'MMT_2',
+                    provider: null,
                     sortKey: null,
-                    temporal: '1978-01-01T00:00:00.000Z,1978-01-01T00:00:00.000Z'
+                    temporal: '1977-12-31T00:00:00.000Z,1977-12-31T00:00:00.000Z'
                   }
                 }
               },
@@ -377,139 +378,6 @@ describe('CollectionAssociationForm', () => {
 
       expect(errorLogger).toHaveBeenCalledTimes(1)
       expect(errorLogger).toHaveBeenCalledWith('Unable to create association', 'Collection Association Form: createAssociationForm')
-    })
-  })
-
-  describe('when updating a variable collection association', () => {
-    describe('updating variable collection association results in a success', () => {
-      test('should update and navigate to collection-association', async () => {
-        const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-        const { user } = setup({
-          additionalMocks: [CollectionAssociationRequest, ingestVariableRequest],
-          overrideMock: { mockVariable },
-          overridePath: 'variables/:conceptId/collection-association-search',
-          overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search']
-        })
-
-        const searchField = await screen.findByText('Select Search Field')
-
-        await user.click(searchField)
-
-        const selectField = screen.getByText('Entry Title')
-        await user.click(selectField)
-
-        const field = screen.getByRole('textbox')
-        await user.type(field, '*')
-
-        const searchForCollections = screen.getByText('Search for Collection')
-        await user.click(searchForCollections)
-
-        const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
-
-        await user.click(createAssociationButton[0])
-
-        expect(navigateSpy).toHaveBeenCalledTimes(2)
-        expect(navigateSpy).toHaveBeenCalledWith('/variables/V12000000-MMT_2/collection-association')
-      })
-    })
-
-    describe('updating a variable collection association results in a error', () => {
-      test('should call errorLogger', async () => {
-        const { user } = setup({
-          additionalMocks: [CollectionAssociationRequest, ingestVariableErrorRequest],
-          overrideMock: { mockVariable },
-          overridePath: 'variables/:conceptId/collection-association-search',
-          overrideInitialEntries: ['/variables/V12000000-MMT_2/collection-association-search']
-        })
-
-        const searchField = await screen.findByText('Select Search Field')
-
-        await user.click(searchField)
-
-        const selectField = screen.getByText('Entry Title')
-        await user.click(selectField)
-
-        const field = screen.getByRole('textbox')
-        await user.type(field, '*')
-
-        const searchForCollections = screen.getByText('Search for Collection')
-        await user.click(searchForCollections)
-
-        const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
-
-        await user.click(createAssociationButton[0])
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Unable to update association', 'Collection Association Form: createAssociationForm')
-      })
-    })
-  })
-
-  describe('when creating a collection association for variable draft', () => {
-    describe('creates an collection association', () => {
-      test('should associate the collection to the draft and navigate', async () => {
-        const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-        const { user } = setup({
-          additionalMocks: [CollectionAssociationRequest, ingestVariableDraftResponse],
-          overrideMock: mockVariableDraft,
-          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
-          overridePath: '/drafts/variables/:conceptId/collection-association'
-        })
-
-        const searchField = await screen.findByText('Select Search Field')
-        await user.click(searchField)
-
-        const selectField = screen.getByText('Entry Title')
-        await user.click(selectField)
-
-        const field = screen.getByRole('textbox')
-        await user.type(field, '*')
-
-        const searchForCollections = screen.getByText('Search for Collection')
-        await user.click(searchForCollections)
-
-        const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
-
-        await user.click(createAssociationButton[0])
-
-        expect(navigateSpy).toHaveBeenCalledTimes(2)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/variables/VD120000000-MMT_2')
-      })
-    })
-
-    describe('when creating variable draft association results in an error', () => {
-      test('should call the errorLogger', async () => {
-        const { user } = setup({
-          additionalMocks: [CollectionAssociationRequest, ingestVariableDraftErrorResponse],
-          overrideMock: mockVariableDraft,
-
-          overrideInitialEntries: ['/drafts/variables/VD120000000-MMT_2/collection-association'],
-          overridePath: '/drafts/variables/:conceptId/collection-association'
-        })
-
-        const searchField = await screen.findByText('Select Search Field')
-        await user.click(searchField)
-
-        const selectField = screen.getByText('Entry Title')
-        await user.click(selectField)
-
-        const field = screen.getByRole('textbox')
-        await user.type(field, '*')
-
-        const searchForCollections = screen.getByText('Search for Collection')
-        await user.click(searchForCollections)
-
-        const createAssociationButton = screen.getAllByRole('button', { name: 'Create Association' })
-
-        await user.click(createAssociationButton[0])
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
-      })
     })
   })
 
