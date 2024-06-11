@@ -7,7 +7,8 @@ import {
   act,
   render,
   screen,
-  waitFor
+  waitFor,
+  within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
@@ -77,8 +78,52 @@ vi.mock('@rjsf/core', () => ({
       // tests that need to call onChange/onBlur to actually modify the state/context in MetadataForm
       <mock-Component data-testid="MockForm">
         <input
+          id="ShortName"
+          name="ShortName"
+          aria-label="ShortName"
+          type="text"
+          onChange={
+            (event) => {
+              const { value } = event.target
+
+              onChange({
+                formData: {
+                  ...formData,
+                  ShortName: value
+                }
+              })
+            }
+          }
+          onBlur={() => onBlur('mock-short-name')}
+          value={formData.ShortName || ''}
+        />
+
+        <input
+          id="EntryTitle"
+          name="EntryTitle"
+          aria-label="EntryTitle"
+          type="text"
+          onChange={
+            (event) => {
+              const { value } = event.target
+
+              onChange({
+                formData: {
+                  ...formData,
+                  EntryTitle: value
+                }
+              })
+            }
+          }
+          onBlur={() => onBlur('mock-entry-title')}
+          value={formData.EntryTitle || ''}
+        />
+
+        <input
           id="Name"
           name="Name"
+          aria-label="Name"
+          type="text"
           ref={focusRef}
           onChange={
             (event) => {
@@ -86,6 +131,7 @@ vi.mock('@rjsf/core', () => ({
 
               onChange({
                 formData: {
+                  ...formData,
                   Name: value
                 }
               })
@@ -94,6 +140,7 @@ vi.mock('@rjsf/core', () => ({
           onBlur={() => onBlur('mock-name')}
           value={formData.Name || ''}
         />
+
       </mock-Component>
     )
   })
@@ -190,6 +237,11 @@ const setup = ({
       data: {
         acls: {
           items: [{
+            conceptId: 'mock-id-1',
+            providerIdentity: {
+              provider_id: 'MMT_1'
+            }
+          }, {
             conceptId: 'mock-id-2',
             providerIdentity: {
               provider_id: 'MMT_2'
@@ -419,12 +471,12 @@ describe('MetadataForm', () => {
       const { user } = setup({})
 
       // Fill out a form field
-      const nameField = await screen.findByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
       await user.type(nameField, 'Test Name')
       await user.tab()
 
       expect(await screen.findByRole('textbox', {
-        id: 'Name',
+        name: 'Name',
         value: 'Test Name'
       })).toBeInTheDocument()
 
@@ -439,7 +491,7 @@ describe('MetadataForm', () => {
       await user.click(cancelButton)
 
       expect(await screen.findByRole('textbox', {
-        id: 'Name',
+        name: 'Name',
         value: ''
       })).toBeInTheDocument()
 
@@ -461,11 +513,17 @@ describe('MetadataForm', () => {
       const { user } = setup({})
 
       // Fill out a form field
-      const nameField = await screen.findByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
       await user.type(nameField, 'Test Name')
 
       expect(Form).toHaveBeenCalledWith(expect.objectContaining({
         formData: {
+          LongName: 'Long Name',
+          MetadataSpecification: {
+            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+            Name: 'UMM-T',
+            Version: '1.1'
+          },
           Name: 'Test Name'
         }
       }), {})
@@ -483,7 +541,7 @@ describe('MetadataForm', () => {
       const { user } = setup({})
 
       // Fill out a form field
-      const nameField = await screen.findByRole('textbox', { id: 'Name' })
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
       await user.click(nameField)
 
       await act(async () => {
@@ -748,6 +806,91 @@ describe('MetadataForm', () => {
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(new Error('An error occured'), 'MetadataForm: ingestDraftMutation')
+      })
+    })
+
+    describe('when saving a new draft', () => {
+      test('navigates to the current form and calls scrolls to the top', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          pageUrl: '/drafts/collections/new',
+          overrideMocks: [{
+            request: {
+              query: GET_AVAILABLE_PROVIDERS,
+              variables: {
+                params: {
+                  limit: 500,
+                  // Don't have an easy way to get a real uid into the context here
+                  permittedUser: undefined,
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{
+                    conceptId: 'mock-id-1',
+                    providerIdentity: {
+                      provider_id: 'MMT_1'
+                    }
+                  }, {
+                    conceptId: 'mock-id-2',
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
+                }
+              }
+            }
+          }, {
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Collection',
+                metadata: {
+                  ShortName: 'Test Short Name',
+                  EntryTitle: 'Test Title'
+                },
+                nativeId: 'MMT_mock-uuid',
+                providerId: 'MMT_1',
+                ummVersion: '1.0.0'
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'CD1000000-MMT',
+                  revisionId: '1'
+                }
+              }
+            }
+          }]
+        })
+
+        const shortNameField = await screen.findByRole('textbox', { name: 'ShortName' })
+        await user.type(shortNameField, 'Test Short Name')
+
+        const titleField = await screen.findByRole('textbox', { name: 'EntryTitle' })
+        await user.type(titleField, 'Test Title')
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        const modal = screen.getByRole('dialog')
+        const modalSubmit = within(modal).getByRole('button', { name: 'Save' })
+        await user.click(modalSubmit)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT/collection-information', { replace: true })
+
+        expect(window.scroll).toHaveBeenCalledTimes(1)
+        expect(window.scroll).toHaveBeenCalledWith(0, 0)
       })
     })
   })
