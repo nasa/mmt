@@ -1,4 +1,4 @@
-origin: 'https://mmt.sit.earthdatacloud.nasa.gov'
+origin: ${env:MMT_HOST, 'http://localhost:5173'}
 headers:
   - Access-Control-Allow-Origin
   - Access-Control-Allow-Credentials
