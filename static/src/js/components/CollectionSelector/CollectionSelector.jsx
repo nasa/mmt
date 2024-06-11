@@ -13,6 +13,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Row from 'react-bootstrap/Row'
 
+import classNames from 'classnames'
+
 import {
   FaMinus,
   FaPlus,
@@ -205,10 +207,10 @@ const CollectionSelector = ({ onChange, formData }) => {
   }
 
   return (
-    <Row className="m-2">
+    <Row className="mb-4">
       <Col>
         <div className="border rounded p-3">
-          <h5 className="text-center">Available Collections</h5>
+          <h5 className="text-center mb-3">Available Collections</h5>
           <Form.Control
             className="mb-3"
             onChange={handleAvailableSearchChange}
@@ -216,7 +218,7 @@ const CollectionSelector = ({ onChange, formData }) => {
             type="text"
             value={searchAvailable}
           />
-          <div className="collection-selector__list-group border rounded p-3">
+          <div className="collection-selector__list-group  d-block w-100 overflow-y-scroll border rounded">
             <ul className="list-unstyled h-100">
               <For each={available}>
                 {
@@ -243,9 +245,17 @@ const CollectionSelector = ({ onChange, formData }) => {
                           aria-hidden="true"
                           aria-label={title}
                           className={
-                            `collection-selector__list-group-item d-flex justify-content-between align-items-center
-                          ${selected.some((s) => s.conceptId === conceptId) ? 'collection-selector__list-group-item-secondary' : ''}
-                          ${selectedAvailable.some((i) => i.conceptId === conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
+                            classNames(
+                              'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
+                              {
+                                'collection-selector__list-group-item-secondary': selected.some(
+                                  (selectedItem) => selectedItem.conceptId === item.conceptId
+                                ),
+                                'collection-selector__list-group-item-primary': selectedAvailable.some(
+                                  (availableItem) => availableItem.conceptId === item.conceptId
+                                )
+                              }
+                            )
                           }
                           key={conceptId}
                           onClick={() => toggleAvailableSelection(item)}
@@ -255,7 +265,7 @@ const CollectionSelector = ({ onChange, formData }) => {
                               directDistributionInformation ? (
                                 <span>
                                   {title}
-                                  <i className="fa fa-cloud m-1" />
+                                  <i className="fa fa-cloud m-1 text-secondary" />
                                 </span>
                               ) : title
                             }
@@ -312,7 +322,7 @@ const CollectionSelector = ({ onChange, formData }) => {
       </Col>
       <Col>
         <div className="border rounded p-3 h-100">
-          <h5 className="text-center">Selected Collections</h5>
+          <h5 className="text-center mb-3">Selected Collections</h5>
           <Form.Control
             type="text"
             placeholder="Search Selected..."
@@ -320,7 +330,7 @@ const CollectionSelector = ({ onChange, formData }) => {
             onChange={(e) => setSearchSelected(e.target.value)}
             className="mb-3"
           />
-          <div className="collection-selector__list-group border rounded p-3">
+          <div className="collection-selector__list-group d-block w-100 overflow-y-scroll border rounded">
 
             <ul className="list-unstyled">
               <For each={filteredSelected}>
@@ -347,9 +357,19 @@ const CollectionSelector = ({ onChange, formData }) => {
                           aria-hidden="true"
                           aria-label={`Selected ${title}`}
                           className={
-                            `collection-selector__list-group-item d-flex justify-content-between align-items-center 
-                        ${selectedSelected.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
+                            classNames(
+                              'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
+                              {
+                                'collection-selector__list-group-item-primary': selectedSelected.some(
+                                  (selectedItem) => selectedItem.conceptId === item.conceptId
+                                )
+                              }
+                            )
                           }
+                          //   ClassName={
+                          //     `collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2
+                          // ${selectedSelected.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
+                          //   }
                           key={conceptId}
                           onClick={() => toggleSelectedSelection(item)}
                         >
@@ -358,7 +378,7 @@ const CollectionSelector = ({ onChange, formData }) => {
                               directDistributionInformation ? (
                                 <span>
                                   {title}
-                                  <i className="fa fa-cloud m-1" />
+                                  <i className="fa fa-cloud m-1 text-secondary" />
                                 </span>
                               ) : title
                             }

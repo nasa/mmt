@@ -1,26 +1,23 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
 .collection-selector {
   &__list-group {
-    display:block;
-    overflow:scroll;
-    width:100%;
-    height:500px;
+    height:31.25rem;
   }
 
   &__list-group-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    margin: 5px 0;
     cursor: pointer;
   }
 
   &__list-group-item-secondary {
-    background-color: var(--bs-secondary);
-    color: var(--bs-light-dark);
+    background-color: $gray-300;
+    color: $gray-700;
+    pointer-events: none;
   }
 
   &__list-group-item-primary {
-    background-color: var(--bs-primary);
+    background-color: $blue-100;
   }
 }
