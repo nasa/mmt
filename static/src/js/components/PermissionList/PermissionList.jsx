@@ -5,13 +5,14 @@ import { useSearchParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
+import { FaEdit } from 'react-icons/fa'
+
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
 import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
 import Table from '@/js/components/Table/Table'
 
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 
-import { FaEdit } from 'react-icons/fa'
 import Button from '../Button/Button'
 
 const PermissionList = () => {

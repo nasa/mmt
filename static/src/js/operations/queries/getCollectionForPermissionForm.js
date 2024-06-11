@@ -25,7 +25,7 @@ export const GET_COLLECTION_FOR_PERMISSION_FORM = gql`
         shortName,
         provider,
         directDistributionInformation,
-        title,
+        entryTitle,
         version
       }
     }

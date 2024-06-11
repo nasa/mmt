@@ -103,12 +103,12 @@ const CollectionSelectorPage = ({
 )
 
 CollectionSelectorPage.defaultProps = {
-  formData: []
+  formData: {}
 }
 
 CollectionSelectorPage.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.shape({}))
+  formData: PropTypes.shape({})
 }
 
 export default CollectionSelectorPage

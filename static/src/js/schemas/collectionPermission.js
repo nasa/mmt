@@ -45,9 +45,7 @@ const collectionPermission = {
           title: 'Selected Collection',
           properties: {
             selectedCollections: {
-              description: 'Entry Title of the collection',
-              type: 'array'
-
+              description: 'Entry Title of the collection'
             }
           }
         }

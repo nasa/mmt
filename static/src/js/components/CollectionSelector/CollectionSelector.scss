@@ -11,13 +11,13 @@
     cursor: pointer;
   }
 
-  &__list-group-item-secondary {
+  &__list-group-item-selected {
     background-color: $gray-300;
     color: $gray-700;
     pointer-events: none;
   }
 
-  &__list-group-item-primary {
+  &__list-group-item-available {
     background-color: $blue-100;
   }
 }

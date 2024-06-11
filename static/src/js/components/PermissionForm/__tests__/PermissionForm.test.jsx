@@ -366,7 +366,7 @@ describe('PermissionForm', () => {
                           directDistributionInformation: null,
                           provider: 'MMT_2',
                           shortName: 'This is collection 2',
-                          title: 'Collection 1',
+                          entryTitle: 'Collection 1',
                           version: '1'
                         },
                         {
@@ -375,7 +375,7 @@ describe('PermissionForm', () => {
                           directDistributionInformation: null,
                           provider: 'MMT_2',
                           shortName: 'This is collection 1',
-                          title: 'Collection 2',
+                          entryTitle: 'Collection 2',
                           version: '1'
                         }
                       ]
@@ -702,7 +702,7 @@ describe('PermissionForm', () => {
     })
 
     describe('when collection start date is larger than stop date', () => {
-      test('render min max error', async () => {
+      test('renders start date is larger error', async () => {
         const { user } = setup({
           pageUrl: '/permissions/new'
         })
@@ -728,7 +728,7 @@ describe('PermissionForm', () => {
     })
 
     describe('when granule start date is larger than stop date', () => {
-      test('render min max error', async () => {
+      test('renders granules start date is larger error', async () => {
         const { user } = setup({
           pageUrl: '/permissions/new'
         })

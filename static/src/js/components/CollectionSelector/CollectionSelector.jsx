@@ -13,6 +13,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Row from 'react-bootstrap/Row'
 
+import { debounce, isEmpty } from 'lodash-es'
+
 import classNames from 'classnames'
 
 import {
@@ -24,8 +26,6 @@ import {
 import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
-
-import { debounce, isEmpty } from 'lodash-es'
 
 import Button from '../Button/Button'
 import For from '../For/For'
@@ -47,13 +47,13 @@ import './CollectionSelector.scss'
  * )
  */
 const CollectionSelector = ({ onChange, formData }) => {
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState({})
 
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
-  const [selectedAvailable, setSelectedAvailable] = useState([])
-  const [selectedSelected, setSelectedSelected] = useState([])
+  const [selectedAvailable, setSelectedAvailable] = useState({})
+  const [selectedSelected, setSelectedSelected] = useState({})
 
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS)
 
@@ -68,29 +68,52 @@ const CollectionSelector = ({ onChange, formData }) => {
     }
   }, [formData])
 
+  /**
+   * Moves items from `selectedAvailable` to `selected`.
+   *
+   * This function combines the currently selected items (`selected`)
+   * with the items available for selection (`selectedAvailable`).
+   */
   const moveToSelected = () => {
-    const newSelectedCollections = selectedAvailable.filter(
-      (availableItem) => !selected.some(
-        (selectedItem) => selectedItem.conceptId === availableItem.conceptId
-      )
-    )
+    const newSelected = {
+      ...selected,
+      ...selectedAvailable
+    }
 
-    const updatedSelectedCollections = [...selected, ...newSelectedCollections]
-    setSelected(updatedSelectedCollections)
-    setSelectedAvailable([])
-    onChange(updatedSelectedCollections)
+    setSelected(newSelected)
+    setSelectedAvailable({})
+
+    onChange((newSelected))
   }
 
+  /**
+   * Moves items from `selectedSelected` back to `available`.
+   *
+   * This function removes the currently selected items (`selectedSelected`)
+   * from the `selected` column and adds them back to the `available` column.
+   */
   const moveToAvailable = () => {
-    setSelected(selected.filter(
-      (selectedItem) => !selectedSelected.some(
-        (selectedSelectedItem) => selectedSelectedItem.conceptId === selectedItem.conceptId
-      )
-    ))
+    const newSelected = { ...selected }
+    const newAvailable = {
+      ...available,
+      ...selectedSelected
+    }
 
-    setSelectedSelected([])
+    Object.keys(selectedSelected).forEach((key) => {
+      delete newSelected[key]
+    })
+
+    setSelected(newSelected)
+    setAvailable(newAvailable)
+    setSelectedSelected({})
+    onChange(newSelected)
   }
 
+  /**
+   * Deletes all selected items.
+   *
+   * This function clears all selected states (`selected`, `selectedAvailable`, and `selectedSelected`)
+   */
   const deleteSelectedItems = () => {
     onChange([])
     setSelected([])
@@ -98,27 +121,48 @@ const CollectionSelector = ({ onChange, formData }) => {
     setSelectedSelected([])
   }
 
+  /**
+   * Toggles the selection of an item in the available list.
+   *
+   * This function checks if an item is already selected in the `selectedAvailable` state.
+   * If the item is already selected, it removes the item. If the item is not selected, it adds the item.
+   *
+   * @param {Object} availableItem - The item to be toggled in the available selection.
+   */
   const toggleAvailableSelection = (availableItem) => {
-    setSelectedAvailable(selectedAvailable.some(
-      (selectedAvailableItem) => selectedAvailableItem.conceptId === availableItem.conceptId
-    )
-      ? selectedAvailable.filter(
-        (selectedAvailableItem) => selectedAvailableItem.conceptId !== availableItem.conceptId
-      )
-      : [...selectedAvailable, availableItem])
+    const { conceptId } = availableItem
+
+    const newSelectedAvailable = {
+      ...selectedAvailable,
+      [conceptId]: selectedAvailable[conceptId] ? undefined : availableItem
+    }
+
+    setSelectedAvailable(newSelectedAvailable)
   }
 
+  /**
+   * Toggles the selection of an item in the selected list.
+   *
+   * This function checks if an item is already selected in the `selectedSelected` state.
+   * If the item is already selected, it removes the item. If the item is not selected, it adds the item.
+   *
+   * @param {Object} selectedItem - The item to be toggled in the selected selection.
+   */
   const toggleSelectedSelection = (selectedItem) => {
-    setSelectedSelected(selectedSelected.some(
-      (selectedSelectedItem) => selectedSelectedItem.conceptId === selectedItem.conceptId
-    )
-      ? selectedSelected.filter(
-        (selectedSelectedItem) => selectedSelectedItem.conceptId !== selectedItem.conceptId
-      )
-      : [...selectedSelected, selectedItem])
+    const { conceptId } = selectedItem
+
+    const newSelectedSelected = {
+      ...selectedSelected,
+      [conceptId]: selectedSelected[conceptId] ? undefined : selectedItem
+    }
+
+    setSelectedSelected(newSelectedSelected)
   }
 
-  const filteredSelected = selected.filter(
+  /**
+   * Filters the selected list
+   */
+  const filteredSelected = Object.values(selected).filter(
     (item) => item.shortName.toLowerCase().includes(searchSelected.toLowerCase())
   )
 
@@ -220,7 +264,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           />
           <div className="collection-selector__list-group  d-block w-100 overflow-y-scroll border rounded">
             <ul className="list-unstyled h-100">
-              <For each={available}>
+              <For each={Object.values(available)}>
                 {
                   (
                     item
@@ -248,12 +292,8 @@ const CollectionSelector = ({ onChange, formData }) => {
                             classNames(
                               'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
                               {
-                                'collection-selector__list-group-item-secondary': selected.some(
-                                  (selectedItem) => selectedItem.conceptId === item.conceptId
-                                ),
-                                'collection-selector__list-group-item-primary': selectedAvailable.some(
-                                  (availableItem) => availableItem.conceptId === item.conceptId
-                                )
+                                'collection-selector__list-group-item-selected': selected[conceptId],
+                                'collection-selector__list-group-item-available': selectedAvailable[conceptId]
                               }
                             )
                           }
@@ -333,7 +373,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           <div className="collection-selector__list-group d-block w-100 overflow-y-scroll border rounded">
 
             <ul className="list-unstyled">
-              <For each={filteredSelected}>
+              <For each={Object.values(filteredSelected)}>
                 {
                   (item) => {
                     const {
@@ -360,16 +400,10 @@ const CollectionSelector = ({ onChange, formData }) => {
                             classNames(
                               'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
                               {
-                                'collection-selector__list-group-item-primary': selectedSelected.some(
-                                  (selectedItem) => selectedItem.conceptId === item.conceptId
-                                )
+                                'collection-selector__list-group-item-available': !!selectedSelected[conceptId]
                               }
                             )
                           }
-                          //   ClassName={
-                          //     `collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2
-                          // ${selectedSelected.some((i) => i.conceptId === item.conceptId) ? 'collection-selector__list-group-item-primary' : ''}`
-                          //   }
                           key={conceptId}
                           onClick={() => toggleSelectedSelection(item)}
                         >
@@ -414,12 +448,12 @@ const CollectionSelector = ({ onChange, formData }) => {
 }
 
 CollectionSelector.defaultProps = {
-  formData: []
+  formData: {}
 }
 
 CollectionSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.shape({}))
+  formData: PropTypes.shape({})
 }
 
 export default CollectionSelector

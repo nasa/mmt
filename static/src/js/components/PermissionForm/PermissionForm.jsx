@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
+import { isEmpty } from 'lodash-es'
+
 import { useNavigate, useParams } from 'react-router'
 
 import validator from '@rjsf/validator-ajv8'
@@ -83,16 +85,29 @@ const validate = (formData, errors) => {
   if (collectionMinValue !== undefined
     && collectionMaxValue !== undefined
      && collectionMinValue >= collectionMaxValue) {
-    errors.accessConstraintFilter.collectionAccessConstraint.minimumValue.addError('Minimum value should be less than Maximum value')
-    errors.accessConstraintFilter.collectionAccessConstraint.maximumValue.addError('Maximum value should be greater than Minimum value')
+    const {
+      collectionAccessConstraint: {
+        minimumValue,
+        maximumValue
+      }
+    } = errors.accessConstraintFilter
+    minimumValue.addError('Minimum value should be less than Maximum value')
+    maximumValue.addError('Maximum value should be greater than Minimum value')
   }
 
   // Validate granuleAccessConstraint min and mix values
   if (granuleMinValue !== undefined
      && granuleMaxValue !== undefined
      && granuleMinValue >= granuleMaxValue) {
-    errors.accessConstraintFilter.granuleAccessConstraint.minimumValue.addError('Minimum value should be less than Maximum value')
-    errors.accessConstraintFilter.granuleAccessConstraint.maximumValue.addError('Maximum value should be greater than Minimum value')
+    const {
+      granuleAccessConstraint: {
+        minimumValue,
+        maximumValue
+      }
+    } = errors.accessConstraintFilter
+
+    minimumValue.addError('Minimum value should be less than Maximum value')
+    maximumValue.addError('Maximum value should be greater than Minimum value')
   }
 
   // Destructure and parse dates for collectionTemporalConstraint
@@ -103,8 +118,15 @@ const validate = (formData, errors) => {
   if (collectionStartDate
     && collectionStopDate
     && collectionStartDate >= collectionStopDate) {
-    errors.temporalConstraintFilter.collectionTemporalConstraint.startDate.addError('Start date should be earlier than Stop date')
-    errors.temporalConstraintFilter.collectionTemporalConstraint.stopDate.addError('Stop date should be later than Start date')
+    const {
+      collectionTemporalConstraint: {
+        startDate,
+        stopDate
+      }
+    } = errors.temporalConstraintFilter
+
+    startDate.addError('Start date should be earlier than Stop date')
+    stopDate.addError('Stop date should be later than Start date')
   }
 
   // Destructure and parse dates for granuleTemporalConstraint
@@ -115,12 +137,18 @@ const validate = (formData, errors) => {
   if (granuleStartDate
     && granuleStopDate
     && granuleStartDate >= granuleStopDate) {
-    errors.temporalConstraintFilter.granuleTemporalConstraint.startDate.addError('Start date should be earlier than Stop date')
-    errors.temporalConstraintFilter.granuleTemporalConstraint.stopDate.addError('Stop date should be later than Start date')
+    const {
+      granuleTemporalConstraint: {
+        startDate,
+        stopDate
+      }
+    } = errors.temporalConstraintFilter
+    startDate.addError('Start date should be earlier than Stop date')
+    stopDate.addError('Stop date should be later than Start date')
   }
 
   // Validate groupPermissions
-  if (!groupPermissions || groupPermissions.length === 0) {
+  if (isEmpty(groupPermissions)) {
     errors.groupPermissions.addError('At least one group permission must be specified')
   }
 
@@ -250,23 +278,10 @@ const PermissionForm = () => {
       const { items } = collections || {}
 
       // Map through items of collection to extract selected collection properties
-      const selectedCollections = items?.map((item) => {
-        const {
-          conceptId: collectionConceptId,
-          directDistributionInformation,
-          provider,
-          shortName,
-          title
-        } = item
-
-        return {
-          conceptId: collectionConceptId,
-          directDistributionInformation,
-          entryTitle: title,
-          provider,
-          shortName
-        }
-      })
+      const selectedCollections = items?.reduce((obj, item) => ({
+        ...obj,
+        [item.conceptId]: item
+      }), {})
 
       const searchAndOrderGroupPermission = []
       const searchPermission = []
@@ -461,11 +476,13 @@ const PermissionForm = () => {
 
     // Extract conceptIds from selectedCollections
     const { selectedCollections } = collectionSelection
-    const conceptIds = selectedCollections?.map((item) => {
-      const { conceptId: selectedConceptId } = item
 
-      return selectedConceptId
-    })
+    let conceptIds = []
+    if (selectedCollections) {
+      conceptIds = Object.keys(selectedCollections).map(
+        (key) => selectedCollections[key].conceptId
+      )
+    }
 
     // Extract permissions from groupPermissions
     const { searchGroup, searchAndOrderGroup } = groupPermissions
@@ -648,7 +665,7 @@ const PermissionForm = () => {
               templates={templates}
               uiSchema={uiSchema}
               onChange={handleChange}
-              formData={formData}
+              formData={removeEmpty(formData)}
               onSubmit={handleSetProviderOrSubmit}
               showErrorList="false"
               customValidate={validate}
