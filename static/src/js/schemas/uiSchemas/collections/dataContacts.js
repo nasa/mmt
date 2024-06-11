@@ -1068,18 +1068,10 @@ const dataContactsUiSchema = {
                 ]
               },
               Format: {
-                'ui:widget': CustomSelectWidget,
-                'ui:controlled': {
-                  name: 'granule-data-format',
-                  controlName: 'short_name'
-                }
+                'ui:widget': CustomSelectWidget
               },
               MimeType: {
-                'ui:widget': CustomSelectWidget,
-                'ui:controlled': {
-                  name: 'mime-type',
-                  controlName: 'mime_type'
-                }
+                'ui:widget': CustomSelectWidget
               }
             }
           }
