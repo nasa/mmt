@@ -20,7 +20,6 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 
 import errorLogger from '@/js/utils/errorLogger'
 
-import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import CollectionAssociationForm from '../CollectionAssociationForm'
 
 import {
@@ -157,52 +156,6 @@ describe('CollectionAssociationForm', () => {
                   params: {
                     limit: 20,
                     offset: 0,
-                    provider: 'MMT_2',
-                    sortKey: null,
-                    temporal: '1977-12-31T00:00:00.000Z,1977-12-31T00:00:00.000Z'
-                  }
-                }
-              },
-              result: {
-                data: {
-                  collections: {
-                    items: [
-                      {
-                        conceptId: 'C12000001123-MMT_2',
-                        provider: 'MMT_2',
-                        version: '1',
-                        revisionId: 1,
-                        tags: 1,
-                        granules: null,
-                        entryTitle: 'Collection Association Entry Title 1',
-                        shortName: 'Collection Associations Short Name 1',
-                        title: 'Collection Associations Title 1',
-                        revisionDate: null,
-                        tagDefinitions: {
-                          items: [{
-                            conceptId: 'C100000',
-                            description: 'Mock tag description',
-                            originatorId: 'test.user',
-                            revisionId: '1',
-                            tagKey: 'Mock tag key'
-                          }]
-                        },
-                        __typename: 'Collection'
-                      }
-                    ],
-                    count: 25,
-                    __typename: 'CollectionList'
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: {
-                  params: {
-                    limit: 20,
-                    offset: 0,
                     provider: null,
                     sortKey: null,
                     temporal: '1977-12-31T00:00:00.000Z,1977-12-31T00:00:00.000Z'
@@ -217,8 +170,8 @@ describe('CollectionAssociationForm', () => {
                         conceptId: 'C12000001123-MMT_2',
                         provider: 'MMT_2',
                         version: '1',
-                        tags: 1,
                         revisionId: 1,
+                        tags: 1,
                         granules: null,
                         entryTitle: 'Collection Association Entry Title 1',
                         shortName: 'Collection Associations Short Name 1',
@@ -238,32 +191,6 @@ describe('CollectionAssociationForm', () => {
                     ],
                     count: 25,
                     __typename: 'CollectionList'
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: INGEST_DRAFT,
-                variables: {
-                  conceptType: 'Variable',
-                  metadata: {
-                    _private: {
-                      CollectionAssociation: {
-                        collectionConceptId: 'C12000001123-MMT_2',
-                        shortName: 'Collection Associations Short Name 1',
-                        version: '1'
-                      }
-                    }
-                  },
-                  ummVersion: '1.9.0'
-                }
-              },
-              result: {
-                data: {
-                  ingestDraft: {
-                    conceptId: 'VD120000000-MMT_2',
-                    revisionId: '3'
                   }
                 }
               }
