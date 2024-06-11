@@ -144,6 +144,7 @@ const MetadataForm = () => {
 
   const {
     nativeId = `MMT_${crypto.randomUUID()}`,
+    providerId: fetchedMetadataProviderId,
     ummMetadata = {}
   } = draft || {}
 
@@ -193,7 +194,7 @@ const MetadataForm = () => {
         conceptType: derivedConceptType,
         metadata: removeEmpty(ummMetadata),
         nativeId,
-        providerId,
+        providerId: fetchedMetadataProviderId || providerId,
         // TODO pull this version number from a config
         ummVersion: '1.0.0'
       },
