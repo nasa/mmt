@@ -19,6 +19,7 @@ import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
+import '@edsc/metadata-preview/dist/style.min.css'
 
 /**
  * MetadataPreview

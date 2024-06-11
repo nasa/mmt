@@ -30,6 +30,7 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import PreviewProgress from '@/js/components/PreviewProgress/PreviewProgress'
 
+import '@edsc/metadata-preview/dist/style.min.css'
 import './TemplatePreview.scss'
 
 /**
