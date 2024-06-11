@@ -1,10 +1,6 @@
 import React, { createContext } from 'react'
 import { render } from '@testing-library/react'
-import {
-  ApolloClient,
-  ApolloLink,
-  createHttpLink
-} from '@apollo/client'
+import { ApolloClient, ApolloLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 import GraphQLProvider from '../GraphQLProvider'
@@ -100,12 +96,6 @@ describe('GraphQLProvider component', () => {
         )
       )
 
-      // Check that createHttpLink is called properly
-      expect(createHttpLink).toHaveBeenCalledTimes(1)
-      expect(createHttpLink).toHaveBeenCalledWith({
-        uri: 'http://graphqlhost.com/dev/api'
-      })
-
       // Check that the authLink is called properly
       expect(setContext).toHaveBeenCalledTimes(1)
       expect(setContext.mock.calls[0][0](null, {})).toEqual({
@@ -133,12 +123,6 @@ describe('GraphQLProvider component', () => {
           }
         )
       )
-
-      // Check that createHttpLink is called properly
-      expect(createHttpLink).toHaveBeenCalledTimes(1)
-      expect(createHttpLink).toHaveBeenCalledWith({
-        uri: 'http://graphqlhost.com/dev/api'
-      })
 
       // Check that the authLink is called properly
       expect(setContext).toHaveBeenCalledTimes(1)

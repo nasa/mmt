@@ -71,6 +71,7 @@ dockerRun() {
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
+        -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \
         -e "SUBNET_ID_A=$bamboo_SUBNET_ID_A" \
