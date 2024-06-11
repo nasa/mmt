@@ -17,7 +17,8 @@ import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
 import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
-import toKebabCase from '../../utils/toKebabCase'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+
 
 /**
  * MetadataPreview
@@ -39,6 +40,8 @@ const MetadataPreview = ({
   conceptId,
   conceptType
 }) => {
+  const { cmrHost } = getApplicationConfig()
+
   const { draftType } = useParams()
 
   const isDraft = Boolean(draftType)
@@ -48,8 +51,10 @@ const MetadataPreview = ({
   }
 
   let query = conceptTypeQueries[conceptType]
+  let conceptKey = conceptType.toLowerCase()
 
   if (isDraft) {
+    conceptKey = 'draft'
     query = conceptTypeDraftQueries[getConceptTypeByDraftConceptId(conceptId)]
 
     params = {
@@ -64,37 +69,34 @@ const MetadataPreview = ({
     }
   })
 
-  let conceptKey = conceptType.toLowerCase()
-
-  if (isDraft) {
-    conceptKey = 'draft'
-  }
-
   let { [conceptKey]: concept } = data
 
   if (isDraft) {
     concept = concept.previewMetadata
   }
 
+  const type = isDraft ? `${conceptType.toLowerCase()}-draft` : conceptType.toLowerCase()
+
   return (
     <Row>
       <Col className="publish-preview__preview" md={12}>
         {
-          conceptType === 'Collection'
-            && (
-              <CollectionPreview
-                collection={concept}
-                conceptId={conceptId}
-                conceptType={toKebabCase(conceptType)}
-              />
-            )
+          conceptType === 'Collection' && (
+            <CollectionPreview
+              cmrHost={cmrHost}
+              collection={concept}
+              conceptId={conceptId}
+              conceptType={type}
+            />
+          )
         }
         {
           conceptType === 'Service' && (
             <ServicePreview
+              cmrHost={cmrHost}
               service={concept}
               conceptId={conceptId}
-              conceptType={toKebabCase(conceptType)}
+              conceptType={type}
             />
           )
         }
@@ -102,9 +104,10 @@ const MetadataPreview = ({
         {
           conceptType === 'Tool' && (
             <ToolPreview
+              cmrHost={cmrHost}
               tool={concept}
               conceptId={conceptId}
-              conceptType={toKebabCase(conceptType)}
+              conceptType={type}
             />
           )
         }
@@ -112,9 +115,10 @@ const MetadataPreview = ({
         {
           conceptType === 'Variable' && (
             <VariablePreview
+              cmrHost={cmrHost}
               variable={concept}
               conceptId={conceptId}
-              conceptType={toKebabCase(conceptType)}
+              conceptType={type}
             />
           )
         }

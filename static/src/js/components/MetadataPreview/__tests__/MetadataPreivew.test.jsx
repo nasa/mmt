@@ -28,6 +28,13 @@ import {
 
 vi.mock('@edsc/metadata-preview')
 
+vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
+  getApplicationConfig: vi.fn(() => ({
+    cmrHost: 'http://example.com'
+  }))
+}))
+
 const setup = ({
   initialEntries,
   mock,
@@ -105,8 +112,9 @@ describe('MetadataPreview', () => {
 
       await waitFor(() => {
         expect(ToolPreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
           conceptId: 'TD000000-MMT',
-          conceptType: 'tool',
+          conceptType: 'tool-draft',
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
           isPlugin: true,
           tool: {
@@ -182,8 +190,9 @@ describe('MetadataPreview', () => {
 
       await waitFor(() => {
         expect(ServicePreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
           conceptId: 'SD000000-MMT',
-          conceptType: 'service',
+          conceptType: 'service-draft',
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
           isPlugin: true,
           service: {
@@ -253,8 +262,9 @@ describe('MetadataPreview', () => {
 
       await waitFor(() => {
         expect(VariablePreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
           conceptId: 'VD000000-MMT',
-          conceptType: 'variable',
+          conceptType: 'variable-draft',
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
           isPlugin: true,
           variable: {
@@ -324,9 +334,9 @@ describe('MetadataPreview', () => {
 
       await waitFor(() => {
         expect(CollectionPreview).toHaveBeenCalledWith({
-          cmrHost: 'https://cmr.earthdata.nasa.gov',
+          cmrHost: 'http://example.com',
           conceptId: 'CD000000-MMT',
-          conceptType: 'collection',
+          conceptType: 'collection-draft',
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
           isPlugin: true,
           collection: {
@@ -442,7 +452,7 @@ describe('MetadataPreview', () => {
 
       await waitFor(() => {
         expect(CollectionPreview).toHaveBeenCalledWith({
-          cmrHost: 'https://cmr.earthdata.nasa.gov',
+          cmrHost: 'http://example.com',
           conceptId: 'C1000000-MMT',
           conceptType: 'collection',
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
