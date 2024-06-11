@@ -1,4 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import React from 'react'
 import {
   MemoryRouter,
@@ -282,7 +286,16 @@ describe('CollectionAssociationForm', () => {
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)
 
-        expect(await screen.findByText('Collection Associations Short Name 1')).toBeInTheDocument()
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(2)
+
+        const row1 = tableRows[1]
+        const row1Cells = within(row1).queryAllByRole('cell')
+
+        expect(row1Cells[1].textContent).toBe('Collection Association Entry Title 1')
       })
     })
   })
