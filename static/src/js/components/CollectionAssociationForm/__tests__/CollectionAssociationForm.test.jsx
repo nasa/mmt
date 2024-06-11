@@ -20,6 +20,8 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 
 import errorLogger from '@/js/utils/errorLogger'
 
+import moment from 'moment'
+import { DATE_FORMAT } from '@/js/constants/dateFormat'
 import CollectionAssociationForm from '../CollectionAssociationForm'
 
 import {
@@ -158,7 +160,7 @@ describe('CollectionAssociationForm', () => {
                     offset: 0,
                     provider: null,
                     sortKey: null,
-                    temporal: '1977-12-31T00:00:00.000Z,1977-12-31T00:00:00.000Z'
+                    temporal: '1978-01-01T00:00:00.000,1978-01-01T00:00:00.000'
                   }
                 }
               },
@@ -205,10 +207,10 @@ describe('CollectionAssociationForm', () => {
         await user.click(selectField)
 
         const startField = screen.getByText('Range Start')
-        await user.type(startField, '1978-01-01T00:00:00Z')
+        await user.type(startField, moment.utc('1978-01-01T00:00:00Z').format(DATE_FORMAT))
 
         const endField = screen.getByText('Range End')
-        await user.type(endField, '1978-01-01T00:00:00Z')
+        await user.type(endField, moment.utc('1978-01-01T00:00:00Z').format(DATE_FORMAT))
 
         const searchForCollections = screen.getByText('Search for Collection')
         await user.click(searchForCollections)

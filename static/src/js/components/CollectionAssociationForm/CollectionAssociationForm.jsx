@@ -49,6 +49,7 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import moment from 'moment'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -155,8 +156,8 @@ const CollectionAssociationForm = ({ metadata }) => {
 
     setSearchParams((currentParams) => {
       if (Object.keys(searchField).includes('rangeStart')) {
-        const rangeStart = Object.values(searchField).at(0)
-        const rangeEnd = Object.values(searchField).at(1)
+        const rangeStart = moment.utc(Object.values(searchField).at(0)).format('YYYY-MM-DDTHH:mm:ss.SSS')
+        const rangeEnd = moment.utc(Object.values(searchField).at(1)).format('YYYY-MM-DDTHH:mm:ss.SSS')
         const range = `${rangeStart},${rangeEnd}`
 
         currentParams.set('searchField', 'temporal')
