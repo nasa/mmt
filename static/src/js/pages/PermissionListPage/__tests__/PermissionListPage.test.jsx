@@ -2,14 +2,16 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 
 import PermissionList from '@/js/components/PermissionList/PermissionList'
-
+import { MemoryRouter } from 'react-router'
 import PermissionListPage from '../PermissionListPage'
 
 vi.mock('../../../components/PermissionList/PermissionList')
 
 const setup = () => {
   render(
-    <PermissionListPage />
+    <MemoryRouter>
+      <PermissionListPage />
+    </MemoryRouter>
   )
 }
 

@@ -1,0 +1,23 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.collection-selector {
+  &__list-group {
+    height:31.25rem;
+  }
+
+  &__list-group-item {
+    cursor: pointer;
+    
+    &--selected {
+      background-color: $gray-300;
+      color: $gray-700;
+      pointer-events: none;
+    }
+  
+    &--available {
+      background-color: $blue-100;
+    }
+  }
+}

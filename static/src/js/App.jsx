@@ -10,15 +10,16 @@ import GroupFormPage from '@/js/pages/GroupFormPage/GroupFormPage'
 import GroupListPage from '@/js/pages/GroupListPage/GroupListPage'
 import GroupPage from '@/js/pages/GroupPage/GroupPage'
 import HomePage from '@/js/pages/HomePage/HomePage'
+import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
 import ManageCollectionAssociationPage from '@/js/pages/ManageCollectionAssociationPage/ManageCollectionAssociationPage'
 import MetadataFormPage from '@/js/pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from '@/js/pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from '@/js/pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from '@/js/pages/OrderOptionPage/OrderOptionPage'
-import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
 import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
 import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
 import ProviderPermissionsPage from '@/js/pages/ProviderPermissionsPage/ProviderPermissionsPage'
+import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
 import RevisionListPage from '@/js/pages/RevisionListPage/RevisionListPage'
 import SearchPage from '@/js/pages/SearchPage/SearchPage'
 import SystemPermissionsPage from '@/js/pages/SystemPermissionsPage/SystemPermissionsPage'
@@ -29,6 +30,7 @@ import CheckPermissions from '@/js/components/CheckPermissions/CheckPermissions'
 import Layout from '@/js/components/Layout/Layout'
 import Notifications from '@/js/components/Notifications/Notifications'
 import Page from '@/js/components/Page/Page'
+import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
 import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
@@ -39,8 +41,6 @@ import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
-import LogoutPage from './pages/LogoutPage/LogoutPage'
-
 /**
  * Renders the `App` component
  *
@@ -145,6 +145,14 @@ export const App = () => {
             {
               path: '/permissions',
               element: <PermissionListPage />
+            },
+            {
+              path: '/permissions/new',
+              element: <PermissionFormPage />
+            },
+            {
+              path: '/permissions/:conceptId/edit',
+              element: <PermissionFormPage />
             },
             {
               path: '/permissions/:conceptId',

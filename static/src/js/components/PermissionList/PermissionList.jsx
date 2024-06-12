@@ -5,11 +5,15 @@ import { useSearchParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
+import { FaEdit } from 'react-icons/fa'
+
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
 import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
 import Table from '@/js/components/Table/Table'
 
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
+
+import Button from '../Button/Button'
 
 const PermissionList = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -64,6 +68,27 @@ const PermissionList = () => {
     )
   }, [])
 
+  const buildActionsCell = useCallback((cellData, rowData) => {
+    const { conceptId } = rowData
+
+    return (
+      <Row>
+        <Col className="col-auto">
+          <Button
+            className="d-flex"
+            Icon={FaEdit}
+            iconTitle="Edit Button"
+            href={`permissions/${conceptId}/edit`}
+            variant="primary"
+            size="sm"
+          >
+            Edit
+          </Button>
+        </Col>
+      </Row>
+    )
+  }, [])
+
   const columns = [
     {
       dataKey: 'name',
@@ -75,6 +100,11 @@ const PermissionList = () => {
       dataKey: 'providerId',
       title: 'Provider',
       className: 'col-auto'
+    },
+    {
+      title: 'Actions',
+      className: 'col-auto',
+      dataAccessorFn: buildActionsCell
     }
   ]
 

@@ -17,6 +17,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 /**
  * CustomDateTimeWidget
  * @typedef {Object} CustomDateTimeWidget
+ * @property {Boolean} disable Should disable a field.
  * @property {String} id The id of the widget.
  * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
@@ -33,6 +34,7 @@ import 'react-datepicker/dist/react-datepicker.css'
  * @param {CustomDateTimeWidget} props
  */
 const CustomDateTimeWidget = ({
+  disabled,
   id,
   label,
   onBlur,
@@ -43,13 +45,12 @@ const CustomDateTimeWidget = ({
   uiSchema,
   value
 }) => {
-  const [date, setDate] = useState(value ? new Date(value) : null)
   const [showCalender, setShowCalender] = useState(false)
   const datetimeScrollRef = useRef(null)
 
   const { description } = schema
 
-  const dateWithZone = moment.utc(date).format('YYYY-MM-DDTHH:mm:ss.SSS')
+  const dateWithZone = moment.utc(value).format('YYYY-MM-DDTHH:mm:ss.SSS')
   const fieldValue = new Date(dateWithZone)
 
   const { formContext } = registry
@@ -85,9 +86,6 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    // When a date is selected, this will convert the date to ISO string and set the onChange
-    setDate(newDate)
-
     let formattedDateTime = newDate.toISOString()
     formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
     onChange(formattedDateTime)
@@ -106,6 +104,7 @@ const CustomDateTimeWidget = ({
     >
       <DatePicker
         className="w-100 p-2 form-control"
+        disabled={disabled}
         dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
         dropdownMode="select"
         id={id}
@@ -129,10 +128,12 @@ const CustomDateTimeWidget = ({
 }
 
 CustomDateTimeWidget.defaultProps = {
+  disabled: false,
   value: null
 }
 
 CustomDateTimeWidget.propTypes = {
+  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,

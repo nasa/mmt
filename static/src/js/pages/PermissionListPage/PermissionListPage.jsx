@@ -1,10 +1,13 @@
 import React, { Suspense } from 'react'
 
+import { FaPlus } from 'react-icons/fa'
+
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import PermissionList from '@/js/components/PermissionList/PermissionList'
+
 /**
  * Renders a PermissionListPageHeader component
  *
@@ -23,6 +26,15 @@ const PermissionListPageHeader = () => (
           active: true
         }
       ]
+    }
+    primaryActions={
+      [{
+        icon: FaPlus,
+        iconTitle: 'A plus icon',
+        title: 'New Permission',
+        to: 'new',
+        variant: 'success'
+      }]
     }
     pageType="secondary"
     title="Collection Permissions"

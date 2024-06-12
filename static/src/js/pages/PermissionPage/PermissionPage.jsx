@@ -2,6 +2,8 @@ import { useSuspenseQuery } from '@apollo/client'
 
 import React, { Suspense } from 'react'
 
+import { FaEdit } from 'react-icons/fa'
+
 import { useParams } from 'react-router'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
@@ -49,6 +51,17 @@ const PermissionPageHeader = () => {
       }
       pageType="secondary"
       title={name}
+      primaryActions={
+        [
+          {
+            icon: FaEdit,
+            to: 'edit',
+            title: 'Edit',
+            iconTitle: 'A edit icon',
+            variant: 'primary'
+          }
+        ]
+      }
     />
   )
 }
