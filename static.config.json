@@ -6,7 +6,7 @@
     "gkrHost": "https://gkr.sit.earthdatacloud.nasa.gov",
     "graphQlHost": "http://localhost:3013/development/api",
     "mmtHost": "http://localhost:5173",
-    "searchUrl": "https://search.sit.earthdata.nasa.gov/search/map",
+    "edscHost": "https://search.sit.earthdata.nasa.gov",
     "version": "development",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",
