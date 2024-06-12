@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import React, { Suspense } from 'react'
@@ -163,6 +164,10 @@ const setup = ({
       }
     }
   }]
+
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
 
   const user = userEvent.setup()
 

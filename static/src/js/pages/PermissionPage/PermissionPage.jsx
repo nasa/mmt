@@ -69,7 +69,7 @@ const PermissionPageHeader = () => {
       },
       onCompleted: () => {
         addNotification({
-          message: 'Order Option was successfully deleted.',
+          message: 'Collection permission was successfully deleted.',
           variant: 'success'
         })
 
@@ -77,7 +77,7 @@ const PermissionPageHeader = () => {
       },
       onError: () => {
         addNotification({
-          message: 'Error deleting order option',
+          message: 'Error deleting collection permission',
           variant: 'danger'
         })
 
