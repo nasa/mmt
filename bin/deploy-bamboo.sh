@@ -34,7 +34,7 @@ config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
 # setup .env
-echo "EDL_PASSWORD=$bamboo_EDL_PASSWORD" > .env
+echo "EDL_PASSWORD='$bamboo_EDL_PASSWORD'" > .env
 
 # Set up Docker image
 #####################
