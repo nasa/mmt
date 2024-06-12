@@ -1,7 +1,15 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import PreviewMapTemplate from '../PreviewMapTemplate'
+
+vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
+  getApplicationConfig: vi.fn(() => ({
+    edscHost: 'http://example.com'
+  }))
+}))
 
 const setup = ({ props }) => {
   const user = userEvent.setup()
@@ -29,7 +37,7 @@ describe('PreviewMapTemplate', () => {
 
       setup({ props })
 
-      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?sp=10%2C20')
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'http://example.com/search/map?sp=10%2C20')
     })
   })
 
@@ -47,7 +55,7 @@ describe('PreviewMapTemplate', () => {
 
       setup({ props })
 
-      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?sb=-40%2C10%2C50%2C70')
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'http://example.com/search/map?sb=-40%2C10%2C50%2C70')
     })
   })
 
@@ -81,7 +89,7 @@ describe('PreviewMapTemplate', () => {
 
       setup({ props })
 
-      expect(screen.getByRole('link')).toHaveAttribute('href', 'https://search.sit.earthdata.nasa.gov/search/map?polygon=-30%2C50%2C10%2C40%2C35%2C50%2C-30%2C50')
+      expect(screen.getByRole('link')).toHaveAttribute('href', 'http://example.com/search/map?polygon=-30%2C50%2C10%2C40%2C35%2C50%2C-30%2C50')
     })
   })
 

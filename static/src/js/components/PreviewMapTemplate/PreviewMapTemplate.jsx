@@ -13,7 +13,7 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
  * @param {PreviewMapTemplate} props
  */
 const PreviewMapTemplate = ({ type, formData }) => {
-  const { searchUrl } = getApplicationConfig()
+  const { edscHost } = getApplicationConfig()
 
   const [searchQuery, setSearchQuery] = useState()
 
@@ -54,7 +54,7 @@ const PreviewMapTemplate = ({ type, formData }) => {
   useEffect(() => {
     const query = getMapQuery()
     if (query) {
-      setSearchQuery(`${searchUrl}?${query}`)
+      setSearchQuery(`${edscHost}/search/map?${query}`)
     }
   }, [formData])
 
