@@ -65,6 +65,7 @@ dockerRun() {
         -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
+        -e "EDL_PASSWORD='$bamboo_EDL_PASSWORD'" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
