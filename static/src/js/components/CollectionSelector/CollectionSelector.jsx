@@ -47,20 +47,25 @@ import './CollectionSelector.scss'
  * )
  */
 const CollectionSelector = ({ onChange, formData }) => {
-  const [selected, setSelected] = useState({})
-
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
-  const [selectedAvailable, setSelectedAvailable] = useState({})
-  const [selectedSelected, setSelectedSelected] = useState({})
+  const [highlightedAvailable, setHighlightedAvailable] = useState({})
+  const [highlightedSelected, setHighlightedSelected] = useState({})
 
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS)
 
   const { collections } = collectionList
   const { items } = collections
 
-  const [available, setAvailable] = useState(items)
+  // Map through items of collection and creates an object with conceptId as unique keys
+  const availableCollections = items?.reduce((obj, item) => ({
+    ...obj,
+    [item.conceptId]: item
+  }), {})
+
+  const [selectedItems, setSelected] = useState({})
+  const [availableItems, setAvailableItems] = useState(availableCollections)
 
   useEffect(() => {
     if (!isEmpty(formData)) {
@@ -69,81 +74,77 @@ const CollectionSelector = ({ onChange, formData }) => {
   }, [formData])
 
   /**
-   * Moves items from `selectedAvailable` to `selected`.
+   * Moves items from `selectedAvailable` to `selectedItems`.
    *
-   * This function combines the currently selected items (`selected`)
-   * with the items available for selection (`selectedAvailable`).
+   * This function combines the currently selected items (`selectedItems`)
+   * with the items availableItems for selection (`selectedAvailable`).
    */
   const moveToSelected = () => {
     const newSelected = {
-      ...selected,
-      ...selectedAvailable
+      ...selectedItems,
+      ...highlightedAvailable
     }
 
     setSelected(newSelected)
-    setSelectedAvailable({})
+    setHighlightedAvailable({})
 
-    onChange((newSelected))
+    onChange(newSelected)
   }
 
   /**
-   * Moves items from `selectedSelected` back to `available`.
+   * Moves items from `highlightedSelected` back to `availableItems`.
    *
-   * This function removes the currently selected items (`selectedSelected`)
-   * from the `selected` column and adds them back to the `available` column.
+   * This function removes the currently selected items (`highlightedSelected`)
+   * from the `selected` column and adds them back to the `availableItems` column.
    */
   const moveToAvailable = () => {
-    const newSelected = { ...selected }
-    const newAvailable = {
-      ...available,
-      ...selectedSelected
-    }
+    const newSelected = { ...selectedItems }
 
-    Object.keys(selectedSelected).forEach((key) => {
+    Object.keys(highlightedSelected).forEach((key) => {
       delete newSelected[key]
     })
 
     setSelected(newSelected)
-    setAvailable(newAvailable)
-    setSelectedSelected({})
+    // SetAvailable(newAvailable)
+    setHighlightedSelected({})
     onChange(newSelected)
   }
 
   /**
    * Deletes all selected items.
    *
-   * This function clears all selected states (`selected`, `selectedAvailable`, and `selectedSelected`)
+   * This function clears all selected states (`selected`, `selectedAvailable`, and `highlightedSelected`)
    */
   const deleteSelectedItems = () => {
-    onChange([])
-    setSelected([])
-    setSelectedAvailable([])
-    setSelectedSelected([])
+    onChange({})
+    setSelected({})
+    setHighlightedAvailable({})
+    setHighlightedSelected({})
   }
 
   /**
-   * Toggles the selection of an item in the available list.
+   * Toggles the selection of an item in the availableItems list.
    *
    * This function checks if an item is already selected in the `selectedAvailable` state.
    * If the item is already selected, it removes the item. If the item is not selected, it adds the item.
    *
-   * @param {Object} availableItem - The item to be toggled in the available selection.
+   * @param {Object} availableItem - The item to be toggled in the availableItems selection.
    */
   const toggleAvailableSelection = (availableItem) => {
     const { conceptId } = availableItem
 
     const newSelectedAvailable = {
-      ...selectedAvailable,
-      [conceptId]: selectedAvailable[conceptId] ? undefined : availableItem
+      ...highlightedAvailable,
+      [conceptId]: highlightedAvailable[conceptId] ? undefined : availableItem
     }
 
-    setSelectedAvailable(newSelectedAvailable)
+    setHighlightedAvailable(newSelectedAvailable)
   }
 
   /**
    * Toggles the selection of an item in the selected list.
    *
-   * This function checks if an item is already selected in the `selectedSelected` state.
+   * This function checks if an item is already selected in the `highlightedSelected` state.
    * If the item is already selected, it removes the item. If the item is not selected, it adds the item.
    *
    * @param {Object} selectedItem - The item to be toggled in the selected selection.
@@ -152,17 +153,17 @@ const CollectionSelector = ({ onChange, formData }) => {
     const { conceptId } = selectedItem
 
     const newSelectedSelected = {
-      ...selectedSelected,
-      [conceptId]: selectedSelected[conceptId] ? undefined : selectedItem
+      ...highlightedSelected,
+      [conceptId]: highlightedSelected[conceptId] ? undefined : selectedItem
     }
 
-    setSelectedSelected(newSelectedSelected)
+    setHighlightedSelected(newSelectedSelected)
   }
 
   /**
    * Filters the selected list
    */
-  const filteredSelected = Object.values(selected).filter(
+  const filteredSelected = Object.values(selectedItems).filter(
     (item) => item.shortName.toLowerCase().includes(searchSelected.toLowerCase())
   )
 
@@ -205,9 +206,11 @@ const CollectionSelector = ({ onChange, formData }) => {
   }, 1000), [])
 
   const handleAvailableSearchChange = (e) => {
-    const inputValue = e.target.value
+    const { target } = e
+    const { value } = target
+    const inputValue = value
     setSearchAvailable(inputValue)
-    loadOptions(inputValue, setAvailable)
+    loadOptions(inputValue, setAvailableItems)
   }
 
   const popover = (item) => {
@@ -264,7 +267,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           />
           <div className="collection-selector__list-group  d-block w-100 overflow-y-scroll border rounded">
             <ul className="list-unstyled h-100">
-              <For each={Object.values(available)}>
+              <For each={Object.values(availableItems)}>
                 {
                   (
                     item
@@ -292,8 +295,8 @@ const CollectionSelector = ({ onChange, formData }) => {
                             classNames(
                               'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
                               {
-                                'collection-selector__list-group-item-selected': selected[conceptId],
-                                'collection-selector__list-group-item-available': selectedAvailable[conceptId]
+                                'collection-selector__list-group-item--selected': selectedItems[conceptId],
+                                'collection-selector__list-group-item--available': highlightedAvailable[conceptId]
                               }
                             )
                           }
@@ -329,7 +332,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           <div className="text-muted mt-2">
             Showing
             {' '}
-            {available.length}
+            {Object.values(availableItems).length}
             {' '}
             items
           </div>
@@ -400,7 +403,7 @@ const CollectionSelector = ({ onChange, formData }) => {
                             classNames(
                               'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
                               {
-                                'collection-selector__list-group-item-available': !!selectedSelected[conceptId]
+                                'collection-selector__list-group-item--available': !!highlightedSelected[conceptId]
                               }
                             )
                           }

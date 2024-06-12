@@ -9,15 +9,15 @@
 
   &__list-group-item {
     cursor: pointer;
-  }
-
-  &__list-group-item-selected {
-    background-color: $gray-300;
-    color: $gray-700;
-    pointer-events: none;
-  }
-
-  &__list-group-item-available {
-    background-color: $blue-100;
+    
+    &--selected {
+      background-color: $gray-300;
+      color: $gray-700;
+      pointer-events: none;
+    }
+  
+    &--available {
+      background-color: $blue-100;
+    }
   }
 }

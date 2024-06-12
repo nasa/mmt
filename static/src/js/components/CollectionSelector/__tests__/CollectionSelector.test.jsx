@@ -15,7 +15,7 @@ import CollectionSelector from '../CollectionSelector'
 
 const setup = ({
   additionalMocks = [],
-  formData = []
+  formData = {}
 }) => {
   const user = userEvent.setup()
 
@@ -95,8 +95,8 @@ describe('CollectionSelector', () => {
       expect(screen.getByText('Showing selected 1 items')).toBeInTheDocument()
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
-      expect(props.onChange).toHaveBeenCalledWith([
-        {
+      expect(props.onChange).toHaveBeenCalledWith({
+        'C1200444618-MMT_2': {
           __typename: 'Collection',
           conceptId: 'C1200444618-MMT_2',
           directDistributionInformation: {
@@ -113,7 +113,7 @@ describe('CollectionSelector', () => {
           provider: 'MMT_2',
           shortName: 'Collection 1'
         }
-      ])
+      })
     })
   })
 
@@ -133,13 +133,13 @@ describe('CollectionSelector', () => {
 
       await user.click(selectedField)
       await waitFor(() => {
-        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center collection-selector__list-group-item-secondary')
+        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2 collection-selector__list-group-item--selected')
       })
 
       await user.click(selectedField)
 
       await waitFor(() => {
-        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center collection-selector__list-group-item-secondary')
+        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2 collection-selector__list-group-item--selected')
       })
 
       await user.click(selectedField)
@@ -150,9 +150,9 @@ describe('CollectionSelector', () => {
 
       expect(screen.getByText('Showing selected 0 items')).toBeInTheDocument()
 
-      expect(props.onChange).toHaveBeenCalledTimes(1)
-      expect(props.onChange).toHaveBeenCalledWith([
-        {
+      expect(props.onChange).toHaveBeenCalledTimes(2)
+      expect(props.onChange).toHaveBeenCalledWith({
+        'C1200444618-MMT_2': {
           __typename: 'Collection',
           conceptId: 'C1200444618-MMT_2',
           directDistributionInformation: {
@@ -169,19 +169,19 @@ describe('CollectionSelector', () => {
           provider: 'MMT_2',
           shortName: 'Collection 1'
         }
-      ])
+      })
 
       // Tests selecting and unselecting available items
       await user.click(nameField)
 
       await waitFor(() => {
-        expect(nameField).toHaveClass('collection-selector__list-group-item-primary')
+        expect(nameField).toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2 collection-selector__list-group-item--available')
       })
 
       await user.click(nameField)
 
       await waitFor(() => {
-        expect(nameField).not.toHaveClass('collection-selector__list-group-item-primary')
+        expect(nameField).not.toHaveClass('collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2 collection-selector__list-group-item--available')
       })
 
       await user.click(nameField)
@@ -215,7 +215,7 @@ describe('CollectionSelector', () => {
 
       expect(screen.getByText('Showing selected 0 items')).toBeInTheDocument()
 
-      expect(props.onChange).toHaveBeenCalledWith([])
+      expect(props.onChange).toHaveBeenCalledWith({})
     })
   })
 
@@ -323,18 +323,18 @@ describe('CollectionSelector', () => {
     test('render the saved collections', async () => {
       setup(
         {
-          formData: [
-            {
+          formData: {
+            'C1200450598-MMT_2': {
               conceptId: 'C1200450598-MMT_2',
               entryTitle: 'Collection 1 title',
               shortName: 'Collection 1'
             },
-            {
+            'C1200427406-MMT_2': {
               conceptId: 'C1200427406-MMT_2',
               entryTitle: 'Collection 2 title',
               shortName: 'Collection 2'
             }
-          ]
+          }
         }
       )
 
