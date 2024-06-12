@@ -64,17 +64,17 @@ const CollectionSelector = ({ onChange, formData }) => {
     [item.conceptId]: item
   }), {})
 
-  const [selectedItems, setSelected] = useState({})
+  const [selectedItems, setSelectedItems] = useState({})
   const [availableItems, setAvailableItems] = useState(availableCollections)
 
   useEffect(() => {
     if (!isEmpty(formData)) {
-      setSelected(formData)
+      setSelectedItems(formData)
     }
   }, [formData])
 
   /**
-   * Moves items from `selectedAvailable` to `selectedItems`.
+   * Moves items from `highlightedAvailable` to `selectedItems`.
    *
    * This function combines the currently selected items (`selectedItems`)
    * with the items availableItems for selection (`selectedAvailable`).
@@ -85,7 +85,7 @@ const CollectionSelector = ({ onChange, formData }) => {
       ...highlightedAvailable
     }
 
-    setSelected(newSelected)
+    setSelectedItems(newSelected)
     setHighlightedAvailable({})
 
     onChange(newSelected)
@@ -95,7 +95,7 @@ const CollectionSelector = ({ onChange, formData }) => {
    * Moves items from `highlightedSelected` back to `availableItems`.
    *
    * This function removes the currently selected items (`highlightedSelected`)
-   * from the `selected` column and adds them back to the `availableItems` column.
+   * from the `selectedItems` column and adds them back to the `availableItems` column.
    */
   const moveToAvailable = () => {
     const newSelected = { ...selectedItems }
@@ -104,8 +104,7 @@ const CollectionSelector = ({ onChange, formData }) => {
       delete newSelected[key]
     })
 
-    setSelected(newSelected)
-    // SetAvailable(newAvailable)
+    setSelectedItems(newSelected)
     setHighlightedSelected({})
     onChange(newSelected)
   }
@@ -113,11 +112,11 @@ const CollectionSelector = ({ onChange, formData }) => {
   /**
    * Deletes all selected items.
    *
-   * This function clears all selected states (`selected`, `selectedAvailable`, and `highlightedSelected`)
+   * This function clears all selectedItems states (`selectedItems`, and `highlightedSelected`)
    */
   const deleteSelectedItems = () => {
     onChange({})
-    setSelected({})
+    setSelectedItems({})
     setHighlightedAvailable({})
     setHighlightedSelected({})
   }
@@ -125,7 +124,7 @@ const CollectionSelector = ({ onChange, formData }) => {
   /**
    * Toggles the selection of an item in the availableItems list.
    *
-   * This function checks if an item is already selected in the `selectedAvailable` state.
+   * This function checks if an item is already selected in the `highlightedAvailable` state.
    * If the item is already selected, it removes the item. If the item is not selected, it adds the item.
    *
    * @param {Object} availableItem - The item to be toggled in the availableItems selection.
@@ -133,9 +132,13 @@ const CollectionSelector = ({ onChange, formData }) => {
   const toggleAvailableSelection = (availableItem) => {
     const { conceptId } = availableItem
 
-    const newSelectedAvailable = {
-      ...highlightedAvailable,
-      [conceptId]: highlightedAvailable[conceptId] ? undefined : availableItem
+    const newSelectedAvailable = { ...highlightedAvailable }
+
+    // Check if the item is already selected and remove it, otherwise add it
+    if (newSelectedAvailable[conceptId]) {
+      delete newSelectedAvailable[conceptId]
+    } else {
+      newSelectedAvailable[conceptId] = availableItem
     }
 
     setHighlightedAvailable(newSelectedAvailable)
@@ -163,7 +166,7 @@ const CollectionSelector = ({ onChange, formData }) => {
   /**
    * Filters the selected list
    */
-  const filteredSelected = Object.values(selectedItems).filter(
+  const filteredSelected = Object.values(selectedItems)?.filter(
     (item) => item.shortName.toLowerCase().includes(searchSelected.toLowerCase())
   )
 
@@ -208,9 +211,9 @@ const CollectionSelector = ({ onChange, formData }) => {
   const handleAvailableSearchChange = (e) => {
     const { target } = e
     const { value } = target
-    const inputValue = value
-    setSearchAvailable(inputValue)
-    loadOptions(inputValue, setAvailableItems)
+
+    setSearchAvailable(value)
+    loadOptions(value, setAvailableItems)
   }
 
   const popover = (item) => {

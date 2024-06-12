@@ -192,6 +192,83 @@ describe('PermissionForm', () => {
                 }
               }
             }
+          },
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: { conceptId: 'ACL1000000-MMT' }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  identityType: 'Catalog Item',
+                  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                  name: 'Mock ACL',
+                  providerIdentity: null,
+                  revisionId: 1,
+                  systemIdentity: null,
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {},
+                    collectionApplicable: true,
+                    granuleApplicable: false,
+                    granuleIdentifier: null,
+                    providerId: 'MM_2'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 2,
+                    items: [
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C12000000-MMT_2',
+                        directDistributionInformation: null,
+                        provider: 'MMT_2',
+                        shortName: 'This is collection 2',
+                        entryTitle: 'Collection 1',
+                        version: '1'
+                      },
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C13000000-MMT_2',
+                        directDistributionInformation: null,
+                        provider: 'MMT_2',
+                        shortName: 'This is collection 1',
+                        entryTitle: 'Collection 2',
+                        version: '1'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: [
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'guest',
+                        id: null,
+                        name: null,
+                        tag: null
+                      },
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'registered',
+                        id: null,
+                        name: null,
+                        tag: null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }]
         })
 
@@ -466,6 +543,83 @@ describe('PermissionForm', () => {
                   updateAcl: {
                     conceptId: 'ACL1000000-MMT',
                     revisionId: '2'
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: { conceptId: 'ACL1000000-MMT' }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MM_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C12000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 2',
+                          entryTitle: 'Collection 1',
+                          version: '1'
+                        },
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C13000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 1',
+                          entryTitle: 'Collection 2',
+                          version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        }
+                      ]
+                    }
                   }
                 }
               }

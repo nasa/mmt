@@ -273,7 +273,7 @@ const GroupPermissionSelectComponent = ({
           </Alert>
         </Col>
       </Row>
-      <Row className="pb-5">
+      <Row>
         <div>
           <h5>
             Group Permission

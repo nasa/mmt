@@ -186,7 +186,16 @@ const PermissionForm = () => {
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
 
   const [createAclMutation] = useMutation(CREATE_ACL)
-  const [updateAclMutation] = useMutation(UPDATE_ACL)
+  const [updateAclMutation] = useMutation(UPDATE_ACL, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          // Remove the list of acl from the cache. This ensures that if the user returns to the list page they will see the correct data.
+          acl: () => {}
+        }
+      })
+    }
+  })
 
   const fields = {
     keywordPicker: KeywordPicker,
