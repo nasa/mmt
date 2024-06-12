@@ -34,6 +34,9 @@ config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
 # setup .env
+# Note: The single quotes are necessary to prevent the bamboo_EDL_PASSWORD from 
+# being interpolated.   This works well as long as there are no single quotes in
+# the password.
 echo "EDL_PASSWORD='$bamboo_EDL_PASSWORD'" > .env
 
 # Set up Docker image
