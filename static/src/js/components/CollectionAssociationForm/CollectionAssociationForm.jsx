@@ -17,6 +17,8 @@ import {
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { camelCase } from 'lodash-es'
 
+import moment from 'moment'
+
 import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import Placeholder from 'react-bootstrap/Placeholder'
@@ -49,7 +51,6 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import moment from 'moment'
 
 /**
  * Renders a CollectionAssociationForm component

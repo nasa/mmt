@@ -13,6 +13,8 @@ import * as router from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
 
+import moment from 'moment'
+
 import AppContext from '@/js/context/AppContext'
 import NotificationsContext from '@/js/context/NotificationsContext'
 
@@ -20,7 +22,6 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 
 import errorLogger from '@/js/utils/errorLogger'
 
-import moment from 'moment'
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
 import CollectionAssociationForm from '../CollectionAssociationForm'
 
