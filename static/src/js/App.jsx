@@ -28,7 +28,6 @@ import AuthRequiredLayout from '@/js/components/AuthRequiredLayout/AuthRequiredL
 import CheckPermissions from '@/js/components/CheckPermissions/CheckPermissions'
 import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
-import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
 import Notifications from '@/js/components/Notifications/Notifications'
 import Page from '@/js/components/Page/Page'
 import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
