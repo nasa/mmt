@@ -42,7 +42,7 @@ const AboutModal = ({
         (
           <>
             About
-            <span className="ms-2 fw-normal fs-6 font-monospace small text-secondary" bg="primary">
+            <span className="ms-2 fw-normal fs-6 font-monospace small text-secondary">
               v
               {version}
             </span>
@@ -56,17 +56,25 @@ const AboutModal = ({
             <p>
               The MMT is a web-based user interface to the NASA EOSDIS
               {' '}
-              <a href="https://cmr.earthdata.nasa.gov/search/">Common Metadata Repository (CMR)</a>
+              <a href="https://cmr.earthdata.nasa.gov/search/">
+                Common Metadata Repository (CMR)
+              </a>
               . The MMT allows metadata authors to create and update CMR metadata
               records by using a data entry form based on the metadata fields in the
               {' '}
-              <a href="https://www.earthdata.nasa.gov/unified-metadata-model-umm">CMR Unified Metadata Model (UMM)</a>
+              <a href="https://www.earthdata.nasa.gov/unified-metadata-model-umm">
+                CMR Unified Metadata Model (UMM)
+              </a>
               . Metadata authors may also publish, view, delete, and manage
               revisions of CMR metadata records using the MMT.
             </p>
             <h3 className="fs-6 fw-bold mt-4">Common Metadata Repository</h3>
             <p>
-              The CMR is a high-performance, high-quality metadata repository for earth science metadata records. The CMR manages the evolution of NASA Earth Science metadata in a unified and consistent way by providing a central storage and access capability that streamlines current workflows while increasing overall metadata quality and anticipating future capabilities.
+              The CMR is a high-performance, high-quality metadata repository for earth science
+              metadata records. The CMR manages the evolution of NASA Earth Science metadata in
+              a unified and consistent way by providing a central storage and access capability
+              that streamlines current workflows while increasing overall metadata quality and
+              anticipating future capabilities.
             </p>
             <hr />
             <div className="d-flex flex-column align-items-center justify-content-center py-2">
