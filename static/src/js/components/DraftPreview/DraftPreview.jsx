@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,7 +6,6 @@ import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 
-import CollectionAssociationPreviewProgress from '../CollectionAssociationPreviewProgress/CollectionAssociationPreviewProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import formConfigurations from '../../schemas/uiForms'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
@@ -32,8 +31,6 @@ const DraftPreview = () => {
   const { conceptId } = useParams()
 
   const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
-
-  const [collectionAssociation] = useState()
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
@@ -72,14 +69,6 @@ const DraftPreview = () => {
                 sections={formSections}
                 validationErrors={validationErrors}
               />
-              {
-                derivedConceptType === 'Variable'
-                && (
-                  <CollectionAssociationPreviewProgress
-                    collectionAssociationDetails={collectionAssociation}
-                  />
-                )
-              }
             </Col>
           </Row>
         </Col>

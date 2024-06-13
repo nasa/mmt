@@ -3,7 +3,6 @@ import { RouterProvider } from 'react-router'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 
 import CollectionAssociationFormPage from '@/js/pages/CollectionAssociationFormPage/CollectionAssociationFormPage'
-import DraftCollectionAssociationPage from '@/js/pages/DraftCollectionAssociationPage/DraftCollectionAssociationPage'
 import DraftListPage from '@/js/pages/DraftListPage/DraftListPage'
 import DraftPage from '@/js/pages/DraftPage/DraftPage'
 import GroupFormPage from '@/js/pages/GroupFormPage/GroupFormPage'
@@ -137,10 +136,6 @@ export const App = () => {
             {
               path: '/drafts/:draftType/:conceptId/:sectionName/:fieldName',
               element: <MetadataFormPage />
-            },
-            {
-              path: '/drafts/:draftType/:conceptId/collection-association',
-              element: <DraftCollectionAssociationPage />
             },
             {
               path: '/permissions',

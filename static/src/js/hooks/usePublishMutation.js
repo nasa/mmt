@@ -27,12 +27,10 @@ const usePublishMutation = (queryName) => {
 
   const publishMutation = useCallback(async (
     conceptType,
-    nativeId,
-    collectionConceptId
+    nativeId
   ) => {
     await publishDraftMutation({
       variables: {
-        collectionConceptId,
         draftConceptId: conceptId,
         nativeId,
         ummVersion: getUmmVersion(conceptType)
