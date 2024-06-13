@@ -4,7 +4,6 @@
 
 .layout {
   &__sidebar {
-    width: 100%;
     height: auto;
 
     @include media-breakpoint-up(md) {
@@ -18,5 +17,20 @@
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 0.75rem;
+  }
+
+  &__user-dropdown-item {
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-300;
+      color: $gray-800;
+    }
+
+    &:active {
+      background-color: $gray-300;
+      color: $gray-500;
+    }
   }
 }

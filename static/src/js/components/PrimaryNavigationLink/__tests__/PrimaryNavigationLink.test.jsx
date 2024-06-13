@@ -59,16 +59,4 @@ describe('PrimaryNavigationLink', () => {
       expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
     })
   })
-
-  describe('when a version is defined', () => {
-    test('adds a version', () => {
-      setup({
-        overrideProps: {
-          version: 'v1'
-        }
-      })
-
-      expect(screen.getByText('v1')).toBeInTheDocument()
-    })
-  })
 })

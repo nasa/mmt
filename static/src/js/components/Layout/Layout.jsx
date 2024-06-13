@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Outlet } from 'react-router-dom'
 import classNames from 'classnames'
 import Navbar from 'react-bootstrap/Navbar'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {
+  FaBook,
   FaExternalLinkAlt,
   FaQuestionCircle,
   FaSignOutAlt,
@@ -17,6 +18,7 @@ import usePermissions from '@/js/hooks/usePermissions'
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
+import AboutModal from '../AboutModal/AboutModal'
 
 import { getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 
@@ -47,17 +49,19 @@ const Layout = ({ className, displayNav }) => {
     systemGroup: ['read']
   })
 
+  const [showAboutModal, setShowAboutModal] = useState(false)
+
   if (loading) return null
 
   const canViewGroups = hasSystemGroup
   const canViewAdmin = canViewGroups // || canView* other permission if needed
 
   return (
-    <div
-      className="flex w-100 flex-grow-0"
-    >
-      <ErrorBoundary>
-        <>
+    <>
+      <div
+        className="flex w-100 flex-grow-0"
+      >
+        <ErrorBoundary>
           <main
             className={
               classNames([
@@ -71,10 +75,10 @@ const Layout = ({ className, displayNav }) => {
             {
               displayNav && (
                 <Navbar
-                  className="layout__sidebar d-flex flex-column flex-md-row md-w-100 align-items-stretch flex-grow-1 flex-shrink-0 bg-light py-0"
+                  className="layout__sidebar d-flex flex-column flex-md-row md-w-100 align-items-stretch flex-grow-0 md-flex-grow-1 flex-shrink-0 bg-light py-0"
                   expand="md"
                 >
-                  <section className="d-flex flex-column overflow-hidden">
+                  <section className="d-flex flex-column overflow-y-auto flex-shrink-1">
                     <div className="px-2 py-4 flex-shrink-0 flex-grow-0 d-flex flex-row justify-content-between">
                       <Navbar.Brand className="d-block nasa text-wrap text-dark" as={Link} to="/">
                         <span className="layout__brand-earthdata d-block text-uppercase">Earthdata</span>
@@ -192,10 +196,10 @@ const Layout = ({ className, displayNav }) => {
                       <div
                         className="rounded p-2 border-top mt-auto"
                       >
-                        <Dropdown className="d-block" drop="up">
+                        <Dropdown className="d-block text-secondary" drop="up">
                           <Dropdown.Toggle
                             id="user-dropdown"
-                            className="header__user-dropdown-toggle pointer px-2"
+                            className="pointer px-2"
                             role="button"
                             size="sm"
                             as={Button}
@@ -206,20 +210,31 @@ const Layout = ({ className, displayNav }) => {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu
-                            className="header__user-dropdown bg-light-dark shadow"
+                            className="bg-light-dark shadow"
                           >
                             <Dropdown.Item
-                              className="bg-light-dark d-flex align-items-center small"
+                              className="layout__user-dropdown-item bg-light-dark d-flex align-items-center small"
+                              onClick={
+                                () => {
+                                  setShowAboutModal(true)
+                                }
+                              }
+                            >
+                              <FaQuestionCircle className="me-2" />
+                              About
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              className="layout__user-dropdown-item bg-light-dark d-flex align-items-center small"
                               href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
                               target="_blank"
                             >
-                              <FaQuestionCircle className="me-2" />
+                              <FaBook className="me-2" />
                               User Guide
                               <FaExternalLinkAlt className="ms-2 small" style={{ opacity: 0.625 }} />
                             </Dropdown.Item>
 
                             <Dropdown.Item
-                              className="bg-light-dark small"
+                              className="layout__user-dropdown-item bg-light-dark small"
                               href="/logout"
                             >
                               <FaSignOutAlt className="me-2" />
@@ -235,10 +250,10 @@ const Layout = ({ className, displayNav }) => {
             }
             <Outlet />
           </main>
-          {/* <Footer /> */}
-        </>
-      </ErrorBoundary>
-    </div>
+        </ErrorBoundary>
+      </div>
+      <AboutModal show={showAboutModal} toggleModal={(state) => { setShowAboutModal(state) }} />
+    </>
   )
 }
 

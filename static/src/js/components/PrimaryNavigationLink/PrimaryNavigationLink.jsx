@@ -5,6 +5,8 @@ import { useLocation } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import NavItem from 'react-bootstrap/NavItem'
 
+import './PrimaryNavigationLink.scss'
+
 /**
  * @typedef {Object} PrimaryNavigationLinkProps
  * @property {Array} [childItems] An optional array of children elements.
@@ -43,7 +45,6 @@ import NavItem from 'react-bootstrap/NavItem'
 const PrimaryNavigationLink = ({
   title,
   to,
-  version,
   visible,
   tabIndex
 }) => {
@@ -65,10 +66,10 @@ const PrimaryNavigationLink = ({
           to={to}
           className={
             classNames([
-              'primary-navigation__link nav-link w-100 d-flex align-items-center justify-content-between py-1 ms-2 border-start border-2 rounded-0',
+              'primary-navigation-link__link nav-link w-100 d-flex align-items-center justify-content-between py-1 px-2 ms-2 border-start border-2 rounded-0',
               {
                 active: match,
-                'border-light-dark link-dark': !match,
+                'border-light-dark': !match,
                 'bg-light text-primary fw-bold border-blue': match
               }
             ])
@@ -79,30 +80,15 @@ const PrimaryNavigationLink = ({
             <span
               className={
                 classNames([
-                  'primary-navigation__title me-1 text-nowrap flex-grow-1 flex-shrink-1 align-items-center justify-content-center py-1',
+                  'primary-navigation-link__title me-1 text-nowrap flex-grow-1 flex-shrink-1 align-items-center justify-content-center py-1',
                   {
-                    'bg-light text-secondary': !match
+                    'bg-light': !match
                   }
                 ])
               }
             >
               {title}
             </span>
-            {
-              version && (
-                <span className={
-                  classNames([
-                    'primary-navigation__version ms-2 text-secondary font-monospace fw-light',
-                    {
-                      'text-light': match
-                    }
-                  ])
-                }
-                >
-                  {version}
-                </span>
-              )
-            }
           </div>
         </NavLink>
       </NavItem>
@@ -111,7 +97,6 @@ const PrimaryNavigationLink = ({
 }
 
 PrimaryNavigationLink.defaultProps = {
-  version: null,
   visible: true,
   tabIndex: '-1'
 }
@@ -119,7 +104,6 @@ PrimaryNavigationLink.defaultProps = {
 PrimaryNavigationLink.propTypes = {
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  version: PropTypes.string,
   visible: PropTypes.bool,
   tabIndex: PropTypes.string
 }

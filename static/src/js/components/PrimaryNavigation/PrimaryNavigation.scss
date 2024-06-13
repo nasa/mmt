@@ -7,7 +7,6 @@
     }
   }
 
-
   &__item {
     --bs-border-color: transparent;
 
@@ -17,19 +16,8 @@
     }
   }
 
-  &__title {
-    font-size: 0.925rem;
-    letter-spacing: 0.02rem;
-  }
-
   &__version {
     font-size: 0.75rem;
-  }
-
-  &__link {
-    &--is-child {
-      padding: 0;
-    }
   }
 
   &__dropdown-button {

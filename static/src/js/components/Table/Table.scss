@@ -55,7 +55,7 @@
   td:first-child {
     position: sticky;
     z-index: 1000;
-    left: 0px;
+    left: 0;
     max-width: 20rem;
   }
 
@@ -64,12 +64,12 @@
 
     &::before {
       position: absolute;
+      z-index: -1;
       border-right: 1px solid var(--bs-border-color);
       border-left: 1px solid var(--bs-border-color);
       content: '';
       inset: 0;
       user-select: none;
-      z-index: -1;
     }
   }
 }

@@ -1,9 +1,9 @@
 @import '../../../css/vendor/bootstrap/variables';
 
 .page {
-  overflow-x: auto;
+  overflow-y: scroll;
 
   @include media-breakpoint-up(md) {
-    overflow-x: hidden;
+    overflow-y: auto;
   }
 }

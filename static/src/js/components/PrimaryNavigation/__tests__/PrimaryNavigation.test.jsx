@@ -177,8 +177,6 @@ describe('PrimaryNavigation component', () => {
         </MemoryRouter>
       )
 
-      // Screen.debug()
-
       const button = await screen.findByLabelText('Open menu')
       const closeButtonsWhileClosed = await screen.findAllByLabelText('Close menu')
 

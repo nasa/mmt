@@ -1,13 +1,13 @@
 import React from 'react'
-import Navbar from 'react-bootstrap/Navbar'
+import { Link } from 'react-router-dom'
 import { FaQuestionCircle, FaSignInAlt } from 'react-icons/fa'
+import Navbar from 'react-bootstrap/Navbar'
 
 import Button from '@/js/components/Button/Button'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './Header.scss'
-import { Link } from 'react-router-dom'
 
 /**
  * Renders a `Header` component

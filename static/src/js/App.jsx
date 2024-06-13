@@ -27,6 +27,8 @@ import AuthCallback from '@/js/components/AuthCallback/AuthCallback'
 import AuthRequiredLayout from '@/js/components/AuthRequiredLayout/AuthRequiredLayout'
 import CheckPermissions from '@/js/components/CheckPermissions/CheckPermissions'
 import Layout from '@/js/components/Layout/Layout'
+import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
+import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
 import Notifications from '@/js/components/Notifications/Notifications'
 import Page from '@/js/components/Page/Page'
 import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
@@ -38,9 +40,9 @@ import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
-import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 
 import '../css/index.scss'
+
 /**
  * Renders the `App` component
  *

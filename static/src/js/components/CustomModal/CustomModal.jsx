@@ -61,7 +61,7 @@ const CustomModal = ({
       <div>
         {
           header && (
-            <Modal.Title>{header}</Modal.Title>
+            <Modal.Title className="d-flex align-items-baseline flex-row fs-5 fw-bold">{header}</Modal.Title>
           )
         }
       </div>
