@@ -7,32 +7,26 @@
   font-weight: 100;
 
   &.nasa {
-    padding-left: 2.5rem;
-    background: url("@/assets/images/logos/nasa-outline-new.svg") no-repeat;
+    padding-left: 2.75rem;
+    background: url("@/assets/images/logos/nasa-meatball-new.svg") no-repeat;
     background-position: left center;
-    background-size: 2rem 2rem;
+    background-size: 2.5rem 2.5rem;
 
-    &:hover {
-      background: url("@/assets/images/logos/nasa-meatball-new.svg") no-repeat;
-      background-position: left center;
-      background-size: 2rem 2rem;
-      cursor: pointer;
-    }
+    // @include media-breakpoint-up(md) {
+    //   padding-left: 4.375rem;
+    //       background-size: 1.5rem 1.5rem;
 
-    @include media-breakpoint-up(md) {
-      padding-left: 4.375rem;
-      background-size: 3.75rem 3.75rem;
-      font-size: var(--bs-navbar-brand-font-size);
+    //   font-size: var(--bs-navbar-brand-font-size);
 
-      &:hover {
-        background-size: 3.75rem 3.75rem;
-      }
-    }
+    //   &:hover {
+    //     background-size: 1.5rem 1.5rem;
+    //   }
+    // }
   }
 }
 
-@include media-breakpoint-up(xl) {
-  .navbar-brand {
-    --bs-navbar-brand-font-size: 1.6rem;
-  }
-}
+// @include media-breakpoint-up(xl) {
+//   .navbar-brand {
+//     --bs-navbar-brand-font-size: 1rem;
+//   }
+// }

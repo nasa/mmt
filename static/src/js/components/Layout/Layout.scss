@@ -1,0 +1,22 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.layout {
+  &__sidebar {
+    width: 100%;
+    height: auto;
+
+    @include media-breakpoint-up(md) {
+      width: 17rem;
+      height: 100%;
+    }
+  }
+
+  &__brand-earthdata {
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 0.75rem;
+  }
+}

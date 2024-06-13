@@ -1,4 +1,13 @@
 .primary-navigation {
+  &__group-item {
+    &:hover {
+      background-color: var(--bs-light-dark);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+
   &__item {
     --bs-border-color: transparent;
 
@@ -26,8 +35,9 @@
   &__dropdown-button {
     opacity: 0.4;
 
-    &:hover {
+    .primary-navigation__group-item:hover & {
       opacity: 0.7;
+      transition: all 0.2s ease-in-out;
     }
   }
 }

@@ -42,4 +42,34 @@
       }
     }
   }
+
+  tr {
+    position: relative;
+  }
+
+  th, td {
+    z-index: 0;
+  }
+
+  th:first-child,
+  td:first-child {
+    position: sticky;
+    z-index: 1000;
+    left: 0px;
+    max-width: 20rem;
+  }
+
+  td:first-child {
+    border: 0;
+
+    &::before {
+      position: absolute;
+      border-right: 1px solid var(--bs-border-color);
+      border-left: 1px solid var(--bs-border-color);
+      content: '';
+      inset: 0;
+      user-select: none;
+      z-index: -1;
+    }
+  }
 }

@@ -54,212 +54,214 @@ const Table = ({
 }) => (
   <Row>
     <Col>
-      <BoostrapTable bordered striped responsive="xl">
-        <thead>
-          <tr className="border-top-0">
-            {
-              columns.map(({
-                align,
-                className,
-                dataKey,
-                sortKey: sortKeyOverride = '',
-                sortFn = null,
-                title
-              }) => {
-                const activeKey = sortKey?.replace('-', '')
-                const hasActiveSort = !!sortKey
-                const isAscendingSortActive = sortKey?.includes('-')
+      <div className="table-responsive">
+        <BoostrapTable className="mb-0" bordered striped responsive="md" size="sm">
+          <thead>
+            <tr className="border-top-0">
+              {
+                columns.map(({
+                  align,
+                  className,
+                  dataKey,
+                  sortKey: sortKeyOverride = '',
+                  sortFn = null,
+                  title
+                }) => {
+                  const activeKey = sortKey?.replace('-', '')
+                  const hasActiveSort = !!sortKey
+                  const isAscendingSortActive = sortKey?.includes('-')
 
-                // If a sort key override exists, check against that to determine if an item
-                // is active. Otherwise, use the dataKey for that item.
-                const isActiveSort = sortKeyOverride
-                  ? activeKey === sortKeyOverride
-                  : activeKey === dataKey
+                  // If a sort key override exists, check against that to determine if an item
+                  // is active. Otherwise, use the dataKey for that item.
+                  const isActiveSort = sortKeyOverride
+                    ? activeKey === sortKeyOverride
+                    : activeKey === dataKey
 
-                const sortAscendingButtonClasses = classNames(
-                  [
-                    'table__sort-button text-secondary d-flex justify-content-center',
-                    {
-                      'table__sort-button--inactive': !isActiveSort || (isActiveSort && !isAscendingSortActive),
-                      'table__sort-button--active': hasActiveSort && isActiveSort && !isAscendingSortActive
-                    }
-                  ]
-                )
-
-                const sortDescendingButtonClasses = classNames(
-                  [
-                    'table__sort-button text-secondary d-flex justify-content-center',
-                    {
-                      'table__sort-button--inactive': !isActiveSort || (isActiveSort && isAscendingSortActive),
-                      'table__sort-button--active': hasActiveSort && isActiveSort && isAscendingSortActive
-                    }
-                  ]
-                )
-
-                return (
-                  <th
-                    key={`${id}_${dataKey}_column-heading`}
-                    className={
-                      classNames([
-                        'border-start-0',
-                        'border-end-0',
-                        'align-middle',
-                        {
-                          [className]: className,
-                          [`text-${align}`]: align
-                        }
-                      ])
-                    }
-                  >
-                    <div className={
-                      classNames([
-                        'd-flex flex-row align-items-center',
-                        {
-                          'w-100': align === 'center',
-                          [`justify-content-${align}`]: align
-                        }
-                      ])
-                    }
-                    >
-                      {title}
+                  const sortAscendingButtonClasses = classNames(
+                    [
+                      'table__sort-button text-secondary d-flex justify-content-center',
                       {
-                        sortFn && (
-                          <div className="d-flex flex-column align-content-center">
-                            <Button
-                              className={sortAscendingButtonClasses}
-                              naked
-                              Icon={FaSortUp}
-                              iconOnly
-                              iconTitle="Arrow pointing up"
-                              onClick={
-                                () => {
-                                  if (isActiveSort && isAscendingSortActive) {
-                                    sortFn(sortKeyOverride || dataKey)
-
-                                    return
-                                  }
-
-                                  sortFn(sortKeyOverride || dataKey, 'ascending')
-                                }
-                              }
-                            >
-                              {`Sort ${title} in ascending order`}
-                            </Button>
-                            <Button
-                              className={sortDescendingButtonClasses}
-                              naked
-                              Icon={FaSortDown}
-                              iconOnly
-                              iconTitle="Arrow pointing down"
-                              onClick={
-                                () => {
-                                  if (isActiveSort && !isAscendingSortActive) {
-                                    sortFn(sortKeyOverride || dataKey)
-
-                                    return
-                                  }
-
-                                  sortFn(sortKeyOverride || dataKey, 'descending')
-                                }
-                              }
-                            >
-                              {`Sort ${title} in descending order`}
-                            </Button>
-                          </div>
-                        )
+                        'table__sort-button--inactive': !isActiveSort || (isActiveSort && !isAscendingSortActive),
+                        'table__sort-button--active': hasActiveSort && isActiveSort && !isAscendingSortActive
                       }
-                    </div>
-                  </th>
-                )
-              })
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            loading && (
-              <For key="for-each-loading-key" each={Array.from(Array(limit))}>
-                {
-                  (column, i) => (
-                    <tr key={`${id}_loading_row_${i}`}>
-                      {
-                        columns.map(() => {
-                          // Generate a random number between 4 and 12 to be used as the column size
-                          const randomColumnSize = random(4, 12)
+                    ]
+                  )
 
-                          return (
+                  const sortDescendingButtonClasses = classNames(
+                    [
+                      'table__sort-button text-secondary d-flex justify-content-center',
+                      {
+                        'table__sort-button--inactive': !isActiveSort || (isActiveSort && isAscendingSortActive),
+                        'table__sort-button--active': hasActiveSort && isActiveSort && isAscendingSortActive
+                      }
+                    ]
+                  )
+
+                  return (
+                    <th
+                      key={`${id}_${dataKey}_column-heading`}
+                      className={
+                        classNames([
+                          'border-start-0',
+                          'border-end-0',
+                          'align-middle',
+                          {
+                            [className]: className,
+                            [`text-${align}`]: align
+                          }
+                        ])
+                      }
+                    >
+                      <div className={
+                        classNames([
+                          'd-flex flex-row align-items-center',
+                          {
+                            'w-100': align === 'center',
+                            [`justify-content-${align}`]: align
+                          }
+                        ])
+                      }
+                      >
+                        {title}
+                        {
+                          sortFn && (
+                            <div className="d-flex flex-column align-content-center">
+                              <Button
+                                className={sortAscendingButtonClasses}
+                                naked
+                                Icon={FaSortUp}
+                                iconOnly
+                                iconTitle="Arrow pointing up"
+                                onClick={
+                                  () => {
+                                    if (isActiveSort && isAscendingSortActive) {
+                                      sortFn(sortKeyOverride || dataKey)
+
+                                      return
+                                    }
+
+                                    sortFn(sortKeyOverride || dataKey, 'ascending')
+                                  }
+                                }
+                              >
+                                {`Sort ${title} in ascending order`}
+                              </Button>
+                              <Button
+                                className={sortDescendingButtonClasses}
+                                naked
+                                Icon={FaSortDown}
+                                iconOnly
+                                iconTitle="Arrow pointing down"
+                                onClick={
+                                  () => {
+                                    if (isActiveSort && !isAscendingSortActive) {
+                                      sortFn(sortKeyOverride || dataKey)
+
+                                      return
+                                    }
+
+                                    sortFn(sortKeyOverride || dataKey, 'descending')
+                                  }
+                                }
+                              >
+                                {`Sort ${title} in descending order`}
+                              </Button>
+                            </div>
+                          )
+                        }
+                      </div>
+                    </th>
+                  )
+                })
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              loading && (
+                <For key="for-each-loading-key" each={Array.from(Array(limit))}>
+                  {
+                    (column, i) => (
+                      <tr key={`${id}_loading_row_${i}`}>
+                        {
+                          columns.map(() => {
+                          // Generate a random number between 4 and 12 to be used as the column size
+                            const randomColumnSize = random(4, 12)
+
+                            return (
                             // Because rerenders of this componentIt should be safe to generate
                             // eslint-disable-next-line react/no-array-index-key
-                            <td
-                              key={uniqueId(`${id}_loading_row_`)}
-                              className="col-md-4"
-                              aria-busy={loading}
-                            >
-                              <Placeholder animation="glow" aria-hidden="true">
-                                <Placeholder xs={randomColumnSize} />
-                              </Placeholder>
-                            </td>
-                          )
-                        })
-                      }
-                    </tr>
-                  )
-                }
-              </For>
-            )
-          }
-          {
-            !loading && data.length === 0 && (
-              <tr>
-                <td colSpan={columns.length}>{noDataMessage}</td>
-              </tr>
-            )
-          }
-          {
-            !loading && data.length > 0 && data.map((rowData) => (
-              <tr key={`${id}_${generateRowKey(rowData)}`}>
-                {
-                  columns.map((column) => {
-                    const {
-                      dataKey,
-                      className,
-                      align,
-                      dataAccessorFn = null
-                    } = column
-
-                    const cellData = get(rowData, dataKey)
-
-                    let cellContent
-
-                    if (dataAccessorFn) {
-                      cellContent = dataAccessorFn(cellData, rowData)
-                    } else {
-                      cellContent = cellData
-                    }
-
-                    return (
-                      <td
-                        key={`${id}_${generateCellKey(rowData, dataKey)}`}
-                        aria-busy="false"
-                        className={
-                          classNames([
-                            {
-                              [className]: className,
-                              [`text-${align}`]: align
-                            }
-                          ])
+                              <td
+                                key={uniqueId(`${id}_loading_row_`)}
+                                className="col-md-4"
+                                aria-busy={loading}
+                              >
+                                <Placeholder animation="glow" aria-hidden="true">
+                                  <Placeholder xs={randomColumnSize} />
+                                </Placeholder>
+                              </td>
+                            )
+                          })
                         }
-                      >
-                        {cellContent}
-                      </td>
+                      </tr>
                     )
-                  })
-                }
-              </tr>
-            ))
-          }
-        </tbody>
-      </BoostrapTable>
+                  }
+                </For>
+              )
+            }
+            {
+              !loading && data.length === 0 && (
+                <tr>
+                  <td colSpan={columns.length}>{noDataMessage}</td>
+                </tr>
+              )
+            }
+            {
+              !loading && data.length > 0 && data.map((rowData) => (
+                <tr key={`${id}_${generateRowKey(rowData)}`}>
+                  {
+                    columns.map((column) => {
+                      const {
+                        dataKey,
+                        className,
+                        align,
+                        dataAccessorFn = null
+                      } = column
+
+                      const cellData = get(rowData, dataKey)
+
+                      let cellContent
+
+                      if (dataAccessorFn) {
+                        cellContent = dataAccessorFn(cellData, rowData)
+                      } else {
+                        cellContent = cellData
+                      }
+
+                      return (
+                        <td
+                          key={`${id}_${generateCellKey(rowData, dataKey)}`}
+                          aria-busy="false"
+                          className={
+                            classNames([
+                              {
+                                [className]: className,
+                                [`text-${align}`]: align
+                              }
+                            ])
+                          }
+                        >
+                          {cellContent}
+                        </td>
+                      )
+                    })
+                  }
+                </tr>
+              ))
+            }
+          </tbody>
+        </BoostrapTable>
+      </div>
     </Col>
   </Row>
 )

@@ -75,7 +75,7 @@ describe('SearchPage component', () => {
         expect(screen.getAllByRole('row').length).toEqual(10)
 
         expect(await screen.findByText('Collections')).toBeInTheDocument()
-        expect(await screen.findByText('Search Results')).toBeInTheDocument()
+        expect(await screen.findByText('All Collections')).toBeInTheDocument()
       })
 
       test.skip('renders the SearchList', () => {
@@ -94,7 +94,7 @@ describe('SearchPage component', () => {
         expect(screen.getAllByRole('row').length).toEqual(10)
 
         expect(await screen.findByText('Services')).toBeInTheDocument()
-        expect(await screen.findByText('Search Results')).toBeInTheDocument()
+        expect(await screen.findByText('All Services')).toBeInTheDocument()
       })
 
       test.skip('renders the SearchList', () => {
@@ -113,7 +113,7 @@ describe('SearchPage component', () => {
         expect(screen.getAllByRole('row').length).toEqual(10)
 
         expect(await screen.findByText('Tools')).toBeInTheDocument()
-        expect(await screen.findByText('Search Results')).toBeInTheDocument()
+        expect(await screen.findByText('All Tools')).toBeInTheDocument()
       })
 
       test.skip('renders the SearchList', () => {
@@ -132,7 +132,7 @@ describe('SearchPage component', () => {
         expect(screen.getAllByRole('row').length).toEqual(10)
 
         expect(await screen.findByText('Variables')).toBeInTheDocument()
-        expect(await screen.findByText('Search Results')).toBeInTheDocument()
+        expect(await screen.findByText('All Variables')).toBeInTheDocument()
       })
 
       test.skip('renders the SearchList', () => {

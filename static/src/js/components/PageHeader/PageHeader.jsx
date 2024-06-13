@@ -70,6 +70,7 @@ import For from '@/js/components/For/For'
  */
 const PageHeader = ({
   additionalActions,
+  beforeActions,
   breadcrumbs,
   pageType,
   primaryActions,
@@ -128,148 +129,150 @@ const PageHeader = ({
         </h2>
         {titleBadge && <Badge className="ms-2" bg="light-dark text-secondary" size="sm">{titleBadge}</Badge>}
       </div>
-      {
-        primaryActions && (
-          <div className="d-flex flex-row">
-            <For each={primaryActions}>
-              {
-                (
-                  {
-                    disabled,
-                    disabledTooltipText,
-                    icon,
-                    iconTitle,
-                    loading,
-                    loadingText,
-                    onClick,
-                    title: buttonTitle,
-                    to,
-                    variant,
-                    visible = true
-                  }
-                ) => {
-                  if (!visible) return null
+      <div className="d-flex flex-row flex-grow-1 justify-content-end ms-4">
+        {beforeActions}
+        {
+          primaryActions && (
+            <>
+              <For each={primaryActions}>
+                {
+                  (
+                    {
+                      disabled,
+                      disabledTooltipText,
+                      icon,
+                      iconTitle,
+                      loading,
+                      loadingText,
+                      onClick,
+                      title: buttonTitle,
+                      to,
+                      variant,
+                      visible = true
+                    }
+                  ) => {
+                    if (!visible) return null
 
-                  if (to) {
+                    if (to) {
+                      return (
+                        <div
+                          key={buttonTitle}
+                          title={disabledTooltipText}
+                        >
+                          <Button
+                            to={to}
+                            as={Link}
+                            className="ms-2"
+                            disabled={disabled}
+                            Icon={icon}
+                            iconTitle={iconTitle}
+                            variant={variant}
+                          >
+                            {buttonTitle}
+                          </Button>
+                        </div>
+                      )
+                    }
+
                     return (
                       <div
                         key={buttonTitle}
                         title={disabledTooltipText}
                       >
                         <Button
-                          to={to}
-                          as={Link}
                           className="ms-2"
                           disabled={disabled}
-                          size="sm"
                           Icon={icon}
                           iconTitle={iconTitle}
                           variant={variant}
+                          onClick={onClick}
+                          loading={loading}
+                          loadingText={loadingText}
                         >
                           {buttonTitle}
                         </Button>
                       </div>
                     )
                   }
-
-                  return (
-                    <div
-                      key={buttonTitle}
-                      title={disabledTooltipText}
-                    >
-                      <Button
-                        className="ms-2"
-                        disabled={disabled}
-                        size="sm"
-                        Icon={icon}
-                        iconTitle={iconTitle}
-                        variant={variant}
-                        onClick={onClick}
-                        loading={loading}
-                        loadingText={loadingText}
-                      >
-                        {buttonTitle}
-                      </Button>
-                    </div>
-                  )
                 }
-              }
-            </For>
-            {
-              additionalActions && (
-                <Dropdown className="ms-2" align="end">
-                  <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
-                  <DropdownMenu as={CustomMenu}>
-                    <For each={additionalActions}>
-                      {
-                        (
-                          {
-                            count: actionCount,
-                            loading: actionLoading,
-                            loadingText: actionLoadingText,
-                            onClick: actionOnClick,
-                            title: actionTitle,
-                            to
-                          }
-                        ) => {
-                          const content = (
-                            <>
-                              <span>{actionTitle}</span>
-                              {
-                                actionCount !== null && (
-                                  <Badge
-                                    className="ms-2 text-secondary"
-                                    pill
-                                    bg="light-dark"
-                                  >
-                                    {actionCount}
-                                  </Badge>
-                                )
-                              }
-                            </>
-                          )
+              </For>
+              {
+                additionalActions && (
+                  <Dropdown className="ms-2" align="end">
+                    <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
+                    <DropdownMenu as={CustomMenu}>
+                      <For each={additionalActions}>
+                        {
+                          (
+                            {
+                              count: actionCount,
+                              loading: actionLoading,
+                              loadingText: actionLoadingText,
+                              onClick: actionOnClick,
+                              title: actionTitle,
+                              to
+                            }
+                          ) => {
+                            const content = (
+                              <>
+                                <span>{actionTitle}</span>
+                                {
+                                  actionCount !== null && (
+                                    <Badge
+                                      className="ms-2 text-secondary"
+                                      pill
+                                      bg="light-dark"
+                                    >
+                                      {actionCount}
+                                    </Badge>
+                                  )
+                                }
+                              </>
+                            )
 
-                          if (to) {
+                            if (to) {
+                              return (
+                                <DropdownItem
+                                  className="d-flex flex-row align-items-center"
+                                  key={actionTitle}
+                                  eventKey={snakeCase(actionTitle)}
+                                  to={to}
+                                  as={Link}
+                                >
+                                  {content}
+                                </DropdownItem>
+                              )
+                            }
+
                             return (
                               <DropdownItem
                                 className="d-flex flex-row align-items-center"
                                 key={actionTitle}
                                 eventKey={snakeCase(actionTitle)}
-                                to={to}
-                                as={Link}
+                                onClick={actionOnClick}
+                                aria-busy={actionLoading}
                               >
-                                {content}
+                                {actionLoading ? actionLoadingText : content}
                               </DropdownItem>
                             )
                           }
 
-                          return (
-                            <DropdownItem
-                              className="d-flex flex-row align-items-center"
-                              key={actionTitle}
-                              eventKey={snakeCase(actionTitle)}
-                              onClick={actionOnClick}
-                              aria-busy={actionLoading}
-                            >
-                              {actionLoading ? actionLoadingText : content}
-                            </DropdownItem>
-                          )
                         }
-
-                      }
-                    </For>
-                  </DropdownMenu>
-                </Dropdown>
-              )
-            }
-          </div>
-        )
-      }
+                      </For>
+                    </DropdownMenu>
+                  </Dropdown>
+                )
+              }
+            </>
+          )
+        }
+      </div>
     </div>
   </header>
 )
 
 PageHeader.defaultProps = {
+  beforeActions: null,
   additionalActions: null,
   breadcrumbs: [],
   pageType: 'primary',
@@ -278,6 +281,7 @@ PageHeader.defaultProps = {
 }
 
 PageHeader.propTypes = {
+  beforeActions: PropTypes.node,
   additionalActions: PropTypes.arrayOf(
     PropTypes.shape({
       count: PropTypes.oneOfType([

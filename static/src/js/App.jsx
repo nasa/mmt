@@ -38,6 +38,7 @@ import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
+import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 
 import '../css/index.scss'
 /**
@@ -58,7 +59,7 @@ export const App = () => {
     {
       path: '/',
       exact: true,
-      element: <Layout displayNav={false} />,
+      element: <LayoutUnauthenticated />,
       children: [
         {
           path: '/',
@@ -212,10 +213,6 @@ export const App = () => {
             {
               path: '/providers',
               element: <ProvidersPage />
-            },
-            {
-              path: '/admin',
-              element: <div>TBD</div>
             },
             {
               element: <CheckPermissions systemGroup={['read']} />,

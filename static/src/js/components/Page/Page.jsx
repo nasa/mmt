@@ -55,17 +55,17 @@ const Page = ({
   children,
   header
 }) => (
-  <div className="w-100 overflow-hidden">
+  <div className="page flex-grow-0 w-100 overflow-y-auto overflow-x-hidden">
     <Container fluid className="mx-0 mb-5">
       <Row className="py-3 mb-0">
-        <Col className="px-5 pt-0">
+        <Col className="px-4 px-md-5 pt-2 pt-md-4">
           <Suspense fallback={<PageHeaderPlaceholder />}>
             {header}
           </Suspense>
         </Col>
       </Row>
       <Row>
-        <Col className="px-5 mt-4">
+        <Col className="px-4 px-md-5 mt-4">
           <Suspense fallback={<LoadingBanner />}>
             {children}
           </Suspense>
