@@ -53,6 +53,12 @@ vi.mock('@/js/components/Layout/Layout', () => ({
   ))
 }))
 
+vi.mock('@/js/components/LayoutUnauthenticated/LayoutUnauthenticated', () => ({
+  default: vi.fn(() => (
+    <div data-testid="mock-layout-unauthenticated"><Outlet /></div>
+  ))
+}))
+
 const setup = () => {
   render(
     <App />

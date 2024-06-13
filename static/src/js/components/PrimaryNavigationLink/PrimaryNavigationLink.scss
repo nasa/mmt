@@ -1,0 +1,23 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.primary-navigation-link {
+  &__link {
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      color: $gray-900;
+    }
+
+    &--is-child {
+      padding: 0;
+    }
+  }
+
+  &__title {
+    font-size: 0.925rem;
+    letter-spacing: 0.02rem;
+  }
+}

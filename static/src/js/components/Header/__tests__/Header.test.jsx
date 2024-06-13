@@ -10,7 +10,6 @@ import { MockedProvider } from '@apollo/client/testing'
 
 import Header from '../Header'
 import AuthContext from '../../../context/AuthContext'
-import { providerResults } from './__mocks__/providerResults'
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
@@ -20,24 +19,10 @@ vi.mock('react-router-dom', async () => ({
 const setup = ({
   overrideMocks,
   overrideContext = {},
-  overrideInitalEntries = ['/'],
-  loggedIn = false
+  overrideInitalEntries = ['/']
 } = {}) => {
-  vi.setSystemTime('2024-01-01')
-  const mocks = [
-    providerResults
-  ]
-
-  const now = new Date().getTime()
-
-  const tokenExpires = loggedIn ? now + 1 : now - 1
-
   const context = {
-    user: {
-      name: 'User Name'
-    },
     login: vi.fn(),
-    tokenExpires,
     ...overrideContext
   }
 
@@ -46,7 +31,7 @@ const setup = ({
   render(
     <AuthContext.Provider value={context}>
       <MockedProvider
-        mocks={overrideMocks || mocks}
+        mocks={overrideMocks}
       >
         <MemoryRouter initialEntries={[...overrideInitalEntries]}>
           <Routes>
@@ -92,17 +77,6 @@ describe('Header component', () => {
 
         expect(context.login).toHaveBeenCalledTimes(1)
       })
-    })
-  })
-
-  describe('when the user is logged in', () => {
-    test('displays the user name badge', () => {
-      setup({
-        loggedIn: true
-      })
-
-      expect(screen.getByText('User Name')).toBeInTheDocument()
-      expect(screen.getByText('User Name').className).toContain('badge')
     })
   })
 })

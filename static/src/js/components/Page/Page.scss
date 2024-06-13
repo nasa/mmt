@@ -1,5 +1,9 @@
+@import '../../../css/vendor/bootstrap/variables';
+
 .page {
-  &__header {
-    width: 15rem;
+  overflow-y: scroll;
+
+  @include media-breakpoint-up(md) {
+    overflow-y: auto;
   }
 }

@@ -27,6 +27,7 @@ import AuthCallback from '@/js/components/AuthCallback/AuthCallback'
 import AuthRequiredLayout from '@/js/components/AuthRequiredLayout/AuthRequiredLayout'
 import CheckPermissions from '@/js/components/CheckPermissions/CheckPermissions'
 import Layout from '@/js/components/Layout/Layout'
+import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
 import Page from '@/js/components/Page/Page'
 import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
@@ -40,6 +41,7 @@ import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
+
 /**
  * Renders the `App` component
  *
@@ -58,7 +60,7 @@ export const App = () => {
     {
       path: '/',
       exact: true,
-      element: <Layout displayNav={false} />,
+      element: <LayoutUnauthenticated />,
       children: [
         {
           path: '/',
@@ -212,10 +214,6 @@ export const App = () => {
             {
               path: '/providers',
               element: <ProvidersPage />
-            },
-            {
-              path: '/admin',
-              element: <div>TBD</div>
             },
             {
               element: <CheckPermissions systemGroup={['read']} />,

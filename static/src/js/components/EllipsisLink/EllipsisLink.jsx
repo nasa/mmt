@@ -42,7 +42,6 @@ const EllipsisLink = ({ children, to }) => {
     <Link
       ref={ref}
       className="d-block col-12 text-truncate text-decoration-none"
-      style={{ maxWidth: '15rem' }}
       to={to}
     >
       {children}
