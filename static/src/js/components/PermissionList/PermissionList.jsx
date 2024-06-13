@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react'
-import { useSuspenseQuery } from '@apollo/client'
+import React, { useCallback, useState } from 'react'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useSearchParams } from 'react-router-dom'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
 import EllipsisLink from '@/js/components/EllipsisLink/EllipsisLink'
@@ -13,16 +13,32 @@ import Table from '@/js/components/Table/Table'
 
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
 
+import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
+
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+
+import errorLogger from '@/js/utils/errorLogger'
+
 import Button from '../Button/Button'
+import CustomModal from '../CustomModal/CustomModal'
 
 const PermissionList = () => {
+  const { addNotification } = useNotificationsContext()
+
   const [searchParams, setSearchParams] = useSearchParams()
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedPermission, setSelectedPermission] = useState(false)
 
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const limit = 20
   const offset = (activePage - 1) * limit
 
-  const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSIONS, {
+  const toggleShowDeleteModal = (nextState) => {
+    setShowDeleteModal(nextState)
+  }
+
+  const { data, refetch } = useSuspenseQuery(GET_COLLECTION_PERMISSIONS, {
     variables: {
       params: {
         identityType: 'catalog_item',
@@ -85,6 +101,23 @@ const PermissionList = () => {
             Edit
           </Button>
         </Col>
+        <Col className="col-auto">
+          <Button
+            className="d-flex"
+            Icon={FaTrash}
+            iconTitle="Delete Button"
+            onClick={
+              () => {
+                setSelectedPermission(rowData)
+                toggleShowDeleteModal(true)
+              }
+            }
+            variant="danger"
+            size="sm"
+          >
+            Delete
+          </Button>
+        </Col>
       </Row>
     )
   }, [])
@@ -107,6 +140,37 @@ const PermissionList = () => {
       dataAccessorFn: buildActionsCell
     }
   ]
+
+  const [deleteAclMutation] = useMutation(DELETE_ACL)
+
+  const handleDelete = () => {
+    const { conceptId } = selectedPermission
+    deleteAclMutation({
+      variables: {
+        conceptId
+      },
+      onCompleted: () => {
+        addNotification({
+          message: 'Collection permission was successfully deleted.',
+          variant: 'success'
+        })
+
+        refetch()
+      },
+      onError: () => {
+        addNotification({
+          message: 'Error deleting collection permission',
+          variant: 'danger'
+        })
+
+        errorLogger('Unable delete collection permission', 'Permission List: deleteAcl Mutation')
+
+        setShowDeleteModal(false)
+      }
+    })
+
+    setShowDeleteModal(false)
+  }
 
   return (
     <Row>
@@ -176,6 +240,26 @@ const PermissionList = () => {
           }
         </ControlledPaginatedContent>
       </Col>
+      <CustomModal
+        message="Are you sure you want to delete this collection permission?"
+        show={showDeleteModal}
+        size="lg"
+        toggleModal={toggleShowDeleteModal}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: () => { toggleShowDeleteModal(false) }
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleDelete
+            }
+          ]
+        }
+      />
     </Row>
   )
 }

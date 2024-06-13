@@ -2,14 +2,24 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import React, { Suspense } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+
 import userEvent from '@testing-library/user-event'
 
+import { DELETE_ACL } from '@/js/operations/mutations/deleteAcl'
 import { GET_COLLECTION_PERMISSIONS } from '@/js/operations/queries/getCollectionPermissions'
+
+import NotificationsContext from '@/js/context/NotificationsContext'
+
+import errorLogger from '@/js/utils/errorLogger'
+
+import { MemoryRouter } from 'react-router'
 import PermissionList from '../PermissionList'
+
+vi.mock('../../../utils/errorLogger')
 
 const setup = ({
   overrideMocks = false
@@ -155,16 +165,22 @@ const setup = ({
     }
   }]
 
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
+
   const user = userEvent.setup()
 
   render(
-    <MockedProvider mocks={overrideMocks || mocks}>
-      <BrowserRouter initialEntries="">
-        <Suspense>
-          <PermissionList />
-        </Suspense>
-      </BrowserRouter>
-    </MockedProvider>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider mocks={overrideMocks || mocks}>
+        <MemoryRouter>
+          <Suspense>
+            <PermissionList />
+          </Suspense>
+        </MemoryRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {
@@ -299,9 +315,223 @@ describe('PermissionList', () => {
 
       await user.click(paginationButton)
 
-      const paginationLinks = await screen.findAllByRole('cell')
+      await waitFor(() => {
+        expect(screen.queryAllByRole('cell')[0].textContent).toContain('Page 2 All Collection')
+      })
+    })
+  })
 
-      expect(paginationLinks[0].textContent).toContain('Page 2 All Collection')
+  describe('when clicking delete button', () => {
+    describe('when clicking yes on the delete modal', () => {
+      test('deletes collection permission and hides the modal', async () => {
+        const { user } = setup(
+          {
+            overrideMocks: [
+              {
+                request: {
+                  query: GET_COLLECTION_PERMISSIONS,
+                  variables: {
+                    params: {
+                      identityType: 'catalog_item',
+                      limit: 20,
+                      offset: 0
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    acls: {
+                      __typename: 'AclList',
+                      count: 1,
+                      items: [
+                        {
+                          __typename: 'Acl',
+                          conceptId: 'ACL1200216197-CMR',
+                          name: 'All Collections',
+                          providerIdentity: null,
+                          catalogItemIdentity: {
+                            name: 'All Collections',
+                            providerId: 'MMT_2',
+                            granuleApplicable: false,
+                            collectionApplicable: true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                request: {
+                  query: DELETE_ACL,
+                  variables: { conceptId: 'ACL1200216197-CMR' }
+                },
+                result: {
+                  data: {
+                    deleteAcl: {
+                      conceptId: 'ACL1200216197-CMR',
+                      revisionId: '1'
+                    }
+                  }
+                }
+              },
+              {
+                request: {
+                  query: GET_COLLECTION_PERMISSIONS,
+                  variables: {
+                    params: {
+                      identityType: 'catalog_item',
+                      limit: 20,
+                      offset: 0
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    acls: {
+                      __typename: 'AclList',
+                      count: 0,
+                      items: []
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        )
+
+        const deleteLink = await screen.findByRole('button', { name: 'Delete Button Delete' })
+        await user.click(deleteLink)
+
+        expect(screen.getByText('Are you sure you want to delete this collection permission?')).toBeInTheDocument()
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('No permissions found')).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Yes on the delete modal results in a failure', () => {
+      test('should not delete the permission and calls errorLogger', async () => {
+        const { user } = setup(
+          {
+            overrideMocks: [
+              {
+                request: {
+                  query: GET_COLLECTION_PERMISSIONS,
+                  variables: {
+                    params: {
+                      identityType: 'catalog_item',
+                      limit: 20,
+                      offset: 0
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    acls: {
+                      __typename: 'AclList',
+                      count: 1,
+                      items: [
+                        {
+                          __typename: 'Acl',
+                          conceptId: 'ACL1200216197-CMR',
+                          name: 'All Collections',
+                          providerIdentity: null,
+                          catalogItemIdentity: {
+                            name: 'All Collections',
+                            providerId: 'MMT_2',
+                            granuleApplicable: false,
+                            collectionApplicable: true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                request: {
+                  query: DELETE_ACL,
+                  variables: { conceptId: 'ACL1200216197-CMR' }
+                },
+                error: new Error('An error occurred')
+              }
+            ]
+          }
+        )
+        const deleteLink = await screen.findByRole('button', { name: 'Delete Button Delete' })
+        await user.click(deleteLink)
+
+        expect(screen.getByText('Are you sure you want to delete this collection permission?')).toBeInTheDocument()
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+
+        expect(errorLogger).toHaveBeenCalledWith(
+          'Unable delete collection permission',
+          'Permission List: deleteAcl Mutation'
+        )
+      })
+    })
+
+    describe('when clicking no on the delete modal', () => {
+      test('should hide the modal and should not delete the permission', async () => {
+        const { user } = setup(
+          {
+            overrideMocks: [
+              {
+                request: {
+                  query: GET_COLLECTION_PERMISSIONS,
+                  variables: {
+                    params: {
+                      identityType: 'catalog_item',
+                      limit: 20,
+                      offset: 0
+                    }
+                  }
+                },
+                result: {
+                  data: {
+                    acls: {
+                      __typename: 'AclList',
+                      count: 1,
+                      items: [
+                        {
+                          __typename: 'Acl',
+                          conceptId: 'ACL1200216197-CMR',
+                          name: 'All Collections',
+                          providerIdentity: null,
+                          catalogItemIdentity: {
+                            name: 'All Collections',
+                            providerId: 'MMT_2',
+                            granuleApplicable: false,
+                            collectionApplicable: true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        )
+
+        const deleteLink = await screen.findByRole('button', { name: 'Delete Button Delete' })
+        await user.click(deleteLink)
+
+        expect(screen.getByText('Are you sure you want to delete this collection permission?')).toBeInTheDocument()
+
+        const noButton = screen.getByRole('button', { name: 'No' })
+        await user.click(noButton)
+
+        expect(screen.getByText('Showing 1 permissions')).toBeInTheDocument()
+        expect(screen.queryByText('Are you sure you want to delete this collection permission?')).not.toBeInTheDocument()
+      })
     })
   })
 })
