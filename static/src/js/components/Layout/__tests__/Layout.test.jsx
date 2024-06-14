@@ -3,8 +3,7 @@ import { render, screen } from '@testing-library/react'
 import {
   BrowserRouter,
   Route,
-  Routes,
-  useNavigate
+  Routes
 } from 'react-router-dom'
 import * as router from 'react-router'
 
