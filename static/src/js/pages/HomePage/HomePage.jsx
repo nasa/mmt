@@ -25,13 +25,14 @@ const HomePage = () => {
   const navigate = useNavigate()
 
   const { tokenExpires } = useAuthContext()
-  const isExpired = isTokenExpired(tokenExpires)
 
   useEffect(() => {
+    const isExpired = isTokenExpired(tokenExpires)
+
     if (!isExpired) {
       navigate('/collections', { replace: true })
     }
-  }, [isExpired])
+  }, [tokenExpires])
 
   const panels = [
     {

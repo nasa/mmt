@@ -37,6 +37,9 @@ describe('LogoutPage component', () => {
     expect(context.setToken).toHaveBeenCalledWith(null)
 
     expect(Navigate).toHaveBeenCalledTimes(1)
-    expect(Navigate).toHaveBeenCalledWith({ to: '/' }, {})
+    expect(Navigate).toHaveBeenCalledWith({
+      to: '/',
+      replace: true
+    }, {})
   })
 })

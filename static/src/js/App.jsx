@@ -71,13 +71,7 @@ export const App = () => {
     {
       path: '/auth-callback',
       exact: true,
-      element: <Layout />,
-      children: [
-        {
-          path: '/auth-callback',
-          element: <AuthCallback />
-        }
-      ]
+      element: <AuthCallback />
     },
     {
       path: '/logout',

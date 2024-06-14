@@ -203,6 +203,7 @@ const Layout = ({ className, displayNav }) => {
                             role="button"
                             size="sm"
                             as={Button}
+                            iconTitle="Arrow pointing up"
                             naked
                             Icon={FaUserAlt}
                           >
@@ -235,7 +236,8 @@ const Layout = ({ className, displayNav }) => {
 
                             <Dropdown.Item
                               className="layout__user-dropdown-item bg-light-dark small"
-                              href="/logout"
+                              as={Link}
+                              to="/logout"
                             >
                               <FaSignOutAlt className="me-2" />
                               Logout

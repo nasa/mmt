@@ -63,6 +63,7 @@ const PrimaryNavigation = ({
             }
             variant="pills"
             as="ul"
+            key={i}
           >
             <For each={item}>
               {
@@ -91,12 +92,14 @@ const PrimaryNavigation = ({
 
 PrimaryNavigation.propTypes = {
   items: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-      version: PropTypes.string,
-      visible: PropTypes.bool
-    }).isRequired
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        to: PropTypes.string,
+        version: PropTypes.string,
+        visible: PropTypes.bool
+      }).isRequired
+    )
   ).isRequired
 }
 

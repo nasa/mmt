@@ -93,6 +93,7 @@ const AuthContextProvider = ({ children }) => {
       // `removeCookie` doesn't seem to work on Safari, using `setCookie` with a null value does remove the cookie
       setCookie(MMT_COOKIE, null, {
         domain: cookieDomain,
+        path: '/',
         maxAge: 0,
         expires: new Date(0)
       })
