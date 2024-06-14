@@ -14,7 +14,6 @@ import deleteTemplate from '@/js/utils/deleteTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 
-import useAppContext from '@/js/hooks/useAppContext'
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
@@ -39,7 +38,6 @@ import Table from '@/js/components/Table/Table'
  */
 const TemplateList = () => {
   const { templateType } = useParams()
-  const { providerId } = useAppContext()
 
   const { mmtJwt } = useMMTCookie()
 
@@ -47,7 +45,7 @@ const TemplateList = () => {
   const [errors, setErrors] = useState()
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [selectedDeleteId, setSelectedDeleteId] = useState()
+  const [selectedDelete, setSelectedDelete] = useState()
 
   const { addNotification } = useNotificationsContext()
 
@@ -80,7 +78,8 @@ const TemplateList = () => {
   }, [])
 
   const handleDelete = async () => {
-    const { response } = await deleteTemplate(providerId, mmtJwt, selectedDeleteId)
+    const { id, providerId } = selectedDelete
+    const { response } = await deleteTemplate(providerId, mmtJwt, id)
     if (response.ok) {
       toggleShowDeleteModal(false)
       addNotification({
@@ -103,7 +102,7 @@ const TemplateList = () => {
   }
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { id } = rowData
+    const { id, providerId } = rowData
 
     return (
       <Row>
@@ -120,7 +119,10 @@ const TemplateList = () => {
             onClick={
               () => {
                 toggleShowDeleteModal(true)
-                setSelectedDeleteId(id)
+                setSelectedDelete({
+                  id,
+                  providerId
+                })
               }
             }
           >
