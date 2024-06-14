@@ -147,7 +147,7 @@ const Button = React.forwardRef(({
       {
         Icon && !loading && (
           <Icon
-            title={iconTitle}
+            aria-label={iconTitle}
             role="img"
             className={
               classNames([

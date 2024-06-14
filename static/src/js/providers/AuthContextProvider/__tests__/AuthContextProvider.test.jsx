@@ -112,6 +112,7 @@ describe('AuthContextProvider component', () => {
         expect(setCookie).toHaveBeenCalledTimes(1)
         expect(setCookie).toHaveBeenCalledWith(MMT_COOKIE, null, {
           domain: 'example.com',
+          path: '/',
           maxAge: 0,
           expires: new Date(0)
         })

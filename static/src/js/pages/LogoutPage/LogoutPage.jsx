@@ -13,14 +13,16 @@ import useAuthContext from '@/js/hooks/useAuthContext'
  * )
  */
 const LogoutPage = () => {
-  const { setToken } = useAuthContext()
+  const { setToken, tokenValue } = useAuthContext()
 
   useEffect(() => {
     setToken(null)
   }, [])
 
+  if (tokenValue) return null
+
   return (
-    <Navigate to="/" />
+    <Navigate to="/" replace />
   )
 }
 

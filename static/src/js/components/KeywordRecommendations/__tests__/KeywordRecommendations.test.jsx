@@ -225,7 +225,7 @@ describe('KeywordRecommendations component', () => {
 
       const keywords = screen.getAllByRole('listitem')
       expect(keywords[1]).toHaveTextContent('EARTH SCIENCE > ATMOSPHERE > CLOUDS > CLOUD PROPERTIES > CLOUD TOP PRESSURE Recommended')
-      const addIcon = within(keywords[1]).getByTitle('Add')
+      const addIcon = within(keywords[1]).getByLabelText('Add')
       await user.click(addIcon)
 
       expect(within(container).getAllByRole('img', { name: 'Remove' }).length).toBe(2)

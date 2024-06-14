@@ -128,8 +128,6 @@ const SearchBar = () => {
             </Button>
             <Dropdown.Toggle
               split
-              Expand
-              Down
               variant="primary"
               id="search-options-dropdown"
               aria-label="Search Options"

@@ -192,6 +192,10 @@ const Permission = () => {
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { id } = rowData
 
+    if (!id) {
+      return cellData
+    }
+
     return (
       <EllipsisLink to={`/groups/${id}`}>
         {cellData}
