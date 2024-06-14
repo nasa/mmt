@@ -165,6 +165,9 @@ const TemplateForm = () => {
     if (id === 'new') {
       const response = await createTemplate(providerId, mmtJwt, ummMetadata)
 
+      // Set the providerId into state so saving the template again will have the correct providerId
+      setTemplateProviderId(providerId)
+
       if (response.id) {
         savedId = response.id
       } else {
