@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import {
   FaBook,
   FaExternalLinkAlt,
+  FaList,
   FaQuestionCircle,
   FaSignOutAlt,
   FaUserAlt
@@ -233,7 +234,14 @@ const Layout = ({ className, displayNav }) => {
                               User Guide
                               <FaExternalLinkAlt className="ms-2 small" style={{ opacity: 0.625 }} />
                             </Dropdown.Item>
-
+                            <Dropdown.Item
+                              className="layout__user-dropdown-item bg-light-dark small"
+                              as={Link}
+                              to="/providers"
+                            >
+                              <FaList className="me-2" />
+                              My Providers
+                            </Dropdown.Item>
                             <Dropdown.Item
                               className="layout__user-dropdown-item bg-light-dark small"
                               as={Link}

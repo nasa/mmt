@@ -3,8 +3,10 @@ import { render, screen } from '@testing-library/react'
 import {
   BrowserRouter,
   Route,
-  Routes
+  Routes,
+  useNavigate
 } from 'react-router-dom'
+import * as router from 'react-router'
 
 import usePermissions from '@/js/hooks/usePermissions'
 
@@ -297,6 +299,28 @@ describe('Layout component', () => {
           ]
         ]
       }, {})
+    })
+  })
+
+  describe('when clicking the My Providers button', () => {
+    test('navigates to /providers', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup()
+
+      const userDropdown = await screen.findByRole('button', { name: /User Name/ })
+
+      await user.click(userDropdown)
+
+      const link = await screen.findByRole('link', { name: /My Providers/ })
+
+      await user.click(link)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/providers', { replace: false })
+
+      expect(screen.getByText('This is some content')).toBeInTheDocument()
     })
   })
 })
