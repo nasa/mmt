@@ -5,19 +5,28 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
 
-import AppContext from '@/js/context/AppContext'
-import AuthContext from '@/js/context/AuthContext'
-
 import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 import deleteTemplate from '@/js/utils/deleteTemplate'
 import NotificationsContext from '@/js/context/NotificationsContext'
+import MMT_COOKIE from '@/js/constants/mmtCookie'
 
 import TemplateList from '../TemplateList'
 
 vi.mock('@/js/utils/deleteTemplate')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getTemplates')
+
+vi.mock('react-cookie', async () => ({
+  ...await vi.importActual('react-cookie'),
+  useCookies: vi.fn().mockImplementation(() => ([
+    {
+      [MMT_COOKIE]: 'mock-jwt'
+    },
+    vi.fn(),
+    vi.fn()
+  ]))
+}))
 
 const setup = () => {
   const props = {
@@ -31,27 +40,13 @@ const setup = () => {
   const user = userEvent.setup()
 
   render(
-    <AuthContext.Provider value={
-      {
-        token: 'mock-jwt'
-      }
-    }
-    >
-      <AppContext.Provider value={
-        {
-          providerId: 'MMT_2'
-        }
-      }
-      >
-        <NotificationsContext.Provider value={notificationContext}>
-          <MockedProvider>
-            <BrowserRouter initialEntries="">
-              <TemplateList {...props} />
-            </BrowserRouter>
-          </MockedProvider>
-        </NotificationsContext.Provider>
-      </AppContext.Provider>
-    </AuthContext.Provider>
+    <NotificationsContext.Provider value={notificationContext}>
+      <MockedProvider>
+        <BrowserRouter initialEntries="">
+          <TemplateList {...props} />
+        </BrowserRouter>
+      </MockedProvider>
+    </NotificationsContext.Provider>
   )
 
   return {
@@ -162,6 +157,7 @@ describe('TemplateList', () => {
               response: [
                 {
                   id: 'c23b6d55-b1de-4843-b828-32de2a0bd109',
+                  providerId: 'MMT_1',
                   lastModified: '2024-04-03T18:56:54.000Z'
                 }
               ]
@@ -181,6 +177,7 @@ describe('TemplateList', () => {
           await user.click(yesButton)
 
           expect(deleteTemplate).toHaveBeenCalledTimes(1)
+          expect(deleteTemplate).toHaveBeenCalledWith('MMT_1', 'mock-jwt', 'c23b6d55-b1de-4843-b828-32de2a0bd109')
         })
       })
 
