@@ -242,7 +242,15 @@ const GridControlledField = (props) => {
             onChange(updatedFormData, null)
 
             if (onSelectValue) {
-              onSelectValue(name, selectValue, props, cmrKeywords)
+              onSelectValue(
+                name,
+                selectValue,
+                {
+                  ...props,
+                  formData: updatedFormData
+                },
+                cmrKeywords
+              )
             }
           }
         }
