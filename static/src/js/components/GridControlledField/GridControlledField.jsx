@@ -37,18 +37,19 @@ import useControlledKeywords from '../../hooks/useControlledKeywords'
  * Renders GridControlledField
  * @param {GridControlledField} props
  */
-const GridControlledField = ({
-  controlName,
-  formData,
-  idSchema,
-  mapping,
-  name,
-  onChange,
-  onSelectValue,
-  registry,
-  schema,
-  uiSchema
-}) => {
+const GridControlledField = (props) => {
+  const {
+    controlName,
+    formData,
+    idSchema,
+    mapping,
+    name,
+    onChange,
+    onSelectValue,
+    registry,
+    schema,
+    uiSchema
+  } = props
   const {
     draft = {}
   } = useAppContext()
@@ -241,7 +242,7 @@ const GridControlledField = ({
             onChange(updatedFormData, null)
 
             if (onSelectValue) {
-              onSelectValue(name, selectValue)
+              onSelectValue(name, selectValue, props, cmrKeywords)
             }
           }
         }

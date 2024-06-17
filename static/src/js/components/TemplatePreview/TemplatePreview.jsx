@@ -61,7 +61,9 @@ const TemplatePreviewPlaceholder = () => (
 const TemplatePreview = () => {
   const {
     draft = {},
-    setDraft
+    providerId,
+    setDraft,
+    setProviderId
   } = useAppContext()
 
   const { mmtJwt } = useMMTCookie()
@@ -73,7 +75,6 @@ const TemplatePreview = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [providerId, setProviderId] = useState()
 
   const {
     ingestMutation,

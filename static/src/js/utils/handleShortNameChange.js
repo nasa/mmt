@@ -2,22 +2,20 @@ import getKeywords from './getKeywords'
 
 /**
  * Function to handle 'handleShortNameChange
- * @param {Object} props An form object from uiSchema
+ * @param {String} name Name of the field selected
+ * @param {String} value Selected short name value
+ * @param {Object} props `formData` and `onChange` from RJSF props
+ * @param {Object} keywords CMR Controlled keywords response data
  */
-
-export const handleShortNameChange = (name, value, props, state) => {
+const handleShortNameChange = (name, value, props, keywords) => {
   if (name === 'ShortName') {
-    const { formData } = props
-    const { onChange } = props
+    const { onChange, formData } = props
     const { ContactInformation = {} } = formData
     const { RelatedUrls = [] } = ContactInformation
     let filter = { short_name: value }
 
-    // Cmr Response contains the fetch response to facet query for providers
-    const { cmrResponse } = state
-
     // Parse the response and retrieve the long name
-    let enums = getKeywords(cmrResponse, 'long_name', filter, ['short_name', 'long_name'])
+    let enums = getKeywords(keywords, 'long_name', filter, ['short_name', 'long_name'])
     const [LongName = ''] = enums
 
     // Parse the response and retrieve the URL
@@ -26,7 +24,7 @@ export const handleShortNameChange = (name, value, props, state) => {
       long_name: LongName
     }
 
-    enums = getKeywords(cmrResponse, 'url', filter, ['short_name', 'long_name', 'url'])
+    enums = getKeywords(keywords, 'url', filter, ['short_name', 'long_name', 'url'])
     const [URL = ''] = enums
 
     // If there is no Related URL create one.

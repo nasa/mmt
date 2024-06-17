@@ -31,6 +31,7 @@ const GridRow = (
   const {
     formData,
     layout,
+    onBlur,
     onChange,
     registry,
     required,
@@ -119,6 +120,7 @@ const GridRow = (
                   uiSchema={uiSchema}
                   schema={schema}
                   formData={formData || {}}
+                  onBlur={onBlur}
                   onChange={onChange}
                   errorSchema={errorSchema}
                 />
@@ -145,6 +147,7 @@ const GridRow = (
         uiSchema={uiSchema}
         schema={schema}
         formData={formData}
+        onBlur={onBlur}
         onChange={onChange}
       />
     )
@@ -178,6 +181,7 @@ GridRow.propTypes = {
     'ui:hide': PropTypes.func,
     'ui:group-single-panel': PropTypes.bool
   }).isRequired,
+  onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     formContext: PropTypes.shape({
