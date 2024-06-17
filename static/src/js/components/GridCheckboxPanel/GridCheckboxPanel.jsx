@@ -10,6 +10,7 @@ import GridLayout from '../GridLayout/GridLayout'
 const GridCheckboxPanel = ({
   layout,
   formData,
+  onBlur,
   onChange,
   registry,
   schema,
@@ -70,7 +71,8 @@ const GridCheckboxPanel = ({
         uiSchema={uiSchema}
         errorSchema={errorSchema}
         formData={formData}
-        onChange={(props) => { onChange(props) }}
+        onBlur={onBlur}
+        onChange={onChange}
       />
     ))
   }
@@ -105,6 +107,7 @@ GridCheckboxPanel.propTypes = {
     'ui:group-checkbox': PropTypes.string
   }).isRequired,
   formData: PropTypes.shape({}).isRequired,
+  onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({

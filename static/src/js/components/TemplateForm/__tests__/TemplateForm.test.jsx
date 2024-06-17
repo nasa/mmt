@@ -528,6 +528,7 @@ describe('TemplateForm', () => {
           await waitFor(() => {
             expect(updateTemplate).toHaveBeenCalledWith('MMT_2', null, {
               ShortName: 'Template Form Test',
+              TemplateName: 'Mock Template',
               Version: '1.0.0'
             }, '1234-abcd-5678-efgh')
           })

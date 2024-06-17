@@ -401,7 +401,7 @@ describe('GridControlledField', () => {
           expect(props.onChange).toHaveBeenCalledWith({ URLContentType: 'DataCenterURL' }, null)
 
           expect(props.onSelectValue).toHaveBeenCalledTimes(1)
-          expect(props.onSelectValue).toHaveBeenCalledWith('URLContentType', 'DataCenterURL')
+          expect(props.onSelectValue).toHaveBeenCalledWith('URLContentType', 'DataCenterURL', props, relatedUrlsKeywords)
         })
       })
     })

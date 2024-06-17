@@ -42,6 +42,7 @@ import getFormSchema from '@/js/utils/getFormSchema'
 import getNextFormName from '@/js/utils/getNextFormName'
 import getTemplate from '@/js/utils/getTemplate'
 import parseError from '@/js/utils/parseError'
+import removeEmpty from '@/js/utils/removeEmpty'
 import toKebabCase from '@/js/utils/toKebabCase'
 import updateTemplate from '@/js/utils/updateTemplate'
 
@@ -65,7 +66,8 @@ const TemplateForm = () => {
     originalDraft,
     providerId,
     setDraft,
-    setOriginalDraft
+    setOriginalDraft,
+    setProviderId
   } = useAppContext()
 
   const { mmtJwt } = useMMTCookie()
@@ -81,7 +83,6 @@ const TemplateForm = () => {
   const [error, setErrors] = useState()
   const [saveLoading, setSaveLoading] = useState(false)
   const [loading, setLoading] = useState()
-  const [templateProviderId, setTemplateProviderId] = useState()
 
   const { addNotification } = useNotificationsContext()
 
@@ -139,7 +140,7 @@ const TemplateForm = () => {
       if (response) {
         const { template, providerId: fetchedProviderId } = response
 
-        setTemplateProviderId(fetchedProviderId)
+        setProviderId(fetchedProviderId)
         setDraft({
           ummMetadata: template
         })
@@ -156,6 +157,11 @@ const TemplateForm = () => {
       setLoading(true)
       fetchTemplate()
     }
+
+    if (id === 'new') {
+      setDraft({})
+      setOriginalDraft({})
+    }
   }, [])
 
   const handleSave = async (type) => {
@@ -163,10 +169,7 @@ const TemplateForm = () => {
 
     let savedId = null
     if (id === 'new') {
-      const response = await createTemplate(providerId, mmtJwt, ummMetadata)
-
-      // Set the providerId into state so saving the template again will have the correct providerId
-      setTemplateProviderId(providerId)
+      const response = await createTemplate(providerId, mmtJwt, removeEmpty(ummMetadata))
 
       if (response.id) {
         savedId = response.id
@@ -181,7 +184,7 @@ const TemplateForm = () => {
 
       setSaveLoading(false)
     } else {
-      const response = await updateTemplate(templateProviderId, mmtJwt, ummMetadata, id)
+      const response = await updateTemplate(providerId, mmtJwt, removeEmpty(ummMetadata), id)
 
       if (response.ok) {
         addNotification({
@@ -219,12 +222,12 @@ const TemplateForm = () => {
 
       delete ummMetadata.TemplateName
 
-      ingestMutation('Collection', ummMetadata, nativeId, templateProviderId)
+      ingestMutation('Collection', ummMetadata, nativeId, providerId)
     }
 
     if (type === saveTypes.saveAndPreview) {
       window.scroll(0, 0)
-      navigate(`/templates/collections/${id || savedId}`)
+      navigate(`/templates/collections/${savedId || id}`)
     }
   }
 
@@ -281,7 +284,7 @@ const TemplateForm = () => {
   const templateFormPageHeader = () => (
     <PageHeader
       title={pageTitle}
-      titleBadge={templateProviderId}
+      titleBadge={id === 'new' ? null : providerId}
       breadcrumbs={
         [
           {

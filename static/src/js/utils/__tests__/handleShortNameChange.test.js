@@ -1,4 +1,4 @@
-import { handleShortNameChange } from '../handleShortNameChange'
+import handleShortNameChange from '../handleShortNameChange'
 import getKeywords from '../getKeywords'
 
 // Enable fake timers for this test file
@@ -7,10 +7,6 @@ vi.useFakeTimers()
 vi.mock('../getKeywords')
 
 describe('handleShortNameChange', () => {
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
   it('should update RelatedUrl properties on short name change', () => {
     const name = 'ShortName'
     const value = 'exampleShortName'
