@@ -145,7 +145,7 @@ const collectionPermissionUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      md: 3,
+                      md: 4,
                       children: ['collection']
                     }
                   },

@@ -10,6 +10,7 @@ import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Placeholder from 'react-bootstrap/Placeholder'
 import Popover from 'react-bootstrap/Popover'
 import Row from 'react-bootstrap/Row'
 
@@ -52,6 +53,8 @@ const CollectionSelector = ({ onChange, formData }) => {
 
   const [highlightedAvailable, setHighlightedAvailable] = useState({})
   const [highlightedSelected, setHighlightedSelected] = useState({})
+
+  const [loading, setLoading] = useState(false)
 
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS)
 
@@ -173,39 +176,39 @@ const CollectionSelector = ({ onChange, formData }) => {
   const [getCollections] = useLazyQuery(GET_PERMISSION_COLLECTIONS)
 
   const loadOptions = useCallback(debounce((inputValue, callback) => {
-    if (inputValue.length >= 3) {
-      getCollections({
-        variables: {
-          params: {
-            keyword: inputValue,
-            limit: 20
-          }
-        },
-        onCompleted: (data) => {
-          const { collections: collectionsSearch } = data
-
-          const options = collectionsSearch.items.map((item) => {
-            const {
-              conceptId,
-              shortName,
-              provider,
-              directDistributionInformation,
-              entryTitle
-            } = item
-
-            return {
-              conceptId,
-              entryTitle,
-              shortName,
-              provider,
-              directDistributionInformation
-            }
-          })
-
-          callback(options)
+    setLoading(true)
+    getCollections({
+      variables: {
+        params: {
+          keyword: inputValue,
+          limit: 20
         }
-      })
-    }
+      },
+      onCompleted: (data) => {
+        const { collections: collectionsSearch } = data
+
+        const options = collectionsSearch.items.map((item) => {
+          const {
+            conceptId,
+            shortName,
+            provider,
+            directDistributionInformation,
+            entryTitle
+          } = item
+
+          return {
+            conceptId,
+            entryTitle,
+            shortName,
+            provider,
+            directDistributionInformation
+          }
+        })
+
+        setLoading(false)
+        callback(options)
+      }
+    })
   }, 1000), [])
 
   const handleAvailableSearchChange = (e) => {
@@ -270,65 +273,87 @@ const CollectionSelector = ({ onChange, formData }) => {
           />
           <div className="collection-selector__list-group  d-block w-100 overflow-y-scroll border rounded">
             <ul className="list-unstyled h-100">
-              <For each={Object.values(availableItems)}>
-                {
-                  (
-                    item
-                  ) => {
-                    const {
-                      conceptId,
-                      directDistributionInformation,
-                      entryTitle,
-                      provider,
-                      shortName
-                    } = item
+              {
+                loading ? (
+                  <Placeholder animation="glow">
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                    <Placeholder className="border rounded p-3  w-100 mb-2" />
+                  </Placeholder>
+                )
+                  : (
+                    <For each={Object.values(availableItems)}>
+                      {
+                        (
+                          item
+                        ) => {
+                          const {
+                            conceptId,
+                            directDistributionInformation,
+                            entryTitle,
+                            provider,
+                            shortName
+                          } = item
 
-                    const title = `${shortName} | ${entryTitle}`
+                          const title = `${shortName} | ${entryTitle}`
 
-                    return (
-                      <OverlayTrigger
-                        key={conceptId}
-                        overlay={popover(item)}
-                        placement="top"
-                      >
-                        <li
-                          aria-hidden="true"
-                          aria-label={title}
-                          className={
-                            classNames(
-                              'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
-                              {
-                                'collection-selector__list-group-item--selected': selectedItems[conceptId],
-                                'collection-selector__list-group-item--available': highlightedAvailable[conceptId]
-                              }
-                            )
-                          }
-                          key={conceptId}
-                          onClick={() => toggleAvailableSelection(item)}
-                        >
-                          <div>
-                            {
-                              directDistributionInformation ? (
-                                <span>
-                                  {title}
-                                  <i className="fa fa-cloud m-1 text-secondary" />
-                                </span>
-                              ) : title
-                            }
-                            <Badge
-                              className="m-1"
-                              pill
-                              bg="secondary"
+                          return (
+                            <OverlayTrigger
+                              key={conceptId}
+                              overlay={popover(item)}
+                              placement="top"
                             >
-                              {provider}
-                            </Badge>
-                          </div>
-                        </li>
-                      </OverlayTrigger>
-                    )
-                  }
-                }
-              </For>
+                              <li
+                                aria-hidden="true"
+                                aria-label={title}
+                                className={
+                                  classNames(
+                                    'collection-selector__list-group-item d-flex justify-content-between align-items-center px-3 py-2',
+                                    {
+                                      'collection-selector__list-group-item--selected': selectedItems[conceptId],
+                                      'collection-selector__list-group-item--available': highlightedAvailable[conceptId]
+                                    }
+                                  )
+                                }
+                                key={conceptId}
+                                onClick={() => toggleAvailableSelection(item)}
+                              >
+                                <div>
+                                  {
+                                    directDistributionInformation ? (
+                                      <span>
+                                        {title}
+                                        <i className="fa fa-cloud m-1 text-secondary" />
+                                      </span>
+                                    ) : title
+                                  }
+                                  <Badge
+                                    className="m-1"
+                                    pill
+                                    bg="secondary"
+                                  >
+                                    {provider}
+                                  </Badge>
+                                </div>
+                              </li>
+                            </OverlayTrigger>
+                          )
+                        }
+                      }
+                    </For>
+                  )
+              }
+
             </ul>
           </div>
 
@@ -348,6 +373,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           iconOnly
           iconTitle="plus icon"
           onClick={moveToSelected}
+          title="Add selected"
           variant="primary"
         />
         <Button
@@ -356,6 +382,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           iconOnly
           iconTitle="minus icon"
           onClick={moveToAvailable}
+          title="Remove selected"
           variant="primary"
         />
         <Button
@@ -363,6 +390,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           iconOnly
           iconTitle="trash icon"
           onClick={deleteSelectedItems}
+          title="Remove all"
           variant="danger"
         />
       </Col>
