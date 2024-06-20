@@ -12,6 +12,8 @@ import { GET_GROUP } from '@/js/operations/queries/getGroup'
 
 import Group from '../Group'
 
+vi.mock('../../AssociatedCollectionPermissionsTable/AssociatedCollectionPermissionsTable')
+
 const setup = ({
   overrideMocks = false
 }) => {
