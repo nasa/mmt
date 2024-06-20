@@ -322,4 +322,78 @@ describe('Layout component', () => {
       expect(screen.getByText('This is some content')).toBeInTheDocument()
     })
   })
+
+  describe('when in the production environment', () => {
+    test('does not display the badge', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        env: 'production'
+      }))
+
+      setup()
+
+      expect(screen.queryByTestId('env-badge')).not.toBeInTheDocument()
+    })
+
+    describe('when the prod warning is disabled', () => {
+      test('does not display the warning', () => {
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          env: 'production',
+          displayProdWarning: false
+        }))
+
+        setup()
+
+        expect(screen.queryByText('You are currently viewing/editing the production CMR environment')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the prod warning is enabled', () => {
+      test('displays the warning', () => {
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          env: 'production',
+          displayProdWarning: true
+        }))
+
+        setup()
+
+        expect(screen.getByText('You are currently viewing/editing the production CMR environment')).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when in the SIT environment', () => {
+    test('displays the badge', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        env: 'sit'
+      }))
+
+      setup()
+
+      expect(screen.getByText('SIT')).toBeInTheDocument()
+    })
+  })
+
+  describe('when in the UAT environment', () => {
+    test('displays the badge', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        env: 'uat'
+      }))
+
+      setup()
+
+      expect(screen.getByText('UAT')).toBeInTheDocument()
+    })
+  })
+
+  describe('when in the development environment', () => {
+    test('displays the badge', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        env: 'development'
+      }))
+
+      setup()
+
+      expect(screen.getByText('DEV')).toBeInTheDocument()
+    })
+  })
 })

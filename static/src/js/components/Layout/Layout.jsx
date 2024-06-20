@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {
   FaBook,
+  FaExclamationTriangle,
   FaExternalLinkAlt,
   FaList,
   FaQuestionCircle,
@@ -16,12 +17,13 @@ import {
 import useAuthContext from '@/js/hooks/useAuthContext'
 import usePermissions from '@/js/hooks/usePermissions'
 
+import { Alert, Badge } from 'react-bootstrap'
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
 
-import { getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
+import { getApplicationConfig, getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 
 import './Layout.scss'
 
@@ -44,6 +46,8 @@ const Layout = ({ className, displayNav }) => {
     ummV
   } = getUmmVersionsConfig()
 
+  const { env, displayProdWarning } = getApplicationConfig()
+
   const { user } = useAuthContext()
 
   const { hasSystemGroup, loading } = usePermissions({
@@ -60,13 +64,26 @@ const Layout = ({ className, displayNav }) => {
   return (
     <>
       <div
-        className="flex w-100 flex-grow-0"
+        className="d-flex h-100 w-100 flex-grow-1 flex-column"
       >
+        {
+          (env === 'production' && displayProdWarning) && (
+            <Alert className="mb-0 rounded-0 d-flex align-items-center justify-content-center p-3 flex-column flex-sm-row" variant="warning">
+              <span className="d-inline-flex align-items-center gap-1 me-3">
+                <FaExclamationTriangle />
+                <strong>Caution</strong>
+              </span>
+              <span className="text-center">
+                You are currently viewing/editing the production CMR environment
+              </span>
+            </Alert>
+          )
+        }
         <ErrorBoundary>
           <main
             className={
               classNames([
-                'w-100 h-100 d-flex flex-column flex-grow-0 flex-md-row',
+                'w-100 d-flex flex-column flex-grow-1 flex-md-row overflow-hidden',
                 {
                   [className]: className
                 }
@@ -79,7 +96,15 @@ const Layout = ({ className, displayNav }) => {
                   className="layout__sidebar d-flex flex-column flex-md-row md-w-100 align-items-stretch flex-grow-0 md-flex-grow-1 flex-shrink-0 bg-light py-0"
                   expand="md"
                 >
-                  <section className="d-flex flex-column overflow-y-auto flex-shrink-1">
+                  <section className="position-relative d-flex w-100 flex-column overflow-y-auto flex-shrink-1">
+                    {
+                      env && env !== 'production' && (
+                        <Badge className="layout__env-badge position-absolute" bg="orange" data-testid="environment-badge">
+                          <span className="visually-hidden">Environment: </span>
+                          {(env === 'development' ? 'dev' : env).toUpperCase()}
+                        </Badge>
+                      )
+                    }
                     <div className="px-2 py-4 flex-shrink-0 flex-grow-0 d-flex flex-row justify-content-between">
                       <Navbar.Brand className="d-block nasa text-wrap text-dark" as={Link} to="/">
                         <span className="layout__brand-earthdata d-block text-uppercase">Earthdata</span>
@@ -195,7 +220,7 @@ const Layout = ({ className, displayNav }) => {
                         }
                       />
                       <div
-                        className="rounded p-2 border-top mt-auto"
+                        className="d-flex align-items-center justify-content-between p-2 pe-3 border-top mt-auto"
                       >
                         <Dropdown className="d-block text-secondary" drop="up">
                           <Dropdown.Toggle

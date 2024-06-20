@@ -19,6 +19,7 @@ config="`jq '.application.cmrHost = $newValue' --arg newValue $bamboo_CMR_HOST <
 config="`jq '.application.edscHost = $newValue' --arg newValue $bamboo_EDSC_HOST <<< $config`"
 config="`jq '.application.gkrHost = $newValue' --arg newValue $bamboo_GKR_HOST <<< $config`"
 config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKIE_DOMAIN <<< $config`"
+config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
 config="`jq '.saml.host = $newValue' --arg newValue $bamboo_SAML_HOST <<< $config`"
 config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK_URL <<< $config`"
@@ -65,6 +66,7 @@ dockerRun() {
         -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
+        -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \

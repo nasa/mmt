@@ -14,7 +14,8 @@
       "Access-Control-Allow-Credentials": true
     },
     "cookieDomain": ".localhost",
-    "tokenValidTime": "900"
+    "tokenValidTime": "900",
+    "displayProdWarning": true
   },
   "ummVersions": {
     "ummC": "1.17.3",
