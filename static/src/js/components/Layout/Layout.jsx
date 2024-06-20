@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Outlet } from 'react-router-dom'
 import classNames from 'classnames'
-import Navbar from 'react-bootstrap/Navbar'
+import Alert from 'react-bootstrap/Alert'
+import Badge from 'react-bootstrap/Badge'
 import Dropdown from 'react-bootstrap/Dropdown'
+import Navbar from 'react-bootstrap/Navbar'
 import {
   FaBook,
   FaExclamationTriangle,
@@ -17,7 +19,6 @@ import {
 import useAuthContext from '@/js/hooks/useAuthContext'
 import usePermissions from '@/js/hooks/usePermissions'
 
-import { Alert, Badge } from 'react-bootstrap'
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
@@ -67,6 +68,8 @@ const Layout = ({ className, displayNav }) => {
         className="d-flex h-100 w-100 flex-grow-1 flex-column"
       >
         {
+          // eslint-disable-next-line capitalized-comments
+          // "displayProdWarning" is a string because it is a bamboo variable
           (env === 'production' && displayProdWarning === 'true') && (
             <Alert className="mb-0 rounded-0 d-flex align-items-center justify-content-center p-3 flex-column flex-sm-row" variant="warning">
               <span className="d-inline-flex align-items-center gap-1 me-3">
