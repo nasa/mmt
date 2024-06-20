@@ -15,7 +15,7 @@
     },
     "cookieDomain": ".localhost",
     "tokenValidTime": "900",
-    "displayProdWarning": true
+    "displayProdWarning": "true"
   },
   "ummVersions": {
     "ummC": "1.17.3",

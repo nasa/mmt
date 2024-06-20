@@ -67,7 +67,7 @@ const Layout = ({ className, displayNav }) => {
         className="d-flex h-100 w-100 flex-grow-1 flex-column"
       >
         {
-          (env === 'production' && displayProdWarning) && (
+          (env === 'production' && displayProdWarning === 'true') && (
             <Alert className="mb-0 rounded-0 d-flex align-items-center justify-content-center p-3 flex-column flex-sm-row" variant="warning">
               <span className="d-inline-flex align-items-center gap-1 me-3">
                 <FaExclamationTriangle />
@@ -99,7 +99,7 @@ const Layout = ({ className, displayNav }) => {
                   <section className="position-relative d-flex w-100 flex-column overflow-y-auto flex-shrink-1">
                     {
                       env && env !== 'production' && (
-                        <Badge className="layout__env-badge position-absolute" bg="orange" data-testid="environment-badge">
+                        <Badge className="layout__env-badge position-absolute" bg="orange" data-testid="env-badge">
                           <span className="visually-hidden">Environment: </span>
                           {(env === 'development' ? 'dev' : env).toUpperCase()}
                         </Badge>

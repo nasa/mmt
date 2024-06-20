@@ -337,8 +337,7 @@ describe('Layout component', () => {
     describe('when the prod warning is disabled', () => {
       test('does not display the warning', () => {
         vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-          env: 'production',
-          displayProdWarning: false
+          env: 'production'
         }))
 
         setup()
@@ -351,7 +350,7 @@ describe('Layout component', () => {
       test('displays the warning', () => {
         vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
           env: 'production',
-          displayProdWarning: true
+          displayProdWarning: 'true'
         }))
 
         setup()
