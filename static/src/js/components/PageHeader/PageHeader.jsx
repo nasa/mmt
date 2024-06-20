@@ -114,7 +114,7 @@ const PageHeader = ({
         </Breadcrumb>
       )
     }
-    <div className="d-flex w-100 align-items-center justify-content-between">
+    <div className="d-flex w-100 align-items-center justify-content-between flex-wrap">
       <div className="d-flex align-items-center">
         <h2
           className="m-0 text-gray-200 fs-4"
