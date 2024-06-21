@@ -227,7 +227,7 @@ describe('CollectionSelector', () => {
             query: GET_PERMISSION_COLLECTIONS,
             variables: {
               params: {
-                keyword: 'Col',
+                keyword: 'C',
                 limit: 20
               }
             }
@@ -263,7 +263,7 @@ describe('CollectionSelector', () => {
 
       const searchField = await screen.findByPlaceholderText('Search Available...')
 
-      await user.type(searchField, 'Col')
+      await user.type(searchField, 'C')
 
       expect(await screen.findByText('Showing 1 items')).toBeInTheDocument()
     })

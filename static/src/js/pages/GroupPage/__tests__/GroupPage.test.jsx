@@ -27,6 +27,7 @@ import { GET_GROUPS } from '../../../operations/queries/getGroups'
 
 vi.mock('@/js/hooks/usePermissions')
 vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/components/AssociatedCollectionPermissionsTable/AssociatedCollectionPermissionsTable')
 
 const setup = ({
   additionalMocks = [],

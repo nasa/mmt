@@ -48,6 +48,7 @@ const AssociatedCollectionPermissionsTable = () => {
         id
       },
       aclParams: {
+        identityType: 'catalog_item',
         limit,
         offset
       }
@@ -60,7 +61,6 @@ const AssociatedCollectionPermissionsTable = () => {
 
   const { items: associatedCollectionsItems, count } = acls
 
-  // Filters the associatedCollectionItems array to include only items where providerId is not null
   const associatedCollectionsList = associatedCollectionsItems.map((item) => {
     const {
       catalogItemIdentity,
@@ -73,7 +73,7 @@ const AssociatedCollectionPermissionsTable = () => {
     return {
       conceptId,
       name,
-      providerId: providerId || '<Blank Provider ID>'
+      providerId
     }
   })
 

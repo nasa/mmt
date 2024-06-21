@@ -82,6 +82,7 @@ const setup = ({
       variables: {
         params: { id: '1234-abcd-5678-efgh' },
         aclParams: {
+          identityType: 'catalog_item',
           limit: 20,
           offset: 0
         }
@@ -156,6 +157,7 @@ describe('AssociatedCollectionPermissionTable', () => {
               variables: {
                 params: { id: '1234-abcd-5678-efgh' },
                 aclParams: {
+                  identityType: 'catalog_item',
                   limit: 20,
                   offset: 0
                 }
@@ -198,6 +200,7 @@ describe('AssociatedCollectionPermissionTable', () => {
               variables: {
                 params: { id: '1234-abcd-5678-efgh' },
                 aclParams: {
+                  identityType: 'catalog_item',
                   limit: 20,
                   offset: 0
                 }
@@ -242,6 +245,7 @@ describe('AssociatedCollectionPermissionTable', () => {
               variables: {
                 params: { id: '1234-abcd-5678-efgh' },
                 aclParams: {
+                  identityType: 'catalog_item',
                   limit: 20,
                   offset: 20
                 }
