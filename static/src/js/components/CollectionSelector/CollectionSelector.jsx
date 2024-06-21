@@ -180,7 +180,12 @@ const CollectionSelector = ({ onChange, formData }) => {
     getCollections({
       variables: {
         params: {
-          keyword: inputValue,
+          options: {
+            shortName: {
+              pattern: true
+            }
+          },
+          shortName: `${inputValue}*`,
           limit: 20
         }
       },

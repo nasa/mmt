@@ -227,7 +227,8 @@ describe('CollectionSelector', () => {
             query: GET_PERMISSION_COLLECTIONS,
             variables: {
               params: {
-                keyword: 'C',
+                options: { shortName: { pattern: true } },
+                shortName: 'C*',
                 limit: 20
               }
             }

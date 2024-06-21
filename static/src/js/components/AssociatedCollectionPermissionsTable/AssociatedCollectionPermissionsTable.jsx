@@ -6,7 +6,8 @@ import { useSearchParams } from 'react-router-dom'
 
 import { useSuspenseQuery } from '@apollo/client'
 
-import { Col, Row } from 'react-bootstrap'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 
 import { GET_GROUP_ACLS } from '@/js/operations/queries/getGroupAcls'
 
