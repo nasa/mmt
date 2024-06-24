@@ -67,7 +67,6 @@ const AssociatedCollectionPermissionsTable = () => {
       catalogItemIdentity,
       conceptId,
       name
-
     } = item
     const { providerId } = catalogItemIdentity
 
@@ -151,7 +150,6 @@ const AssociatedCollectionPermissionsTable = () => {
                   noDataMessage="No associated collection permissions found"
                   setPage={setPage}
                 />
-
                 {
                   totalPages > 1 && (
                     <Row>
@@ -167,7 +165,6 @@ const AssociatedCollectionPermissionsTable = () => {
             )
           }
         }
-
       </ControlledPaginatedContent>
     </>
   )
