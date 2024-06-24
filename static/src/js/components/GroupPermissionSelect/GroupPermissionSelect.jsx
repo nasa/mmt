@@ -204,13 +204,13 @@ const GroupPermissionSelectComponent = ({
   const formatOptionLabel = ({ label, provider }) => (
     <div>
       {label}
-      <Badge bg="primary" className="m-2">
+      <Badge bg="primary" className="ms-2">
         {provider}
       </Badge>
       {
         provider === 'CMR' && (
-          <Badge bg="primary">
-            System
+          <Badge bg="primary" className="ms-1">
+            SYSTEM
           </Badge>
         )
       }

@@ -244,7 +244,7 @@ const Permission = () => {
 
   return (
     <Row>
-      <Col md={12}>
+      <Col className="mb-5" md={12}>
         <Table
           id="permission-table"
           columns={columns}

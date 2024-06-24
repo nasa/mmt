@@ -1,9 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 
 import { GET_GROUP } from '../../operations/queries/getGroup'
+
+import AssociatedCollectionPermissionsTable from '../AssociatedCollectionPermissionsTable/AssociatedCollectionPermissionsTable'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import LoadingTable from '../LoadingTable/LoadingTable'
 import Table from '../Table/Table'
 
 /**
@@ -64,12 +68,6 @@ const Group = ({ isAdminPage }) => {
     <>
       <p>{description}</p>
 
-      {
-        !isAdminPage && (
-          <p>Associated Collection Permissions - TBD</p>
-        )
-      }
-
       <Table
         id="member-table"
         columns={columns}
@@ -80,6 +78,17 @@ const Group = ({ isAdminPage }) => {
         count={count}
         limit={count}
       />
+
+      {
+        !isAdminPage && (
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingTable />}>
+              <AssociatedCollectionPermissionsTable />
+            </Suspense>
+          </ErrorBoundary>
+        )
+      }
+
     </>
   )
 }

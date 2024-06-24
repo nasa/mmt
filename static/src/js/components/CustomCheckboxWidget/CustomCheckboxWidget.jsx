@@ -60,7 +60,7 @@ const CustomCheckboxWidget = ({
     >
       <input
         checked={value}
-        className="m-2"
+        className="me-1"
         disabled={disabled}
         id={label}
         name={label}
