@@ -272,6 +272,7 @@ const CollectionSelector = ({ onChange, formData }) => {
           <Form.Control
             className="mb-3"
             onChange={handleAvailableSearchChange}
+            onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }}
             placeholder="Search Available..."
             type="text"
             value={searchAvailable}
@@ -403,11 +404,12 @@ const CollectionSelector = ({ onChange, formData }) => {
         <div className="border rounded p-3 h-100">
           <h5 className="text-center mb-3">Selected Collections</h5>
           <Form.Control
-            type="text"
-            placeholder="Search Selected..."
-            value={searchSelected}
-            onChange={(e) => setSearchSelected(e.target.value)}
             className="mb-3"
+            onChange={(e) => setSearchSelected(e.target.value)}
+            onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }}
+            placeholder="Search Selected..."
+            type="text"
+            value={searchSelected}
           />
           <div className="collection-selector__list-group d-block w-100 overflow-y-scroll border rounded">
 
