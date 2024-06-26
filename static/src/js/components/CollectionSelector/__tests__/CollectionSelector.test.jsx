@@ -270,6 +270,24 @@ describe('CollectionSelector', () => {
     })
   })
 
+  describe('when the user presses enter key', () => {
+    test('prevents Enter key default action in search input', async () => {
+      const { user } = setup({})
+
+      const availableSearchField = await screen.findByPlaceholderText('Search Available...')
+
+      await user.type(availableSearchField, '{enter}')
+
+      expect(availableSearchField).toHaveValue('')
+
+      const selectedSearchField = await screen.findByPlaceholderText('Search Selected...')
+
+      await user.type(selectedSearchField, '{enter}')
+
+      expect(selectedSearchField).toHaveValue('')
+    })
+  })
+
   describe('when searching for selected collection', () => {
     test('should call cmr with filtered data', async () => {
       const { user } = setup({
