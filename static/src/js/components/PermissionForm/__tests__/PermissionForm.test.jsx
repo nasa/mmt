@@ -317,6 +317,164 @@ describe('PermissionForm', () => {
       })
     })
 
+    describe('when filling out the form and only filling out search and order permission and submitting', () => {
+      test('should navigate to /permissions/conceptId', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { user } = setup({
+          pageUrl: '/permissions/new',
+          mocks: [{
+            request: {
+              query: CREATE_ACL,
+              variables: {
+                catalogItemIdentity: {
+                  collectionApplicable: false,
+                  collectionIdentifier: {
+                    accessValue: {
+                      maxValue: 10,
+                      minValue: 1
+                    }
+                  },
+                  granuleApplicable: true,
+                  granuleIdentifier: {
+                    accessValue: {
+                      maxValue: 10,
+                      minValue: 1
+                    }
+                  },
+                  name: 'Test Name'
+                },
+                groupPermissions: [{
+                  permissions: ['read', 'order'],
+                  userType: 'guest'
+                }]
+              }
+            },
+            result: {
+              data: {
+                createAcl: {
+                  conceptId: 'ACL1000000-MMT',
+                  revisionId: '1'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: { conceptId: 'ACL1000000-MMT' }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  identityType: 'Catalog Item',
+                  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                  name: 'Mock ACL',
+                  providerIdentity: null,
+                  revisionId: 1,
+                  systemIdentity: null,
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {},
+                    collectionApplicable: true,
+                    granuleApplicable: false,
+                    granuleIdentifier: null,
+                    providerId: 'MM_2'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 2,
+                    items: [
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C12000000-MMT_2',
+                        directDistributionInformation: null,
+                        provider: 'MMT_2',
+                        shortName: 'This is collection 2',
+                        entryTitle: 'Collection 1',
+                        version: '1'
+                      },
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C13000000-MMT_2',
+                        directDistributionInformation: null,
+                        provider: 'MMT_2',
+                        shortName: 'This is collection 1',
+                        entryTitle: 'Collection 2',
+                        version: '1'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: [
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'guest',
+                        id: null,
+                        name: null,
+                        tag: null
+                      },
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'registered',
+                        id: null,
+                        name: null,
+                        tag: null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }]
+        })
+
+        const nameField = screen.getByRole('textbox', { name: 'Name' })
+        const granuleCheckbox = screen.getByRole('checkbox', { name: 'Granules' })
+
+        await user.type(nameField, 'Test Name')
+        await user.click(granuleCheckbox)
+
+        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+
+        await user.type(minValue[0], '1')
+        await user.type(maxValue[0], '10')
+
+        await user.type(minValue[1], '1')
+        await user.type(maxValue[1], '10')
+
+        const groupSearch = screen.getAllByRole('combobox')
+
+        // Clicks the searchAndOrderGroup field
+        await user.click(groupSearch[4])
+
+        const option3 = screen.getByRole('option', { name: 'All Guest User' })
+        await user.click(option3)
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        await user.click(submitButton)
+
+        const modal = screen.getByRole('dialog')
+        const modalButton = within(modal).getByRole('button', {
+          name: 'Submit'
+        })
+        await user.click(modalButton)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
+      })
+    })
+
     describe('when creating a new permission results in an error', () => {
       test('should call error logger', async () => {
         const { user } = setup({

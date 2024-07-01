@@ -496,54 +496,62 @@ const PermissionForm = () => {
     // Extract permissions from groupPermissions
     const { searchGroup, searchAndOrderGroup } = groupPermissions
 
-    const searchGroupPermissions = searchGroup?.map((item) => {
-      const { value } = item
-      // Handle special cases for guest and registered users
-      if (value === 'all-guest-user') {
+    let searchGroupPermissions = []
+
+    let searchAndOrderGroupPermissions = []
+
+    if (searchGroup) {
+      searchGroupPermissions = searchGroup.map((item) => {
+        const { value } = item
+        // Handle special cases for guest and registered users
+        if (value === 'all-guest-user') {
+          return {
+            permissions: ['read'],
+            userType: 'guest'
+          }
+        }
+
+        if (value === 'all-registered-user') {
+          return {
+            permissions: ['read'],
+            userType: 'registered'
+          }
+        }
+
         return {
           permissions: ['read'],
-          userType: 'guest'
+          groupId: value
         }
-      }
+      })
+    }
 
-      if (value === 'all-registered-user') {
-        return {
-          permissions: ['read'],
-          userType: 'registered'
+    if (searchAndOrderGroup) {
+      searchAndOrderGroupPermissions = searchAndOrderGroup?.map((item) => {
+        const { value } = item
+
+        if (value === 'all-guest-user') {
+          return {
+            permissions: ['read', 'order'],
+            userType: 'guest'
+          }
         }
-      }
 
-      return {
-        permissions: ['read'],
-        groupId: value
-      }
-    })
-
-    const searchAndOrderGroupPermissions = searchAndOrderGroup?.map((item) => {
-      const { value } = item
-
-      if (value === 'all-guest-user') {
-        return {
-          permissions: ['read', 'order'],
-          userType: 'guest'
+        if (value === 'all-registered-user') {
+          return {
+            permissions: ['read', 'order'],
+            userType: 'registered'
+          }
         }
-      }
 
-      if (value === 'all-registered-user') {
         return {
           permissions: ['read', 'order'],
-          userType: 'registered'
+          groupId: value
         }
-      }
-
-      return {
-        permissions: ['read', 'order'],
-        groupId: value
-      }
-    })
+      })
+    }
 
     // Combine searchGroupPermissions and searchAndOrderGroupPermissions into permissions array
-    const permissions = searchGroupPermissions?.concat(searchAndOrderGroupPermissions)
+    const permissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
 
     // Construct catalogItemIdentity object
     const catalogItemIdentity = {
