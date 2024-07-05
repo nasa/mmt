@@ -68,7 +68,8 @@
     "webpack-assets-manifest": "5",
     "webpack-cli": "4",
     "webpack-dev-middleware": "^5.3.4",
-    "webpack-merge": "5"
+    "webpack-merge": "5",
+    "ws": "8.17.1"
   },
   "version": "0.1.0",
   "babel": {
@@ -140,7 +141,7 @@
     "webpack-dev-server": "^4.11.1",
     "serialize-javascript": "^6.0.2",
     "braces": "^3.0.3",
-    "micromatch":"^4.0.6"
+    "micromatch": "^4.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
