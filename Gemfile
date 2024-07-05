@@ -76,7 +76,7 @@ gem 'aasm'
 
 gem 'browser'
 
-gem 'actionpack', '~> 6.1'
+gem 'actionpack', '~> 6.1.7.8'
 
 gem 'pg', '<1.3'
 
