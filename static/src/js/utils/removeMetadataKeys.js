@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash-es'
+
 /**
  * Given a ummMetadata object, removes all the keys that are given in the
  * keys array.
@@ -5,7 +7,7 @@
  * @param {Array} keys An array that has all the keys that needs to be removed
  */
 const removeMetadataKeys = (metadata, keys) => {
-  const modifiedMetadata = metadata
+  const modifiedMetadata = cloneDeep(metadata)
 
   Object.keys(metadata).forEach((key) => {
     if (keys.includes(key)) {
