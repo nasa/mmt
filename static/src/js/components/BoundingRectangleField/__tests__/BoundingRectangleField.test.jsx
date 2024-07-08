@@ -14,6 +14,16 @@ const setup = (overrideProps = {}) => {
       WestBoundingCoordinate: -179,
       EastBoundingCoordinate: 179
     },
+    schema: {
+      properties: {
+        EastBoundingCoordinate: {
+          description: 'The longitude value of a spatially referenced point, in degrees. Longitude values range from -180 to 180.'
+        },
+        NorthBoundingCoordinate: {
+          description: 'The latitude value of a spatially referenced point, in degrees. Latitude values range from -90 to 90.'
+        }
+      }
+    },
     ...overrideProps
   }
 
@@ -32,17 +42,19 @@ describe('BoundingRectangleField', () => {
     test('renders the fields', () => {
       setup()
 
-      const west = screen.getByLabelText('West')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const north = spinbuttons[0]
+      expect(north).toHaveValue(89)
+
+      const west = spinbuttons[1]
       expect(west).toHaveValue(-179)
 
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(-89)
-
-      const east = screen.getByLabelText('East')
+      const east = spinbuttons[2]
       expect(east).toHaveValue(179)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(89)
+      const south = spinbuttons[3]
+      expect(south).toHaveValue(-89)
     })
   })
 
@@ -52,17 +64,19 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const west = screen.getByLabelText('West')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const north = spinbuttons[0]
+      expect(north).toHaveValue(null)
+
+      const west = spinbuttons[1]
       expect(west).toHaveValue(null)
 
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(null)
-
-      const east = screen.getByLabelText('East')
+      const east = spinbuttons[2]
       expect(east).toHaveValue(null)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(null)
+      const south = spinbuttons[3]
+      expect(south).toHaveValue(null)
     })
   })
 
@@ -72,19 +86,21 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      await user.click(screen.getByRole('button'))
+      await user.click(screen.getByRole('button', { name: 'Apply Global Spatial Coverage' }))
 
-      const west = screen.getByLabelText('West')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const north = spinbuttons[0]
+      expect(north).toHaveValue(90)
+
+      const west = spinbuttons[1]
       expect(west).toHaveValue(-180)
 
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(-90)
-
-      const east = screen.getByLabelText('East')
+      const east = spinbuttons[2]
       expect(east).toHaveValue(180)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(90)
+      const south = spinbuttons[3]
+      expect(south).toHaveValue(-90)
     })
   })
 
@@ -97,7 +113,9 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const west = screen.getByLabelText('West')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const west = spinbuttons[1]
       await user.type(west, '-45')
 
       expect(west).toHaveValue(-45)
@@ -116,7 +134,9 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const south = screen.getByLabelText('South')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const south = spinbuttons[3]
       await user.type(south, '-50')
 
       expect(south).toHaveValue(-50)
@@ -135,7 +155,9 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const east = screen.getByLabelText('East')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const east = spinbuttons[2]
       await user.type(east, '45')
 
       expect(east).toHaveValue(45)
@@ -154,7 +176,9 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const north = screen.getByLabelText('North')
+      const spinbuttons = screen.getAllByRole('spinbutton')
+
+      const north = spinbuttons[0]
       await user.type(north, '60')
 
       expect(north).toHaveValue(60)

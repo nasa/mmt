@@ -19,6 +19,7 @@ import './CustomWidgetWrapper.scss'
  * @property {Boolean} required Is the field required.
  * @property {HTMLDivElement} scrollRef A ref to scroll to.
  * @property {String} title A title of the field.
+ * @property {Boolean} centered Optional field to edit styling when a label is centered
  */
 
 /**
@@ -33,7 +34,8 @@ const CustomWidgetWrapper = ({
   maxLength,
   required,
   scrollRef,
-  title
+  title,
+  centered
 }) => {
   const [showHelp, setShowHelp] = useState(false)
 
@@ -45,13 +47,15 @@ const CustomWidgetWrapper = ({
     setShowHelp(false)
   }
 
+  const predeterminedJustification = centered ? 'justify-content-center' : 'justify-content-between'
+
   return (
     <>
       <div
         className="mb-1"
         ref={scrollRef}
       >
-        <div className="d-flex align-items-center justify-content-between">
+        <div className={`d-flex align-items-center ${predeterminedJustification}`}>
           <div>
             {
               title && (
@@ -106,7 +110,7 @@ const CustomWidgetWrapper = ({
                     type="button"
                   >
                     <FaInfoCircle className="me-1" />
-                    Help
+                    {!centered && 'Help'}
                   </button>
                 </OverlayTrigger>
               </div>
@@ -140,7 +144,8 @@ CustomWidgetWrapper.defaultProps = {
   scrollRef: null,
   maxLength: null,
   required: null,
-  title: null
+  title: null,
+  centered: false
 }
 
 CustomWidgetWrapper.propTypes = {
@@ -151,7 +156,8 @@ CustomWidgetWrapper.propTypes = {
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   scrollRef: PropTypes.shape({}),
-  title: PropTypes.string
+  title: PropTypes.string,
+  centered: PropTypes.bool
 }
 
 export default CustomWidgetWrapper

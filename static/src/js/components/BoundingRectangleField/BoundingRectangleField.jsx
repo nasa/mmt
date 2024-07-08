@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 
 import './BoundingRectangleField.scss'
+import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 /**
  * BoundingRectangleField
@@ -15,9 +16,17 @@ import './BoundingRectangleField.scss'
  * @param {BoundingRectangleField} props
  */
 const BoundingRectangleField = ({
+  name,
   formData,
-  onChange
+  onChange,
+  schema
 }) => {
+  const { properties } = schema
+  const { EastBoundingCoordinate: EBoundingCoordinate } = properties
+  const { NorthBoundingCoordinate: NBoundingCoordinate } = properties
+  const { description: latitudeDescription } = EBoundingCoordinate
+  const { description: longitudeDescription } = NBoundingCoordinate
+  
   // Creates state object from given coordinates
   const createStateObject = (object) => {
     const {
@@ -93,78 +102,100 @@ const BoundingRectangleField = ({
       <div className="bounding-rectangle-container">
         <div className="bounding-rectangle-north-row">
           <div className="bounding-rectangle-coordinate-label">
-            <label htmlFor="north-coordinate">North</label>
-            <input
-              className="form-control bounding-rectangle-coordinate"
-              type="number"
-              step="any"
-              id="north-coordinate"
-              onChange={
-                (event) => {
-                  handleChange('NorthBoundingCoordinate', event)
+            <CustomWidgetWrapper
+              id={name}
+              title='North'
+              description={longitudeDescription}
+              centered
+            >
+              <input
+                className="form-control bounding-rectangle-coordinate"
+                type="number"
+                step="any"
+                id="north-coordinate"
+                onChange={
+                  (event) => {
+                    handleChange('NorthBoundingCoordinate', event)
+                  }
                 }
-              }
-              value={NorthBoundingCoordinate}
-            />
+                value={NorthBoundingCoordinate}
+              />
+            </CustomWidgetWrapper>
           </div>
         </div>
 
         <div className="bounding-rectangle-east-west-row">
           <div>
             <div className="bounding-rectangle-coordinate-label">
-              <label htmlFor="west-coordinate">West</label>
+              <CustomWidgetWrapper
+                id={name}
+                title='West'
+                description={latitudeDescription}
+                centered
+              >
+                <input
+                  className="form-control bounding-rectangle-coordinate"
+                  type="number"
+                  step="any"
+                  id="west-coordinate"
+                  onChange={
+                    (event) => {
+                      handleChange('WestBoundingCoordinate', event)
+                    }
+                  }
+                  value={WestBoundingCoordinate}
+                />
+              </CustomWidgetWrapper>
             </div>
-
-            <input
-              className="form-control bounding-rectangle-coordinate"
-              type="number"
-              step="any"
-              id="west-coordinate"
-              onChange={
-                (event) => {
-                  handleChange('WestBoundingCoordinate', event)
-                }
-              }
-              value={WestBoundingCoordinate}
-            />
           </div>
 
           <div>
             <div className="bounding-rectangle-coordinate-label">
-              <label htmlFor="east-coordinate">East</label>
+              <CustomWidgetWrapper
+                id={name}
+                title='East'
+                description={latitudeDescription}
+                centered
+              >
+                <input
+                  className="form-control bounding-rectangle-coordinate"
+                  type="number"
+                  step="any"
+                  id="east-coordinate"
+                  onChange={
+                    (event) => {
+                      handleChange('EastBoundingCoordinate', event)
+                    }
+                  }
+                  value={EastBoundingCoordinate}
+                />
+              </CustomWidgetWrapper>
             </div>
-
-            <input
-              className="form-control bounding-rectangle-coordinate"
-              type="number"
-              step="any"
-              id="east-coordinate"
-              onChange={
-                (event) => {
-                  handleChange('EastBoundingCoordinate', event)
-                }
-              }
-              value={EastBoundingCoordinate}
-            />
           </div>
         </div>
 
         <div className="bounding-rectangle-south-row">
           <div className="bounding-rectangle-coordinate-label">
-            <label htmlFor="south-coordinate">South</label>
-            <input
-              className="form-control bounding-rectangle-coordinate"
-              type="number"
-              step="any"
-              id="south-coordinate"
-              width="100px"
-              onChange={
-                (event) => {
-                  handleChange('SouthBoundingCoordinate', event)
+            <CustomWidgetWrapper
+              id={name}
+              title='South'
+              description={longitudeDescription}
+              centered
+            >
+              <input
+                className="form-control bounding-rectangle-coordinate"
+                type="number"
+                step="any"
+                id="south-coordinate"
+                width="100px"
+                onChange={
+                  (event) => {
+                    handleChange('SouthBoundingCoordinate', event)
+                  }
                 }
-              }
-              value={SouthBoundingCoordinate}
-            />
+                value={SouthBoundingCoordinate}
+              />
+            </CustomWidgetWrapper>
           </div>
         </div>
       </div>
@@ -173,13 +204,24 @@ const BoundingRectangleField = ({
 }
 
 BoundingRectangleField.propTypes = {
+  name: PropTypes.string.isRequired,
   formData: PropTypes.shape({
     NorthBoundingCoordinate: PropTypes.number,
     SouthBoundingCoordinate: PropTypes.number,
     EastBoundingCoordinate: PropTypes.number,
     WestBoundingCoordinate: PropTypes.number
   }).isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  schema: PropTypes.shape({
+    properties: PropTypes.shape({
+      NorthBoundingCoordinate: PropTypes.shape({
+        description: PropTypes.string.isRequired
+      }),
+      EastBoundingCoordinate: PropTypes.shape({
+        description: PropTypes.string.isRequired
+      })
+    })
+  })
 }
 
 export default BoundingRectangleField
