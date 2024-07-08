@@ -68,7 +68,7 @@ const mock = {
     name: 'UMM-T',
     version: '1.2.0'
   },
-  name: 'Testing tools for publiush asdfasfd',
+  name: 'Testing tools for publish Preview',
   organizations: [
     {
       roles: [
@@ -79,7 +79,7 @@ const mock = {
       urlValue: 'http://www.esa.org/education/'
     }
   ],
-  pageTitle: 'Testing tools for publiush asdfasfd',
+  pageTitle: 'Testing tools for publish Preview',
   providerId: 'MMT_2',
   potentialAction: null,
   quality: null,
@@ -104,7 +104,11 @@ const mock = {
     }
   ],
   type: 'Web User Interface',
-  ummMetadata: {},
+  ummMetadata: {
+    Name: 'Testing tools for publish Preview',
+    LongName: 'Mock Long Name',
+    Description: 'Mock description'
+  },
   url: {
     urlContentType: 'DistributionURL',
     type: 'DOWNLOAD SOFTWARE',
@@ -316,7 +320,11 @@ describe('PublishPreview', () => {
             query: INGEST_DRAFT,
             variables: {
               conceptType: 'Tool',
-              metadata: {},
+              metadata: {
+                Name: 'Testing tools for publish Preview',
+                LongName: 'Mock Long Name',
+                Description: 'Mock description'
+              },
               nativeId: 'MMT_PUBLISH_8b8a1965-67a5-415c-ae4c-8ecbafd84131',
               providerId: 'MMT_2',
               ummVersion: '1.2.0'
@@ -350,8 +358,12 @@ describe('PublishPreview', () => {
             query: INGEST_DRAFT,
             variables: {
               conceptType: 'Tool',
+              metadata: {
+                Name: 'Testing tools for publish Preview',
+                LongName: 'Mock Long Name',
+                Description: 'Mock description'
+              },
               nativeId: 'MMT_PUBLISH_8b8a1965-67a5-415c-ae4c-8ecbafd84131',
-              metadata: {},
               providerId: 'MMT_2',
               ummVersion: '1.2.0'
             }
@@ -380,7 +392,7 @@ describe('PublishPreview', () => {
             query: INGEST_DRAFT,
             variables: {
               conceptType: 'Tool',
-              metadata: {},
+              metadata: { Description: 'Mock description' },
               nativeId: 'MMT_mock-uuid',
               providerId: 'MMT_2',
               ummVersion: '1.2.0'
@@ -417,9 +429,11 @@ describe('PublishPreview', () => {
       await user.click(downloadButton)
 
       expect(constructDownloadableFile).toHaveBeenCalledTimes(1)
+
       expect(constructDownloadableFile).toHaveBeenCalledWith(
-        JSON.stringify(mock.ummMetadata, null, 2),
+        JSON.stringify(mock.ummMetadata),
         'T1000000-MMT'
+
       )
     })
   })
