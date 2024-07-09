@@ -433,7 +433,6 @@ describe('PublishPreview', () => {
       expect(constructDownloadableFile).toHaveBeenCalledWith(
         JSON.stringify(mock.ummMetadata),
         'T1000000-MMT'
-
       )
     })
   })
