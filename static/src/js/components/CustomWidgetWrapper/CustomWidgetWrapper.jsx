@@ -5,12 +5,14 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import pluralize from 'pluralize'
 import commafy from 'commafy'
+import classNames from 'classnames'
 
 import './CustomWidgetWrapper.scss'
 
 /**
  * CustomWidgetWrapper
  * @typedef {Object} CustomWidgetWrapper
+ * @property {Boolean} centered Optional field to edit styling when a label is centered
  * @property {Number} charactersUsed Number of character used.
  * @property {ReactNode} children The widget content.
  * @property {String} description A description of the field.
@@ -19,7 +21,6 @@ import './CustomWidgetWrapper.scss'
  * @property {Boolean} required Is the field required.
  * @property {HTMLDivElement} scrollRef A ref to scroll to.
  * @property {String} title A title of the field.
- * @property {Boolean} centered Optional field to edit styling when a label is centered
  */
 
 /**
@@ -27,6 +28,7 @@ import './CustomWidgetWrapper.scss'
  * @param {CustomWidgetWrapper} props
  */
 const CustomWidgetWrapper = ({
+  centered,
   charactersUsed,
   children,
   description,
@@ -34,8 +36,7 @@ const CustomWidgetWrapper = ({
   maxLength,
   required,
   scrollRef,
-  title,
-  centered
+  title
 }) => {
   const [showHelp, setShowHelp] = useState(false)
 
@@ -47,15 +48,22 @@ const CustomWidgetWrapper = ({
     setShowHelp(false)
   }
 
-  const predeterminedJustification = centered ? 'justify-content-center' : 'justify-content-between'
-
   return (
     <>
       <div
         className="mb-1"
         ref={scrollRef}
       >
-        <div className={`d-flex align-items-center ${predeterminedJustification}`}>
+        <div className={
+          classNames([
+            'd-flex align-items-center',
+            {
+              'justify-content-center': centered,
+              'justify-content-between': !centered
+            }
+          ])
+        }
+        >
           <div>
             {
               title && (
@@ -139,16 +147,17 @@ const CustomWidgetWrapper = ({
 }
 
 CustomWidgetWrapper.defaultProps = {
+  centered: false,
   charactersUsed: null,
   description: null,
-  scrollRef: null,
   maxLength: null,
   required: null,
-  title: null,
-  centered: false
+  scrollRef: null,
+  title: null
 }
 
 CustomWidgetWrapper.propTypes = {
+  centered: PropTypes.bool,
   charactersUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
@@ -156,8 +165,7 @@ CustomWidgetWrapper.propTypes = {
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   scrollRef: PropTypes.shape({}),
-  title: PropTypes.string,
-  centered: PropTypes.bool
+  title: PropTypes.string
 }
 
 export default CustomWidgetWrapper

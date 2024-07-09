@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 
-import './BoundingRectangleField.scss'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import './BoundingRectangleField.scss'
 
 /**
  * BoundingRectangleField
  * @property {Object} formData Saved draft.
+ * @property {String} name String BoundingRectangle--0, etc.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
+ * @property {Object} schema The UMM Schema for this custom widget.
  */
 
 /**
@@ -16,17 +19,19 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
  * @param {BoundingRectangleField} props
  */
 const BoundingRectangleField = ({
-  name,
   formData,
+  name,
   onChange,
   schema
 }) => {
   const { properties } = schema
-  const { EastBoundingCoordinate: EBoundingCoordinate } = properties
-  const { NorthBoundingCoordinate: NBoundingCoordinate } = properties
-  const { description: latitudeDescription } = EBoundingCoordinate
-  const { description: longitudeDescription } = NBoundingCoordinate
-  
+  const {
+    EastBoundingCoordinate: eBoundingCoordinate,
+    NorthBoundingCoordinate: nBoundingCoordinate
+  } = properties
+  const { description: latitudeDescription } = eBoundingCoordinate
+  const { description: longitudeDescription } = nBoundingCoordinate
+
   // Creates state object from given coordinates
   const createStateObject = (object) => {
     const {
@@ -104,11 +109,12 @@ const BoundingRectangleField = ({
           <div className="bounding-rectangle-coordinate-label">
             <CustomWidgetWrapper
               id={name}
-              title='North'
+              title="North"
               description={longitudeDescription}
               centered
             >
               <input
+                aria-label="North"
                 className="form-control bounding-rectangle-coordinate"
                 type="number"
                 step="any"
@@ -129,11 +135,12 @@ const BoundingRectangleField = ({
             <div className="bounding-rectangle-coordinate-label">
               <CustomWidgetWrapper
                 id={name}
-                title='West'
+                title="West"
                 description={latitudeDescription}
                 centered
               >
                 <input
+                  aria-label="West"
                   className="form-control bounding-rectangle-coordinate"
                   type="number"
                   step="any"
@@ -153,11 +160,12 @@ const BoundingRectangleField = ({
             <div className="bounding-rectangle-coordinate-label">
               <CustomWidgetWrapper
                 id={name}
-                title='East'
+                title="East"
                 description={latitudeDescription}
                 centered
               >
                 <input
+                  aria-label="East"
                   className="form-control bounding-rectangle-coordinate"
                   type="number"
                   step="any"
@@ -178,11 +186,12 @@ const BoundingRectangleField = ({
           <div className="bounding-rectangle-coordinate-label">
             <CustomWidgetWrapper
               id={name}
-              title='South'
+              title="South"
               description={longitudeDescription}
               centered
             >
               <input
+                aria-label="South"
                 className="form-control bounding-rectangle-coordinate"
                 type="number"
                 step="any"
@@ -204,7 +213,6 @@ const BoundingRectangleField = ({
 }
 
 BoundingRectangleField.propTypes = {
-  name: PropTypes.string.isRequired,
   formData: PropTypes.shape({
     NorthBoundingCoordinate: PropTypes.number,
     SouthBoundingCoordinate: PropTypes.number,
@@ -212,6 +220,7 @@ BoundingRectangleField.propTypes = {
     WestBoundingCoordinate: PropTypes.number
   }).isRequired,
   onChange: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     properties: PropTypes.shape({
       NorthBoundingCoordinate: PropTypes.shape({
@@ -221,7 +230,7 @@ BoundingRectangleField.propTypes = {
         description: PropTypes.string.isRequired
       })
     })
-  })
+  }).isRequired
 }
 
 export default BoundingRectangleField
