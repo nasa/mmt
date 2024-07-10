@@ -42,16 +42,16 @@ describe('BoundingRectangleField', () => {
     test('renders the fields', () => {
       setup()
 
-      const north = screen.getByRole('spinbutton', { name: 'North' })
+      const north = screen.getByLabelText('North')
       expect(north).toHaveValue(89)
 
-      const west = screen.getByRole('spinbutton', { name: 'West' })
+      const west = screen.getByLabelText('West')
       expect(west).toHaveValue(-179)
 
-      const east = screen.getByRole('spinbutton', { name: 'East' })
+      const east = screen.getByLabelText('East')
       expect(east).toHaveValue(179)
 
-      const south = screen.getByRole('spinbutton', { name: 'South' })
+      const south = screen.getByLabelText('South')
       expect(south).toHaveValue(-89)
     })
   })
@@ -62,16 +62,16 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const north = screen.getByRole('spinbutton', { name: 'North' })
+      const north = screen.getByLabelText('North')
       expect(north).toHaveValue(null)
 
-      const west = screen.getByRole('spinbutton', { name: 'West' })
+      const west = screen.getByLabelText('West')
       expect(west).toHaveValue(null)
 
-      const east = screen.getByRole('spinbutton', { name: 'East' })
+      const east = screen.getByLabelText('East')
       expect(east).toHaveValue(null)
 
-      const south = screen.getByRole('spinbutton', { name: 'South' })
+      const south = screen.getByLabelText('South')
       expect(south).toHaveValue(null)
     })
   })
@@ -84,16 +84,16 @@ describe('BoundingRectangleField', () => {
 
       await user.click(screen.getByRole('button', { name: 'Apply Global Spatial Coverage' }))
 
-      const north = screen.getByRole('spinbutton', { name: 'North' })
+      const north = screen.getByLabelText('North')
       expect(north).toHaveValue(90)
 
-      const west = screen.getByRole('spinbutton', { name: 'West' })
+      const west = screen.getByLabelText('West')
       expect(west).toHaveValue(-180)
 
-      const east = screen.getByRole('spinbutton', { name: 'East' })
+      const east = screen.getByLabelText('East')
       expect(east).toHaveValue(180)
 
-      const south = screen.getByRole('spinbutton', { name: 'South' })
+      const south = screen.getByLabelText('South')
       expect(south).toHaveValue(-90)
     })
   })
@@ -107,7 +107,7 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const west = screen.getByRole('spinbutton', { name: 'West' })
+      const west = screen.getByLabelText('West')
       await user.type(west, '-45')
 
       expect(west).toHaveValue(-45)
@@ -126,7 +126,7 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const south = screen.getByRole('spinbutton', { name: 'South' })
+      const south = screen.getByLabelText('South')
       await user.type(south, '-50')
 
       expect(south).toHaveValue(-50)
@@ -145,7 +145,7 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const east = screen.getByRole('spinbutton', { name: 'East' })
+      const east = screen.getByLabelText('East')
       await user.type(east, '45')
 
       expect(east).toHaveValue(45)
@@ -164,7 +164,7 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      const north = screen.getByRole('spinbutton', { name: 'North' })
+      const north = screen.getByLabelText('North')
       await user.type(north, '60')
 
       expect(north).toHaveValue(60)
