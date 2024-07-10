@@ -9,7 +9,6 @@ import './BoundingRectangleField.scss'
 /**
  * BoundingRectangleField
  * @property {Object} formData Saved draft.
- * @property {String} name String BoundingRectangle--0, etc.
  * @property {Function} onChange A callback function triggered when the user inputs a text.
  * @property {Object} schema The UMM Schema for this custom widget.
  */
@@ -20,7 +19,6 @@ import './BoundingRectangleField.scss'
  */
 const BoundingRectangleField = ({
   formData,
-  name,
   onChange,
   schema
 }) => {
@@ -216,7 +214,6 @@ BoundingRectangleField.propTypes = {
     WestBoundingCoordinate: PropTypes.number
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     properties: PropTypes.shape({
       NorthBoundingCoordinate: PropTypes.shape({
