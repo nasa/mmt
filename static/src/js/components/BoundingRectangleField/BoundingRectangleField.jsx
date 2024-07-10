@@ -108,13 +108,12 @@ const BoundingRectangleField = ({
         <div className="bounding-rectangle-north-row">
           <div className="bounding-rectangle-coordinate-label">
             <CustomWidgetWrapper
-              id={name}
+              id="north-coordinate"
               title="North"
               description={longitudeDescription}
               centered
             >
               <input
-                aria-label="North"
                 className="form-control bounding-rectangle-coordinate"
                 type="number"
                 step="any"
@@ -134,13 +133,12 @@ const BoundingRectangleField = ({
           <div>
             <div className="bounding-rectangle-coordinate-label">
               <CustomWidgetWrapper
-                id={name}
+                id="west-coordinate"
                 title="West"
                 description={latitudeDescription}
                 centered
               >
                 <input
-                  aria-label="West"
                   className="form-control bounding-rectangle-coordinate"
                   type="number"
                   step="any"
@@ -159,13 +157,12 @@ const BoundingRectangleField = ({
           <div>
             <div className="bounding-rectangle-coordinate-label">
               <CustomWidgetWrapper
-                id={name}
+                id="east-coordinate"
                 title="East"
                 description={latitudeDescription}
                 centered
               >
                 <input
-                  aria-label="East"
                   className="form-control bounding-rectangle-coordinate"
                   type="number"
                   step="any"
@@ -185,13 +182,12 @@ const BoundingRectangleField = ({
         <div className="bounding-rectangle-south-row">
           <div className="bounding-rectangle-coordinate-label">
             <CustomWidgetWrapper
-              id={name}
+              id="south-coordinate"
               title="South"
               description={longitudeDescription}
               centered
             >
               <input
-                aria-label="South"
                 className="form-control bounding-rectangle-coordinate"
                 type="number"
                 step="any"
