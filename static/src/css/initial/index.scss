@@ -83,3 +83,17 @@ body {
     opacity: 1;
   }
 }
+
+/* Removes scrollbar for input fields with type Number */
+/* stylelint-disable property-no-vendor-prefix */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+    appearance: textfield;
+}

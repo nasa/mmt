@@ -14,6 +14,16 @@ const setup = (overrideProps = {}) => {
       WestBoundingCoordinate: -179,
       EastBoundingCoordinate: 179
     },
+    schema: {
+      properties: {
+        EastBoundingCoordinate: {
+          description: 'The longitude value of a spatially referenced point, in degrees. Longitude values range from -180 to 180.'
+        },
+        NorthBoundingCoordinate: {
+          description: 'The latitude value of a spatially referenced point, in degrees. Latitude values range from -90 to 90.'
+        }
+      }
+    },
     ...overrideProps
   }
 
@@ -32,17 +42,17 @@ describe('BoundingRectangleField', () => {
     test('renders the fields', () => {
       setup()
 
+      const north = screen.getByLabelText('North')
+      expect(north).toHaveValue(89)
+
       const west = screen.getByLabelText('West')
       expect(west).toHaveValue(-179)
-
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(-89)
 
       const east = screen.getByLabelText('East')
       expect(east).toHaveValue(179)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(89)
+      const south = screen.getByLabelText('South')
+      expect(south).toHaveValue(-89)
     })
   })
 
@@ -52,17 +62,17 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
+      const north = screen.getByLabelText('North')
+      expect(north).toHaveValue(null)
+
       const west = screen.getByLabelText('West')
       expect(west).toHaveValue(null)
-
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(null)
 
       const east = screen.getByLabelText('East')
       expect(east).toHaveValue(null)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(null)
+      const south = screen.getByLabelText('South')
+      expect(south).toHaveValue(null)
     })
   })
 
@@ -72,19 +82,19 @@ describe('BoundingRectangleField', () => {
         formData: {}
       })
 
-      await user.click(screen.getByRole('button'))
+      await user.click(screen.getByRole('button', { name: 'Apply Global Spatial Coverage' }))
+
+      const north = screen.getByLabelText('North')
+      expect(north).toHaveValue(90)
 
       const west = screen.getByLabelText('West')
       expect(west).toHaveValue(-180)
 
-      const south = screen.getByLabelText('South')
-      expect(south).toHaveValue(-90)
-
       const east = screen.getByLabelText('East')
       expect(east).toHaveValue(180)
 
-      const north = screen.getByLabelText('North')
-      expect(north).toHaveValue(90)
+      const south = screen.getByLabelText('South')
+      expect(south).toHaveValue(-90)
     })
   })
 

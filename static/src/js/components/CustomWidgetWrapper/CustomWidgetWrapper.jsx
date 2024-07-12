@@ -5,12 +5,14 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import pluralize from 'pluralize'
 import commafy from 'commafy'
+import classNames from 'classnames'
 
 import './CustomWidgetWrapper.scss'
 
 /**
  * CustomWidgetWrapper
  * @typedef {Object} CustomWidgetWrapper
+ * @property {Boolean} centered Optional field to edit styling when a label is centered
  * @property {Number} charactersUsed Number of character used.
  * @property {ReactNode} children The widget content.
  * @property {String} description A description of the field.
@@ -26,6 +28,7 @@ import './CustomWidgetWrapper.scss'
  * @param {CustomWidgetWrapper} props
  */
 const CustomWidgetWrapper = ({
+  centered,
   charactersUsed,
   children,
   description,
@@ -51,7 +54,16 @@ const CustomWidgetWrapper = ({
         className="mb-1"
         ref={scrollRef}
       >
-        <div className="d-flex align-items-center justify-content-between">
+        <div className={
+          classNames([
+            'd-flex align-items-center',
+            {
+              'justify-content-center': centered,
+              'justify-content-between': !centered
+            }
+          ])
+        }
+        >
           <div>
             {
               title && (
@@ -106,7 +118,7 @@ const CustomWidgetWrapper = ({
                     type="button"
                   >
                     <FaInfoCircle className="me-1" />
-                    Help
+                    {!centered && 'Help'}
                   </button>
                 </OverlayTrigger>
               </div>
@@ -135,15 +147,17 @@ const CustomWidgetWrapper = ({
 }
 
 CustomWidgetWrapper.defaultProps = {
+  centered: false,
   charactersUsed: null,
   description: null,
-  scrollRef: null,
   maxLength: null,
   required: null,
+  scrollRef: null,
   title: null
 }
 
 CustomWidgetWrapper.propTypes = {
+  centered: PropTypes.bool,
   charactersUsed: PropTypes.number,
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
