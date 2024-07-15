@@ -26,6 +26,7 @@ import SystemPermissionsPage from '@/js/pages/SystemPermissionsPage/SystemPermis
 import AuthCallback from '@/js/components/AuthCallback/AuthCallback'
 import AuthRequiredLayout from '@/js/components/AuthRequiredLayout/AuthRequiredLayout'
 import CheckPermissions from '@/js/components/CheckPermissions/CheckPermissions'
+import ErrorPageNotFound from '@/js/components/ErrorPageNotFound/ErrorPageNotFound'
 import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
@@ -249,7 +250,7 @@ export const App = () => {
     },
     {
       path: '/404',
-      element: <Page header={<div />} title="404 Not Found" pageType="secondary">Not Found :(</Page>
+      element: <ErrorPageNotFound />
     }
   ])
 
