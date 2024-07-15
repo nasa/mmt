@@ -590,6 +590,9 @@ const spatialInformationUiSchema = {
             }
           ]
         },
+        Description: {
+          'ui:widget': 'textarea'
+        },
         GeodeticModel: {
           'ui:heading-level': 'h6'
         },
@@ -678,20 +681,20 @@ const spatialInformationUiSchema = {
                       md: 12,
                       children: [
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['XDimension']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['XDimension']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['YDimension']
+                              }
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['YDimension']
-                            }
-                          }]
+                          ]
                         },
                         {
                           'ui:row': [{
@@ -702,20 +705,20 @@ const spatialInformationUiSchema = {
                           }]
                         },
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['ViewingAngleType']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['ViewingAngleType']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['ScanDirection']
+                              }
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['ScanDirection']
-                            }
-                          }]
+                          ]
                         }
                       ]
                     }
@@ -736,36 +739,36 @@ const spatialInformationUiSchema = {
                       md: 12,
                       children: [
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['MinimumXDimension']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['MinimumXDimension']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['MaximumXDimension']
+                              }
                             }
-                          }]
+                          ]
                         },
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['MinimumYDimension']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['MinimumYDimension']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['MaximumYDimension']
+                              }
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['MaximumXDimension']
-                            }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['MaximumYDimension']
-                            }
-                          }]
+                          ]
                         },
                         {
                           'ui:row': [{
@@ -778,18 +781,17 @@ const spatialInformationUiSchema = {
                         {
                           'ui:row': [{
                             'ui:col': {
-                              md: 12,
+                              md: 6,
                               children: ['ViewingAngleType']
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
+                          },
+                          {
                             'ui:col': {
-                              md: 12,
+                              md: 6,
                               children: ['ScanDirection']
                             }
-                          }]
+                          }
+                          ]
                         }
                       ]
                     }
@@ -810,20 +812,20 @@ const spatialInformationUiSchema = {
                       md: 12,
                       children: [
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['XDimension']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['XDimension']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 6,
+                                children: ['YDimension']
+                              }
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['YDimension']
-                            }
-                          }]
+                          ]
                         },
                         {
                           'ui:row': [{
@@ -854,31 +856,28 @@ const spatialInformationUiSchema = {
                         {
                           'ui:row': [{
                             'ui:col': {
-                              md: 12,
+                              md: 6,
                               children: ['MinimumXDimension']
                             }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
+                          },
+                          {
                             'ui:col': {
-                              md: 12,
-                              children: ['MinimumYDimension']
-                            }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
+                              md: 6,
                               children: ['MaximumXDimension']
                             }
-                          }]
+                          }
+                          ]
                         },
                         {
                           'ui:row': [{
                             'ui:col': {
-                              md: 12,
+                              md: 6,
+                              children: ['MinimumYDimension']
+                            }
+                          },
+                          {
+                            'ui:col': {
+                              md: 6,
                               children: ['MaximumYDimension']
                             }
                           }]
@@ -910,26 +909,26 @@ const spatialInformationUiSchema = {
                       md: 12,
                       children: [
                         {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['XDimension']
+                          'ui:row': [
+                            {
+                              'ui:col': {
+                                md: 12,
+                                children: ['XDimension']
+                              }
+                            },
+                            {
+                              'ui:col': {
+                                md: 12,
+                                children: ['YDimension']
+                              }
                             }
-                          }]
+                          ]
                         },
                         {
                           'ui:row': [{
                             'ui:col': {
                               md: 12,
                               children: ['YDimension']
-                            }
-                          }]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['Unit']
                             }
                           }]
                         }
@@ -942,7 +941,46 @@ const spatialInformationUiSchema = {
           }
         },
         LocalCoordinateSystem: {
-          'ui:heading-level': 'h6'
+          'ui:heading-level': 'h6',
+          'ui:field': 'layout',
+          'ui:layout_grid': {
+            'ui:row': [
+              {
+                'ui:hide-header': true,
+                'ui:col': {
+                  md: 12,
+                  children: [
+                    {
+                      'ui:row': [
+                        {
+                          'ui:col': {
+                            md: 12,
+                            children: ['GeoReferenceInformation']
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      'ui:row': [
+                        {
+                          'ui:col': {
+                            md: 12,
+                            children: ['Description']
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          GeoReferenceInformation: {
+            'ui:widget': 'textarea'
+          },
+          Description: {
+            'ui:widget': 'textarea'
+          }
         }
       }
     },
