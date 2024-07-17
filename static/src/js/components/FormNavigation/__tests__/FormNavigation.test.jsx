@@ -165,7 +165,7 @@ describe('FormNavigation', () => {
   describe('when clicking the Save & Publish dropdown item', () => {
     let schema
 
-    beforeEach(async () => {
+    beforeEach(() => {
       schema = {
         properties: {
           bar: {
@@ -178,7 +178,7 @@ describe('FormNavigation', () => {
       }
     })
 
-    test('shows save and publish option as disabled', async () => {
+    test('shows save and publish option as disabled if draft has errors', async () => {
       const { user } = setup({
         overrideProps: {
           draft: {
@@ -192,11 +192,10 @@ describe('FormNavigation', () => {
       await user.click(dropdown)
 
       const button = screen.getByRole('button', { name: 'Save & Publish' })
-      screen.debug(button)
       expect(button).toHaveClass('disabled')
     })
 
-    test('shows save and publish option as enabled', async () => {
+    test('shows save and publish option as enabled if draft has no errors', async () => {
       const { user } = setup({
         overrideProps: {
           draft: {

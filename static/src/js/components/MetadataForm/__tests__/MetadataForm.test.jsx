@@ -352,7 +352,7 @@ describe('MetadataForm', () => {
               properties: expect.objectContaining({
                 RelatedURLs: {
                   description:
-                    'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
+                  'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
                   type: 'array',
                   items: {
                     $ref: '#/definitions/RelatedURLType'

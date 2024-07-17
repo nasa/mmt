@@ -113,7 +113,6 @@ const mockDraft = {
 
 const setup = ({
   additionalMocks = [],
-  overrideMockDraft = mockDraft,
   overrideMocks = false,
   pageUrl = '/drafts/tools/TD1000000-MMT',
   path = '/drafts/tools'
@@ -130,7 +129,7 @@ const setup = ({
     },
     result: {
       data: {
-        draft: overrideMockDraft
+        draft: mockDraft
       }
     }
   }, ...additionalMocks]
@@ -311,7 +310,7 @@ describe('DraftPage', () => {
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
         // Overriding ummMetadata and setting Name to a number to make it fail validation.
-        const overrideMockDraft = {
+        const invalidMockDraft = {
           ...mockDraft,
           ummMetadata: {
             ...ummMetadata,
@@ -319,7 +318,24 @@ describe('DraftPage', () => {
           }
         }
 
-        const { user } = setup({ overrideMockDraft })
+        const { user } = setup({
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: invalidMockDraft
+              }
+            }
+          }]
+        })
         const button = await screen.findByRole('button', { name: /Publish/ })
         await user.click(button)
         expect(button).toHaveAttribute('disabled')
