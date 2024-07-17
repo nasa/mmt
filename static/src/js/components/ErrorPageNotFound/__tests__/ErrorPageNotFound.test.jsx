@@ -1,11 +1,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { v4 as uuidv4 } from 'uuid'
 
 import ErrorPageNotFound from '../ErrorPageNotFound'
 
+vi.mock('@/js/utils/errorLogger')
 vi.mock('uuid', () => ({
-  v4: vi.fn(() => 'mocked-uuid'),
+  v4: vi.fn(() => 'mocked-uuid')
 }))
 
 const setup = () => {

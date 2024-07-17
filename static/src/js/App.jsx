@@ -30,7 +30,6 @@ import ErrorPageNotFound from '@/js/components/ErrorPageNotFound/ErrorPageNotFou
 import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
-import Page from '@/js/components/Page/Page'
 import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
 import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
