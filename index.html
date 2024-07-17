@@ -7,7 +7,17 @@
     <title>Metadata Management Tool</title>
     <link rel="stylesheet" type="text/css" href="/static/src/css/initial/index.scss">
     <!-- Google Tag Manager -->
+    <% if (gtmPropertyId.length > 0) { %>
     <script>
+      var dataLayer = window.dataLayer = window.dataLayer || [];
+
+      <% if (environment === 'development' && includeDevGoogleAnalytics === true) { %>
+        dataLayer.push({
+          'event': 'localIdentifier',
+          'localGAProperty': '<%= gaPropertyId %>'
+        });
+        <% } %>
+
       (function(w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({
@@ -21,14 +31,17 @@
         j.async = true;
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-WNP7MLF');
+      })(window, document, 'script', 'dataLayer', '<%= gtmPropertyId %>');
     </script>
+    <% } %>
     <!-- End Google Tag Manager -->
   </head>
   <body class="h-100 d-flex flex-column is-loading">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNP7MLF" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <% if (gtmPropertyId.length > 0) { %>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtmPropertyId %>" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <% } %>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="earthdata-tophat2" class="th-wrapper d-block w-100" style="height: 34px; background: #000;"></div>

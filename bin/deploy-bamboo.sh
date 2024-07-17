@@ -21,6 +21,7 @@ config="`jq '.application.gkrHost = $newValue' --arg newValue $bamboo_GKR_HOST <
 config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKIE_DOMAIN <<< $config`"
 config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
+config="`jq '.application.analytics.gtmPropertyId = $newValue' --arg newValue $bamboo_GTM_PROPERTY_ID <<< $config`"
 config="`jq '.saml.host = $newValue' --arg newValue $bamboo_SAML_HOST <<< $config`"
 config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK_URL <<< $config`"
 config="`jq '.saml.keepAliveOrigin = $newValue' --arg newValue $bamboo_SAML_KEEP_ALIVE_ORIGIN <<< $config`"
