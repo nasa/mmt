@@ -128,6 +128,8 @@ $navbar-brand-font-size: calc(1rem);
 
 $nav-pills-link-active-bg: map.get($theme-colors, "primary");
 
+$border-color: lighten(map.get($theme-colors, "gray"), 30%);
+
 /*
  * Border Radius
 */

@@ -340,7 +340,7 @@ const KeywordPicker = ({
   }
 
   return (
-    <div className="keyword-picker pb-5">
+    <div className="keyword-picker">
       <div className="mb-3 h4">
         <span>
           {title}
@@ -348,7 +348,7 @@ const KeywordPicker = ({
             required ? (
               <i
                 aria-label="Required"
-                className="eui-icon eui-required-o text-success ps-1"
+                className="eui-icon eui-required-o text-success ps-2"
                 role="img"
               />
             ) : ''
@@ -356,7 +356,7 @@ const KeywordPicker = ({
         </span>
       </div>
 
-      <div className="mb-2">
+      <div className="mb-4">
         <span className="description-box">
           {description}
         </span>

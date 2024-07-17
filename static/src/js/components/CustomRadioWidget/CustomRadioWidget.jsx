@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
 
+import Button from '../Button/Button'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
-
-import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 
 import shouldFocusField from '../../utils/shouldFocusField'
 
@@ -83,11 +82,6 @@ const CustomRadioWidget = ({
     onChange(undefined)
   }
 
-  // Accessible event props for clicking on the form field icon
-  const accessibleEventProps = useAccessibleEvent(() => {
-    handleClear()
-  })
-
   return (
     <CustomWidgetWrapper
       description={schema.description}
@@ -98,51 +92,50 @@ const CustomRadioWidget = ({
       title={title}
     >
       <div
-        className="custom-radio-widget"
+        className="custom-radio-widget d-flex align-items-center gap-3"
         role="radiogroup"
       >
-        {
-          showClear && (
-            <div
-              className="custom-radio-widget-clear-btn"
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...accessibleEventProps}
-            >
-              Clear
-            </div>
-          )
-        }
-
-        <input
-          className="form-check-input m-2"
-          id={`${id}-true`}
-          name="true"
-          onChange={handleChange}
-          type="radio"
-          checked={value === true}
-          ref={focusRef}
-        />
         <label
-          className="form-check-label m-1"
+          className="form-check-label d-flex align-items-center"
           htmlFor={`${id}-true`}
         >
+          <input
+            className="d-flex form-check-input m-2"
+            id={`${id}-true`}
+            name="true"
+            onChange={handleChange}
+            type="radio"
+            checked={value === true}
+            ref={focusRef}
+          />
           {trueOptionLabel || 'True'}
         </label>
-        <br />
-        <input
-          className="form-check-input m-2"
-          id={`${id}-false`}
-          name="false"
-          onChange={handleChange}
-          type="radio"
-          checked={value === false}
-        />
         <label
-          className="form-check-label m-1"
+          className="form-check-label d-flex align-items-center"
           htmlFor={`${id}-false`}
         >
+          <input
+            className="form-check-input m-2"
+            id={`${id}-false`}
+            name="false"
+            onChange={handleChange}
+            type="radio"
+            checked={value === false}
+          />
           {falseOptionLabel || 'False'}
         </label>
+        {
+          showClear && (
+            <Button
+              className="custom-radio-widget-clear-btn"
+              variant="light-dark"
+              size="sm"
+              onClick={handleClear}
+            >
+              Clear selection
+            </Button>
+          )
+        }
       </div>
     </CustomWidgetWrapper>
   )

@@ -1,10 +1,37 @@
-// @import '../../../css/vendor/bootstrap/variables';
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
 
 .metadata-form {
   &__container {
     .eui-icon {
       font-size: 1rem;
       vertical-align: baseline;
+    }
+  }
+}
+
+.rjsf {
+  .custom-array-field-template__description,
+  .field-description {
+    margin-bottom: 2rem;
+    color: $gray-800;
+    font-size: 0.925rem;
+  }
+
+  .row.row-children {
+    margin-bottom: 3rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .col-md-12 {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }

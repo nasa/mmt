@@ -24,7 +24,7 @@
     "ummV": "1.9.0"
   },
   "edl": {
-    "host": "https://sit.urs.earthdata.nasa.gov",
+    "host": "https://uat.urs.earthdata.nasa.gov",
     "uid": "mmt_test"
   },
   "saml": {

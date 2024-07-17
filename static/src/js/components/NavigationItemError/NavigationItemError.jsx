@@ -63,7 +63,7 @@ const NavigationItemError = ({
       <ListGroup.Item
         className={
           classNames([
-            'navigation-item-error__item d-flex align-items-baseline border-0 ps-3 px-1 py-1',
+            'navigation-item-error__item d-flex align-items-baseline border-0 px-0 py-1',
             {
               'navigation-item-error__item--isFocused': hasFocus
             }

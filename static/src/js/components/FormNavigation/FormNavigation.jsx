@@ -185,7 +185,7 @@ const FormNavigation = ({
         </Button>
       </div>
 
-      <ListGroup className="form-navigation__sections p-3 bg-light">
+      <ListGroup className="form-navigation__sections bg-light">
         <For each={formSections}>
           {
             (section, index) => {

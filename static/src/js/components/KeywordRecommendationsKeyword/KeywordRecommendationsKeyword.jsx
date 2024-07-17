@@ -17,7 +17,7 @@ const KeywordRecommendationsKeyword = ({ keyword, addKeyword, removeKeyword }) =
   const { accepted } = keyword
 
   return (
-    <ListGroup.Item role="listitem">
+    <ListGroup.Item role="listitem" className="p-0">
       <span className="small keyword-recommendations-keyword__keyword">{delimitedKeyword}</span>
       {' '}
       {recommended && (<Badge pill bg="success">Recommended</Badge>)}

@@ -1,23 +1,27 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
 .keyword-recommendations-keyword {
   &__keyword {
-    font-size: .8em;
+    font-size: 0.925em;
+    font-weight: 700;
   }
 
   &__add-icon {
-    color: blue;
+    color: $primary;
     cursor: ‘pointer’;
     font-size: 1.2em !important;
   }
 
   &__remove-icon {
-    color: red;
+    color: $danger;
     cursor: ‘pointer’;
     font-size: 1.2em !important;
   }
 
   &__accept-icon {
-    color: green;
+    color: $success;
     font-size: 1.2em !important;
   }
-
 }

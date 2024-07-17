@@ -96,7 +96,7 @@ describe('CustomRadioWidget', () => {
         value: true
       })
 
-      const clear = screen.getByRole('link', { name: 'Clear' })
+      const clear = screen.getByRole('button', { name: 'Clear selection' })
       await user.click(clear)
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
@@ -110,7 +110,7 @@ describe('CustomRadioWidget', () => {
         value: true
       })
 
-      const clear = screen.getByRole('link', { name: 'Clear' })
+      const clear = screen.getByRole('button', { name: 'Clear selection' })
       clear.focus()
       await user.keyboard('{Enter}')
 

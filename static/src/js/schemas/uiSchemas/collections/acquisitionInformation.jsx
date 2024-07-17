@@ -57,13 +57,7 @@ const acquisitionInformationUiSchema = {
                       md: 12,
                       // Rendering custom component for ShortName, Type and LongName
                       render: (props) => (
-                        <div style={
-                          {
-                            padding: '15px',
-                            paddingTop: '0px'
-                          }
-                        }
-                        >
+                        <div>
                           <PlatformField {...props} />
                         </div>
                       )

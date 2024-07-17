@@ -67,14 +67,13 @@ const CustomTitleField = ({
       <div ref={scrollRef} className={`custom-title-field__${groupBoxClassName}`}>
         {
           !hideHeader && (
-            <HeadingLevel className="custom-title-field__heading">
+            <HeadingLevel className="custom-title-field__heading d-flex align-items-center">
               {heading}
-
               {
                 isRequired && (
                   <i
                     aria-label="Required"
-                    className="eui-icon eui-required-o text-success ps-1"
+                    className="custom-title-field__icon eui-icon eui-required-o text-success ps-2"
                     role="img"
                     title={heading}
                   />

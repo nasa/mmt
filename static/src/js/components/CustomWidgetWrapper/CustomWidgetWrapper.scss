@@ -1,4 +1,14 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
 .custom-widget-wrapper {
+  &__label {
+    color: $gray-800;
+    font-weight: 600;
+    font-size: 0.925rem;
+  }
+
   &__help {
     position: relative;
     right: -0.125rem;
