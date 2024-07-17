@@ -297,7 +297,7 @@ describe('DraftPage', () => {
     })
 
     describe('when clicking on Publish Draft button', () => {
-      test('is clickable if draft has no errors', async () => {
+      test('is enabled if draft has no errors', async () => {
         const { user } = setup({})
 
         const button = await screen.findByRole('button', { name: /Publish/ })
