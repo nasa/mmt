@@ -15,6 +15,7 @@ provider:
     COOKIE_DOMAIN: ${env:COOKIE_DOMAIN, '.localhost'}
     JWT_SECRET: ${env:JWT_SECRET, 'local-secret'}
     JWT_VALID_TIME: ${env:JWT_VALID_TIME, '900'}
+    GTM_PROPERTY_ID: ${env:GTM_PROPERTY_ID, ''}
   vpc:
     securityGroupIds:
       - Fn::ImportValue: ${self:provider.stage}-LambdaSecurityGroup
