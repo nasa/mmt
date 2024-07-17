@@ -7,8 +7,6 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import shouldFocusField from '../../utils/shouldFocusField'
 
-import './CustomRadioWidget.scss'
-
 /**
  * CustomRadioWidget
  * @typedef {Object} CustomRadioWidget
