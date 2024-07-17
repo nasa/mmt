@@ -32,6 +32,18 @@ const ummCSchema = {
       description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown use the second option.",
       $ref: '#/definitions/DoiType'
     },
+    OtherIdentifiers: {
+      description: 'Provides additional or provider defined identifiers of the collection.',
+      type: 'array',
+      items: {
+        $ref: '#/definitions/OtherIdentifierType'
+      },
+      minItems: 1
+    },
+    FileNamingConvention: {
+      description: "The File Naming Convention refers to the naming convention of the data set's (Collection's) data files along with a description of the granule file construction.",
+      $ref: '#/definitions/FileNamingConventionType'
+    },
     AssociatedDOIs: {
       description: "This element stores DOIs that are associated with the collection such as from campaigns and other related sources. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.",
       type: 'array',
@@ -87,8 +99,8 @@ const ummCSchema = {
       $ref: '#/definitions/CollectionDataTypeEnum'
     },
     StandardProduct: {
-      type: 'boolean',
-      description: 'This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products.'
+      description: 'This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products.',
+      type: 'boolean'
     },
     ProcessingLevel: {
       description: 'The identifier for the processing level of the collection (e.g., Level0, Level1A).',
@@ -105,6 +117,11 @@ const ummCSchema = {
     CollectionProgress: {
       description: 'This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a sixth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.',
       $ref: '#/definitions/CollectionProgressEnum'
+    },
+    DataMaturity: {
+      description: "The Data Maturity element is used to inform users on where the collection is in a collection's life cycle.",
+      type: 'string',
+      enum: ['Beta', 'Provisional', 'Validated', 'Stage 1 Validation', 'Stage 2 Validation', 'Stage 3 Validation', 'Stage 4 Validation']
     },
     Quality: {
       description: 'Free text description of the quality of the collection data.  Description may include: 1) succinct description of the quality of data in the collection; 2) Any quality assurance procedures followed in producing the data in the collection; 3) indicators of collection quality or quality flags - both validated or invalidated; 4) recognized or potential problems with quality; 5) established quality control mechanisms; and 6) established quantitative quality measurements.',
@@ -296,10 +313,7 @@ const ummCSchema = {
           $ref: '#/definitions/LineageDateEnum'
         }
       },
-      required: [
-        'Date',
-        'Type'
-      ]
+      required: ['Date', 'Type']
     },
     EntryIdType: {
       description: 'This is the ID of the metadata record.  It is only unique when combined with the version.',
@@ -351,10 +365,7 @@ const ummCSchema = {
           $ref: '#/definitions/ContactInformationType'
         }
       },
-      required: [
-        'Roles',
-        'ShortName'
-      ]
+      required: ['Roles', 'ShortName']
     },
     ContactGroupType: {
       type: 'object',
@@ -602,7 +613,8 @@ const ummCSchema = {
         },
         Size: {
           description: 'The size of the data.',
-          type: 'number'
+          type: 'number',
+          minimum: 0
         },
         Unit: {
           description: 'Unit of information, together with Size determines total size in bytes of the data.',
@@ -798,6 +810,7 @@ const ummCSchema = {
     DoiType: {
       type: 'object',
       oneOf: [{
+        type: 'object',
         title: 'DOI is available',
         additionalProperties: false,
         description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
@@ -811,10 +824,14 @@ const ummCSchema = {
           Authority: {
             description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
             $ref: '#/definitions/AuthorityType'
+          },
+          PreviousVersion: {
+            $ref: '#/definitions/PreviousVersionType'
           }
         },
         required: ['DOI']
       }, {
+        type: 'object',
         title: 'DOI is not available or applicable',
         additionalProperties: false,
         description: 'This element stores the fact that the DOI (Digital Object Identifier) is not applicable or is unknown.',
@@ -833,6 +850,33 @@ const ummCSchema = {
         },
         required: ['MissingReason']
       }]
+    },
+    PreviousVersionType: {
+      type: 'object',
+      additionalProperties: false,
+      description: "Provides a DOI of the previous version of this collection. This allows users to find historical data for this collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
+      properties: {
+        Version: {
+          description: "This element stores the DOI (Digital Object Identifier) that identifies the prevoius version of this collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          $ref: '#/definitions/VersionType'
+        },
+        Description: {
+          description: 'Short description of the previous version.',
+          $ref: '#/definitions/VersionDescriptionType'
+        },
+        DOI: {
+          description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          type: 'string',
+          minLength: 1,
+          maxLength: 1024
+        },
+        Published: {
+          description: 'Describes the pubished date for the previous version.',
+          format: 'date-time',
+          type: 'string'
+        }
+      },
+      required: ['DOI']
     },
     DoiDoiType: {
       type: 'object',
@@ -1316,8 +1360,51 @@ const ummCSchema = {
             $ref: '#/definitions/PeriodicDateTimeType'
           },
           minItems: 1
+        },
+        TemporalResolution: {
+          $ref: '#/definitions/TemporalResolutionType'
         }
-      }
+      },
+      oneOf: [{
+        required: ['RangeDateTimes']
+      }, {
+        required: ['SingleDateTimes']
+      }, {
+        required: ['PeriodicDateTimes']
+      }]
+    },
+    TemporalResolutionType: {
+      oneOf: [{
+        type: 'object',
+        title: 'Contant or Varies Resolution',
+        additionalProperties: false,
+        description: 'Describes the amount of time between measurements.',
+        properties: {
+          Unit: {
+            description: 'Describes a constant or varies temporal resolution.',
+            type: 'string',
+            enum: ['Constant', 'Varies']
+          }
+        },
+        required: ['Unit']
+      }, {
+        type: 'object',
+        title: 'Numerical Resolution',
+        additionalProperties: false,
+        description: 'Describes the amount of time between measurements.',
+        properties: {
+          Value: {
+            description: 'The temporal resolution value.',
+            type: 'number'
+          },
+          Unit: {
+            description: 'Describes a constant or varies temporal resolution.',
+            type: 'string',
+            enum: ['Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year', 'Diurnal']
+          }
+        },
+        required: ['Value', 'Unit']
+      }]
     },
     RangeDateTimeType: {
       type: 'object',
@@ -1550,8 +1637,8 @@ const ummCSchema = {
     UseConstraintsType: {
       description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
       oneOf: [{
-        title: 'Description without License URL or Text.',
         type: 'object',
+        title: 'Description without License URL or Text.',
         additionalProperties: false,
         description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
         properties: {
@@ -1572,8 +1659,8 @@ const ummCSchema = {
         },
         required: ['Description']
       }, {
-        title: 'License URL',
         type: 'object',
+        title: 'License URL',
         additionalProperties: false,
         description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
         properties: {
@@ -1598,8 +1685,8 @@ const ummCSchema = {
         },
         required: ['LicenseURL']
       }, {
-        title: 'License Text',
         type: 'object',
+        title: 'License Text',
         additionalProperties: false,
         description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
         properties: {
@@ -1739,11 +1826,12 @@ const ummCSchema = {
           $ref: '#/definitions/GranuleSpatialRepresentationEnum'
         }
       },
-      required: ['GranuleSpatialRepresentation']
+      required: ['GranuleSpatialRepresentation'],
+      allOf: [{ $ref: '#/definitions/OrbitParameterExistsIfGranuleSpatialRepresentationIsOrbit' }]
     },
     SpatialCoverageTypeEnum: {
       type: 'string',
-      enum: ['HORIZONTAL', 'VERTICAL', 'ORBITAL', 'HORIZONTAL_VERTICAL', 'ORBITAL_VERTICAL', 'HORIZONTAL_ORBITAL', 'HORIZONTAL_VERTICAL_ORBITAL']
+      enum: ['EARTH/GLOBAL', 'HORIZONTAL', 'VERTICAL', 'ORBITAL', 'HORIZONTAL_VERTICAL', 'ORBITAL_VERTICAL', 'HORIZONTAL_ORBITAL', 'HORIZONTAL_VERTICAL_ORBITAL', 'LUNAR']
     },
     HorizontalSpatialDomainType: {
       type: 'object',
@@ -1962,9 +2050,9 @@ const ummCSchema = {
       required: ['Footprint', 'FootprintUnit']
     },
     OrbitParametersType: {
-      type: 'object',
       description: 'Orbit parameters for the collection used by the Orbital Backtrack Algorithm.',
       oneOf: [{
+        type: 'object',
         title: 'Orbit parameters with just swath',
         additionalProperties: false,
         properties: {
@@ -2014,6 +2102,7 @@ const ummCSchema = {
           StartCircularLatitude: ['StartCircularLatitudeUnit']
         }
       }, {
+        type: 'object',
         title: 'Orbit parameters with just footprints',
         additionalProperties: false,
         properties: {
@@ -2062,6 +2151,7 @@ const ummCSchema = {
           StartCircularLatitude: ['StartCircularLatitudeUnit']
         }
       }, {
+        type: 'object',
         title: 'Orbit parameters with both swathwidth and footprints',
         additionalProperties: false,
         properties: {
@@ -2126,8 +2216,8 @@ const ummCSchema = {
     },
     TilingIdentificationSystemType: {
       description: 'A two-dimensional tiling system for a collection. There are two types of tiling systems. Those that use alaph-numeric coordinates and those that use numeric coordinates.',
-      type: 'object',
       oneOf: [{
+        type: 'object',
         title: 'Tiling Systems that use alpha-numberic coordinates.',
         additionalProperties: false,
         description: 'Information about a two-dimensional tiling system that uses alpha-numeric coordinates related to this collection.',
@@ -2147,6 +2237,7 @@ const ummCSchema = {
         },
         required: ['TilingIdentificationSystemName', 'Coordinate1', 'Coordinate2']
       }, {
+        type: 'object',
         title: 'Tiling Systems that use numeric coordinates.',
         additionalProperties: false,
         description: 'Information about a two-dimensional tiling system that uses numeric coordinates related to this collection.',
@@ -2288,9 +2379,9 @@ const ummCSchema = {
     },
     ResolutionAndCoordinateSystemType: {
       description: "This class defines the horizontal spatial extents coordinate system and the data product's horizontal data resolution. The horizontal data resolution is defined as the smallest horizontal distance between successive elements of data in a dataset. This is synonymous with terms such as ground sample distance, sample spacing and pixel size. It is to be noted that the horizontal data resolution could be different in the two horizontal dimensions. Also, it is different from the spatial resolution of an instrument, which is the minimum distance between points that an instrument can see as distinct.",
-      type: 'object',
       oneOf: [{
-        title: 'Geodetic Model',
+        type: 'object',
+        title: 'Description of the Resolution',
         additionalProperties: false,
         properties: {
           Description: {
@@ -2304,7 +2395,8 @@ const ummCSchema = {
         },
         required: ['GeodeticModel']
       }, {
-        title: 'Horizontal Data Resolution',
+        type: 'object',
+        title: 'Horizontal Data Resolution Information',
         additionalProperties: false,
         properties: {
           Description: {
@@ -2322,7 +2414,8 @@ const ummCSchema = {
         },
         required: ['HorizontalDataResolution']
       }, {
-        title: 'Local Coordinate System',
+        type: 'object',
+        title: 'Local Coordinate System Information',
         additionalProperties: false,
         properties: {
           Description: {
@@ -2694,9 +2787,9 @@ const ummCSchema = {
     },
     FileArchiveInformationType: {
       description: 'This element defines a single archive artifact which a data provider would like to inform an end user that it exists.',
-      oneOf: [{
+      anyOf: [{
         type: 'object',
-        title: 'Calculate collection file size for archive',
+        title: 'Total collection file size for archive',
         additionalProperties: false,
         properties: {
           Format: {
@@ -2715,7 +2808,8 @@ const ummCSchema = {
           },
           AverageFileSize: {
             description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           AverageFileSizeUnit: {
             description: 'Unit of measure for the average file size.',
@@ -2723,7 +2817,8 @@ const ummCSchema = {
           },
           TotalCollectionFileSize: {
             description: 'An approximate total size of all of the archivable items within a collection. This gives an end user an idea of the magnitude for all of archivable files combined.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           TotalCollectionFileSizeUnit: {
             description: 'Unit of measure for the total collection file size.',
@@ -2742,6 +2837,7 @@ const ummCSchema = {
           TotalCollectionFileSize: ['TotalCollectionFileSizeUnit']
         }
       }, {
+        type: 'object',
         title: 'Calculate collection file size by start date for archive',
         additionalProperties: false,
         properties: {
@@ -2761,7 +2857,8 @@ const ummCSchema = {
           },
           AverageFileSize: {
             description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           AverageFileSizeUnit: {
             description: 'Unit of measure for the average file size.',
@@ -2788,8 +2885,8 @@ const ummCSchema = {
     },
     FileDistributionInformationType: {
       description: 'This element defines a single artifact that is distributed by the data provider. This element only includes the distributable artifacts that can be obtained by the user without the user having to invoke a service. These should be documented in the UMM-S specification.',
-      type: 'object',
-      oneOf: [{
+      anyOf: [{
+        type: 'object',
         title: 'Total collection file size for distribution',
         additionalProperties: false,
         properties: {
@@ -2817,7 +2914,8 @@ const ummCSchema = {
           },
           AverageFileSize: {
             description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           AverageFileSizeUnit: {
             description: 'Unit of measure for the average file size.',
@@ -2825,7 +2923,8 @@ const ummCSchema = {
           },
           TotalCollectionFileSize: {
             description: 'An approximate total size of all of the distributable items within a collection. This gives an end user an idea of the magnitude for all of distributable files combined.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           TotalCollectionFileSizeUnit: {
             description: 'Unit of measure for the total collection file size.',
@@ -2850,6 +2949,7 @@ const ummCSchema = {
           TotalCollectionFileSize: ['TotalCollectionFileSizeUnit']
         }
       }, {
+        type: 'object',
         title: 'Calculate collection file size by start date for distribution',
         additionalProperties: false,
         properties: {
@@ -2877,7 +2977,8 @@ const ummCSchema = {
           },
           AverageFileSize: {
             description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
-            type: 'number'
+            type: 'number',
+            minimum: 0
           },
           AverageFileSizeUnit: {
             description: 'Unit of measure for the average file size.',
@@ -2978,27 +3079,135 @@ const ummCSchema = {
       type: 'string',
       enum: ['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
     },
-    AssociatedDoiType: {
+    FileNamingConventionType: {
       type: 'object',
       additionalProperties: false,
-      description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+      description: "The File Naming Convention refers to the naming convention of the data set's (Collection's) data files along with a description of the granule file construction.",
       properties: {
-        DOI: {
-          description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+        Convention: {
+          description: 'This element represents the convention of the filename.',
           type: 'string',
           minLength: 1,
-          maxLength: 1024
+          maxLength: 4000
         },
-        Title: {
-          description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
-          $ref: '#/definitions/TitleType'
-        },
-        Authority: {
-          description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
-          $ref: '#/definitions/AuthorityType'
+        Description: {
+          description: 'This element describes the convention of the filename.',
+          type: 'string',
+          minLength: 1,
+          maxLength: 4000
         }
       },
-      required: ['DOI']
+      required: ['Convention']
+    },
+    AssociatedDoiType: {
+      oneOf: [{
+        type: 'object',
+        title: 'All Documented DOI Types',
+        additionalProperties: false,
+        description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+        properties: {
+          DOI: {
+            description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          },
+          Title: {
+            description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
+            $ref: '#/definitions/TitleType'
+          },
+          Authority: {
+            description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
+            $ref: '#/definitions/AuthorityType'
+          },
+          Type: {
+            description: 'This element describes to what DOI is associated.',
+            type: 'string',
+            enum: ['Child Dataset', 'Collaborative/Other Agency', 'Field Campaign', 'Parent Dataset', 'Related Dataset']
+          }
+        },
+        required: ['DOI']
+      }, {
+        type: 'object',
+        title: 'Other DOI Types',
+        additionalProperties: false,
+        description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+        properties: {
+          DOI: {
+            description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          },
+          Title: {
+            description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
+            $ref: '#/definitions/TitleType'
+          },
+          Authority: {
+            description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
+            $ref: '#/definitions/AuthorityType'
+          },
+          Type: {
+            description: 'This element describes to what DOI is associated.',
+            type: 'string',
+            enum: ['Other']
+          },
+          DescriptionOfOtherType: {
+            description: 'This element allows the curator to describe what kind of DOI is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          }
+        },
+        required: ['DOI', 'Type', 'DescriptionOfOtherType']
+      }]
+    },
+    OtherIdentifierType: {
+      oneOf: [{
+        type: 'object',
+        title: 'ArchiveSetsNumber',
+        additionalProperties: false,
+        description: 'This object stores an additional identifier of the collection.',
+        properties: {
+          Identifier: {
+            description: 'This element stores the identifier',
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          },
+          Type: {
+            description: 'This element represents the type of the identifier.',
+            type: 'string',
+            enum: ['ArchiveSetsNumber']
+          }
+        },
+        required: ['Identifier', 'Type']
+      }, {
+        type: 'object',
+        title: 'Other',
+        additionalProperties: false,
+        description: 'This object stores an additional identifier of the collection.',
+        properties: {
+          Identifier: {
+            description: 'This element stores the identifier',
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          },
+          Type: {
+            description: 'This element represents the type of the identifier.',
+            type: 'string',
+            enum: ['Other']
+          },
+          DescriptionOfOtherType: {
+            description: 'This element allows the curator to describe what kind of Identifier is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 1024
+          }
+        },
+        required: ['Identifier', 'Type', 'DescriptionOfOtherType']
+      }]
     },
     MetadataSpecificationType: {
       type: 'object',
@@ -3008,7 +3217,7 @@ const ummCSchema = {
         URL: {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/collection/v1.17.3']
+          enum: ['https://cdn.earthdata.nasa.gov/umm/collection/v1.18.1']
         },
         Name: {
           description: 'This element represents the name of the schema.',
@@ -3018,10 +3227,15 @@ const ummCSchema = {
         Version: {
           description: 'This element represents the version of the schema.',
           type: 'string',
-          enum: ['1.17.3']
+          enum: ['1.18.1']
         }
       },
       required: ['URL', 'Name', 'Version']
+    },
+    OrbitParameterExistsIfGranuleSpatialRepresentationIsOrbit: {
+      $comment: 'Checks if the Granule Spatial Representation value is Oribt, then the oribt parameter must exist.',
+      if: { properties: { GranuleSpatialRepresentation: { const: 'ORBIT' } } },
+      then: { required: ['OrbitParameters'] }
     }
   }
 }

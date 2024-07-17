@@ -25,7 +25,9 @@ const collectionsConfiguration = [
       'UseConstraints',
       'AccessConstraints',
       'MetadataAssociations',
-      'PublicationReferences'
+      'PublicationReferences',
+      'DataMaturity',
+      'OtherIdentifiers'
     ]
   },
   {
@@ -96,7 +98,8 @@ const collectionsConfiguration = [
     displayName: 'Archive And Distribution Information',
     properties: [
       'ArchiveAndDistributionInformation',
-      'DirectDistributionInformation'
+      'DirectDistributionInformation',
+      'FileNamingConvention'
     ]
   }
 

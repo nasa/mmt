@@ -72,10 +72,19 @@ const spatialInformationUiSchema = {
       'ui:group-description': true,
       'ui:row': [
         {
-          'ui:group-box-checkbox': 'h1-box',
           'ui:col': {
             md: 12,
             children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['SpatialCoverageType']
+                    }
+                  }
+                ]
+              },
               {
                 'ui:group-checkbox': 'Horizontal',
                 'ui:row': [

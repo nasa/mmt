@@ -164,7 +164,6 @@ const MetadataForm = () => {
   })
 
   const fields = {
-    AnyOfField: () => null,
     BoundingRectangle: BoundingRectangleField,
     keywordPicker: KeywordPicker,
     layout: GridLayout,

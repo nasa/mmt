@@ -125,8 +125,117 @@ const collectionInformationUiSchema = {
     'ui:widget': 'textarea'
   },
   DOI: {
-    'ui:heading-level': 'h4',
-    'ui:required': true
+    'ui:heading-level': 'h5',
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'DOI',
+          'ui:group-description': true,
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['DOI']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Authority']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['PreviousVersion']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    DOI: {
+      'ui:widget': 'textarea'
+    },
+    PreviousVersion: {
+      'ui:heading-level': 'h5',
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:group': 'Previous Version',
+            'ui:group-description': true,
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Version']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Description']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['DOI']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Published']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      Description: {
+        'ui:widget': 'textarea'
+      },
+      DOI: {
+        'ui:widget': 'textarea'
+      }
+    }
   },
   AssociatedDOIs: {
     'ui:title': 'Associated DOIs',
@@ -168,11 +277,37 @@ const collectionInformationUiSchema = {
                       }
                     }
                   ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Type']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['DescriptionOfOtherType']
+                      }
+                    }
+                  ]
                 }
               ]
             }
           }
         ]
+      },
+      DOI: {
+        'ui:widget': 'textarea'
+      },
+      DescriptionOfOtherType: {
+        'ui:widget': 'textarea'
       }
     }
   },

@@ -333,7 +333,6 @@ describe('MetadataForm', () => {
           expect(Form).toHaveBeenCalledWith(expect.objectContaining({
             fields: {
               BoundingRectangle: BoundingRectangleField,
-              AnyOfField: expect.any(Function),
               OneOfField,
               TitleField: CustomTitleField,
               keywordPicker: KeywordPicker,
@@ -397,7 +396,6 @@ describe('MetadataForm', () => {
         expect(Form).toHaveBeenCalledWith(expect.objectContaining({
           fields: {
             BoundingRectangle: BoundingRectangleField,
-            AnyOfField: expect.any(Function),
             OneOfField,
             TitleField: CustomTitleField,
             keywordPicker: KeywordPicker,

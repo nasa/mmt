@@ -26,6 +26,12 @@ const archiveDistributionInformationUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
+                    children: ['FileNamingConvention']
+                  }
+                },
+                {
+                  'ui:col': {
+                    md: 12,
                     children: ['DirectDistributionInformation']
                   }
                 }
@@ -39,6 +45,7 @@ const archiveDistributionInformationUiSchema = {
   ArchiveAndDistributionInformation: {
     'ui:heading-level': 'h4',
     'ui:field': 'layout',
+    'ui:fieldReplacesAnyOrOneOf': true,
     'ui:layout_grid': {
       'ui:row': [
         {
@@ -241,6 +248,45 @@ const archiveDistributionInformationUiSchema = {
           'ui:widget': CustomTextareaWidget
         }
       }
+    }
+  },
+  FileNamingConvention: {
+    'ui:heading-level': 'h4',
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'File Naming Convention',
+          'ui:group-description': true,
+          'ui:group-classname': 'h2-title',
+          'ui:col': {
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Convention']
+                    }
+                  },
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Description']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    Convention: {
+      'ui:widget': 'textarea'
+    },
+    Description: {
+      'ui:widget': 'textarea'
     }
   },
   DirectDistributionInformation: {
