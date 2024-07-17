@@ -142,6 +142,7 @@ const FormNavigation = ({
             {
               !isTemplate && (
                 <Dropdown.Item
+                  disabled={errors.length > 0}
                   onClick={() => onSaveClick(saveTypes.saveAndPublish)}
                 >
                   {saveTypesToHumanizedStringMap[saveTypes.saveAndPublish]}

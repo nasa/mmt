@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
+import validator from '@rjsf/validator-ajv8'
 import pluralize from 'pluralize'
 import {
   FaCopy,
@@ -32,6 +33,7 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import getUmmSchema from '@/js/utils/getUmmSchema'
 
 /**
  * Renders a DraftPageHeader component
@@ -90,6 +92,12 @@ const DraftPageHeader = () => {
     ummMetadata,
     previewMetadata
   } = draft
+
+  // Get the UMM Schema for the draft
+  const schema = getUmmSchema(derivedConceptType)
+
+  // Validate ummMetadata
+  const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
 
   const handlePublish = () => {
     publishMutation(derivedConceptType, nativeId)
@@ -184,6 +192,7 @@ const DraftPageHeader = () => {
         primaryActions={
           [
             {
+              disabled: validationErrors.length > 0,
               icon: FaSave,
               iconTitle: 'A save icon',
               onClick: handlePublish,

@@ -17,6 +17,7 @@ import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 
 import saveTypes from '@/js/constants/saveTypes'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+import { beforeEach } from 'vitest'
 
 vi.mock('@/js/components/NavigationItem/NavigationItem')
 
@@ -45,7 +46,6 @@ const setup = ({
     onSave: vi.fn(),
     schema: {},
     setFocusField: vi.fn(),
-    validationErrors: [],
     visitedFields: [],
     ...overrideProps
   }
@@ -163,6 +163,57 @@ describe('FormNavigation', () => {
   })
 
   describe('when clicking the Save & Publish dropdown item', () => {
+    let schema
+
+    beforeEach(async () => {
+      schema = {
+        properties: {
+          bar: {
+            type: 'number'
+          },
+          foo: {
+            type: 'number'
+          }
+        }
+      }
+    })
+
+    test('shows save and publish option as disabled', async () => {
+      const { user } = setup({
+        overrideProps: {
+          draft: {
+            foo: 'mock string'
+          },
+          schema
+        }
+      })
+
+      const dropdown = screen.getByRole('button', { name: 'Save Options' })
+      await user.click(dropdown)
+
+      const button = screen.getByRole('button', { name: 'Save & Publish' })
+      screen.debug(button)
+      expect(button).toHaveClass('disabled')
+    })
+
+    test('shows save and publish option as enabled', async () => {
+      const { user } = setup({
+        overrideProps: {
+          draft: {
+            bar: 2,
+            foo: 1
+          },
+          schema
+        }
+      })
+
+      const dropdown = screen.getByRole('button', { name: 'Save Options' })
+      await user.click(dropdown)
+
+      const button = screen.getByRole('button', { name: 'Save & Publish' })
+      expect(button).not.toHaveClass('disabled')
+    })
+
     test('calls onSave', async () => {
       const { props, user } = setup({})
 

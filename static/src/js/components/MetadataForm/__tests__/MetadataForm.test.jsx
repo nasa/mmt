@@ -352,7 +352,7 @@ describe('MetadataForm', () => {
               properties: expect.objectContaining({
                 RelatedURLs: {
                   description:
-                  'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
+                    'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
                   type: 'array',
                   items: {
                     $ref: '#/definitions/RelatedURLType'
@@ -710,20 +710,66 @@ describe('MetadataForm', () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
+        // In order to publish we need to have a valid draft without any errors otherwise
+        // the button will be disabled.
+        const ummMetadata = {
+          Description: 'Mock Description',
+          LongName: 'Long Name',
+          MetadataSpecification: {
+            Name: 'UMM-T',
+            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+            Version: '1.2.0'
+          },
+          Name: 'Mock Name',
+          Organizations: [{
+            LongName: 'CLIVAR and Carbon Hydrographic Data Office',
+            Roles: ['SERVICE PROVIDER'],
+            ShortName: 'CLIVAR/CCHDO',
+            URLValue: 'http://www.bodc.ac.uk/'
+          }],
+          ToolKeywords: [{
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolSpecificTerm: 'MODEL LOGS',
+            ToolTerm: 'ANCILLARY MODELS',
+            ToolTopic: 'MODELS'
+          }],
+          Type: 'Model',
+          URL: {
+            Subtype: 'MOBILE APP',
+            Type: 'DOWNLOAD SOFTWARE',
+            URLContentType: 'DistributionURL',
+            URLValue: 'mock url'
+          },
+          Version: 'Mock Version'
+        }
+
+        const validMockDraft = {
+          ...mockDraft,
+          ummMetadata
+        }
+
         const { user } = setup({
-          additionalMocks: [{
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: validMockDraft
+              }
+            }
+          }, {
             request: {
               query: INGEST_DRAFT,
               variables: {
                 conceptType: 'Tool',
-                metadata: {
-                  LongName: 'Long Name',
-                  MetadataSpecification: {
-                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-                    Name: 'UMM-T',
-                    Version: '1.1'
-                  }
-                },
+                metadata: ummMetadata,
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
                 ummVersion: '1.0.0'
@@ -737,8 +783,7 @@ describe('MetadataForm', () => {
                 }
               }
             }
-          },
-          {
+          }, {
             request: {
               query: PUBLISH_DRAFT,
               variables: {
@@ -755,8 +800,7 @@ describe('MetadataForm', () => {
                 }
               }
             }
-          }
-          ]
+          }]
         })
 
         const dropdown = await screen.findByRole('button', { name: 'Save Options' })
