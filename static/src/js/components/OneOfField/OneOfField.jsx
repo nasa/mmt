@@ -46,7 +46,9 @@ class OneOfField extends React.Component {
     // Cache the retrieved options in state in case they have $refs to save doing it later
     const retrievedOptions = options.map((opt) => schemaUtils.retrieveSchema(opt, formData))
     const data = removeEmpty(cloneDeep(formData)) || {}
+
     let selectedOption = this.getMatchingOption(NaN, data, retrievedOptions)
+
     if (Object.keys(data).length === 0) {
       selectedOption = NaN
     }
@@ -69,6 +71,7 @@ class OneOfField extends React.Component {
   ) {
     const { formData, options, idSchema } = this.props
     const { selectedOption } = this.state
+
     let newState = this.state
     if (!deepEquals(prevProps.options, options)) {
       const {
@@ -98,12 +101,9 @@ class OneOfField extends React.Component {
       }
     }
 
-    /*
-    *  The code below commented out caused a bug where it would revert the option selected in some cases.
-    */
-    // if (newState !== this.state) {
-    //   this.setState(newState)
-    // }
+    if (newState !== this.state) {
+      this.setState(newState)
+    }
   }
 
   /** Determines the best matching option for the given `formData` and `options`.
