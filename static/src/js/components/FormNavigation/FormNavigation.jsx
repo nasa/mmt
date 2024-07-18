@@ -75,6 +75,18 @@ const FormNavigation = ({
     onSave(type)
   }
 
+  const publishButtonTooltip = () => {
+    if (errors.length === 0) {
+      return null
+    }
+
+    if (conceptId === 'new') {
+      return 'Publishing disabled until you save the record.'
+    }
+
+    return 'Publishing disabled due to errors in metadata record.'
+  }
+
   return (
     <>
       <div className="mb-4">
@@ -141,12 +153,14 @@ const FormNavigation = ({
             }
             {
               !isTemplate && (
-                <Dropdown.Item
-                  disabled={errors.length > 0}
-                  onClick={() => onSaveClick(saveTypes.saveAndPublish)}
-                >
-                  {saveTypesToHumanizedStringMap[saveTypes.saveAndPublish]}
-                </Dropdown.Item>
+                <div role="tooltip" title={publishButtonTooltip()}>
+                  <Dropdown.Item
+                    disabled={errors.length > 0}
+                    onClick={() => onSaveClick(saveTypes.saveAndPublish)}
+                  >
+                    {saveTypesToHumanizedStringMap[saveTypes.saveAndPublish]}
+                  </Dropdown.Item>
+                </div>
 
               )
             }

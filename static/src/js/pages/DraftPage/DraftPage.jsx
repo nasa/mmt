@@ -16,6 +16,7 @@ import {
 import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
+import getUmmSchema from '@/js/utils/getUmmSchema'
 
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
@@ -33,7 +34,6 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import getUmmSchema from '@/js/utils/getUmmSchema'
 
 /**
  * Renders a DraftPageHeader component
@@ -193,6 +193,7 @@ const DraftPageHeader = () => {
           [
             {
               disabled: validationErrors.length > 0,
+              disabledTooltipText: 'Publishing disabled due to errors in metadata record.',
               icon: FaSave,
               iconTitle: 'A save icon',
               onClick: handlePublish,

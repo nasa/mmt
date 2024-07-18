@@ -337,7 +337,6 @@ describe('DraftPage', () => {
           }]
         })
         const button = await screen.findByRole('button', { name: /Publish/ })
-        await user.click(button)
         expect(button).toHaveAttribute('disabled')
       })
 
