@@ -3,7 +3,6 @@ import path from 'path'
 import react from '@vitejs/plugin-react'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ViteEjsPlugin } from 'vite-plugin-ejs'
 import { getApplicationConfig } from './sharedUtils/getConfig'
 
