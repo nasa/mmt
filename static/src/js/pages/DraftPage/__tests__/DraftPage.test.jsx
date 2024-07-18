@@ -318,7 +318,7 @@ describe('DraftPage', () => {
           }
         }
 
-        const { user } = setup({
+        setup({
           overrideMocks: [{
             request: {
               query: conceptTypeDraftQueries.Tool,
@@ -336,6 +336,7 @@ describe('DraftPage', () => {
             }
           }]
         })
+
         const button = await screen.findByRole('button', { name: /Publish/ })
         expect(button).toHaveAttribute('disabled')
       })
