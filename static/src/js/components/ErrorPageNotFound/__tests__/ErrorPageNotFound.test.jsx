@@ -1,5 +1,12 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import {
+  MemoryRouter,
+  Route,
+  Routes
+} from 'react-router-dom'
+
+import AuthContext from '@/js/context/AuthContext'
 
 import ErrorPageNotFound from '../ErrorPageNotFound'
 
@@ -9,9 +16,22 @@ vi.mock('uuid', () => ({
 }))
 
 const setup = () => {
+  const context = {
+    login: vi.fn()
+  }
   render(
-    <ErrorPageNotFound />
+    <AuthContext.Provider value={context}>
+      <MemoryRouter initialEntries={['/404']}>
+        <Routes>
+          <Route path="/404" element={<ErrorPageNotFound />} />
+        </Routes>
+      </MemoryRouter>
+    </AuthContext.Provider>
   )
+
+  return {
+    context
+  }
 }
 
 describe('ErrorPageNotFound', () => {
