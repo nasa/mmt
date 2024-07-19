@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { FaQuestionCircle, FaSignInAlt } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import Navbar from 'react-bootstrap/Navbar'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import Button from '@/js/components/Button/Button'
 
@@ -27,8 +27,8 @@ const Header = ({ errorPage }) => {
   return (
     <header className="header bg-primary z-n3 px-4">
       <Navbar
-        className="w-100 d-flex align-items-center justify-content-between py-3"
         bg="primary"
+        className="w-100 d-flex align-items-center justify-content-between py-3"
         collapseOnSelect
         expand="lg"
         variant="dark"
@@ -43,17 +43,17 @@ const Header = ({ errorPage }) => {
             <>
               <Navbar.Toggle aria-controls="primary-navigation" />
               <Navbar.Collapse
-                id="primary-navigation"
                 className="header__navbar-collapse flex-column align-items-end"
+                id="primary-navigation"
               >
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
                     className="text-white me-1"
-                    naked
+                    external
+                    href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
                     Icon={FaQuestionCircle}
                     iconTitle="Question mark in a circle"
-                    href="https://wiki.earthdata.nasa.gov/display/CMR/Metadata+Management+Tool+%28MMT%29+User%27s+Guide"
-                    external
+                    naked
                   >
                     User Guide
                   </Button>
@@ -62,8 +62,8 @@ const Header = ({ errorPage }) => {
                     className="text-white"
                     Icon={FaSignInAlt}
                     iconTitle="Door with arrow pointing inward"
-                    variant="blue-light"
                     onClick={login}
+                    variant="blue-light"
                   >
                     Log in with Launchpad
                   </Button>
