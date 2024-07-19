@@ -72,10 +72,19 @@ const spatialInformationUiSchema = {
       'ui:group-description': true,
       'ui:row': [
         {
-          'ui:group-box-checkbox': 'h1-box',
           'ui:col': {
             md: 12,
             children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['SpatialCoverageType']
+                    }
+                  }
+                ]
+              },
               {
                 'ui:group-checkbox': 'Horizontal',
                 'ui:row': [
@@ -173,6 +182,7 @@ const spatialInformationUiSchema = {
         ]
       },
       Geometry: {
+        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -670,8 +680,11 @@ const spatialInformationUiSchema = {
             ]
           },
           NonGriddedResolutions: {
+            'ui:fieldReplacesAnyOrOneOf': true,
             'ui:heading-level': 'h6',
             items: {
+              'ui:fieldReplacesAnyOrOneOf': true,
+
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [

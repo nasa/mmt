@@ -114,11 +114,76 @@ const dataIdentificationUiSchema = {
                   }
                 }
               ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 12,
+                    children: ['DataMaturity']
+                  }
+                }
+              ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 12,
+                    children: ['OtherIdentifiers']
+                  }
+                }
+              ]
             }
           ]
         }
       }
     ]
+  },
+  OtherIdentifiers: {
+    'ui:heading-level': 'h4',
+    items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Identifier']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Type']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['DescriptionOfOtherType']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      Identifier: {
+        'ui:widget': 'textarea'
+      },
+      DescriptionOfOtherType: {
+        'ui:widget': 'textarea'
+      }
+    }
   },
   DataDates: {
     'ui:heading-level': 'h4',

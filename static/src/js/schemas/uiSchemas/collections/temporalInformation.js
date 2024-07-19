@@ -91,6 +91,17 @@ const temporalInformationUiSchema = {
                       'ui:col': {
                         style: { paddingTop: '15px' },
                         md: 12,
+                        children: ['TemporalResolution']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        style: { paddingTop: '15px' },
+                        md: 12,
                         children: ['PrecisionOfSeconds']
                       }
                     }
@@ -110,6 +121,36 @@ const temporalInformationUiSchema = {
             }
           }
         ]
+      },
+      TemporalResolution: {
+        'ui:field': 'layout',
+        'ui:layout_grid': {
+          'ui:row': [
+            {
+              'ui:col': {
+                md: 12,
+                children: [
+                  {
+                    'ui:row': [
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Unit']
+                        }
+                      },
+                      {
+                        'ui:col': {
+                          md: 12,
+                          children: ['Value']
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
       },
       RangeDateTimes: {
         'ui:heading-level': 'h5',

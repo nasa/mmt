@@ -503,7 +503,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: '1.17.3'
+                  ummVersion: '1.18.1'
                 }
               },
               result: {
@@ -557,7 +557,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: '1.17.3'
+                  ummVersion: '1.18.1'
                 }
               },
               error: new Error('An error occurred')
