@@ -267,6 +267,7 @@ class OneOfField extends React.Component {
             label={title ?? name}
             hideLabel={!displayLabel}
             required={required}
+            uiSchema={uiSchema}
           />
         </div>
         {option !== null && <_SchemaField {...this.props} schema={optionSchema} />}

@@ -182,6 +182,7 @@ const spatialInformationUiSchema = {
         ]
       },
       Geometry: {
+        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:heading-level': 'h6',
         'ui:field': 'layout',
         'ui:layout_grid': {
@@ -679,8 +680,11 @@ const spatialInformationUiSchema = {
             ]
           },
           NonGriddedResolutions: {
+            'ui:fieldReplacesAnyOrOneOf': true,
             'ui:heading-level': 'h6',
             items: {
+              'ui:fieldReplacesAnyOrOneOf': true,
+
               'ui:field': 'layout',
               'ui:layout_grid': {
                 'ui:row': [

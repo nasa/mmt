@@ -242,6 +242,7 @@ const collectionInformationUiSchema = {
     'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
+      'ui:title': 'Associated DOIs',
       'ui:layout_grid': {
         'ui:row': [
           {
