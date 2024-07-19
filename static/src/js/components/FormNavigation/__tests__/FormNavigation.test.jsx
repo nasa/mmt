@@ -45,7 +45,6 @@ const setup = ({
     onSave: vi.fn(),
     schema: {},
     setFocusField: vi.fn(),
-    validationErrors: [],
     visitedFields: [],
     ...overrideProps
   }
@@ -138,7 +137,6 @@ describe('FormNavigation', () => {
       await user.click(dropdown)
 
       const button = screen.getByRole('button', { name: 'Save' })
-
       await user.click(button)
 
       expect(props.onSave).toHaveBeenCalledTimes(1)
@@ -154,7 +152,6 @@ describe('FormNavigation', () => {
       await user.click(dropdown)
 
       const button = screen.getAllByRole('button', { name: 'Save & Continue' }).at(1)
-
       await user.click(button)
 
       expect(props.onSave).toHaveBeenCalledTimes(1)
@@ -163,6 +160,94 @@ describe('FormNavigation', () => {
   })
 
   describe('when clicking the Save & Publish dropdown item', () => {
+    let schema
+
+    beforeEach(() => {
+      schema = {
+        properties: {
+          bar: {
+            type: 'number'
+          },
+          foo: {
+            type: 'number'
+          }
+        }
+      }
+    })
+
+    describe('when draft has errors', () => {
+      describe('when the metadata record has not been saved', () => {
+        beforeEach(async () => {
+          const { user } = setup({
+            overrideInitialEntries: '/tool-drafts/new',
+            overrideProps: {
+              draft: {
+                foo: 'mock string'
+              },
+              schema
+            }
+          })
+
+          const dropdown = screen.getByRole('button', { name: 'Save Options' })
+          await user.click(dropdown)
+        })
+
+        test('has disabled publish button', async () => {
+          const button = screen.getByRole('button', { name: 'Save & Publish' })
+          expect(button).toHaveClass('disabled')
+        })
+
+        test('shows Publishing disabled until you save the record tooltip ', async () => {
+          const tooltip = screen.getByRole('tooltip')
+          expect(tooltip).toHaveAttribute('title', 'Publishing disabled until you save the record.')
+        })
+      })
+
+      describe('when the metadata record is already saved', () => {
+        beforeEach(async () => {
+          const { user } = setup({
+            overrideProps: {
+              draft: {
+                foo: 'mock string'
+              },
+              schema
+            }
+          })
+
+          const dropdown = screen.getByRole('button', { name: 'Save Options' })
+          await user.click(dropdown)
+        })
+
+        test('has disabled publish button', async () => {
+          const button = screen.getByRole('button', { name: 'Save & Publish' })
+          expect(button).toHaveClass('disabled')
+        })
+
+        test('shows Publishing disabled due to errors in metadata record tooltip', async () => {
+          const tooltip = screen.getByRole('tooltip')
+          expect(tooltip).toHaveAttribute('title', 'Publishing disabled due to errors in metadata record.')
+        })
+      })
+    })
+
+    test('shows save and publish option as enabled if draft has no errors', async () => {
+      const { user } = setup({
+        overrideProps: {
+          draft: {
+            bar: 2,
+            foo: 1
+          },
+          schema
+        }
+      })
+
+      const dropdown = screen.getByRole('button', { name: 'Save Options' })
+      await user.click(dropdown)
+
+      const button = screen.getByRole('button', { name: 'Save & Publish' })
+      expect(button).not.toHaveClass('disabled')
+    })
+
     test('calls onSave', async () => {
       const { props, user } = setup({})
 

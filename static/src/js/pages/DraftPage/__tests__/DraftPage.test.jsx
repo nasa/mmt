@@ -29,24 +29,46 @@ vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
 
+const ummMetadata = {
+  Description: 'Mock Description',
+  LongName: 'Long Name',
+  MetadataSpecification: {
+    Name: 'UMM-T',
+    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+    Version: '1.2.0'
+  },
+  Name: 'Mock Name',
+  Organizations: [{
+    LongName: 'CLIVAR and Carbon Hydrographic Data Office',
+    Roles: ['SERVICE PROVIDER'],
+    ShortName: 'CLIVAR/CCHDO',
+    URLValue: 'http://www.bodc.ac.uk/'
+  }],
+  ToolKeywords: [{
+    ToolCategory: 'EARTH SCIENCE SERVICES',
+    ToolSpecificTerm: 'MODEL LOGS',
+    ToolTerm: 'ANCILLARY MODELS',
+    ToolTopic: 'MODELS'
+  }],
+  Type: 'Model',
+  URL: {
+    Subtype: 'MOBILE APP',
+    Type: 'DOWNLOAD SOFTWARE',
+    URLContentType: 'DistributionURL',
+    URLValue: 'mock url'
+  },
+  Version: 'Mock Version'
+}
+
 const mockDraft = {
+  __typename: 'Draft',
   conceptId: 'TD1000000-MMT',
   conceptType: 'topol-draft',
   deleted: false,
-  name: null,
+  name: 'mock name',
   nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
-  providerId: 'MMT_2',
-  revisionDate: '2023-12-08T16:14:28.177Z',
-  revisionId: '2',
-  ummMetadata: {
-    MetadataSpecification: {
-      URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-      Name: 'UMM-T',
-      Version: '1.1'
-    },
-    LongName: 'Long Name'
-  },
   previewMetadata: {
+    __typename: 'Tool',
     accessConstraints: null,
     ancillaryKeywords: null,
     associationDetails: null,
@@ -55,15 +77,15 @@ const mockDraft = {
     contactPersons: null,
     description: null,
     doi: null,
-    nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
     lastUpdatedDate: null,
     longName: 'Long Name',
     metadataSpecification: {
-      url: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
       name: 'UMM-T',
+      url: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
       version: '1.1'
     },
     name: null,
+    nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
     organizations: null,
     pageTitle: null,
     potentialAction: null,
@@ -81,10 +103,12 @@ const mockDraft = {
     url: null,
     useConstraints: null,
     version: null,
-    versionDescription: null,
-    __typename: 'Tool'
+    versionDescription: null
   },
-  __typename: 'Draft'
+  providerId: 'MMT_2',
+  revisionDate: '2023-12-08T16:14:28.177Z',
+  revisionId: '2',
+  ummMetadata
 }
 
 const setup = ({
@@ -272,7 +296,51 @@ describe('DraftPage', () => {
       })
     })
 
-    describe('when clicking on Publish Draft button with no errors', () => {
+    describe('when clicking on Publish Draft button', () => {
+      test('is enabled if draft has no errors', async () => {
+        const { user } = setup({})
+
+        const button = await screen.findByRole('button', { name: /Publish/ })
+        await user.click(button)
+        expect(button).not.toHaveAttribute('disabled')
+      })
+
+      test('is disabled if draft has errors', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        // Overriding ummMetadata and setting Name to a number to make it fail validation.
+        const invalidMockDraft = {
+          ...mockDraft,
+          ummMetadata: {
+            ...ummMetadata,
+            Name: 1
+          }
+        }
+
+        setup({
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: invalidMockDraft
+              }
+            }
+          }]
+        })
+
+        const button = await screen.findByRole('button', { name: /Publish/ })
+        expect(button).toHaveAttribute('disabled')
+      })
+
       test('calls the publish mutation and navigates to the concept page', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)

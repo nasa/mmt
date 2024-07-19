@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
+import validator from '@rjsf/validator-ajv8'
 import pluralize from 'pluralize'
 import {
   FaCopy,
@@ -15,6 +16,7 @@ import {
 import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
+import getUmmSchema from '@/js/utils/getUmmSchema'
 
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
@@ -90,6 +92,12 @@ const DraftPageHeader = () => {
     ummMetadata,
     previewMetadata
   } = draft
+
+  // Get the UMM Schema for the draft
+  const schema = getUmmSchema(derivedConceptType)
+
+  // Validate ummMetadata
+  const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
 
   const handlePublish = () => {
     publishMutation(derivedConceptType, nativeId)
@@ -184,6 +192,8 @@ const DraftPageHeader = () => {
         primaryActions={
           [
             {
+              disabled: validationErrors.length > 0,
+              disabledTooltipText: 'Publishing disabled due to errors in metadata record.',
               icon: FaSave,
               iconTitle: 'A save icon',
               onClick: handlePublish,
