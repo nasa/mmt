@@ -1,9 +1,11 @@
 import React from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
 import errorLogger from '@/js/utils/errorLogger'
 
-import './ErrorPageNotFound.scss'
 import Header from '../Header/Header'
+
+import './ErrorPageNotFound.scss'
 
 const ErrorPageNotFound = () => {
   const guid = uuidv4()
