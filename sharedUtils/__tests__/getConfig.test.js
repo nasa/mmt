@@ -20,7 +20,7 @@ describe('getConfig', () => {
     test('returns a valid json object for ummVersionConfig', () => {
       const expectedUmmVersionConfig = {
         ummC: '1.17.3',
-        ummS: '1.5.2',
+        ummS: '1.5.3',
         ummT: '1.2.0',
         ummV: '1.9.0'
       }

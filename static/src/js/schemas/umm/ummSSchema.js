@@ -797,7 +797,7 @@ const ummSSchema = {
     ServiceTypeEnum: {
       description: 'This element is used to identify the type of the service.',
       type: 'string',
-      enum: ['OPeNDAP', 'THREDDS', 'WEB SERVICES', 'ESI', 'ECHO ORDERS', 'WCS', 'WMS', 'WMTS', 'EGI - No Processing', 'SOFTWARE PACKAGE', 'TOOL', 'WEB PORTAL', 'International Web Portal', 'MODEL', 'Harmony', 'ArcGIS Image Service', 'Web Feature Service', 'Web Geoprocessing Service', 'NOT PROVIDED']
+      enum: ['OPeNDAP', 'THREDDS', 'WEB SERVICES', 'ESI', 'ECHO ORDERS', 'WCS', 'WMS', 'WMTS', 'EGI - No Processing', 'SOFTWARE PACKAGE', 'TOOL', 'WEB PORTAL', 'International Web Portal', 'MODEL', 'Harmony', 'ArcGIS Image Service', 'Web Feature Service', 'Web Geoprocessing Service', 'NOT PROVIDED', 'SWODLR']
     },
     ServiceQualityType: {
       type: 'object',
@@ -1388,7 +1388,7 @@ const ummSSchema = {
         URL: {
           description: 'The web address of the metadata schema used to validate the service record.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/service/v1.5.2']
+          enum: ['https://cdn.earthdata.nasa.gov/umm/service/v1.5.3']
         },
         Name: {
           description: 'The name of the metadata schema.',
@@ -1398,12 +1398,11 @@ const ummSSchema = {
         Version: {
           description: 'The version of the metadata schema.',
           type: 'string',
-          enum: ['1.5.2']
+          enum: ['1.5.3']
         }
       },
       required: ['URL', 'Name', 'Version']
     }
   }
 }
-
 export default ummSSchema
