@@ -164,6 +164,26 @@ const collectionInformationUiSchema = {
                     }
                   }
                 ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['MissingReason']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Explanation']
+                    }
+                  }
+                ]
               }
             ]
           }
