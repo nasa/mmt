@@ -18,12 +18,12 @@ import './Header.scss'
  * return (
  *   <Header />
  * )
- * OR if using just the banner with no login option (currently only used for errorPage)
+ * OR if using just the banner with no login option
  * return (
- *  <Header errorPage />
+ *  <Header noLogin />
  * )
  */
-const Header = ({ errorPage }) => {
+const Header = ({ noLogin }) => {
   const {
     login
   } = useAuthContext()
@@ -43,7 +43,7 @@ const Header = ({ errorPage }) => {
         </Navbar.Brand>
 
         {
-          !errorPage && (
+          !noLogin && (
             <>
               <Navbar.Toggle aria-controls="primary-navigation" />
               <Navbar.Collapse
@@ -82,11 +82,11 @@ const Header = ({ errorPage }) => {
 }
 
 Header.defaultProps = {
-  errorPage: false
+  noLogin: false
 }
 
 Header.propTypes = {
-  errorPage: PropTypes.bool
+  noLogin: PropTypes.bool
 }
 
 export default Header

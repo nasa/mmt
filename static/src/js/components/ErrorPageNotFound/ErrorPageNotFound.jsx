@@ -15,7 +15,7 @@ const ErrorPageNotFound = () => {
     <div
       className="d-flex flex-column w-100 flex-grow-0"
     >
-      <Header errorPage />
+      <Header noLogin />
       <div className="body--has-error">
         <div className="wrap">
           <h2 className="h1 pt-3">Sorry! The page you were looking for does not exist.</h2>
