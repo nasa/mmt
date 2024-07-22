@@ -11,8 +11,10 @@ import AuthContext from '@/js/context/AuthContext'
 import ErrorPageNotFound from '../ErrorPageNotFound'
 
 vi.mock('@/js/utils/errorLogger')
-vi.mock('uuid', () => ({
-  v4: vi.fn(() => 'mocked-uuid')
+vi.mock('crypto', () => ({
+  default: {
+    randomUUID: () => 'mock-uuid'
+  }
 }))
 
 const setup = () => {
@@ -40,7 +42,7 @@ describe('ErrorPageNotFound', () => {
       setup()
 
       expect(screen.getByText('Sorry! The page you were looking for does not exist.')).toBeInTheDocument()
-      expect(screen.getByText('mocked-uuid')).toBeInTheDocument()
+      expect(screen.getByText('mock-uuid')).toBeInTheDocument()
     })
   })
 })

@@ -18,6 +18,10 @@ import './Header.scss'
  * return (
  *   <Header />
  * )
+ * OR if using just the banner with no login option (currently only used for errorPage)
+ * return (
+ *  <Header errorPage />
+ * )
  */
 const Header = ({ errorPage }) => {
   const {
