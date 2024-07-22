@@ -70,8 +70,13 @@ const CustomTextWidget = ({
   // Handle the value changing in the field
   const handleChange = (event) => {
     const { value: newValue } = event.target
+    let valueToSet = newValue
+    // If type is number, remove everything except digits, '.', 'e', 'E', '+' and '-'
+    if (type === 'number') {
+      valueToSet = newValue.replace(/[^\d.eE+-]/g, '')
+    }
 
-    onChange(newValue)
+    onChange(valueToSet)
   }
 
   // Handle the field losing focus
@@ -103,7 +108,7 @@ const CustomTextWidget = ({
         placeholder={placeholder}
         ref={focusRef}
         tabIndex={0}
-        type={type && type === 'number' ? 'number' : 'text'}
+        type="text"
         value={value}
       />
     </CustomWidgetWrapper>
