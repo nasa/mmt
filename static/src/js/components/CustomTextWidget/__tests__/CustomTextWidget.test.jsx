@@ -148,6 +148,32 @@ describe('CustomTextWidget', () => {
     })
   })
 
+  describe('when the number field is changed', () => {
+    test('calls onChange', async () => {
+      const { props, user } = setup({
+        schema: {
+          type: 'number'
+        }
+      })
+
+      const field = screen.getByRole('textbox')
+
+      // The input in this component is a controlled input by the `value` prop. We don't want to deal with the
+      // setup of saving that value state outside of the test render, so we can only test a single character change
+      // here. If we tried to type multiple letters, onChange toHaveBeenCalledWith only receives a single letter
+      // because the value prop is alway undefined.
+      await user.type(field, '7')
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith('7')
+
+      await user.type(field, 'B')
+      expect(props.onChange).toHaveBeenCalledWith('')
+      await user.type(field, '8')
+      expect(props.onChange).toHaveBeenCalledWith('8')
+    })
+  })
+
   describe('when the field should be focused', () => {
     test('focuses the field', async () => {
       setup({
@@ -183,17 +209,4 @@ describe('CustomTextWidget', () => {
       }), {})
     })
   })
-
-  // describe('when the input is a number field', () => {
-  //   test('renders a number field', () => {
-  //     setup({
-  //       schema: {
-  //         type: 'number'
-  //       }
-  //     })
-  //
-  //     const field = screen.getByRole('spinbutton')
-  //     expect(field).toHaveAttribute('type', 'number')
-  //   })
-  // })
 })
