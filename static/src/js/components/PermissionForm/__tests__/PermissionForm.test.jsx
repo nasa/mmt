@@ -278,8 +278,8 @@ describe('PermissionForm', () => {
         await user.type(nameField, 'Test Name')
         await user.click(granuleCheckbox)
 
-        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
-        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+        const maxValue = screen.getAllByRole('textbox', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('textbox', { name: 'Minimum Value' })
 
         await user.type(minValue[0], '1')
         await user.type(maxValue[0], '10')
@@ -444,8 +444,8 @@ describe('PermissionForm', () => {
         await user.type(nameField, 'Test Name')
         await user.click(granuleCheckbox)
 
-        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
-        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+        const maxValue = screen.getAllByRole('textbox', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('textbox', { name: 'Minimum Value' })
 
         await user.type(minValue[0], '1')
         await user.type(maxValue[0], '10')
@@ -965,8 +965,8 @@ describe('PermissionForm', () => {
         await user.type(nameField, 'Test Name')
         await user.click(granuleCheckbox)
 
-        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
-        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+        const maxValue = screen.getAllByRole('textbox', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('textbox', { name: 'Minimum Value' })
 
         // Fills out collection field
         await user.type(minValue[0], '10')
@@ -995,8 +995,8 @@ describe('PermissionForm', () => {
         await user.type(nameField, 'Test Name')
         await user.click(granuleCheckbox)
 
-        const maxValue = screen.getAllByRole('spinbutton', { name: 'Maximum Value' })
-        const minValue = screen.getAllByRole('spinbutton', { name: 'Minimum Value' })
+        const maxValue = screen.getAllByRole('textbox', { name: 'Maximum Value' })
+        const minValue = screen.getAllByRole('textbox', { name: 'Minimum Value' })
 
         // Fills out collection field
         await user.type(minValue[0], '1')

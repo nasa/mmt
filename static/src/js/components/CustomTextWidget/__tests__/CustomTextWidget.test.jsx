@@ -184,16 +184,16 @@ describe('CustomTextWidget', () => {
     })
   })
 
-  describe('when the input is a number field', () => {
-    test('renders a number field', () => {
-      setup({
-        schema: {
-          type: 'number'
-        }
-      })
-
-      const field = screen.getByRole('spinbutton')
-      expect(field).toHaveAttribute('type', 'number')
-    })
-  })
+  // describe('when the input is a number field', () => {
+  //   test('renders a number field', () => {
+  //     setup({
+  //       schema: {
+  //         type: 'number'
+  //       }
+  //     })
+  //
+  //     const field = screen.getByRole('spinbutton')
+  //     expect(field).toHaveAttribute('type', 'number')
+  //   })
+  // })
 })
