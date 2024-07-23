@@ -104,6 +104,6 @@
     "vitest": "^1.4.0"
   },
   "resolutions": {
-    "fast-xml-parser": "4.2.5"
+    "dicer": "2.0.0"
   }
 }
