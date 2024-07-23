@@ -15,8 +15,7 @@
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
     "cmr:stop": "node setup/stopCmr.js",
     "cmr:reset": "node setup/resetCmr.js",
-    "offline": "serverless offline start",
-    "preinstall": "npx npm-force-resolutions"
+    "offline": "serverless offline start"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
@@ -102,8 +101,5 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-scss": "^5.2.1",
     "vitest": "^1.4.0"
-  },
-  "resolutions": {
-    "dicer": "2.0.0"
   }
 }
