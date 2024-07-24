@@ -113,7 +113,6 @@ const AuthContextProvider = ({ children }) => {
 
   // On page load, save the token from the cookie into the state
   useEffect(() => {
-    console.log('mmt jwt token is ', mmtJwt)
     saveToken(mmtJwt)
   }, [mmtJwt])
 
