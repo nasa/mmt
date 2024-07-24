@@ -22,6 +22,11 @@
   &__element {
       padding: 1.25rem 1.5rem;
       border-left: 4px solid $gray-400;
+      margin-bottom: 1rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
 
       &:has(*:focus) {
         border-left: 4px solid map.get($theme-colors, "blue-light");

@@ -127,21 +127,16 @@ const CustomWidgetWrapper = ({
         </div>
       </div>
       {children}
-
       {
         maxLength && (
           <div className="d-flex justify-content-end mt-1 small text-secondary" style={{ minHeight: '1.5rem' }}>
-            {
-              maxLength && (
-                <span>
-                  {commafy(charactersUsed)}
-                  /
-                  {commafy(maxLength)}
-                  {' '}
-                  {pluralize('character', maxLength)}
-                </span>
-              )
-            }
+            <span>
+              {commafy(charactersUsed)}
+              /
+              {commafy(maxLength)}
+              {' '}
+              {pluralize('character', maxLength)}
+            </span>
           </div>
         )
       }

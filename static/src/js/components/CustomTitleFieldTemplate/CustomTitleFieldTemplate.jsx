@@ -47,7 +47,6 @@ const CustomTitleFieldTemplate = ({
           !hideHeader && (
             <HeadingElement className="custom-title-field-template__heading">
               {heading}
-
               {
                 (required || requiredUI) && (
                   <i
