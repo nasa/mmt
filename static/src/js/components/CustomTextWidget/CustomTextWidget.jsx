@@ -83,7 +83,7 @@ const CustomTextWidget = ({
   const handleBlur = () => {
     setFocusField(null)
 
-    if (onBlur) onBlur(id)
+    onBlur(id)
   }
 
   return (
