@@ -55,6 +55,8 @@ const AuthContextProvider = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(true)
 
+  const [redirecting, setRedirecting] = useState(false)
+
   // The user's Launchpad Token
   const [tokenValue, setTokenValue] = useState()
 
@@ -73,6 +75,8 @@ const AuthContextProvider = ({ children }) => {
 
     try {
       if (newToken) {
+        setRedirecting(false)
+
         // Decode the token to get the launchpadToken and edlProfile
         const decodedToken = jwt.decode(newToken)
 
@@ -109,6 +113,7 @@ const AuthContextProvider = ({ children }) => {
 
   // On page load, save the token from the cookie into the state
   useEffect(() => {
+    console.log('mmt jwt token is ', mmtJwt)
     saveToken(mmtJwt)
   }, [mmtJwt])
 
@@ -152,14 +157,16 @@ const AuthContextProvider = ({ children }) => {
   }, [tokenExpires, idle, idleTimeoutId])
 
   // Login redirect
-  const login = useCallback(() => {
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
+  const login = useCallback((url = `${apiHost}/saml-login?target=/`) => {
+    setRedirecting(true)
+    window.location.href = url
   }, [])
 
   // Context values
   const providerValue = useMemo(() => ({
     authLoading,
     login,
+    redirecting,
     setToken: saveToken,
     tokenExpires,
     tokenValue,
