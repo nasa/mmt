@@ -6,7 +6,7 @@ const collectionInformationUiSchema = {
     norender: true
   },
   'ui:field': 'layout',
-  'ui:heading-level': 'h3',
+  'ui:heading-level': 'h4',
   'ui:layout_grid': {
     'ui:row': [
       {

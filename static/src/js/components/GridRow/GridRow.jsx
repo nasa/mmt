@@ -9,6 +9,8 @@ import GridGroupedSinglePanel from '../GridGroupedSinglePanel/GridGroupedSingleP
 // eslint-disable-next-line import/no-cycle
 import GridLayout from '../GridLayout/GridLayout'
 
+import './GridRow.scss'
+
 /**
  * GridRow
  * @typedef {Object} GridRow
@@ -104,7 +106,7 @@ const GridRow = (
           </span>
           {
             (groupDescription && description) && (
-              <div className="layout-grid-field__description-box">
+              <div className="grid-row__group-description mb-4">
                 {description}
               </div>
             )

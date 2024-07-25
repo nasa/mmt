@@ -34,7 +34,7 @@ const CustomFieldTemplate = ({
   }
 
   return (
-    <div className={`custom-field-template ${classNames}`}>
+    <div className={`custom-field-template mb-1 ${classNames}`}>
       {children}
       {errors}
       {help}

@@ -2,6 +2,8 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
 
+import './CustomTitleFieldTemplate.scss'
+
 /**
  * CustomTitleFieldTemplate
  * @typedef {Object} CustomTitleFieldTemplate
@@ -39,13 +41,12 @@ const CustomTitleFieldTemplate = ({
   }
 
   return (
-    <div>
+    <div className="mt-2">
       <div ref={scrollRef}>
         {
           !hideHeader && (
-            <HeadingElement>
+            <HeadingElement className="custom-title-field-template__heading">
               {heading}
-
               {
                 (required || requiredUI) && (
                   <i

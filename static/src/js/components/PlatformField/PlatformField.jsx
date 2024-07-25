@@ -180,10 +180,10 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   }
 
   return (
-    <div className="platform-field">
+    <div className="platform-field mb-4">
       {/* Short Name field */}
       Short Name
-      <i className="eui-icon eui-required-o required-icon" />
+      <i className="eui-icon eui-required-o text-success required-icon ms-2" />
       <div className="mt-1">
         <Select
           id="shortName"

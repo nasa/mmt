@@ -280,7 +280,7 @@ const GroupPermissionSelectComponent = ({
             <span>
               <i
                 aria-label="Required"
-                className="eui-icon eui-required-o text-success ps-1"
+                className="eui-icon eui-required-o text-success ps-2"
                 role="img"
               />
             </span>

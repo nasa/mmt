@@ -1,12 +1,22 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
 .navigation-item {
+  &:hover {
+    background: $gray-300;
+  }
+
+  &--is-active {
+    background: $gray-300;
+  }
+
   &__item {
-    &--is-focused {
-      // background-color: #f5f5f5;
-      background-color: var(--bs-light);
-    }
+    background: transparent;
 
     &--is-active {
       border: none;
+      border-bottom: 1px solid black;
       font-weight: bold;
     }
   }

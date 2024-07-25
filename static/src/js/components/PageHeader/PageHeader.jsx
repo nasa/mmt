@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { snakeCase } from 'lodash-es'
 import Badge from 'react-bootstrap/Badge'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Col from 'react-bootstrap/Col'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownItem from 'react-bootstrap/DropdownItem'
 import DropdownMenu from 'react-bootstrap/DropdownMenu'
@@ -14,6 +15,7 @@ import Button from '@/js/components/Button/Button'
 import CustomMenu from '@/js/components/CustomMenu/CustomMenu'
 import CustomToggle from '@/js/components/CustomToggle/CustomToggle'
 import For from '@/js/components/For/For'
+import { Container, Row } from 'react-bootstrap'
 
 /**
  * @typedef {Object} PrimaryAction
@@ -90,184 +92,192 @@ const PageHeader = ({
       )
     }
   >
-    {
-      breadcrumbs.length > 0 && (
-        <Breadcrumb>
-          <For each={breadcrumbs}>
-            {
-              ({ active, label, to }, i) => {
-                if (!label) return null
+    <Container className="mx-0" fluid>
+      {
+        breadcrumbs.length > 0 && (
+          <Row>
+            <Col className="p-0">
+              <Breadcrumb>
+                <For each={breadcrumbs}>
+                  {
+                    ({ active, label, to }, i) => {
+                      if (!label) return null
 
-                return (
-                  <Breadcrumb.Item
-                    key={`breadcrumb-link_${to}_${i}`}
-                    active={active}
-                    linkProps={{ to }}
-                    linkAs={Link}
-                  >
-                    {label}
-                  </Breadcrumb.Item>
-                )
-              }
-            }
-          </For>
-        </Breadcrumb>
-      )
-    }
-    <div className="d-flex w-100 align-items-center justify-content-between flex-wrap">
-      <div className="d-flex align-items-center">
-        <h2
-          className="m-0 text-gray-200 fs-4"
-          style={
-            {
-              fontWeight: 700,
-              letterSpacing: '-0.015rem'
-            }
-          }
-        >
-          {title}
-        </h2>
-        {titleBadge && <Badge className="ms-2" bg="light-dark text-secondary" size="sm">{titleBadge}</Badge>}
-      </div>
-      <div className="d-flex flex-row flex-grow-1 justify-content-end ms-4">
-        {beforeActions}
-        {
-          primaryActions && (
-            <>
-              <For each={primaryActions}>
-                {
-                  (
-                    {
-                      disabled,
-                      disabledTooltipText,
-                      icon,
-                      iconTitle,
-                      loading,
-                      loadingText,
-                      onClick,
-                      title: buttonTitle,
-                      to,
-                      variant,
-                      visible = true
-                    }
-                  ) => {
-                    if (!visible) return null
-
-                    if (to) {
                       return (
-                        <div
-                          key={buttonTitle}
-                          title={disabledTooltipText}
+                        <Breadcrumb.Item
+                          key={`breadcrumb-link_${to}_${i}`}
+                          active={active}
+                          linkProps={{ to }}
+                          linkAs={Link}
                         >
-                          <Button
-                            to={to}
-                            as={Link}
-                            className="ms-2"
-                            disabled={disabled}
-                            Icon={icon}
-                            iconTitle={iconTitle}
-                            variant={variant}
-                          >
-                            {buttonTitle}
-                          </Button>
-                        </div>
+                          {label}
+                        </Breadcrumb.Item>
                       )
                     }
-
-                    return (
-                      <div
-                        key={buttonTitle}
-                        title={disabledTooltipText}
-                      >
-                        <Button
-                          className="ms-2"
-                          disabled={disabled}
-                          Icon={icon}
-                          iconTitle={iconTitle}
-                          variant={variant}
-                          onClick={onClick}
-                          loading={loading}
-                          loadingText={loadingText}
-                        >
-                          {buttonTitle}
-                        </Button>
-                      </div>
-                    )
                   }
+                </For>
+              </Breadcrumb>
+            </Col>
+          </Row>
+        )
+      }
+      <Row>
+        <Col className="p-0 d-flex">
+          <div className="d-flex align-items-center">
+            <h2
+              className="m-0 text-gray-200 fs-4"
+              style={
+                {
+                  fontWeight: 700,
+                  letterSpacing: '-0.015rem'
                 }
-              </For>
-              {
-                additionalActions && (
-                  <Dropdown className="ms-2" align="end">
-                    <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
-                    <DropdownMenu as={CustomMenu}>
-                      <For each={additionalActions}>
+              }
+            >
+              {title}
+            </h2>
+            {titleBadge && <Badge className="ms-2" bg="light-dark text-secondary" size="sm">{titleBadge}</Badge>}
+          </div>
+          <div className="d-flex flex-row flex-grow-1 justify-content-end ms-4">
+            {beforeActions}
+            {
+              primaryActions && (
+                <>
+                  <For each={primaryActions}>
+                    {
+                      (
                         {
-                          (
+                          disabled,
+                          disabledTooltipText,
+                          icon,
+                          iconTitle,
+                          loading,
+                          loadingText,
+                          onClick,
+                          title: buttonTitle,
+                          to,
+                          variant,
+                          visible = true
+                        }
+                      ) => {
+                        if (!visible) return null
+
+                        if (to) {
+                          return (
+                            <div
+                              key={buttonTitle}
+                              title={disabledTooltipText}
+                            >
+                              <Button
+                                to={to}
+                                as={Link}
+                                className="ms-2"
+                                disabled={disabled}
+                                Icon={icon}
+                                iconTitle={iconTitle}
+                                variant={variant}
+                              >
+                                {buttonTitle}
+                              </Button>
+                            </div>
+                          )
+                        }
+
+                        return (
+                          <div
+                            key={buttonTitle}
+                            title={disabledTooltipText}
+                          >
+                            <Button
+                              className="ms-2"
+                              disabled={disabled}
+                              Icon={icon}
+                              iconTitle={iconTitle}
+                              variant={variant}
+                              onClick={onClick}
+                              loading={loading}
+                              loadingText={loadingText}
+                            >
+                              {buttonTitle}
+                            </Button>
+                          </div>
+                        )
+                      }
+                    }
+                  </For>
+                  {
+                    additionalActions && (
+                      <Dropdown className="ms-2" align="end">
+                        <DropdownToggle as={CustomToggle} id="dropdown-custom-components" />
+                        <DropdownMenu as={CustomMenu}>
+                          <For each={additionalActions}>
                             {
-                              count: actionCount,
-                              loading: actionLoading,
-                              loadingText: actionLoadingText,
-                              onClick: actionOnClick,
-                              title: actionTitle,
-                              to
-                            }
-                          ) => {
-                            const content = (
-                              <>
-                                <span>{actionTitle}</span>
+                              (
                                 {
-                                  actionCount !== null && (
-                                    <Badge
-                                      className="ms-2 text-secondary"
-                                      pill
-                                      bg="light-dark"
+                                  count: actionCount,
+                                  loading: actionLoading,
+                                  loadingText: actionLoadingText,
+                                  onClick: actionOnClick,
+                                  title: actionTitle,
+                                  to
+                                }
+                              ) => {
+                                const content = (
+                                  <>
+                                    <span>{actionTitle}</span>
+                                    {
+                                      actionCount !== null && (
+                                        <Badge
+                                          className="ms-2 text-secondary"
+                                          pill
+                                          bg="light-dark"
+                                        >
+                                          {actionCount}
+                                        </Badge>
+                                      )
+                                    }
+                                  </>
+                                )
+
+                                if (to) {
+                                  return (
+                                    <DropdownItem
+                                      className="d-flex flex-row align-items-center"
+                                      key={actionTitle}
+                                      eventKey={snakeCase(actionTitle)}
+                                      to={to}
+                                      as={Link}
                                     >
-                                      {actionCount}
-                                    </Badge>
+                                      {content}
+                                    </DropdownItem>
                                   )
                                 }
-                              </>
-                            )
 
-                            if (to) {
-                              return (
-                                <DropdownItem
-                                  className="d-flex flex-row align-items-center"
-                                  key={actionTitle}
-                                  eventKey={snakeCase(actionTitle)}
-                                  to={to}
-                                  as={Link}
-                                >
-                                  {content}
-                                </DropdownItem>
-                              )
+                                return (
+                                  <DropdownItem
+                                    className="d-flex flex-row align-items-center"
+                                    key={actionTitle}
+                                    eventKey={snakeCase(actionTitle)}
+                                    onClick={actionOnClick}
+                                    aria-busy={actionLoading}
+                                  >
+                                    {actionLoading ? actionLoadingText : content}
+                                  </DropdownItem>
+                                )
+                              }
+
                             }
-
-                            return (
-                              <DropdownItem
-                                className="d-flex flex-row align-items-center"
-                                key={actionTitle}
-                                eventKey={snakeCase(actionTitle)}
-                                onClick={actionOnClick}
-                                aria-busy={actionLoading}
-                              >
-                                {actionLoading ? actionLoadingText : content}
-                              </DropdownItem>
-                            )
-                          }
-
-                        }
-                      </For>
-                    </DropdownMenu>
-                  </Dropdown>
-                )
-              }
-            </>
-          )
-        }
-      </div>
-    </div>
+                          </For>
+                        </DropdownMenu>
+                      </Dropdown>
+                    )
+                  }
+                </>
+              )
+            }
+          </div>
+        </Col>
+      </Row>
+    </Container>
   </header>
 )
 

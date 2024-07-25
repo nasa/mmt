@@ -226,7 +226,7 @@ const GridControlledField = (props) => {
   }
 
   return (
-    <div className="form-group field field-string">
+    <div className="form-group field field-string mb-4">
       <CustomSelectWidget
         disabled={enumsLength === 0}
         id={idSchema[name].$id}

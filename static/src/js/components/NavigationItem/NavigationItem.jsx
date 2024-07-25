@@ -123,11 +123,19 @@ const NavigationItem = ({
   ]
 
   return (
-    <div>
+    <div className={
+      classNames([
+        'navigation-item px-3 py-1',
+        {
+          'navigation-item--is-active': isSectionDisplayed
+        }
+      ])
+    }
+    >
       <ListGroup.Item
         className={
           classNames([
-            'navigation-item__item d-flex px-1 py-1 border-0',
+            'navigation-item__item d-flex flex-column p-0 py-1 border-0',
             {
               'navigation-item__item--is-focused': hasFocus
             },
@@ -161,7 +169,7 @@ const NavigationItem = ({
           }
         }
       >
-        <span>
+        <span className="d-flex align-items-baseline">
           <i
             // TODO tooltips
             role="img"
@@ -184,8 +192,7 @@ const NavigationItem = ({
               ])
             }
           />
-          {displayName}
-
+          <span>{displayName}</span>
           {/* // TODO MMT-3479 */}
           {/* {
             required && (
@@ -193,24 +200,26 @@ const NavigationItem = ({
             )
           } */}
         </span>
-      </ListGroup.Item>
-
-      <For each={errors}>
         {
-          (error) => {
-            if (!isSectionDisplayed) return null
-
-            return (
-              <NavigationItemError
-                error={error}
-                key={JSON.stringify(error)}
-                setFocusField={setFocusField}
-                visitedFields={visitedFields}
-              />
-            )
-          }
+          (isSectionDisplayed && errors.length > 0) && (
+            <div className="mt-2">
+              <For each={errors}>
+                {
+                  (error) => (
+                    <NavigationItemError
+                      error={error}
+                      key={JSON.stringify(error)}
+                      setFocusField={setFocusField}
+                      visitedFields={visitedFields}
+                    />
+                  )
+                }
+              </For>
+            </div>
+          )
         }
-      </For>
+
+      </ListGroup.Item>
     </div>
   )
 }

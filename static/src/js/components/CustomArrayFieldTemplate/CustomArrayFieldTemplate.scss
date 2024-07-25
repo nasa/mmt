@@ -1,12 +1,40 @@
-.custom-array-field-template{
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.custom-array-field-template {
   &__title {
+    display: flex;
+    align-items: center;
     font-weight: 700;
   }
 
-  &__field-title {
+  &__field {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__field-title {
+    font-weight: 700;
+  }
+
+  &__element {
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid $gray-400;
+      margin-bottom: 1rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      &:has(*:focus) {
+        border-left: 4px solid map.get($theme-colors, "blue-light");
+      }
+  }
+
+  .custom-field-template {
+    margin-bottom: 0;
   }
 }
 

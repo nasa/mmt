@@ -7,8 +7,9 @@ import PropTypes from 'prop-types'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Badge from 'react-bootstrap/Badge'
 import { startCase } from 'lodash-es'
-import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
+import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 
 import Button from '../Button/Button'
 
@@ -81,12 +82,11 @@ const CustomArrayFieldTemplate = ({
               role="heading"
             >
               {fieldTitle}
-
               {
                 (required || requiredUI) && (
                   <i
                     aria-label="Required"
-                    className="eui-icon eui-required-o text-success ps-1"
+                    className="eui-icon eui-required-o text-success ps-2"
                     role="img"
                   />
                 )
@@ -112,7 +112,7 @@ const CustomArrayFieldTemplate = ({
 
           return (
             <div
-              className={`${className} element`}
+              className={`custom-array-field-template__element ${className}`}
               key={key}
               ref={scrollRef}
             >
@@ -120,18 +120,21 @@ const CustomArrayFieldTemplate = ({
               <div>
                 {
                   addElement && (
-                    <div className="h5 custom-array-field-template__field-title">
-                      <span>
-                        {fieldTitle}
-                        {items.length > 0 && ` (${index + 1} of ${items.length})`}
-                      </span>
+                    <div className="custom-array-field-template__field d-flex align-items-center mb-3">
+                      <div className="d-flex align-items-center justify-content-center">
+                        <span className="custom-array-field-template__field-title mb-0">{fieldTitle}</span>
+                        <Badge size="sm" bg="light-dark" className="text-body ms-2">
+                          {items.length > 0 && ` ${index + 1} of ${items.length}`}
+                        </Badge>
+                      </div>
 
                       <Button
                         className="custom-array-field-template__remove-button text-danger px-0"
-                        Icon={FaMinusCircle}
+                        Icon={FaTrash}
                         iconTitle="Minus icon in a circle"
                         naked
                         onClick={onDropIndexClick(elementIndex)}
+                        size="sm"
                       >
                         Remove
                       </Button>
@@ -139,9 +142,8 @@ const CustomArrayFieldTemplate = ({
                   )
                 }
               </div>
-
               <div>
-                <Row className="mb-2  d-flex align-items-center">
+                <Row className="d-flex align-items-center">
                   <Col
                     xs="12"
                     lg="12"
@@ -160,7 +162,7 @@ const CustomArrayFieldTemplate = ({
       {
         addElement && (
           <Button
-            className="text-primary"
+            className="text-primary px-0 mt-4"
             Icon={FaPlusCircle}
             iconTitle="Plus icon in a circle"
             naked
@@ -170,7 +172,6 @@ const CustomArrayFieldTemplate = ({
           </Button>
         )
       }
-
     </div>
   )
 }

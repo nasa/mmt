@@ -22,9 +22,9 @@ const PageHeaderPlaceholder = () => (
       }
       />
       <span className="d-flex flex-grow-0">
-        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '6rem' }} size="sm" />
-        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '7rem' }} size="sm" />
-        <Placeholder.Button className="ms-2 btn-sm btn-light-dark" style={{ width: '2rem' }} size="sm" />
+        <Placeholder.Button className="ms-2 btn-light-dark" style={{ width: '6rem' }} />
+        <Placeholder.Button className="ms-2 btn-light-dark" style={{ width: '7rem' }} />
+        <Placeholder.Button className="ms-2 btn-light-dark" style={{ width: '2rem' }} />
       </span>
     </span>
   </Placeholder>

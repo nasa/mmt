@@ -1,7 +1,19 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+
 .navigation-item-error {
   &__item {
+    background-color: transparent;
+    color: $gray-700;
+
     &--isFocused {
-      background-color: var(--bs-light);
+      background-color: transparent;
+    }
+
+    &:hover {
+      color: $gray-900;
     }
   }
 

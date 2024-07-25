@@ -49,7 +49,7 @@ const CustomWidgetWrapper = ({
   }
 
   return (
-    <>
+    <div>
       <div
         className="mb-1"
         ref={scrollRef}
@@ -80,7 +80,7 @@ const CustomWidgetWrapper = ({
                 <span>
                   <i
                     aria-label="Required"
-                    className="eui-icon eui-required-o text-success ps-1"
+                    className="eui-icon eui-required-o text-success ps-2"
                     role="img"
                   />
                 </span>
@@ -127,10 +127,9 @@ const CustomWidgetWrapper = ({
         </div>
       </div>
       {children}
-
-      <div className="d-flex justify-content-end mt-1 small text-secondary" style={{ minHeight: '1.5rem' }}>
-        {
-          maxLength && (
+      {
+        maxLength && (
+          <div className="d-flex justify-content-end mt-1 small text-secondary" style={{ minHeight: '1.5rem' }}>
             <span>
               {commafy(charactersUsed)}
               /
@@ -138,11 +137,10 @@ const CustomWidgetWrapper = ({
               {' '}
               {pluralize('character', maxLength)}
             </span>
-          )
-        }
-      </div>
-
-    </>
+          </div>
+        )
+      }
+    </div>
   )
 }
 
