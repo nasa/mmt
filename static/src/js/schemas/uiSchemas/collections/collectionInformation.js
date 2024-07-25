@@ -126,73 +126,10 @@ const collectionInformationUiSchema = {
   },
   DOI: {
     'ui:heading-level': 'h5',
-    'ui:field': 'layout',
-    'ui:layout_grid': {
-      'ui:row': [
-        {
-          'ui:group': 'DOI',
-          'ui:group-description': true,
-          'ui:col': {
-            md: 12,
-            children: [
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['DOI']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['Authority']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['PreviousVersion']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['MissingReason']
-                    }
-                  }
-                ]
-              },
-              {
-                'ui:row': [
-                  {
-                    'ui:col': {
-                      md: 12,
-                      children: ['Explanation']
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
     DOI: {
       'ui:widget': 'textarea'
     },
+    Authority: {},
     PreviousVersion: {
       'ui:heading-level': 'h5',
       'ui:field': 'layout',
@@ -255,76 +192,24 @@ const collectionInformationUiSchema = {
       DOI: {
         'ui:widget': 'textarea'
       }
+    },
+    MissingReason: {},
+    Explanation: {
+      'ui:widget': 'textarea'
     }
   },
   AssociatedDOIs: {
     'ui:title': 'Associated DOIs',
     'ui:heading-level': 'h4',
+    'ui:hide-header': true,
     items: {
-      'ui:field': 'layout',
+      'ui:hide-header': true,
+
       'ui:title': 'Associated DOIs',
-      'ui:layout_grid': {
-        'ui:row': [
-          {
-            'ui:col': {
-              md: 12,
-              children: [
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['DOI']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Title']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Authority']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Type']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['DescriptionOfOtherType']
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      },
       DOI: {
+        'ui:widget': 'textarea'
+      },
+      Title: {
         'ui:widget': 'textarea'
       },
       DescriptionOfOtherType: {

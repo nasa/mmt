@@ -167,11 +167,12 @@ const GridRow = (
 }
 
 GridRow.defaultProps = {
+  formData: {},
   required: false
 }
 
 GridRow.propTypes = {
-  formData: PropTypes.shape({}).isRequired,
+  formData: PropTypes.shape({}),
   layout: PropTypes.shape({
     'ui:row': PropTypes.arrayOf(PropTypes.shape({})),
     'ui:group': PropTypes.string,
