@@ -12,8 +12,8 @@ const AuthRequiredLayout = () => {
   const {
     authLoading,
     redirecting,
-    tokenExpires,
-    login
+    setRedirecting,
+    tokenExpires
   } = useAuthContext()
 
   const location = useLocation()
@@ -35,7 +35,9 @@ const AuthRequiredLayout = () => {
   // If we have a token value that has expired, redirect to login the user again
   if (isExpired && !redirecting) {
     const nextPath = location.pathname + location.search
-    login(`${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`)
+
+    setRedirecting(true)
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
 
     return (
       <div>

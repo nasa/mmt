@@ -156,9 +156,8 @@ const AuthContextProvider = ({ children }) => {
   }, [tokenExpires, idle, idleTimeoutId])
 
   // Login redirect
-  const login = useCallback((url = `${apiHost}/saml-login?target=/`) => {
-    setRedirecting(true)
-    window.location.href = url
+  const login = useCallback(() => {
+    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
   }, [])
 
   // Context values
@@ -166,6 +165,7 @@ const AuthContextProvider = ({ children }) => {
     authLoading,
     login,
     redirecting,
+    setRedirecting,
     setToken: saveToken,
     tokenExpires,
     tokenValue,

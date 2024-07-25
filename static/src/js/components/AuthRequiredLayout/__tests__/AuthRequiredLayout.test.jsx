@@ -27,7 +27,7 @@ const setup = (isLoggedIn = false, authLoading = false) => {
   const now = new Date().getTime()
 
   const context = {
-    login: vi.fn(),
+    setRedirecting: vi.fn(),
     authLoading,
     tokenValue: 'mock-token',
     tokenExpires: isLoggedIn ? now + 1 : now - 1
@@ -51,7 +51,7 @@ const setup = (isLoggedIn = false, authLoading = false) => {
     </AuthContext.Provider>
   )
 
-  return context.login
+  return context
 }
 
 beforeEach(() => {
@@ -62,28 +62,28 @@ beforeEach(() => {
 describe('AuthRequiredContainer component', () => {
   describe('when the user has not authenticated', () => {
     test('redirects the user to login', () => {
-      const login = setup()
+      const { setRedirecting } = setup()
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
-      expect(login).toBeCalledWith('https://example.com/saml-login?target=%2Ftools')
+      expect(setRedirecting).toBeCalledWith(true)
+      expect(window.location.href).toEqual('https://example.com/saml-login?target=%2Ftools')
     })
   })
 
   describe('when the user is authenticated', () => {
     test('should not redirect the user', () => {
-      const login = setup(true)
-
+      const { setRedirecting } = setup(true)
+      expect(setRedirecting).toBeCalledTimes(0)
       expect(screen.getByText('Mock Component')).toBeInTheDocument()
-      expect(login).toBeCalledTimes(0)
     })
   })
 
   describe('when the app is still loading the token', () => {
     test('should not redirect the user', () => {
-      const login = setup(undefined, true)
+      const { setRedirecting } = setup(undefined, true)
+      expect(setRedirecting).toBeCalledTimes(0)
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
-      expect(login).toBeCalledTimes(0)
     })
   })
 })

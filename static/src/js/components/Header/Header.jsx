@@ -66,7 +66,7 @@ const Header = ({ noLogin }) => {
                     className="text-white"
                     Icon={FaSignInAlt}
                     iconTitle="Door with arrow pointing inward"
-                    onClick={() => login()}
+                    onClick={login}
                     variant="blue-light"
                   >
                     Log in with Launchpad
