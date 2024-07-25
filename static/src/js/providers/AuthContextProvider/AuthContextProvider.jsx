@@ -55,8 +55,6 @@ const AuthContextProvider = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(true)
 
-  const [redirecting, setRedirecting] = useState(false)
-
   // The user's Launchpad Token
   const [tokenValue, setTokenValue] = useState()
 
