@@ -75,8 +75,6 @@ const AuthContextProvider = ({ children }) => {
 
     try {
       if (newToken) {
-        setRedirecting(false)
-
         // Decode the token to get the launchpadToken and edlProfile
         const decodedToken = jwt.decode(newToken)
 
@@ -160,18 +158,10 @@ const AuthContextProvider = ({ children }) => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
   }, [])
 
-  const redirect = useCallback((url) => {
-    setRedirecting(true)
-
-    window.location.href = url
-  }, [])
-
   // Context values
   const providerValue = useMemo(() => ({
     authLoading,
     login,
-    redirect,
-    redirecting,
     setToken: saveToken,
     tokenExpires,
     tokenValue,

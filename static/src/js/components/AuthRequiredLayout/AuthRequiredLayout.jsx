@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
@@ -11,38 +11,30 @@ const AuthRequiredLayout = () => {
   const { apiHost } = getApplicationConfig()
   const {
     authLoading,
-    redirect,
-    redirecting,
     tokenExpires
   } = useAuthContext()
 
   const location = useLocation()
 
+  useEffect(() => {
+    const isExpired = isTokenExpired(tokenExpires)
+
+    // If we have a token value that has expired, redirect to login the user again
+    if (isExpired) {
+      const nextPath = location.pathname + location.search
+
+      window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
+    }
+  }, [authLoading, tokenExpires])
+
   // If the app is still loading the auth context, please wait...
-
-  if (authLoading || redirecting) {
+  if (authLoading || isTokenExpired(tokenExpires)) {
     return (
-      <div>
-        <div>
+      <div className="p-5">
+        <span className="app-loading-screen__text">
           Please wait logging in...
-        </div>
-      </div>
-    )
-  }
-
-  const isExpired = isTokenExpired(tokenExpires)
-
-  // If we have a token value that has expired, redirect to login the user again
-  if (isExpired && !redirecting) {
-    const nextPath = location.pathname + location.search
-
-    redirect(`${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`)
-
-    return (
-      <div>
-        <div>
-          Please wait redirecting...
-        </div>
+        </span>
+        <div className="spinner-border text-primary" role="status" />
       </div>
     )
   }
