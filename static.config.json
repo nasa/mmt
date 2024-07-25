@@ -15,7 +15,14 @@
     },
     "cookieDomain": ".localhost",
     "tokenValidTime": "900",
-    "displayProdWarning": "true"
+    "displayProdWarning": "true",
+    "analytics": {
+      "gtmPropertyId": "",
+      "localIdentifier": {
+        "enabled": false,
+        "propertyId": ""
+      }
+    }
   },
   "ummVersions": {
     "ummC": "1.18.1",
