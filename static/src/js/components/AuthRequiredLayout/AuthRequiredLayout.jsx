@@ -11,8 +11,8 @@ const AuthRequiredLayout = () => {
   const { apiHost } = getApplicationConfig()
   const {
     authLoading,
+    redirect,
     redirecting,
-    setRedirecting,
     tokenExpires
   } = useAuthContext()
 
@@ -36,8 +36,7 @@ const AuthRequiredLayout = () => {
   if (isExpired && !redirecting) {
     const nextPath = location.pathname + location.search
 
-    setRedirecting(true)
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
+    redirect(`${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`)
 
     return (
       <div>

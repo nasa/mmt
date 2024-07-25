@@ -160,12 +160,18 @@ const AuthContextProvider = ({ children }) => {
     window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
   }, [])
 
+  const redirect = useCallback((url) => {
+    setRedirecting(true)
+
+    window.location.href = url
+  }, [])
+
   // Context values
   const providerValue = useMemo(() => ({
     authLoading,
     login,
+    redirect,
     redirecting,
-    setRedirecting,
     setToken: saveToken,
     tokenExpires,
     tokenValue,
