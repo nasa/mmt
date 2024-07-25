@@ -62,6 +62,7 @@ describe('AuthRequiredContainer component', () => {
       setup()
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
+
       expect(window.location.href).toEqual('https://example.com/saml-login?target=%2Ftools')
     })
   })
@@ -69,6 +70,7 @@ describe('AuthRequiredContainer component', () => {
   describe('when the user is authenticated', () => {
     test('should not redirect the user', () => {
       setup(true)
+
       expect(screen.getByText('Mock Component')).toBeInTheDocument()
     })
   })
