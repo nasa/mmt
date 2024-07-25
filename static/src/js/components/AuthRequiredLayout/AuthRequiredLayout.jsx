@@ -17,10 +17,8 @@ const AuthRequiredLayout = () => {
   const location = useLocation()
 
   useEffect(() => {
-    const isExpired = isTokenExpired(tokenExpires)
-
     // If we have a token value that has expired, redirect to login the user again
-    if (isExpired) {
+    if (isTokenExpired(tokenExpires)) {
       const nextPath = location.pathname + location.search
 
       window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent(nextPath)}`
