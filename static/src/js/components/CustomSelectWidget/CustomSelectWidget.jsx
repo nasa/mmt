@@ -117,7 +117,7 @@ const CustomSelectWidget = ({
     if (oneOfEnums) {
       setSelectOptions(oneOfEnums)
     }
-  }, [propsSelectOptions])
+  }, [propsSelectOptions, options])
 
   useEffect(() => {
     if (!isEmpty(keywords)) {
