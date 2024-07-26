@@ -1,36 +1,38 @@
-import React, {
-  useEffect,
-  useCallback,
-  useState
-} from 'react'
-import PropTypes from 'prop-types'
-import {
-  useSearchParams,
-  Navigate,
-  useParams
-} from 'react-router-dom'
 import { capitalize, startCase } from 'lodash-es'
-import pluralize from 'pluralize'
+import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
-import Col from 'react-bootstrap/Col'
+import moment from 'moment'
+import pluralize from 'pluralize'
+import PropTypes from 'prop-types'
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 import Row from 'react-bootstrap/Row'
+import {
+  Navigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom'
 
 import { useSuspenseQuery } from '@apollo/client'
-import moment from 'moment'
-import conceptTypes from '../../constants/conceptTypes'
 
-import Table from '../../components/Table/Table'
-import Button from '../../components/Button/Button'
-import CustomModal from '../../components/CustomModal/CustomModal'
-import For from '../../components/For/For'
-import EllipsisText from '../../components/EllipsisText/EllipsisText'
-import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
-import getTagCount from '../../utils/getTagCount'
-import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
-import typeParamToHumanizedStringMap from '../../constants/typeParamToHumanizedStringMap'
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import { DATE_FORMAT } from '../../constants/dateFormat'
+import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import conceptTypes from '../../constants/conceptTypes'
+import typeParamToHumanizedStringMap from '../../constants/typeParamToHumanizedStringMap'
+
+import Button from '../../components/Button/Button'
+import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
+import CustomModal from '../../components/CustomModal/CustomModal'
+import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
+import EllipsisText from '../../components/EllipsisText/EllipsisText'
+import For from '../../components/For/For'
+import Table from '../../components/Table/Table'
+
+import getTagCount from '../../utils/getTagCount'
 
 /**
  * Renders a `SearchList` component
@@ -62,9 +64,9 @@ const SearchList = ({ limit }) => {
 
   let params = {
     keyword: keywordParam,
-    provider: providerParam,
     limit,
     offset,
+    provider: providerParam,
     sortKey: sortKeyParam
   }
 
@@ -102,7 +104,7 @@ const SearchList = ({ limit }) => {
   }
 
   const { [conceptType]: concept } = data
-  const { count, items = [] } = concept
+  const { count, items } = concept
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
@@ -140,8 +142,9 @@ const SearchList = ({ limit }) => {
       </Button>
     )
   }, [])
-
   const sortFn = useCallback((key, order) => {
+    const currentSearchParams = new URLSearchParams(window.location.search)
+    const currentProviderParam = currentSearchParams.get('provider')
     let nextSortKey
 
     if (!order) {
@@ -163,8 +166,13 @@ const SearchList = ({ limit }) => {
       // Reset the page parameter
       currentParams.delete('page')
 
-      // Set the sort key
+      // Set the sort key and provider
       currentParams.set('sortKey', nextSortKey)
+      if (currentProviderParam) {
+        currentParams.set('provider', currentProviderParam)
+      } else {
+        currentParams.delete('provider')
+      }
 
       return Object.fromEntries(currentParams)
     })
@@ -174,86 +182,86 @@ const SearchList = ({ limit }) => {
     if (formattedType === conceptTypes.Collections) {
       return [
         {
-          dataKey: 'shortName',
-          title: 'Short Name',
           className: 'col-auto',
           dataAccessorFn: buildEllipsisLinkCell,
-          sortFn
+          dataKey: 'shortName',
+          sortFn,
+          title: 'Short Name'
         },
         {
-          dataKey: 'version',
-          title: 'Version',
+          align: 'end',
           className: 'col-auto text-nowrap',
-          align: 'end'
+          dataKey: 'version',
+          title: 'Version'
         },
         {
-          dataKey: 'title',
-          sortKey: 'entryTitle',
-          title: 'Entry Title',
           className: 'col-auto',
           dataAccessorFn: buildEllipsisTextCell,
-          sortFn: (_, order) => sortFn('entryTitle', order)
+          dataKey: 'title',
+          sortFn: (_, order) => sortFn('entryTitle', order),
+          sortKey: 'entryTitle',
+          title: 'Entry Title'
         },
         {
-          dataKey: 'provider',
-          title: 'Provider',
-          className: 'col-auto text-nowrap',
           align: 'center',
-          sortFn
-        },
-        {
-          dataKey: 'granules.count',
-          title: 'Granule Count',
           className: 'col-auto text-nowrap',
-          align: 'end'
+          dataKey: 'provider',
+          sortFn,
+          title: 'Provider'
         },
         {
-          dataKey: 'tagDefinitions',
-          title: 'Tags',
+          align: 'end',
+          className: 'col-auto text-nowrap',
+          dataKey: 'granules.count',
+          title: 'Granule Count'
+        },
+        {
+          align: 'end',
           className: 'col-auto text-nowrap',
           dataAccessorFn: buildTagCell,
-          align: 'end'
+          dataKey: 'tagDefinitions',
+          title: 'Tags'
         },
         {
-          dataKey: 'revisionDate',
-          title: 'Last Modified (UTC)',
+          align: 'end',
           className: 'col-auto text-nowrap',
           dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT),
-          align: 'end',
-          sortFn
+          dataKey: 'revisionDate',
+          sortFn,
+          title: 'Last Modified (UTC)'
         }
       ]
     }
 
     return [
       {
-        dataKey: 'name',
-        title: 'Name',
         className: 'col-auto',
         dataAccessorFn: buildEllipsisLinkCell,
-        sortFn
+        dataKey: 'name',
+        sortFn,
+        title: 'Name'
       },
       {
-        dataKey: 'longName',
-        title: 'Long Name',
         className: 'col-auto',
         dataAccessorFn: buildEllipsisTextCell,
-        sortFn: (_, order) => sortFn('longName', order)
+        dataKey: 'longName',
+        sortFn,
+        title: 'Long Name'
       },
       {
-        dataKey: 'providerId',
-        title: 'Provider',
-        className: 'col-auto text-nowrap',
         align: 'center',
-        sortFn
+        className: 'col-auto text-nowrap',
+        dataKey: 'providerId',
+        sortFn,
+        title: 'Provider'
       },
       {
-        dataKey: 'revisionDate',
-        title: 'Last Modified (UTC)',
+        align: 'end',
         className: 'col-auto text-nowrap',
         dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT),
-        align: 'end',
-        sortFn
+        dataKey: 'revisionDate',
+        sortFn,
+        title: 'Last Modified (UTC)'
       }
     ]
   }
@@ -297,81 +305,58 @@ const SearchList = ({ limit }) => {
           >
             {
               ({
-                totalPages,
-                pagination,
                 firstResultPosition,
-                lastResultPosition
+                lastResultPosition,
+                pagination,
+                totalPages
               }) => {
                 // Checks to see if any filters are provided so that they display in the pagination message
                 const hasFilter = !!keywordParam || !!sortKeyParam
 
-                const paginationMessage = count > 0
-                  ? `${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
+                const paginationMessage = `${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
                     + `${hasFilter ? 'matching ' : ''}${pluralize(conceptType, concept.count)}`
                     + `${secondaryTitle ? ` for: ${secondaryTitle}` : ''}`
-                  : `No matching ${conceptType} found`
 
                 return (
                   <>
-                    <>
-                      <Row className="d-flex justify-content-between align-items-center mb-4">
-                        <Col className="flex-grow-1" xs="auto">
-                          {/* {
-                                    !count && (
-                                      <div className="w-100">
-                                        <span className="d-block">
-                                          <Placeholder as="span" animation="glow">
-                                            <Placeholder xs={8} />
-                                          </Placeholder>
-                                        </span>
-                                      </div>
-                                    )
-                                  } */}
-                          {
-                            !!count && (
-                              <span className="text-secondary fw-bolder">{paginationMessage}</span>
-                            )
-                          }
-                        </Col>
+                    <Row className="d-flex justify-content-between align-items-center mb-4">
+                      <Col className="flex-grow-1" xs="auto">
                         {
-                          totalPages > 1 && (
-                            <Col xs="auto">
-                              {pagination}
-                            </Col>
+                          !!count && (
+                            <span className="text-secondary fw-bolder">{paginationMessage}</span>
                           )
                         }
-                      </Row>
-                      <Table
-                        id="search-results-table"
-                        columns={columns}
-                        data={items}
-                        generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
-                        generateRowKey={({ conceptId }) => `row_${conceptId}`}
-                        noDataMessage="No results"
-                        count={count}
-                        sortKey={sortKeyParam}
-                        limit={limit}
-                      />
+                      </Col>
                       {
                         totalPages > 1 && (
-                          <Row>
-                            <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                              <div>
-                                {pagination}
-                              </div>
-                            </Col>
-                          </Row>
+                          <Col xs="auto">
+                            {pagination}
+                          </Col>
                         )
                       }
-                    </>
-                    {/* {
-                          !loading && items.length === 0 && (
-                            <Alert className="text-center d-flex flex-column align-items-center p-4" variant="light">
-                              <FaBan className="display-6 mb-2 text-secondary" />
-                              <span>{`No ${getHumanizedNameFromTypeParam(conceptType)}s match the current search criteria.`}</span>
-                            </Alert>
-                          )
-                        } */}
+                    </Row>
+                    <Table
+                      columns={columns}
+                      count={count}
+                      data={items}
+                      generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
+                      generateRowKey={({ conceptId }) => `row_${conceptId}`}
+                      id="search-results-table"
+                      limit={limit}
+                      noDataMessage="No results"
+                      sortKey={sortKeyParam}
+                    />
+                    {
+                      totalPages > 1 && (
+                        <Row>
+                          <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                            <div>
+                              {pagination}
+                            </div>
+                          </Col>
+                        </Row>
+                      )
+                    }
                   </>
                 )
               }
@@ -380,9 +365,13 @@ const SearchList = ({ limit }) => {
         </Col>
       </Row>
       <CustomModal
-        show={showTagModal}
-        toggleModal={toggleTagModal}
-        size="lg"
+        actions={
+          [{
+            label: 'Close',
+            onClick: () => toggleTagModal(false),
+            variant: 'primary'
+          }]
+        }
         header={activeTagModalCollection?.tags && `${Object.keys(activeTagModalCollection.tags).length} ${pluralize('tag', Object.keys(activeTagModalCollection.tags).length)}`}
         message={
           (
@@ -417,13 +406,9 @@ const SearchList = ({ limit }) => {
             )
           )
         }
-        actions={
-          [{
-            label: 'Close',
-            onClick: () => toggleTagModal(false),
-            variant: 'primary'
-          }]
-        }
+        show={showTagModal}
+        size="lg"
+        toggleModal={toggleTagModal}
       />
     </>
   )

@@ -68,8 +68,12 @@ const EllipsisLink = ({ children, to }) => {
   )
 }
 
+EllipsisLink.defaultProps = {
+  children: ''
+}
+
 EllipsisLink.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.string,
   to: PropTypes.string.isRequired
 }
 

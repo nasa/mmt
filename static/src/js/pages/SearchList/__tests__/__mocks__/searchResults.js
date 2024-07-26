@@ -726,8 +726,17 @@ export const singlePageToolsSearch = {
   result: {
     data: {
       tools: {
-        count: 1,
+        count: 2,
         items: [
+          {
+            conceptId: 'T1000000002-MMT1',
+            name: 'Tool Name 2',
+            longName: 'Tool Long Name 2',
+            providerId: 'MMT_1',
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1',
+            userId: 'admin'
+          },
           {
             conceptId: 'T1000000000-TESTPROV',
             name: 'Tool Name 1',
