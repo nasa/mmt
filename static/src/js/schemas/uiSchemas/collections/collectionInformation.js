@@ -133,7 +133,6 @@ const collectionInformationUiSchema = {
     PreviousVersion: {
       'ui:heading-level': 'h5',
       'ui:field': 'layout',
-      'ui:title': 'Associated DOIs',
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -167,7 +166,7 @@ const collectionInformationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['Version']
+                        children: ['DOI']
                       }
                     }
                   ]
@@ -177,27 +176,7 @@ const collectionInformationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['Description']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Title']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 12,
-                        children: ['Authority']
+                        children: ['Published']
                       }
                     }
                   ]
