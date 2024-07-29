@@ -125,7 +125,7 @@ const PublishPreviewHeader = () => {
   const handleClone = () => {
     const cloneNativeId = `MMT_${crypto.randomUUID()}`
     // Removes the value from the metadata that has to be unique
-    const modifiedMetadata = removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName'])
+    const modifiedMetadata = removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName', 'EntryTitle'])
 
     ingestMutation(derivedConceptType, modifiedMetadata, cloneNativeId, providerId)
   }
