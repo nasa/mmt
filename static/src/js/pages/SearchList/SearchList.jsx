@@ -144,6 +144,7 @@ const SearchList = ({ limit }) => {
       </Button>
     )
   }, [])
+
   const sortFn = useCallback((key, order) => {
     const currentSearchParams = new URLSearchParams(window.location.search)
     const currentProviderParam = currentSearchParams.get('provider')
