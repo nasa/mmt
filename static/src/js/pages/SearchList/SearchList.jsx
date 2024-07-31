@@ -19,6 +19,8 @@ import {
 
 import { useSuspenseQuery } from '@apollo/client'
 
+import handleSort from '@/js/utils/handleSort'
+
 import { DATE_FORMAT } from '../../constants/dateFormat'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import conceptTypes from '../../constants/conceptTypes'
@@ -142,40 +144,11 @@ const SearchList = ({ limit }) => {
       </Button>
     )
   }, [])
+
   const sortFn = useCallback((key, order) => {
     const currentSearchParams = new URLSearchParams(window.location.search)
     const currentProviderParam = currentSearchParams.get('provider')
-    let nextSortKey
-
-    if (!order) {
-      setSearchParams((currentParams) => {
-        currentParams.delete('sortKey')
-
-        return Object.fromEntries(currentParams)
-      })
-
-      return
-    }
-
-    searchParams.set('sortKey', nextSortKey)
-
-    setSearchParams((currentParams) => {
-      if (order === 'ascending') nextSortKey = `-${key}`
-      if (order === 'descending') nextSortKey = key
-
-      // Reset the page parameter
-      currentParams.delete('page')
-
-      // Set the sort key and provider
-      currentParams.set('sortKey', nextSortKey)
-      if (currentProviderParam) {
-        currentParams.set('provider', currentProviderParam)
-      } else {
-        currentParams.delete('provider')
-      }
-
-      return Object.fromEntries(currentParams)
-    })
+    handleSort(currentProviderParam, setSearchParams, key, order)
   }, [])
 
   const getColumnState = () => {
