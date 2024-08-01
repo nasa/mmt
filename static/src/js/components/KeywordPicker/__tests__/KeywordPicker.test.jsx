@@ -300,6 +300,34 @@ describe('when selecting previous', () => {
   })
 })
 
+describe('when selecting a keyword that is not a child element', () => {
+  test('should first', async () => {
+    const { props, user } = setup({})
+
+    // Clicking on the first parent element
+    const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
+    await user.click(earthScienceServiceBtn)
+
+    // Clicking on the second parent element
+    const dataAnalysisButton = screen.getByRole('link', { name: 'DATA ANALYSIS AND VISUALIZATION' })
+    await user.click(dataAnalysisButton)
+
+    const addKeyword = screen.getByRole('button')
+
+    await user.click(addKeyword)
+
+    expect(props.onChange).toHaveBeenCalledTimes(1)
+    expect(props.onChange).toHaveBeenCalledWith([
+      {
+        ToolCategory: 'EARTH SCIENCE SERVICES',
+        ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+        ToolTerm: undefined,
+        ToolSpecificTerm: undefined
+      }
+    ])
+  })
+})
+
 describe('when removing selected keyword', () => {
   test('removes the selected keyword', async () => {
     const { props, user } = setup({
