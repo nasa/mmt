@@ -1,3 +1,11 @@
+/**
+ * Function to handle 'handleSort
+ * @param {String} provider Optional search parameter provided by user
+ * @param {Function} setSearchParams Sets the searchParams of parent component
+ * @param {String} key Name of column being used for sort function
+ * @param {String} order Direction of sorting (ascending or descending)
+ */
+
 const handleSort = (provider, setSearchParams, key, order) => {
   let nextSortKey
   if (order === 'ascending') nextSortKey = `-${key}`
