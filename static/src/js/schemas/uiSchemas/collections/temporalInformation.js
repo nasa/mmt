@@ -1,5 +1,4 @@
 import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-import temporalKeywords from '../../../constants/temporalKeywords'
 
 const temporalInformationUiSchema = {
   'ui:submitButtonOptions': {
@@ -285,8 +284,9 @@ const temporalInformationUiSchema = {
     'ui:heading-level': 'h4',
     items: {
       'ui:widget': CustomSelectWidget,
-      'ui:options': {
-        enumOptions: temporalKeywords
+      'ui:controlled': {
+        name: 'temporal_keywords',
+        controlName: 'temporal_resolution_range'
       }
     }
 
