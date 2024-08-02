@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  createRef,
+  useEffect,
+  useState
+} from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -81,6 +85,24 @@ const OrderOptionForm = () => {
 
   const [nativeId, setNativeId] = useState()
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
+  const [visitedFields, setVisitedFields] = useState([])
+
+  const formRef = createRef()
+
+  // Handle bluring fields within the form
+  const handleBlur = (fieldId) => {
+    setVisitedFields([...new Set([
+      ...visitedFields,
+      fieldId
+    ])])
+  }
+
+  // eslint-disable-next-line max-len
+  const handleTransformErrors = (errors) => errors.filter((error) => visitedFields.includes(error.property))
+
+  useEffect(() => {
+    formRef?.current?.validateForm()
+  }, [visitedFields])
 
   const fields = {
     TitleField: CustomTitleField,
@@ -237,6 +259,12 @@ const OrderOptionForm = () => {
     })
   }
 
+  const hasErrors = () => {
+    const { errors } = validator.validateFormData(formData, orderOption)
+
+    return errors.length > 0
+  }
+
   return (
     <>
       <Container className="order-option-form__container mx-0" fluid>
@@ -250,18 +278,25 @@ const OrderOptionForm = () => {
                   setFocusField
                 }
               }
-              widgets={widgets}
-              schema={orderOption}
-              validator={validator}
-              templates={templates}
-              uiSchema={orderOptionUiSchema}
-              onChange={handleChange}
               formData={formData}
+              liveValidate
+              onBlur={handleBlur}
+              onChange={handleChange}
               onSubmit={handleSetProviderOrSubmit}
+              ref={formRef}
+              schema={orderOption}
               showErrorList="false"
+              templates={templates}
+              transformErrors={handleTransformErrors}
+              uiSchema={orderOptionUiSchema}
+              validator={validator}
+              widgets={widgets}
             >
               <div className="d-flex gap-2">
-                <Button type="submit">
+                <Button
+                  disabled={hasErrors()}
+                  type="submit"
+                >
                   {saveTypesToHumanizedStringMap[saveTypes.submit]}
                 </Button>
                 <Button

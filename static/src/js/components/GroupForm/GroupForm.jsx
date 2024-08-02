@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  createRef,
+  useEffect,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
@@ -64,6 +68,20 @@ const GroupForm = ({ isAdminPage }) => {
 
   const [focusField, setFocusField] = useState(null)
   const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
+  const [visitedFields, setVisitedFields] = useState([])
+
+  const formRef = createRef()
+
+  // Handle bluring fields within the form
+  const handleBlur = (fieldId) => {
+    setVisitedFields([...new Set([
+      ...visitedFields,
+      fieldId
+    ])])
+  }
+
+  // eslint-disable-next-line max-len
+  const handleTransformErrors = (errors) => errors.filter((error) => visitedFields.includes(error.property))
 
   const [createGroupMutation] = useMutation(CREATE_GROUP, {
     update: (cache) => {
@@ -164,6 +182,16 @@ const GroupForm = ({ isAdminPage }) => {
 
   const { formData } = draft || {}
 
+  useEffect(() => {
+    formRef?.current?.validateForm()
+  }, [visitedFields])
+
+  const hasErrors = () => {
+    const { errors } = validator.validateFormData(formData, updatedGroupSchema)
+
+    return errors.length > 0
+  }
+
   const handleSubmit = () => {
     const groupVariables = {
       ...formData,
@@ -257,18 +285,25 @@ const GroupForm = ({ isAdminPage }) => {
                   setFocusField
                 }
               }
-              widgets={widgets}
-              schema={updatedGroupSchema}
-              validator={validator}
-              templates={templates}
-              uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
-              onChange={handleChange}
               formData={formData}
+              liveValidate
+              onBlur={handleBlur}
+              onChange={handleChange}
               onSubmit={handleSetProviderOrSubmit}
+              ref={formRef}
+              schema={updatedGroupSchema}
               showErrorList="false"
+              templates={templates}
+              transformErrors={handleTransformErrors}
+              uiSchema={isAdminPage ? systemGroupUiSchema : groupUiSchema}
+              validator={validator}
+              widgets={widgets}
             >
               <div className="d-flex gap-2">
-                <Button type="submit">
+                <Button
+                  disabled={hasErrors()}
+                  type="submit"
+                >
                   {saveTypesToHumanizedStringMap[saveTypes.submit]}
                 </Button>
                 <Button

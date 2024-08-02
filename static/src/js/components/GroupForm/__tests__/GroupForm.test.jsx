@@ -282,6 +282,17 @@ describe('GroupForm', () => {
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const membersField = screen.getByRole('combobox')
 
+        // Verify inline error does not appear on page load, only when visiting the field
+        // and leaving the field does it appear.
+        expect(screen.queryByText('must have required property \'name\'')).not.toBeInTheDocument()
+        await user.click(nameField)
+        await user.click(descriptionField)
+        expect(screen.getByText('must have required property \'name\'')).toBeInTheDocument()
+
+        // Very button is disabled since Name field has not been filled out yet
+        const submitButton = screen.getByRole('button', { name: 'Submit' })
+        expect(submitButton).toBeDisabled()
+
         await user.type(nameField, 'Test Name')
         await user.type(descriptionField, 'Test Description')
 
@@ -290,7 +301,6 @@ describe('GroupForm', () => {
         const option = screen.getByRole('option', { name: 'Test User 1 testuser1' })
         await user.click(option)
 
-        const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
