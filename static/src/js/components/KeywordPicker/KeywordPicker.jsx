@@ -44,8 +44,8 @@ const KeywordPicker = ({
   const [fullPath, setFullPath] = useState([])
   const [loading, setLoading] = useState(true)
   const [finalSelectedValue, setFinalSelectedValue] = useState(null)
-  const [finalSelectedList, setFinalSelectedList] = useState([])
-  const [disableButton, setDisableButton] = useState(true)
+  const [currentSelected, setCurrentSelected] = useState([])
+
   const [marginTop, setMarginTop] = useState(0)
   const [marginLeft, setMarginLeft] = useState(0)
 
@@ -169,8 +169,7 @@ const KeywordPicker = ({
 
     finalList.push(item)
     setFinalSelectedValue(item)
-    setDisableButton(false)
-    setFinalSelectedList(finalList)
+    setCurrentSelected(finalList.splice(1))
   }
 
   // Iterates over formData and checks if the keywords has already been added.
@@ -211,22 +210,32 @@ const KeywordPicker = ({
   const handleSelectParent = (item) => {
     const fullSelectedPath = getFullSelectedPath(item)
     let updatedList = []
+    const currentSelectedList = []
 
     updatedList = getChildren(fullSelectedPath)
+
+    selectedKeywords.forEach((keyword) => {
+      currentSelectedList.push(keyword)
+    })
+
+    currentSelectedList.push(item)
     selectedKeywords.push(item)
+
     setCurrentList(updatedList)
+    setCurrentSelected(currentSelectedList.splice(1))
     setMarginTop(-49 * (selectedKeywords.length - 1))
     setMarginLeft(49 * (selectedKeywords.length - 1))
   }
 
   const handleSubmit = () => {
-    const addedKeywords = addKeywords(finalSelectedList.splice(1))
+    const addedKeywords = addKeywords(currentSelected)
     if (!addedKeywords) return
 
     formData.push(addedKeywords)
-    setFinalSelectedList([])
+
+    setCurrentSelected([])
     setFinalSelectedValue('')
-    setDisableButton(true)
+
     onChange(formData)
   }
 
@@ -242,7 +251,6 @@ const KeywordPicker = ({
     handleSelectParent(tempItem)
     setSelectedKeywords(selectedKeywords)
     setFinalSelectedValue(false)
-    setDisableButton(true)
   }
 
   // Removes a selected keywords from formData.
@@ -441,8 +449,8 @@ const KeywordPicker = ({
 
             <Button
               className="mt-2"
-              disabled={disableButton}
               onClick={handleSubmit}
+              aria-label="add"
             >
               <i className="fa-solid fa-circle-plus fa-sm" />
               {' '}
