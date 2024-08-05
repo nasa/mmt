@@ -105,6 +105,6 @@
     "vitest": "^1.4.0"
   },
   "resolutions": {
-    "fast-xml-parser": "^4.4.1"
+    "fast-xml-parser": "4.4.1"
   }
 }
