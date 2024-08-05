@@ -2,6 +2,7 @@ import { capitalize, startCase } from 'lodash-es'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
+import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import pluralize from 'pluralize'
 import PropTypes from 'prop-types'
@@ -10,7 +11,6 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import Row from 'react-bootstrap/Row'
 import {
   Navigate,
   useParams,
