@@ -210,11 +210,19 @@ const KeywordPicker = ({
   const handleSelectParent = (item) => {
     const fullSelectedPath = getFullSelectedPath(item)
     let updatedList = []
+    const currentSelectedList = []
 
     updatedList = getChildren(fullSelectedPath)
+
+    selectedKeywords.forEach((keyword) => {
+      currentSelectedList.push(keyword)
+    })
+
+    currentSelectedList.push(item)
     selectedKeywords.push(item)
-    currentSelected.push(item)
+
     setCurrentList(updatedList)
+    setCurrentSelected(currentSelectedList.splice(1))
     setMarginTop(-49 * (selectedKeywords.length - 1))
     setMarginLeft(49 * (selectedKeywords.length - 1))
   }
