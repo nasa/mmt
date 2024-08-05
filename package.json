@@ -15,7 +15,8 @@
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
     "cmr:stop": "node setup/stopCmr.js",
     "cmr:reset": "node setup/resetCmr.js",
-    "offline": "serverless offline start"
+    "offline": "serverless offline start",
+    "preinstall": "npx npm-force-resolutions"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
@@ -95,11 +96,15 @@
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
     "jsdom": "^22.1.0",
+    "npm-force-resolutions": "^0.0.10",
     "start-server-and-test": "^2.0.2",
     "stylelint": "^15.10.3",
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-scss": "^5.2.1",
     "vitest": "^1.4.0"
+  },
+  "resolutions": {
+    "fast-xml-parser": "^4.4.1"
   }
 }
