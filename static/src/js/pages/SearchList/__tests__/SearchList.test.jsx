@@ -266,6 +266,12 @@ describe('SearchPage component', () => {
 
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
+
+      // Checks to see that table goes back to original order
+      await user.click(ascendingButton)
+
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
+      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
     })
   })
 
@@ -381,7 +387,7 @@ describe('SearchPage component', () => {
 
         const tableRows = within(table).getAllByRole('row')
 
-        expect(tableRows.length).toEqual(2)
+        expect(tableRows.length).toEqual(3)
 
         expect(within(table).getAllByRole('columnheader')[0].textContent).toContain('Name')
         expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
@@ -398,14 +404,14 @@ describe('SearchPage component', () => {
 
         const tableRows = within(table).getAllByRole('row')
 
-        expect(tableRows.length).toEqual(2)
+        expect(tableRows.length).toEqual(3)
 
         const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
         expect(row1Cells).toHaveLength(4)
-        expect(row1Cells[0].textContent).toBe('Tool Name 1')
-        expect(row1Cells[1].textContent).toBe('Tool Long Name 1')
-        expect(row1Cells[2].textContent).toBe('TESTPROV')
+        expect(row1Cells[0].textContent).toBe('Tool Name 2')
+        expect(row1Cells[1].textContent).toBe('Tool Long Name 2')
+        expect(row1Cells[2].textContent).toBe('MMT_1')
         expect(row1Cells[3].textContent).toBe('Thursday, November 30, 2023 12:00 AM')
       })
     })
