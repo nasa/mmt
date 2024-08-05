@@ -676,6 +676,7 @@ const PermissionForm = () => {
                   setFocusField
                 }
               }
+              liveValidate
               widgets={widgets}
               schema={collectionPermission}
               validator={validator}

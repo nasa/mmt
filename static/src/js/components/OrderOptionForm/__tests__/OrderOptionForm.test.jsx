@@ -164,11 +164,21 @@ describe('OrderOptionForm', () => {
         const descriptionField = screen.getByRole('textbox', { name: 'Description' })
         const formField = screen.getByRole('textbox', { name: 'Form XML' })
 
-        await user.type(nameField, 'Test Name')
+        // Verify inline error does not appear on page load, only when visiting the field
+        // and leaving the field does it appear.
+        expect(screen.queryByText('must have required property \'name\'')).not.toBeInTheDocument()
+        await user.click(nameField)
+        await user.click(descriptionField)
+        expect(screen.getByText('must have required property \'name\'')).toBeInTheDocument()
+
         await user.type(descriptionField, 'Test Description')
         await user.type(formField, 'Test Form')
 
+        // Verify button is disabled since Name field has not been filled out yet
         const submitButton = screen.getByRole('button', { name: 'Submit' })
+        expect(submitButton).toBeDisabled()
+
+        await user.type(nameField, 'Test Name')
         await user.click(submitButton)
 
         const modal = screen.getByRole('dialog')
