@@ -289,7 +289,7 @@ describe('GroupForm', () => {
         await user.click(descriptionField)
         expect(screen.getByText('must have required property \'name\'')).toBeInTheDocument()
 
-        // Very button is disabled since Name field has not been filled out yet
+        // Verify button is disabled since Name field has not been filled out yet
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         expect(submitButton).toBeDisabled()
 

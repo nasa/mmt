@@ -174,7 +174,7 @@ describe('OrderOptionForm', () => {
         await user.type(descriptionField, 'Test Description')
         await user.type(formField, 'Test Form')
 
-        // Very button is disabled since Name field has not been filled out yet
+        // Verify button is disabled since Name field has not been filled out yet
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         expect(submitButton).toBeDisabled()
 
