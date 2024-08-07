@@ -97,8 +97,13 @@ const OrderOptionForm = () => {
     ])])
   }
 
-  // eslint-disable-next-line max-len
-  const handleTransformErrors = (errors) => errors.filter((error) => visitedFields.includes(error.property))
+  const handleTransformErrors = (errors) => errors.filter((error) => {
+    if (conceptId === 'new') {
+      return visitedFields.includes(error.property)
+    }
+
+    return errors
+  })
 
   useEffect(() => {
     formRef?.current?.validateForm()

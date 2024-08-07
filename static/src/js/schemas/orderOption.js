@@ -29,9 +29,7 @@ const orderOption = {
     },
     form: {
       description: 'The XML of the order option.',
-      type: 'string',
-      minLength: 1,
-      maxLength: 1024
+      type: 'string'
     }
   },
   required: ['name', 'description', 'form']
