@@ -1,28 +1,30 @@
 #!/bin/bash
+ummJsonSchemaUrl=`jq '.ummJsonSchemaUrl' ../static.config.json`
+ummJsonSchemaUrl=${ummJsonSchemaUrl//\"/}
 ummC() {
     echo "Downloading ummC"
     #Reads version number
     schema_version=`jq '.ummVersions.ummC' ../static.config.json`
     schema_version=${schema_version//\"/}
     #Download
-    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/collection/v${schema_version}/umm-c-json-schema.json > umm-c-json-schema.json
+    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/collection/v${schema_version}/umm-c-json-schema.json > umm-c-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-c-json-schema.json"
       exit 1
     fi
-    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/collection/v${schema_version}/umm-cmn-json-schema.json > umm-cmn-json-schema.json
+    jq --arg ummJsonSchemaUrl "$ummJsonSchemaUrl" '."$schema" = $ummJsonSchemaUrl' umm-c-json-schema-temp.json > umm-c-json-schema.json
+    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/collection/v${schema_version}/umm-cmn-json-schema.json > umm-cmn-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-cmn-json-schema.json"
       exit 1
     fi
     #Remove key '$schema' of the common file because it would overwrite the same key in the main file
-    jq 'del(."$schema")' umm-cmn-json-schema.json > umm-cmn-json-schema-minus-schema-version.json
+    jq 'del(."$schema")' umm-cmn-json-schema-temp.json > umm-cmn-json-schema.json
     #Merge and create js file
-    echo "$(echo "const ummCSchema =")" "$(jq -s '.[0] * .[1]' umm-c-json-schema.json umm-cmn-json-schema-minus-schema-version.json)" > ummCSchemaRaw.js
+    echo "$(echo "const ummCSchema =")" "$(jq -s '.[0] * .[1]' umm-c-json-schema.json umm-cmn-json-schema.json)" > ummCSchemaRaw.js
     echo "$(echo "export default ummCSchema")" >> ummCSchemaRaw.js
     #Replace pointers to the common file
     sed 's/umm-cmn-json-schema.json#/#/g' ummCSchemaRaw.js > ummCSchema.js
-    #sed "s/\"/\'/g" ummCSchemaRaw.js > ummCSchema.js
 }
 
 ummS() {
@@ -31,11 +33,12 @@ ummS() {
     schema_version=`jq '.ummVersions.ummS' ../static.config.json`
     schema_version=${schema_version//\"/}
     #Download
-    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/service/v${schema_version}/umm-s-json-schema.json > umm-s-json-schema.json
+    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/service/v${schema_version}/umm-s-json-schema.json > umm-s-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-s-json-schema.json"
       exit 1
     fi
+    jq --arg ummJsonSchemaUrl "$ummJsonSchemaUrl" '."$schema" = $ummJsonSchemaUrl' umm-s-json-schema-temp.json > umm-s-json-schema.json
     #Create js file
     echo "$(echo "const ummSSchema =")" "$(jq '.' umm-s-json-schema.json)" > ummSSchema.js
     echo "$(echo "export default ummSSchema")" >> ummSSchema.js
@@ -47,11 +50,12 @@ ummV() {
     schema_version=`jq '.ummVersions.ummV' ../static.config.json`
     schema_version=${schema_version//\"/}
     #Download
-    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/variable/v${schema_version}/umm-var-json-schema.json > umm-var-json-schema.json
+    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/variable/v${schema_version}/umm-var-json-schema.json > umm-var-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-var-json-schema.json"
       exit 1
     fi
+    jq --arg ummJsonSchemaUrl "$ummJsonSchemaUrl" '."$schema" = $ummJsonSchemaUrl' umm-var-json-schema-temp.json > umm-var-json-schema.json
     #Create js file
     echo "$(echo "const ummVarSchema =")" "$(jq '.' umm-var-json-schema.json)" > ummVarSchema.js
     echo "$(echo "export default ummVarSchema")" >> ummVarSchema.js
@@ -63,11 +67,12 @@ ummT() {
     schema_version=`jq '.ummVersions.ummT' ../static.config.json`
     schema_version=${schema_version//\"/}
     #Download
-    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/tool/v${schema_version}/umm-t-json-schema.json > umm-t-json-schema.json
+    curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/tool/v${schema_version}/umm-t-json-schema.json > umm-t-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-t-json-schema.json"
       exit 1
     fi
+    jq --arg ummJsonSchemaUrl "$ummJsonSchemaUrl" '."$schema" = $ummJsonSchemaUrl' umm-t-json-schema-temp.json > umm-t-json-schema.json
     #Create js file
     echo "$(echo "const ummTSchema =")" "$(jq '.' umm-t-json-schema.json)" > ummTSchema.js
     echo "$(echo "export default ummTSchema")" >> ummTSchema.js
