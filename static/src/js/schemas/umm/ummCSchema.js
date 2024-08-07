@@ -121,7 +121,15 @@ const ummCSchema = {
     DataMaturity: {
       description: "The Data Maturity element is used to inform users on where the collection is in a collection's life cycle.",
       type: 'string',
-      enum: ['Beta', 'Provisional', 'Validated', 'Stage 1 Validation', 'Stage 2 Validation', 'Stage 3 Validation', 'Stage 4 Validation']
+      enum: [
+        'Beta',
+        'Provisional',
+        'Validated',
+        'Stage 1 Validation',
+        'Stage 2 Validation',
+        'Stage 3 Validation',
+        'Stage 4 Validation'
+      ]
     },
     Quality: {
       description: 'Free text description of the quality of the collection data.  Description may include: 1) succinct description of the quality of data in the collection; 2) Any quality assurance procedures followed in producing the data in the collection; 3) indicators of collection quality or quality flags - both validated or invalidated; 4) recognized or potential problems with quality; 5) established quality control mechanisms; and 6) established quantitative quality measurements.',
@@ -289,8 +297,21 @@ const ummCSchema = {
       $ref: '#/definitions/MetadataSpecificationType'
     }
   },
-  required: ['ShortName', 'Version', 'EntryTitle', 'Abstract', 'DOI', 'DataCenters', 'ProcessingLevel', 'ScienceKeywords', 'TemporalExtents', 'SpatialExtent', 'Platforms', 'CollectionProgress', 'MetadataSpecification'],
-
+  required: [
+    'ShortName',
+    'Version',
+    'EntryTitle',
+    'Abstract',
+    'DOI',
+    'DataCenters',
+    'ProcessingLevel',
+    'ScienceKeywords',
+    'TemporalExtents',
+    'SpatialExtent',
+    'Platforms',
+    'CollectionProgress',
+    'MetadataSpecification'
+  ],
   definitions: {
     LanguageType: {
       description: 'Describes the language used in the preparation, storage, and description of the collection. It is the language of the collection data themselves.   It does not refer to the language used in the metadata record (although this may be the same language). The name of the language used for this field is defined in ISO 639.',
@@ -313,7 +334,10 @@ const ummCSchema = {
           $ref: '#/definitions/LineageDateEnum'
         }
       },
-      required: ['Date', 'Type']
+      required: [
+        'Date',
+        'Type'
+      ]
     },
     EntryIdType: {
       description: 'This is the ID of the metadata record.  It is only unique when combined with the version.',
@@ -365,7 +389,10 @@ const ummCSchema = {
           $ref: '#/definitions/ContactInformationType'
         }
       },
-      required: ['Roles', 'ShortName']
+      required: [
+        'Roles',
+        'ShortName'
+      ]
     },
     ContactGroupType: {
       type: 'object',
@@ -400,7 +427,10 @@ const ummCSchema = {
           maxLength: 255
         }
       },
-      required: ['Roles', 'GroupName']
+      required: [
+        'Roles',
+        'GroupName'
+      ]
     },
     ContactPersonType: {
       type: 'object',
@@ -446,7 +476,10 @@ const ummCSchema = {
           maxLength: 255
         }
       },
-      required: ['Roles', 'LastName']
+      required: [
+        'Roles',
+        'LastName'
+      ]
     },
     ContactInformationType: {
       type: 'object',
@@ -505,7 +538,10 @@ const ummCSchema = {
           maxLength: 1024
         }
       },
-      required: ['Type', 'Value']
+      required: [
+        'Type',
+        'Value'
+      ]
     },
     AddressType: {
       type: 'object',
@@ -592,7 +628,11 @@ const ummCSchema = {
           $ref: '#/definitions/GetServiceType'
         }
       },
-      required: ['URL', 'URLContentType', 'Type']
+      required: [
+        'URL',
+        'URLContentType',
+        'Type'
+      ]
     },
     GetDataType: {
       description: 'Represents the information needed for a DistributionURL where data is retrieved.',
@@ -619,7 +659,13 @@ const ummCSchema = {
         Unit: {
           description: 'Unit of information, together with Size determines total size in bytes of the data.',
           type: 'string',
-          enum: ['KB', 'MB', 'GB', 'TB', 'PB']
+          enum: [
+            'KB',
+            'MB',
+            'GB',
+            'TB',
+            'PB'
+          ]
         },
         Fees: {
           description: 'The fee for ordering the collection data.  The fee is entered as a number, in US Dollars.',
@@ -634,7 +680,11 @@ const ummCSchema = {
           maxLength: 50
         }
       },
-      required: ['Format', 'Size', 'Unit']
+      required: [
+        'Format',
+        'Size',
+        'Unit'
+      ]
     },
     GetServiceType: {
       description: 'Represents a Service through a URL where the service will act on data and return the result to the caller.',
@@ -652,7 +702,13 @@ const ummCSchema = {
         Protocol: {
           description: 'The protocol of the service.',
           type: 'string',
-          enum: ['HTTP', 'HTTPS', 'FTP', 'FTPS', 'Not provided']
+          enum: [
+            'HTTP',
+            'HTTPS',
+            'FTP',
+            'FTPS',
+            'Not provided'
+          ]
         },
         FullName: {
           description: 'The full name of the service.',
@@ -683,7 +739,13 @@ const ummCSchema = {
           minItems: 1
         }
       },
-      required: ['MimeType', 'Protocol', 'FullName', 'DataID', 'DataType']
+      required: [
+        'MimeType',
+        'Protocol',
+        'FullName',
+        'DataID',
+        'DataType'
+      ]
     },
     OnlineResourceType: {
       type: 'object',
@@ -733,7 +795,9 @@ const ummCSchema = {
           maxLength: 80
         }
       },
-      required: ['Linkage']
+      required: [
+        'Linkage'
+      ]
     },
     ResourceCitationType: {
       type: 'object',
@@ -808,48 +872,57 @@ const ummCSchema = {
       }
     },
     DoiType: {
-      type: 'object',
-      oneOf: [{
-        type: 'object',
-        title: 'DOI is available',
-        additionalProperties: false,
-        description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
-        properties: {
-          DOI: {
-            description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+      oneOf: [
+        {
+          type: 'object',
+          title: 'DOI is available',
+          additionalProperties: false,
+          description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
+          properties: {
+            DOI: {
+              description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Authority: {
+              description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
+              $ref: '#/definitions/AuthorityType'
+            },
+            PreviousVersion: {
+              $ref: '#/definitions/PreviousVersionType'
+            }
           },
-          Authority: {
-            description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
-            $ref: '#/definitions/AuthorityType'
-          },
-          PreviousVersion: {
-            $ref: '#/definitions/PreviousVersionType'
-          }
+          required: [
+            'DOI'
+          ]
         },
-        required: ['DOI']
-      }, {
-        type: 'object',
-        title: 'DOI is not available or applicable',
-        additionalProperties: false,
-        description: 'This element stores the fact that the DOI (Digital Object Identifier) is not applicable or is unknown.',
-        properties: {
-          MissingReason: {
-            description: 'This element stores the fact that a DOI (Digital Object Identifier) is not applicable or is unknown for this record.',
-            type: 'string',
-            enum: ['Not Applicable', 'Unknown']
+        {
+          type: 'object',
+          title: 'DOI is not available or applicable',
+          additionalProperties: false,
+          description: 'This element stores the fact that the DOI (Digital Object Identifier) is not applicable or is unknown.',
+          properties: {
+            MissingReason: {
+              description: 'This element stores the fact that a DOI (Digital Object Identifier) is not applicable or is unknown for this record.',
+              type: 'string',
+              enum: [
+                'Not Applicable',
+                'Unknown'
+              ]
+            },
+            Explanation: {
+              description: 'This element describes the reason the DOI is not applicable or unknown.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            }
           },
-          Explanation: {
-            description: 'This element describes the reason the DOI is not applicable or unknown.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
-          }
-        },
-        required: ['MissingReason']
-      }]
+          required: [
+            'MissingReason'
+          ]
+        }
+      ]
     },
     PreviousVersionType: {
       type: 'object',
@@ -876,7 +949,9 @@ const ummCSchema = {
           type: 'string'
         }
       },
-      required: ['DOI']
+      required: [
+        'DOI'
+      ]
     },
     DoiDoiType: {
       type: 'object',
@@ -894,7 +969,9 @@ const ummCSchema = {
           $ref: '#/definitions/AuthorityType'
         }
       },
-      required: ['DOI']
+      required: [
+        'DOI'
+      ]
     },
     AccessConstraintsType: {
       type: 'object',
@@ -912,7 +989,9 @@ const ummCSchema = {
           type: 'number'
         }
       },
-      required: ['Description']
+      required: [
+        'Description'
+      ]
     },
     MetadataAssociationType: {
       type: 'object',
@@ -938,7 +1017,9 @@ const ummCSchema = {
           $ref: '#/definitions/VersionType'
         }
       },
-      required: ['EntryId']
+      required: [
+        'EntryId'
+      ]
     },
     PublicationReferenceType: {
       type: 'object',
@@ -1057,7 +1138,11 @@ const ummCSchema = {
           $ref: '#/definitions/KeywordStringType'
         }
       },
-      required: ['Category', 'Topic', 'Term']
+      required: [
+        'Category',
+        'Topic',
+        'Term'
+      ]
     },
     AdditionalAttributeType: {
       type: 'object',
@@ -1134,7 +1219,11 @@ const ummCSchema = {
           type: 'string'
         }
       },
-      required: ['Name', 'DataType', 'Description']
+      required: [
+        'Name',
+        'DataType',
+        'Description'
+      ]
     },
     PlatformType: {
       type: 'object',
@@ -1169,7 +1258,9 @@ const ummCSchema = {
           minItems: 1
         }
       },
-      required: ['ShortName']
+      required: [
+        'ShortName'
+      ]
     },
     CharacteristicType: {
       type: 'object',
@@ -1205,7 +1296,13 @@ const ummCSchema = {
           $ref: '#/definitions/DataTypeEnum'
         }
       },
-      required: ['Name', 'Description', 'DataType', 'Unit', 'Value']
+      required: [
+        'Name',
+        'Description',
+        'DataType',
+        'Unit',
+        'Value'
+      ]
     },
     InstrumentType: {
       type: 'object',
@@ -1254,7 +1351,9 @@ const ummCSchema = {
           minItems: 0
         }
       },
-      required: ['ShortName']
+      required: [
+        'ShortName'
+      ]
     },
     InstrumentChildType: {
       type: 'object',
@@ -1282,7 +1381,9 @@ const ummCSchema = {
           maxLength: 2048
         }
       },
-      required: ['ShortName']
+      required: [
+        'ShortName'
+      ]
     },
     ProjectType: {
       type: 'object',
@@ -1322,7 +1423,9 @@ const ummCSchema = {
           type: 'string'
         }
       },
-      required: ['ShortName']
+      required: [
+        'ShortName'
+      ]
     },
     TemporalExtentType: {
       type: 'object',
@@ -1365,46 +1468,76 @@ const ummCSchema = {
           $ref: '#/definitions/TemporalResolutionType'
         }
       },
-      oneOf: [{
-        required: ['RangeDateTimes']
-      }, {
-        required: ['SingleDateTimes']
-      }, {
-        required: ['PeriodicDateTimes']
-      }]
+      oneOf: [
+        {
+          required: [
+            'RangeDateTimes'
+          ]
+        },
+        {
+          required: [
+            'SingleDateTimes'
+          ]
+        },
+        {
+          required: [
+            'PeriodicDateTimes'
+          ]
+        }
+      ]
     },
     TemporalResolutionType: {
-      oneOf: [{
-        type: 'object',
-        title: 'Contant or Varies Resolution',
-        additionalProperties: false,
-        description: 'Describes the amount of time between measurements.',
-        properties: {
-          Unit: {
-            description: 'Describes a constant or varies temporal resolution.',
-            type: 'string',
-            enum: ['Constant', 'Varies']
-          }
-        },
-        required: ['Unit']
-      }, {
-        type: 'object',
-        title: 'Numerical Resolution',
-        additionalProperties: false,
-        description: 'Describes the amount of time between measurements.',
-        properties: {
-          Value: {
-            description: 'The temporal resolution value.',
-            type: 'number'
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Contant or Varies Resolution',
+          additionalProperties: false,
+          description: 'Describes the amount of time between measurements.',
+          properties: {
+            Unit: {
+              description: 'Describes a constant or varies temporal resolution.',
+              type: 'string',
+              enum: [
+                'Constant',
+                'Varies'
+              ]
+            }
           },
-          Unit: {
-            description: 'Describes a constant or varies temporal resolution.',
-            type: 'string',
-            enum: ['Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year', 'Diurnal']
-          }
+          required: [
+            'Unit'
+          ]
         },
-        required: ['Value', 'Unit']
-      }]
+        {
+          type: 'object',
+          title: 'Numerical Resolution',
+          additionalProperties: false,
+          description: 'Describes the amount of time between measurements.',
+          properties: {
+            Value: {
+              description: 'The temporal resolution value.',
+              type: 'number'
+            },
+            Unit: {
+              description: 'Describes a constant or varies temporal resolution.',
+              type: 'string',
+              enum: [
+                'Second',
+                'Minute',
+                'Hour',
+                'Day',
+                'Week',
+                'Month',
+                'Year',
+                'Diurnal'
+              ]
+            }
+          },
+          required: [
+            'Value',
+            'Unit'
+          ]
+        }
+      ]
     },
     RangeDateTimeType: {
       type: 'object',
@@ -1422,7 +1555,9 @@ const ummCSchema = {
           type: 'string'
         }
       },
-      required: ['BeginningDateTime']
+      required: [
+        'BeginningDateTime'
+      ]
     },
     PeriodicDateTimeType: {
       type: 'object',
@@ -1461,7 +1596,15 @@ const ummCSchema = {
           type: 'integer'
         }
       },
-      required: ['Name', 'StartDate', 'EndDate', 'DurationUnit', 'DurationValue', 'PeriodCycleDurationUnit', 'PeriodCycleDurationValue']
+      required: [
+        'Name',
+        'StartDate',
+        'EndDate',
+        'DurationUnit',
+        'DurationValue',
+        'PeriodCycleDurationUnit',
+        'PeriodCycleDurationValue'
+      ]
     },
     UuidType: {
       description: 'A Level 3 UUID, see wiki link http://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29',
@@ -1471,7 +1614,12 @@ const ummCSchema = {
     LineageDateEnum: {
       description: 'The name of supported lineage date types',
       type: 'string',
-      enum: ['CREATE', 'UPDATE', 'DELETE', 'REVIEW']
+      enum: [
+        'CREATE',
+        'UPDATE',
+        'DELETE',
+        'REVIEW'
+      ]
     },
     VersionType: {
       description: 'The version of the metadata record.',
@@ -1516,17 +1664,43 @@ const ummCSchema = {
     DataCenterRoleEnum: {
       description: 'Defines the possible values of a data center role.',
       type: 'string',
-      enum: ['ARCHIVER', 'DISTRIBUTOR', 'PROCESSOR', 'ORIGINATOR']
+      enum: [
+        'ARCHIVER',
+        'DISTRIBUTOR',
+        'PROCESSOR',
+        'ORIGINATOR'
+      ]
     },
     DataContactRoleEnum: {
       description: 'Defines the possible values of a data contact role.',
       type: 'string',
-      enum: ['Data Center Contact', 'Technical Contact', 'Science Contact', 'Investigator', 'Metadata Author', 'User Services', 'Science Software Development']
+      enum: [
+        'Data Center Contact',
+        'Technical Contact',
+        'Science Contact',
+        'Investigator',
+        'Metadata Author',
+        'User Services',
+        'Science Software Development'
+      ]
     },
     ContactMechanismTypeEnum: {
       description: 'Defines the possible contact mechanism types.',
       type: 'string',
-      enum: ['Direct Line', 'Email', 'Facebook', 'Fax', 'Mobile', 'Modem', 'Primary', 'TDD/TTY Phone', 'Telephone', 'Twitter', 'U.S. toll free', 'Other']
+      enum: [
+        'Direct Line',
+        'Email',
+        'Facebook',
+        'Fax',
+        'Mobile',
+        'Modem',
+        'Primary',
+        'TDD/TTY Phone',
+        'Telephone',
+        'Twitter',
+        'U.S. toll free',
+        'Other'
+      ]
     },
     ShortNameType: {
       description: 'The unique name.',
@@ -1570,7 +1744,15 @@ const ummCSchema = {
     MetadataAssociateTypeEnum: {
       description: 'The set of supported values for MetadataAssociationType.Type.',
       type: 'string',
-      enum: ['SCIENCE ASSOCIATED', 'DEPENDENT', 'INPUT', 'PARENT', 'CHILD', 'RELATED', 'LARGER CITATION WORKS']
+      enum: [
+        'SCIENCE ASSOCIATED',
+        'DEPENDENT',
+        'INPUT',
+        'PARENT',
+        'CHILD',
+        'RELATED',
+        'LARGER CITATION WORKS'
+      ]
     },
     KeywordStringType: {
       type: 'string',
@@ -1587,23 +1769,73 @@ const ummCSchema = {
     DataTypeEnum: {
       description: 'This entity contains the additional attribute data types.',
       type: 'string',
-      enum: ['STRING', 'FLOAT', 'INT', 'BOOLEAN', 'DATE', 'TIME', 'DATETIME', 'DATE_STRING', 'TIME_STRING', 'DATETIME_STRING']
+      enum: [
+        'STRING',
+        'FLOAT',
+        'INT',
+        'BOOLEAN',
+        'DATE',
+        'TIME',
+        'DATETIME',
+        'DATE_STRING',
+        'TIME_STRING',
+        'DATETIME_STRING'
+      ]
     },
     DurationUnitEnum: {
       type: 'string',
-      enum: ['DAY', 'MONTH', 'YEAR']
+      enum: [
+        'DAY',
+        'MONTH',
+        'YEAR'
+      ]
     },
     URLMimeTypeEnum: {
       type: 'string',
-      enum: ['application/json', 'application/xml', 'application/x-netcdf', 'application/gml+xml', 'application/opensearchdescription+xml',
-        'application/vnd.google-earth.kml+xml', 'image/gif', 'image/tiff', 'image/bmp', 'text/csv',
-        'text/xml', 'application/pdf', 'application/x-hdf', 'application/xhdf5',
-        'application/octet-stream', 'application/vnd.google-earth.kmz', 'image/jpeg', 'image/png',
-        'image/vnd.collada+xml', 'application/x-vnd.iso.19139-2+xml', 'text/html', 'text/plain', 'Not provided']
+      enum: [
+        'application/json',
+        'application/xml',
+        'application/x-netcdf',
+        'application/gml+xml',
+        'application/opensearchdescription+xml',
+        'application/vnd.google-earth.kml+xml',
+        'image/gif',
+        'image/tiff',
+        'image/bmp',
+        'text/csv',
+        'text/xml',
+        'application/pdf',
+        'application/x-hdf',
+        'application/xhdf5',
+        'application/octet-stream',
+        'application/vnd.google-earth.kmz',
+        'image/jpeg',
+        'image/png',
+        'image/vnd.collada+xml',
+        'application/x-vnd.iso.19139-2+xml',
+        'text/html',
+        'text/plain',
+        'Not provided'
+      ]
     },
     GetServiceTypeFormatEnum: {
       type: 'string',
-      enum: ['ascii', 'binary', 'GRIB', 'BUFR', 'HDF4', 'HDF5', 'HDF-EOS4', 'HDF-EOS5', 'jpeg', 'png', 'tiff', 'geotiff', 'kml', 'Not provided']
+      enum: [
+        'ascii',
+        'binary',
+        'GRIB',
+        'BUFR',
+        'HDF4',
+        'HDF5',
+        'HDF-EOS4',
+        'HDF-EOS5',
+        'jpeg',
+        'png',
+        'tiff',
+        'geotiff',
+        'kml',
+        'Not provided'
+      ]
     },
     UseConstraintsDescriptionType: {
       type: 'object',
@@ -1636,83 +1868,92 @@ const ummCSchema = {
     },
     UseConstraintsType: {
       description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
-      oneOf: [{
-        type: 'object',
-        title: 'Description without License URL or Text.',
-        additionalProperties: false,
-        description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
-        properties: {
-          Description: {
-            $ref: '#/definitions/UseConstraintsDescType'
-          },
-          FreeAndOpenData: {
-            $ref: '#/definitions/FreeAndOpenDataType'
-          },
-          EULAIdentifiers: {
-            description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
-            type: 'array',
-            items: {
-              $ref: '#/definitions/EULAIdentifierType'
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Description without License URL or Text.',
+          additionalProperties: false,
+          description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
+          properties: {
+            Description: {
+              $ref: '#/definitions/UseConstraintsDescType'
             },
-            minItems: 1
-          }
-        },
-        required: ['Description']
-      }, {
-        type: 'object',
-        title: 'License URL',
-        additionalProperties: false,
-        description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
-        properties: {
-          Description: {
-            $ref: '#/definitions/UseConstraintsDescType'
-          },
-          LicenseURL: {
-            description: 'This element holds the URL and associated information to access the License on the web. If this element is used the LicenseText element cannot be used.',
-            $ref: '#/definitions/OnlineResourceType'
-          },
-          FreeAndOpenData: {
-            $ref: '#/definitions/FreeAndOpenDataType'
-          },
-          EULAIdentifiers: {
-            description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
-            type: 'array',
-            items: {
-              $ref: '#/definitions/EULAIdentifierType'
+            FreeAndOpenData: {
+              $ref: '#/definitions/FreeAndOpenDataType'
             },
-            minItems: 1
-          }
+            EULAIdentifiers: {
+              description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
+              type: 'array',
+              items: {
+                $ref: '#/definitions/EULAIdentifierType'
+              },
+              minItems: 1
+            }
+          },
+          required: [
+            'Description'
+          ]
         },
-        required: ['LicenseURL']
-      }, {
-        type: 'object',
-        title: 'License Text',
-        additionalProperties: false,
-        description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
-        properties: {
-          Description: {
-            $ref: '#/definitions/UseConstraintsDescType'
-          },
-          LicenseText: {
-            description: 'This element holds the actual license text. If this element is used the LicenseUrl element cannot be used.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 20000
-          },
-          FreeAndOpenData: {
-            $ref: '#/definitions/FreeAndOpenDataType'
-          },
-          EULAIdentifiers: {
-            description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
-            type: 'array',
-            items: {
-              $ref: '#/definitions/EULAIdentifierType'
+        {
+          type: 'object',
+          title: 'License URL',
+          additionalProperties: false,
+          description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
+          properties: {
+            Description: {
+              $ref: '#/definitions/UseConstraintsDescType'
             },
-            minItems: 1
-          }
+            LicenseURL: {
+              description: 'This element holds the URL and associated information to access the License on the web. If this element is used the LicenseText element cannot be used.',
+              $ref: '#/definitions/OnlineResourceType'
+            },
+            FreeAndOpenData: {
+              $ref: '#/definitions/FreeAndOpenDataType'
+            },
+            EULAIdentifiers: {
+              description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
+              type: 'array',
+              items: {
+                $ref: '#/definitions/EULAIdentifierType'
+              },
+              minItems: 1
+            }
+          },
+          required: [
+            'LicenseURL'
+          ]
         },
-        required: ['LicenseText']
-      }
+        {
+          type: 'object',
+          title: 'License Text',
+          additionalProperties: false,
+          description: 'This element defines how the data may or may not be used after access is granted to assure the protection of privacy or intellectual property. This includes license text, license URL, or any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the data set. Data providers may request acknowledgement of the data from users and claim no responsibility for quality and completeness of data.',
+          properties: {
+            Description: {
+              $ref: '#/definitions/UseConstraintsDescType'
+            },
+            LicenseText: {
+              description: 'This element holds the actual license text. If this element is used the LicenseUrl element cannot be used.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 20000
+            },
+            FreeAndOpenData: {
+              $ref: '#/definitions/FreeAndOpenDataType'
+            },
+            EULAIdentifiers: {
+              description: 'A list of End User license Agreement identifiers that are associated to a collection. These identifiers can be found in the Earthdata Login application where End User License Agreements are stored. These identifiers allow services to check if an end user has accepted a license agreement before allowing data to be downloaded.',
+              type: 'array',
+              items: {
+                $ref: '#/definitions/EULAIdentifierType'
+              },
+              minItems: 1
+            }
+          },
+          required: [
+            'LicenseText'
+          ]
+        }
       ]
     },
     DirectoryNameType: {
@@ -1727,7 +1968,9 @@ const ummCSchema = {
           $ref: '#/definitions/LongNameType'
         }
       },
-      required: ['ShortName']
+      required: [
+        'ShortName'
+      ]
     },
     ProcessingLevelType: {
       type: 'object',
@@ -1747,7 +1990,9 @@ const ummCSchema = {
           maxLength: 80
         }
       },
-      required: ['Id']
+      required: [
+        'Id'
+      ]
     },
     PaleoTemporalCoverageType: {
       type: 'object',
@@ -1799,7 +2044,9 @@ const ummCSchema = {
           $ref: '#/definitions/KeywordStringType'
         }
       },
-      required: ['Eon']
+      required: [
+        'Eon'
+      ]
     },
     SpatialExtentType: {
       type: 'object',
@@ -1826,12 +2073,28 @@ const ummCSchema = {
           $ref: '#/definitions/GranuleSpatialRepresentationEnum'
         }
       },
-      required: ['GranuleSpatialRepresentation'],
-      allOf: [{ $ref: '#/definitions/OrbitParameterExistsIfGranuleSpatialRepresentationIsOrbit' }]
+      required: [
+        'GranuleSpatialRepresentation'
+      ],
+      allOf: [
+        {
+          $ref: '#/definitions/OrbitParameterExistsIfGranuleSpatialRepresentationIsOrbit'
+        }
+      ]
     },
     SpatialCoverageTypeEnum: {
       type: 'string',
-      enum: ['EARTH/GLOBAL', 'HORIZONTAL', 'VERTICAL', 'ORBITAL', 'HORIZONTAL_VERTICAL', 'ORBITAL_VERTICAL', 'HORIZONTAL_ORBITAL', 'HORIZONTAL_VERTICAL_ORBITAL', 'LUNAR']
+      enum: [
+        'EARTH/GLOBAL',
+        'HORIZONTAL',
+        'VERTICAL',
+        'ORBITAL',
+        'HORIZONTAL_VERTICAL',
+        'ORBITAL_VERTICAL',
+        'HORIZONTAL_ORBITAL',
+        'HORIZONTAL_VERTICAL_ORBITAL',
+        'LUNAR'
+      ]
     },
     HorizontalSpatialDomainType: {
       type: 'object',
@@ -1852,7 +2115,9 @@ const ummCSchema = {
           $ref: '#/definitions/ResolutionAndCoordinateSystemType'
         }
       },
-      required: ['Geometry']
+      required: [
+        'Geometry'
+      ]
     },
     GeometryType: {
       type: 'object',
@@ -1890,20 +2155,38 @@ const ummCSchema = {
           minItems: 1
         }
       },
-      required: ['CoordinateSystem'],
-      anyOf: [{
-        required: ['Points']
-      }, {
-        required: ['BoundingRectangles']
-      }, {
-        required: ['GPolygons']
-      }, {
-        required: ['Lines']
-      }]
+      required: [
+        'CoordinateSystem'
+      ],
+      anyOf: [
+        {
+          required: [
+            'Points'
+          ]
+        },
+        {
+          required: [
+            'BoundingRectangles'
+          ]
+        },
+        {
+          required: [
+            'GPolygons'
+          ]
+        },
+        {
+          required: [
+            'Lines'
+          ]
+        }
+      ]
     },
     CoordinateSystemEnum: {
       type: 'string',
-      enum: ['CARTESIAN', 'GEODETIC']
+      enum: [
+        'CARTESIAN',
+        'GEODETIC'
+      ]
     },
     PointType: {
       type: 'object',
@@ -1917,7 +2200,10 @@ const ummCSchema = {
           $ref: '#/definitions/LatitudeType'
         }
       },
-      required: ['Longitude', 'Latitude']
+      required: [
+        'Longitude',
+        'Latitude'
+      ]
     },
     LatitudeType: {
       description: 'The latitude value of a spatially referenced point, in degrees.  Latitude values range from -90 to 90.',
@@ -1948,7 +2234,12 @@ const ummCSchema = {
           $ref: '#/definitions/LatitudeType'
         }
       },
-      required: ['WestBoundingCoordinate', 'NorthBoundingCoordinate', 'EastBoundingCoordinate', 'SouthBoundingCoordinate']
+      required: [
+        'WestBoundingCoordinate',
+        'NorthBoundingCoordinate',
+        'EastBoundingCoordinate',
+        'SouthBoundingCoordinate'
+      ]
     },
     GPolygonType: {
       type: 'object',
@@ -1961,7 +2252,9 @@ const ummCSchema = {
           $ref: '#/definitions/ExclusiveZoneType'
         }
       },
-      required: ['Boundary']
+      required: [
+        'Boundary'
+      ]
     },
     BoundaryType: {
       type: 'object',
@@ -1976,7 +2269,9 @@ const ummCSchema = {
           minItems: 4
         }
       },
-      required: ['Points']
+      required: [
+        'Points'
+      ]
     },
     ExclusiveZoneType: {
       type: 'object',
@@ -1991,7 +2286,9 @@ const ummCSchema = {
           minItems: 1
         }
       },
-      required: ['Boundaries']
+      required: [
+        'Boundaries'
+      ]
     },
     LineType: {
       type: 'object',
@@ -2005,7 +2302,9 @@ const ummCSchema = {
           minItems: 2
         }
       },
-      required: ['Points']
+      required: [
+        'Points'
+      ]
     },
     VerticalSpatialDomainType: {
       type: 'object',
@@ -2022,11 +2321,20 @@ const ummCSchema = {
           maxLength: 80
         }
       },
-      required: ['Type', 'Value']
+      required: [
+        'Type',
+        'Value'
+      ]
     },
     VerticalSpatialDomainTypeEnum: {
       type: 'string',
-      enum: ['Atmosphere Layer', 'Maximum Altitude', 'Maximum Depth', 'Minimum Altitude', 'Minimum Depth']
+      enum: [
+        'Atmosphere Layer',
+        'Maximum Altitude',
+        'Maximum Depth',
+        'Minimum Altitude',
+        'Minimum Depth'
+      ]
     },
     FootprintType: {
       type: 'object',
@@ -2040,223 +2348,314 @@ const ummCSchema = {
         FootprintUnit: {
           description: "The Footprint value's unit.",
           type: 'string',
-          enum: ['Kilometer', 'Meter']
+          enum: [
+            'Kilometer',
+            'Meter'
+          ]
         },
         Description: {
           description: 'The description element allows the user of the record to be able to distinguish between the different footprints of an instrument if it has more than 1.',
           type: 'string'
         }
       },
-      required: ['Footprint', 'FootprintUnit']
+      required: [
+        'Footprint',
+        'FootprintUnit'
+      ]
     },
     OrbitParametersType: {
       description: 'Orbit parameters for the collection used by the Orbital Backtrack Algorithm.',
-      oneOf: [{
-        type: 'object',
-        title: 'Orbit parameters with just swath',
-        additionalProperties: false,
-        properties: {
-          SwathWidth: {
-            description: 'Total observable width of the satellite sensor nominally measured at the equator.',
-            type: 'number'
-          },
-          SwathWidthUnit: {
-            description: "The SwathWidth value's unit.",
-            type: 'string',
-            enum: ['Kilometer', 'Meter']
-          },
-          OrbitPeriod: {
-            description: 'The time in decimal minutes the satellite takes to make one full orbit.',
-            type: 'number'
-          },
-          OrbitPeriodUnit: {
-            description: "The Orbit Period value's unit.",
-            type: 'string',
-            enum: ['Decimal Minute']
-          },
-          InclinationAngle: {
-            description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
-            type: 'number'
-          },
-          InclinationAngleUnit: {
-            description: "The InclinationAngle value's unit.",
-            type: 'string',
-            enum: ['Degree']
-          },
-          NumberOfOrbits: {
-            description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
-            type: 'number'
-          },
-          StartCircularLatitude: {
-            description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
-            type: 'number'
-          },
-          StartCircularLatitudeUnit: {
-            description: "The StartCircularLatitude value's unit.",
-            type: 'string',
-            enum: ['Degree']
-          }
-        },
-        required: ['SwathWidth', 'SwathWidthUnit', 'OrbitPeriod', 'OrbitPeriodUnit', 'InclinationAngle', 'InclinationAngleUnit', 'NumberOfOrbits'],
-        dependencies: {
-          StartCircularLatitude: ['StartCircularLatitudeUnit']
-        }
-      }, {
-        type: 'object',
-        title: 'Orbit parameters with just footprints',
-        additionalProperties: false,
-        properties: {
-          Footprints: {
-            description: "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
-            type: 'array',
-            items: {
-              $ref: '#/definitions/FootprintType'
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Orbit parameters with just swath',
+          additionalProperties: false,
+          properties: {
+            SwathWidth: {
+              description: 'Total observable width of the satellite sensor nominally measured at the equator.',
+              type: 'number'
             },
-            minItems: 1
-          },
-          OrbitPeriod: {
-            description: 'The time in decimal minutes the satellite takes to make one full orbit.',
-            type: 'number'
-          },
-          OrbitPeriodUnit: {
-            description: "The Orbit Period value's unit.",
-            type: 'string',
-            enum: ['Decimal Minute']
-          },
-          InclinationAngle: {
-            description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
-            type: 'number'
-          },
-          InclinationAngleUnit: {
-            description: "The InclinationAngle value's unit.",
-            type: 'string',
-            enum: ['Degree']
-          },
-          NumberOfOrbits: {
-            description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
-            type: 'number'
-          },
-          StartCircularLatitude: {
-            description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
-            type: 'number'
-          },
-          StartCircularLatitudeUnit: {
-            description: "The StartCircularLatitude value's unit.",
-            type: 'string',
-            enum: ['Degree']
-          }
-        },
-        required: ['Footprints', 'OrbitPeriod', 'OrbitPeriodUnit', 'InclinationAngle', 'InclinationAngleUnit', 'NumberOfOrbits'],
-        dependencies: {
-          StartCircularLatitude: ['StartCircularLatitudeUnit']
-        }
-      }, {
-        type: 'object',
-        title: 'Orbit parameters with both swathwidth and footprints',
-        additionalProperties: false,
-        properties: {
-          SwathWidth: {
-            description: 'Total observable width of the satellite sensor nominally measured at the equator.',
-            type: 'number'
-          },
-          SwathWidthUnit: {
-            description: "The SwathWidth value's unit.",
-            type: 'string',
-            enum: ['Kilometer', 'Meter']
-          },
-          Footprints: {
-            description: "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
-            type: 'array',
-            items: {
-              $ref: '#/definitions/FootprintType'
+            SwathWidthUnit: {
+              description: "The SwathWidth value's unit.",
+              type: 'string',
+              enum: [
+                'Kilometer',
+                'Meter'
+              ]
             },
-            minItems: 1
+            OrbitPeriod: {
+              description: 'The time in decimal minutes the satellite takes to make one full orbit.',
+              type: 'number'
+            },
+            OrbitPeriodUnit: {
+              description: "The Orbit Period value's unit.",
+              type: 'string',
+              enum: [
+                'Decimal Minute'
+              ]
+            },
+            InclinationAngle: {
+              description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
+              type: 'number'
+            },
+            InclinationAngleUnit: {
+              description: "The InclinationAngle value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            },
+            NumberOfOrbits: {
+              description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
+              type: 'number'
+            },
+            StartCircularLatitude: {
+              description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
+              type: 'number'
+            },
+            StartCircularLatitudeUnit: {
+              description: "The StartCircularLatitude value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            }
           },
-          OrbitPeriod: {
-            description: 'The time in decimal minutes the satellite takes to make one full orbit.',
-            type: 'number'
-          },
-          OrbitPeriodUnit: {
-            description: "The Orbit Period value's unit.",
-            type: 'string',
-            enum: ['Decimal Minute']
-          },
-          InclinationAngle: {
-            description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
-            type: 'number'
-          },
-          InclinationAngleUnit: {
-            description: "The InclinationAngle value's unit.",
-            type: 'string',
-            enum: ['Degree']
-          },
-          NumberOfOrbits: {
-            description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
-            type: 'number'
-          },
-          StartCircularLatitude: {
-            description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
-            type: 'number'
-          },
-          StartCircularLatitudeUnit: {
-            description: "The StartCircularLatitude value's unit.",
-            type: 'string',
-            enum: ['Degree']
+          required: [
+            'SwathWidth',
+            'SwathWidthUnit',
+            'OrbitPeriod',
+            'OrbitPeriodUnit',
+            'InclinationAngle',
+            'InclinationAngleUnit',
+            'NumberOfOrbits'
+          ],
+          dependencies: {
+            StartCircularLatitude: [
+              'StartCircularLatitudeUnit'
+            ]
           }
         },
-        required: ['SwathWidth', 'SwathWidthUnit', 'Footprints', 'OrbitPeriod', 'OrbitPeriodUnit', 'InclinationAngle', 'InclinationAngleUnit', 'NumberOfOrbits'],
-        dependencies: {
-          StartCircularLatitude: ['StartCircularLatitudeUnit']
+        {
+          type: 'object',
+          title: 'Orbit parameters with just footprints',
+          additionalProperties: false,
+          properties: {
+            Footprints: {
+              description: "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
+              type: 'array',
+              items: {
+                $ref: '#/definitions/FootprintType'
+              },
+              minItems: 1
+            },
+            OrbitPeriod: {
+              description: 'The time in decimal minutes the satellite takes to make one full orbit.',
+              type: 'number'
+            },
+            OrbitPeriodUnit: {
+              description: "The Orbit Period value's unit.",
+              type: 'string',
+              enum: [
+                'Decimal Minute'
+              ]
+            },
+            InclinationAngle: {
+              description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
+              type: 'number'
+            },
+            InclinationAngleUnit: {
+              description: "The InclinationAngle value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            },
+            NumberOfOrbits: {
+              description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
+              type: 'number'
+            },
+            StartCircularLatitude: {
+              description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
+              type: 'number'
+            },
+            StartCircularLatitudeUnit: {
+              description: "The StartCircularLatitude value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            }
+          },
+          required: [
+            'Footprints',
+            'OrbitPeriod',
+            'OrbitPeriodUnit',
+            'InclinationAngle',
+            'InclinationAngleUnit',
+            'NumberOfOrbits'
+          ],
+          dependencies: {
+            StartCircularLatitude: [
+              'StartCircularLatitudeUnit'
+            ]
+          }
+        },
+        {
+          type: 'object',
+          title: 'Orbit parameters with both swathwidth and footprints',
+          additionalProperties: false,
+          properties: {
+            SwathWidth: {
+              description: 'Total observable width of the satellite sensor nominally measured at the equator.',
+              type: 'number'
+            },
+            SwathWidthUnit: {
+              description: "The SwathWidth value's unit.",
+              type: 'string',
+              enum: [
+                'Kilometer',
+                'Meter'
+              ]
+            },
+            Footprints: {
+              description: "A list of instrument footprints or field of views. A footprint holds the largest width of the described footprint as measured on the earths surface along with the width's unit. An optional description element exists to be able to distinguish between the footprints, if that is desired. This element is optional. If this element is used at least 1 footprint must exist in the list.",
+              type: 'array',
+              items: {
+                $ref: '#/definitions/FootprintType'
+              },
+              minItems: 1
+            },
+            OrbitPeriod: {
+              description: 'The time in decimal minutes the satellite takes to make one full orbit.',
+              type: 'number'
+            },
+            OrbitPeriodUnit: {
+              description: "The Orbit Period value's unit.",
+              type: 'string',
+              enum: [
+                'Decimal Minute'
+              ]
+            },
+            InclinationAngle: {
+              description: 'The heading of the satellite as it crosses the equator on the ascending pass. This is the same as (180-declination) and also the same as the highest latitude achieved by the satellite.',
+              type: 'number'
+            },
+            InclinationAngleUnit: {
+              description: "The InclinationAngle value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            },
+            NumberOfOrbits: {
+              description: 'The number of full orbits composing each granule. This may be a fraction of an orbit.',
+              type: 'number'
+            },
+            StartCircularLatitude: {
+              description: 'The latitude start of the orbit relative to the equator. This is used by the backtrack search algorithm to treat the orbit as if it starts from the specified latitude. This is optional and will default to 0 if not specified.',
+              type: 'number'
+            },
+            StartCircularLatitudeUnit: {
+              description: "The StartCircularLatitude value's unit.",
+              type: 'string',
+              enum: [
+                'Degree'
+              ]
+            }
+          },
+          required: [
+            'SwathWidth',
+            'SwathWidthUnit',
+            'Footprints',
+            'OrbitPeriod',
+            'OrbitPeriodUnit',
+            'InclinationAngle',
+            'InclinationAngleUnit',
+            'NumberOfOrbits'
+          ],
+          dependencies: {
+            StartCircularLatitude: [
+              'StartCircularLatitudeUnit'
+            ]
+          }
         }
-      }]
+      ]
     },
     GranuleSpatialRepresentationEnum: {
       type: 'string',
-      enum: ['CARTESIAN', 'GEODETIC', 'ORBIT', 'NO_SPATIAL']
+      enum: [
+        'CARTESIAN',
+        'GEODETIC',
+        'ORBIT',
+        'NO_SPATIAL'
+      ]
     },
     TilingIdentificationSystemType: {
       description: 'A two-dimensional tiling system for a collection. There are two types of tiling systems. Those that use alaph-numeric coordinates and those that use numeric coordinates.',
-      oneOf: [{
-        type: 'object',
-        title: 'Tiling Systems that use alpha-numberic coordinates.',
-        additionalProperties: false,
-        description: 'Information about a two-dimensional tiling system that uses alpha-numeric coordinates related to this collection.',
-        properties: {
-          TilingIdentificationSystemName: {
-            type: 'string',
-            enum: ['Military Grid Reference System']
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Tiling Systems that use alpha-numberic coordinates.',
+          additionalProperties: false,
+          description: 'Information about a two-dimensional tiling system that uses alpha-numeric coordinates related to this collection.',
+          properties: {
+            TilingIdentificationSystemName: {
+              type: 'string',
+              enum: [
+                'Military Grid Reference System'
+              ]
+            },
+            Coordinate1: {
+              description: 'Defines the minimum and maximum values for the first dimension of a two dimensional coordinate system.',
+              $ref: '#/definitions/TilingCoordinateType'
+            },
+            Coordinate2: {
+              description: 'Defines the minimum and maximum values for the second dimension of a two dimensional coordinate system.',
+              $ref: '#/definitions/TilingCoordinateType'
+            }
           },
-          Coordinate1: {
-            description: 'Defines the minimum and maximum values for the first dimension of a two dimensional coordinate system.',
-            $ref: '#/definitions/TilingCoordinateType'
-          },
-          Coordinate2: {
-            description: 'Defines the minimum and maximum values for the second dimension of a two dimensional coordinate system.',
-            $ref: '#/definitions/TilingCoordinateType'
-          }
+          required: [
+            'TilingIdentificationSystemName',
+            'Coordinate1',
+            'Coordinate2'
+          ]
         },
-        required: ['TilingIdentificationSystemName', 'Coordinate1', 'Coordinate2']
-      }, {
-        type: 'object',
-        title: 'Tiling Systems that use numeric coordinates.',
-        additionalProperties: false,
-        description: 'Information about a two-dimensional tiling system that uses numeric coordinates related to this collection.',
-        properties: {
-          TilingIdentificationSystemName: {
-            type: 'string',
-            enum: ['CALIPSO', 'MISR', 'MODIS Tile EASE', 'MODIS Tile SIN', 'WELD Alaska Tile', 'WELD CONUS Tile', 'WRS-1', 'WRS-2']
+        {
+          type: 'object',
+          title: 'Tiling Systems that use numeric coordinates.',
+          additionalProperties: false,
+          description: 'Information about a two-dimensional tiling system that uses numeric coordinates related to this collection.',
+          properties: {
+            TilingIdentificationSystemName: {
+              type: 'string',
+              enum: [
+                'CALIPSO',
+                'MISR',
+                'MODIS Tile EASE',
+                'MODIS Tile SIN',
+                'WELD Alaska Tile',
+                'WELD CONUS Tile',
+                'WRS-1',
+                'WRS-2'
+              ]
+            },
+            Coordinate1: {
+              description: 'Defines the minimum and maximum values for the first dimension of a two dimensional coordinate system.',
+              $ref: '#/definitions/TilingCoordinateNumericType'
+            },
+            Coordinate2: {
+              description: 'Defines the minimum and maximum values for the second dimension of a two dimensional coordinate system.',
+              $ref: '#/definitions/TilingCoordinateNumericType'
+            }
           },
-          Coordinate1: {
-            description: 'Defines the minimum and maximum values for the first dimension of a two dimensional coordinate system.',
-            $ref: '#/definitions/TilingCoordinateNumericType'
-          },
-          Coordinate2: {
-            description: 'Defines the minimum and maximum values for the second dimension of a two dimensional coordinate system.',
-            $ref: '#/definitions/TilingCoordinateNumericType'
-          }
-        },
-        required: ['TilingIdentificationSystemName', 'Coordinate1', 'Coordinate2']
-      }]
+          required: [
+            'TilingIdentificationSystemName',
+            'Coordinate1',
+            'Coordinate2'
+          ]
+        }
+      ]
     },
     TilingCoordinateType: {
       type: 'object',
@@ -2303,7 +2702,9 @@ const ummCSchema = {
           maxLength: 80
         }
       },
-      required: ['SpatialCoverageType']
+      required: [
+        'SpatialCoverageType'
+      ]
     },
     VerticalCoordinateSystemType: {
       type: 'object',
@@ -2320,12 +2721,22 @@ const ummCSchema = {
     AltitudeDistanceUnitsEnum: {
       description: 'The units in which altitude measurements are recorded.',
       type: 'string',
-      enum: ['HectoPascals', 'Kilometers', 'Millibars']
+      enum: [
+        'HectoPascals',
+        'Kilometers',
+        'Millibars'
+      ]
     },
     DepthDistanceUnitsEnum: {
       description: 'The units in which depth measurements are recorded.',
       type: 'string',
-      enum: ['Fathoms', 'Feet', 'HectoPascals', 'Meters', 'Millibars']
+      enum: [
+        'Fathoms',
+        'Feet',
+        'HectoPascals',
+        'Meters',
+        'Millibars'
+      ]
     },
     AltitudeSystemDefinitionType: {
       type: 'object',
@@ -2379,60 +2790,70 @@ const ummCSchema = {
     },
     ResolutionAndCoordinateSystemType: {
       description: "This class defines the horizontal spatial extents coordinate system and the data product's horizontal data resolution. The horizontal data resolution is defined as the smallest horizontal distance between successive elements of data in a dataset. This is synonymous with terms such as ground sample distance, sample spacing and pixel size. It is to be noted that the horizontal data resolution could be different in the two horizontal dimensions. Also, it is different from the spatial resolution of an instrument, which is the minimum distance between points that an instrument can see as distinct.",
-      oneOf: [{
-        type: 'object',
-        title: 'Description of the Resolution',
-        additionalProperties: false,
-        properties: {
-          Description: {
-            description: 'This element holds a description about the resolution and coordinate system for people to read.',
-            $ref: '#/definitions/DescriptionType'
+      oneOf: [
+        {
+          type: 'object',
+          title: 'Geodetic Model',
+          additionalProperties: false,
+          properties: {
+            Description: {
+              description: 'This element holds a description about the resolution and coordinate system for people to read.',
+              $ref: '#/definitions/DescriptionType'
+            },
+            GeodeticModel: {
+              description: 'This element describes the geodetic model for the data product.',
+              $ref: '#/definitions/GeodeticModelType'
+            }
           },
-          GeodeticModel: {
-            description: 'This element describes the geodetic model for the data product.',
-            $ref: '#/definitions/GeodeticModelType'
-          }
+          required: [
+            'GeodeticModel'
+          ]
         },
-        required: ['GeodeticModel']
-      }, {
-        type: 'object',
-        title: 'Horizontal Data Resolution Information',
-        additionalProperties: false,
-        properties: {
-          Description: {
-            description: 'This element holds a description about the resolution and coordinate system for people to read.',
-            $ref: '#/definitions/DescriptionType'
+        {
+          type: 'object',
+          title: 'Horizontal Data Resolution',
+          additionalProperties: false,
+          properties: {
+            Description: {
+              description: 'This element holds a description about the resolution and coordinate system for people to read.',
+              $ref: '#/definitions/DescriptionType'
+            },
+            GeodeticModel: {
+              description: 'This element describes the geodetic model for the data product.',
+              $ref: '#/definitions/GeodeticModelType'
+            },
+            HorizontalDataResolution: {
+              description: 'This class defines a number of the data products horizontal data resolution. The horizontal data resolution is defined as the smallest horizontal distance between successive elements of data in a dataset. This is synonymous with terms such as ground sample distance, sample spacing and pixel size. It is to be noted that the horizontal data resolution could be different in the two horizontal dimensions. Also, it is different from the spatial resolution of an instrument, which is the minimum distance between points that an instrument can see as distinct.',
+              $ref: '#/definitions/HorizontalDataResolutionType'
+            }
           },
-          GeodeticModel: {
-            description: 'This element describes the geodetic model for the data product.',
-            $ref: '#/definitions/GeodeticModelType'
-          },
-          HorizontalDataResolution: {
-            description: 'This class defines a number of the data products horizontal data resolution. The horizontal data resolution is defined as the smallest horizontal distance between successive elements of data in a dataset. This is synonymous with terms such as ground sample distance, sample spacing and pixel size. It is to be noted that the horizontal data resolution could be different in the two horizontal dimensions. Also, it is different from the spatial resolution of an instrument, which is the minimum distance between points that an instrument can see as distinct.',
-            $ref: '#/definitions/HorizontalDataResolutionType'
-          }
+          required: [
+            'HorizontalDataResolution'
+          ]
         },
-        required: ['HorizontalDataResolution']
-      }, {
-        type: 'object',
-        title: 'Local Coordinate System Information',
-        additionalProperties: false,
-        properties: {
-          Description: {
-            description: 'This element holds a description about the resolution and coordinate system for people to read.',
-            $ref: '#/definitions/DescriptionType'
+        {
+          type: 'object',
+          title: 'Local Coordinate System',
+          additionalProperties: false,
+          properties: {
+            Description: {
+              description: 'This element holds a description about the resolution and coordinate system for people to read.',
+              $ref: '#/definitions/DescriptionType'
+            },
+            GeodeticModel: {
+              description: 'This element describes the geodetic model for the data product.',
+              $ref: '#/definitions/GeodeticModelType'
+            },
+            LocalCoordinateSystem: {
+              description: 'This element describes the local coordinate system for the data product.',
+              $ref: '#/definitions/LocalCoordinateSystemType'
+            }
           },
-          GeodeticModel: {
-            description: 'This element describes the geodetic model for the data product.',
-            $ref: '#/definitions/GeodeticModelType'
-          },
-          LocalCoordinateSystem: {
-            description: 'This element describes the local coordinate system for the data product.',
-            $ref: '#/definitions/LocalCoordinateSystemType'
-          }
-        },
-        required: ['LocalCoordinateSystem']
-      }]
+          required: [
+            'LocalCoordinateSystem'
+          ]
+        }
+      ]
     },
     DescriptionType: {
       description: 'This element defines what a description is.',
@@ -2529,12 +2950,16 @@ const ummCSchema = {
     HorizontalDataResolutionVariesType: {
       description: 'Varies Resolution object describes a data product that has a number of resolution values.',
       type: 'string',
-      enum: ['Varies']
+      enum: [
+        'Varies'
+      ]
     },
     HorizontalDataResolutionPointType: {
       description: 'Point Resolution object describes a data product that is from a point source.',
       type: 'string',
-      enum: ['Point']
+      enum: [
+        'Point'
+      ]
     },
     HorizontalDataResolutionNonGriddedType: {
       description: 'Non Gridded Resolutions object describes resolution data for non gridded data products.',
@@ -2562,11 +2987,20 @@ const ummCSchema = {
           $ref: '#/definitions/HorizontalResolutionScanDirectionType'
         }
       },
-      anyOf: [{
-        required: ['XDimension', 'Unit']
-      }, {
-        required: ['YDimension', 'Unit']
-      }]
+      anyOf: [
+        {
+          required: [
+            'XDimension',
+            'Unit'
+          ]
+        },
+        {
+          required: [
+            'YDimension',
+            'Unit'
+          ]
+        }
+      ]
     },
     HorizontalDataResolutionNonGriddedRangeType: {
       description: 'Non Gridded Range Resolutions object describes range resolution data for non gridded data products.',
@@ -2602,11 +3036,22 @@ const ummCSchema = {
           $ref: '#/definitions/HorizontalResolutionScanDirectionType'
         }
       },
-      anyOf: [{
-        required: ['MinimumXDimension', 'MaximumXDimension', 'Unit']
-      }, {
-        required: ['MinimumYDimension', 'MaximumYDimension', 'Unit']
-      }]
+      anyOf: [
+        {
+          required: [
+            'MinimumXDimension',
+            'MaximumXDimension',
+            'Unit'
+          ]
+        },
+        {
+          required: [
+            'MinimumYDimension',
+            'MaximumYDimension',
+            'Unit'
+          ]
+        }
+      ]
     },
     HorizontalDataResolutionGriddedType: {
       description: 'Gridded Resolutions object describes resolution data for gridded data products.',
@@ -2626,11 +3071,20 @@ const ummCSchema = {
           $ref: '#/definitions/HorizontalDataResolutionUnitEnum'
         }
       },
-      anyOf: [{
-        required: ['XDimension', 'Unit']
-      }, {
-        required: ['YDimension', 'Unit']
-      }]
+      anyOf: [
+        {
+          required: [
+            'XDimension',
+            'Unit'
+          ]
+        },
+        {
+          required: [
+            'YDimension',
+            'Unit'
+          ]
+        }
+      ]
     },
     HorizontalDataResolutionGriddedRangeType: {
       description: 'Gridded Range Resolutions object describes range resolution data for gridded data products.',
@@ -2658,11 +3112,22 @@ const ummCSchema = {
           $ref: '#/definitions/HorizontalDataResolutionUnitEnum'
         }
       },
-      anyOf: [{
-        required: ['MinimumXDimension', 'MaximumXDimension', 'Unit']
-      }, {
-        required: ['MinimumYDimension', 'MaximumYDimension', 'Unit']
-      }]
+      anyOf: [
+        {
+          required: [
+            'MinimumXDimension',
+            'MaximumXDimension',
+            'Unit'
+          ]
+        },
+        {
+          required: [
+            'MinimumYDimension',
+            'MaximumYDimension',
+            'Unit'
+          ]
+        }
+      ]
     },
     HorizontalDataGenericResolutionType: {
       description: 'Generic Resolutions object describes general resolution data for a data product where it is not known if a data product is gridded or not.',
@@ -2682,26 +3147,48 @@ const ummCSchema = {
           $ref: '#/definitions/HorizontalDataResolutionUnitEnum'
         }
       },
-      anyOf: [{
-        required: ['XDimension', 'Unit']
-      }, {
-        required: ['YDimension', 'Unit']
-      }]
+      anyOf: [
+        {
+          required: [
+            'XDimension',
+            'Unit'
+          ]
+        },
+        {
+          required: [
+            'YDimension',
+            'Unit'
+          ]
+        }
+      ]
     },
     HorizontalDataResolutionUnitEnum: {
       description: 'Units of measure used for the geodetic latitude and longitude resolution values (e.g., decimal degrees).',
       type: 'string',
-      enum: ['Decimal Degrees', 'Kilometers', 'Meters', 'Statute Miles', 'Nautical Miles', 'Not provided']
+      enum: [
+        'Decimal Degrees',
+        'Kilometers',
+        'Meters',
+        'Statute Miles',
+        'Nautical Miles',
+        'Not provided'
+      ]
     },
     HorizontalResolutionViewingAngleType: {
       description: 'This element describes the angle of the measurement with respect to the instrument that give an understanding of the specified resolution.',
       type: 'string',
-      enum: ['At Nadir', 'Scan Extremes']
+      enum: [
+        'At Nadir',
+        'Scan Extremes'
+      ]
     },
     HorizontalResolutionScanDirectionType: {
       description: 'This element describes the instrument scanning direction.',
       type: 'string',
-      enum: ['Along Track', 'Cross Track']
+      enum: [
+        'Along Track',
+        'Cross Track'
+      ]
     },
     LocalCoordinateSystemType: {
       type: 'object',
@@ -2724,12 +3211,25 @@ const ummCSchema = {
     CollectionDataTypeEnum: {
       description: "This element is used to identify the collection's ready for end user consumption latency from when the data was acquired by an instrument. NEAR_REAL_TIME is defined to be ready for end user consumption 1 to 3 hours after data acquisition. LOW_LATENCY is defined to be ready for consumption 3 to 24 hours after data acquisition. EXPEDITED is defined to be 1 to 4 days after data acquisition. SCIENCE_QUALITY is defined to mean that a collection has been fully and completely processed which usually takes between 2 to 3 weeks after data acquisition. OTHER is defined for collection where the latency is between EXPEDITED and SCIENCE_QUALITY.",
       type: 'string',
-      enum: ['NEAR_REAL_TIME', 'LOW_LATENCY', 'EXPEDITED', 'SCIENCE_QUALITY', 'OTHER']
+      enum: [
+        'NEAR_REAL_TIME',
+        'LOW_LATENCY',
+        'EXPEDITED',
+        'SCIENCE_QUALITY',
+        'OTHER'
+      ]
     },
     CollectionProgressEnum: {
       description: 'This element describes the production status of the data set. There are five choices for Data Providers: PLANNED refers to data sets to be collected in the future and are thus unavailable at the present time. For Example: The Hydro spacecraft has not been launched, but information on planned data sets may be available. ACTIVE refers to data sets currently in production or data that is continuously being collected or updated. For Example: data from the AIRS instrument on Aqua is being collected continuously. COMPLETE refers to data sets in which no updates or further data collection will be made. For Example: Nimbus-7 SMMR data collection has been completed. DEPRECATED refers to data sets that have been retired, but still can be retrieved. Usually newer products exist that replace the retired data set. NOT APPLICABLE refers to data sets in which a collection progress is not applicable such as a calibration collection. There is a sixth value of NOT PROVIDED that should not be used by a data provider. It is currently being used as a value when a correct translation cannot be done with the current valid values, or when the value is not provided by the data provider.',
       type: 'string',
-      enum: ['ACTIVE', 'PLANNED', 'COMPLETE', 'DEPRECATED', 'NOT APPLICABLE', 'NOT PROVIDED']
+      enum: [
+        'ACTIVE',
+        'PLANNED',
+        'COMPLETE',
+        'DEPRECATED',
+        'NOT APPLICABLE',
+        'NOT PROVIDED'
+      ]
     },
     LocationKeywordType: {
       description: 'This element defines a hierarchical location list. It replaces SpatialKeywords. The controlled vocabulary for location keywords is maintained in the Keyword Management System (KMS). Each tier must have data in the tier above it.',
@@ -2761,12 +3261,17 @@ const ummCSchema = {
           $ref: '#/definitions/KeywordStringType'
         }
       },
-      required: ['Category']
+      required: [
+        'Category'
+      ]
     },
     ArchiveDistributionFormatTypeEnum: {
       description: 'Defines the possible values for the Archive or Distribution file format type.',
       type: 'string',
-      enum: ['Native', 'Supported']
+      enum: [
+        'Native',
+        'Supported'
+      ]
     },
     ArchiveDistributionFormatDescriptionType: {
       description: 'Allows a data provider to provide supporting information about the stated format.',
@@ -2777,7 +3282,14 @@ const ummCSchema = {
     ArchiveDistributionUnitEnum: {
       description: 'Defines the possible values for the archive and distribution size units.',
       type: 'string',
-      enum: ['KB', 'MB', 'GB', 'TB', 'PB', 'NA']
+      enum: [
+        'KB',
+        'MB',
+        'GB',
+        'TB',
+        'PB',
+        'NA'
+      ]
     },
     DistributionMediaType: {
       description: 'This element defines the media by which the end user can obtain the distributable item. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
@@ -2787,227 +3299,257 @@ const ummCSchema = {
     },
     FileArchiveInformationType: {
       description: 'This element defines a single archive artifact which a data provider would like to inform an end user that it exists.',
-      anyOf: [{
-        type: 'object',
-        title: 'Total collection file size for archive',
-        additionalProperties: false,
-        properties: {
-          Format: {
-            description: 'This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).',
-            type: 'string',
-            minLength: 1,
-            maxLength: 80
+      anyOf: [
+        {
+          type: 'object',
+          title: 'Total collection file size for archive',
+          additionalProperties: false,
+          properties: {
+            Format: {
+              description: 'This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).',
+              type: 'string',
+              minLength: 1,
+              maxLength: 80
+            },
+            FormatType: {
+              description: "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
+              $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
+            },
+            FormatDescription: {
+              description: 'Allows the record provider to provide supporting documentation about the Format.',
+              $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
+            },
+            AverageFileSize: {
+              description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
+              type: 'number',
+              minimum: 0
+            },
+            AverageFileSizeUnit: {
+              description: 'Unit of measure for the average file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            TotalCollectionFileSize: {
+              description: 'An approximate total size of all of the archivable items within a collection. This gives an end user an idea of the magnitude for all of archivable files combined.',
+              type: 'number',
+              minimum: 0
+            },
+            TotalCollectionFileSizeUnit: {
+              description: 'Unit of measure for the total collection file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            Description: {
+              description: 'Provides the data provider a way to convey more information about the archivable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            }
           },
-          FormatType: {
-            description: "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
-            $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
-          },
-          FormatDescription: {
-            description: 'Allows the record provider to provide supporting documentation about the Format.',
-            $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
-          },
-          AverageFileSize: {
-            description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
-            type: 'number',
-            minimum: 0
-          },
-          AverageFileSizeUnit: {
-            description: 'Unit of measure for the average file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          TotalCollectionFileSize: {
-            description: 'An approximate total size of all of the archivable items within a collection. This gives an end user an idea of the magnitude for all of archivable files combined.',
-            type: 'number',
-            minimum: 0
-          },
-          TotalCollectionFileSizeUnit: {
-            description: 'Unit of measure for the total collection file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          Description: {
-            description: 'Provides the data provider a way to convey more information about the archivable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+          required: [
+            'Format'
+          ],
+          dependencies: {
+            AverageFileSize: [
+              'AverageFileSizeUnit'
+            ],
+            TotalCollectionFileSize: [
+              'TotalCollectionFileSizeUnit'
+            ]
           }
         },
-        required: ['Format'],
-        dependencies: {
-          AverageFileSize: ['AverageFileSizeUnit'],
-          TotalCollectionFileSize: ['TotalCollectionFileSizeUnit']
-        }
-      }, {
-        type: 'object',
-        title: 'Calculate collection file size by start date for archive',
-        additionalProperties: false,
-        properties: {
-          Format: {
-            description: 'This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).',
-            type: 'string',
-            minLength: 1,
-            maxLength: 80
+        {
+          type: 'object',
+          title: 'Calculate collection file size by start date for archive',
+          additionalProperties: false,
+          properties: {
+            Format: {
+              description: 'This element defines a single format for an archival artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS).',
+              type: 'string',
+              minLength: 1,
+              maxLength: 80
+            },
+            FormatType: {
+              description: "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
+              $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
+            },
+            FormatDescription: {
+              description: 'Allows the record provider to provide supporting documentation about the Format.',
+              $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
+            },
+            AverageFileSize: {
+              description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
+              type: 'number',
+              minimum: 0
+            },
+            AverageFileSizeUnit: {
+              description: 'Unit of measure for the average file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            TotalCollectionFileSizeBeginDate: {
+              description: 'The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.',
+              format: 'date-time',
+              type: 'string'
+            },
+            Description: {
+              description: 'Provides the data provider a way to convey more information about the archivable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            }
           },
-          FormatType: {
-            description: "Allows the provider to state whether the archivable item's format is its native format or another supported format.",
-            $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
-          },
-          FormatDescription: {
-            description: 'Allows the record provider to provide supporting documentation about the Format.',
-            $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
-          },
-          AverageFileSize: {
-            description: 'An approximate average size of the archivable item. This gives an end user an idea of the magnitude for each archivable file if more than 1 exists.',
-            type: 'number',
-            minimum: 0
-          },
-          AverageFileSizeUnit: {
-            description: 'Unit of measure for the average file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          TotalCollectionFileSizeBeginDate: {
-            description: 'The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.',
-            format: 'date-time',
-            type: 'string'
-          },
-          Description: {
-            description: 'Provides the data provider a way to convey more information about the archivable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+          required: [
+            'Format'
+          ],
+          dependencies: {
+            AverageFileSize: [
+              'AverageFileSizeUnit'
+            ],
+            TotalCollectionFileSizeBeginDate: [
+              'AverageFileSize'
+            ]
           }
-        },
-        required: ['Format'],
-        dependencies: {
-          AverageFileSize: ['AverageFileSizeUnit'],
-          TotalCollectionFileSizeBeginDate: ['AverageFileSize']
         }
-      }]
+      ]
     },
     FileDistributionInformationType: {
       description: 'This element defines a single artifact that is distributed by the data provider. This element only includes the distributable artifacts that can be obtained by the user without the user having to invoke a service. These should be documented in the UMM-S specification.',
-      anyOf: [{
-        type: 'object',
-        title: 'Total collection file size for distribution',
-        additionalProperties: false,
-        properties: {
-          Format: {
-            description: 'This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 80
-          },
-          FormatType: {
-            description: "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
-            $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
-          },
-          FormatDescription: {
-            description: 'Allows the record provider to provide supporting documentation about the Format.',
-            $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
-          },
-          Media: {
-            description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
-            type: 'array',
-            items: {
-              $ref: '#/definitions/DistributionMediaType'
+      anyOf: [
+        {
+          type: 'object',
+          title: 'Total collection file size for distribution',
+          additionalProperties: false,
+          properties: {
+            Format: {
+              description: 'This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 80
             },
-            minItems: 1
+            FormatType: {
+              description: "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
+              $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
+            },
+            FormatDescription: {
+              description: 'Allows the record provider to provide supporting documentation about the Format.',
+              $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
+            },
+            Media: {
+              description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
+              type: 'array',
+              items: {
+                $ref: '#/definitions/DistributionMediaType'
+              },
+              minItems: 1
+            },
+            AverageFileSize: {
+              description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
+              type: 'number',
+              minimum: 0
+            },
+            AverageFileSizeUnit: {
+              description: 'Unit of measure for the average file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            TotalCollectionFileSize: {
+              description: 'An approximate total size of all of the distributable items within a collection. This gives an end user an idea of the magnitude for all of distributable files combined.',
+              type: 'number',
+              minimum: 0
+            },
+            TotalCollectionFileSizeUnit: {
+              description: 'Unit of measure for the total collection file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            Description: {
+              description: 'Provides the data provider a way to convey more information about the distributable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Fees: {
+              description: 'Conveys the price one has to pay to obtain the distributable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 255
+            }
           },
-          AverageFileSize: {
-            description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
-            type: 'number',
-            minimum: 0
-          },
-          AverageFileSizeUnit: {
-            description: 'Unit of measure for the average file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          TotalCollectionFileSize: {
-            description: 'An approximate total size of all of the distributable items within a collection. This gives an end user an idea of the magnitude for all of distributable files combined.',
-            type: 'number',
-            minimum: 0
-          },
-          TotalCollectionFileSizeUnit: {
-            description: 'Unit of measure for the total collection file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          Description: {
-            description: 'Provides the data provider a way to convey more information about the distributable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
-          },
-          Fees: {
-            description: 'Conveys the price one has to pay to obtain the distributable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 255
+          required: [
+            'Format'
+          ],
+          dependencies: {
+            AverageFileSize: [
+              'AverageFileSizeUnit'
+            ],
+            TotalCollectionFileSize: [
+              'TotalCollectionFileSizeUnit'
+            ]
           }
         },
-        required: ['Format'],
-        dependencies: {
-          AverageFileSize: ['AverageFileSizeUnit'],
-          TotalCollectionFileSize: ['TotalCollectionFileSizeUnit']
-        }
-      }, {
-        type: 'object',
-        title: 'Calculate collection file size by start date for distribution',
-        additionalProperties: false,
-        properties: {
-          Format: {
-            description: 'This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 80
-          },
-          FormatType: {
-            description: "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
-            $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
-          },
-          FormatDescription: {
-            description: 'Allows the record provider to provide supporting documentation about the Format.',
-            $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
-          },
-          Media: {
-            description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
-            type: 'array',
-            items: {
-              $ref: '#/definitions/DistributionMediaType'
+        {
+          type: 'object',
+          title: 'Calculate collection file size by start date for distribution',
+          additionalProperties: false,
+          properties: {
+            Format: {
+              description: 'This element defines a single format for a distributable artifact. Examples of format include: ascii, binary, GRIB, BUFR, HDF4, HDF5, HDF-EOS4, HDF-EOS5, jpeg, png, tiff, geotiff, kml.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 80
             },
-            minItems: 1
+            FormatType: {
+              description: "Allows the provider to state whether the distributable item's format is its native format or another supported format.",
+              $ref: '#/definitions/ArchiveDistributionFormatTypeEnum'
+            },
+            FormatDescription: {
+              description: 'Allows the record provider to provide supporting documentation about the Format.',
+              $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
+            },
+            Media: {
+              description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
+              type: 'array',
+              items: {
+                $ref: '#/definitions/DistributionMediaType'
+              },
+              minItems: 1
+            },
+            AverageFileSize: {
+              description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
+              type: 'number',
+              minimum: 0
+            },
+            AverageFileSizeUnit: {
+              description: 'Unit of measure for the average file size.',
+              $ref: '#/definitions/ArchiveDistributionUnitEnum'
+            },
+            TotalCollectionFileSizeBeginDate: {
+              description: 'The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.',
+              format: 'date-time',
+              type: 'string'
+            },
+            Description: {
+              description: 'Provides the data provider a way to convey more information about the distributable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Fees: {
+              description: 'Conveys the price one has to pay to obtain the distributable item.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 255
+            }
           },
-          AverageFileSize: {
-            description: 'An approximate average size of the distributable item. This gives an end user an idea of the magnitude for each distributable file if more than 1 exists.',
-            type: 'number',
-            minimum: 0
-          },
-          AverageFileSizeUnit: {
-            description: 'Unit of measure for the average file size.',
-            $ref: '#/definitions/ArchiveDistributionUnitEnum'
-          },
-          TotalCollectionFileSizeBeginDate: {
-            description: 'The date of which this collection started to collect data.  This date is used by users to be able to calculate the current total collection file size. The date needs to be in the yyyy-MM-ddTHH:mm:ssZ format; for example: 2018-01-01T10:00:00Z.',
-            format: 'date-time',
-            type: 'string'
-          },
-          Description: {
-            description: 'Provides the data provider a way to convey more information about the distributable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
-          },
-          Fees: {
-            description: 'Conveys the price one has to pay to obtain the distributable item.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 255
+          required: [
+            'Format'
+          ],
+          dependencies: {
+            AverageFileSize: [
+              'AverageFileSizeUnit'
+            ],
+            TotalCollectionFileSizeBeginDate: [
+              'AverageFileSize'
+            ]
           }
-        },
-        required: ['Format'],
-        dependencies: {
-          AverageFileSize: ['AverageFileSizeUnit'],
-          TotalCollectionFileSizeBeginDate: ['AverageFileSize']
         }
-      }]
+      ]
     },
     ArchiveAndDistributionInformationType: {
       type: 'object',
@@ -3031,11 +3573,18 @@ const ummCSchema = {
           minItems: 1
         }
       },
-      anyOf: [{
-        required: ['FileArchiveInformation']
-      }, {
-        required: ['FileDistributionInformation']
-      }]
+      anyOf: [
+        {
+          required: [
+            'FileArchiveInformation'
+          ]
+        },
+        {
+          required: [
+            'FileDistributionInformation'
+          ]
+        }
+      ]
     },
     DirectDistributionInformationType: {
       type: 'object',
@@ -3072,12 +3621,21 @@ const ummCSchema = {
           maxLength: 1024
         }
       },
-      required: ['Region', 'S3CredentialsAPIEndpoint', 'S3CredentialsAPIDocumentationURL']
+      required: [
+        'Region',
+        'S3CredentialsAPIEndpoint',
+        'S3CredentialsAPIDocumentationURL'
+      ]
     },
     DirectDistributionInformationRegionEnum: {
       description: 'Defines the possible values for the Amazon Web Service US Regions where the data product resides.',
       type: 'string',
-      enum: ['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
+      enum: [
+        'us-east-1',
+        'us-east-2',
+        'us-west-1',
+        'us-west-2'
+      ]
     },
     FileNamingConventionType: {
       type: 'object',
@@ -3097,117 +3655,150 @@ const ummCSchema = {
           maxLength: 4000
         }
       },
-      required: ['Convention']
+      required: [
+        'Convention'
+      ]
     },
     AssociatedDoiType: {
-      oneOf: [{
-        type: 'object',
-        title: 'All Documented DOI Types',
-        additionalProperties: false,
-        description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
-        properties: {
-          DOI: {
-            description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+      oneOf: [
+        {
+          type: 'object',
+          title: 'All Documented DOI Types',
+          additionalProperties: false,
+          description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+          properties: {
+            DOI: {
+              description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Title: {
+              description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
+              $ref: '#/definitions/TitleType'
+            },
+            Authority: {
+              description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
+              $ref: '#/definitions/AuthorityType'
+            },
+            Type: {
+              description: 'This element describes to what DOI is associated.',
+              type: 'string',
+              enum: [
+                'Child Dataset',
+                'Collaborative/Other Agency',
+                'Field Campaign',
+                'Parent Dataset',
+                'Related Dataset'
+              ]
+            }
           },
-          Title: {
-            description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
-            $ref: '#/definitions/TitleType'
-          },
-          Authority: {
-            description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
-            $ref: '#/definitions/AuthorityType'
-          },
-          Type: {
-            description: 'This element describes to what DOI is associated.',
-            type: 'string',
-            enum: ['Child Dataset', 'Collaborative/Other Agency', 'Field Campaign', 'Parent Dataset', 'Related Dataset']
-          }
+          required: [
+            'DOI'
+          ]
         },
-        required: ['DOI']
-      }, {
-        type: 'object',
-        title: 'Other DOI Types',
-        additionalProperties: false,
-        description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
-        properties: {
-          DOI: {
-            description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+        {
+          type: 'object',
+          title: 'Other DOI Types',
+          additionalProperties: false,
+          description: "This element stores the DOI (Digital Object Identifier) that identifies the collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections using CollectionDOI property.",
+          properties: {
+            DOI: {
+              description: "This element stores the DOI (Digital Object Identifier) that identifies the collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Title: {
+              description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
+              $ref: '#/definitions/TitleType'
+            },
+            Authority: {
+              description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
+              $ref: '#/definitions/AuthorityType'
+            },
+            Type: {
+              description: 'This element describes to what DOI is associated.',
+              type: 'string',
+              enum: [
+                'Other'
+              ]
+            },
+            DescriptionOfOtherType: {
+              description: 'This element allows the curator to describe what kind of DOI is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            }
           },
-          Title: {
-            description: "The title of the DOI landing page. The title describes the DOI object to a user, so they don't have to look it up themselves to understand the association.",
-            $ref: '#/definitions/TitleType'
-          },
-          Authority: {
-            description: 'The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used.',
-            $ref: '#/definitions/AuthorityType'
-          },
-          Type: {
-            description: 'This element describes to what DOI is associated.',
-            type: 'string',
-            enum: ['Other']
-          },
-          DescriptionOfOtherType: {
-            description: 'This element allows the curator to describe what kind of DOI is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
-          }
-        },
-        required: ['DOI', 'Type', 'DescriptionOfOtherType']
-      }]
+          required: [
+            'DOI',
+            'Type',
+            'DescriptionOfOtherType'
+          ]
+        }
+      ]
     },
     OtherIdentifierType: {
-      oneOf: [{
-        type: 'object',
-        title: 'ArchiveSetsNumber',
-        additionalProperties: false,
-        description: 'This object stores an additional identifier of the collection.',
-        properties: {
-          Identifier: {
-            description: 'This element stores the identifier',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+      oneOf: [
+        {
+          type: 'object',
+          title: 'ArchiveSetsNumber',
+          additionalProperties: false,
+          description: 'This object stores an additional identifier of the collection.',
+          properties: {
+            Identifier: {
+              description: 'This element stores the identifier',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Type: {
+              description: 'This element represents the type of the identifier.',
+              type: 'string',
+              enum: [
+                'ArchiveSetsNumber'
+              ]
+            }
           },
-          Type: {
-            description: 'This element represents the type of the identifier.',
-            type: 'string',
-            enum: ['ArchiveSetsNumber']
-          }
+          required: [
+            'Identifier',
+            'Type'
+          ]
         },
-        required: ['Identifier', 'Type']
-      }, {
-        type: 'object',
-        title: 'Other',
-        additionalProperties: false,
-        description: 'This object stores an additional identifier of the collection.',
-        properties: {
-          Identifier: {
-            description: 'This element stores the identifier',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
+        {
+          type: 'object',
+          title: 'Other',
+          additionalProperties: false,
+          description: 'This object stores an additional identifier of the collection.',
+          properties: {
+            Identifier: {
+              description: 'This element stores the identifier',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            },
+            Type: {
+              description: 'This element represents the type of the identifier.',
+              type: 'string',
+              enum: [
+                'Other'
+              ]
+            },
+            DescriptionOfOtherType: {
+              description: 'This element allows the curator to describe what kind of Identifier is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
+              type: 'string',
+              minLength: 1,
+              maxLength: 1024
+            }
           },
-          Type: {
-            description: 'This element represents the type of the identifier.',
-            type: 'string',
-            enum: ['Other']
-          },
-          DescriptionOfOtherType: {
-            description: 'This element allows the curator to describe what kind of Identifier is present when the value of Other is chosen as the type. This element is not allowed if a value other than Other is chosen.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 1024
-          }
-        },
-        required: ['Identifier', 'Type', 'DescriptionOfOtherType']
-      }]
+          required: [
+            'Identifier',
+            'Type',
+            'DescriptionOfOtherType'
+          ]
+        }
+      ]
     },
     MetadataSpecificationType: {
       type: 'object',
@@ -3217,27 +3808,46 @@ const ummCSchema = {
         URL: {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/collection/v1.18.1']
+          enum: [
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.1'
+          ]
         },
         Name: {
           description: 'This element represents the name of the schema.',
           type: 'string',
-          enum: ['UMM-C']
+          enum: [
+            'UMM-C'
+          ]
         },
         Version: {
           description: 'This element represents the version of the schema.',
           type: 'string',
-          enum: ['1.18.1']
+          enum: [
+            '1.18.1'
+          ]
         }
       },
-      required: ['URL', 'Name', 'Version']
+      required: [
+        'URL',
+        'Name',
+        'Version'
+      ]
     },
     OrbitParameterExistsIfGranuleSpatialRepresentationIsOrbit: {
       $comment: 'Checks if the Granule Spatial Representation value is Oribt, then the oribt parameter must exist.',
-      if: { properties: { GranuleSpatialRepresentation: { const: 'ORBIT' } } },
-      then: { required: ['OrbitParameters'] }
+      if: {
+        properties: {
+          GranuleSpatialRepresentation: {
+            const: 'ORBIT'
+          }
+        }
+      },
+      then: {
+        required: [
+          'OrbitParameters'
+        ]
+      }
     }
   }
 }
-
 export default ummCSchema

@@ -37,7 +37,7 @@ const ummVarSchema = {
     Units: {
       description: 'The units associated with a variable.',
       type: 'string',
-      minLength: 0,
+      minLength: 1,
       maxLength: 100
     },
     DataType: {
@@ -105,7 +105,7 @@ const ummVarSchema = {
       minItems: 0
     },
     ScienceKeywords: {
-      description: 'Controlled Science Keywords describing the measurements/variables. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).',
+      description: 'Controlled Science Keywords describing the measurements/variables. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS). The valid values can be found at the KMS website: https://gcmdservices.gsfc.nasa.gov/kms/concepts/concept_scheme/sciencekeywords?format=csv.',
       type: 'array',
       items: {
         $ref: '#/definitions/ScienceKeywordType'
@@ -162,7 +162,9 @@ const ummVarSchema = {
           maxLength: 4000
         }
       },
-      required: ['Identifier']
+      required: [
+        'Identifier'
+      ]
     },
     IndexRangesType: {
       type: 'object',
@@ -188,7 +190,10 @@ const ummVarSchema = {
           maxItems: 2
         }
       },
-      required: ['LatRange', 'LonRange']
+      required: [
+        'LatRange',
+        'LonRange'
+      ]
     },
     MeasurementIdentifierType: {
       type: 'object',
@@ -204,6 +209,7 @@ const ummVarSchema = {
         MeasurementContextMediumURI: {
           description: 'This element contains the URI for the context/medium.',
           type: 'string',
+          format: 'uri',
           minLength: 1,
           maxLength: 4000
         },
@@ -216,6 +222,7 @@ const ummVarSchema = {
         MeasurementObjectURI: {
           description: 'This element contains the URI for the object which was measured.',
           type: 'string',
+          format: 'uri',
           minLength: 1,
           maxLength: 4000
         },
@@ -228,7 +235,10 @@ const ummVarSchema = {
           minItems: 0
         }
       },
-      required: ['MeasurementContextMedium', 'MeasurementObject']
+      required: [
+        'MeasurementContextMedium',
+        'MeasurementObject'
+      ]
     },
     MeasurementQuantityType: {
       type: 'object',
@@ -244,6 +254,7 @@ const ummVarSchema = {
         MeasurementQuantityURI: {
           description: 'This element contains the URI for the quantity which was measured.',
           type: 'string',
+          format: 'uri',
           minLength: 1,
           maxLength: 4000
         }
@@ -273,7 +284,10 @@ const ummVarSchema = {
           maxLength: 4000
         }
       },
-      required: ['SamplingMethod', 'MeasurementConditions']
+      required: [
+        'SamplingMethod',
+        'MeasurementConditions'
+      ]
     },
     FillValueType: {
       description: "The fill value, fill value type and fill value description of the variable in the data file. The fill value is generally a value which falls outside the valid range. For example, if the valid range is '0, 360', the fill value may be '-1'. The elements of this section apply to the fill value of a variable.",
@@ -287,7 +301,12 @@ const ummVarSchema = {
         Type: {
           description: 'Type of the fill value of the variable in the data file.',
           type: 'string',
-          enum: ['SCIENCE_FILLVALUE', 'QUALITY_FILLVALUE', 'ANCILLARY_FILLVALUE', 'OTHER']
+          enum: [
+            'SCIENCE_FILLVALUE',
+            'QUALITY_FILLVALUE',
+            'ANCILLARY_FILLVALUE',
+            'OTHER'
+          ]
         },
         Description: {
           description: 'Description of the fill value of the variable in the data file.',
@@ -296,7 +315,10 @@ const ummVarSchema = {
           maxLength: 160
         }
       },
-      required: ['Value', 'Type']
+      required: [
+        'Value',
+        'Type'
+      ]
     },
     SetType: {
       type: 'object',
@@ -324,7 +346,12 @@ const ummVarSchema = {
           type: 'number'
         }
       },
-      required: ['Name', 'Type', 'Size', 'Index']
+      required: [
+        'Name',
+        'Type',
+        'Size',
+        'Index'
+      ]
     },
     ValidRangeType: {
       type: 'object',
@@ -364,7 +391,32 @@ const ummVarSchema = {
     DataTypeEnum: {
       description: 'This element is used to identify the data type of the variable.',
       type: 'string',
-      enum: ['byte', 'float', 'float32', 'float64', 'double', 'ubyte', 'ushort', 'uint', 'uchar', 'string', 'char8', 'uchar8', 'short', 'long', 'int', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64', 'OTHER']
+      enum: [
+        'byte',
+        'float',
+        'float32',
+        'float64',
+        'double',
+        'ubyte',
+        'ushort',
+        'uint',
+        'uchar',
+        'string',
+        'char8',
+        'uchar8',
+        'short',
+        'long',
+        'int',
+        'int8',
+        'int16',
+        'int32',
+        'int64',
+        'uint8',
+        'uint16',
+        'uint32',
+        'uint64',
+        'OTHER'
+      ]
     },
     DimensionType: {
       type: 'object',
@@ -378,34 +430,68 @@ const ummVarSchema = {
           maxLength: 80
         },
         Size: {
-          oneOf: [{
-            description: "The size of the dimension of the variable represented in the data field. For example, '1200'.",
-            title: 'Enter the dimension size.',
-            type: 'number'
-          }, {
-            description: 'A value to designate that the dimension size of a variable in each granule is not uniform, but that it varies across granules.',
-            title: 'Dimension size varies.',
-            type: 'string',
-            enum: ['Varies']
-          }]
+          oneOf: [
+            {
+              description: "The size of the dimension of the variable represented in the data field. For example, '1200'.",
+              title: 'Enter the dimension size.',
+              type: 'number'
+            },
+            {
+              description: 'A value to designate that the dimension size of a variable in each granule is not uniform, but that it varies across granules.',
+              title: 'Dimension size varies.',
+              type: 'string',
+              enum: [
+                'Varies'
+              ]
+            }
+          ]
         },
         Type: {
           description: "The type of the dimension of the variable represented in the data field. For example, if the dimension has a special meaning, i.e., a latitude, longitude, pressure, height (or depth) or time, then the type should be set to either 'LATITUDE_DIMENSION', 'LONGITUDE_DIMENSION', 'PRESSURE_DIMENSION', 'HEIGHT_DIMENSION', 'DEPTH_DIMENSION' or 'TIME_DIMENSION', otherwise it should be set to 'OTHER'.",
           type: 'string',
-          enum: ['LATITUDE_DIMENSION', 'LONGITUDE_DIMENSION', 'ALONG_TRACK_DIMENSION', 'CROSS_TRACK_DIMENSION', 'PRESSURE_DIMENSION', 'HEIGHT_DIMENSION', 'DEPTH_DIMENSION', 'TIME_DIMENSION', 'OTHER']
+          enum: [
+            'LATITUDE_DIMENSION',
+            'LONGITUDE_DIMENSION',
+            'ALONG_TRACK_DIMENSION',
+            'CROSS_TRACK_DIMENSION',
+            'PRESSURE_DIMENSION',
+            'HEIGHT_DIMENSION',
+            'DEPTH_DIMENSION',
+            'TIME_DIMENSION',
+            'OTHER'
+          ]
         }
       },
-      required: ['Name', 'Size', 'Type']
+      required: [
+        'Name',
+        'Size',
+        'Type'
+      ]
     },
     VariableTypeEnum: {
       description: 'This element is used to classify the variable. If a variable does not contain this field, it will be assumed to be a science variable.',
       type: 'string',
-      enum: ['SCIENCE_VARIABLE', 'QUALITY_VARIABLE', 'ANCILLARY_VARIABLE', 'COORDINATE', 'OTHER']
+      enum: [
+        'SCIENCE_VARIABLE',
+        'QUALITY_VARIABLE',
+        'ANCILLARY_VARIABLE',
+        'COORDINATE',
+        'OTHER'
+      ]
     },
     VariableSubTypeEnum: {
       description: 'This element is used to further classify the variable. If a variable does not contain this field, it will be assumed to be a science vector.',
       type: 'string',
-      enum: ['SCIENCE_SCALAR', 'SCIENCE_VECTOR', 'SCIENCE_ARRAY', 'SCIENCE_EVENTFLAG', 'LATITUDE', 'LONGITUDE', 'TIME', 'OTHER']
+      enum: [
+        'SCIENCE_SCALAR',
+        'SCIENCE_VECTOR',
+        'SCIENCE_ARRAY',
+        'SCIENCE_EVENTFLAG',
+        'LATITUDE',
+        'LONGITUDE',
+        'TIME',
+        'OTHER'
+      ]
     },
     ScienceKeywordType: {
       type: 'object',
@@ -434,7 +520,11 @@ const ummVarSchema = {
           $ref: '#/definitions/KeywordStringType'
         }
       },
-      required: ['Category', 'Topic', 'Term']
+      required: [
+        'Category',
+        'Topic',
+        'Term'
+      ]
     },
     LongNameType: {
       description: 'The expanded or long name related to the variable name main element.',
@@ -481,6 +571,7 @@ const ummVarSchema = {
         URL: {
           description: "The URL for the relevant web page (e.g., the URL of the responsible organization's home page, the URL of the colormap server, etc.).",
           type: 'string',
+          format: 'uri',
           minLength: 1,
           maxLength: 1024
         },
@@ -497,7 +588,11 @@ const ummVarSchema = {
           maxLength: 80
         }
       },
-      required: ['URLContentType', 'Type', 'URL']
+      required: [
+        'URLContentType',
+        'Type',
+        'URL'
+      ]
     },
     InstanceInformationType: {
       type: 'object',
@@ -507,11 +602,12 @@ const ummVarSchema = {
         URL: {
           description: 'The internet location of the variable instance store.',
           type: 'string',
+          format: 'uri',
           minLength: 1,
           maxLength: 1024
         },
         Format: {
-          description: "Describes the format of the URL's data content so that users and applications know how to read and use the content. At this point in time, an industry standard mime-type does not exist, so a mime-type element will not be included. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat?gtm_scheme=DataFormat",
+          description: "Describes the format of the URL's data content so that users and applications know how to read and use the content. At this point in time, an industry standard mime-type does not exist, so a mime-type element will not be included. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat",
           type: 'string',
           minLength: 1,
           maxLength: 80
@@ -533,7 +629,10 @@ const ummVarSchema = {
           maxLength: 1024
         }
       },
-      required: ['URL', 'Format']
+      required: [
+        'URL',
+        'Format'
+      ]
     },
     DirectDistributionInformationType: {
       type: 'object',
@@ -570,12 +669,21 @@ const ummVarSchema = {
           maxLength: 1024
         }
       },
-      required: ['Region', 'S3CredentialsAPIEndpoint', 'S3CredentialsAPIDocumentationURL']
+      required: [
+        'Region',
+        'S3CredentialsAPIEndpoint',
+        'S3CredentialsAPIDocumentationURL'
+      ]
     },
     DirectDistributionInformationRegionEnum: {
       description: 'Defines the possible values for the Amazon Web Service US Regions where the data product resides.',
       type: 'string',
-      enum: ['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
+      enum: [
+        'us-east-1',
+        'us-east-2',
+        'us-west-1',
+        'us-west-2'
+      ]
     },
     MetadataSpecificationType: {
       type: 'object',
@@ -585,22 +693,31 @@ const ummVarSchema = {
         URL: {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0']
+          enum: [
+            'https://cdn.earthdata.nasa.gov/umm/variable/v1.9.0'
+          ]
         },
         Name: {
           description: 'This element represents the name of the schema.',
           type: 'string',
-          enum: ['UMM-Var']
+          enum: [
+            'UMM-Var'
+          ]
         },
         Version: {
           description: 'This element represents the version of the schema.',
           type: 'string',
-          enum: ['1.9.0']
+          enum: [
+            '1.9.0'
+          ]
         }
       },
-      required: ['URL', 'Name', 'Version']
+      required: [
+        'URL',
+        'Name',
+        'Version'
+      ]
     }
   }
 }
-
 export default ummVarSchema
