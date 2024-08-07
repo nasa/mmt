@@ -1,10 +1,16 @@
-import React, { useCallback, useState } from 'react'
+import {
+  FaEdit,
+  FaExclamationCircle,
+  FaQuestionCircle,
+  FaTrash
+} from 'react-icons/fa'
+import { Alert } from 'react-bootstrap'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import { useSearchParams } from 'react-router-dom'
+import Col from 'react-bootstrap/Col'
 import moment from 'moment'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import React, { useCallback, useState } from 'react'
+import Row from 'react-bootstrap/Row'
 
 import Button from '@/js/components/Button/Button'
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
@@ -20,6 +26,7 @@ import { DATE_FORMAT } from '@/js/constants/dateFormat'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import errorLogger from '@/js/utils/errorLogger'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 /**
  * Renders a OrderOptionList component
@@ -32,13 +39,15 @@ import errorLogger from '@/js/utils/errorLogger'
  */
 const OrderOptionList = () => {
   const { addNotification } = useNotificationsContext()
+  const { providerIds } = useAvailableProviders()
+
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedOrderOption, setSelectedOrderOption] = useState(false)
 
-  const [searchParams, setSearchParams] = useSearchParams()
-
   const activePage = parseInt(searchParams.get('page'), 10) || 1
+  const readableProviders = (providerIds && providerIds.length > 1) ? providerIds.join(', ') : providerIds
 
   const limit = 20
   const offset = (activePage - 1) * limit
@@ -51,11 +60,13 @@ const OrderOptionList = () => {
     })
   }
 
-  const { data, refetch } = useSuspenseQuery(GET_ORDER_OPTIONS, {
+  const { data = {}, refetch } = useSuspenseQuery(GET_ORDER_OPTIONS, {
+    skip: (!providerIds || providerIds.length === 0),
     variables: {
       params: {
         limit,
-        offset
+        offset,
+        providerId: providerIds
       }
     }
   })
@@ -183,8 +194,9 @@ const OrderOptionList = () => {
       dataAccessorFn: buildActionsCell
     }
   ]
-  const { orderOptions } = data
-  const { count, items } = orderOptions
+
+  const { orderOptions = [] } = data
+  const { count = 0, items = [] } = orderOptions
 
   return (
     <Row>
@@ -208,6 +220,26 @@ const OrderOptionList = () => {
 
               return (
                 <>
+                  {
+                    (!providerIds || providerIds.length === 0)
+                      ? (
+                        <Alert variant="info" className="mb-4">
+                          <FaQuestionCircle className="me-2 small" />
+                          You need providers in order to view Order Options. For assistance,
+                          please reach out to the provider administrator or Earthdata Operations (
+                          <a href="mailto:support@earthdata.nasa.gov">support@earthdata.nasa.gov</a>
+                          ).
+                        </Alert>
+                      )
+                      : (
+                        <Alert variant="info" className="mb-4">
+                          <FaExclamationCircle className="me-2 small" />
+                          You are viewing order options for the following providers:
+                          {' '}
+                          {readableProviders}
+                        </Alert>
+                      )
+                  }
                   <Row className="d-flex justify-content-between align-items-center">
                     <Col className="mb-4 flex-grow-1" xs="auto">
                       {

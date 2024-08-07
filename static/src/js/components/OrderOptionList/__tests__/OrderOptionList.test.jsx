@@ -9,13 +9,19 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { BrowserRouter } from 'react-router-dom'
 
-import NotificationsContext from '../../../context/NotificationsContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
 import OrderOptionList from '../OrderOptionList'
+import NotificationsContext from '../../../context/NotificationsContext'
 
 import { DELETE_ORDER_OPTION } from '../../../operations/mutations/deleteOrderOption'
 import { GET_ORDER_OPTIONS } from '../../../operations/queries/getOrderOptions'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/hooks/useAvailableProviders')
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_2']
+})
 
 const setup = ({
   additionalMocks = [],
@@ -60,7 +66,8 @@ const setup = ({
       variables: {
         params: {
           limit: 20,
-          offset: 0
+          offset: 0,
+          providerId: ['MMT_2']
         }
       }
     },
@@ -99,6 +106,7 @@ describe('OrderOptionList', () => {
     test('render a table with 2 order options', async () => {
       setup({})
 
+      expect(await screen.findByText(/You are viewing order options for the following providers:/)).toBeInTheDocument()
       expect(await screen.findByText('Showing 2 order options')).toBeInTheDocument()
       expect(screen.getByText('Test order option 1')).toBeInTheDocument()
       expect(screen.getByText('Test order option 2')).toBeInTheDocument()
@@ -170,7 +178,8 @@ describe('OrderOptionList', () => {
                 variables: {
                   params: {
                     limit: 20,
-                    offset: 0
+                    offset: 0,
+                    providerId: ['MMT_2']
                   }
                 }
               },
@@ -270,7 +279,8 @@ describe('OrderOptionList', () => {
               variables: {
                 params: {
                   limit: 20,
-                  offset: 0
+                  offset: 0,
+                  providerId: ['MMT_2']
                 }
               }
             },
@@ -290,8 +300,48 @@ describe('OrderOptionList', () => {
     })
   })
 
+  describe('when there are no providers available', () => {
+    test('render a table with No available providers message', async () => {
+      useAvailableProviders.mockReturnValue({
+        providerIds: []
+      })
+
+      setup({
+        overrideMocks: [
+          {
+            request: {
+              query: GET_ORDER_OPTIONS,
+              variables: {
+                params: {
+                  limit: 20,
+                  offset: 0,
+                  providerId: []
+                }
+              }
+            },
+            result: {
+              data: {
+                orderOptions: {
+                  count: 0,
+                  items: []
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      expect(await screen.findByText(/You need providers in order to view Order Options/)).toBeInTheDocument()
+      expect(await screen.findByText('No order options found')).toBeInTheDocument()
+    })
+  })
+
   describe('when order options list has more than 20 options', () => {
     test('renders the pagination component', async () => {
+      useAvailableProviders.mockReturnValue({
+        providerIds: ['MMT_2', 'MMT_1']
+      })
+
       const { user } = setup({
         overrideMocks: [
           {
@@ -300,7 +350,8 @@ describe('OrderOptionList', () => {
               variables: {
                 params: {
                   limit: 20,
-                  offset: 0
+                  offset: 0,
+                  providerId: ['MMT_2', 'MMT_1']
                 }
               }
             },
@@ -348,7 +399,8 @@ describe('OrderOptionList', () => {
               variables: {
                 params: {
                   limit: 20,
-                  offset: 20
+                  offset: 20,
+                  providerId: ['MMT_2', 'MMT_1']
                 }
               }
             },
