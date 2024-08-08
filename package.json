@@ -41,7 +41,6 @@
     "json-schema": "^0.4.0",
     "jsonwebtoken": "^9.0.2",
     "lodash-es": "^4.17.21",
-    "micromatch": "^4.0.6",
     "moment": "^2.29.4",
     "pluralize": "^8.0.0",
     "postcss-scss": "^4.0.9",
