@@ -106,7 +106,7 @@ describe('OrderOptionList', () => {
     test('render a table with 2 order options', async () => {
       setup({})
 
-      expect(await screen.findByText(/You are viewing order options for the following providers:/)).toBeInTheDocument()
+      expect(await screen.findByText(/You are viewing order options for the following providers: MMT_2/)).toBeInTheDocument()
       expect(await screen.findByText('Showing 2 order options')).toBeInTheDocument()
       expect(screen.getByText('Test order option 1')).toBeInTheDocument()
       expect(screen.getByText('Test order option 2')).toBeInTheDocument()
