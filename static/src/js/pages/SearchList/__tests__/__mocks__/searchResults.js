@@ -91,12 +91,12 @@ export const multiPageCollectionSearchPage1 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
-        sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        sortKey: null
       }
     }
   },
@@ -107,10 +107,10 @@ export const multiPageCollectionSearchPage1 = {
         items: [
           {
             conceptId: 'C1000000000-TESTPROV',
-            shortName: 'Collection Short Name 1',
+            shortName: 'Collection Short Name 1 multiPageCollectionSearchPage1',
             version: '1',
             revisionId: 1,
-            title: 'Collection Title 1',
+            title: 'Collection Title 1 multiPageCollectionSearchPage1',
             provider: 'TESTPROV',
             granules: {
               count: 1000
@@ -200,7 +200,7 @@ export const multiPageCollectionSearchPage2 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 3,
         provider: null,
@@ -297,7 +297,7 @@ export const multiPageCollectionSearchPage1Asc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
@@ -406,7 +406,7 @@ export const multiPageCollectionSearchPage1Desc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
@@ -421,121 +421,12 @@ export const multiPageCollectionSearchPage1Desc = {
         count: 8,
         items: [
           {
-            conceptId: 'C1000000002-TESTPROV',
-            shortName: 'Collection Short Name 3',
-            version: '3',
-            revisionId: 1,
-            title: 'Collection Title 3',
-            provider: 'TESTPROV',
-            entryTitle: null,
-            granules: {
-              count: 1000
-            },
-            tags: {
-              'test.tag.one': {
-                data: 'Tag Data 1'
-              }
-            },
-            tagDefinitions: {
-              items: [{
-                conceptId: 'C100000',
-                description: 'Mock tag description',
-                originatorId: 'test.user',
-                revisionId: '1',
-                tagKey: 'Mock tag key'
-              }]
-            },
-            revisionDate: '2023-11-30 00:00:00'
-          },
-          {
-            conceptId: 'C1000000001-TESTPROV',
-            shortName: 'Collection Short Name 2',
-            version: '2',
-            revisionId: 1,
-            entryTitle: null,
-            title: 'Collection Title 2',
-            provider: 'MMT',
-            granules: {
-              count: 1234
-            },
-            tags: {
-              'test.tag.one': {
-                data: 'Tag Data 1'
-              },
-              'test.tag.two': {
-                data: 'Tag Data 2'
-              }
-            },
-            tagDefinitions: {
-              items: [{
-                conceptId: 'C100000',
-                description: 'Mock tag description',
-                originatorId: 'test.user',
-                revisionId: '1',
-                tagKey: 'Mock tag key'
-              }]
-            },
-            revisionDate: '2023-11-31 00:00:00'
-          },
-          {
             conceptId: 'C1000000000-TESTPROV',
             shortName: 'Collection Short Name 1',
             version: '1',
             revisionId: 1,
             title: 'Collection Title 1',
             entryTitle: null,
-            provider: 'TESTPROV',
-            granules: {
-              count: 1000
-            },
-            tags: {
-              'test.tag.one': {
-                data: 'Tag Data 1'
-              }
-            },
-            tagDefinitions: {
-              items: [{
-                conceptId: 'C100000',
-                description: 'Mock tag description',
-                originatorId: 'test.user',
-                revisionId: '1',
-                tagKey: 'Mock tag key'
-              }]
-            },
-            revisionDate: '2023-11-30 00:00:00'
-          }
-        ]
-      }
-    }
-  }
-}
-
-export const multiPageCollectionSearchPage1TitleAsc = {
-  request: {
-    query: GET_COLLECTIONS,
-    variables: {
-      params: {
-        keyword: 'test',
-        limit: 3,
-        offset: 0,
-        provider: null,
-        includeTags: '*',
-        sortKey: '-entryTitle'
-      }
-    }
-  },
-  result: {
-    data: {
-      collections: {
-        count: 8,
-        items: [
-          {
-            conceptId: 'C1000000002-TESTPROV',
-            shortName: 'Collection Short Name 3',
-            version: '3',
-            revisionId: 1,
-            entryTitle: null,
-            title: 'Collection Title 3',
             provider: 'TESTPROV',
             granules: {
               count: 1000
@@ -587,12 +478,13 @@ export const multiPageCollectionSearchPage1TitleAsc = {
             revisionDate: '2023-11-31 00:00:00'
           },
           {
-            conceptId: 'C1000000000-TESTPROV',
-            shortName: 'Collection Short Name 1',
-            version: '1',
+            conceptId: 'C1000000002-TESTPROV',
+            shortName: 'Collection Short Name 3',
+            version: '3',
             revisionId: 1,
-            title: 'Collection Title 1',
+            title: 'Collection Title 3',
             provider: 'TESTPROV',
+            entryTitle: null,
             granules: {
               count: 1000
             },
@@ -610,8 +502,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
                 tagKey: 'Mock tag key'
               }]
             },
-            revisionDate: '2023-11-30 00:00:00',
-            entryTitle: null
+            revisionDate: '2023-11-30 00:00:00'
           }
         ]
       }
