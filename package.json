@@ -102,5 +102,9 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-scss": "^5.2.1",
     "vitest": "^1.4.0"
+  },
+  "overrides": {
+    "fast-xml-parser": "4.4.1",
+    "micromatch": "^4.0.4"
   }
 }
