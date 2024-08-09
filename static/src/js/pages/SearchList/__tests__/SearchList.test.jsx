@@ -15,8 +15,8 @@ import userEvent from '@testing-library/user-event'
 import {
   multiPageCollectionSearchPage1,
   multiPageCollectionSearchPage1Asc,
-  multiPageCollectionSearchPage1TitleAsc,
   multiPageCollectionSearchPage1Desc,
+  multiPageCollectionSearchPage1TitleAsc,
   multiPageCollectionSearchPage2,
   singlePageCollectionSearch,
   singlePageServicesSearch,
