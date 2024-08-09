@@ -91,12 +91,12 @@ export const multiPageCollectionSearchPage1 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
-        sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        sortKey: null
       }
     }
   },
@@ -200,7 +200,7 @@ export const multiPageCollectionSearchPage2 = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 3,
         provider: null,
@@ -297,7 +297,7 @@ export const multiPageCollectionSearchPage1Asc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
@@ -406,7 +406,7 @@ export const multiPageCollectionSearchPage1Desc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
@@ -421,13 +421,13 @@ export const multiPageCollectionSearchPage1Desc = {
         count: 8,
         items: [
           {
-            conceptId: 'C1000000002-TESTPROV',
-            shortName: 'Collection Short Name 3',
-            version: '3',
+            conceptId: 'C1000000000-TESTPROV',
+            shortName: 'Collection Short Name 1',
+            version: '1',
             revisionId: 1,
-            title: 'Collection Title 3',
-            provider: 'TESTPROV',
+            title: 'Collection Title 1',
             entryTitle: null,
+            provider: 'TESTPROV',
             granules: {
               count: 1000
             },
@@ -478,13 +478,13 @@ export const multiPageCollectionSearchPage1Desc = {
             revisionDate: '2023-11-31 00:00:00'
           },
           {
-            conceptId: 'C1000000000-TESTPROV',
-            shortName: 'Collection Short Name 1',
-            version: '1',
+            conceptId: 'C1000000002-TESTPROV',
+            shortName: 'Collection Short Name 3',
+            version: '3',
             revisionId: 1,
-            title: 'Collection Title 1',
-            entryTitle: null,
+            title: 'Collection Title 3',
             provider: 'TESTPROV',
+            entryTitle: null,
             granules: {
               count: 1000
             },
@@ -515,7 +515,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
     query: GET_COLLECTIONS,
     variables: {
       params: {
-        keyword: 'test',
+        keyword: null,
         limit: 3,
         offset: 0,
         provider: null,
