@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
@@ -364,6 +365,52 @@ describe('GroupForm', () => {
   })
 
   describe('when getting and updating Group', () => {
+    describe('when getting a group where the incoming data has errors', () => {
+      test('should show the error', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        setup(
+          {
+            pageUrl: '/groups/1234-abcd-5678-efgh/edit',
+            mocks: [{
+              request: {
+                query: GET_GROUP,
+                variables: { params: { id: '1234-abcd-5678-efgh' } }
+              },
+              result: {
+                data: {
+                  group: {
+                    id: '1234-abcd-5678-efgh',
+                    description: 'Mock group description',
+                    members: {
+                      count: 1,
+                      items: [{
+                        id: 'test.user',
+                        firstName: 'Test',
+                        lastName: 'User',
+                        emailAddress: 'test@example.com',
+                        __typename: 'GroupMember'
+                      }]
+                    },
+                    name: 'Mock group 12345678901234567890123456789012345678901234567890123456789012345678901234567890',
+                    tag: 'MMT_2'
+                  }
+                }
+              }
+            }]
+          }
+        )
+
+        await waitFor(async () => {
+          await screen.findByRole('textbox', { name: 'Name' })
+        })
+
+        // Name is > 85 characters.
+        expect(await screen.findByText('must NOT have more than 85 characters')).toBeInTheDocument()
+      })
+    })
+
     describe('when getting a group and updating results in success', () => {
       test('should navigate to /groups/id', async () => {
         const navigateSpy = vi.fn()

@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
@@ -255,6 +256,56 @@ describe('OrderOptionForm', () => {
   })
 
   describe('when getting and updating Order Option', () => {
+    describe('when getting a order option where the incoming data has errors', () => {
+      test('should show the error', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        setup(
+          {
+            pageUrl: '/order-options/OO1000000-MMT_2/edit',
+            mocks: [{
+              request: {
+                query: GET_ORDER_OPTION,
+                variables: { params: { conceptId: 'OO1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  orderOption: {
+                    associationDetails: {},
+                    conceptId: 'OO1000000-MMT_2',
+                    collections: {
+                      count: 0,
+                      items: []
+                    },
+                    deprecated: null,
+                    description: 'Test Description',
+                    form: 'Test Form',
+                    name: 'Test Name',
+                    nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                    pageTitle: 'Test Name',
+                    providerId: 'MMT_2',
+                    revisionId: '1',
+                    revisionDate: '2024-04-23T15:03:34.399Z',
+                    scope: 'PROVIDER',
+                    sortKey: '1234567',
+                    __typename: 'OrderOption'
+                  }
+                }
+              }
+            }]
+          }
+        )
+
+        await waitFor(async () => {
+          await screen.findByRole('textbox', { name: 'Name' })
+        })
+
+        // Sort key's length is > 5 characters
+        expect(await screen.findByText('must NOT have more than 5 characters')).toBeInTheDocument()
+      })
+    })
+
     describe('when getting a order option and updating results in success', () => {
       test('should navigate to /order-options/id', async () => {
         const navigateSpy = vi.fn()
