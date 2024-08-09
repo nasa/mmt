@@ -79,7 +79,7 @@ ummT() {
 }
 
 cleanup() {
-  rm ./*-temp.*
+  \rm ./*-temp.*
 }
 
 {
