@@ -406,6 +406,7 @@ describe('GroupForm', () => {
           await screen.findByRole('textbox', { name: 'Name' })
         })
 
+        // Name is > 85 characters.
         expect(await screen.findByText('must NOT have more than 85 characters')).toBeInTheDocument()
       })
     })

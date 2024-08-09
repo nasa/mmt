@@ -301,6 +301,7 @@ describe('OrderOptionForm', () => {
           await screen.findByRole('textbox', { name: 'Name' })
         })
 
+        // Sort key's length is > 5 characters
         expect(await screen.findByText('must NOT have more than 5 characters')).toBeInTheDocument()
       })
     })
