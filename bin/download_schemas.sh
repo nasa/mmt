@@ -80,6 +80,8 @@ ummT() {
 
 cleanup() {
   \rm ./*-temp.*
+  \rm ./*-schema.json
+  \rm ./*Schema.js
 }
 
 {
