@@ -146,9 +146,19 @@ const SearchList = ({ limit }) => {
   }, [])
 
   const sortFn = useCallback((key, order) => {
+    // Must be captured before going into handleSort which automatically deletes these
     const currentSearchParams = new URLSearchParams(window.location.search)
     const currentProviderParam = currentSearchParams.get('provider')
-    handleSort(currentProviderParam, setSearchParams, key, order)
+    const currentPageParam = currentSearchParams.get('page')
+    const currentKeywordParam = currentSearchParams.get('keyword')
+    handleSort(
+      currentProviderParam,
+      currentPageParam,
+      currentKeywordParam,
+      setSearchParams,
+      key,
+      order
+    )
   }, [])
 
   const getColumnState = () => {
@@ -171,7 +181,7 @@ const SearchList = ({ limit }) => {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisTextCell,
           dataKey: 'title',
-          sortFn: (_, order) => sortFn('entryTitle', order),
+          sortFn,
           sortKey: 'entryTitle',
           title: 'Entry Title'
         },
