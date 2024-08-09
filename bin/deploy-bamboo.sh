@@ -35,6 +35,13 @@ config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 # overwrite static.config.json with new values
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
+# Download schema files
+./download_schemas.sh
+if [ $? -ne 0 ]; then
+  echo "Failed downloading schema files"
+  exit 1
+fi
+
 # Set up Docker image
 #####################
 

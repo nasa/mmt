@@ -21,47 +21,40 @@ const ummTSchema = {
       $ref: '#/definitions/ToolTypeEnum'
     },
     Version: {
-      description:
-        "The edition or version of the web user interface software, or tool. A value of 'NOT PROVIDED' may be used if the version is not available or unknown.",
+      description: "The edition or version of the web user interface software, or tool. A value of 'NOT PROVIDED' may be used if the version is not available or unknown.",
       type: 'string',
       minLength: 1,
       maxLength: 20
     },
     VersionDescription: {
-      description:
-        'This field provides users with information on what changes were included in the most recent version.',
+      description: 'This field provides users with information on what changes were included in the most recent version.',
       type: 'string',
       minLength: 1,
       maxLength: 1024
     },
     LastUpdatedDate: {
-      description:
-        'This element describes the latest date when the tool was most recently pushed to production for support and maintenance. ',
+      description: 'This element describes the latest date when the tool was most recently pushed to production for support and maintenance. ',
       format: 'date-time',
       type: 'string'
     },
     Description: {
-      description:
-        'A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.',
+      description: 'A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.',
       type: 'string',
       minLength: 1,
       maxLength: 1024
     },
     URL: {
-      description:
-        'The URL where you can directly access the web user interface or downloadable tool.',
+      description: 'The URL where you can directly access the web user interface or downloadable tool.',
       $ref: '#/definitions/URLType'
     },
     DOI: {
-      description:
-        'The Digital Object Identifier (DOI) of the web user interface or downloadable tool.',
+      description: 'The Digital Object Identifier (DOI) of the web user interface or downloadable tool.',
       type: 'string',
       minLength: 1,
       maxLength: 1024
     },
     RelatedURLs: {
-      description:
-        'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
+      description: 'A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/RelatedURLType'
@@ -69,8 +62,7 @@ const ummTSchema = {
       minItems: 0
     },
     SupportedOutputFormats: {
-      description:
-        'The project element describes the list of output format names supported by the web user interface or downloadable tool.',
+      description: 'The project element describes the list of output format names supported by the web user interface or downloadable tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/SupportedFormatTypeEnum'
@@ -78,8 +70,7 @@ const ummTSchema = {
       minItems: 0
     },
     SupportedInputFormats: {
-      description:
-        'The project element describes the list of input format names supported by the web user interface or downloadable tool.',
+      description: 'The project element describes the list of input format names supported by the web user interface or downloadable tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/SupportedFormatTypeEnum'
@@ -87,8 +78,7 @@ const ummTSchema = {
       minItems: 0
     },
     SupportedOperatingSystems: {
-      description:
-        'The operating system(s) and associated version supported by the downloadable tool.',
+      description: 'The operating system(s) and associated version supported by the downloadable tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/SupportedOperatingSystemType'
@@ -104,8 +94,7 @@ const ummTSchema = {
       minItems: 0
     },
     SupportedSoftwareLanguages: {
-      description:
-        'The programming language(s) and associated version supported by the downloadable tool.',
+      description: 'The programming language(s) and associated version supported by the downloadable tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/SupportedSoftwareLanguageType'
@@ -113,8 +102,7 @@ const ummTSchema = {
       minItems: 0
     },
     ToolKeywords: {
-      description:
-        'Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).',
+      description: 'Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).',
       type: 'array',
       items: {
         $ref: '#/definitions/ToolKeywordType'
@@ -122,8 +110,7 @@ const ummTSchema = {
       minItems: 1
     },
     Organizations: {
-      description:
-        'The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.',
+      description: 'The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool.',
       type: 'array',
       items: {
         $ref: '#/definitions/OrganizationType'
@@ -131,23 +118,19 @@ const ummTSchema = {
       minItems: 1
     },
     Quality: {
-      description:
-        'Information about the quality of the downloadable tool or web user interface. This would include information about any quality assurance procedures followed in development. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.',
+      description: 'Information about the quality of the downloadable tool or web user interface. This would include information about any quality assurance procedures followed in development. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved.',
       $ref: '#/definitions/ToolQualityType'
     },
     AccessConstraints: {
-      description:
-        'Information about any constraints for accessing the downloadable tool or web user interface.',
+      description: 'Information about any constraints for accessing the downloadable tool or web user interface.',
       $ref: '#/definitions/AccessConstraintsType'
     },
     UseConstraints: {
-      description:
-        'Information on how the item (downloadable tool or web user interface) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.',
+      description: 'Information on how the item (downloadable tool or web user interface) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.',
       $ref: '#/definitions/UseConstraintsType'
     },
     AncillaryKeywords: {
-      description:
-        'Words or phrases to further describe the downloadable tool or web user interface.',
+      description: 'Words or phrases to further describe the downloadable tool or web user interface.',
       type: 'array',
       items: {
         $ref: '#/definitions/AncillaryKeywordsType'
@@ -162,21 +145,18 @@ const ummTSchema = {
       }
     },
     ContactGroups: {
-      description:
-        'Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted.',
+      description: 'Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted.',
       type: 'array',
       items: {
         $ref: '#/definitions/ContactGroupType'
       }
     },
     PotentialAction: {
-      description:
-        'This element contains information about a smart handoff from one web user interface to another.',
+      description: 'This element contains information about a smart handoff from one web user interface to another.',
       $ref: '#/definitions/PotentialActionType'
     },
     MetadataSpecification: {
-      description:
-        "Requires the client, or user, to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
+      description: "Requires the client, or user, to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
       $ref: '#/definitions/MetadataSpecificationType'
     }
   },
@@ -195,8 +175,7 @@ const ummTSchema = {
     URLType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'Represents the Internet site where you can directly access the tool or web user interface.',
+      description: 'Represents the Internet site where you can directly access the tool or web user interface.',
       properties: {
         Description: {
           description: 'Description of online resource at this URL.',
@@ -205,41 +184,40 @@ const ummTSchema = {
           maxLength: 4000
         },
         URLContentType: {
-          description:
-            'A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         Type: {
-          description:
-            'A keyword describing the type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         Subtype: {
-          description:
-            'A keyword describing the subtype of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the subtype of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         URLValue: {
-          description:
-            'The URL for the relevant online resource where you can directly access the downloadable tool or web user interface.',
+          description: 'The URL for the relevant online resource where you can directly access the downloadable tool or web user interface.',
           type: 'string',
           minLength: 1,
           maxLength: 1024
         }
       },
-      required: ['URLContentType', 'Type', 'URLValue']
+      required: [
+        'URLContentType',
+        'Type',
+        'URLValue'
+      ]
     },
     RelatedURLType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.',
+      description: 'Represents Internet sites that contain information related to the data, as well as related Internet sites such as project home pages, related data archives/servers, metadata extensions, online software packages, web mapping services, and calibration/validation data.',
       properties: {
         Description: {
           description: 'Description of the web page at this URL.',
@@ -248,22 +226,19 @@ const ummTSchema = {
           maxLength: 4000
         },
         URLContentType: {
-          description:
-            'A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the distinct content type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         Type: {
-          description:
-            'A keyword describing the type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the type of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         Subtype: {
-          description:
-            'A keyword describing the subtype of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
+          description: 'A keyword describing the subtype of the online resource to this resource. This helps software present the information to the user. The valid values are contained in the KMS System: https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/all/8759ab63-ac04-4136-bc25-0c00eece1096/.',
           type: 'string',
           minLength: 1,
           maxLength: 80
@@ -275,31 +250,31 @@ const ummTSchema = {
           maxLength: 1024
         },
         Format: {
-          description:
-            'Describes the organization of the data content so that users and applications know how to read and use the content. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat?gtm_scheme=DataFormat',
+          description: 'Describes the organization of the data content so that users and applications know how to read and use the content. The controlled vocabulary for formats is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/DataFormat?gtm_scheme=DataFormat',
           type: 'string',
           minLength: 1,
           maxLength: 80
         },
         MimeType: {
-          description:
-            'The multi-purpose internet mail extensions indicates the nature and format of the data that is accessed through the URL. The controlled vocabulary for MimeTypes is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/MimeType?gtm_scheme=MimeType',
+          description: 'The multi-purpose internet mail extensions indicates the nature and format of the data that is accessed through the URL. The controlled vocabulary for MimeTypes is maintained in the Keyword Management System (KMS): https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/MimeType?gtm_scheme=MimeType',
           type: 'string',
           minLength: 1,
           maxLength: 80
         }
       },
-      required: ['URL', 'URLContentType', 'Type']
+      required: [
+        'URL',
+        'URLContentType',
+        'Type'
+      ]
     },
     SupportedOperatingSystemType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'This element describes the operating system(s) and associated version supported by the downloadable tool.',
+      description: 'This element describes the operating system(s) and associated version supported by the downloadable tool.',
       properties: {
         OperatingSystemName: {
-          description:
-            'The short name of the operating system associated with the downloadable tool.',
+          description: 'The short name of the operating system associated with the downloadable tool.',
           type: 'string',
           minLength: 1,
           maxLength: 1024
@@ -315,8 +290,7 @@ const ummTSchema = {
     SupportedBrowserType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'This element describes the browser(s) and associated version supported by the downloadable tool.',
+      description: 'This element describes the browser(s) and associated version supported by the downloadable tool.',
       properties: {
         BrowserName: {
           description: 'The short name of the browser associated with the downloadable tool.',
@@ -335,19 +309,16 @@ const ummTSchema = {
     SupportedSoftwareLanguageType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'This element describes the programming language(s) and associated version supported by the web user interface.',
+      description: 'This element describes the programming language(s) and associated version supported by the web user interface.',
       properties: {
         SoftwareLanguageName: {
-          description:
-            'The short name of the programming language associated with the downloadable tool.',
+          description: 'The short name of the programming language associated with the downloadable tool.',
           type: 'string',
           minLength: 0,
           maxLength: 1024
         },
         SoftwareLanguageVersion: {
-          description:
-            'The version of the programming language associated with the downloadable tool.',
+          description: 'The version of the programming language associated with the downloadable tool.',
           type: 'string',
           minLength: 0,
           maxLength: 80
@@ -387,8 +358,7 @@ const ummTSchema = {
     ToolKeywordType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'Enables specification of Earth science tool keywords related to the tool.  The Earth Science Tool keywords are chosen from a controlled keyword hierarchy maintained in the Keyword Management System (KMS).',
+      description: 'Enables specification of Earth science tool keywords related to the tool.  The Earth Science Tool keywords are chosen from a controlled keyword hierarchy maintained in the Keyword Management System (KMS).',
       properties: {
         ToolCategory: {
           $ref: '#/definitions/KeywordStringType'
@@ -403,7 +373,10 @@ const ummTSchema = {
           $ref: '#/definitions/KeywordStringType'
         }
       },
-      required: ['ToolCategory', 'ToolTopic']
+      required: [
+        'ToolCategory',
+        'ToolTopic'
+      ]
     },
     KeywordStringType: {
       type: 'string',
@@ -414,8 +387,7 @@ const ummTSchema = {
     OrganizationType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'The organization or institution responsible for developing, archiving, and/or hosting the web user interface or downloadable tool.',
+      description: 'The organization or institution responsible for developing, archiving, and/or hosting the web user interface or downloadable tool.',
       properties: {
         Roles: {
           description: 'This is the roles of the organization.',
@@ -440,7 +412,10 @@ const ummTSchema = {
           maxLength: 1024
         }
       },
-      required: ['Roles', 'ShortName']
+      required: [
+        'Roles',
+        'ShortName'
+      ]
     },
     ContactGroupType: {
       type: 'object',
@@ -452,12 +427,10 @@ const ummTSchema = {
           items: {
             $ref: '#/definitions/ToolOrganizationRoleEnum'
           },
-          minItems: 1,
-          uniqueItems: true
+          minItems: 1
         },
         ContactInformation: {
-          description:
-            'This is the contact information of the downloadable tool or web user interface contact.',
+          description: 'This is the contact information of the downloadable tool or web user interface contact.',
           $ref: '#/definitions/ContactInformationType'
         },
         GroupName: {
@@ -467,7 +440,10 @@ const ummTSchema = {
           maxLength: 255
         }
       },
-      required: ['Roles', 'GroupName']
+      required: [
+        'Roles',
+        'GroupName'
+      ]
     },
     ContactPersonType: {
       type: 'object',
@@ -503,7 +479,10 @@ const ummTSchema = {
           maxLength: 255
         }
       },
-      required: ['Roles', 'LastName']
+      required: [
+        'Roles',
+        'LastName'
+      ]
     },
     ContactInformationType: {
       type: 'object',
@@ -541,23 +520,23 @@ const ummTSchema = {
     ContactMechanismType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'Method for contacting the service or tool contact. A contact can be available via phone, email, Facebook, or Twitter.',
+      description: 'Method for contacting the service or tool contact. A contact can be available via phone, email, Facebook, or Twitter.',
       properties: {
         Type: {
-          description:
-            'This is the method type for contacting the responsible party - phone, email, Facebook, or Twitter.',
+          description: 'This is the method type for contacting the responsible party - phone, email, Facebook, or Twitter.',
           $ref: '#/definitions/ContactMechanismTypeEnum'
         },
         Value: {
-          description:
-            'This is the contact phone number, email address, Facebook address, or Twitter handle associated with the contact method.',
+          description: 'This is the contact phone number, email address, Facebook address, or Twitter handle associated with the contact method.',
           type: 'string',
           minLength: 1,
           maxLength: 1024
         }
       },
-      required: ['Type', 'Value']
+      required: [
+        'Type',
+        'Value'
+      ]
     },
     ToolOrganizationShortNameType: {
       description: 'The unique name of the service organization.',
@@ -569,7 +548,13 @@ const ummTSchema = {
     ToolOrganizationRoleEnum: {
       description: 'Defines the possible values of a service provider role.',
       type: 'string',
-      enum: ['SERVICE PROVIDER', 'DEVELOPER', 'PUBLISHER', 'AUTHOR', 'ORIGINATOR']
+      enum: [
+        'SERVICE PROVIDER',
+        'DEVELOPER',
+        'PUBLISHER',
+        'AUTHOR',
+        'ORIGINATOR'
+      ]
     },
     LongNameType: {
       description: 'The expanded or long name related to the short name.',
@@ -578,16 +563,20 @@ const ummTSchema = {
       maxLength: 1024
     },
     ToolTypeEnum: {
-      description:
-        'This element is used to identify the type of the downloadable tool or web user interface.',
+      description: 'This element is used to identify the type of the downloadable tool or web user interface.',
       type: 'string',
-      enum: ['Downloadable Tool', 'Web User Interface', 'Web Portal', 'Model', 'NOT PROVIDED']
+      enum: [
+        'Downloadable Tool',
+        'Web User Interface',
+        'Web Portal',
+        'Model',
+        'NOT PROVIDED'
+      ]
     },
     ToolQualityType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'This object describes tool quality, composed of the quality flag, the quality flagging system, traceability and lineage.',
+      description: 'This object describes tool quality, composed of the quality flag, the quality flagging system, traceability and lineage.',
       properties: {
         QualityFlag: {
           description: 'The quality flag for the tool or web user interface.',
@@ -606,16 +595,23 @@ const ummTSchema = {
           maxLength: 4000
         }
       },
-      required: ['QualityFlag']
+      required: [
+        'QualityFlag'
+      ]
     },
     QualityFlagEnum: {
       description: 'Defines the possible quality flags.',
       type: 'string',
-      enum: ['Available', 'Unavailable', 'Reviewed', 'Not Reviewed', 'Other']
+      enum: [
+        'Available',
+        'Unavailable',
+        'Reviewed',
+        'Not Reviewed',
+        'Other'
+      ]
     },
     AccessConstraintsType: {
-      description:
-        'Information about any constraints for accessing the downloadable tool or web user interface.',
+      description: 'Information about any constraints for accessing the downloadable tool or web user interface.',
       type: 'string',
       minLength: 1,
       maxLength: 4000
@@ -623,8 +619,7 @@ const ummTSchema = {
     UseConstraintsType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'Information on how the downloadable tool or web user interface may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.',
+      description: 'Information on how the downloadable tool or web user interface may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness.',
       properties: {
         LicenseURL: {
           description: 'The web address of the license associated with the tool.',
@@ -641,8 +636,7 @@ const ummTSchema = {
       }
     },
     AncillaryKeywordsType: {
-      description:
-        'Words or phrases to further describe the downloadable tool or web user interface.',
+      description: 'Words or phrases to further describe the downloadable tool or web user interface.',
       type: 'string',
       minLength: 1,
       maxLength: 1024
@@ -653,8 +647,7 @@ const ummTSchema = {
       description: 'The HTTP API definition of this tool for use with smart-handoffs.',
       properties: {
         Type: {
-          description:
-            'The intent of action this tool supports. Does this tool provide a search? Does it create a resource? Does it consume a resource?',
+          description: 'The intent of action this tool supports. Does this tool provide a search? Does it create a resource? Does it consume a resource?',
           $ref: '#/definitions/ActionTypeEnum'
         },
         Target: {
@@ -663,21 +656,26 @@ const ummTSchema = {
         },
         QueryInput: {
           type: 'array',
-          description:
-            'A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action',
+          description: 'A set of HTTP query parameter inputs. Each one indicates how a property should be filled in before initiating the action',
           items: {
             $ref: '#/definitions/PropertyValueSpecificationType'
           },
           minItems: 1
         }
       },
-      required: ['Type', 'Target']
+      required: [
+        'Type',
+        'Target'
+      ]
     },
     ActionTypeEnum: {
       type: 'string',
-      description:
-        'The intent of action this tool supports. Does this tool provide a search? Does it create a resource? Does it consume a resource?',
-      enum: ['SearchAction', 'CreateAction', 'ConsumeAction']
+      description: 'The intent of action this tool supports. Does this tool provide a search? Does it create a resource? Does it consume a resource?',
+      enum: [
+        'SearchAction',
+        'CreateAction',
+        'ConsumeAction'
+      ]
     },
     ActionTargetType: {
       type: 'object',
@@ -685,8 +683,7 @@ const ummTSchema = {
       additionalProperties: false,
       properties: {
         Type: {
-          description:
-            'The type of target. For example, is it an entry point into the application this record describes?',
+          description: 'The type of target. For example, is it an entry point into the application this record describes?',
           $ref: '#/definitions/TargetTypeEnum'
         },
         Description: {
@@ -703,8 +700,7 @@ const ummTSchema = {
         },
         UrlTemplate: {
           type: 'string',
-          description:
-            'An url template (RFC6570) that will be used to construct the target of the execution of the action.',
+          description: 'An url template (RFC6570) that will be used to construct the target of the execution of the action.',
           minLength: 1,
           maxLength: 4094
         },
@@ -717,19 +713,26 @@ const ummTSchema = {
           minItems: 1
         }
       },
-      required: ['Type', 'UrlTemplate', 'HttpMethod']
+      required: [
+        'Type',
+        'UrlTemplate',
+        'HttpMethod'
+      ]
     },
     TargetTypeEnum: {
       type: 'string',
-      description:
-        'The type of target. For example, is it an entry point into the application this record describes?',
-      enum: ['EntryPoint']
+      description: 'The type of target. For example, is it an entry point into the application this record describes?',
+      enum: [
+        'EntryPoint'
+      ]
     },
     HttpMethodEnum: {
-      description:
-        'An HTTP method that specifies the appropriate HTTP method for a request to an HTTP Entrypoint. Values are capitalized strings as used in HTTP.',
+      description: 'An HTTP method that specifies the appropriate HTTP method for a request to an HTTP Entrypoint. Values are capitalized strings as used in HTTP.',
       type: 'string',
-      enum: ['GET', 'POST']
+      enum: [
+        'GET',
+        'POST'
+      ]
     },
     PropertyValueSpecificationType: {
       type: 'object',
@@ -738,26 +741,25 @@ const ummTSchema = {
       properties: {
         ValueType: {
           type: 'string',
-          description:
-            'Note: not currently part of schema.org specification. This element references a standard describing the type and format of the query parameter value. For example, `https://schema.org/box` will describe a geo bounding box with the format `min Longitude, min Latitude, max Longitude, max Latitude`.'
+          description: 'Note: not currently part of schema.org specification. This element references a standard describing the type and format of the query parameter value. For example, `https://schema.org/box` will describe a geo bounding box with the format `min Longitude, min Latitude, max Longitude, max Latitude`.'
         },
         Description: {
           type: 'string',
-          description:
-            'Provides information regarding the correct population of the url template parameter with respect to type, format and whether the parameter is required.'
+          description: 'Provides information regarding the correct population of the url template parameter with respect to type, format and whether the parameter is required.'
         },
         ValueName: {
           type: 'string',
-          description:
-            'Indicates the name of the parameter this PropertyValue specification maps to in the URL template.'
+          description: 'Indicates the name of the parameter this PropertyValue specification maps to in the URL template.'
         },
         ValueRequired: {
           type: 'boolean',
-          description:
-            'Whether the property must be filled in to complete the action. Default is false.'
+          description: 'Whether the property must be filled in to complete the action. Default is false.'
         }
       },
-      required: ['ValueType', 'ValueName']
+      required: [
+        'ValueType',
+        'ValueName'
+      ]
     },
     ContactRoleEnum: {
       description: 'Defines the possible values of a service provider role.',
@@ -798,8 +800,7 @@ const ummTSchema = {
       description: 'This entity contains the physical address details for the contact.',
       properties: {
         StreetAddresses: {
-          description:
-            'An address line for the street address, used for mailing or physical addresses of organizations or individuals who serve as contacts for the service.',
+          description: 'An address line for the street address, used for mailing or physical addresses of organizations or individuals who serve as contacts for the service.',
           type: 'array',
           items: {
             type: 'string',
@@ -837,29 +838,36 @@ const ummTSchema = {
     MetadataSpecificationType: {
       type: 'object',
       additionalProperties: false,
-      description:
-        'This object requires any metadata record that is validated by this schema to provide information about the schema.',
+      description: 'This object requires any metadata record that is validated by this schema to provide information about the schema.',
       properties: {
         URL: {
-          description:
-            'This element represents the URL where the schema lives. The schema can be downloaded.',
+          description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
-          enum: ['https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0']
+          enum: [
+            'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0'
+          ]
         },
         Name: {
           description: 'This element represents the name of the schema.',
           type: 'string',
-          enum: ['UMM-T']
+          enum: [
+            'UMM-T'
+          ]
         },
         Version: {
           description: 'This element represents the version of the schema.',
           type: 'string',
-          enum: ['1.2.0']
+          enum: [
+            '1.2.0'
+          ]
         }
       },
-      required: ['URL', 'Name', 'Version']
+      required: [
+        'URL',
+        'Name',
+        'Version'
+      ]
     }
   }
 }
-
 export default ummTSchema
