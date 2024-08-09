@@ -21,10 +21,10 @@ ummC() {
     #Remove key '$schema' of the common file because it would overwrite the same key in the main file
     jq 'del(."$schema")' umm-cmn-json-schema-temp.json > umm-cmn-json-schema.json
     #Merge and create js file
-    echo "$(echo "const ummCSchema =")" "$(jq -s '.[0] * .[1]' umm-c-json-schema.json umm-cmn-json-schema.json)" > ummCSchemaRaw.js
-    echo "$(echo "export default ummCSchema")" >> ummCSchemaRaw.js
+    echo "$(echo "const ummCSchema =")" "$(jq -s '.[0] * .[1]' umm-c-json-schema.json umm-cmn-json-schema.json)" > ummCSchema-temp.js
+    echo "$(echo "export default ummCSchema")" >> ummCSchema-temp.js
     #Replace pointers to the common file
-    sed 's/umm-cmn-json-schema.json#/#/g' ummCSchemaRaw.js > ummCSchema.js
+    sed 's/umm-cmn-json-schema.json#/#/g' ummCSchema-temp.js > ummCSchema.js
 }
 
 ummS() {
@@ -78,6 +78,10 @@ ummT() {
     echo "$(echo "export default ummTSchema")" >> ummTSchema.js
 }
 
+cleanup() {
+  rm ./*-temp.*
+}
+
 {
   echo "Start downloading schema files"
   (ummC -ne 1) && (ummS -ne 1) && (ummV -ne 1) && (ummT -ne 1)
@@ -92,4 +96,5 @@ if [ $? -ne 0 ]; then
   echo "Failed copying schema files"
   exit 1
 fi
+cleanup
 echo "Done"
