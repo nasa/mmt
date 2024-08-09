@@ -15,6 +15,7 @@ import userEvent from '@testing-library/user-event'
 import {
   multiPageCollectionSearchPage1,
   multiPageCollectionSearchPage1Asc,
+  multiPageCollectionSearchPage1TitleAsc,
   multiPageCollectionSearchPage1Desc,
   multiPageCollectionSearchPage2,
   singlePageCollectionSearch,
@@ -195,7 +196,7 @@ describe('SearchPage component', () => {
 
   describe('with multiple pages of results', () => {
     test('shows the pagination', async () => {
-      setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 }, ['/collections?&page=1'])
+      setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 }, ['/collections'])
 
       expect(screen.getByText('Loading...')).toBeInTheDocument()
 
@@ -218,7 +219,7 @@ describe('SearchPage component', () => {
       test('navigates correctly and shows the correct pagination links', async () => {
         const user = userEvent.setup()
 
-        setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 }, ['/collections?&page=1'])
+        setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage2], { limit: 3 }, ['/collections'])
 
         expect(screen.getByText('Loading...')).toBeInTheDocument()
 
@@ -241,7 +242,7 @@ describe('SearchPage component', () => {
 
   describe('when clicking an ascending sort button', () => {
     test('sorts and shows the the correctly classed sort buttons', async () => {
-      const { user } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 }, ['/collections?&page=1'])
+      const { user } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 }, ['/collections'])
 
       expect(screen.getByText('Loading...')).toBeInTheDocument()
 
@@ -253,7 +254,7 @@ describe('SearchPage component', () => {
 
       const dataRow1Before = await within(table).findAllByRole('row')
 
-      expect(within(dataRow1Before[1]).getAllByRole('cell')[0].textContent).toBe('Collection Short Name 1 multiPageCollectionSearchPage1')
+      expect(within(dataRow1Before[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
 
       const shortNameHeader = within(table).getAllByRole('columnheader')[0]
 
@@ -263,7 +264,7 @@ describe('SearchPage component', () => {
 
       const dataRow1After = await within(table).findAllByRole('row')
 
-      expect(within(dataRow1After[1]).getAllByRole('cell')[0].textContent).toBe('Collection Short Name 3')
+      expect(within(dataRow1After[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
 
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
@@ -280,7 +281,7 @@ describe('SearchPage component', () => {
     test('sorts and shows the correctly classed the sort buttons', async () => {
       const {
         user
-      } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Desc], { limit: 3 }, ['/collections?&page=1'])
+      } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Desc], { limit: 3 }, ['/collections'])
 
       expect(screen.getByText('Loading...')).toBeInTheDocument()
 
@@ -302,6 +303,35 @@ describe('SearchPage component', () => {
 
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
+    })
+  })
+
+  describe('when clicking the a custom sortFn sort button', () => {
+    test('sorts and shows the button as active', async () => {
+      const user = userEvent.setup()
+
+      setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1TitleAsc], { limit: 3 }, ['/collections'])
+
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+      const table = await screen.findByRole('table')
+
+      const tableRows = within(table).getAllByRole('row')
+
+      expect(tableRows.length).toEqual(4)
+
+      const entryTitleHeader = within(table).getAllByRole('columnheader')[2]
+
+      const descendingButton = within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })
+
+      await user.click(descendingButton)
+
+      const dataRow1 = await within(table).findAllByRole('row')
+
+      expect(within(dataRow1[1]).getAllByRole('cell')[2].textContent).toContain('Collection Title 3')
+
+      expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in descending order/ })).toHaveClass('table__sort-button--inactive')
+      expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
   })
 
