@@ -1,10 +1,10 @@
 #!/bin/bash
-ummJsonSchemaUrl=`jq '.ummJsonSchemaUrl' ../static.config.json`
+ummJsonSchemaUrl=`jq '.ummJsonSchemaUrl' ./static.config.json`
 ummJsonSchemaUrl=${ummJsonSchemaUrl//\"/}
 ummC() {
     echo "Downloading ummC"
     #Reads version number
-    schema_version=`jq '.ummVersions.ummC' ../static.config.json`
+    schema_version=`jq '.ummVersions.ummC' ./static.config.json`
     schema_version=${schema_version//\"/}
     #Download
     curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/collection/v${schema_version}/umm-c-json-schema.json > umm-c-json-schema-temp.json
@@ -30,7 +30,7 @@ ummC() {
 ummS() {
     echo "Downloading ummS"
     #Reads version number
-    schema_version=`jq '.ummVersions.ummS' ../static.config.json`
+    schema_version=`jq '.ummVersions.ummS' ./static.config.json`
     schema_version=${schema_version//\"/}
     #Download
     curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/service/v${schema_version}/umm-s-json-schema.json > umm-s-json-schema-temp.json
@@ -47,7 +47,7 @@ ummS() {
 ummV() {
     echo "Downloading ummV"
     #Reads version number
-    schema_version=`jq '.ummVersions.ummV' ../static.config.json`
+    schema_version=`jq '.ummVersions.ummV' ./static.config.json`
     schema_version=${schema_version//\"/}
     #Download
     curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/variable/v${schema_version}/umm-var-json-schema.json > umm-var-json-schema-temp.json
@@ -64,7 +64,7 @@ ummV() {
 ummT() {
     echo "Downloading ummT"
     #Reads version number
-    schema_version=`jq '.ummVersions.ummT' ../static.config.json`
+    schema_version=`jq '.ummVersions.ummT' ./static.config.json`
     schema_version=${schema_version//\"/}
     #Download
     curl https://git.earthdata.nasa.gov/projects/EMFD/repos/unified-metadata-model/raw/tool/v${schema_version}/umm-t-json-schema.json > umm-t-json-schema-temp.json
@@ -93,7 +93,7 @@ cleanup() {
 }
 echo "Successfully downloaded schema files"
 echo "Copying schema files"
-cp ummCSchema.js ummSSchema.js ummVarSchema.js ummTSchema.js ../static/src/js/schemas/umm/
+cp ./ummCSchema.js ./ummSSchema.js ./ummVarSchema.js ./ummTSchema.js ./static/src/js/schemas/umm/
 if [ $? -ne 0 ]; then
   echo "Failed copying schema files"
   exit 1

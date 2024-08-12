@@ -36,7 +36,7 @@ config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 echo $config > tmp.$$.json && mv tmp.$$.json static.config.json
 
 # Download schema files
-./download_schemas.sh
+bin/download_schemas.sh
 if [ $? -ne 0 ]; then
   echo "Failed downloading schema files"
   exit 1
