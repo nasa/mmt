@@ -71,7 +71,7 @@ const collectionInformationUiSchema = {
                   'ui:col': {
                     style: {
                       padding: '1.25rem 1.5rem',
-                      borderLeft: '4px solid #cad4d8'
+                      borderInlineStart: '4px solid #cad4d8'
                     },
                     md: 12,
                     children: ['DOI']
@@ -140,7 +140,7 @@ const collectionInformationUiSchema = {
           'ui:col': {
             style: {
               padding: '1.25rem 1.5rem',
-              borderLeft: '4px solid #cad4d8'
+              borderInlineStart: '4px solid #cad4d8'
             },
             md: 12,
             children: [

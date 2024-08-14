@@ -92,7 +92,7 @@ const spatialInformationUiSchema = {
                     'ui:col': {
                       style: {
                         padding: '1.25rem 1.5rem',
-                        borderLeft: '4px solid #cad4d8'
+                        borderInlineStart: '4px solid #cad4d8'
                       },
                       md: 12,
                       children: ['HorizontalSpatialDomain']
@@ -107,7 +107,7 @@ const spatialInformationUiSchema = {
                     'ui:col': {
                       style: {
                         padding: '1.25rem 1.5rem',
-                        borderLeft: '4px solid #cad4d8'
+                        borderInlineStart: '4px solid #cad4d8'
                       },
                       md: 12,
                       children: ['VerticalSpatialDomains']
@@ -123,7 +123,7 @@ const spatialInformationUiSchema = {
                     'ui:col': {
                       style: {
                         padding: '1.25rem 1.5rem',
-                        borderLeft: '4px solid #cad4d8'
+                        borderInlineStart: '4px solid #cad4d8'
                       },
                       md: 12,
                       children: ['OrbitParameters']
@@ -1312,7 +1312,7 @@ const spatialInformationUiSchema = {
               md: 12,
               style: {
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #cad4d8'
+                borderInlineStart: '4px solid #cad4d8'
               },
               children: [
                 {
@@ -1321,7 +1321,7 @@ const spatialInformationUiSchema = {
                       'ui:col': {
                         style: {
                           padding: '1.25rem 1.5rem',
-                          borderLeft: '4px solid #cad4d8'
+                          borderInlineStart: '4px solid #cad4d8'
                         },
                         md: 12,
                         children: ['AltitudeSystemDefinition']
@@ -1335,7 +1335,7 @@ const spatialInformationUiSchema = {
                       'ui:col': {
                         style: {
                           padding: '1.25rem 1.5rem',
-                          borderLeft: '4px solid #cad4d8'
+                          borderInlineStart: '4px solid #cad4d8'
                         },
                         md: 12,
                         children: ['DepthSystemDefinition']
