@@ -90,10 +90,7 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      style: {
-                        padding: '1.25rem 1.5rem',
-                        borderInlineStart: '4px solid #cad4d8'
-                      },
+                      className: 'grid-layout__field-left-border',
                       md: 12,
                       children: ['HorizontalSpatialDomain']
                     }
@@ -105,10 +102,7 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      style: {
-                        padding: '1.25rem 1.5rem',
-                        borderInlineStart: '4px solid #cad4d8'
-                      },
+                      className: 'grid-layout__field-left-border',
                       md: 12,
                       children: ['VerticalSpatialDomains']
                     }
@@ -121,10 +115,7 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      style: {
-                        padding: '1.25rem 1.5rem',
-                        borderInlineStart: '4px solid #cad4d8'
-                      },
+                      className: 'grid-layout__field-left-border',
                       md: 12,
                       children: ['OrbitParameters']
                     }
@@ -1319,10 +1310,7 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: {
-                          padding: '1.25rem 1.5rem',
-                          borderInlineStart: '4px solid #cad4d8'
-                        },
+                        className: 'grid-layout__field-left-border',
                         md: 12,
                         children: ['AltitudeSystemDefinition']
                       }
@@ -1333,10 +1321,7 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: {
-                          padding: '1.25rem 1.5rem',
-                          borderInlineStart: '4px solid #cad4d8'
-                        },
+                        className: 'grid-layout__field-left-border',
                         md: 12,
                         children: ['DepthSystemDefinition']
                       }
