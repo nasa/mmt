@@ -6,7 +6,7 @@ import serviceContactsUiSchema from './serviceContacts'
 import serviceInformationUiSchema from './serviceInformation'
 import organizationUiSchema from './serviceOrganizations'
 import serviceQualityUiSchema from './serviceQuality'
-import serviceOptionsUiSchema from './service_options'
+import serviceOptionsUiSchema from './serviceOptions'
 
 const serviceUiSchema = {
   'service-information': serviceInformationUiSchema,

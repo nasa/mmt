@@ -90,6 +90,10 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
+                      style: {
+                        padding: '1.25rem 1.5rem',
+                        borderLeft: '4px solid #cad4d8'
+                      },
                       md: 12,
                       children: ['HorizontalSpatialDomain']
                     }
@@ -101,6 +105,10 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
+                      style: {
+                        padding: '1.25rem 1.5rem',
+                        borderLeft: '4px solid #cad4d8'
+                      },
                       md: 12,
                       children: ['VerticalSpatialDomains']
                     }
@@ -113,6 +121,10 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
+                      style: {
+                        padding: '1.25rem 1.5rem',
+                        borderLeft: '4px solid #cad4d8'
+                      },
                       md: 12,
                       children: ['OrbitParameters']
                     }
@@ -123,6 +135,7 @@ const spatialInformationUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
+                      style: { paddingTop: '15px' },
                       md: 12,
                       children: ['GranuleSpatialRepresentation']
                     }
@@ -182,9 +195,9 @@ const spatialInformationUiSchema = {
         ]
       },
       Geometry: {
-        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:heading-level': 'h6',
         'ui:field': 'layout',
+        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:layout_grid': {
           'ui:row': [
             {
@@ -744,6 +757,7 @@ const spatialInformationUiSchema = {
             'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
+              'ui:fieldReplacesAnyOrOneOf': true,
               'ui:layout_grid': {
                 'ui:row': [
                   {
@@ -817,6 +831,7 @@ const spatialInformationUiSchema = {
             'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
+              'ui:fieldReplacesAnyOrOneOf': true,
               'ui:layout_grid': {
                 'ui:row': [
                   {
@@ -859,6 +874,7 @@ const spatialInformationUiSchema = {
             'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
+              'ui:fieldReplacesAnyOrOneOf': true,
               'ui:layout_grid': {
                 'ui:row': [
                   {
@@ -914,6 +930,7 @@ const spatialInformationUiSchema = {
             'ui:heading-level': 'h6',
             items: {
               'ui:field': 'layout',
+              'ui:fieldReplacesAnyOrOneOf': true,
               'ui:layout_grid': {
                 'ui:row': [
                   {
@@ -934,16 +951,14 @@ const spatialInformationUiSchema = {
                                 md: 12,
                                 children: ['YDimension']
                               }
+                            },
+                            {
+                              'ui:col': {
+                                md: 12,
+                                children: ['Unit']
+                              }
                             }
                           ]
-                        },
-                        {
-                          'ui:row': [{
-                            'ui:col': {
-                              md: 12,
-                              children: ['YDimension']
-                            }
-                          }]
                         }
                       ]
                     }
@@ -1295,11 +1310,19 @@ const spatialInformationUiSchema = {
             'ui:group': 'Vertical Coordinate System',
             'ui:col': {
               md: 12,
+              style: {
+                padding: '1.25rem 1.5rem',
+                borderLeft: '4px solid #cad4d8'
+              },
               children: [
                 {
                   'ui:row': [
                     {
                       'ui:col': {
+                        style: {
+                          padding: '1.25rem 1.5rem',
+                          borderLeft: '4px solid #cad4d8'
+                        },
                         md: 12,
                         children: ['AltitudeSystemDefinition']
                       }
@@ -1310,6 +1333,10 @@ const spatialInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
+                        style: {
+                          padding: '1.25rem 1.5rem',
+                          borderLeft: '4px solid #cad4d8'
+                        },
                         md: 12,
                         children: ['DepthSystemDefinition']
                       }

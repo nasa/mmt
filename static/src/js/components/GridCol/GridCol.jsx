@@ -97,7 +97,7 @@ const GridCol = (
           </span>
           {
             groupDescription && (
-              <div className="description-box mb-5">
+              <div className="description-box mb-3">
                 {description}
               </div>
             )

@@ -44,6 +44,7 @@ const temporalInformationUiSchema = {
     'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
+      'ui:fieldReplacesAnyOrOneOf': true,
       'ui:layout_grid': {
         'ui:row': [
           {

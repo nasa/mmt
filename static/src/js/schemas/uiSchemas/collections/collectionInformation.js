@@ -69,6 +69,10 @@ const collectionInformationUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
+                    style: {
+                      padding: '1.25rem 1.5rem',
+                      borderLeft: '4px solid #cad4d8'
+                    },
                     md: 12,
                     children: ['DOI']
                   }
@@ -125,7 +129,76 @@ const collectionInformationUiSchema = {
     'ui:widget': 'textarea'
   },
   DOI: {
+    'ui:title': 'DOI',
     'ui:heading-level': 'h5',
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'DOI',
+          'ui:group-description': true,
+          'ui:col': {
+            style: {
+              padding: '1.25rem 1.5rem',
+              borderLeft: '4px solid #cad4d8'
+            },
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['DOI']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Authority']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['PreviousVersion']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['MissingReason']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Explanation']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     DOI: {
       'ui:widget': 'textarea'
     },
@@ -204,8 +277,69 @@ const collectionInformationUiSchema = {
     'ui:hide-header': true,
     items: {
       'ui:hide-header': true,
-
       'ui:title': 'Associated DOIs',
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['DOI']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Title']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Authority']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Type']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['DescriptionOfOtherType']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
       DOI: {
         'ui:widget': 'textarea'
       },

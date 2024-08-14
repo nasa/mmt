@@ -92,7 +92,13 @@ const GridCheckboxPanel = ({
   }
 
   return (
-    <div>
+    <div style={
+      {
+        display: 'flex',
+        alignItems: 'center'
+      }
+    }
+    >
       <input className="m-2" type="checkbox" onChange={handleCheckbox} />
       {groupCheckbox}
     </div>

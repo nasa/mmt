@@ -64,6 +64,21 @@ const serviceOptionsUiSchema = {
         }
       ]
     },
+    Aggregation: {
+      'ui:title': 'Aggregation',
+      'ui:fieldReplacesAnyOrOneOf': true,
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: ['Concatenate']
+            }
+          }
+        ]
+      }
+    },
     VariableAggregationSupportedMethods: {
       'ui:heading-level': 'h4'
     },
@@ -306,6 +321,7 @@ const serviceOptionsUiSchema = {
     Subset: {
       'ui:heading-level': 'h4',
       'ui:field': 'layout',
+      'ui:fieldReplacesAnyOrOneOf': true,
       'ui:layout_grid': {
 
         'ui:row': [
@@ -356,6 +372,7 @@ const serviceOptionsUiSchema = {
       },
       SpatialSubset: {
         'ui:field': 'layout',
+        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:layout_grid': {
           'ui:row': [
             {
