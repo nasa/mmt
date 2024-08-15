@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { PUBLISH_DRAFT } from '../operations/mutations/publishDraft'
 
 import getUmmVersion from '../utils/getUmmVersion'
+import getHumanizedNameFromTypeParam from '../utils/getHumanizedNameFromTypeParam'
 
 const usePublishMutation = (queryName) => {
   const [error, setError] = useState()
@@ -17,7 +18,9 @@ const usePublishMutation = (queryName) => {
           // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
           drafts: () => {},
           // Remove the list of published concepts from the cache. This ensures that if the user returns to the list page they will see the correct data.
-          [queryName]: () => {}
+          [queryName]: () => {},
+          // Remove the list of published concept from the cache. This ensures that if the user returns to the preview page they will see the correct data.
+          [getHumanizedNameFromTypeParam(queryName)]: () => {}
         }
       })
     }

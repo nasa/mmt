@@ -44,6 +44,7 @@ const temporalInformationUiSchema = {
     'ui:heading-level': 'h4',
     items: {
       'ui:field': 'layout',
+      'ui:fieldReplacesAnyOrOneOf': true,
       'ui:layout_grid': {
         'ui:row': [
           {
@@ -88,7 +89,9 @@ const temporalInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: { paddingTop: '15px' },
+                        style: {
+                          paddingBlockStart: '15px'
+                        },
                         md: 12,
                         children: ['TemporalResolution']
                       }
@@ -99,7 +102,7 @@ const temporalInformationUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: { paddingTop: '15px' },
+                        style: { paddingBlockStart: '15px' },
                         md: 12,
                         children: ['PrecisionOfSeconds']
                       }

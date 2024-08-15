@@ -306,6 +306,7 @@ const serviceOptionsUiSchema = {
     Subset: {
       'ui:heading-level': 'h4',
       'ui:field': 'layout',
+      'ui:fieldReplacesAnyOrOneOf': true,
       'ui:layout_grid': {
 
         'ui:row': [
@@ -356,6 +357,7 @@ const serviceOptionsUiSchema = {
       },
       SpatialSubset: {
         'ui:field': 'layout',
+        'ui:fieldReplacesAnyOrOneOf': true,
         'ui:layout_grid': {
           'ui:row': [
             {
