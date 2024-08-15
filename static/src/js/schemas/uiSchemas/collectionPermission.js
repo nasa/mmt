@@ -44,10 +44,7 @@ const collectionPermissionUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
-                    style: {
-                      marginLeft: '10px',
-                      borderLeft: 'solid 5px rgb(240,240,240)'
-                    },
+                    className: 'grid-layout__field-left-border',
                     md: 12,
                     children: ['accessConstraintFilter']
                   }
@@ -58,11 +55,7 @@ const collectionPermissionUiSchema = {
               'ui:row': [
                 {
                   'ui:col': {
-                    style: {
-                      marginLeft: '10px',
-                      marginBottom: '5px',
-                      borderLeft: 'solid 5px rgb(240,240,240)'
-                    },
+                    className: 'grid-layout__field-left-border',
                     md: 12,
                     children: ['temporalConstraintFilter']
                   }
