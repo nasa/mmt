@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { isEmpty, kebabCase } from 'lodash-es'
-import crypto from 'crypto'
 
 import useAppContext from '@/js/hooks/useAppContext'
 
