@@ -11,6 +11,7 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
+import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
 
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
@@ -56,10 +57,11 @@ const CollectionAssociationFormPageHeader = () => {
             label: name,
             to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
-          {
-            label: 'Collection Associations',
-            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`
-          },
+          derivedConceptType !== conceptIdTypes.O
+            ? {
+              label: 'Collection Associations',
+              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`
+            } : {},
           {
             label: 'Collection Association Search',
             active: true

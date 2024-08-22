@@ -1,3 +1,4 @@
+import { GET_SERVICES } from '@/js/operations/queries/getServices'
 import { CREATE_ASSOCIATION } from '../../../../operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
 
@@ -447,6 +448,66 @@ export const CollectionResultsWithPages = {
         ],
         count: 50,
         __typename: 'CollectionList'
+      }
+    }
+  }
+}
+
+export const GetServicesRequest = {
+  request: {
+    query: GET_SERVICES,
+    variables: {
+      params: {
+        limit: 20,
+        offset: 0
+      }
+    }
+  },
+  result: {
+    data: {
+      services: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'S1000000000-TESTPROV',
+            name: 'Service Name 1',
+            longName: 'Service Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1',
+            userId: 'admin'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const GetServicesPagedRequest = {
+  request: {
+    query: GET_SERVICES,
+    variables: {
+      params: {
+        limit: 20,
+        offset: 40
+      }
+    }
+  },
+  result: {
+    data: {
+      services: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'S1000000000-TESTPROV',
+            name: 'Service Name 1',
+            longName: 'Service Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1',
+            userId: 'admin'
+          }
+        ]
       }
     }
   }
