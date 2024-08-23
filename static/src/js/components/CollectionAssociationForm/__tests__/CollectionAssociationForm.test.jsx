@@ -30,9 +30,11 @@ import {
   CollectionResultsWithPages,
   createAssociationErrorRequest,
   createAssociationRequest,
+  createAssociationWithServiceRequest,
   mockTool,
   mockVariable,
   mockToolWithAssociation,
+  mockOrderOption,
   CollectionSortRequest,
   GetServicesRequest,
   GetServicesPagedRequest
@@ -71,6 +73,11 @@ const setup = ({
                 path={overridePath || 'tools/:conceptId/collection-association-search'}
                 element={<CollectionAssociationForm metadata={overrideMock || mockTool} />}
               />
+              <Route
+                path={overridePath || 'order-options/:conceptId/collection-association-search'}
+                element={<CollectionAssociationForm metadata={overrideMock || mockOrderOption} />}
+              />
+
             </Routes>
           </MockedProvider>
         </MemoryRouter>
@@ -289,6 +296,46 @@ describe('CollectionAssociationForm', () => {
 
       expect(navigateSpy).toHaveBeenCalledTimes(2)
       expect(navigateSpy).toHaveBeenCalledWith('/tools/T12000000-MMT_2/collection-association')
+    })
+  })
+
+  describe('when supplying a service when associating a collection and order option', () => {
+    test('should associate and redirect to order option page', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup({
+        overrideInitialEntries: ['/order-options/OO1257381321-EDF_OPS/collection-association-search'],
+        additionalMocks: [CollectionAssociationRequest, createAssociationWithServiceRequest]
+      })
+
+      const serviceField = await screen.findByText('Select Service')
+      await user.click(serviceField)
+      const option = screen.getByRole('option', { name: 'Service Name 1' })
+      await user.click(option)
+
+      const searchField = await screen.findByText('Select Search Field')
+
+      await user.click(searchField)
+
+      const selectField = screen.getByText('Entry Title')
+      await user.click(selectField)
+
+      const field = screen.getByRole('textbox')
+      await user.type(field, '*')
+
+      const searchForCollections = screen.getByText('Search for Collection')
+      await user.click(searchForCollections)
+
+      const firstCheckbox = screen.getAllByRole('checkbox')[1]
+      await user.click(firstCheckbox)
+
+      const createSelectedAssociationButton = screen.getByRole('button', { name: 'Associate Selected Collections' })
+
+      await user.click(createSelectedAssociationButton)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(2)
+      expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1257381321-EDF_OPS')
     })
   })
 

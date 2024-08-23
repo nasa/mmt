@@ -128,6 +128,16 @@ export const mockToolWithAssociation = {
   __typename: 'Tool'
 }
 
+export const mockOrderOption = {
+  deprecated: false,
+  name: 'Test Name',
+  description: 'Test Description',
+  form: 'Test Form',
+  scope: 'PROVIDER',
+  providerId: 'MMT_2',
+  __typename: 'OrderOption'
+}
+
 export const mockTool = {
   accessConstraints: null,
   ancillaryKeywords: null,
@@ -519,6 +529,28 @@ export const createAssociationRequest = {
     variables: {
       conceptId: 'T12000000-MMT_2',
       associatedConceptIds: ['C12000001124-MMT_2']
+    }
+  },
+  result: {
+    data: {
+      createAssociation: {
+        associatedConceptId: 'C1200000035-SEDAC',
+        conceptId: 'TLA1200000140-CMR',
+        revisionId: 2
+      }
+    }
+  }
+}
+
+export const createAssociationWithServiceRequest = {
+  request: {
+    query: CREATE_ASSOCIATION,
+    variables: {
+      conceptId: 'S1000000000-TESTPROV',
+      associatedConceptData: [{
+        concept_id: 'C12000001124-MMT_2',
+        data: { order_option: 'OO1257381321-EDF_OPS' }
+      }]
     }
   },
   result: {
