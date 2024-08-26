@@ -4,6 +4,10 @@ const collectionAssociation = {
   type: 'object',
   additionalProperties: false,
   properties: {
+    ServiceField: {
+      title: 'Service Field',
+      type: 'string'
+    },
     SearchField: {
       title: 'Search Field',
       $ref: '#/definitions/SearchFieldType'

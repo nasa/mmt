@@ -113,8 +113,8 @@ const OrderOptionPageHeader = () => {
           [
             {
               icon: FaEye,
-              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`,
-              title: 'Collection Associations'
+              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`,
+              title: 'Add Collection Associations'
             }
           ]
         }

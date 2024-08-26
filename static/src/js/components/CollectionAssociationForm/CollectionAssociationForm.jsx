@@ -14,8 +14,12 @@ import {
   useParams,
   useSearchParams
 } from 'react-router-dom'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { camelCase } from 'lodash-es'
+import {
+  useLazyQuery,
+  useMutation,
+  useQuery
+} from '@apollo/client'
+import { camelCase, cloneDeep } from 'lodash-es'
 
 import moment from 'moment'
 
@@ -51,6 +55,8 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import conceptIdTypes from '@/js/constants/conceptIdTypes'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -114,6 +120,44 @@ const CollectionAssociationForm = ({ metadata }) => {
       removeEmpty(formData)
     )
   }
+
+  const uiSchema = cloneDeep(collectionAssociationUiSchema)
+  const schema = cloneDeep(collectionAssociation)
+
+  const { data: serviceData } = useQuery(conceptTypeQueries.Services, {
+    variables: {
+      params: {
+        limit,
+        offset
+      }
+    }
+  }, { skip: derivedConceptType !== conceptIdTypes.O })
+
+  if (derivedConceptType === conceptIdTypes.O) {
+    const { required } = schema
+    required.push('ServiceField')
+
+    const rows = uiSchema['ui:layout_grid']['ui:row']
+    rows.unshift(
+      {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: ['ServiceField']
+            }
+          }
+        ]
+      }
+    )
+
+    uiSchema.ServiceField['ui:options'].enumOptions = serviceData?.services.items?.map(
+      (service) => service.name
+    ).sort()
+  }
+
+  // Validate ummMetadata
+  const { errors: validationErrors } = validator.validateFormData(searchFormData, schema)
 
   // Query to retrieve collections
   const [getCollections] = useLazyQuery(GET_COLLECTIONS, {
@@ -200,14 +244,35 @@ const CollectionAssociationForm = ({ metadata }) => {
 
   // Handles selected collection association button by calling CREATE_ASSOCIATION mutation
   const handleAssociateSelectedCollection = () => {
+    let variables = {
+      conceptId,
+      associatedConceptIds: collectionConceptIds
+    }
+
+    if (derivedConceptType === conceptIdTypes.O) {
+      const serviceItems = serviceData?.services.items
+      const { ServiceField: name } = searchFormData
+      const serviceConceptId = serviceItems?.filter((service) => service.name === name)[0].conceptId
+      const associatedConceptData = collectionConceptIds.map((collectionConceptId) => ({
+        concept_id: collectionConceptId,
+        data: { order_option: conceptId }
+      }))
+      variables = {
+        conceptId: serviceConceptId,
+        associatedConceptData
+      }
+    }
+
     createAssociationMutation({
-      variables: {
-        conceptId,
-        associatedConceptIds: collectionConceptIds
-      },
+      variables,
       onCompleted: () => {
         setLoading(true)
-        navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
+        if (derivedConceptType === conceptIdTypes.O) {
+          navigate(`/order-options/${conceptId}`)
+        } else {
+          navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
+        }
+
         addNotification({
           message: 'Created association successfully',
           variant: 'success'
@@ -367,10 +432,10 @@ const CollectionAssociationForm = ({ metadata }) => {
     <>
       <Form
         className="bg-white m-2 pt-2"
-        schema={collectionAssociation}
+        schema={schema}
         validator={validator}
         fields={fields}
-        uiSchema={collectionAssociationUiSchema}
+        uiSchema={uiSchema}
         widgets={widgets}
         templates={templates}
         onChange={handleChange}
@@ -387,6 +452,7 @@ const CollectionAssociationForm = ({ metadata }) => {
         >
 
           <Button
+            disabled={validationErrors.length > 0}
             onClick={handleCollectionSearch}
             variant="primary"
           >
@@ -455,6 +521,7 @@ const CollectionAssociationForm = ({ metadata }) => {
               />
               <Button
                 className="d-flex"
+                disabled={validationErrors.length > 0}
                 onClick={handleAssociateSelectedCollection}
                 variant="primary"
               >

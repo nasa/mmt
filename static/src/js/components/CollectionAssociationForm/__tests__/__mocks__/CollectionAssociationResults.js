@@ -1,3 +1,4 @@
+import { GET_SERVICES } from '@/js/operations/queries/getServices'
 import { CREATE_ASSOCIATION } from '../../../../operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
 
@@ -125,6 +126,16 @@ export const mockToolWithAssociation = {
     __typename: 'CollectionList'
   },
   __typename: 'Tool'
+}
+
+export const mockOrderOption = {
+  deprecated: false,
+  name: 'Test Name',
+  description: 'Test Description',
+  form: 'Test Form',
+  scope: 'PROVIDER',
+  providerId: 'MMT_2',
+  __typename: 'OrderOption'
 }
 
 export const mockTool = {
@@ -452,12 +463,94 @@ export const CollectionResultsWithPages = {
   }
 }
 
+export const GetServicesRequest = {
+  request: {
+    query: GET_SERVICES,
+    variables: {
+      params: {
+        limit: 20,
+        offset: 0
+      }
+    }
+  },
+  result: {
+    data: {
+      services: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'S1000000000-TESTPROV',
+            name: 'Service Name 1',
+            longName: 'Service Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1',
+            userId: 'admin'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const GetServicesPagedRequest = {
+  request: {
+    query: GET_SERVICES,
+    variables: {
+      params: {
+        limit: 20,
+        offset: 40
+      }
+    }
+  },
+  result: {
+    data: {
+      services: {
+        count: 1,
+        items: [
+          {
+            conceptId: 'S1000000000-TESTPROV',
+            name: 'Service Name 1',
+            longName: 'Service Long Name 1',
+            providerId: 'TESTPROV',
+            revisionDate: '2023-11-30 00:00:00',
+            revisionId: '1',
+            userId: 'admin'
+          }
+        ]
+      }
+    }
+  }
+}
+
 export const createAssociationRequest = {
   request: {
     query: CREATE_ASSOCIATION,
     variables: {
       conceptId: 'T12000000-MMT_2',
       associatedConceptIds: ['C12000001124-MMT_2']
+    }
+  },
+  result: {
+    data: {
+      createAssociation: {
+        associatedConceptId: 'C1200000035-SEDAC',
+        conceptId: 'TLA1200000140-CMR',
+        revisionId: 2
+      }
+    }
+  }
+}
+
+export const createAssociationWithServiceRequest = {
+  request: {
+    query: CREATE_ASSOCIATION,
+    variables: {
+      conceptId: 'S1000000000-TESTPROV',
+      associatedConceptData: [{
+        concept_id: 'C12000001124-MMT_2',
+        data: { order_option: 'OO1257381321-EDF_OPS' }
+      }]
     }
   },
   result: {
