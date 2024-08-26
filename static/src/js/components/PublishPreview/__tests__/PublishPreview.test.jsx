@@ -809,7 +809,10 @@ describe('PublishPreview', () => {
 
   describe('Services', () => {
     describe('when the collection has services', () => {
-      test('should display the service count', async () => {
+      test('should display navigation link with service count', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
         const { user } = setup({
           overrideInitialEntries: ['/collections/C1000000-MMT/1'],
           overridePath: '/collections',
@@ -837,7 +840,12 @@ describe('PublishPreview', () => {
 
         await user.click(moreActionsButton)
 
-        expect(screen.getByRole('button', { name: 'View Services 1' }))
+        const viewServicesButton = screen.getByRole('button', { name: 'View Services 1' })
+
+        await user.click(viewServicesButton)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/collections/C1000000-MMT/service-associations')
       })
     })
 
