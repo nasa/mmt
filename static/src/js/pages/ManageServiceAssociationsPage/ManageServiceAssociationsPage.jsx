@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
@@ -41,7 +42,7 @@ const ManageServiceAssociationsPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: 'Collection',
+            label: 'Collections',
             to: '/collections'
           },
           {
@@ -74,7 +75,7 @@ const ManageServiceAssociationsPage = () => (
     header={<ManageServiceAssociationsPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<LoadingTable />}>
         <ManageServiceAssociations />
       </Suspense>
     </ErrorBoundary>

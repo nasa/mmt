@@ -8,6 +8,7 @@ import { useSuspenseQuery } from '@apollo/client'
 import pluralize from 'pluralize'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
@@ -93,7 +94,7 @@ const ManageCollectionAssociationPage = () => (
     header={<ManageCollectionAssociationPageHeader />}
   >
     <ErrorBoundary>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<LoadingTable />}>
         <ManageCollectionAssociation />
       </Suspense>
     </ErrorBoundary>

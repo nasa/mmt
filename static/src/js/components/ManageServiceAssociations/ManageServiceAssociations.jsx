@@ -108,7 +108,7 @@ const ManageServiceAssociations = () => {
           variant="link"
           onClick={
             () => {
-              navigate(`/order-options/${conceptId}`)
+              navigate(`/order-options/${orderOptionConceptId}`)
             }
           }
         >

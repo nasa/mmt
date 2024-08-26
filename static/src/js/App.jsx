@@ -36,6 +36,7 @@ import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
 import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
+
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
