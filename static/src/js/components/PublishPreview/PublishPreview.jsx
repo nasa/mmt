@@ -71,6 +71,10 @@ const PublishPreviewHeader = () => {
     setShowTagModal(nextState)
   }
 
+  const navigateToServices = () => {
+    navigate(`/collections/${conceptId}/service-associations`)
+  }
+
   const { addNotification } = useNotificationsContext()
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType], {
     update: (cache) => {
@@ -99,6 +103,7 @@ const PublishPreviewHeader = () => {
     pageTitle = '<Blank Name>',
     providerId,
     revisions,
+    services,
     tagDefinitions,
     ummMetadata
   } = concept
@@ -113,6 +118,11 @@ const PublishPreviewHeader = () => {
   let tagCount = 0
   if (tagDefinitions) {
     tagCount = tagDefinitions.items.length
+  }
+
+  let serviceCount = 0
+  if (services) {
+    ({ count: serviceCount } = services)
   }
 
   const {
@@ -224,6 +234,12 @@ const PublishPreviewHeader = () => {
                     onClick: () => toggleTagModal(true),
                     title: 'View Tags',
                     count: tagCount
+                  },
+                  {
+                    icon: FaEye,
+                    onClick: () => navigateToServices(),
+                    title: 'View Services',
+                    count: serviceCount
                   }
                 ]
                 : [

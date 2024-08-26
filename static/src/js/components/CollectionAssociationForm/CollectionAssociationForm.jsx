@@ -452,6 +452,7 @@ const CollectionAssociationForm = ({ metadata }) => {
         >
 
           <Button
+            className="mt-3"
             disabled={validationErrors.length > 0}
             onClick={handleCollectionSearch}
             variant="primary"
@@ -520,7 +521,7 @@ const CollectionAssociationForm = ({ metadata }) => {
                 sortKey={sortKeyParam}
               />
               <Button
-                className="d-flex"
+                className="d-flex mt-4"
                 disabled={validationErrors.length > 0}
                 onClick={handleAssociateSelectedCollection}
                 variant="primary"

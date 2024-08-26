@@ -11,6 +11,7 @@ import GroupPage from '@/js/pages/GroupPage/GroupPage'
 import HomePage from '@/js/pages/HomePage/HomePage'
 import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
 import ManageCollectionAssociationPage from '@/js/pages/ManageCollectionAssociationPage/ManageCollectionAssociationPage'
+import ManageServiceAssociationsPage from '@/js/pages/ManageServiceAssociationsPage/ManageServiceAssociationsPage'
 import MetadataFormPage from '@/js/pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from '@/js/pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from '@/js/pages/OrderOptionListPage/OrderOptionListPage'
@@ -35,7 +36,6 @@ import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
 import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
-
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
@@ -108,6 +108,10 @@ export const App = () => {
             {
               path: '/:type/:conceptId/collection-association',
               element: <ManageCollectionAssociationPage />
+            },
+            {
+              path: '/collections/:conceptId/service-associations',
+              element: <ManageServiceAssociationsPage />
             },
             {
               path: '/:type/:conceptId/collection-association-search',
