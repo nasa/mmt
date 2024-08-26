@@ -6,7 +6,7 @@ ummC() {
     #Reads version number
     schema_version=`jq '.ummVersions.ummC' ./static.config.json`
     schema_version=${schema_version//\"/}
-    echo schema_version=${schema_version}
+    echo ummC schema version=${schema_version}
     #Download
     curl -L "https://cdn.earthdata.nasa.gov/umm/collection/v${schema_version}/umm-c-json-schema.json" > umm-c-json-schema-temp.json
     if [ $? -ne 0 ]; then
@@ -33,6 +33,7 @@ ummS() {
     #Reads version number
     schema_version=`jq '.ummVersions.ummS' ./static.config.json`
     schema_version=${schema_version//\"/}
+    echo ummS schema version=${schema_version}
     #Download
     curl -L "https://cdn.earthdata.nasa.gov/umm/service/v${schema_version}/umm-s-json-schema.json" > umm-s-json-schema-temp.json
     if [ $? -ne 0 ]; then
@@ -50,6 +51,7 @@ ummV() {
     #Reads version number
     schema_version=`jq '.ummVersions.ummV' ./static.config.json`
     schema_version=${schema_version//\"/}
+    echo ummV schema version=${schema_version}
     #Download
     curl -L "https://cdn.earthdata.nasa.gov/umm/variable/v${schema_version}/umm-var-json-schema.json" > umm-var-json-schema-temp.json
     if [ $? -ne 0 ]; then
@@ -67,6 +69,7 @@ ummT() {
     #Reads version number
     schema_version=`jq '.ummVersions.ummT' ./static.config.json`
     schema_version=${schema_version//\"/}
+    echo ummT schema version=${schema_version}
     #Download
     curl -L "https://cdn.earthdata.nasa.gov/umm/tool/v${schema_version}/umm-t-json-schema.json" > umm-t-json-schema-temp.json
     if [ $? -ne 0 ]; then
