@@ -19,7 +19,7 @@ import {
   useMutation,
   useQuery
 } from '@apollo/client'
-import { camelCase } from 'lodash-es'
+import { camelCase, cloneDeep } from 'lodash-es'
 
 import moment from 'moment'
 
@@ -55,7 +55,6 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import { cloneDeep } from '@apollo/client/utilities'
 import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
 
