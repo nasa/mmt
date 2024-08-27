@@ -318,8 +318,8 @@ GEM
       railties (>= 3.2)
       tilt
     regexp_parser (2.9.2)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.3.6)
+      strscan
     rouge (4.2.1)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
