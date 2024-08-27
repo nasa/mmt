@@ -30,11 +30,11 @@ import { GET_COLLECTION_REVISIONS } from '@/js/operations/queries/getCollectionR
 
 import PublishPreview from '../PublishPreview'
 import {
-  noTagsOrGranulesCollection,
+  collectionRecordWithRevisions,
+  noTagsOrGranulesOrServicesCollection,
   publishCollectionRecord,
   publishedVariableRecord,
   recordWithRevisions,
-  collectionRecordWithRevisions,
   variableRecordWithRevisions
 } from './__mocks__/publishPreview'
 
@@ -669,7 +669,7 @@ describe('PublishPreview', () => {
               },
               result: {
                 data: {
-                  collection: noTagsOrGranulesCollection
+                  collection: noTagsOrGranulesOrServicesCollection
                 }
               }
             },
@@ -775,7 +775,7 @@ describe('PublishPreview', () => {
               },
               result: {
                 data: {
-                  collection: noTagsOrGranulesCollection
+                  collection: noTagsOrGranulesOrServicesCollection
                 }
               }
             },
@@ -803,6 +803,98 @@ describe('PublishPreview', () => {
         await user.click(moreActionsButton)
 
         expect(screen.getByRole('button', { name: 'View Granules 0' }))
+      })
+    })
+  })
+
+  describe('Services', () => {
+    describe('when the collection has services', () => {
+      test('should display navigation link with service count', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+          overridePath: '/collections',
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeQueries.Collection,
+
+                variables: {
+                  params: {
+                    conceptId: 'C1000000-MMT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collection: publishCollectionRecord
+                }
+              }
+            }
+          ]
+        })
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        const viewServicesButton = screen.getByRole('button', { name: 'View Services 1' })
+
+        await user.click(viewServicesButton)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/collections/C1000000-MMT/service-associations')
+      })
+    })
+
+    describe('when the collection has no services', () => {
+      test('should display the services count with 0', async () => {
+        const { user } = setup({
+          overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+          overridePath: '/collections',
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeQueries.Collection,
+
+                variables: {
+                  params: {
+                    conceptId: 'C1000000-MMT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collection: noTagsOrGranulesOrServicesCollection
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_REVISIONS,
+                variables: {
+                  params: {
+                    conceptId: 'C1000000-MMT',
+                    allRevisions: true
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collections: collectionRecordWithRevisions
+                }
+              }
+            }
+          ]
+        })
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+
+        await user.click(moreActionsButton)
+
+        expect(screen.getByRole('button', { name: 'View Services 0' }))
       })
     })
   })

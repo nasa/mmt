@@ -1,9 +1,11 @@
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
-import { useParams } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
-import { camelCase } from 'lodash-es'
+import { useNavigate, useParams } from 'react-router'
+import {
+  Alert,
+  Col,
+  Row
+} from 'react-bootstrap'
 
 import pluralize from 'pluralize'
 
@@ -12,61 +14,44 @@ import CustomModal from '@/js/components/CustomModal/CustomModal'
 import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
 import Table from '@/js/components/Table/Table'
 
-import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
-
 import useAccessibleEvent from '@/js/hooks/useAccessibleEvent'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
+import { GET_SERVICE_ASSOCIATIONS } from '@/js/operations/queries/getServiceAssociations'
 
 import errorLogger from '@/js/utils/errorLogger'
-import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 
 /**
- * Renders a ManageCollectionAssociation component
+ * Renders a ManageServiceAssociations component
  *
  * @component
- * @example <caption>Render a ManageCollectionAssociation</caption>
+ * @example <caption>Render a ManageServiceAssociations</caption>
  * return (
- *   <ManageCollectionAssociation />
+ *   <ManageServiceAssociations />
  * )
  */
-const ManageCollectionAssociation = () => {
-  const { conceptId } = useParams()
-
+const ManageServiceAssociations = () => {
   const { addNotification } = useNotificationsContext()
+  const { conceptId } = useParams()
+  const navigate = useNavigate()
 
-  // Const [error, setError] = useState()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [collectionConceptIds, setCollectionConceptIds] = useState([])
+  const [serviceConceptIds, setServiceConceptIds] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
-
-  let params = {
+  const params = {
     params: {
       conceptId
     }
   }
 
-  const sortKey = searchParams.get('sortKey')
-
-  if (sortKey) {
-    params = {
-      ...params,
-      collectionsParams: {
-        sortKey
-      }
-    }
-  }
-
-  const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+  const { data, refetch } = useSuspenseQuery(GET_SERVICE_ASSOCIATIONS, {
     variables: params
   })
 
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
     refetchQueries: [{
-      query: conceptTypeQueries[derivedConceptType],
+      query: GET_SERVICE_ASSOCIATIONS,
       variables: params
     }],
     onCompleted: () => {
@@ -74,57 +59,74 @@ const ManageCollectionAssociation = () => {
 
       // Add a success notification
       addNotification({
-        message: 'Collection Associations Deleted Successfully!',
+        message: 'Service Associations Deleted Successfully!',
         variant: 'success'
       })
 
-      setCollectionConceptIds([])
+      setServiceConceptIds([])
     },
     onError: () => {
       addNotification({
-        message: 'Error disassociating collection',
+        message: 'Error disassociating service',
         variant: 'danger'
       })
 
-      errorLogger(`Unable to disassociate collection record for ${derivedConceptType}`, 'Manage Collection Association: deleteAssociation Mutation')
+      errorLogger(`Unable to disassociate service record for ${conceptId}`, 'Manage Service Association: deleteAssociation Mutation')
     }
   })
 
-  // Handles deleting selected collection
-  // if no collections selected, returns an error notification
+  // Handles deleting selected service/s
+  // if no services selected, button is disabled
   const handleDeleteAssociation = () => {
     deleteAssociationMutation({
       variables: {
         conceptId,
-        associatedConceptIds: collectionConceptIds
+        associatedConceptIds: serviceConceptIds
       }
     })
   }
-
-  const sortFn = useCallback((key, order) => {
-    let nextSortKey
-
-    searchParams.set('sortKey', nextSortKey)
-
-    setSearchParams((currentParams) => {
-      if (order === 'ascending') nextSortKey = `-${key}`
-      if (order === 'descending') nextSortKey = key
-
-      // Reset the page parameter
-      currentParams.delete('page')
-
-      // Set the sort key
-      currentParams.set('sortKey', nextSortKey)
-
-      return Object.fromEntries(currentParams)
-    })
-  }, [])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>
       {cellData}
     </EllipsisText>
   ), [])
+
+  const buildOrderOptionCell = useCallback((cellData) => {
+    const { items: orderOptionList } = cellData
+
+    const orderOptionNames = []
+
+    orderOptionList?.map((orderOption) => {
+      const { name, conceptId: orderOptionConceptId } = orderOption
+      orderOptionNames.push(
+        <Button
+          inline
+          naked
+          key={orderOptionConceptId}
+          type="button"
+          variant="link"
+          onClick={
+            () => {
+              navigate(`/order-options/${orderOptionConceptId}`)
+            }
+          }
+        >
+          {name}
+        </Button>
+      )
+
+      return null
+    })
+
+    return (
+      <Row>
+        <Col>
+          {orderOptionNames}
+        </Col>
+      </Row>
+    )
+  }, [])
 
   // Handles checkbox selections, if checked add the conceptId to the state variable
   // and pops the added conceptId from the array.
@@ -133,9 +135,9 @@ const ManageCollectionAssociation = () => {
     const { value } = target
 
     if (target.checked) {
-      setCollectionConceptIds([...collectionConceptIds, value])
+      setServiceConceptIds([...serviceConceptIds, value])
     } else {
-      setCollectionConceptIds(collectionConceptIds.filter((item) => item !== value))
+      setServiceConceptIds(serviceConceptIds.filter((item) => item !== value))
     }
   }
 
@@ -158,30 +160,22 @@ const ManageCollectionAssociation = () => {
 
   const columns = [
     {
-      title: 'Actions',
+      title: 'Selections',
       className: 'col-auto',
       dataAccessorFn: buildActionsCell
     },
     {
-      dataKey: 'shortName',
-      title: 'Short Name',
+      dataKey: 'longName',
+      title: 'Service Name',
       className: 'col-auto',
-      dataAccessorFn: buildEllipsisTextCell,
-      sortFn: (_, order) => sortFn('shortName', order)
+      dataAccessorFn: buildEllipsisTextCell
     },
     {
-      dataKey: 'version',
-      title: 'Version',
-      className: 'col-auto',
-      align: 'center'
-    },
-    {
-      dataKey: 'provider',
-      title: 'Provider',
+      dataKey: 'orderOptions',
+      title: 'Associated Order Option',
       className: 'col-auto',
       align: 'center',
-      dataAccessorFn: buildEllipsisTextCell,
-      sortFn: (_, order) => sortFn('provider', order)
+      dataAccessorFn: buildOrderOptionCell
     }
   ]
 
@@ -204,15 +198,15 @@ const ManageCollectionAssociation = () => {
     handleRefreshPage()
   })
 
-  const { [camelCase(derivedConceptType)]: concept } = data
+  const { collection } = data
 
-  const { collections: associatedCollections } = concept
+  const { services } = collection
 
-  const { items, count } = associatedCollections
+  const { items: servicesList, count: servicesCount } = services
 
   return (
     <>
-      <div className="mt-4">
+      <div>
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
           {' '}
@@ -234,37 +228,36 @@ const ManageCollectionAssociation = () => {
           </span>
         </Alert>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 mb-2">
         <span>
           Showing
           {' '}
-          {count}
+          {servicesCount}
           {' '}
-          {pluralize('collection association', count)}
+          {pluralize('service association', servicesCount)}
         </span>
       </div>
       <Table
-        className="m-5"
         id="associated-collections"
         columns={columns}
-        data={items}
+        data={servicesList}
         generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
         generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
-        noDataMessage="No collection associations found."
-        limit={count}
+        noDataMessage="No service associations found"
+        limit={servicesCount}
       />
 
       <Button
         className="mt-4"
         variant="danger"
-        disabled={collectionConceptIds.length === 0}
+        disabled={serviceConceptIds.length === 0}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...accessibleEventProps}
       >
         Delete Selected Associations
       </Button>
       <CustomModal
-        message="Are you sure you want to delete the selected collection associations?"
+        message="Are you sure you want to delete the selected service associations?"
         show={showDeleteModal}
         toggleModal={toggleShowDeleteModal}
         actions={
@@ -286,4 +279,4 @@ const ManageCollectionAssociation = () => {
   )
 }
 
-export default ManageCollectionAssociation
+export default ManageServiceAssociations

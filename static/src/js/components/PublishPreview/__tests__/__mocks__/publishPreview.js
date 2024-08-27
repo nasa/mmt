@@ -160,8 +160,8 @@ export const publishCollectionRecord = {
   }],
   services: {
     __typename: 'ServiceList',
-    count: 0,
-    items: null
+    count: 1,
+    items: []
   },
   shortName: 'Mock Quick Test Services #2',
   spatialExtent: {
@@ -399,7 +399,7 @@ export const publishCollectionRecord = {
   versionId: '1'
 }
 
-export const noTagsOrGranulesCollection = {
+export const noTagsOrGranulesOrServicesCollection = {
   __typename: 'Collection',
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
