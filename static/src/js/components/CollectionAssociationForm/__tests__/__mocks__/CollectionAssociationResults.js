@@ -468,8 +468,7 @@ export const GetServicesRequest = {
     query: GET_SERVICES,
     variables: {
       params: {
-        limit: 2000,
-        offset: 0
+        limit: 2000
       }
     }
   },
