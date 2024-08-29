@@ -36,8 +36,7 @@ import {
   mockToolWithAssociation,
   mockOrderOption,
   CollectionSortRequest,
-  GetServicesRequest,
-  GetServicesPagedRequest
+  GetServicesRequest
 } from './__mocks__/CollectionAssociationResults'
 
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
@@ -66,7 +65,7 @@ const setup = ({
       <NotificationsContext.Provider value={notificationContext}>
         <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T12000000-MMT_2/collection-association-search']}>
           <MockedProvider
-            mocks={[GetServicesRequest, GetServicesPagedRequest, ...additionalMocks]}
+            mocks={[GetServicesRequest, ...additionalMocks]}
           >
             <Routes>
               <Route
