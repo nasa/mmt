@@ -468,38 +468,8 @@ export const GetServicesRequest = {
     query: GET_SERVICES,
     variables: {
       params: {
-        limit: 20,
+        limit: 2000,
         offset: 0
-      }
-    }
-  },
-  result: {
-    data: {
-      services: {
-        count: 1,
-        items: [
-          {
-            conceptId: 'S1000000000-TESTPROV',
-            name: 'Service Name 1',
-            longName: 'Service Long Name 1',
-            providerId: 'TESTPROV',
-            revisionDate: '2023-11-30 00:00:00',
-            revisionId: '1',
-            userId: 'admin'
-          }
-        ]
-      }
-    }
-  }
-}
-
-export const GetServicesPagedRequest = {
-  request: {
-    query: GET_SERVICES,
-    variables: {
-      params: {
-        limit: 20,
-        offset: 40
       }
     }
   },

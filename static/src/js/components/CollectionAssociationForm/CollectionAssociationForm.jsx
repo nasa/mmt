@@ -127,8 +127,8 @@ const CollectionAssociationForm = ({ metadata }) => {
   const { data: serviceData } = useQuery(conceptTypeQueries.Services, {
     variables: {
       params: {
-        limit,
-        offset
+        limit: 2000,
+        offset: 0
       }
     }
   }, { skip: derivedConceptType !== conceptIdTypes.O })
