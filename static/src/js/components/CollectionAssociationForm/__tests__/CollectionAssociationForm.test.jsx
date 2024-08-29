@@ -36,8 +36,7 @@ import {
   mockToolWithAssociation,
   mockOrderOption,
   CollectionSortRequest,
-  GetServicesRequest,
-  GetServicesPagedRequest
+  GetServicesRequest
 } from './__mocks__/CollectionAssociationResults'
 
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
