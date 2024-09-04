@@ -143,8 +143,8 @@ const OrderOptionForm = () => {
         form,
         name,
         nativeId: fetchedNativeId,
-        sortKey,
-        providerId: fetchedProviderId
+        providerId: fetchedProviderId,
+        sortKey
       } = orderOptionData
 
       setFormProviderId(fetchedProviderId)
