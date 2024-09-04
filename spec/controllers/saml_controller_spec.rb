@@ -30,7 +30,7 @@ describe SamlController do
 
     context 'when a user returns from launchpad with an invalid SAMLResponse' do
       it 'raises a ValidationError' do
-        expect { post :acs, params: { SAMLResponse: 'xxxxx' } }.to raise_error(OneLogin::RubySaml::ValidationError)
+        expect { post :acs, params: { SAMLResponse: '<response>xxxxx</response>' } }.to raise_error(OneLogin::RubySaml::ValidationError)
       end
     end
   end
