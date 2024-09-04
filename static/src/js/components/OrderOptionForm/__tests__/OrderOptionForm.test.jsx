@@ -479,4 +479,108 @@ describe('OrderOptionForm', () => {
       })
     })
   })
+
+  describe('when updating an order option under a different provider', () => {
+    test('should update the order option and navigate to /order-option/id', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup(
+        {
+          pageUrl: '/order-options/OO1000000-MMT_1/edit',
+          mocks: [{
+            request: {
+              query: GET_ORDER_OPTION,
+              variables: { params: { conceptId: 'OO1000000-MMT_1' } }
+            },
+            result: {
+              data: {
+                orderOption: {
+                  associationDetails: {},
+                  conceptId: 'OO1000000-MMT_1',
+                  collections: {
+                    count: 0,
+                    items: []
+                  },
+                  deprecated: null,
+                  description: 'Test Description',
+                  form: 'Test Form',
+                  name: 'Test Name',
+                  nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                  pageTitle: 'Test Name',
+                  providerId: 'MMT_1',
+                  revisionId: '1',
+                  revisionDate: '2024-04-23T15:03:34.399Z',
+                  scope: 'PROVIDER',
+                  sortKey: null,
+                  __typename: 'OrderOption'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: UPDATE_ORDER_OPTION,
+              variables: {
+                deprecated: false,
+                description: 'Test Description',
+                form: 'Test Form',
+                name: 'Test NameUpdated Name',
+                scope: 'PROVIDER',
+                providerId: 'MMT_1',
+                nativeId: 'dce1859e-774c-4561-9451-fc9d77906015'
+              }
+            },
+            result: {
+              data: {
+                updateOrderOption: {
+                  conceptId: 'OO1000000-MMT_1',
+                  revisionId: '2'
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_ORDER_OPTION,
+              variables: { params: { conceptId: 'OO1000000-MMT_1' } }
+            },
+            result: {
+              data: {
+                orderOption: {
+                  associationDetails: {},
+                  conceptId: 'OO1000000-MMT_1',
+                  collections: {
+                    count: 0,
+                    items: []
+                  },
+                  deprecated: null,
+                  description: 'Test Description',
+                  form: 'Test Form',
+                  name: 'Test Name',
+                  nativeId: 'dce1859e-774c-4561-9451-fc9d77906015',
+                  pageTitle: 'Test Name',
+                  providerId: 'MMT_1',
+                  revisionId: '1',
+                  revisionDate: '2024-04-23T15:03:34.399Z',
+                  scope: 'PROVIDER',
+                  sortKey: null,
+                  __typename: 'OrderOption'
+                }
+              }
+            }
+          }]
+        }
+      )
+
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
+      await user.type(nameField, 'Updated Name')
+
+      const submitButton = screen.getByRole('button', { name: 'Submit' })
+      await user.click(submitButton)
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1000000-MMT_1')
+    })
+  })
 })
