@@ -62,7 +62,7 @@ const OrderOptionForm = () => {
 
   const [focusField, setFocusField] = useState(null)
 
-  const [formProviderId, setFormProviderId] = useState()
+  const [fetchProviderId, setFetchProviderId] = useState()
 
   const [createOrderOptionMutation] = useMutation(CREATE_ORDER_OPTION, {
     update: (cache) => {
@@ -143,11 +143,11 @@ const OrderOptionForm = () => {
         form,
         name,
         nativeId: fetchedNativeId,
-        providerId: fetchedProviderId,
+        providerId: formProviderId,
         sortKey
       } = orderOptionData
 
-      setFormProviderId(fetchedProviderId)
+      setFetchProviderId(formProviderId)
 
       const formData = {
         deprecated: false,
@@ -194,7 +194,7 @@ const OrderOptionForm = () => {
     const orderOptionVariables = {
       ...formData,
       scope: 'PROVIDER',
-      providerId: formProviderId || providerId
+      providerId: fetchProviderId || providerId
     }
 
     if (conceptId === 'new') {
