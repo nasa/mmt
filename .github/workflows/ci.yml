@@ -2,8 +2,7 @@ name: CI
 
 on:
   push:
-    # TODO Change to only main branch before merging into main
-    branches: [main, MMT-3390]
+    branches: [main]
   pull_request: {}
 
 jobs:
@@ -109,7 +108,7 @@ jobs:
 
   sync:
     # TODO Change to main branch before merging into main
-    if: success() && github.ref == 'refs/heads/MMT-3390' # only run on main success
+    if: success() && github.ref == 'refs/heads/main' # only run on main success
     needs: [tests-passed] # only run after vitest and cypress jobs complete
     runs-on: ubuntu-latest
     steps:
@@ -127,4 +126,4 @@ jobs:
 
         git fetch --unshallow || true
         echo "GITHUB_COMMIT=$GITHUB_SHA"
-        git push ecc $GITHUB_SHA:refs/heads/MMT-3390
+        git push ecc $GITHUB_SHA:refs/heads/main

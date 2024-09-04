@@ -1,7 +1,7 @@
 # Metadata Management Tool Application
 
 <!-- TODO Change to main branch before merging into main -->
-![Build Status](https://github.com/nasa/mmt/workflows/CI/badge.svg?branch=MMT-3390)
+![Build Status](https://github.com/nasa/mmt/workflows/CI/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/nasa/mmt/graph/badge.svg?token=B8Qspgsjou)](https://codecov.io/gh/nasa/mmt)
 
 The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are web applications designed to assist users in managing metadata and interfacing with the CMR.
