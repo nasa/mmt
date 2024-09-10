@@ -2,13 +2,14 @@ import { Button } from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Row from 'react-bootstrap/Row'
 
 /**
  * @typedef {Object} ErrorBannerProps
  * @property {String} dataTestId A data-testid for the error message
  * @property {String} message A message displaying what error has occurred.
+ * @property {String} previousURL A string that is sent down from PublishPreview only
  */
 
 /**
@@ -20,24 +21,22 @@ export const ErrorBanner = ({
   message,
   previousURL
 }) => {
-  const [hasCMRLagError, setHasCMRLagError] = useState(false)
-  const [conceptIdDoesNotExist, setConceptIdDoesNotExist] = useState(false)
   const currentURL = window.location.pathname
   const conceptKeywords = ['/collections/', '/variables/', '/services/', '/tools/']
 
-  // Catches if we are coming from a published record, indicating this is a CMR lag error
-  useEffect(() => {
-    if (previousURL && conceptKeywords.some((keyword) => previousURL.includes(keyword))) {
-      setHasCMRLagError(true)
+  // Checks to see that the endpoint is correct,
+  // indicating that graphQL made a call that returned null
+  const graphQLCallReturnsNull = (url) => {
+    if (conceptKeywords.some((keyword) => url.includes(keyword))) {
+      return true
     }
 
-    if (currentURL && conceptKeywords.some((keyword) => currentURL.includes(keyword))) {
-      setConceptIdDoesNotExist(true)
-    }
-  }, [])
+    return false
+  }
 
   return (
-    hasCMRLagError ? (
+    // Checks to see if users came from a published record, indicating there is a CMR lag
+    (previousURL && graphQLCallReturnsNull(previousURL)) ? (
       <div>
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
@@ -71,7 +70,7 @@ export const ErrorBanner = ({
 
             <span className="visually-hidden">{' '}</span>
 
-            <p data-testid={dataTestId}>{conceptIdDoesNotExist ? 'This record does not exist' : message}</p>
+            <p data-testid={dataTestId}>{graphQLCallReturnsNull(currentURL) ? 'This record does not exist' : message}</p>
           </Alert>
         </Col>
       </Row>
