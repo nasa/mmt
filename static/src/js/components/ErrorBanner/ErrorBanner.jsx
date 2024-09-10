@@ -24,9 +24,9 @@ export const ErrorBanner = ({
   const currentURL = window.location.pathname
   const conceptKeywords = ['/collections/', '/variables/', '/services/', '/tools/']
 
-  // Checks to see that the endpoint is correct,
+  // Checks to see that the url is a concept URL,
   // indicating that graphQL made a call that returned null
-  const graphQLCallReturnsNull = (url) => {
+  const isConceptUrl = (url) => {
     if (conceptKeywords.some((keyword) => url.includes(keyword))) {
       return true
     }
@@ -35,8 +35,7 @@ export const ErrorBanner = ({
   }
 
   return (
-    // Checks to see if users came from a published record, indicating there is a CMR lag
-    (previousURL && graphQLCallReturnsNull(previousURL)) ? (
+    (previousURL && isConceptUrl(previousURL)) ? (
       <div>
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
@@ -70,7 +69,7 @@ export const ErrorBanner = ({
 
             <span className="visually-hidden">{' '}</span>
 
-            <p data-testid={dataTestId}>{graphQLCallReturnsNull(currentURL) ? 'This record does not exist' : message}</p>
+            <p data-testid={dataTestId}>{isConceptUrl(currentURL) ? 'This record does not exist' : message}</p>
           </Alert>
         </Col>
       </Row>
