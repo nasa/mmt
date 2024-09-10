@@ -418,7 +418,7 @@ const PublishPreview = ({ isRevision }) => {
           </Row>
         )
       }
-      <ErrorBoundary>
+      <ErrorBoundary previousURL={window.location.pathname}>
         <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}

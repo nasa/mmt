@@ -25,10 +25,10 @@ class ErrorBoundary extends React.Component {
 
   render() {
     const { hasError, error } = this.state
-    const { children } = this.props
+    const { children, previousURL } = this.props
 
     if (hasError) {
-      return <ErrorBanner message={parseError(error)} />
+      return <ErrorBanner message={parseError(error)} previousURL={previousURL} />
     }
 
     return children
@@ -36,7 +36,12 @@ class ErrorBoundary extends React.Component {
 }
 
 ErrorBoundary.propTypes = {
-  children: PropTypes.shape({}).isRequired
+  children: PropTypes.shape({}).isRequired,
+  previousURL: PropTypes.string
+}
+
+ErrorBoundary.defaultProps = {
+  previousURL: null
 }
 
 export default ErrorBoundary
