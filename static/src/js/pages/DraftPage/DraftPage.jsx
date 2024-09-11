@@ -278,7 +278,7 @@ const DraftPage = () => (
     pageType="secondary"
     header={<DraftPageHeader />}
   >
-    <ErrorBoundary>
+    <ErrorBoundary previousURL={window.location.pathname}>
       <Suspense fallback={<DraftPagePlaceholder />}>
         <DraftPreview />
       </Suspense>
