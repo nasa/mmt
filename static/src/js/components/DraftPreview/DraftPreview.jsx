@@ -75,7 +75,7 @@ const DraftPreview = () => {
         <Row>
           <Col md={12} className="draft-preview__preview">
             <h2 className="fw-bold fs-4">Preview</h2>
-            <ErrorBoundary previousUrl={window.location.pathname}>
+            <ErrorBoundary>
               <MetadataPreview
                 conceptId={conceptId}
                 conceptType={derivedConceptType}

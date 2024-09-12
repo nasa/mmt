@@ -82,7 +82,7 @@ const Layout = ({ className, displayNav }) => {
             </Alert>
           )
         }
-        <ErrorBoundary previousURL={window.location.pathname}>
+        <ErrorBoundary>
           <main
             className={
               classNames([
