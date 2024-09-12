@@ -82,8 +82,6 @@ const Layout = ({ className, displayNav }) => {
             </Alert>
           )
         }
-        {console.log('Layout ErrorBoundary')}
-        {/* <ErrorBoundary> */}
         <ErrorBoundary previousURL={window.location.pathname}>
           <main
             className={
