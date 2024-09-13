@@ -31,7 +31,7 @@ describe('Error Banner Component', () => {
   describe('Provided a known CMR Error Message', () => {
     test('it renders an error banner with prompt to refresh the page', async () => {
       render(
-        <ErrorBanner message="Cannot destructure property 'granules' of 'concept' as it is null." dataTestId="test-error" />
+        <ErrorBanner message="draft is null" dataTestId="test-error" />
       )
 
       // Ensure the content is displayed correctly

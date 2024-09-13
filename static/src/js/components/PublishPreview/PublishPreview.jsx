@@ -97,6 +97,11 @@ const PublishPreviewHeader = () => {
 
   const { [derivedConceptType.toLowerCase()]: concept } = data
 
+  // This may be due to a CMR lag error and affects functionality in ErrorBanner
+  if (!concept) {
+    throw new Error('concept is null')
+  }
+
   const {
     granules,
     nativeId,
@@ -418,7 +423,7 @@ const PublishPreview = ({ isRevision }) => {
           </Row>
         )
       }
-      <ErrorBoundary previousURL={window.location.pathname}>
+      <ErrorBoundary>
         <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}

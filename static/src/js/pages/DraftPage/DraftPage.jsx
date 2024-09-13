@@ -86,6 +86,11 @@ const DraftPageHeader = () => {
 
   const { draft = {} } = data
 
+  // This may be due to a CMR lag error and affects functionality in ErrorBanner
+  if (!draft) {
+    throw new Error('draft is null')
+  }
+
   const {
     nativeId,
     providerId,

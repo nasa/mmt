@@ -19,11 +19,7 @@ export const ErrorBanner = ({
   dataTestId,
   message
 }) => {
-  const knownCMRLagErrors = [
-    'Cannot destructure property \'granules\' of \'concept\' as it is null.',
-    'Cannot destructure property \'granules\' of \'Cr\' as it is null.',
-    'Cannot destructure property \'nativeId\' of \'Tr\' as it is null.',
-    'Cannot destructure property \'nativeId\' of \'draft\' as it is null.']
+  const knownCMRLagErrors = ['draft is null', 'concept is null']
 
   // Checks to see if error message is a known CMR Lag Error Message
   const isKnownCMRLagError = () => {
