@@ -220,7 +220,10 @@ const PermissionForm = () => {
   const { data } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
-      conceptId
+      conceptId,
+      params: {
+        limit: 2000
+      }
     }
   })
 

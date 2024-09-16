@@ -196,7 +196,12 @@ describe('PermissionForm', () => {
           {
             request: {
               query: GET_COLLECTION_FOR_PERMISSION_FORM,
-              variables: { conceptId: 'ACL1000000-MMT' }
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -362,7 +367,12 @@ describe('PermissionForm', () => {
           {
             request: {
               query: GET_COLLECTION_FOR_PERMISSION_FORM,
-              variables: { conceptId: 'ACL1000000-MMT' }
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -570,7 +580,12 @@ describe('PermissionForm', () => {
             {
               request: {
                 query: GET_COLLECTION_FOR_PERMISSION_FORM,
-                variables: { conceptId: 'ACL1000000-MMT' }
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    limit: 2000
+                  }
+                }
               },
               result: {
                 data: {
@@ -708,7 +723,12 @@ describe('PermissionForm', () => {
             {
               request: {
                 query: GET_COLLECTION_FOR_PERMISSION_FORM,
-                variables: { conceptId: 'ACL1000000-MMT' }
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    limit: 2000
+                  }
+                }
               },
               result: {
                 data: {
@@ -807,7 +827,12 @@ describe('PermissionForm', () => {
             {
               request: {
                 query: GET_COLLECTION_FOR_PERMISSION_FORM,
-                variables: { conceptId: 'ACL1000000-MMT' }
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    limit: 2000
+                  }
+                }
               },
               result: {
                 data: {
