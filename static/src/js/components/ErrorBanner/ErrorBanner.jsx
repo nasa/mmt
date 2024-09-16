@@ -9,7 +9,6 @@ import Row from 'react-bootstrap/Row'
  * @typedef {Object} ErrorBannerProps
  * @property {String} dataTestId A data-testid for the error message
  * @property {String} message A message displaying what error has occurred.
- * @property {String} previousURL A string that is sent down from PublishPreview only
  */
 
 /**
@@ -18,16 +17,13 @@ import Row from 'react-bootstrap/Row'
  */
 export const ErrorBanner = ({
   dataTestId,
-  message,
-  previousURL
+  message
 }) => {
-  const currentURL = window.location.pathname
-  const conceptKeywords = ['/collections/', '/variables/', '/services/', '/tools/']
+  const knownCMRLagErrors = ['draft is null', 'concept is null']
 
-  // Checks to see that the url is a concept URL,
-  // indicating that graphQL made a call that returned null
-  const isConceptUrl = (url) => {
-    if (conceptKeywords.some((keyword) => url.includes(keyword))) {
+  // Checks to see if error message is a known CMR Lag Error Message
+  const isKnownCMRLagError = () => {
+    if (knownCMRLagErrors.some((knownError) => message.includes(knownError))) {
       return true
     }
 
@@ -35,13 +31,13 @@ export const ErrorBanner = ({
   }
 
   return (
-    (previousURL && isConceptUrl(previousURL)) ? (
+    (isKnownCMRLagError()) ? (
       <div>
         <Alert className="fst-italic fs-6" variant="warning">
           <i className="eui-icon eui-fa-info-circle" />
           {' '}
           Some operations may take time to populate in the Common Metadata Repository.
-          If you are not seeing what you expect below, please
+          If you are not seeing what you expect below, consider
           {' '}
           <Button
             onClick={() => window.location.reload()}
@@ -57,8 +53,13 @@ export const ErrorBanner = ({
               }
             }
           >
-            refresh the page
+            refreshing the page
           </Button>
+          .
+          {' '}
+          If it has been over 24 hours and your record has
+          {' '}
+          not been updated, please contact support@earthdata.nasa.gov.
         </Alert>
       </div>
     ) : (
@@ -69,7 +70,7 @@ export const ErrorBanner = ({
 
             <span className="visually-hidden">{' '}</span>
 
-            <p data-testid={dataTestId}>{isConceptUrl(currentURL) ? 'This record does not exist' : message}</p>
+            <p data-testid={dataTestId}>{message}</p>
           </Alert>
         </Col>
       </Row>
@@ -79,13 +80,11 @@ export const ErrorBanner = ({
 
 ErrorBanner.propTypes = {
   dataTestId: PropTypes.string,
-  message: PropTypes.string.isRequired,
-  previousURL: PropTypes.string
+  message: PropTypes.string.isRequired
 }
 
 ErrorBanner.defaultProps = {
-  dataTestId: 'error-banner__message',
-  previousURL: null
+  dataTestId: 'error-banner__message'
 }
 
 export default ErrorBanner

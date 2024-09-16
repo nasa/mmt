@@ -28,31 +28,17 @@ describe('Error Banner Component', () => {
     })
   })
 
-  describe('Provided a previousURL', () => {
+  describe('Provided a known CMR Error Message', () => {
     test('it renders an error banner with prompt to refresh the page', async () => {
       render(
-        <ErrorBanner message="Cras mattis consectetur purus sit amet fermentum." dataTestId="test-error" previousURL="/collections/C100000-TEST_PROV" />
+        <ErrorBanner message="draft is null" dataTestId="test-error" />
       )
 
       // Ensure the content is displayed correctly
-      expect(screen.getByRole('alert', { name: '' })).toHaveTextContent('Some operations may take time to populate in the Common Metadata Repository. If you are not seeing what you expect below, please')
+      expect(screen.getByRole('alert', { name: '' })).toHaveTextContent('Some operations may take time to populate in the Common Metadata Repository. If you are not seeing what you expect below, consider refreshing the page. If it has been over 24 hours and your record has not been updated, please contact support@earthdata.nasa.gov.')
 
-      const refreshButton = screen.getByRole('button', { name: 'refresh the page' })
+      const refreshButton = screen.getByRole('button', { name: 'refreshing the page' })
       await userEvent.click(refreshButton)
-    })
-  })
-
-  describe('CurrentURL indicates the record does not exist', () => {
-    test('it renders an error banner with message', async () => {
-      const mockCurrentURL = new URL('http://localhost:5173/collections/C1000-TEST_PROV')
-      window.location = mockCurrentURL
-
-      render(
-        <ErrorBanner />
-      )
-
-      // Ensure the content is displayed correctly
-      expect(screen.getByRole('alert', { name: '' })).toHaveTextContent('Sorry! This record does not exist')
     })
   })
 })
