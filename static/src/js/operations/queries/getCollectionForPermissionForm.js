@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION_FOR_PERMISSION_FORM = gql`
-  query GetCollectionForPermissionForm($conceptId: String!) {
+  query GetCollectionForPermissionForm($conceptId: String!, $params: CollectionsInput) {
     acl(conceptId: $conceptId) {
       catalogItemIdentity {
       providerId
@@ -19,7 +19,7 @@ export const GET_COLLECTION_FOR_PERMISSION_FORM = gql`
         userType
       }
     }
-    collections {
+    collections(params: $params) {
       items {
         conceptId,
         shortName,

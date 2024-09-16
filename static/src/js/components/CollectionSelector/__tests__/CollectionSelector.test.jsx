@@ -29,7 +29,11 @@ const setup = ({
       [{
         request: {
           query: GET_PERMISSION_COLLECTIONS,
-          variables: {}
+          variables: {
+            params: {
+              limit: 100
+            }
+          }
         },
         result: {
           data: {
@@ -229,7 +233,7 @@ describe('CollectionSelector', () => {
               params: {
                 options: { shortName: { pattern: true } },
                 shortName: 'C*',
-                limit: 20
+                limit: 100
               }
             }
           },
@@ -266,7 +270,7 @@ describe('CollectionSelector', () => {
 
       await user.type(searchField, 'C')
 
-      expect(await screen.findByText('Showing 1 items')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 2 items')).toBeInTheDocument()
     })
   })
 
@@ -297,7 +301,7 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 keyword: 'Col',
-                limit: 20
+                limit: 100
               }
             }
           },

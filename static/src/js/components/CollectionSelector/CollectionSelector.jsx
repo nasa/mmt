@@ -56,7 +56,13 @@ const CollectionSelector = ({ onChange, formData }) => {
 
   const [loading, setLoading] = useState(false)
 
-  const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS)
+  const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS, {
+    variables: {
+      params: {
+        limit: 100
+      }
+    }
+  })
 
   const { collections } = collectionList
   const { items } = collections
