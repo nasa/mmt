@@ -16,8 +16,8 @@ import MetadataFormPage from '@/js/pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from '@/js/pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from '@/js/pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from '@/js/pages/OrderOptionPage/OrderOptionPage'
-import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
-import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
+// Import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
+// Import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
 import ProviderPermissionsPage from '@/js/pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
 import RevisionListPage from '@/js/pages/RevisionListPage/RevisionListPage'
@@ -31,7 +31,7 @@ import ErrorPageNotFound from '@/js/components/ErrorPageNotFound/ErrorPageNotFou
 import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
-import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
+// Import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
 import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
@@ -140,7 +140,7 @@ export const App = () => {
             },
             {
               path: '/permissions',
-              element: <Navigate replace to='/404' />
+              element: <Navigate replace to="/404" />
             },
             // {
             //   path: '/permissions',
@@ -148,7 +148,7 @@ export const App = () => {
             // },
             {
               path: '/permissions/new',
-              element: <Navigate replace to='/404' />
+              element: <Navigate replace to="/404" />
             },
             // {
             //   path: '/permissions/new',
@@ -156,7 +156,7 @@ export const App = () => {
             // },
             {
               path: '/permissions/:conceptId/edit',
-              element: <Navigate replace to='/404' />
+              element: <Navigate replace to="/404" />
             },
             // {
             //   path: '/permissions/:conceptId/edit',
@@ -164,7 +164,7 @@ export const App = () => {
             // },
             {
               path: '/permissions/:conceptId',
-              element: <Navigate replace to='/404' />
+              element: <Navigate replace to="/404" />
             },
             // {
             //   path: '/permissions/:conceptId',
