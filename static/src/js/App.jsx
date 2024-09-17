@@ -140,20 +140,36 @@ export const App = () => {
             },
             {
               path: '/permissions',
-              element: <PermissionListPage />
+              element: <Navigate replace to='/404' />
             },
+            // {
+            //   path: '/permissions',
+            //   element: <PermissionListPage />
+            // },
             {
               path: '/permissions/new',
-              element: <PermissionFormPage />
+              element: <Navigate replace to='/404' />
             },
+            // {
+            //   path: '/permissions/new',
+            //   element: <PermissionFormPage />
+            // },
             {
               path: '/permissions/:conceptId/edit',
-              element: <PermissionFormPage />
+              element: <Navigate replace to='/404' />
             },
+            // {
+            //   path: '/permissions/:conceptId/edit',
+            //   element: <PermissionFormPage />
+            // },
             {
               path: '/permissions/:conceptId',
-              element: <PermissionPage />
+              element: <Navigate replace to='/404' />
             },
+            // {
+            //   path: '/permissions/:conceptId',
+            //   element: <PermissionPage />
+            // },
             {
               path: '/order-options',
               element: <OrderOptionListPage />
