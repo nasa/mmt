@@ -27,6 +27,8 @@ import {
   deletedAssociationResponse,
   toolRecordSearch,
   toolRecordSearchError,
+  toolRecordSearchTestPage,
+  toolRecordSearchwithPages,
   toolRecordSortSearch
 } from './__mocks__/manageCollectionAssociationResults'
 
@@ -111,6 +113,19 @@ describe('ManageCollectionAssociation', () => {
       expect(await screen.findByText('Showing 2 collection associations')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
+    })
+  })
+
+  describe('when paging through the table', () => {
+    test('navigate to the next page', async () => {
+      const { user } = setup({
+        overrideMocks: [toolRecordSearchTestPage, toolRecordSearchwithPages]
+      })
+
+      expect(await screen.findByText('Showing Collection Associations 1-20 of 50'))
+
+      const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
+      await user.click(paginationButton)
     })
   })
 
@@ -300,7 +315,11 @@ describe('ManageCollectionAssociation', () => {
             ...toolRecordSortSearch.request,
             variables: {
               ...toolRecordSortSearch.request.variables,
-              collectionsParams: { sortKey: '-shortName' }
+              collectionsParams: {
+                limit: 20,
+                offset: 0,
+                sortKey: '-shortName'
+              }
             }
           },
           result: toolRecordSortSearch.result

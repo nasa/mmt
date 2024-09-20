@@ -1,15 +1,20 @@
+import {
+  Alert,
+  Col,
+  Row
+} from 'react-bootstrap'
+import { camelCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
-import { camelCase } from 'lodash-es'
+import React, { useCallback, useState } from 'react'
 
 import pluralize from 'pluralize'
 
 import Button from '@/js/components/Button/Button'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
+import Pagination from '@/js/components/Pagination/Pagination'
 import Table from '@/js/components/Table/Table'
 
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
@@ -43,9 +48,17 @@ const ManageCollectionAssociation = () => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  const limit = 20
+  const activePage = parseInt(searchParams.get('page'), 10) || 1
+  const offset = (activePage - 1) * limit
+
   let params = {
     params: {
       conceptId
+    },
+    collectionsParams: {
+      limit,
+      offset
     }
   }
 
@@ -55,6 +68,8 @@ const ManageCollectionAssociation = () => {
     params = {
       ...params,
       collectionsParams: {
+        limit,
+        offset,
         sortKey
       }
     }
@@ -185,6 +200,16 @@ const ManageCollectionAssociation = () => {
     }
   ]
 
+  const setPage = (nextPage) => {
+    setSearchParams((currentParams) => {
+      currentParams.set('page', nextPage)
+
+      return Object.fromEntries(currentParams)
+    })
+
+    refetch()
+  }
+
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
@@ -208,52 +233,72 @@ const ManageCollectionAssociation = () => {
 
   const { collections: associatedCollections } = concept
 
-  const { items, count } = associatedCollections
+  const { items = [], count } = associatedCollections
+
+  const totalPages = Math.ceil(count / limit)
+
+  const currentPageIndex = Math.floor(offset / limit)
+  const firstResultIndex = currentPageIndex * limit
+  const isLastPage = totalPages === activePage
+  const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
+
+  const paginationMessage = count > 0
+    ? `Showing ${totalPages > 1 ? `Collection Associations ${firstResultIndex + 1}-${lastResultIndex} of ${count}` : `${count} ${pluralize('collection association', count)}`}`
+    : 'No Collection Associations found'
 
   return (
-    <>
-      <div className="mt-4">
-        <Alert className="fst-italic fs-6" variant="warning">
-          <i className="eui-icon eui-fa-info-circle" />
-          {' '}
-          Association operations may take some time. If you are not seeing what you expect below,
-          please
-          {' '}
-          <span
-            className="text-decoration-underline"
-            style={
-              {
-                color: 'blue',
-                cursor: 'pointer'
-              }
+    <div className="mt-4">
+      <Alert className="fst-italic fs-6" variant="warning">
+        <i className="eui-icon eui-fa-info-circle" />
+        {' '}
+        Association operations may take some time. If you are not seeing what you expect below,
+        please
+        {' '}
+        <span
+          className="text-decoration-underline"
+          style={
+            {
+              color: 'blue',
+              cursor: 'pointer'
             }
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...refreshAccessibleEventProps}
-          >
-            refresh the page
-          </span>
-        </Alert>
-      </div>
-      <div className="mt-4">
-        <span>
-          Showing
-          {' '}
-          {count}
-          {' '}
-          {pluralize('collection association', count)}
+          }
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...refreshAccessibleEventProps}
+        >
+          refresh the page
         </span>
-      </div>
+      </Alert>
+      <Row className="d-flex justify-content-between align-items-center mb-4 mt-5">
+        <Col className="mb-4 flex-grow-1" xs="auto">
+          {
+            (!!count) && (
+              <span className="text-secondary fw-bolder">{paginationMessage}</span>
+            )
+          }
+        </Col>
+        {
+          totalPages > 1 && (
+            <Col xs="auto">
+              <Pagination
+                setPage={setPage}
+                activePage={activePage}
+                totalPages={totalPages}
+              />
+            </Col>
+          )
+        }
+      </Row>
       <Table
         className="m-5"
-        id="associated-collections"
         columns={columns}
         data={items}
         generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
         generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
-        noDataMessage="No collection associations found."
+        id="associated-collections"
         limit={count}
+        noDataMessage="No collection associations found."
+        offset={offset}
       />
-
       <Button
         className="mt-4"
         variant="danger"
@@ -282,7 +327,7 @@ const ManageCollectionAssociation = () => {
           ]
         }
       />
-    </>
+    </div>
   )
 }
 
