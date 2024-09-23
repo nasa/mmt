@@ -709,13 +709,7 @@ export const deleteAssociationResponse = {
   request: {
     query: DELETE_ASSOCIATION,
     variables: {
-      params: {
-        conceptId: 'T1200000-TEST'
-      },
-      collectionsParams: {
-        limit: 20,
-        offset: 0
-      },
+      conceptId: 'T1200000-TEST',
       associatedConceptIds: ['C120000001-TEST']
     }
   },

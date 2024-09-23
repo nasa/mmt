@@ -206,8 +206,6 @@ const ManageCollectionAssociation = () => {
 
       return Object.fromEntries(currentParams)
     })
-
-    refetch()
   }
 
   const toggleShowDeleteModal = (nextState) => {

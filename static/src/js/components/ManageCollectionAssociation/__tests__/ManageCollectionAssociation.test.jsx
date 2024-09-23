@@ -123,9 +123,11 @@ describe('ManageCollectionAssociation', () => {
       })
 
       expect(await screen.findByText('Showing Collection Associations 1-20 of 50'))
-
       const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
       await user.click(paginationButton)
+
+      expect(await screen.findByText('Showing Collection Associations 41-50 of 50'))
+
     })
   })
 
