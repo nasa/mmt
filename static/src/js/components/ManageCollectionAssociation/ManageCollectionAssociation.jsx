@@ -243,7 +243,7 @@ const ManageCollectionAssociation = () => {
   const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
 
   const paginationMessage = count > 0
-    ? `Showing ${totalPages > 1 ? `Collection Associations ${firstResultIndex + 1}-${lastResultIndex} of ${count}` : `${count} ${pluralize('collection association', count)}`}`
+    ? `Showing ${totalPages > 1 ? `Collection Associations ${firstResultIndex + 1}-${lastResultIndex} of ${count}` : `${count} ${pluralize('Collection Association', count)}`}`
     : 'No Collection Associations found'
 
   return (
