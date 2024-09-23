@@ -127,7 +127,6 @@ describe('ManageCollectionAssociation', () => {
       await user.click(paginationButton)
 
       expect(await screen.findByText('Showing Collection Associations 41-50 of 50'))
-
     })
   })
 
