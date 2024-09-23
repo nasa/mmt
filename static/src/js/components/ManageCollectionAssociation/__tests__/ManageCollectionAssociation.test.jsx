@@ -110,7 +110,7 @@ describe('ManageCollectionAssociation', () => {
     test('renders the collection association page with the associated collections', async () => {
       setup({})
 
-      expect(await screen.findByText('Showing 2 collection associations')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 2 Collection Associations')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
     })
@@ -178,7 +178,7 @@ describe('ManageCollectionAssociation', () => {
         const noButton = screen.getByRole('button', { name: 'No' })
         await user.click(noButton)
 
-        expect(await screen.findByText('Showing 2 collection associations')).toBeInTheDocument()
+        expect(await screen.findByText('Showing 2 Collection Associations')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
