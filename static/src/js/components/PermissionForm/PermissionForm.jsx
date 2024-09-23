@@ -1,5 +1,6 @@
 import Form from '@rjsf/core'
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -32,10 +33,10 @@ import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 
 import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
 
+import { cloneDeep } from '@apollo/client/utilities'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
-
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
@@ -164,7 +165,7 @@ const validate = (formData, errors) => {
  *   <PermissionForm />
  * )
  */
-const PermissionForm = () => {
+const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const {
     draft,
     originalDraft,
@@ -217,15 +218,58 @@ const PermissionForm = () => {
     TitleField: CustomTitleFieldTemplate
   }
 
-  const { data } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
+  const [error, setError] = useState(null)
+
+  const updateQuery = (prev, { fetchMoreResult }) => {
+    const newResult = cloneDeep(prev)
+    const { acl } = newResult
+    const { collections } = acl
+    const { items = [] } = collections || {}
+
+    items.push(...fetchMoreResult.acl.collections.items)
+
+    return newResult
+  }
+
+  const { data, fetchMore } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
       conceptId,
       params: {
-        limit: 2000
+        offset: 0,
+        limit: selectedCollectionsPageSize
       }
     }
   })
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!data) return
+
+      const { acl } = data
+      const { collections } = acl
+      const { count, items = [] } = collections || {}
+
+      if (items.length < count) {
+        await fetchMore({
+          variables: {
+            conceptId,
+            params: {
+              offset: items.length,
+              limit: selectedCollectionsPageSize
+            }
+          },
+          updateQuery
+        })
+      }
+    }
+
+    fetchData()
+      .catch((err) => {
+        errorLogger('Error fetching more collection permissions', 'PermissionForm: fetchData')
+        setError(err)
+      })
+  }, [data])
 
   useEffect(() => {
     if (conceptId === 'new') {
@@ -233,6 +277,12 @@ const PermissionForm = () => {
       setOriginalDraft({})
     }
   }, [conceptId])
+
+  useEffect(() => {
+    if (error) {
+      throw error
+    }
+  }, [error])
 
   /**
    * Updates the UI schema based on the granule access permission in the provided form data.
@@ -727,6 +777,14 @@ const PermissionForm = () => {
       />
     </>
   )
+}
+
+PermissionForm.defaultProps = {
+  selectedCollectionsPageSize: 2000
+}
+
+PermissionForm.propTypes = {
+  selectedCollectionsPageSize: PropTypes.number
 }
 
 export default PermissionForm

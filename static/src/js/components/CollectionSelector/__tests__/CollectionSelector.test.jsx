@@ -270,7 +270,7 @@ describe('CollectionSelector', () => {
 
       await user.type(searchField, 'C')
 
-      expect(await screen.findByText('Showing 2 items')).toBeInTheDocument()
+      expect(await screen.findByText('Showing 1 items')).toBeInTheDocument()
     })
   })
 

@@ -1,6 +1,7 @@
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -33,6 +34,7 @@ import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
 import PermissionForm from '../PermissionForm'
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
@@ -114,9 +116,11 @@ const setup = ({
               <Route
                 element={
                   (
-                    <Suspense>
-                      <PermissionForm />
-                    </Suspense>
+                    <ErrorBoundary>
+                      <Suspense>
+                        <PermissionForm selectedCollectionsPageSize={1} />
+                      </Suspense>
+                    </ErrorBoundary>
                   )
                 }
                 path="new"
@@ -125,9 +129,11 @@ const setup = ({
                 path=":conceptId/edit"
                 element={
                   (
-                    <Suspense>
-                      <PermissionForm />
-                    </Suspense>
+                    <ErrorBoundary>
+                      <Suspense>
+                        <PermissionForm selectedCollectionsPageSize={1} />
+                      </Suspense>
+                    </ErrorBoundary>
                   )
                 }
               />
@@ -199,7 +205,8 @@ describe('PermissionForm', () => {
               variables: {
                 conceptId: 'ACL1000000-MMT',
                 params: {
-                  limit: 2000
+                  offset: 0,
+                  limit: 1
                 }
               }
             },
@@ -234,7 +241,72 @@ describe('PermissionForm', () => {
                         shortName: 'This is collection 2',
                         entryTitle: 'Collection 1',
                         version: '1'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: [
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'guest',
+                        id: null,
+                        name: null,
+                        tag: null
                       },
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'registered',
+                        id: null,
+                        name: null,
+                        tag: null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 1,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  identityType: 'Catalog Item',
+                  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                  name: 'Mock ACL',
+                  providerIdentity: null,
+                  revisionId: 1,
+                  systemIdentity: null,
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {},
+                    collectionApplicable: true,
+                    granuleApplicable: false,
+                    granuleIdentifier: null,
+                    providerId: 'MM_2'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 2,
+                    items: [
                       {
                         __typename: 'Collection',
                         conceptId: 'C13000000-MMT_2',
@@ -320,6 +392,110 @@ describe('PermissionForm', () => {
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
       })
+
+      test('should render error when fetchMore fails', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        setup({
+          pageUrl: '/permissions/ACL1000000-MMT/edit',
+          mocks: [{
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 0,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  identityType: 'Catalog Item',
+                  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                  name: 'Mock ACL',
+                  providerIdentity: null,
+                  revisionId: 1,
+                  systemIdentity: null,
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {},
+                    collectionApplicable: true,
+                    granuleApplicable: false,
+                    granuleIdentifier: null,
+                    providerId: 'MM_2'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 2,
+                    items: [
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C12000000-MMT_2',
+                        directDistributionInformation: null,
+                        provider: 'MMT_2',
+                        shortName: 'This is collection 2',
+                        entryTitle: 'Collection 1',
+                        version: '1'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: [
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'guest',
+                        id: null,
+                        name: null,
+                        tag: null
+                      },
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'registered',
+                        id: null,
+                        name: null,
+                        tag: null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 1,
+                  limit: 1
+                }
+              }
+            },
+            error: new Error('An error occurred')
+          }]
+        })
+
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledTimes(1)
+        })
+
+        expect(errorLogger).toHaveBeenCalledWith(
+          'Error fetching more collection permissions',
+          'PermissionForm: fetchData'
+        )
+      })
     })
 
     describe('when filling out the form and only filling out search and order permission and submitting', () => {
@@ -370,7 +546,8 @@ describe('PermissionForm', () => {
               variables: {
                 conceptId: 'ACL1000000-MMT',
                 params: {
-                  limit: 2000
+                  offset: 0,
+                  limit: 1
                 }
               }
             },
@@ -405,7 +582,72 @@ describe('PermissionForm', () => {
                         shortName: 'This is collection 2',
                         entryTitle: 'Collection 1',
                         version: '1'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: [
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'guest',
+                        id: null,
+                        name: null,
+                        tag: null
                       },
+                      {
+                        __typename: 'AclGroup',
+                        permissions: [
+                          'read'
+                        ],
+                        userType: 'registered',
+                        id: null,
+                        name: null,
+                        tag: null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 1,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  identityType: 'Catalog Item',
+                  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                  name: 'Mock ACL',
+                  providerIdentity: null,
+                  revisionId: 1,
+                  systemIdentity: null,
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {},
+                    collectionApplicable: true,
+                    granuleApplicable: false,
+                    granuleIdentifier: null,
+                    providerId: 'MM_2'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 2,
+                    items: [
                       {
                         __typename: 'Collection',
                         conceptId: 'C13000000-MMT_2',
@@ -583,7 +825,8 @@ describe('PermissionForm', () => {
                 variables: {
                   conceptId: 'ACL1000000-MMT',
                   params: {
-                    limit: 2000
+                    offset: 0,
+                    limit: 1
                   }
                 }
               },
@@ -618,7 +861,72 @@ describe('PermissionForm', () => {
                           shortName: 'This is collection 2',
                           entryTitle: 'Collection 1',
                           version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
                         },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    offset: 1,
+                    limit: 1
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MM_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
                         {
                           __typename: 'Collection',
                           conceptId: 'C13000000-MMT_2',
@@ -662,11 +970,16 @@ describe('PermissionForm', () => {
             {
               request: {
                 query: GET_PERMISSION_COLLECTIONS,
-                variables: {}
+                variables: {
+                  params: {
+                    limit: 100
+                  }
+                }
               },
               result: {
                 data: {
                   collections: {
+                    count: 2,
                     items: [
                       {
                         conceptId: 'C1200444618-AMD_USAPDC',
@@ -726,7 +1039,8 @@ describe('PermissionForm', () => {
                 variables: {
                   conceptId: 'ACL1000000-MMT',
                   params: {
-                    limit: 2000
+                    offset: 0,
+                    limit: 1
                   }
                 }
               },
@@ -761,7 +1075,72 @@ describe('PermissionForm', () => {
                           shortName: 'This is collection 2',
                           entryTitle: 'Collection 1',
                           version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
                         },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    offset: 1,
+                    limit: 1
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MM_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
                         {
                           __typename: 'Collection',
                           conceptId: 'C13000000-MMT_2',
@@ -802,6 +1181,7 @@ describe('PermissionForm', () => {
                 }
               }
             }
+
           ]
         })
 
@@ -830,7 +1210,8 @@ describe('PermissionForm', () => {
                 variables: {
                   conceptId: 'ACL1000000-MMT',
                   params: {
-                    limit: 2000
+                    offset: 0,
+                    limit: 1
                   }
                 }
               },
@@ -911,6 +1292,7 @@ describe('PermissionForm', () => {
               result: {
                 data: {
                   collections: {
+                    count: 2,
                     items: [
                       {
                         conceptId: 'C1200444618-AMD_USAPDC',

@@ -192,7 +192,7 @@ const CollectionSelector = ({ onChange, formData }) => {
             }
           },
           shortName: `${inputValue}*`,
-          limit: 20
+          limit: 100
         }
       },
       onCompleted: (data) => {
