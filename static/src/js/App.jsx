@@ -16,8 +16,8 @@ import MetadataFormPage from '@/js/pages/MetadataFormPage/MetadataFormPage'
 import OrderOptionFormPage from '@/js/pages/OrderOptionFormPage/OrderOptionFormPage'
 import OrderOptionListPage from '@/js/pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from '@/js/pages/OrderOptionPage/OrderOptionPage'
-// Import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
-// Import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
+import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
+import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
 import ProviderPermissionsPage from '@/js/pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
 import RevisionListPage from '@/js/pages/RevisionListPage/RevisionListPage'
@@ -31,7 +31,6 @@ import ErrorPageNotFound from '@/js/components/ErrorPageNotFound/ErrorPageNotFou
 import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
-// Import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
 import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
@@ -40,6 +39,7 @@ import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
+import PermissionFormPage from './pages/PermissionFormPage/PermissionFormPage'
 
 import '../css/index.scss'
 
@@ -140,36 +140,20 @@ export const App = () => {
             },
             {
               path: '/permissions',
-              element: <Navigate replace to="/404" />
+              element: <PermissionListPage />
             },
-            // {
-            //   path: '/permissions',
-            //   element: <PermissionListPage />
-            // },
             {
               path: '/permissions/new',
-              element: <Navigate replace to="/404" />
+              element: <PermissionFormPage />
             },
-            // {
-            //   path: '/permissions/new',
-            //   element: <PermissionFormPage />
-            // },
             {
               path: '/permissions/:conceptId/edit',
-              element: <Navigate replace to="/404" />
+              element: <PermissionFormPage />
             },
-            // {
-            //   path: '/permissions/:conceptId/edit',
-            //   element: <PermissionFormPage />
-            // },
             {
               path: '/permissions/:conceptId',
-              element: <Navigate replace to="/404" />
+              element: <PermissionPage />
             },
-            // {
-            //   path: '/permissions/:conceptId',
-            //   element: <PermissionPage />
-            // },
             {
               path: '/order-options',
               element: <OrderOptionListPage />
