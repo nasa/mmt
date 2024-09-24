@@ -1191,6 +1191,8 @@ describe('PermissionForm', () => {
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
+        expect(await screen.findByText('Showing selected 2 items')).toBeInTheDocument()
+
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
       })
