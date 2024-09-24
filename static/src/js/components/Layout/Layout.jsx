@@ -138,11 +138,11 @@ const Layout = ({ className, displayNav }) => {
                                   {
                                     to: '/templates/collections',
                                     title: 'Templates'
+                                  },
+                                  {
+                                    to: '/permissions',
+                                    title: 'Permissions'
                                   }
-                                  // {
-                                  //   to: '/permissions',
-                                  //   title: 'Permissions'
-                                  // }
                                 ]
                               },
                               {

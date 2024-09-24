@@ -20,6 +20,7 @@ export const GET_COLLECTION_FOR_PERMISSION_FORM = gql`
       }
     }
     collections(params: $params) {
+      count
       items {
         conceptId,
         shortName,
