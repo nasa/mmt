@@ -103,11 +103,11 @@ describe('Layout component', () => {
               {
                 to: '/templates/collections',
                 title: 'Templates'
+              },
+              {
+                title: 'Permissions',
+                to: '/permissions'
               }
-              // {
-              //   title: 'Permissions',
-              //   to: '/permissions'
-              // }
             ]
           },
           {
