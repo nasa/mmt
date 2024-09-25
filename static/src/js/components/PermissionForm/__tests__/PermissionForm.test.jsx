@@ -1235,7 +1235,7 @@ describe('PermissionForm', () => {
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
       })
 
-      test.only('should fail if any selected providers are not MMT_2', async () => {
+      test('should fail if any selected providers are not MMT_2', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
         const { user } = setup({
