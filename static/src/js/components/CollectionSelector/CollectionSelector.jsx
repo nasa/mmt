@@ -47,8 +47,7 @@ import './CollectionSelector.scss'
  *   <CollectionSelectorComponent />
  * )
  */
-const CollectionSelector = (props) => {
-  const { onChange, formData, providerId } = props
+const CollectionSelector = ({ onChange, formData, providerId }) => {
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
