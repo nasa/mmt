@@ -47,7 +47,8 @@ import './CollectionSelector.scss'
  *   <CollectionSelectorComponent />
  * )
  */
-const CollectionSelector = ({ onChange, formData }) => {
+const CollectionSelector = (props) => {
+  const { onChange, formData, providerId } = props
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
@@ -59,6 +60,7 @@ const CollectionSelector = ({ onChange, formData }) => {
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS, {
     variables: {
       params: {
+        provider: providerId,
         limit: 100
       }
     }
@@ -495,12 +497,14 @@ const CollectionSelector = ({ onChange, formData }) => {
 }
 
 CollectionSelector.defaultProps = {
-  formData: {}
+  formData: {},
+  providerId: null
 }
 
 CollectionSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.shape({})
+  formData: PropTypes.shape({}),
+  providerId: PropTypes.string
 }
 
 export default CollectionSelector

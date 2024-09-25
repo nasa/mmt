@@ -93,22 +93,29 @@ const CollectionSelectorPlaceholder = () => (
  */
 const CollectionSelectorPage = ({
   onChange,
-  formData
-}) => (
-  <ErrorBoundary>
-    <Suspense fallback={<CollectionSelectorPlaceholder />}>
-      <CollectionSelector onChange={onChange} formData={formData} />
-    </Suspense>
-  </ErrorBoundary>
-)
+  formData,
+  uiSchema
+}) => {
+  const providerId = uiSchema['ui:providerId']
+
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<CollectionSelectorPlaceholder />}>
+        <CollectionSelector onChange={onChange} providerId={providerId} formData={formData} />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
 
 CollectionSelectorPage.defaultProps = {
-  formData: {}
+  formData: {},
+  uiSchema: {}
 }
 
 CollectionSelectorPage.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.shape({})
+  formData: PropTypes.shape({}),
+  uiSchema: PropTypes.shape()
 }
 
 export default CollectionSelectorPage

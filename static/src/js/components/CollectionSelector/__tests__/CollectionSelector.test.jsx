@@ -31,7 +31,8 @@ const setup = ({
           query: GET_PERMISSION_COLLECTIONS,
           variables: {
             params: {
-              limit: 100
+              limit: 100,
+              provider: null
             }
           }
         },
@@ -301,7 +302,8 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 keyword: 'Col',
-                limit: 100
+                limit: 100,
+                provider: null
               }
             }
           },

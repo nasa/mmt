@@ -198,6 +198,14 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
   })
 
+  useEffect(() => {
+    if (providerId) {
+      const newUiSchema = cloneDeep(uiSchema)
+      newUiSchema.collectionSelection.selectedCollections['ui:providerId'] = providerId
+      setUiSchema(newUiSchema)
+    }
+  }, [providerId])
+
   const fields = {
     keywordPicker: KeywordPicker,
     TitleField: CustomTitleField,
@@ -483,6 +491,16 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     })
   }
 
+  const providerIdCheckFails = (aclProviderId, conceptIds) => {
+    console.log('provider id=', aclProviderId)
+
+    return conceptIds.some((identifier) => {
+      const conceptProviderId = identifier.split('-')[1]
+
+      return conceptProviderId !== aclProviderId
+    })
+  }
+
   const { formData } = draft || {}
 
   /**
@@ -544,6 +562,16 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       conceptIds = Object.keys(selectedCollections).map(
         (key) => selectedCollections[key].conceptId
       )
+    }
+
+    if (providerIdCheckFails(providerId, conceptIds)) {
+      errorLogger('Error creating collection permission', 'PermissionForm: providerIdCheck')
+      addNotification({
+        message: 'Error creating permission',
+        variant: 'danger'
+      })
+
+      return
     }
 
     // Extract permissions from groupPermissions
