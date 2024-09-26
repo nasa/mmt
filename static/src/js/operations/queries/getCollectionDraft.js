@@ -86,7 +86,7 @@ export const COLLECTION_DRAFT = gql`
           tilingIdentificationSystems
           timeStart
           timeEnd
-          title
+          title: entryTitle
           useConstraints
           versionDescription
           versionId
