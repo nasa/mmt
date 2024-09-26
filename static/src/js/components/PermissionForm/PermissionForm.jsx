@@ -561,7 +561,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
 
     if (providerIdCheckFails(providerId, conceptIds)) {
-      errorLogger('Error creating collection permission', 'PermissionForm: providerIdCheck')
+      errorLogger('Error multiple providers in collections', 'PermissionForm: providerIdCheck')
       addNotification({
         message: 'Error multiple providers in collections',
         variant: 'danger'
