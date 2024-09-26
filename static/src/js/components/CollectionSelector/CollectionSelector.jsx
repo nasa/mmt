@@ -192,6 +192,7 @@ const CollectionSelector = ({ onChange, formData, providerId }) => {
               pattern: true
             }
           },
+          provider: providerId,
           shortName: `${inputValue}*`,
           limit: 100
         }

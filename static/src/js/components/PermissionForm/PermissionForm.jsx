@@ -491,15 +491,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     })
   }
 
-  const providerIdCheckFails = (aclProviderId, conceptIds) => {
-    console.log('provider id=', aclProviderId)
+  const providerIdCheckFails = (aclProviderId, conceptIds) => conceptIds.some((identifier) => {
+    const conceptProviderId = identifier.split('-')[1]
 
-    return conceptIds.some((identifier) => {
-      const conceptProviderId = identifier.split('-')[1]
-
-      return conceptProviderId !== aclProviderId
-    })
-  }
+    return conceptProviderId !== aclProviderId
+  })
 
   const { formData } = draft || {}
 
@@ -567,7 +563,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     if (providerIdCheckFails(providerId, conceptIds)) {
       errorLogger('Error creating collection permission', 'PermissionForm: providerIdCheck')
       addNotification({
-        message: 'Error creating permission',
+        message: 'Error multiple providers in collections',
         variant: 'danger'
       })
 

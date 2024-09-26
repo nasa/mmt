@@ -233,6 +233,7 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 options: { shortName: { pattern: true } },
+                provider: null,
                 shortName: 'C*',
                 limit: 100
               }

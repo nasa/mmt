@@ -1657,7 +1657,7 @@ describe('PermissionForm', () => {
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
-          'Error creating collection permission',
+          'Error multiple providers in collections',
           'PermissionForm: providerIdCheck'
         )
       })
