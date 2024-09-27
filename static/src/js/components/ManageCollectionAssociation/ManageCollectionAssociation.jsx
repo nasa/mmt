@@ -41,7 +41,6 @@ const ManageCollectionAssociation = () => {
 
   const { addNotification } = useNotificationsContext()
 
-  // Const [error, setError] = useState()
   const [searchParams, setSearchParams] = useSearchParams()
   const [collectionConceptIds, setCollectionConceptIds] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)

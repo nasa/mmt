@@ -17,98 +17,23 @@ import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollection
 import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
 import PermissionCollectionTable from '../PermissionCollectionTable'
 
-const mockPermission = {
-  __typename: 'Acl',
-  conceptId: 'ACL00000-CMR',
-  collections: {
-    __typename: 'CollectionList',
-    count: 1,
-    items: [
-      {
-        __typename: 'Collection',
-        conceptId: 'C1200450691-MMT_2',
-        shortName: 'Collection 1',
-        title: 'Mock Collection 1',
-        version: '1',
-        provider: 'MMT_2'
-      },
-      {
-        __typename: 'Collection',
-        conceptId: 'C1200450692-MMT_2',
-        shortName: 'Collection 2',
-        title: 'Mock Collection 2',
-        version: '2',
-        provider: 'MMT_2'
-      }
-    ]
-  },
-  identityType: 'Catalog Item',
-  location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
-  name: 'Mock Permission',
-  providerIdentity: null,
-  revisionId: 5,
-  systemIdentity: null,
-  catalogItemIdentity: {
-    __typename: 'CatalogItemIdentity',
-    collectionApplicable: true,
-    granuleApplicable: false,
-    granuleIdentifier: null,
-    name: 'Mock Permission',
-    providerId: 'MMT_2',
-    collectionIdentifier: {
-      __typename: 'CollectionIdentifier',
-      accessValue: null,
-      temporal: null
-    }
-  },
-  groups: {
-    __typename: 'AclGroupList',
-    items: [
-      {
-        __typename: 'GroupPermission',
-        permissions: [
-          'read'
-        ],
-        userType: 'guest',
-        group: null,
-        id: null,
-        name: null
-      },
-      {
-        __typename: 'GroupPermission',
-        permissions: [
-          'read'
-        ],
-        userType: 'registered',
-        group: null,
-        id: null,
-        name: null
-      }
-    ]
-  }
-}
+import {
+  mockPermission,
+  mockCollectionPermissionSearch,
+  mockCollectionPermissionSearchWithPages
+} from './__mocks__/permissionCollectionTableResults'
+
 const setup = ({
-  additionalMock = []
+  additionalMock = [],
+  overrideMocks = false
 }) => {
-  const mocks = [{
-    request: {
-      query: GET_COLLECTION_PERMISSION,
-      variables: {
-        conceptId: 'ACL00000-CMR'
-      }
-    },
-    result: {
-      data: {
-        acl: mockPermission
-      }
-    }
-  }, ...additionalMock]
+  const mocks = [mockCollectionPermissionSearch, ...additionalMock]
 
   const user = userEvent.setup()
 
   render(
     <MockedProvider
-      mocks={mocks}
+      mocks={overrideMocks || mocks}
       cache={
         new InMemoryCache({
           dataIdFromObject: (object) => {
@@ -168,7 +93,11 @@ describe('PermissionCollectionTable', () => {
             query: GET_COLLECTION_PERMISSION,
             variables: {
               conceptId: 'ACL00000-CMR',
-              collectionParams: { sortKey: '-shortName' }
+              collectionParams: {
+                limit: 20,
+                offset: 0,
+                sortKey: '-shortName'
+              }
             }
           },
           result: {
@@ -197,7 +126,11 @@ describe('PermissionCollectionTable', () => {
             query: GET_COLLECTION_PERMISSION,
             variables: {
               conceptId: 'ACL00000-CMR',
-              collectionParams: { sortKey: 'entryTitle' }
+              collectionParams: {
+                limit: 20,
+                offset: 0,
+                sortKey: 'entryTitle'
+              }
             }
           },
           result: {
@@ -215,6 +148,32 @@ describe('PermissionCollectionTable', () => {
       await user.click(descendingButton)
 
       expect(await within(row1).findByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
+    })
+  })
+
+  describe('when paging through the table', () => {
+    test('navigate to the next page', async () => {
+      const { user } = setup({
+        overrideMocks: [mockCollectionPermissionSearchWithPages, {
+          request: {
+            ...mockCollectionPermissionSearchWithPages.request,
+            variables: {
+              conceptId: 'ACL00000-CMR',
+              collectionParams: {
+                limit: 20,
+                offset: 40
+              }
+            }
+          },
+          result: mockCollectionPermissionSearchWithPages.result
+        }]
+      })
+
+      expect(await screen.findByText('Showing Collection Associations 1-20 of 45'))
+      const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
+      await user.click(paginationButton)
+
+      expect(await screen.findByText('Showing Collection Associations 41-45 of 45'))
     })
   })
 })
