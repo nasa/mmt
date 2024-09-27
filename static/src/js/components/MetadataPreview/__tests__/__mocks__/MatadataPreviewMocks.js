@@ -1635,6 +1635,7 @@ export const mockCollectionDraft = {
   revisionId: '1',
   ummMetadata: {
     ShortName: 'Testing Collection Preview',
+    EntryTitle: 'Title of Testing Collection Preview',
     Version: 'v.1.0.0',
     MetadataSpecification: {
       URL: 'https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2',
@@ -1715,7 +1716,7 @@ export const mockCollectionDraft = {
     tilingIdentificationSystems: null,
     timeStart: null,
     timeEnd: null,
-    title: null,
+    title: 'Title of Testing Collection Preview',
     useConstraints: null,
     versionDescription: null,
     versionId: null,
