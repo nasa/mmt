@@ -75,11 +75,17 @@ const CollectionSelector = ({ onChange, formData, providerId }) => {
   }), {})
 
   const [selectedItems, setSelectedItems] = useState({})
-  const [availableItems, setAvailableItems] = useState(availableCollections)
+  const [availableItems, setAvailableItems] = useState([])
+
+  useEffect(() => {
+    setAvailableItems(availableCollections)
+  }, [providerId])
 
   useEffect(() => {
     if (!isEmpty(formData)) {
       setSelectedItems(formData)
+    } else {
+      setSelectedItems({})
     }
   }, [formData])
 
