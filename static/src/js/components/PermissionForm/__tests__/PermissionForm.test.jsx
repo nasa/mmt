@@ -1,8 +1,7 @@
 import {
   render,
   screen,
-  waitFor,
-  within
+  waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { Suspense } from 'react'
@@ -163,6 +162,7 @@ describe('PermissionForm', () => {
               variables: {
                 catalogItemIdentity: {
                   name: 'Test Name',
+                  providerId: 'MMT_1',
                   collectionApplicable: false,
                   granuleApplicable: true,
                   collectionIdentifier: {
@@ -364,30 +364,28 @@ describe('PermissionForm', () => {
         await user.type(minValue[1], '1')
         await user.type(maxValue[1], '10')
 
-        const groupSearch = screen.getAllByRole('combobox')
-        await user.click(groupSearch[3])
+        const combos = screen.getAllByRole('combobox')
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_1' })
+        await user.click(providerOption)
+
+        await user.click(combos[4])
 
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
 
-        await user.click(groupSearch[3])
+        await user.click(combos[4])
 
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
 
-        await user.click(groupSearch[4])
+        await user.click(combos[5])
 
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
@@ -523,7 +521,8 @@ describe('PermissionForm', () => {
                       minValue: 1
                     }
                   },
-                  name: 'Test Name'
+                  name: 'Test Name',
+                  providerId: 'MMT_2'
                 },
                 groupPermissions: [{
                   permissions: ['read', 'order'],
@@ -601,7 +600,7 @@ describe('PermissionForm', () => {
                       {
                         __typename: 'AclGroup',
                         permissions: [
-                          'read'
+                          'read', 'order'
                         ],
                         userType: 'registered',
                         id: null,
@@ -705,23 +704,21 @@ describe('PermissionForm', () => {
         await user.type(minValue[1], '1')
         await user.type(maxValue[1], '10')
 
-        const groupSearch = screen.getAllByRole('combobox')
+        const combos = screen.getAllByRole('combobox')
 
         // Clicks the searchAndOrderGroup field
-        await user.click(groupSearch[4])
+        await user.click(combos[5])
 
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
+        // Clicks provider field
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(providerOption)
+
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
-
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
       })
@@ -737,6 +734,7 @@ describe('PermissionForm', () => {
               variables: {
                 catalogItemIdentity: {
                   name: 'Test Name',
+                  providerId: 'MMT_2',
                   collectionApplicable: false,
                   granuleApplicable: false
                 },
@@ -759,31 +757,30 @@ describe('PermissionForm', () => {
 
         await user.type(nameField, 'Test Name')
 
-        const groupSearch = screen.getAllByRole('combobox')
+        const combos = screen.getAllByRole('combobox')
 
-        await user.click(groupSearch[3])
+        await user.click(combos[4])
 
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
 
-        await user.click(groupSearch[3])
+        await user.click(combos[4])
 
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
 
-        await user.click(groupSearch[2])
+        await user.click(combos[3])
 
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
+        // Clicks provider field
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(providerOption)
+
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
