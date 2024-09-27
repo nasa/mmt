@@ -413,7 +413,7 @@ describe('MetadataPreview', () => {
             tilingIdentificationSystems: null,
             timeEnd: null,
             timeStart: null,
-            title: null,
+            title: 'Title of Testing Collection Preview',
             useConstraints: null,
             version: 'v.1.0.0',
             versionDescription: null,
