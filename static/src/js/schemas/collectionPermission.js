@@ -10,6 +10,10 @@ const collectionPermission = {
       minLength: 1,
       maxLength: 85
     },
+    providerId: {
+      description: 'The provider id of the collection permission.',
+      type: 'string'
+    },
     accessPermission: {
       $ref: '#/definitions/accessPermissionType'
     },
@@ -26,7 +30,7 @@ const collectionPermission = {
       type: 'object'
     }
   },
-  required: ['name', 'collectionSelection', 'accessPermission', 'groupPermissions'],
+  required: ['name', 'providerId', 'collectionSelection', 'accessPermission', 'groupPermissions'],
 
   definitions: {
     collectionSelectionType: {

@@ -37,6 +37,7 @@ import { cloneDeep } from '@apollo/client/utilities'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
@@ -47,8 +48,6 @@ import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFie
 import GridLayout from '../GridLayout/GridLayout'
 import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
 import KeywordPicker from '../KeywordPicker/KeywordPicker'
-
-import ChooseProviderModal from '../ChooseProviderModal/ChooseProviderModal'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -184,7 +183,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const [focusField, setFocusField] = useState(null)
   const [uiSchema, setUiSchema] = useState(collectionPermissionUiSchema)
 
-  const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
+  const { providerIds } = useAvailableProviders()
 
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL, {
@@ -199,10 +198,27 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   })
 
   useEffect(() => {
+    setProviderId(draft?.formData?.providerId)
+  }, [draft])
+
+  useEffect(() => {
+    const newUiSchema = cloneDeep(uiSchema)
+    newUiSchema.providerId['ui:options'].enumOptions = providerIds
+    setUiSchema(newUiSchema)
+  }, [providerIds])
+
+  useEffect(() => {
     if (providerId) {
       const newUiSchema = cloneDeep(uiSchema)
       newUiSchema.collectionSelection.selectedCollections['ui:providerId'] = providerId
       setUiSchema(newUiSchema)
+      setDraft({
+        ...draft,
+        formData: {
+          ...draft.formData,
+          providerId
+        }
+      })
     }
   }, [providerId])
 
@@ -302,18 +318,18 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const showGranuleFields = (formData) => {
     if (formData.accessPermission?.granule) {
       const newUiSchema = {
-        ...collectionPermissionUiSchema,
+        ...uiSchema,
         accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
+          ...uiSchema.accessConstraintFilter,
           granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
             'ui:disabled': false
           }
         },
         temporalConstraintFilter: {
-          ...collectionPermissionUiSchema.temporalConstraintFilter,
+          ...uiSchema.temporalConstraintFilter,
           granuleTemporalConstraint: {
-            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
+            ...uiSchema.temporalConstraintFilter.granuleTemporalConstraint,
             'ui:disabled': false
           }
         }
@@ -321,11 +337,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       setUiSchema(newUiSchema)
     } else {
       const newUiSchema = {
-        ...collectionPermissionUiSchema,
+        ...uiSchema,
         accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
+          ...uiSchema.accessConstraintFilter,
           granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
+            ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
             'ui:disabled': true
           }
         }
@@ -731,75 +747,51 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   }
 
   const handleSetProviderOrSubmit = () => {
-    if (conceptId === 'new') {
-      setChooseProviderModalOpen(true)
-
-      return
-    }
-
     handleSubmit()
   }
 
   return (
-    <>
-      <Container className="permission-form__container mx-0" fluid>
-        <Row>
-          <Col>
-            <Form
-              fields={fields}
-              formContext={
-                {
-                  focusField,
-                  setFocusField
-                }
+    <Container className="permission-form__container mx-0" fluid>
+      <Row>
+        <Col>
+          <Form
+            fields={fields}
+            formContext={
+              {
+                focusField,
+                setFocusField
               }
-              liveValidate
-              widgets={widgets}
-              schema={collectionPermission}
-              validator={validator}
-              templates={templates}
-              uiSchema={uiSchema}
-              onChange={handleChange}
-              formData={removeEmpty(formData)}
-              onSubmit={handleSetProviderOrSubmit}
-              showErrorList="false"
-              customValidate={validate}
-            >
-              <div className="d-flex gap-2">
-                <Button
-                  type="submit"
-                  variant="primary"
-                >
-                  {saveTypesToHumanizedStringMap[saveTypes.submit]}
-                </Button>
-                <Button
-                  onClick={handleClear}
-                  variant="secondary"
-                >
-                  Clear
-                </Button>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-      <ChooseProviderModal
-        show={chooseProviderModalOpen}
-        primaryActionType={saveTypes.submit}
-        toggleModal={
-          () => {
-            setChooseProviderModalOpen(false)
-          }
-        }
-        type="collectionPermission"
-        onSubmit={
-          () => {
-            handleSubmit()
-            setChooseProviderModalOpen(false)
-          }
-        }
-      />
-    </>
+            }
+            liveValidate
+            widgets={widgets}
+            schema={collectionPermission}
+            validator={validator}
+            templates={templates}
+            uiSchema={uiSchema}
+            onChange={handleChange}
+            formData={removeEmpty(formData)}
+            onSubmit={handleSetProviderOrSubmit}
+            showErrorList="false"
+            customValidate={validate}
+          >
+            <div className="d-flex gap-2">
+              <Button
+                type="submit"
+                variant="primary"
+              >
+                {saveTypesToHumanizedStringMap[saveTypes.submit]}
+              </Button>
+              <Button
+                onClick={handleClear}
+                variant="secondary"
+              >
+                Clear
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
