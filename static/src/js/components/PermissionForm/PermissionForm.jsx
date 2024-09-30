@@ -21,23 +21,23 @@ import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedSt
 import saveTypes from '@/js/constants/saveTypes'
 
 import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { cloneDeep } from '@apollo/client/utilities'
 
 import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
-
-import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
-
-import { cloneDeep } from '@apollo/client/utilities'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
-import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+
+import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
+
 import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
 import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
