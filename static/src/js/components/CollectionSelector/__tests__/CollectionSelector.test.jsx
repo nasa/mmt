@@ -11,7 +11,7 @@ import userEvent from '@testing-library/user-event'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
-import Providers from '@/js/providers/Providers/Providers'
+import AppContext from '@/js/context/AppContext'
 import CollectionSelector from '../CollectionSelector'
 
 const setup = ({
@@ -26,60 +26,66 @@ const setup = ({
   }
 
   render(
-    <Providers>
+    <AppContext.Provider value={
+      {
+        providerId: 'MMT_2'
+      }
+    }
+    >
       <MockedProvider mocks={
-        [{
-          request: {
-            query: GET_PERMISSION_COLLECTIONS,
-            variables: {
-              params: {
-                provider: undefined,
-                limit: 100
+        [
+          {
+            request: {
+              query: GET_PERMISSION_COLLECTIONS,
+              variables: {
+                params: {
+                  provider: 'MMT_2',
+                  limit: 100
+                }
               }
-            }
-          },
-          result: {
-            data: {
-              collections: {
-                items: [
-                  {
-                    conceptId: 'C1200444618-MMT_2',
-                    directDistributionInformation: {
-                      region: 'us-east-2',
-                      s3BucketAndObjectPrefixNames: [
-                        's3://example1',
-                        's3://example2',
-                        'prefix_bucket/*'
-                      ],
-                      s3CredentialsApiEndpoint: 'https://example.org',
-                      s3CredentialsApiDocumentationUrl: 'https://example.org'
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C1200444618-MMT_2',
+                      directDistributionInformation: {
+                        region: 'us-east-2',
+                        s3BucketAndObjectPrefixNames: [
+                          's3://example1',
+                          's3://example2',
+                          'prefix_bucket/*'
+                        ],
+                        s3CredentialsApiEndpoint: 'https://example.org',
+                        s3CredentialsApiDocumentationUrl: 'https://example.org'
+                      },
+                      shortName: 'Collection 1',
+                      provider: 'MMT_2',
+                      entryTitle: 'Mock title of collection 1',
+                      __typename: 'Collection'
                     },
-                    shortName: 'Collection 1',
-                    provider: 'MMT_2',
-                    entryTitle: 'Mock title of collection 1',
-                    __typename: 'Collection'
-                  },
-                  {
-                    conceptId: 'C1200482349-MMT_2',
-                    directDistributionInformation: null,
-                    shortName: 'Collection 2',
-                    provider: 'MMT_2',
-                    entryTitle: 'Mock title of collection 2',
-                    __typename: 'Collection'
-                  }
-                ],
-                __typename: 'CollectionList'
+                    {
+                      conceptId: 'C1200482349-MMT_2',
+                      directDistributionInformation: null,
+                      shortName: 'Collection 2',
+                      provider: 'MMT_2',
+                      entryTitle: 'Mock title of collection 2',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  __typename: 'CollectionList'
+                }
               }
             }
-          }
-        }, ...additionalMocks]
+          }, ...additionalMocks]
       }
       >
         <Suspense>
           <CollectionSelector {...props} />
         </Suspense>
       </MockedProvider>
-    </Providers>
+    </AppContext.Provider>
   )
 
   return {
@@ -235,7 +241,7 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 options: { shortName: { pattern: true } },
-                provider: undefined,
+                provider: 'MMT_2',
                 shortName: 'C*',
                 limit: 100
               }
