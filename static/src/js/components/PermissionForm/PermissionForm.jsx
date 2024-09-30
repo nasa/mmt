@@ -302,18 +302,18 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const showGranuleFields = (formData) => {
     if (formData.accessPermission?.granule) {
       const newUiSchema = {
-        ...uiSchema,
+        ...collectionPermissionUiSchema,
         accessConstraintFilter: {
-          ...uiSchema.accessConstraintFilter,
+          ...collectionPermissionUiSchema.accessConstraintFilter,
           granuleAccessConstraint: {
-            ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
             'ui:disabled': false
           }
         },
         temporalConstraintFilter: {
-          ...uiSchema.temporalConstraintFilter,
+          ...collectionPermissionUiSchema.temporalConstraintFilter,
           granuleTemporalConstraint: {
-            ...uiSchema.temporalConstraintFilter.granuleTemporalConstraint,
+            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
             'ui:disabled': false
           }
         }
@@ -321,11 +321,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       setUiSchema(newUiSchema)
     } else {
       const newUiSchema = {
-        ...uiSchema,
+        ...collectionPermissionUiSchema,
         accessConstraintFilter: {
-          ...uiSchema.accessConstraintFilter,
+          ...collectionPermissionUiSchema.accessConstraintFilter,
           granuleAccessConstraint: {
-            ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
+            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
             'ui:disabled': true
           }
         }
