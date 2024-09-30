@@ -28,6 +28,7 @@ import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
+import useAppContext from '@/js/hooks/useAppContext'
 import Button from '../Button/Button'
 import For from '../For/For'
 
@@ -47,7 +48,7 @@ import './CollectionSelector.scss'
  *   <CollectionSelectorComponent />
  * )
  */
-const CollectionSelector = ({ onChange, formData, providerId }) => {
+const CollectionSelector = ({ onChange, formData }) => {
   const [searchAvailable, setSearchAvailable] = useState('')
   const [searchSelected, setSearchSelected] = useState('')
 
@@ -55,6 +56,7 @@ const CollectionSelector = ({ onChange, formData, providerId }) => {
   const [highlightedSelected, setHighlightedSelected] = useState({})
 
   const [loading, setLoading] = useState(false)
+  const { providerId } = useAppContext()
 
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS, {
     variables: {

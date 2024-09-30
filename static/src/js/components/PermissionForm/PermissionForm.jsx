@@ -182,8 +182,17 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   const [focusField, setFocusField] = useState(null)
   const [uiSchema, setUiSchema] = useState(collectionPermissionUiSchema)
+  const [schema, setSchema] = useState(collectionPermission)
 
   const { providerIds } = useAvailableProviders()
+
+  useEffect(() => {
+    if (providerIds.length > 0) {
+      const clonedSchema = cloneDeep(schema)
+      clonedSchema.properties.providers.items.enum = providerIds
+      setSchema(clonedSchema)
+    }
+  }, [providerIds])
 
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL, {
@@ -196,31 +205,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       })
     }
   })
-
-  useEffect(() => {
-    setProviderId(draft?.formData?.providerId)
-  }, [draft])
-
-  useEffect(() => {
-    const newUiSchema = cloneDeep(uiSchema)
-    newUiSchema.providerId['ui:options'].enumOptions = providerIds
-    setUiSchema(newUiSchema)
-  }, [providerIds])
-
-  useEffect(() => {
-    if (providerId) {
-      const newUiSchema = cloneDeep(uiSchema)
-      newUiSchema.collectionSelection.selectedCollections['ui:providerId'] = providerId
-      setUiSchema(newUiSchema)
-      setDraft({
-        ...draft,
-        formData: {
-          ...draft.formData,
-          providerId
-        }
-      })
-    }
-  }, [providerId])
 
   const fields = {
     keywordPicker: KeywordPicker,
@@ -491,6 +475,8 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       // Call the function to show/hide granule fields based on formData
       showGranuleFields(formData)
 
+      formData.providers = savedProviderId
+
       // Update the draft with formData by removing empty fields
       setDraft({ formData: removeEmpty(formData) })
     }
@@ -501,17 +487,13 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
     showGranuleFields(formData)
 
+    setProviderId(formData.providers)
+
     setDraft({
       ...draft,
       formData: removeEmpty(formData)
     })
   }
-
-  const providerIdCheckFails = (aclProviderId, conceptIds) => conceptIds.some((identifier) => {
-    const conceptProviderId = identifier.split('-')[1]
-
-    return conceptProviderId !== aclProviderId
-  })
 
   const { formData } = draft || {}
 
@@ -574,16 +556,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       conceptIds = Object.keys(selectedCollections).map(
         (key) => selectedCollections[key].conceptId
       )
-    }
-
-    if (providerIdCheckFails(providerId, conceptIds)) {
-      errorLogger('Error multiple providers in collections', 'PermissionForm: providerIdCheck')
-      addNotification({
-        message: 'Error multiple providers in collections',
-        variant: 'danger'
-      })
-
-      return
     }
 
     // Extract permissions from groupPermissions
@@ -746,10 +718,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     })
   }
 
-  const handleSetProviderOrSubmit = () => {
-    handleSubmit()
-  }
-
   return (
     <Container className="permission-form__container mx-0" fluid>
       <Row>
@@ -764,13 +732,13 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
             }
             liveValidate
             widgets={widgets}
-            schema={collectionPermission}
+            schema={schema}
             validator={validator}
             templates={templates}
             uiSchema={uiSchema}
             onChange={handleChange}
             formData={removeEmpty(formData)}
-            onSubmit={handleSetProviderOrSubmit}
+            onSubmit={handleSubmit}
             showErrorList="false"
             customValidate={validate}
           >

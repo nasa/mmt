@@ -23,7 +23,7 @@ const collectionPermissionUiSchema = {
                 {
                   'ui:col': {
                     md: 2,
-                    children: ['providerId']
+                    children: ['providers']
                   }
                 },
                 {
@@ -85,12 +85,9 @@ const collectionPermissionUiSchema = {
       }
     ]
   },
-  providerId: {
+  providers: {
     'ui:required': true,
-    'ui:widget': CustomSelectWidget,
-    'ui:options': {
-      enumOptions: []
-    }
+    'ui:widget': CustomSelectWidget
   },
   collectionSelection: {
     'ui:required': true,
