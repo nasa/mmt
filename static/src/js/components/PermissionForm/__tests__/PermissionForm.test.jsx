@@ -162,7 +162,7 @@ describe('PermissionForm', () => {
               variables: {
                 catalogItemIdentity: {
                   name: 'Test Name',
-                  providerId: 'MMT_1',
+                  providerId: 'MMT_2',
                   collectionApplicable: false,
                   granuleApplicable: true,
                   collectionIdentifier: {
@@ -364,23 +364,23 @@ describe('PermissionForm', () => {
         await user.type(minValue[1], '1')
         await user.type(maxValue[1], '10')
 
+        // Click MMT_2 in provider dropdown
         const combos = screen.getAllByRole('combobox')
         await user.click(combos[0])
-        const providerOption = screen.getByRole('option', { name: 'MMT_1' })
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
         await user.click(providerOption)
 
+        // Click group search
         await user.click(combos[4])
-
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
-
         await user.click(combos[4])
 
+        // Click Search order
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
 
         await user.click(combos[5])
-
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
@@ -757,20 +757,17 @@ describe('PermissionForm', () => {
 
         await user.type(nameField, 'Test Name')
 
+        // Click group search field
         const combos = screen.getAllByRole('combobox')
-
         await user.click(combos[4])
-
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
-
         await user.click(combos[4])
 
+        // Click search, order field
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
-
         await user.click(combos[3])
-
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
@@ -969,8 +966,7 @@ describe('PermissionForm', () => {
                 query: GET_PERMISSION_COLLECTIONS,
                 variables: {
                   params: {
-                    limit: 100,
-                    provider: undefined
+                    limit: 100
                   }
                 }
               },

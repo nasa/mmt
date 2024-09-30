@@ -311,8 +311,7 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 keyword: 'Col',
-                limit: 100,
-                provider: null
+                limit: 100
               }
             }
           },
