@@ -227,7 +227,7 @@ describe('CollectionSelector', () => {
   })
 
   describe('when searching for available collection', () => {
-    test.only('should call cmr with filtered data', async () => {
+    test('should call cmr with filtered data', async () => {
       const { user } = setup({
         additionalMocks: [{
           request: {
