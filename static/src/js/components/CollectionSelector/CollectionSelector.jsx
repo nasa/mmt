@@ -505,14 +505,12 @@ const CollectionSelector = ({ onChange, formData }) => {
 }
 
 CollectionSelector.defaultProps = {
-  formData: {},
-  providerId: null
+  formData: {}
 }
 
 CollectionSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.shape({}),
-  providerId: PropTypes.string
+  formData: PropTypes.shape({})
 }
 
 export default CollectionSelector
