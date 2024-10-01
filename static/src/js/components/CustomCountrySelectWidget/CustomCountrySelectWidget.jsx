@@ -57,7 +57,8 @@ const CustomCountrySelectWidget = ({
   // Removes a country from the country list
   const remove = (list, aValue) => list.filter((item) => (item.value !== aValue))
 
-  // Returns first country from the country list
+  // Returns first country from the country list,
+  // should pick up both forms of country name: short (example 'US') and long form (example 'United States')
   const getInitialCountrySelection = () => {
     const [selected] = countryData.filter((item) => (item.label === value || item.value === value))
 
@@ -84,6 +85,7 @@ const CustomCountrySelectWidget = ({
   // Selects a country and propagates onChange
   const selectCountry = (val) => {
     setSelectedCountry(val)
+    // Propagates the label (long form of country name)
     onChange(val.label)
   }
 
