@@ -12,7 +12,7 @@ import userEvent from '@testing-library/user-event'
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
 import AppContext from '@/js/context/AppContext'
-import CollectionSelector from '../CollectionSelector'
+import CollectionSelector from '@/js/components/CollectionSelector/CollectionSelector'
 
 const setup = ({
   additionalMocks = [],

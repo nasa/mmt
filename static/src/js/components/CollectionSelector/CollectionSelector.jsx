@@ -29,8 +29,8 @@ import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
 import useAppContext from '@/js/hooks/useAppContext'
-import Button from '../Button/Button'
-import For from '../For/For'
+import Button from '@/js/components/Button/Button'
+import For from '@/js/components/For/For'
 
 import './CollectionSelector.scss'
 

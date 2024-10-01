@@ -32,8 +32,8 @@ import errorLogger from '@/js/utils/errorLogger'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
-import PermissionForm from '../PermissionForm'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
+import PermissionForm from '@/js/components/PermissionForm/PermissionForm'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
