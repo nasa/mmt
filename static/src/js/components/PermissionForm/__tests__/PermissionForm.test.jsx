@@ -376,7 +376,6 @@ describe('PermissionForm', () => {
         await user.click(option)
         await user.click(combos[4])
 
-        // Click Search order
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
 

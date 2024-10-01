@@ -38,16 +38,16 @@ import {
 
 import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
 
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import GridLayout from '../GridLayout/GridLayout'
-import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
