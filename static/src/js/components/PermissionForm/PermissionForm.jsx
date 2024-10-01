@@ -194,6 +194,15 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
   }, [providerIds])
 
+  useEffect(() => {
+    const { formData = {} } = draft || {}
+    formData.providers = providerId
+    setDraft({
+      ...draft,
+      formData
+    })
+  }, [providerId])
+
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL, {
     update: (cache) => {
