@@ -966,42 +966,6 @@ describe('PermissionForm', () => {
                 query: GET_PERMISSION_COLLECTIONS,
                 variables: {
                   params: {
-                    limit: 100
-                  }
-                }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 2,
-                    items: [
-                      {
-                        conceptId: 'C1200444618-AMD_USAPDC',
-                        directDistributionInformation: null,
-                        shortName: 'USAP-1753101',
-                        provider: 'AMD_USAPDC',
-                        entryTitle: '"The Omnivores Dilemma": The Effect of Autumn Diet on Winter Physiology and Condition of Juvenile Antarctic Krill',
-                        __typename: 'Collection'
-                      },
-                      {
-                        conceptId: 'C1200482349-ARCTEST',
-                        directDistributionInformation: null,
-                        shortName: 'USAP-1753101',
-                        provider: 'ARCTEST',
-                        entryTitle: '"The Omnivores Dilemma": The Effect of Autumn Diet on Winter Physiology and Condition of Juvenile Antarctic Krill',
-                        __typename: 'Collection'
-                      }
-                    ],
-                    __typename: 'CollectionList'
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_PERMISSION_COLLECTIONS,
-                variables: {
-                  params: {
                     limit: 100,
                     provider: 'MMT_2'
                   }
