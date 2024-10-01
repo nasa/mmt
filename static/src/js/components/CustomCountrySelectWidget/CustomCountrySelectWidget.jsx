@@ -59,7 +59,7 @@ const CustomCountrySelectWidget = ({
 
   // Returns first country from the country list
   const getInitialCountrySelection = () => {
-    const [selected] = countryData.filter((item) => (item.value === value))
+    const [selected] = countryData.filter((item) => (item.label === value || item.value === value))
 
     return selected
   }
@@ -84,7 +84,7 @@ const CustomCountrySelectWidget = ({
   // Selects a country and propagates onChange
   const selectCountry = (val) => {
     setSelectedCountry(val)
-    onChange(val.value)
+    onChange(val.label)
   }
 
   // Handles country select event

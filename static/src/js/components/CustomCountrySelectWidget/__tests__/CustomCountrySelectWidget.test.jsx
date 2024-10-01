@@ -21,7 +21,7 @@ const setup = (overrideProps = {}) => {
       description: 'Test Description'
     },
     uiSchema: {},
-    value: 'TZ',
+    value: 'Tanzania, United Republic of',
     ...overrideProps
   }
 
@@ -41,6 +41,19 @@ describe('CustomCountrySelectWidget', () => {
   describe('when existing data has country', () => {
     test('renders the component with selected country ', () => {
       setup()
+
+      expect(screen.getByText('My Test Data Label')).toBeInTheDocument()
+      expect(screen.getByText('Tanzania, United Republic of').className).toContain('singleValue')
+
+      expect(screen.queryByText('Select MyTestDataLabel')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when existing data has country in short form', () => {
+    test('renders the component with selected country ', () => {
+      setup({
+        value: 'TZ'
+      })
 
       expect(screen.getByText('My Test Data Label')).toBeInTheDocument()
       expect(screen.getByText('Tanzania, United Republic of').className).toContain('singleValue')
@@ -87,7 +100,7 @@ describe('CustomCountrySelectWidget', () => {
       const option = screen.getByRole('option', { name: 'United States' })
       await user.click(option)
 
-      expect(props.onChange).toHaveBeenCalledWith('US')
+      expect(props.onChange).toHaveBeenCalledWith('United States')
     })
   })
 
