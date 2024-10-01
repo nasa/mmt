@@ -600,7 +600,7 @@ describe('PermissionForm', () => {
                       {
                         __typename: 'AclGroup',
                         permissions: [
-                          'read', 'order'
+                          'read'
                         ],
                         userType: 'registered',
                         id: null,
