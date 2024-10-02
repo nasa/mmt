@@ -11,7 +11,8 @@ import userEvent from '@testing-library/user-event'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
-import CollectionSelector from '../CollectionSelector'
+import AppContext from '@/js/context/AppContext'
+import CollectionSelector from '@/js/components/CollectionSelector/CollectionSelector'
 
 const setup = ({
   additionalMocks = [],
@@ -25,58 +26,66 @@ const setup = ({
   }
 
   render(
-    <MockedProvider mocks={
-      [{
-        request: {
-          query: GET_PERMISSION_COLLECTIONS,
-          variables: {
-            params: {
-              limit: 100
-            }
-          }
-        },
-        result: {
-          data: {
-            collections: {
-              items: [
-                {
-                  conceptId: 'C1200444618-MMT_2',
-                  directDistributionInformation: {
-                    region: 'us-east-2',
-                    s3BucketAndObjectPrefixNames: [
-                      's3://example1',
-                      's3://example2',
-                      'prefix_bucket/*'
-                    ],
-                    s3CredentialsApiEndpoint: 'https://example.org',
-                    s3CredentialsApiDocumentationUrl: 'https://example.org'
-                  },
-                  shortName: 'Collection 1',
-                  provider: 'MMT_2',
-                  entryTitle: 'Mock title of collection 1',
-                  __typename: 'Collection'
-                },
-                {
-                  conceptId: 'C1200482349-MMT_2',
-                  directDistributionInformation: null,
-                  shortName: 'Collection 2',
-                  provider: 'MMT_2',
-                  entryTitle: 'Mock title of collection 2',
-                  __typename: 'Collection'
-                }
-              ],
-              __typename: 'CollectionList'
-            }
-          }
-        }
-      }, ...additionalMocks]
+    <AppContext.Provider value={
+      {
+        providerId: 'MMT_2'
+      }
     }
     >
-      <Suspense>
-        <CollectionSelector {...props} />
-      </Suspense>
-    </MockedProvider>
-
+      <MockedProvider mocks={
+        [
+          {
+            request: {
+              query: GET_PERMISSION_COLLECTIONS,
+              variables: {
+                params: {
+                  provider: 'MMT_2',
+                  limit: 100
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  items: [
+                    {
+                      conceptId: 'C1200444618-MMT_2',
+                      directDistributionInformation: {
+                        region: 'us-east-2',
+                        s3BucketAndObjectPrefixNames: [
+                          's3://example1',
+                          's3://example2',
+                          'prefix_bucket/*'
+                        ],
+                        s3CredentialsApiEndpoint: 'https://example.org',
+                        s3CredentialsApiDocumentationUrl: 'https://example.org'
+                      },
+                      shortName: 'Collection 1',
+                      provider: 'MMT_2',
+                      entryTitle: 'Mock title of collection 1',
+                      __typename: 'Collection'
+                    },
+                    {
+                      conceptId: 'C1200482349-MMT_2',
+                      directDistributionInformation: null,
+                      shortName: 'Collection 2',
+                      provider: 'MMT_2',
+                      entryTitle: 'Mock title of collection 2',
+                      __typename: 'Collection'
+                    }
+                  ],
+                  __typename: 'CollectionList'
+                }
+              }
+            }
+          }, ...additionalMocks]
+      }
+      >
+        <Suspense>
+          <CollectionSelector {...props} />
+        </Suspense>
+      </MockedProvider>
+    </AppContext.Provider>
   )
 
   return {
@@ -232,6 +241,7 @@ describe('CollectionSelector', () => {
             variables: {
               params: {
                 options: { shortName: { pattern: true } },
+                provider: 'MMT_2',
                 shortName: 'C*',
                 limit: 100
               }

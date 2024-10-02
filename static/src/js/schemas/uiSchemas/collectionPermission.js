@@ -1,4 +1,5 @@
 import CustomCheckboxWidget from '@/js/components/CustomCheckboxWidget/CustomCheckboxWidget'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
 
 const collectionPermissionUiSchema = {
   'ui:submitButtonOptions': {
@@ -17,6 +18,12 @@ const collectionPermissionUiSchema = {
                   'ui:col': {
                     md: 4,
                     children: ['name']
+                  }
+                },
+                {
+                  'ui:col': {
+                    md: 2,
+                    children: ['providers']
                   }
                 },
                 {
@@ -77,6 +84,10 @@ const collectionPermissionUiSchema = {
         }
       }
     ]
+  },
+  providers: {
+    'ui:required': true,
+    'ui:widget': CustomSelectWidget
   },
   collectionSelection: {
     'ui:required': true,

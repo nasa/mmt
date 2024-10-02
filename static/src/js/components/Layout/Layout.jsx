@@ -236,7 +236,7 @@ const Layout = ({ className, displayNav }) => {
                             naked
                             Icon={FaUserAlt}
                           >
-                            {`${user.name} `}
+                            {`${user?.name} `}
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu

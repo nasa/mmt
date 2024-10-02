@@ -28,8 +28,9 @@ import { useLazyQuery, useSuspenseQuery } from '@apollo/client'
 
 import { GET_PERMISSION_COLLECTIONS } from '@/js/operations/queries/getPermissionCollections'
 
-import Button from '../Button/Button'
-import For from '../For/For'
+import useAppContext from '@/js/hooks/useAppContext'
+import Button from '@/js/components/Button/Button'
+import For from '@/js/components/For/For'
 
 import './CollectionSelector.scss'
 
@@ -55,10 +56,12 @@ const CollectionSelector = ({ onChange, formData }) => {
   const [highlightedSelected, setHighlightedSelected] = useState({})
 
   const [loading, setLoading] = useState(false)
+  const { providerId } = useAppContext()
 
   const { data: collectionList } = useSuspenseQuery(GET_PERMISSION_COLLECTIONS, {
     variables: {
       params: {
+        provider: providerId,
         limit: 100
       }
     }
@@ -74,11 +77,17 @@ const CollectionSelector = ({ onChange, formData }) => {
   }), {})
 
   const [selectedItems, setSelectedItems] = useState({})
-  const [availableItems, setAvailableItems] = useState(availableCollections)
+  const [availableItems, setAvailableItems] = useState([])
+
+  useEffect(() => {
+    setAvailableItems(availableCollections)
+  }, [providerId])
 
   useEffect(() => {
     if (!isEmpty(formData)) {
       setSelectedItems(formData)
+    } else {
+      setSelectedItems({})
     }
   }, [formData])
 
@@ -191,6 +200,7 @@ const CollectionSelector = ({ onChange, formData }) => {
               pattern: true
             }
           },
+          provider: providerId,
           shortName: `${inputValue}*`,
           limit: 100
         }

@@ -1,8 +1,7 @@
 import {
   render,
   screen,
-  waitFor,
-  within
+  waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { Suspense } from 'react'
@@ -33,8 +32,8 @@ import errorLogger from '@/js/utils/errorLogger'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
-import PermissionForm from '../PermissionForm'
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
+import PermissionForm from '@/js/components/PermissionForm/PermissionForm'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
@@ -163,6 +162,7 @@ describe('PermissionForm', () => {
               variables: {
                 catalogItemIdentity: {
                   name: 'Test Name',
+                  providerId: 'MMT_2',
                   collectionApplicable: false,
                   granuleApplicable: true,
                   collectionIdentifier: {
@@ -227,7 +227,7 @@ describe('PermissionForm', () => {
                     collectionApplicable: true,
                     granuleApplicable: false,
                     granuleIdentifier: null,
-                    providerId: 'MM_2'
+                    providerId: 'MMT_2'
                   },
                   collections: {
                     __typename: 'CollectionList',
@@ -301,7 +301,7 @@ describe('PermissionForm', () => {
                     collectionApplicable: true,
                     granuleApplicable: false,
                     granuleIdentifier: null,
-                    providerId: 'MM_2'
+                    providerId: 'MMT_2'
                   },
                   collections: {
                     __typename: 'CollectionList',
@@ -364,30 +364,27 @@ describe('PermissionForm', () => {
         await user.type(minValue[1], '1')
         await user.type(maxValue[1], '10')
 
-        const groupSearch = screen.getAllByRole('combobox')
-        await user.click(groupSearch[3])
+        // Click MMT_2 in provider dropdown
+        const combos = screen.getAllByRole('combobox')
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(providerOption)
 
+        // Click group search
+        await user.click(combos[4])
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
-
-        await user.click(groupSearch[3])
+        await user.click(combos[4])
 
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
 
-        await user.click(groupSearch[4])
-
+        await user.click(combos[5])
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
@@ -426,7 +423,7 @@ describe('PermissionForm', () => {
                     collectionApplicable: true,
                     granuleApplicable: false,
                     granuleIdentifier: null,
-                    providerId: 'MM_2'
+                    providerId: 'MMT_2'
                   },
                   collections: {
                     __typename: 'CollectionList',
@@ -523,7 +520,8 @@ describe('PermissionForm', () => {
                       minValue: 1
                     }
                   },
-                  name: 'Test Name'
+                  name: 'Test Name',
+                  providerId: 'MMT_2'
                 },
                 groupPermissions: [{
                   permissions: ['read', 'order'],
@@ -568,7 +566,7 @@ describe('PermissionForm', () => {
                     collectionApplicable: true,
                     granuleApplicable: false,
                     granuleIdentifier: null,
-                    providerId: 'MM_2'
+                    providerId: 'MMT_2'
                   },
                   collections: {
                     __typename: 'CollectionList',
@@ -642,7 +640,7 @@ describe('PermissionForm', () => {
                     collectionApplicable: true,
                     granuleApplicable: false,
                     granuleIdentifier: null,
-                    providerId: 'MM_2'
+                    providerId: 'MMT_2'
                   },
                   collections: {
                     __typename: 'CollectionList',
@@ -705,23 +703,21 @@ describe('PermissionForm', () => {
         await user.type(minValue[1], '1')
         await user.type(maxValue[1], '10')
 
-        const groupSearch = screen.getAllByRole('combobox')
+        const combos = screen.getAllByRole('combobox')
 
         // Clicks the searchAndOrderGroup field
-        await user.click(groupSearch[4])
+        await user.click(combos[5])
 
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
+        // Clicks provider field
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(providerOption)
+
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
-
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/permissions/ACL1000000-MMT')
       })
@@ -737,6 +733,7 @@ describe('PermissionForm', () => {
               variables: {
                 catalogItemIdentity: {
                   name: 'Test Name',
+                  providerId: 'MMT_2',
                   collectionApplicable: false,
                   granuleApplicable: false
                 },
@@ -759,31 +756,27 @@ describe('PermissionForm', () => {
 
         await user.type(nameField, 'Test Name')
 
-        const groupSearch = screen.getAllByRole('combobox')
-
-        await user.click(groupSearch[3])
-
+        // Click group search field
+        const combos = screen.getAllByRole('combobox')
+        await user.click(combos[4])
         const option = screen.getByRole('option', { name: 'Mock group MMT_2' })
         await user.click(option)
+        await user.click(combos[4])
 
-        await user.click(groupSearch[3])
-
+        // Click search, order field
         const option2 = screen.getByRole('option', { name: 'All Registered Users' })
         await user.click(option2)
-
-        await user.click(groupSearch[2])
-
+        await user.click(combos[3])
         const option3 = screen.getByRole('option', { name: 'All Guest User' })
         await user.click(option3)
 
+        // Clicks provider field
+        await user.click(combos[0])
+        const providerOption = screen.getByRole('option', { name: 'MMT_2' })
+        await user.click(providerOption)
+
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
-
-        const modal = screen.getByRole('dialog')
-        const modalButton = within(modal).getByRole('button', {
-          name: 'Submit'
-        })
-        await user.click(modalButton)
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
@@ -847,7 +840,7 @@ describe('PermissionForm', () => {
                       collectionApplicable: true,
                       granuleApplicable: false,
                       granuleIdentifier: null,
-                      providerId: 'MM_2'
+                      providerId: 'MMT_2'
                     },
                     collections: {
                       __typename: 'CollectionList',
@@ -921,7 +914,7 @@ describe('PermissionForm', () => {
                       collectionApplicable: true,
                       granuleApplicable: false,
                       granuleIdentifier: null,
-                      providerId: 'MM_2'
+                      providerId: 'MMT_2'
                     },
                     collections: {
                       __typename: 'CollectionList',
@@ -972,7 +965,8 @@ describe('PermissionForm', () => {
                 query: GET_PERMISSION_COLLECTIONS,
                 variables: {
                   params: {
-                    limit: 100
+                    limit: 100,
+                    provider: 'MMT_2'
                   }
                 }
               },
@@ -1009,7 +1003,7 @@ describe('PermissionForm', () => {
                 variables: {
                   catalogItemIdentity: {
                     name: 'Mock ACLUpdated Name',
-                    providerId: 'MM_2',
+                    providerId: 'MMT_2',
                     collectionApplicable: true,
                     granuleApplicable: false,
                     collectionIdentifier: { conceptIds: ['C12000000-MMT_2', 'C13000000-MMT_2'] }
@@ -1061,7 +1055,7 @@ describe('PermissionForm', () => {
                       collectionApplicable: true,
                       granuleApplicable: false,
                       granuleIdentifier: null,
-                      providerId: 'MM_2'
+                      providerId: 'MMT_2'
                     },
                     collections: {
                       __typename: 'CollectionList',
@@ -1135,7 +1129,7 @@ describe('PermissionForm', () => {
                       collectionApplicable: true,
                       granuleApplicable: false,
                       granuleIdentifier: null,
-                      providerId: 'MM_2'
+                      providerId: 'MMT_2'
                     },
                     collections: {
                       __typename: 'CollectionList',
@@ -1234,7 +1228,7 @@ describe('PermissionForm', () => {
                       collectionApplicable: true,
                       granuleApplicable: false,
                       granuleIdentifier: null,
-                      providerId: 'MM_2'
+                      providerId: 'MMT_2'
                     },
                     collections: null,
                     groups: {
@@ -1324,7 +1318,7 @@ describe('PermissionForm', () => {
                 variables: {
                   catalogItemIdentity: {
                     name: 'Mock ACLUpdated Name',
-                    providerId: 'MM_2',
+                    providerId: 'MMT_2',
                     collectionApplicable: true,
                     granuleApplicable: false
                   },

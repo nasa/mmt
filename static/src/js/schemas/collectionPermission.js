@@ -10,6 +10,14 @@ const collectionPermission = {
       minLength: 1,
       maxLength: 85
     },
+    providers: {
+      description: 'The provider of the group.',
+      type: 'string',
+      items: {
+        type: 'string',
+        enum: ['MMT_1', 'MMT_2'] // Overwritten by PermissionsForm.jsx
+      }
+    },
     accessPermission: {
       $ref: '#/definitions/accessPermissionType'
     },

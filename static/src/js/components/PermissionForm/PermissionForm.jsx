@@ -21,34 +21,33 @@ import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedSt
 import saveTypes from '@/js/constants/saveTypes'
 
 import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { cloneDeep } from '@apollo/client/utilities'
 
 import useAppContext from '@/js/hooks/useAppContext'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import errorLogger from '@/js/utils/errorLogger'
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
 import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
-
-import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
-
-import { cloneDeep } from '@apollo/client/utilities'
 import {
   GET_COLLECTION_FOR_PERMISSION_FORM
 } from '@/js/operations/queries/getCollectionForPermissionForm'
-import CustomArrayFieldTemplate from '../CustomArrayFieldTemplate/CustomArrayFieldTemplate'
-import CustomDateTimeWidget from '../CustomDateTimeWidget/CustomDateTimeWidget'
-import CustomFieldTemplate from '../CustomFieldTemplate/CustomFieldTemplate'
-import CustomSelectWidget from '../CustomSelectWidget/CustomSelectWidget'
-import CustomTextWidget from '../CustomTextWidget/CustomTextWidget'
-import CustomTitleField from '../CustomTitleField/CustomTitleField'
-import CustomTitleFieldTemplate from '../CustomTitleFieldTemplate/CustomTitleFieldTemplate'
-import GridLayout from '../GridLayout/GridLayout'
-import GroupPermissionSelect from '../GroupPermissionSelect/GroupPermissionSelect'
-import KeywordPicker from '../KeywordPicker/KeywordPicker'
 
-import ChooseProviderModal from '../ChooseProviderModal/ChooseProviderModal'
+import CollectionSelectorPage from '@/js/pages/CollectionSelectorPage/CollectionSelectorPage'
+
+import CustomArrayFieldTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
+import CustomDateTimeWidget from '@/js/components/CustomDateTimeWidget/CustomDateTimeWidget'
+import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
+import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
+import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import CustomTitleField from '@/js/components/CustomTitleField/CustomTitleField'
+import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/CustomTitleFieldTemplate'
+import GridLayout from '@/js/components/GridLayout/GridLayout'
+import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
+import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -183,8 +182,26 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   const [focusField, setFocusField] = useState(null)
   const [uiSchema, setUiSchema] = useState(collectionPermissionUiSchema)
+  const [schema, setSchema] = useState(collectionPermission)
 
-  const [chooseProviderModalOpen, setChooseProviderModalOpen] = useState(false)
+  const { providerIds } = useAvailableProviders()
+
+  useEffect(() => {
+    if (providerIds.length > 0) {
+      const clonedSchema = cloneDeep(schema)
+      clonedSchema.properties.providers.items.enum = providerIds
+      setSchema(clonedSchema)
+    }
+  }, [providerIds])
+
+  useEffect(() => {
+    const { formData = {} } = draft || {}
+    formData.providers = providerId
+    setDraft({
+      ...draft,
+      formData
+    })
+  }, [providerId])
 
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL, {
@@ -467,6 +484,8 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       // Call the function to show/hide granule fields based on formData
       showGranuleFields(formData)
 
+      formData.providers = savedProviderId
+
       // Update the draft with formData by removing empty fields
       setDraft({ formData: removeEmpty(formData) })
     }
@@ -476,6 +495,8 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     const { formData } = event
 
     showGranuleFields(formData)
+
+    setProviderId(formData.providers)
 
     setDraft({
       ...draft,
@@ -706,76 +727,48 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     })
   }
 
-  const handleSetProviderOrSubmit = () => {
-    if (conceptId === 'new') {
-      setChooseProviderModalOpen(true)
-
-      return
-    }
-
-    handleSubmit()
-  }
-
   return (
-    <>
-      <Container className="permission-form__container mx-0" fluid>
-        <Row>
-          <Col>
-            <Form
-              fields={fields}
-              formContext={
-                {
-                  focusField,
-                  setFocusField
-                }
+    <Container className="permission-form__container mx-0" fluid>
+      <Row>
+        <Col>
+          <Form
+            fields={fields}
+            formContext={
+              {
+                focusField,
+                setFocusField
               }
-              liveValidate
-              widgets={widgets}
-              schema={collectionPermission}
-              validator={validator}
-              templates={templates}
-              uiSchema={uiSchema}
-              onChange={handleChange}
-              formData={removeEmpty(formData)}
-              onSubmit={handleSetProviderOrSubmit}
-              showErrorList="false"
-              customValidate={validate}
-            >
-              <div className="d-flex gap-2">
-                <Button
-                  type="submit"
-                  variant="primary"
-                >
-                  {saveTypesToHumanizedStringMap[saveTypes.submit]}
-                </Button>
-                <Button
-                  onClick={handleClear}
-                  variant="secondary"
-                >
-                  Clear
-                </Button>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-      <ChooseProviderModal
-        show={chooseProviderModalOpen}
-        primaryActionType={saveTypes.submit}
-        toggleModal={
-          () => {
-            setChooseProviderModalOpen(false)
-          }
-        }
-        type="collectionPermission"
-        onSubmit={
-          () => {
-            handleSubmit()
-            setChooseProviderModalOpen(false)
-          }
-        }
-      />
-    </>
+            }
+            liveValidate
+            widgets={widgets}
+            schema={schema}
+            validator={validator}
+            templates={templates}
+            uiSchema={uiSchema}
+            onChange={handleChange}
+            formData={removeEmpty(formData)}
+            onSubmit={handleSubmit}
+            showErrorList="false"
+            customValidate={validate}
+          >
+            <div className="d-flex gap-2">
+              <Button
+                type="submit"
+                variant="primary"
+              >
+                {saveTypesToHumanizedStringMap[saveTypes.submit]}
+              </Button>
+              <Button
+                onClick={handleClear}
+                variant="secondary"
+              >
+                Clear
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
