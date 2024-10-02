@@ -15,6 +15,7 @@ import * as router from 'react-router'
 
 import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'
 import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
+import { GraphQLError } from 'graphql'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
@@ -22,9 +23,7 @@ import errorLogger from '@/js/utils/errorLogger'
 import createTemplate from '@/js/utils/createTemplate'
 
 import Providers from '@/js/providers/Providers/Providers'
-
-import DraftPage from '../DraftPage'
-import { GraphQLError } from 'graphql'
+import DraftPage from '@/js/pages/DraftPage/DraftPage'
 
 vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/utils/createTemplate')
