@@ -124,7 +124,6 @@ const DraftPageHeader = () => {
 
   useEffect(() => {
     if (publishErrors) {
-      console.log('publishErrors', publishErrors)
       const { message } = publishErrors
       addNotification({
         message,
