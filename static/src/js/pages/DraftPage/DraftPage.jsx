@@ -68,7 +68,8 @@ const DraftPageHeader = () => {
 
   const {
     publishMutation,
-    publishDraft
+    publishDraft,
+    error: publishErrors
   } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   const toggleShowDeleteModal = (nextState) => {
@@ -120,6 +121,19 @@ const DraftPageHeader = () => {
       })
     }
   }, [publishDraft])
+
+  useEffect(() => {
+    if (publishErrors) {
+      console.log('publishErrors', publishErrors)
+      const { message } = publishErrors
+      addNotification({
+        message,
+        variant: 'danger'
+      })
+
+      errorLogger(message, 'PublishMutation: publishMutation')
+    }
+  }, [publishErrors])
 
   const handleTemplate = async () => {
     const response = await createTemplate(providerId, mmtJwt, {
