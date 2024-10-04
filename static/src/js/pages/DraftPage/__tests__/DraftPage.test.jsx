@@ -15,6 +15,7 @@ import * as router from 'react-router'
 
 import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'
 import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
+import { GraphQLError } from 'graphql'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
@@ -22,8 +23,7 @@ import errorLogger from '@/js/utils/errorLogger'
 import createTemplate from '@/js/utils/createTemplate'
 
 import Providers from '@/js/providers/Providers/Providers'
-
-import DraftPage from '../DraftPage'
+import DraftPage from '@/js/pages/DraftPage/DraftPage'
 
 vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/utils/createTemplate')
@@ -339,6 +339,35 @@ describe('DraftPage', () => {
 
         const button = await screen.findByRole('button', { name: /Publish/ })
         expect(button).toHaveAttribute('disabled')
+      })
+
+      test('calls the publish mutation and if unsuccesfull shows error', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: '1.2.0'
+              }
+            },
+            result: {
+              errors: [new GraphQLError('An error occurred')]
+            }
+          }]
+        })
+
+        const button = await screen.findByRole('button', { name: /Publish/ })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(0)
+
+        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledWith('An error occurred', 'PublishMutation: publishMutation')
       })
 
       test('calls the publish mutation and navigates to the concept page', async () => {
