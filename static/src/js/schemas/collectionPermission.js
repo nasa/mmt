@@ -34,7 +34,7 @@ const collectionPermission = {
       type: 'object'
     }
   },
-  required: ['name', 'collectionSelection', 'accessPermission', 'groupPermissions'],
+  required: ['name', 'providers', 'collectionSelection', 'accessPermission', 'groupPermissions'],
 
   definitions: {
     collectionSelectionType: {
