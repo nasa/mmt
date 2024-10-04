@@ -86,6 +86,8 @@ const collectionPermissionUiSchema = {
     ]
   },
   providers: {
+    'ui:title': 'Provider',
+    'ui:disabled': false,
     'ui:required': true,
     'ui:widget': CustomSelectWidget
   },

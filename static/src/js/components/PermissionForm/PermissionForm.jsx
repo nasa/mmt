@@ -181,7 +181,13 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const { conceptId = 'new' } = useParams()
 
   const [focusField, setFocusField] = useState(null)
-  const [uiSchema, setUiSchema] = useState(collectionPermissionUiSchema)
+  const [uiSchema, setUiSchema] = useState({
+    ...collectionPermissionUiSchema,
+    providers: {
+      ...collectionPermissionUiSchema.providers,
+      'ui:disabled': (conceptId !== 'new')
+    }
+  })
   const [schema, setSchema] = useState(collectionPermission)
 
   const { providerIds } = useAvailableProviders()
@@ -309,33 +315,21 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
    * @param {boolean} formData.accessPermission.granule - The flag indicating if granule access is allowed.
    */
   const showGranuleFields = (formData) => {
-    if (formData.accessPermission?.granule) {
+    if (formData.accessPermission) {
       const newUiSchema = {
-        ...collectionPermissionUiSchema,
+        ...uiSchema,
         accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
+          ...uiSchema.accessConstraintFilter,
           granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': false
+            ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
+            'ui:disabled': !formData.accessPermission?.granule
           }
         },
         temporalConstraintFilter: {
-          ...collectionPermissionUiSchema.temporalConstraintFilter,
+          ...uiSchema.temporalConstraintFilter,
           granuleTemporalConstraint: {
-            ...collectionPermissionUiSchema.temporalConstraintFilter.granuleTemporalConstraint,
-            'ui:disabled': false
-          }
-        }
-      }
-      setUiSchema(newUiSchema)
-    } else {
-      const newUiSchema = {
-        ...collectionPermissionUiSchema,
-        accessConstraintFilter: {
-          ...collectionPermissionUiSchema.accessConstraintFilter,
-          granuleAccessConstraint: {
-            ...collectionPermissionUiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': true
+            ...uiSchema.temporalConstraintFilter.granuleTemporalConstraint,
+            'ui:disabled': !formData.accessPermission?.granule
           }
         }
       }
