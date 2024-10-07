@@ -63,7 +63,7 @@ const ummMetadata = {
 const mockDraft = {
   __typename: 'Draft',
   conceptId: 'TD1000000-MMT',
-  conceptType: 'topol-draft',
+  conceptType: 'tool-draft',
   deleted: false,
   name: 'mock name',
   nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
@@ -111,11 +111,64 @@ const mockDraft = {
   ummMetadata
 }
 
+const mockCollectionDraft = {
+  __typename: 'Draft',
+  conceptId: 'CD1000000-MMT',
+  conceptType: 'collection-draft',
+  deleted: false,
+  name: 'mock name',
+  nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+  previewMetadata: {
+    __typename: 'Collection',
+    accessConstraints: null,
+    ancillaryKeywords: null,
+    associationDetails: null,
+    conceptId: 'CD1000000-MMT',
+    contactGroups: null,
+    contactPersons: null,
+    description: null,
+    doi: null,
+    lastUpdatedDate: null,
+    longName: 'Long Name',
+    metadataSpecification: {
+      name: 'UMM-C',
+      url: 'https://cdn.earthdata.nasa.gov/umm/collection/v1.1',
+      version: '1.1'
+    },
+    name: null,
+    nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+    organizations: null,
+    pageTitle: null,
+    potentialAction: null,
+    quality: null,
+    relatedUrls: null,
+    revisionId: '2',
+    searchAction: null,
+    supportedBrowsers: null,
+    supportedInputFormats: null,
+    supportedOperatingSystems: null,
+    supportedOutputFormats: null,
+    supportedSoftwareLanguages: null,
+    toolKeywords: null,
+    type: null,
+    url: null,
+    useConstraints: null,
+    version: null,
+    versionDescription: null
+  },
+  providerId: 'MMT_2',
+  revisionDate: '2023-12-08T16:14:28.177Z',
+  revisionId: '2',
+  ummMetadata
+}
+
 const setup = ({
   additionalMocks = [],
   overrideMocks = false,
   pageUrl = '/drafts/tools/TD1000000-MMT',
-  path = '/drafts/tools'
+  overridePageUrl = false,
+  path = '/drafts/tools',
+  overridePath = false
 }) => {
   const mocks = [{
     request: {
@@ -141,10 +194,10 @@ const setup = ({
       <MockedProvider
         mocks={overrideMocks || mocks}
       >
-        <MemoryRouter initialEntries={[pageUrl]}>
+        <MemoryRouter initialEntries={[overridePageUrl || pageUrl]}>
           <Routes>
             <Route
-              path={path}
+              path={overridePath || path}
             >
               <Route
                 path=":conceptId"
@@ -339,6 +392,49 @@ describe('DraftPage', () => {
 
         const button = await screen.findByRole('button', { name: /Publish/ })
         expect(button).toHaveAttribute('disabled')
+      })
+
+      test('buttons are disabled if draft does not exist', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        // Overriding ummMetadata and setting it to have errors
+        const invalidMockDraft = {
+          ...mockCollectionDraft,
+          ummMetadata: {
+            errors: 'concept not found in DB'
+          }
+        }
+
+        setup({
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Collection,
+              variables: {
+                params: {
+                  conceptId: 'CD1000000-MMT',
+                  conceptType: 'Collection'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: invalidMockDraft
+              }
+            }
+          }],
+          overridePageUrl: '/drafts/collections/CD1000000-MMT',
+          overridePath: '/drafts/collections'
+        })
+
+        const publishButton = await screen.findByRole('button', { name: /Publish/ })
+        expect(publishButton).toHaveAttribute('disabled')
+
+        const deleteButton = await screen.findByRole('button', { name: /Delete/ })
+        expect(deleteButton).toHaveAttribute('disabled')
+
+        const templateButton = await screen.findByRole('button', { name: /Save as Template/ })
+        expect(templateButton).toHaveAttribute('disabled')
       })
 
       test('calls the publish mutation and if unsuccesfull shows error', async () => {
