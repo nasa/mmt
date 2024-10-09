@@ -58,37 +58,50 @@ const DraftPreview = () => {
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
 
+  const { errors } = ummMetadata
+
   // Pull the formSections out of the formConfigurations
   const formSections = formConfigurations[derivedConceptType]
 
   return (
     <Container id="metadata-form" fluid className="px-0">
-      <Row>
-        <Col md={12}>
+      {
+        errors ? (
           <Row>
-            <Col className="mb-5">
-              <h3 className="sr-only">Metadata Fields</h3>
-              <PreviewProgress
-                draftJson={ummMetadata}
-                schema={schema}
-                sections={formSections}
-                validationErrors={validationErrors}
-              />
+            <Col md={12}>
+              This record does not exist in CMR, please contact support@earthdata.nasa.gov
+              if you believe this is an error.
             </Col>
           </Row>
-        </Col>
-        <Row>
-          <Col md={12} className="draft-preview__preview">
-            <h2 className="fw-bold fs-4">Preview</h2>
-            <ErrorBoundary>
-              <MetadataPreview
-                conceptId={conceptId}
-                conceptType={derivedConceptType}
-              />
-            </ErrorBoundary>
-          </Col>
-        </Row>
-      </Row>
+        ) : (
+          <Row>
+            <Col md={12}>
+              <Row>
+                <Col className="mb-5">
+                  <h3 className="sr-only">Metadata Fields</h3>
+                  <PreviewProgress
+                    draftJson={ummMetadata}
+                    schema={schema}
+                    sections={formSections}
+                    validationErrors={validationErrors}
+                  />
+                </Col>
+              </Row>
+            </Col>
+            <Row>
+              <Col md={12} className="draft-preview__preview">
+                <h2 className="fw-bold fs-4">Preview</h2>
+                <ErrorBoundary>
+                  <MetadataPreview
+                    conceptId={conceptId}
+                    conceptType={derivedConceptType}
+                  />
+                </ErrorBoundary>
+              </Col>
+            </Row>
+          </Row>
+        )
+      }
     </Container>
   )
 }

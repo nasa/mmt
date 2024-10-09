@@ -1,5 +1,9 @@
 import React, { Suspense } from 'react'
-import { render, waitFor } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import {
@@ -50,6 +54,59 @@ const mockDraft = {
       Version: '1.1'
     },
     LongName: 'Long Name'
+  },
+  previewMetadata: {
+    accessConstraints: null,
+    ancillaryKeywords: null,
+    associationDetails: null,
+    conceptId: 'TD1000000-MMT',
+    contactGroups: null,
+    contactPersons: null,
+    description: null,
+    doi: null,
+    nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+    lastUpdatedDate: null,
+    longName: 'Long Name',
+    metadataSpecification: {
+      url: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+      name: 'UMM-T',
+      version: '1.1'
+    },
+    name: null,
+    organizations: null,
+    pageTitle: null,
+    potentialAction: null,
+    quality: null,
+    relatedUrls: null,
+    revisionId: '2',
+    searchAction: null,
+    supportedBrowsers: null,
+    supportedInputFormats: null,
+    supportedOperatingSystems: null,
+    supportedOutputFormats: null,
+    supportedSoftwareLanguages: null,
+    toolKeywords: null,
+    type: null,
+    url: null,
+    useConstraints: null,
+    version: null,
+    versionDescription: null,
+    __typename: 'Tool'
+  },
+  __typename: 'Draft'
+}
+
+const mockErrorDraft = {
+  conceptId: 'TD1000000-MMT',
+  conceptType: 'tool-draft',
+  deleted: false,
+  name: null,
+  nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+  providerId: 'MMT_2',
+  revisionDate: '2023-12-08T16:14:28.177Z',
+  revisionId: '2',
+  ummMetadata: {
+    errors: 'concept not found in DB'
   },
   previewMetadata: {
     accessConstraints: null,
@@ -242,6 +299,31 @@ describe('DraftPreview', () => {
         conceptId: 'TD1000000-MMT',
         conceptType: 'Tool'
       }, {})
+    })
+  })
+
+  describe('when cmr takes longer than react to populate', () => {
+    test('renders a refresh page banner', async () => {
+      setup({
+        overrideMocks: [{
+          request: {
+            query: conceptTypeDraftQueries.Tool,
+            variables: {
+              params: {
+                conceptId: 'TD1000000-MMT',
+                conceptType: 'Tool'
+              }
+            }
+          },
+          result: {
+            data: {
+              draft: mockErrorDraft
+            }
+          }
+        }]
+      })
+
+      expect(await screen.findByText('This record does not exist in CMR, please contact support@earthdata.nasa.gov if you believe this is an error.')).toBeVisible()
     })
   })
 })

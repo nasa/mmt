@@ -105,6 +105,9 @@ const DraftPageHeader = () => {
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
 
+  // Check to see if special CMR lag use case is true
+  const { errors } = ummMetadata
+
   const handlePublish = () => {
     publishMutation(derivedConceptType, nativeId)
   }
@@ -219,6 +222,7 @@ const DraftPageHeader = () => {
               variant: 'success'
             },
             {
+              disabled: !!errors,
               icon: FaTrash,
               iconTitle: 'A trash icon',
               onClick: () => toggleShowDeleteModal(true),
@@ -228,6 +232,7 @@ const DraftPageHeader = () => {
             ...[(
               derivedConceptType === conceptTypes.Collection
                 ? {
+                  disabled: !!errors,
                   icon: FaCopy,
                   iconTitle: 'A copy icon',
                   onClick: handleTemplate,
