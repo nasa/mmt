@@ -4,7 +4,6 @@ import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWid
 import PlatformField from '../../../components/PlatformField/PlatformField'
 import InstrumentField from '../../../components/InstrumentField/InstrumentField'
 
-
 const acquisitionInformationUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
@@ -287,10 +286,7 @@ const acquisitionInformationUiSchema = {
               'ui:field': 'layout',
               'ui:controlled': {
                 name: 'instruments',
-                map: {
-                  ShortName: 'short_name',
-                  LongName: 'long_name'
-                }
+                controlName: ['category', 'class', 'type', 'subtype', 'short_name', 'long_name']
               },
               'ui:layout_grid': {
                 'ui:row': [
@@ -299,26 +295,13 @@ const acquisitionInformationUiSchema = {
                       md: 12,
                       children: [
                         {
-                          'ui:row': [
-                            {
-                              'ui:col': {
-                                controlName: 'short_name',
-                                md: 12,
-                                children: ['ShortName']
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          'ui:row': [
-                            {
-                              'ui:col': {
-                                controlName: 'long_name',
-                                md: 12,
-                                children: ['LongName']
-                              }
-                            }
-                          ]
+                          md: 12,
+                          // Rendering custom component for ShortName and LongName
+                          render: (props) => (
+                            <div>
+                              <InstrumentField {...props} />
+                            </div>
+                          )
                         },
                         {
                           'ui:row': [
