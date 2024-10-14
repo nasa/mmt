@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 import parseCmrInstrumentsResponse from '../../utils/parseCmrInstrumentsResponse'
 import './InstrumentField.scss'
@@ -29,13 +31,13 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
       type = '',
       subtype = '',
       // eslint-disable-next-line camelcase
-      short_name = ''
+      short_name
     } = keywordObject
 
     return category.concat(type).concat(subtype).concat(short_name)
   }
 
-  const getTitle = (keywordObject) => {
+  const getPath = (keywordObject) => {
     const {
       type = '',
       subtype = ''
@@ -57,14 +59,15 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
       setTitles([])
 
       keywordObjects.forEach((keywordObj) => {
-        // Gets title for given keyword.
+        // Gets path of given keyword (type>subtype)
         // If not already exists, creates a new title object
         // to add to the keyword array list to display in the select box
-        const title = getTitle(keywordObj)
+        const title = getPath(keywordObj)
         if (!titles.includes(title)) {
           titles.push(title)
           const titleObj = {}
           titleObj.title = title
+          // Category is needed for select box display
           titleObj.category = 'title'
           keywordArray.push(titleObj)
         }
@@ -133,15 +136,31 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   )
 
   const displaySelectOption = (keywordObject) => (
-
-    <button
-      type="button"
-      className="instrument-field-select-option"
-      onMouseDown={() => onHandleMouseDown(keywordObject)}
+    <OverlayTrigger
+      delay={
+        {
+          hide: 450,
+          show: 300
+        }
+      }
+      overlay={
+        // eslint-disable-next-line react/no-unstable-nested-components
+        (props) => (
+          <Tooltip {...props}>
+            {getPath(keywordObject)}
+          </Tooltip>
+        )
+      }
+      placement="bottom"
     >
-      {keywordObject.short_name}
-    </button>
-
+      <button
+        type="button"
+        className="instrument-field-select-option"
+        onMouseDown={() => onHandleMouseDown(keywordObject)}
+      >
+        {keywordObject.short_name}
+      </button>
+    </OverlayTrigger>
   )
 
   const displayClearOption = () => (
