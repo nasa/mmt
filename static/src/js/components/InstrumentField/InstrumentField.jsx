@@ -21,6 +21,7 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [shouldFocus, setShouldFocus] = useState(false)
   const [longNameMap, setLongNameMap] = useState({})
+  const [titles, setTitles] = useState([])
 
   const getMapKey = (keywordObject) => {
     const {
@@ -34,6 +35,15 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
     return category.concat(type).concat(subtype).concat(short_name)
   }
 
+  const getTitle = (keywordObject) => {
+    const {
+      type = '',
+      subtype = ''
+    } = keywordObject
+
+    return subtype.length !== 0 ? type.concat('>').concat(subtype) : type
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const controlled = uiSchema['ui:controlled']
@@ -43,17 +53,35 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
       const keywordsJson = await fetchCmrKeywords(name)
       const keywordObjects = parseCmrInstrumentsResponse(keywordsJson, controlName)
 
+      const keywordArray = []
+      setTitles([])
+
       keywordObjects.forEach((keywordObj) => {
+        // Gets title for given keyword.
+        // If not already exists, creates a new title object
+        // to add to the keyword array list to display in the select box
+        const title = getTitle(keywordObj)
+        if (!titles.includes(title)) {
+          titles.push(title)
+          const titleObj = {}
+          titleObj.title = title
+          titleObj.category = 'title'
+          keywordArray.push(titleObj)
+        }
+
+        // Adds long name to long name map
         if (keywordObj.short_name && keywordObj.long_name) {
           setLongNameMap((prevMap) => ({
             ...prevMap,
             [getMapKey(keywordObj)]: keywordObj.long_name
           }))
         }
+
+        keywordArray.push(keywordObj)
       })
 
       setLoading(false)
-      setKeyword(keywordObjects)
+      setKeyword(keywordArray)
     }
 
     fetchData()
@@ -98,6 +126,12 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
     onChange(data)
   }
 
+  const displayTitle = (title) => (
+    <div className="instrument-field-select-title">
+      {title}
+    </div>
+  )
+
   const displaySelectOption = (keywordObject) => (
 
     <button
@@ -138,6 +172,10 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
 
     if (!keywordObject.category) {
       return displayClearOption()
+    }
+
+    if (keywordObject.title) {
+      return displayTitle(keywordObject.title)
     }
 
     return displaySelectOption(keywordObject)
