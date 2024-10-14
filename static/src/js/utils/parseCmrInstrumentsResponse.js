@@ -1,12 +1,19 @@
 import { cloneDeep, uniqWith } from 'lodash-es'
 
 /*
-* Helper function that traverses through a CMR facet response and builds a multidimensinal array of keywords.
+* Helper function that traverses through a CMR facet response and builds an array of keyword objects.
 * Given the node, it does an in order traversal of the tree.   When it visits the node, it adds node's
-* value to the `path`list.   The `path` list represents the path for the given keyword set
-* (i.e., [ATMOSPHERE, ATMOSPHERIC PHENOMENA, HURRICANES]).
+* name and value to the keyword object.   The `path` represents the keyword object for the given keyword set
+* (i.e., {
+*   category: 'Earth Remote Sensing Instruments',
+*   class: 'Active Remote Sensing',
+*   type: 'Altimeters',
+*   subtype: 'Lidar/Laser Altimeters',
+*   short_name: 'ATM',
+*   long_name: 'Airborne Topographic Mapper'
+* }).
 * You specify a "filter" array which specifies which fields you want to include in
-* multidimensional array (e.g, 'category', 'topic', 'term', 'variable')
+* keyword map (e.g, 'category', 'class', 'type', 'subtype', 'short_name', 'long_name')
 * @param {node} node of the tree being traversed
 * @param {Array} path to where the keywords will be added for the set as it traverses down to the leaf
 * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
@@ -15,29 +22,8 @@ import { cloneDeep, uniqWith } from 'lodash-es'
 const traverseCmrResponse = (
   node,
   filter,
-  path = {}
+  keywordParam = {}
 ) => {
-  // Example of `data` being passed in the node object:
-  // {
-  //   "value": "VisualizationURL",
-  //   "subfields": [
-  //     "type"
-  //   ],
-  //   "type": [
-  //     {
-  //       "value": "Color Map",
-  //       "subfields": [
-  //         "subtype"
-  //       ],
-  //       "subtype": [
-  //         {
-  //           "value": "Giovanni",
-  //         },
-  //         {
-  //           "value": "GITC",
-  //         }
-  //       ]
-  //     }
   const {
     data,
     parentName,
@@ -45,21 +31,21 @@ const traverseCmrResponse = (
   } = node
 
   const children = data[name]
+  const keyword = cloneDeep(keywordParam)
   // Only add the keyword if it is included in the filtered list of field names
   if (data.value && filter.includes(name)) {
-    // eslint-disable-next-line no-param-reassign
-    path[parentName] = data.value
+    keyword[parentName] = data.value
   }
 
-  let paths = []
+  let keywords = []
 
   // In order traversal into children recursively
   children.forEach((child) => {
-    const childPath = cloneDeep(path)
+    const childPath = cloneDeep(keyword)
 
     if (child.subfields) {
       child.subfields.forEach((subfield) => {
-        paths = paths.concat(traverseCmrResponse({
+        keywords = keywords.concat(traverseCmrResponse({
           data: child,
           parentName: name,
           name: subfield
@@ -70,31 +56,41 @@ const traverseCmrResponse = (
         childPath[name] = child.value
       }
 
-      paths.push(childPath)
+      keywords.push(childPath)
     }
   })
 
-  paths = paths.sort((value1, value2) => {
-    const join1 = Object.values(value1).join('>')
-    const join2 = Object.values(value2).join('>')
+  keywords = keywords.sort((obj1, obj2) => {
+    const join1 = Object.values(obj1).join('>')
+    const join2 = Object.values(obj2).join('>')
 
     return join1.localeCompare(join2)
   })
 
-  paths = uniqWith(paths, (path1, path2) => Object.values(path1).join('>') === Object.values(path2).join('>'))
+  keywords = uniqWith(keywords, (obj1, obj2) => Object.values(obj1).join('>') === Object.values(obj2).join('>'))
 
-  return paths
+  return keywords
 }
 
 /**
- * This parses the cmr response and produces an multidimensional array that looks like this:
- * [
- *   ['atmosphere', 'atmospheric phenomena', 'hurricanes'],
- *   ['oceans', 'ocean temperature', 'sea surface temperature'],
- *   ['land surface', 'soils', 'carbon', 'soil organic'],
- * ]
+ * This parses the cmr response and produces an array of keyword ohjects that looks like this:
+ * [{
+ *   category: 'Earth Remote Sensing Instruments',
+ *   class: 'Active Remote Sensing',
+ *   type: 'Altimeters',
+ *   subtype: 'Lidar/Laser Altimeters',
+ *   short_name: 'ATM',
+ *   long_name: 'Airborne Topographic Mapper'
+ * },{
+ *   category: 'Earth Remote Sensing Instruments',
+ *   class: 'Active Remote Sensing',
+ *   type: 'Altimeters',
+ *   subtype: 'Lidar/Laser Altimeters',
+ *   short_name: 'LVIS',
+ *   long_name: 'Land, Vegetation, and Ice Sensor'
+ * }]
  * You specify a "filter" array which specifies which fields you want to include in
- * multidimensional array (e.g, 'category', 'topic', 'term', 'variable')
+ * keyword objects (e.g, 'category', 'class', 'type', 'subtype', 'short_name', 'long_name')
  * @param {Object} response response from CMR
  * @param {string} filter specify a "filter" array which specifies which fields you want to include in multidimensional array
  */
