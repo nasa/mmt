@@ -1,5 +1,10 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import parseCmrInstrumentsResponse from '../../../utils/parseCmrInstrumentsResponse'
@@ -133,6 +138,13 @@ const setup = (overrideProps = {}) => {
       class: 'Chemical Meters/Analyzers',
       short_name: 'ADS',
       long_name: 'Automated DNA Sequencer'
+    },
+    {
+      category: 'In Situ/Laboratory Instruments',
+      class: 'Chemical Meters/Analyzers',
+      type: 'Analyzers Type',
+      short_name: 'ADS For Type',
+      long_name: 'Automated DNA Sequencer For Type'
     }
   ])
 
@@ -184,6 +196,24 @@ describe('Instrument Field', () => {
     })
   })
 
+  describe('when a user clicks clicks the down arrow on Short Name', () => {
+    test('Title display for existing Type without Subtype', async () => {
+      const { user } = setup()
+
+      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      expect(screen.getByText('Analyzers Type').className).toContain('instrument-field-select-title')
+      expect(screen.getByText('ADS For Type').className).toContain('instrument-field-select-option')
+
+      await user.click(screen.getByText('ADS For Type'))
+
+      expect(screen.getByDisplayValue('Automated DNA Sequencer For Type')).toBeInTheDocument()
+    })
+  })
+
   describe('when a user selects the clear option', () => {
     test('the state is cleared', async () => {
       const { user } = setup({
@@ -214,6 +244,21 @@ describe('Instrument Field', () => {
       await user.click(blurClick[0])
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a user hover over an entry', () => {
+    test('the tooltip shows up', async () => {
+      const { user } = setup()
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      await user.hover(screen.getByText('ACOUSTIC SOUNDERS'))
+      await waitFor(() => {
+        const tooltip = screen.getByRole('tooltip')
+        expect(within(tooltip).getByText('Profilers/Sounders>Acoustic Sounders')).toBeInTheDocument()
+      })
     })
   })
 
