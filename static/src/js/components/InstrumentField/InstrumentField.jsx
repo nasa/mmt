@@ -34,7 +34,12 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
       short_name
     } = keywordObject
 
-    return category.concat(type).concat(subtype).concat(short_name)
+    return category.concat('>')
+      .concat(type)
+      .concat('>')
+      .concat(subtype)
+      .concat('>')
+      .concat(short_name)
   }
 
   const getPath = (keywordObject) => {
