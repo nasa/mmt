@@ -28,25 +28,32 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   const getMapKey = (keywordObject) => {
     const {
       category = '',
+      class: keyMapClass = '',
       type = '',
       subtype = '',
-      // eslint-disable-next-line camelcase
-      short_name
+      short_name: keyMapShortName
     } = keywordObject
 
     return category.concat('>')
+      .concat(keyMapClass)
+      .concat('>')
       .concat(type)
       .concat('>')
       .concat(subtype)
       .concat('>')
-      .concat(short_name)
+      .concat(keyMapShortName)
   }
 
   const getPath = (keywordObject) => {
     const {
+      class: keyMapClass,
       type = '',
       subtype = ''
     } = keywordObject
+
+    if (type.length === 0 && subtype.length === 0) {
+      return keyMapClass
+    }
 
     return subtype.length !== 0 ? type.concat('>').concat(subtype) : type
   }
