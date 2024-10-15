@@ -27,8 +27,8 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
 
   const getMapKey = (keywordObject) => {
     const {
-      category = '',
-      class: keyMapClass = '',
+      category,
+      class: keyMapClass,
       type = '',
       subtype = '',
       short_name: keyMapShortName
