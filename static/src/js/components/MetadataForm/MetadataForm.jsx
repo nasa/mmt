@@ -54,18 +54,20 @@ import './MetadataForm.scss'
 const MetadataForm = () => {
   const {
     conceptId = 'new',
-    sectionName,
+    draftType,
     fieldName,
-    draftType
+    sectionName
   } = useParams()
   const navigate = useNavigate()
   const {
     draft,
     originalDraft,
+    providerId,
+    revisionId: appContextRevisionId,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    providerId
+    setRevisionId,
+    setSavedDraft
   } = useAppContext()
 
   const { addNotification } = useNotificationsContext()
@@ -140,7 +142,7 @@ const MetadataForm = () => {
     const { draft: fetchedDraft } = data || {}
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
-  }, [data])
+  }, [data, appContextRevisionId])
 
   const {
     nativeId = `MMT_${crypto.randomUUID()}`,
@@ -199,7 +201,7 @@ const MetadataForm = () => {
       },
       onCompleted: (mutationData) => {
         const { ingestDraft } = mutationData
-        const { conceptId: savedConceptId } = ingestDraft
+        const { conceptId: savedConceptId, revisionId: savedRevisionId } = ingestDraft
 
         // Update the original draft with the newly saved draft
         setOriginalDraft({
@@ -217,6 +219,9 @@ const MetadataForm = () => {
 
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
+
+        // Triggers useEffect for newest revision (CMR Lag related)
+        setRevisionId(savedRevisionId)
 
         // Add a success notification
         addNotification({
