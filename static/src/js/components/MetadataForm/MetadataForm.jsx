@@ -140,9 +140,22 @@ const MetadataForm = () => {
 
   useEffect(() => {
     const { draft: fetchedDraft } = data || {}
+    const { revisionId: cmrRetrievedRevisionId } = fetchedDraft || ''
+
+    if (cmrRetrievedRevisionId && (cmrRetrievedRevisionId !== appContextRevisionId)) {
+      addNotification({
+        message: 'Delay Detected',
+        variant: 'danger'
+      })
+      
+      // Send the error to the errorLogger
+      errorLogger('A delay has been detected in CMR', 'MetadataForm: retrieveDraftUseEffect')
+    }
+
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
-  }, [data, appContextRevisionId])
+    
+  }, [data])
 
   const {
     nativeId = `MMT_${crypto.randomUUID()}`,
