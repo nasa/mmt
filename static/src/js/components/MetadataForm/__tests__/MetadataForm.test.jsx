@@ -654,49 +654,6 @@ describe('MetadataForm', () => {
       })
     })
 
-    describe('when the saveType is save and continue and there is a lag in retreiving the data', () => {
-      test('throws an error', async () => {
-        const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-        const { user } = setup({
-          additionalMocks: [{
-            request: {
-              query: INGEST_DRAFT,
-              variables: {
-                conceptType: 'Tool',
-                metadata: {
-                  LongName: 'Long Name',
-                  MetadataSpecification: {
-                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
-                    Name: 'UMM-T',
-                    Version: '1.1'
-                  }
-                },
-                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
-                providerId: 'MMT_2',
-                ummVersion: '1.0.0'
-              }
-            },
-            result: {
-              data: {
-                ingestDraft: {
-                  conceptId: 'TD1000000-MMT',
-                  revisionId: '3'
-                }
-              }
-            }
-          }]
-        })
-
-        const button = await screen.findByRole('button', { name: 'Save & Continue' })
-        await user.click(button)
-        expect(navigateSpy).toHaveBeenCalledTimes(1)
-
-        expect(errorLogger).toHaveBeenCalledTimes(1)
-      })
-    })
-
     describe('when the saveType is save and preview', () => {
       test('navigates to the current form and calls scrolls to the top', async () => {
         const navigateSpy = vi.fn()

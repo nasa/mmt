@@ -38,6 +38,7 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 
+import checkForCMRFetchDraftLag from '@/js/utils/checkForCMRFetchDraftLag'
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '@/js/utils/getFormSchema'
@@ -142,15 +143,7 @@ const MetadataForm = () => {
     const { draft: fetchedDraft } = data || {}
     const { revisionId: cmrRetrievedRevisionId } = fetchedDraft || ''
 
-    if (cmrRetrievedRevisionId && (cmrRetrievedRevisionId !== appContextRevisionId)) {
-      addNotification({
-        message: 'Delay Detected',
-        variant: 'danger'
-      })
-
-      // Send the error to the errorLogger
-      errorLogger('A delay has been detected in CMR', 'MetadataForm: retrieveDraftUseEffect')
-    }
+    checkForCMRFetchDraftLag(cmrRetrievedRevisionId, appContextRevisionId)
 
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
