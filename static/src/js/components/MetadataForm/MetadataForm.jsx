@@ -38,6 +38,7 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 
+import checkForCMRFetchDraftLag from '@/js/utils/checkForCMRFetchDraftLag'
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import getFormSchema from '@/js/utils/getFormSchema'
@@ -54,18 +55,20 @@ import './MetadataForm.scss'
 const MetadataForm = () => {
   const {
     conceptId = 'new',
-    sectionName,
+    draftType,
     fieldName,
-    draftType
+    sectionName
   } = useParams()
   const navigate = useNavigate()
   const {
     draft,
     originalDraft,
+    providerId,
+    revisionId: appContextRevisionId,
     setDraft,
     setOriginalDraft,
-    setSavedDraft,
-    providerId
+    setRevisionId,
+    setSavedDraft
   } = useAppContext()
 
   const { addNotification } = useNotificationsContext()
@@ -138,6 +141,10 @@ const MetadataForm = () => {
 
   useEffect(() => {
     const { draft: fetchedDraft } = data || {}
+    const { revisionId: cmrRetrievedRevisionId } = fetchedDraft || ''
+
+    checkForCMRFetchDraftLag(cmrRetrievedRevisionId, appContextRevisionId)
+
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
   }, [data])
@@ -199,7 +206,7 @@ const MetadataForm = () => {
       },
       onCompleted: (mutationData) => {
         const { ingestDraft } = mutationData
-        const { conceptId: savedConceptId } = ingestDraft
+        const { conceptId: savedConceptId, revisionId: savedRevisionId } = ingestDraft
 
         // Update the original draft with the newly saved draft
         setOriginalDraft({
@@ -217,6 +224,9 @@ const MetadataForm = () => {
 
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
+
+        // Triggers useEffect for newest revision (CMR Lag related)
+        setRevisionId(savedRevisionId)
 
         // Add a success notification
         addNotification({

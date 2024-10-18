@@ -764,6 +764,36 @@ describe('MetadataForm', () => {
             }
           }, {
             request: {
+              query: GET_AVAILABLE_PROVIDERS,
+              variables: {
+                params: {
+                  limit: 500,
+                  // Don't have an easy way to get a real uid into the context here
+                  permittedUser: undefined,
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{
+                    conceptId: 'mock-id-1',
+                    providerIdentity: {
+                      provider_id: 'MMT_1'
+                    }
+                  }, {
+                    conceptId: 'mock-id-2',
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
+                }
+              }
+            }
+          },
+          {
+            request: {
               query: INGEST_DRAFT,
               variables: {
                 conceptType: 'Tool',
