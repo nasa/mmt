@@ -919,7 +919,7 @@ describe('MetadataForm', () => {
 
         expect(navigateSpy).toHaveBeenCalledTimes(0)
 
-        expect(errorLogger).toHaveBeenCalledTimes(1)
+        expect(errorLogger).toHaveBeenCalledTimes(2)
         expect(errorLogger).toHaveBeenCalledWith(new Error('An error occured'), 'MetadataForm: ingestDraftMutation')
       })
     })

@@ -147,14 +147,13 @@ const MetadataForm = () => {
         message: 'Delay Detected',
         variant: 'danger'
       })
-      
+
       // Send the error to the errorLogger
       errorLogger('A delay has been detected in CMR', 'MetadataForm: retrieveDraftUseEffect')
     }
 
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
-    
   }, [data])
 
   const {
