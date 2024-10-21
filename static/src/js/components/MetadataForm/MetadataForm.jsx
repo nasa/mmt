@@ -147,6 +147,7 @@ const MetadataForm = () => {
 
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
+    setRevisionId()
   }, [data])
 
   const {
