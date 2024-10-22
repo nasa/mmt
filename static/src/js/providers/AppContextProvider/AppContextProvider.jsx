@@ -24,7 +24,6 @@ const AppContextProvider = ({ children }) => {
   const [draft, setDraft] = useState()
   const [originalDraft, setOriginalDraft] = useState()
   const [providerId, setProviderId] = useState()
-  const [revisionId, setRevisionId] = useState()
   const [savedDraft, setSavedDraft] = useState()
 
   const providerValue = useMemo(() => ({
@@ -37,16 +36,13 @@ const AppContextProvider = ({ children }) => {
     setDraft,
     setOriginalDraft,
     setProviderId,
-    setSavedDraft,
-    revisionId,
-    setRevisionId
+    setSavedDraft
   }), [
     draft,
     keywords,
     originalDraft,
     providerId,
-    savedDraft,
-    revisionId
+    savedDraft
   ])
 
   return (
