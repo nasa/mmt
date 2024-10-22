@@ -601,7 +601,7 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information', { replace: true })
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information?revisionId=3', { replace: true })
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
@@ -647,7 +647,7 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/related-urls')
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/related-urls?revisionId=3')
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
@@ -696,7 +696,7 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT?revisionId=3')
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
@@ -959,7 +959,7 @@ describe('MetadataForm', () => {
         await user.click(modalSubmit)
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT/collection-information', { replace: true })
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/CD1000000-MMT/collection-information?revisionId=1', { replace: true })
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)

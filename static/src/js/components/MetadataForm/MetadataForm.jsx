@@ -51,6 +51,7 @@ import toKebabCase from '@/js/utils/toKebabCase'
 import usePublishMutation from '@/js/hooks/usePublishMutation'
 
 import './MetadataForm.scss'
+import { useSearchParams } from 'react-router-dom'
 
 const MetadataForm = () => {
   const {
@@ -64,10 +65,8 @@ const MetadataForm = () => {
     draft,
     originalDraft,
     providerId,
-    revisionId: appContextRevisionId,
     setDraft,
     setOriginalDraft,
-    setRevisionId,
     setSavedDraft
   } = useAppContext()
 
@@ -95,6 +94,9 @@ const MetadataForm = () => {
 
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
+  const [searchParams] = useSearchParams()
+
+  const revisionIdAtIngest = searchParams.get('revisionId') || null
 
   // On load, set the focused field and redirect if a field name was present
   useEffect(() => {
@@ -143,11 +145,10 @@ const MetadataForm = () => {
     const { draft: fetchedDraft } = data || {}
     const { revisionId: cmrRetrievedRevisionId } = fetchedDraft || ''
 
-    checkForCMRFetchDraftLag(cmrRetrievedRevisionId, appContextRevisionId)
+    checkForCMRFetchDraftLag(cmrRetrievedRevisionId, revisionIdAtIngest)
 
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
-    setRevisionId()
   }, [data])
 
   const {
@@ -226,9 +227,6 @@ const MetadataForm = () => {
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
 
-        // Triggers useEffect for newest revision (CMR Lag related)
-        setRevisionId(savedRevisionId)
-
         // Add a success notification
         addNotification({
           message: 'Draft saved successfully',
@@ -238,7 +236,7 @@ const MetadataForm = () => {
         if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
 
-          if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}`, { replace: true })
+          if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
 
           window.scroll(0, 0)
         }
@@ -246,7 +244,7 @@ const MetadataForm = () => {
         if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
-          navigate(`/drafts/${draftType}/${savedConceptId}/${toKebabCase(nextFormName)}`)
+          navigate(`/drafts/${draftType}/${savedConceptId}/${toKebabCase(nextFormName)}?revisionId=${savedRevisionId}`)
 
           window.scroll(0, 0)
         }
@@ -254,7 +252,7 @@ const MetadataForm = () => {
         if (type === saveTypes.saveAndPreview) {
           // Navigate to preview page
           window.scroll(0, 0)
-          navigate(`/drafts/${draftType}/${savedConceptId}`)
+          navigate(`/drafts/${draftType}/${savedConceptId}?revisionId=${savedRevisionId}`)
         }
 
         if (type === saveTypes.saveAndPublish) {
