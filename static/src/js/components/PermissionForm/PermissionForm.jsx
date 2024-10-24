@@ -48,6 +48,8 @@ import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/C
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import removeLegacyGroupPermissionsByGroupId from '@/js/utils/removeLegacyGroupPermissionsByGroupId'
+import removeLegacyGroupPermissionsById from '@/js/utils/removeLegacyGroupPermissionsById'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -359,9 +361,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const searchAndOrderGroupPermission = []
       const searchPermission = []
 
+      const groupPermissionsItems = removeLegacyGroupPermissionsById(groups)
+
       // Loop through groups,
       // creates two arrays: one for search permissions and another for search and order permissions.
-      groups.items?.forEach((item) => {
+      groupPermissionsItems.forEach((item) => {
         const {
           id,
           name: groupName,
@@ -619,7 +623,10 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
 
     // Combine searchGroupPermissions and searchAndOrderGroupPermissions into permissions array
-    const permissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
+    const allPermissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
+
+    // Removes legacy group permissions
+    const permissions = removeLegacyGroupPermissionsByGroupId(allPermissions)
 
     // Construct catalogItemIdentity object
     const catalogItemIdentity = {
