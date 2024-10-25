@@ -92,7 +92,7 @@ const setup = ({
                   {
                     __typename: 'Group',
                     description: 'Test group',
-                    id: '1234-abcd-5678',
+                    id: 'af712868-ea62-474c-9400-76800716dae9',
                     members: {
                       __typename: 'GroupMemberList',
                       count: 2
@@ -180,7 +180,7 @@ describe('PermissionForm', () => {
                 },
                 groupPermissions: [{
                   permissions: ['read'],
-                  groupId: '1234-abcd-5678'
+                  groupId: 'af712868-ea62-474c-9400-76800716dae9'
                 }, {
                   permissions: ['read'],
                   userType: 'registered'
@@ -742,7 +742,7 @@ describe('PermissionForm', () => {
                   userType: 'guest'
                 }, {
                   permissions: ['read', 'order'],
-                  groupId: '1234-abcd-5678'
+                  groupId: 'af712868-ea62-474c-9400-76800716dae9'
                 }, {
                   permissions: ['read', 'order'],
                   userType: 'registered'
@@ -1260,7 +1260,7 @@ describe('PermissionForm', () => {
                             'read', 'order'
                           ],
                           userType: null,
-                          id: '1234-abcd-5678-efgh',
+                          id: 'af712868-ea62-474c-9400-76800716dae9',
                           name: 'Mock group',
                           tag: 'MMT'
                         },
@@ -1270,7 +1270,7 @@ describe('PermissionForm', () => {
                             'read'
                           ],
                           userType: null,
-                          id: '1234-abcd-5678',
+                          id: 'af712868-ea62-474c-9400-76800716dae9',
                           name: 'Mock group2',
                           tag: 'MMT'
                         }
@@ -1328,13 +1328,13 @@ describe('PermissionForm', () => {
                     userType: 'guest'
                   }, {
                     permissions: ['read'],
-                    groupId: '1234-abcd-5678'
+                    groupId: 'af712868-ea62-474c-9400-76800716dae9'
                   }, {
                     permissions: ['read', 'order'],
                     userType: 'registered'
                   }, {
                     permissions: ['read', 'order'],
-                    groupId: '1234-abcd-5678-efgh'
+                    groupId: 'fc9f3eab-97d5-4c99-8ba1-f2ae0eca42ee'
                   }]
                 }
               },
