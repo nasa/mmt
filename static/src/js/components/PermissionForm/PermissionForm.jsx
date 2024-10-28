@@ -360,13 +360,13 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const searchPermission = []
 
       // eslint-disable-next-line max-len
-      const removeInvalidItems = (permissionItems) => permissionItems.filter((item) => item.id || item.userType)
+      const removeInvalidItems = (permissionItems) => permissionItems?.filter((item) => item.id || item.userType)
 
       const groupPermissionsItems = removeInvalidItems(groups.items)
 
       // Loop through groups,
       // creates two arrays: one for search permissions and another for search and order permissions.
-      groupPermissionsItems.forEach((item) => {
+      groupPermissionsItems?.forEach((item) => {
         const {
           id,
           name: groupName,
