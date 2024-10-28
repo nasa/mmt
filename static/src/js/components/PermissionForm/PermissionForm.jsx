@@ -360,14 +360,13 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const searchPermission = []
 
       // Removes invalid group permission items, which has no id and no userType
-      // eslint-disable-next-line max-len
-      const removeInvalidGroupPermissionItems = (groupPermissionItems) => groupPermissionItems?.filter((item) => item.id || item.userType)
+      const validGroupItems = (groupItems) => groupItems?.filter((item) => item.id || item.userType)
 
-      const groupPermissionsItems = removeInvalidGroupPermissionItems(groups.items)
+      const groupItems = validGroupItems(groups.items)
 
       // Loop through groups,
       // creates two arrays: one for search permissions and another for search and order permissions.
-      groupPermissionsItems?.forEach((item) => {
+      groupItems?.forEach((item) => {
         const {
           id,
           name: groupName,
