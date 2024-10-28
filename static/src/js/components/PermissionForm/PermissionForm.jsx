@@ -48,7 +48,6 @@ import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/C
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
-import removeInvalidGroupPermissions from '@/js/utils/removeInvalidGroupPermissions'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -359,7 +358,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
       const searchAndOrderGroupPermission = []
       const searchPermission = []
-      const groupPermissionsItems = removeInvalidGroupPermissions(groups.items)
+
+      // eslint-disable-next-line max-len
+      const removeInvalidItems = (permissionItems) => permissionItems.filter((item) => item.id || item.userType)
+
+      const groupPermissionsItems = removeInvalidItems(groups.items)
 
       // Loop through groups,
       // creates two arrays: one for search permissions and another for search and order permissions.
