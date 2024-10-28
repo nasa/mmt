@@ -621,7 +621,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
 
     // Combine searchGroupPermissions and searchAndOrderGroupPermissions into permissions array
-    const allPermissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
+    const permissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
 
     // Construct catalogItemIdentity object
     const catalogItemIdentity = {
