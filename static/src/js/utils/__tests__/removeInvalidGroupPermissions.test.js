@@ -1,7 +1,7 @@
-import removeLegacyGroupPermissionsById from '../removeLegacyGroupPermissionsById'
+import removeInvalidGroupPermissions from '../removeInvalidGroupPermissions'
 
-describe('removeLegacyGroupPermissionsByGroupId', () => {
-  test('should remove group permissions with group ID is not null and not an UUID', () => {
+describe('removeInvalidGroupPermissions', () => {
+  test('should remove group permissions without id and without userType', () => {
     const groups = {
       items: [
         {
@@ -26,13 +26,13 @@ describe('removeLegacyGroupPermissionsByGroupId', () => {
         },
         {
           __typename: 'AclGroup',
-          id: 'AG31476474824-CMR',
+          id: null,
           name: null,
           permissions: [
             'read'
           ],
           tag: null,
-          userType: 'registered'
+          userType: null
         },
         {
           __typename: 'AclGroup',
@@ -47,7 +47,7 @@ describe('removeLegacyGroupPermissionsByGroupId', () => {
       ]
     }
 
-    const result = removeLegacyGroupPermissionsById(groups)
+    const result = removeInvalidGroupPermissions(groups.items)
 
     const expectedResult = [
       {
