@@ -48,6 +48,7 @@ import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/C
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
+import validGroupItems from '@/js/utils/validGroupItems'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -360,8 +361,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const searchPermission = []
 
       // Removes invalid group permission items, which has no id and no userType
-      const validGroupItems = (groupItems) => groupItems?.filter((item) => item.id || item.userType)
-
       const groupItems = validGroupItems(groups.items)
 
       // Loop through groups,
