@@ -1468,4 +1468,270 @@ describe('PermissionForm', () => {
       })
     })
   })
+
+  describe('form validation', () => {
+    describe('when invalid group permission', () => {
+      test('should remove the invalid group permission', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          pageUrl: '/permissions/ACL1000000-MMT/edit',
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    offset: 0,
+                    limit: 1
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MMT_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C12000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 2',
+                          entryTitle: 'Collection 1',
+                          version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: null,
+                          id: null,
+                          name: 'Mock invalid group permission',
+                          tag: 'ABC'
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: null,
+                          id: 'valid_id',
+                          name: 'Mock valid group permission',
+                          tag: 'ABC'
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    offset: 0,
+                    limit: 1
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MMT_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C12000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 2',
+                          entryTitle: 'Collection 1',
+                          version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION_FOR_PERMISSION_FORM,
+                variables: {
+                  conceptId: 'ACL1000000-MMT',
+                  params: {
+                    offset: 1,
+                    limit: 1
+                  }
+                }
+              },
+              result: {
+                data: {
+                  acl: {
+                    __typename: 'Acl',
+                    conceptId: 'ACL1000000-CMR',
+                    identityType: 'Catalog Item',
+                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
+                    name: 'Mock ACL',
+                    providerIdentity: null,
+                    revisionId: 1,
+                    systemIdentity: null,
+                    catalogItemIdentity: {
+                      __typename: 'CatalogItemIdentity',
+                      collectionIdentifier: {},
+                      collectionApplicable: true,
+                      granuleApplicable: false,
+                      granuleIdentifier: null,
+                      providerId: 'MMT_2'
+                    },
+                    collections: {
+                      __typename: 'CollectionList',
+                      count: 2,
+                      items: [
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C13000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 1',
+                          entryTitle: 'Collection 2',
+                          version: '1'
+                        }
+                      ]
+                    },
+                    groups: {
+                      __typename: 'AclGroupList',
+                      items: [
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'guest',
+                          id: null,
+                          name: null,
+                          tag: null
+                        },
+                        {
+                          __typename: 'AclGroup',
+                          permissions: [
+                            'read'
+                          ],
+                          userType: 'registered',
+                          id: null,
+                          name: null,
+                          tag: null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Updated Name')
+
+        const invalidGroup = screen.queryByText('Mock invalid group permission')
+        expect(invalidGroup).toBeNull()
+
+        const validGroup = screen.queryByText('Mock valid group permission')
+        expect(validGroup).toBeInTheDocument()
+      })
+    })
+  })
 })

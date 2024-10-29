@@ -360,7 +360,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const searchAndOrderGroupPermission = []
       const searchPermission = []
 
-      // Removes invalid group permission items, which has no id and no userType
+      // Returns valid group permission items. Invalid items are those without both id and userType.
       const groupItems = validGroupItems(groups.items)
 
       // Loop through groups,
