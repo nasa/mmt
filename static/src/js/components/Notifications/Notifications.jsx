@@ -48,13 +48,14 @@ const Notifications = () => {
               success: <FaCheck className={iconClassNames} />,
               danger: <FaExclamation className={iconClassNames} />
             }
+            const shouldAutoHide = !(variant === 'danger')
 
             // Set the default delay duration to be passed to the Toast component and the bootstrap css variable
             const delay = 4000
 
             return (
               <Toast
-                autohide
+                autohide={shouldAutoHide}
                 bg="dark"
                 className="position-relative overflow-hidden text-light"
                 delay={delay}

@@ -10,26 +10,30 @@ import Notifications from '../Notifications'
 import Providers from '../../../providers/Providers/Providers'
 import useNotificationsContext from '../../../hooks/useNotificationsContext'
 
-const MockComponent = () => {
+// eslint-disable-next-line react/prop-types
+const MockComponent = ({ variantType }) => {
   const { addNotification } = useNotificationsContext()
 
   useEffect(() => {
     addNotification({
-      message: 'Mock notification',
-      variant: 'success'
+      message: `Mock ${variantType} notification`,
+      variant: `${variantType}`
     })
   }, [])
 
   return null
 }
 
-const setup = () => {
+const setup = ({
+  overrideVariantType,
+  variantType = 'success'
+} = {}) => {
   const user = userEvent.setup()
 
   render(
     <Providers>
       <Notifications />
-      <MockComponent />
+      <MockComponent variantType={overrideVariantType || variantType} />
     </Providers>
   )
 
@@ -43,7 +47,7 @@ describe('Notifications', () => {
     test('renders a toast', () => {
       setup()
 
-      expect(screen.getByText('Mock notification')).toBeInTheDocument()
+      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
     })
 
     describe('when clicking the close button', () => {
@@ -54,7 +58,7 @@ describe('Notifications', () => {
 
         await user.click(button)
 
-        expect(screen.queryByText('Mock notification')).not.toBeInTheDocument()
+        expect(screen.queryByText('Mock success notification')).not.toBeInTheDocument()
       })
     })
 
@@ -64,13 +68,29 @@ describe('Notifications', () => {
 
         setup()
 
-        expect(screen.getByText('Mock notification')).toBeInTheDocument()
+        expect(screen.getByText('Mock success notification')).toBeInTheDocument()
 
         await act(() => {
           vi.advanceTimersByTimeAsync(4001)
         })
 
-        expect(screen.queryByText('Mock notification')).not.toBeInTheDocument()
+        expect(screen.queryByText('Mock success notification')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the the notification is of type danger', () => {
+      test('the notification does not expire', async () => {
+        vi.useFakeTimers()
+
+        setup({ overrideVariantType: 'danger' })
+
+        expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+
+        await act(() => {
+          vi.advanceTimersByTimeAsync(4001)
+        })
+
+        expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
       })
     })
   })
