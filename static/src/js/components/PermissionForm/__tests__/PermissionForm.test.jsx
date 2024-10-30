@@ -1470,7 +1470,7 @@ describe('PermissionForm', () => {
   })
 
   describe('form validation', () => {
-    describe('when invalid group permission', () => {
+    describe('when invalid group permission occur', () => {
       test('should remove the invalid group permission', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
