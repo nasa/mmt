@@ -10,6 +10,7 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 import Table from '@/js/components/Table/Table'
+import validGroupItems from '@/js/utils/validGroupItems'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
@@ -32,7 +33,8 @@ const Permission = () => {
     groups
   } = acl
 
-  const { items: groupItems } = groups
+  // Returns valid group permission items. Invalid items are those without both id and userType.
+  const groupItems = validGroupItems(groups.items)
 
   const {
     collectionApplicable,

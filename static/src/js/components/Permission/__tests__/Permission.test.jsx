@@ -16,6 +16,7 @@ import Permission from '@/js/components/Permission/Permission'
 import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+import { Tab } from 'bootstrap'
 
 vi.mock('../../PermissionCollectionTable/PermissionCollectionTable')
 
@@ -711,6 +712,130 @@ describe('Permission', () => {
       const link = within(row3).getByRole('link', { name: 'Administrator Group' })
       expect(link).toBeInTheDocument()
       expect(link).toHaveAttribute('href', '/groups/mock-id')
+    })
+  })
+
+  describe('when the permission has invalid group permission', () => {
+    test('should remove the invalid group permission', async () => {
+      setup({
+        overrideMocks: [{
+          request: {
+            query: GET_COLLECTION_PERMISSION,
+            variables: { conceptId: 'ACL00000-CMR' }
+          },
+          result: {
+            data: {
+              acl: {
+                __typename: 'Acl',
+                conceptId: 'ACL00000-CMR',
+                collections: null,
+                identityType: 'Catalog Item',
+                location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL00000-CMR',
+                name: 'Mock Permission',
+                providerIdentity: null,
+                revisionId: 5,
+                systemIdentity: null,
+                catalogItemIdentity: {
+                  __typename: 'CatalogItemIdentity',
+                  collectionApplicable: true,
+                  granuleApplicable: true,
+                  granuleIdentifier: {
+                    accessValue: null,
+                    temporal: {
+                      startDate: '2018-04-01T04:07:58Z',
+                      stopDate: '2023-03-29T04:11:01Z',
+                      mask: 'disjoint'
+                    }
+                  },
+                  name: 'Mock collection',
+                  providerId: 'MMT_2',
+                  collectionIdentifier: {
+                    __typename: 'CollectionIdentifier',
+                    accessValue: null,
+                    temporal: {
+                      startDate: '2018-04-01T04:07:58Z',
+                      stopDate: '2023-03-29T04:11:01Z',
+                      mask: 'contain'
+                    }
+                  }
+                },
+                groups: {
+                  __typename: 'AclGroupList',
+                  items: [
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'guest',
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: 'registered',
+                      id: null,
+                      name: null
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: null,
+                      id: null,
+                      name: 'Mock invalid group permission',
+                      tag: 'ABC'
+                    },
+                    {
+                      __typename: 'GroupPermission',
+                      permissions: [
+                        'read'
+                      ],
+                      userType: null,
+                      id: 'valid_id',
+                      name: 'Mock valid group permission',
+                      tag: 'ABC'
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }]
+      })
+
+      const table = await screen.findByRole('table')
+      const tableRows = within(table).getAllByRole('row')
+
+      // One row for header and 3 rows for content
+      expect(tableRows.length).toBe(4)
+
+      const row1 = tableRows[1]
+      const row1Cells = within(row1).queryAllByRole('cell')
+
+      expect(row1Cells[0].textContent).toBe('All Guest Users')
+      expect(within(row1).queryByRole('link', { name: 'All Guest Users' })).not.toBeInTheDocument()
+
+      const row2 = tableRows[2]
+      const row2Cells = within(row2).queryAllByRole('cell')
+
+      expect(row2Cells[0].textContent).toBe('All Registered Users')
+      expect(within(row2).queryByRole('link', { name: 'All Registered Users' })).not.toBeInTheDocument()
+
+      const row3 = tableRows[3]
+      const row3Cells = within(row3).queryAllByRole('cell')
+
+      expect(row3Cells[0].textContent).toBe('Mock valid group permission')
+      const link = within(row3).getByRole('link', { name: 'Mock valid group permission' })
+      expect(link).toBeInTheDocument()
+      expect(link).toHaveAttribute('href', '/groups/valid_id')
+
+      const invalidGroup = screen.queryByText('Mock invalid group permission')
+      expect(invalidGroup).not.toBeInTheDocument()
     })
   })
 })
