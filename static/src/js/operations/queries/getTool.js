@@ -38,6 +38,7 @@ export const GET_TOOL = gql`
         count
         items {
           conceptId
+          deleted
           revisionDate
           revisionId
           userId

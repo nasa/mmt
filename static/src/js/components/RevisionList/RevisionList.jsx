@@ -46,20 +46,29 @@ const RevisionList = () => {
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
-    const published = rowData.revisionId === concept.revisionId
+    const { deleted, revisionId: rowDataRevisionId } = rowData
+    const { revisionId: conceptRevisionId } = concept
+    const published = rowDataRevisionId === conceptRevisionId
 
-    return (
-      (published) ? (
+    let descriptionCellContent
+
+    if (published) {
+      descriptionCellContent = (
         <EllipsisLink to={`/${type}/${conceptId}`}>
-          {[rowData.revisionId, ' - Published'].join('')}
+          {[rowDataRevisionId, ' - Published'].join('')}
         </EllipsisLink>
       )
-        : (
-          <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowData.revisionId}`}>
-            {[rowData.revisionId, ' - Revision'].join('')}
-          </EllipsisLink>
-        )
-    )
+    } else if (!published && !deleted) {
+      descriptionCellContent = (
+        <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowDataRevisionId}`}>
+          {[rowDataRevisionId, ' - Revision'].join('')}
+        </EllipsisLink>
+      )
+    } else {
+      descriptionCellContent = `${rowDataRevisionId} - Revision`
+    }
+
+    return descriptionCellContent
   }, [])
 
   const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
@@ -97,18 +106,21 @@ const RevisionList = () => {
   }
 
   const buildActionCell = useCallback((cellData, rowData) => {
-    const { revisionId } = rowData
+    const { deleted, revisionId } = rowData
     const { revisionId: currRevisionId } = concept
+
+    const message = deleted ? 'Deleted Revision' : 'Revert to this revision'
 
     return (
       revisionId !== currRevisionId && (
         <Button
           className="btn btn-link"
+          disabled={deleted}
+          onClick={() => { handleRevert(revisionId) }}
           type="button"
           variant="link"
-          onClick={() => { handleRevert(revisionId) }}
         >
-          Revert to this revision
+          {message}
         </Button>
       )
     )

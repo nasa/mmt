@@ -69,10 +69,20 @@ export const GET_COLLECTION = gql`
       revisions {
         count
         items {
-          conceptId
-          revisionDate
-          revisionId
-          userId
+          ... on Collection {
+            conceptId
+            deleted
+            revisionDate
+            revisionId
+            userId
+          }
+          ... on TombstonedCollectionMetadata {
+            conceptId
+            deleted
+            revisionDate
+            revisionId
+            userId
+          }
         }
       }
       scienceKeywords
