@@ -16,7 +16,6 @@ import Permission from '@/js/components/Permission/Permission'
 import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
-import { Tab } from 'bootstrap'
 
 vi.mock('../../PermissionCollectionTable/PermissionCollectionTable')
 
