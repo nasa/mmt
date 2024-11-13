@@ -1595,7 +1595,7 @@ export const collectionRevisions = {
               conceptId: 'C1200000104-MMT_2',
               revisionDate: '2024-04-24T16:30:34.542Z',
               revisionId: '6',
-              userId: 'admin',
+              userId: 'cmr',
               __typename: 'Collection'
             },
             {
