@@ -70,7 +70,6 @@ export const GET_COLLECTION = gql`
         count
         items {
           conceptId
-          deleted
           revisionDate
           revisionId
           userId

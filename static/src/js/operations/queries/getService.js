@@ -35,7 +35,6 @@ export const GET_SERVICE = gql`
         count
         items {
           conceptId
-          deleted
           revisionDate
           revisionId
           userId

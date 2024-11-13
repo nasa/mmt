@@ -36,7 +36,6 @@ export const GET_VARIABLE = gql`
         count
         items {
           conceptId
-          deleted
           revisionDate
           revisionId
           userId

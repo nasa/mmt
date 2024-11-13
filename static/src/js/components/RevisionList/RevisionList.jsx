@@ -46,7 +46,7 @@ const RevisionList = () => {
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
-    const { deleted, revisionId: rowDataRevisionId } = rowData
+    const { revisionId: rowDataRevisionId, userId} = rowData
     const { revisionId: conceptRevisionId } = concept
     const published = rowDataRevisionId === conceptRevisionId
 
@@ -58,7 +58,7 @@ const RevisionList = () => {
           {[rowDataRevisionId, ' - Published'].join('')}
         </EllipsisLink>
       )
-    } else if (!published && !deleted) {
+    } else if (!published && userId !== 'cmr') {
       descriptionCellContent = (
         <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowDataRevisionId}`}>
           {[rowDataRevisionId, ' - Revision'].join('')}
@@ -106,24 +106,38 @@ const RevisionList = () => {
   }
 
   const buildActionCell = useCallback((cellData, rowData) => {
-    const { deleted, revisionId } = rowData
+    const { revisionId, userId } = rowData
     const { revisionId: currRevisionId } = concept
 
-    const message = deleted ? 'Deleted Revision' : 'Revert to this revision'
+    let actionCellContent
 
-    return (
-      revisionId !== currRevisionId && (
+    if (userId === 'cmr') {
+      actionCellContent = (
+        <span style={{
+            padding: '0.375rem 1rem',
+            display: 'inline-block',
+            textAlign: 'center',
+        }}
+        >
+          Deleted
+        </span>
+      )
+    } else if (revisionId !== currRevisionId) {
+      actionCellContent = (
         <Button
           className="btn btn-link"
-          disabled={deleted}
           onClick={() => { handleRevert(revisionId) }}
           type="button"
           variant="link"
         >
-          {message}
+          Revert to this revision
         </Button>
       )
-    )
+    } else {
+      actionCellContent = null
+    }
+
+    return actionCellContent
   })
 
   const columns = [
