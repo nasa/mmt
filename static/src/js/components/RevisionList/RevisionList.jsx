@@ -46,7 +46,7 @@ const RevisionList = () => {
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
-    const { revisionId: rowDataRevisionId, userId} = rowData
+    const { revisionId: rowDataRevisionId, userId } = rowData
     const { revisionId: conceptRevisionId } = concept
     const published = rowDataRevisionId === conceptRevisionId
 
@@ -113,11 +113,13 @@ const RevisionList = () => {
 
     if (userId === 'cmr') {
       actionCellContent = (
-        <span style={{
+        <span style={
+          {
             padding: '0.375rem 1rem',
             display: 'inline-block',
-            textAlign: 'center',
-        }}
+            textAlign: 'center'
+          }
+        }
         >
           Deleted
         </span>
