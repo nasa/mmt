@@ -34,9 +34,7 @@ vi.mock('../../../utils/deleteTemplate')
 
 const getConfig = () => staticConfig
 
-const { ummVersions } = getConfig()
-
-const { ummC: ummCVersion } = ummVersions
+const ummCVersion = getConfig().ummVersions.ummC
 
 const setup = () => {
   const user = userEvent.setup()
