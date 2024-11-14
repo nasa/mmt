@@ -1,11 +1,3 @@
-import staticConfig from '../../../../../static.config.json'
-
-const getConfig = () => staticConfig
-
-const { ummVersions } = getConfig()
-
-const { ummC: ummCVersion } = ummVersions
-
 const ummCSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'UMM-C',
@@ -3821,7 +3813,7 @@ const ummCSchema = {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
           enum: [
-            `https://cdn.earthdata.nasa.gov/umm/collection/v${ummCVersion}`
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.2'
           ]
         },
         Name: {
@@ -3835,7 +3827,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            `${ummCVersion}`
+            '1.18.2'
           ]
         }
       },
