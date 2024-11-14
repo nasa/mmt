@@ -2,7 +2,9 @@ import staticConfig from '../../../../../static.config.json'
 
 const getConfig = () => staticConfig
 
-const ummCVersion = getConfig().ummVersions.ummC
+const { ummVersions } = getConfig()
+
+const { ummC: ummCVersion } = ummVersions
 
 const ummCSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',

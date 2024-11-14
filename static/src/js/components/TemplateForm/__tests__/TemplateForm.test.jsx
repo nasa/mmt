@@ -46,6 +46,14 @@ import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import TemplateForm from '../TemplateForm'
 
+import staticConfig from '../../../../../../static.config.json'
+
+const getConfig = () => staticConfig
+
+const { ummVersions } = getConfig()
+
+const { ummC: ummCVersion } = ummVersions
+
 vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getTemplate')
@@ -503,7 +511,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: '1.18.1'
+                  ummVersion: `${ummCVersion}`
                 }
               },
               result: {
@@ -557,7 +565,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: '1.18.1'
+                  ummVersion: `${ummCVersion}`
                 }
               },
               error: new Error('An error occurred')
