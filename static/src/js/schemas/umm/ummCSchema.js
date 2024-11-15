@@ -3227,8 +3227,10 @@ const ummCSchema = {
         'PLANNED',
         'COMPLETE',
         'DEPRECATED',
-        'NOT APPLICABLE',
-        'NOT PROVIDED'
+        'INREVIEW',
+        'NOT PROVIDED',
+        'PREPRINT',
+        'SUPERSEDED'
       ]
     },
     LocationKeywordType: {
@@ -3688,6 +3690,8 @@ const ummCSchema = {
                 'Child Dataset',
                 'Collaborative/Other Agency',
                 'Field Campaign',
+                'IsPreviousVersionOf',
+                'IsNewVersionOf',
                 'Parent Dataset',
                 'Related Dataset'
               ]
@@ -3809,7 +3813,7 @@ const ummCSchema = {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
           enum: [
-            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.1'
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.2'
           ]
         },
         Name: {
@@ -3823,7 +3827,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            '1.18.1'
+            '1.18.2'
           ]
         }
       },

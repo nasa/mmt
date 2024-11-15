@@ -24,11 +24,17 @@ import errorLogger from '../../../utils/errorLogger'
 import getTemplate from '../../../utils/getTemplate'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 
+import staticConfig from '../../../../../../static.config.json'
+
 vi.mock('../../../utils/getTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
+
+const getConfig = () => staticConfig
+
+const ummCVersion = getConfig().ummVersions.ummC
 
 const setup = () => {
   const user = userEvent.setup()
@@ -365,7 +371,7 @@ describe('TemplatePreview', () => {
                 },
                 nativeId: 'MMT_mock-uuid',
                 providerId: 'MMT_2',
-                ummVersion: '1.18.1'
+                ummVersion: `${ummCVersion}`
               }
             },
             result: {
@@ -407,7 +413,7 @@ describe('TemplatePreview', () => {
                 },
                 nativeId: 'MMT_mock-uuid',
                 providerId: 'MMT_2',
-                ummVersion: '1.18.1'
+                ummVersion: `${ummCVersion}`
               }
             },
             error: new Error('An error occurred')
