@@ -50,6 +50,9 @@ const CustomDateTimeWidget = ({
 
   const { description } = schema
 
+  // Parse as a localized date, as the DatePicker is working with localized dates.
+  const fieldValue = value ? new Date(value) : null
+
   const { formContext } = registry
   const {
     focusField,
@@ -83,7 +86,8 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    onChange(newDate.toISOString())
+    const formattedDateTime = moment(newDate).local().format('YYYY-MM-DDTHH:mm:ss.000')
+    onChange(`${formattedDateTime}Z`)
 
     handleBlur()
   }
@@ -100,7 +104,7 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'H:mm:ss.000'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss.000'Z'"
         dropdownMode="select"
         id={id}
         onBlur={handleBlur}
@@ -110,8 +114,11 @@ const CustomDateTimeWidget = ({
         peekNextMonth
         placeholderText="YYYY-MM-DDTHH:MM:SSZ"
         wrapperClassName="d-block"
-        selected={(
-          value && moment.utc(value).toDate())}
+        selected={
+          value && new Date(fieldValue.toLocaleString('en-US', {
+            timeZone: 'GMT'
+          }))
+        }
         showMonthDropdown
         showYearDropdown
         showTimeSelect
