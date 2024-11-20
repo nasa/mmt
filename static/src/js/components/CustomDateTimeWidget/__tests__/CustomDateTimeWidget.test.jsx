@@ -170,4 +170,16 @@ describe('CustomDateTimeWidget', () => {
       expect(field).toHaveValue('2023-12-05T00:00:00.000Z')
     })
   })
+
+  describe('When a date has a specific time in the form', () => {
+    test('shows the date and time', async () => {
+      setup({
+        value: '2023-12-05T16:05:59.000Z'
+      })
+
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+
+      expect(field).toHaveValue('2023-12-05T16:05:59.000Z')
+    })
+  })
 })
