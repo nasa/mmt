@@ -6,13 +6,12 @@ import React, {
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
 import DatePicker, { registerLocale } from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-
 import enGB from 'date-fns/locale/en-GB'
 import { toZonedTime, fromZonedTime } from 'date-fns-tz'
-
 import shouldFocusField from '../../utils/shouldFocusField'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+
+import 'react-datepicker/dist/react-datepicker.css'
 
 /**
  * CustomDateTimeWidget
