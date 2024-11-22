@@ -5,14 +5,14 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
-import moment from 'moment'
-import DatePicker from 'react-datepicker'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
-import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+import enGB from 'date-fns/locale/en-GB'
+import { toZonedTime, fromZonedTime } from 'date-fns-tz'
 
 import shouldFocusField from '../../utils/shouldFocusField'
-
-import 'react-datepicker/dist/react-datepicker.css'
+import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 /**
  * CustomDateTimeWidget
@@ -50,8 +50,12 @@ const CustomDateTimeWidget = ({
 
   const { description } = schema
 
-  // Parse as a localized date, as the DatePicker is working with localized dates.
-  const fieldValue = value ? new Date(value) : null
+  // Greenwich, UK, is located in the Greenwich Mean Time (GMT) zone,
+  registerLocale('en-GB', enGB)
+
+  // Parse as a GMT date, as the DatePicker is configured to work in GMT
+  // Get a date/time representing local time in a given time zone from the UTC date
+  const fieldValue = value ? toZonedTime(value, 'GMT') : null
 
   const { formContext } = registry
   const {
@@ -86,8 +90,9 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    const formattedDateTime = moment(newDate).local().format('YYYY-MM-DDTHH:mm:ss.000')
-    onChange(`${formattedDateTime}Z`)
+    // Get the UTC date/time from a date representing local time in a given time zone
+    const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
+    onChange(formattedDateTime)
 
     handleBlur()
   }
@@ -104,9 +109,10 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'HH:mm:ss.000'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dropdownMode="select"
         id={id}
+        locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
         onBlur={handleBlur}
         onChange={handleChange}
         onFocus={handleFocus}
@@ -114,11 +120,7 @@ const CustomDateTimeWidget = ({
         peekNextMonth
         placeholderText="YYYY-MM-DDTHH:MM:SSZ"
         wrapperClassName="d-block"
-        selected={
-          value && new Date(fieldValue.toLocaleString('en-US', {
-            timeZone: 'GMT'
-          }))
-        }
+        selected={fieldValue}
         showMonthDropdown
         showYearDropdown
         showTimeSelect
