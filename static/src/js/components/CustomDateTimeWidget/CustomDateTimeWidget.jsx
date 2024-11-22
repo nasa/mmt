@@ -8,8 +8,8 @@ import { startCase } from 'lodash-es'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import enGB from 'date-fns/locale/en-GB'
 import { toZonedTime, fromZonedTime } from 'date-fns-tz'
-import shouldFocusField from '../../utils/shouldFocusField'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
+import shouldFocusField from '../../utils/shouldFocusField'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
