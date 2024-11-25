@@ -1,6 +1,14 @@
 #!/bin/bash
 ummJsonSchemaUrl=`jq '.ummJsonSchemaUrl' ./static.config.json`
 ummJsonSchemaUrl=${ummJsonSchemaUrl//\"/}
+stage=$bamboo_STAGE_NAME
+if [ "$stage" == "prod" ]; then
+  stage=""
+fi
+if [[ "$stage" == "sit" || "$stage" == "uat" ]]; then
+  stage="${stage}."
+fi
+echo "stage=${stage}"
 ummC() {
     echo "Downloading ummC"
     #Reads version number
@@ -8,13 +16,13 @@ ummC() {
     schema_version=${schema_version//\"/}
     echo ummC schema version=${schema_version}
     #Download
-    curl -L "https://cdn.earthdata.nasa.gov/umm/collection/v${schema_version}/umm-c-json-schema.json" > umm-c-json-schema-temp.json
+    curl -L "https://cdn.${stage}earthdata.nasa.gov/umm/collection/v${schema_version}/umm-c-json-schema.json" > umm-c-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-c-json-schema.json"
       exit 1
     fi
     jq --arg ummJsonSchemaUrl "$ummJsonSchemaUrl" '."$schema" = $ummJsonSchemaUrl' umm-c-json-schema-temp.json > umm-c-json-schema.json
-    curl -L "https://cdn.earthdata.nasa.gov/umm/collection/v${schema_version}/umm-cmn-json-schema.json" > umm-cmn-json-schema-temp.json
+    curl -L "https://cdn.${stage}earthdata.nasa.gov/umm/collection/v${schema_version}/umm-cmn-json-schema.json" > umm-cmn-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-cmn-json-schema.json"
       exit 1
@@ -35,7 +43,7 @@ ummS() {
     schema_version=${schema_version//\"/}
     echo ummS schema version=${schema_version}
     #Download
-    curl -L "https://cdn.earthdata.nasa.gov/umm/service/v${schema_version}/umm-s-json-schema.json" > umm-s-json-schema-temp.json
+    curl -L "https://cdn.${stage}earthdata.nasa.gov/umm/service/v${schema_version}/umm-s-json-schema.json" > umm-s-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-s-json-schema.json"
       exit 1
@@ -53,7 +61,7 @@ ummV() {
     schema_version=${schema_version//\"/}
     echo ummV schema version=${schema_version}
     #Download
-    curl -L "https://cdn.earthdata.nasa.gov/umm/variable/v${schema_version}/umm-var-json-schema.json" > umm-var-json-schema-temp.json
+    curl -L "https://cdn.${stage}earthdata.nasa.gov/umm/variable/v${schema_version}/umm-var-json-schema.json" > umm-var-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-var-json-schema.json"
       exit 1
@@ -71,7 +79,7 @@ ummT() {
     schema_version=${schema_version//\"/}
     echo ummT schema version=${schema_version}
     #Download
-    curl -L "https://cdn.earthdata.nasa.gov/umm/tool/v${schema_version}/umm-t-json-schema.json" > umm-t-json-schema-temp.json
+    curl -L "https://cdn.${stage}earthdata.nasa.gov/umm/tool/v${schema_version}/umm-t-json-schema.json" > umm-t-json-schema-temp.json
     if [ $? -ne 0 ]; then
       echo "Failed downloading umm-t-json-schema.json"
       exit 1
