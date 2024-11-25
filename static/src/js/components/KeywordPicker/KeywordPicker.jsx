@@ -262,6 +262,10 @@ const KeywordPicker = ({
   // When a item from the search Typeahead is selected, this will capture that selection and add it
   // formData.
   const handleSearch = (text) => {
+    if (text.length === 0) {
+      return
+    }
+
     const split = text.toString().split('>')
     const filter = fullPath.filter((path) => path.indexOf(split[split.length - 1]) !== -1)
     const filterArr = filter[0].toString().split('>').slice(1)

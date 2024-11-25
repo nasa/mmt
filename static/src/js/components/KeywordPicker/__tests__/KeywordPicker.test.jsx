@@ -1,4 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
@@ -364,6 +368,35 @@ describe('when searching for a keyword', () => {
         ToolSpecificTerm: undefined
       }
     ])
+  })
+
+  describe('when clicking the clear button in the textfield', () => {
+    test('it will only clear the text and not add another keyword', async () => {
+      const { props, user } = setup()
+
+      const searchBox = screen.getByRole('combobox')
+
+      await user.type(searchBox, 'Earth')
+      const option = screen.getByRole('option', { name: 'EARTH SCIENCE SERVICES>DATA ANALYSIS AND VISUALIZATION>GEOGRAPHIC INFORMATION SYSTEMS>DESKTOP GEOGRAPHIC INFORMATION SYSTEMS' })
+      await user.click(option)
+
+      const clearButton = screen.getByRole('button', { name: 'Clear' })
+      console.log('clear button is ', clearButton)
+
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).not.toHaveBeenCalledWith([
+        {
+          ToolCategory: 'EARTH SCIENCE SERVICES',
+          ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+          ToolTerm: 'CALIBRATION/VALIDATION',
+          ToolSpecificTerm: undefined
+        }
+      ])
+
+      // MMT-3926 - The behavior before this fix caused it to perform another onChange of a keyword.
+      fireEvent.click(clearButton)
+      expect(props.onChange).toHaveBeenCalledTimes(1) // Still only called once.
+    })
   })
 
   describe('when keyword recommender is included', () => {
