@@ -48,18 +48,29 @@ const RevisionList = () => {
   const buildDescriptionCell = useCallback((cellData, rowData) => {
     const published = rowData.revisionId === concept.revisionId
 
-    return (
-      (published) ? (
+    const { revisionId, userId } = rowData
+    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
+    const isDeleted = userId === 'cmr'
+
+    let descriptionCellContent
+
+    if (published) {
+      descriptionCellContent = (
         <EllipsisLink to={`/${type}/${conceptId}`}>
-          {[rowData.revisionId, ' - Published'].join('')}
+          {[revisionId, ' - Published'].join('')}
         </EllipsisLink>
       )
-        : (
-          <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowData.revisionId}`}>
-            {[rowData.revisionId, ' - Revision'].join('')}
-          </EllipsisLink>
-        )
-    )
+    } else if (!published && isDeleted) {
+      descriptionCellContent = `${revisionId} - Deleted`
+    } else {
+      descriptionCellContent = (
+        <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowData.revisionId}`}>
+          {[revisionId, ' - Revision'].join('')}
+        </EllipsisLink>
+      )
+    }
+
+    return descriptionCellContent
   }, [])
 
   const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
@@ -97,11 +108,16 @@ const RevisionList = () => {
   }
 
   const buildActionCell = useCallback((cellData, rowData) => {
-    const { revisionId } = rowData
+    const { revisionId, userId } = rowData
     const { revisionId: currRevisionId } = concept
+    const isPublished = revisionId === currRevisionId
+    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
+    const isDeleted = userId === 'cmr'
 
-    return (
-      revisionId !== currRevisionId && (
+    let actionCellContent
+
+    if (!isPublished && !isDeleted) {
+      actionCellContent = (
         <Button
           className="btn btn-link"
           type="button"
@@ -111,7 +127,13 @@ const RevisionList = () => {
           Revert to this revision
         </Button>
       )
-    )
+    } else if (!isPublished && isDeleted) {
+      actionCellContent = 'deleted'
+    } else {
+      actionCellContent = null
+    }
+
+    return actionCellContent
   })
 
   const columns = [
