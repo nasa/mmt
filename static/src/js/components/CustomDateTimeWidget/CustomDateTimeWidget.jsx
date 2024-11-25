@@ -89,7 +89,7 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    // Get the UTC date/time from a date representing local time in a given time zone
+    newDate.setMilliseconds(0)
     const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
     onChange(formattedDateTime)
 
@@ -108,7 +108,7 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'"
         dropdownMode="select"
         id={id}
         locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
