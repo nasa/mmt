@@ -49,6 +49,7 @@ const RevisionList = () => {
     const published = rowData.revisionId === concept.revisionId
 
     const { revisionId, userId } = rowData
+    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
     const isDeleted = userId === 'cmr'
 
     let descriptionCellContent
@@ -110,6 +111,7 @@ const RevisionList = () => {
     const { revisionId, userId } = rowData
     const { revisionId: currRevisionId } = concept
     const isPublished = revisionId === currRevisionId
+    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
     const isDeleted = userId === 'cmr'
 
     let actionCellContent

@@ -121,7 +121,7 @@ describe('RevisionList component', () => {
     })
   })
 
-  // Temporary solution. We are determining that a revision has been deleted if its userId === cmr
+  // Temporary solution from MMT-3946. We are determining that a revision has been deleted if its userId === cmr
   describe('when there is a revision with userid === cmr', () => {
     test('renders the revisions and indicates which of them has been deleted', async () => {
       setup({ overrideMocks: [collectionRevisionsWithDeletedRevision] })
