@@ -167,7 +167,7 @@ describe('CustomDateTimeWidget', () => {
 
       const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
-      expect(field).toHaveValue('2023-12-05T00:00:00.000Z')
+      expect(field).toHaveValue('2023-12-05T00:00:00Z')
     })
   })
 
@@ -179,7 +179,7 @@ describe('CustomDateTimeWidget', () => {
 
       const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
 
-      expect(field).toHaveValue('2023-12-05T16:05:59.000Z')
+      expect(field).toHaveValue('2023-12-05T16:05:59Z')
     })
   })
 })

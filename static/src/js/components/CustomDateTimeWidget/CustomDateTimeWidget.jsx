@@ -108,7 +108,7 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'HH:mm:ss.000'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'"
         dropdownMode="select"
         id={id}
         locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
