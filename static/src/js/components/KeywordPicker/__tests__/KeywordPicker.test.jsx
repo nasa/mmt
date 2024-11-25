@@ -381,7 +381,6 @@ describe('when searching for a keyword', () => {
       await user.click(option)
 
       const clearButton = screen.getByRole('button', { name: 'Clear' })
-      console.log('clear button is ', clearButton)
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
       expect(props.onChange).not.toHaveBeenCalledWith([
