@@ -26,11 +26,12 @@ const CustomCheckboxWidget = ({
   label,
   onChange,
   registry,
+  uiSchema,
   value
 }) => {
   const checkboxScrollRef = useRef(null)
   const focusRef = useRef(null)
-
+  const { 'ui:clearUnselected': clearUnselected } = uiSchema
   const { formContext } = registry
 
   const {
@@ -39,8 +40,13 @@ const CustomCheckboxWidget = ({
 
   const handleChange = (event) => {
     const { checked } = event.target
-
-    onChange(checked)
+    if (!checked) {
+      // If clearUnselected is true, propogate up null so it removes/clears the field/value from the formData
+      // Otherwise, propogate up false.
+      onChange(clearUnselected ? null : checked)
+    } else {
+      onChange(checked)
+    }
   }
 
   const shouldFocus = shouldFocusField(focusField, id)
@@ -76,7 +82,10 @@ const CustomCheckboxWidget = ({
 
 CustomCheckboxWidget.defaultProps = {
   disabled: false,
-  value: false
+  value: false,
+  uiSchema: {
+    'ui:clearUnselected': false
+  }
 }
 
 CustomCheckboxWidget.propTypes = {
@@ -89,6 +98,9 @@ CustomCheckboxWidget.propTypes = {
       focusField: PropTypes.string
     }).isRequired
   }).isRequired,
+  uiSchema: PropTypes.shape({
+    'ui:clearUnselected': PropTypes.bool
+  }),
   value: PropTypes.bool
 }
 

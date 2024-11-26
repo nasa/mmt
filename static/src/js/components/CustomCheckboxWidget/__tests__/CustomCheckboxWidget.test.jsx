@@ -51,6 +51,39 @@ describe('CustomCheckboxWidget', () => {
     })
   })
 
+  describe('when the unchecking a value', () => {
+    describe('and clear unselected is false', () => {
+      test('calls on change with false', async () => {
+        const { props, user } = setup({ value: true })
+
+        const checkboxField = screen.getByRole('checkbox')
+
+        await user.click(checkboxField)
+
+        expect(props.onChange).toHaveBeenCalledTimes(1)
+        expect(props.onChange).toHaveBeenCalledWith(false)
+      })
+    })
+
+    describe('and clear unselected is true', () => {
+      test('calls on change with null', async () => {
+        const { props, user } = setup({
+          value: true,
+          uiSchema: {
+            'ui:clearUnselected': true
+          }
+        })
+
+        const checkboxField = screen.getByRole('checkbox')
+
+        await user.click(checkboxField)
+
+        expect(props.onChange).toHaveBeenCalledTimes(1)
+        expect(props.onChange).toHaveBeenCalledWith(null)
+      })
+    })
+  })
+
   describe('when the field should be focused', () => {
     test('focuses the field', async () => {
       setup({
