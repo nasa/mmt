@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
@@ -48,6 +48,7 @@ const KeywordPicker = ({
 
   const [marginTop, setMarginTop] = useState(0)
   const [marginLeft, setMarginLeft] = useState(0)
+  const typeaheadRef = useRef(null)
 
   const filterKeywords = (path) => {
     const filteredPath = []
@@ -276,6 +277,7 @@ const KeywordPicker = ({
     }
 
     onChange(formData)
+    typeaheadRef.current.clear()
   }
 
   const displayItems = (item) => {
@@ -431,6 +433,7 @@ const KeywordPicker = ({
               <div className="eui-item-list-pane" style={{ marginTop }}>
                 <div className="keyword-picker__search-keywords">
                   <Typeahead
+                    ref={typeaheadRef}
                     clearButton
                     id="keyword-picker-search"
                     isLoading={loading}
