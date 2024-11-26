@@ -41,6 +41,8 @@ const CustomCheckboxWidget = ({
   const handleChange = (event) => {
     const { checked } = event.target
     if (!checked) {
+      // If clearUnselected is true, propogate up null so it removes/clears the field/value from the formData
+      // Otherwise, propogate up false.
       onChange(clearUnselected ? null : checked)
     } else {
       onChange(checked)
