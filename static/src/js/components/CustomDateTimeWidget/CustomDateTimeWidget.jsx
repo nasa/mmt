@@ -5,11 +5,10 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { startCase } from 'lodash-es'
-import moment from 'moment'
-import DatePicker from 'react-datepicker'
-
+import DatePicker, { registerLocale } from 'react-datepicker'
+import enGB from 'date-fns/locale/en-GB'
+import { toZonedTime, fromZonedTime } from 'date-fns-tz'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
-
 import shouldFocusField from '../../utils/shouldFocusField'
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -50,8 +49,12 @@ const CustomDateTimeWidget = ({
 
   const { description } = schema
 
-  const dateWithZone = moment.utc(value).format('YYYY-MM-DDTHH:mm:ss.SSS')
-  const fieldValue = new Date(dateWithZone)
+  // Greenwich, UK, is located in the Greenwich Mean Time (GMT) zone,
+  registerLocale('en-GB', enGB)
+
+  // Parse as a GMT date, as the DatePicker is configured to work in GMT
+  // Get a date/time representing local time in a given time zone from the UTC date
+  const fieldValue = value ? toZonedTime(value, 'GMT') : null
 
   const { formContext } = registry
   const {
@@ -86,8 +89,9 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    let formattedDateTime = newDate.toISOString()
-    formattedDateTime = `${formattedDateTime.substring(0, 10)}T00:00:00.000Z`
+    // The picket widget has a bug where it is not setting millis to 0 when selecting a time.
+    newDate.setMilliseconds(0)
+    const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
     onChange(formattedDateTime)
 
     handleBlur()
@@ -105,9 +109,10 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'00:00:00.000'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'"
         dropdownMode="select"
         id={id}
+        locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
         onBlur={handleBlur}
         onChange={handleChange}
         onFocus={handleFocus}
@@ -115,13 +120,11 @@ const CustomDateTimeWidget = ({
         peekNextMonth
         placeholderText="YYYY-MM-DDTHH:MM:SSZ"
         wrapperClassName="d-block"
-        selected={
-          value && new Date(fieldValue.toLocaleString('en-US', {
-            timeZone: 'GMT'
-          }))
-        }
+        selected={fieldValue}
         showMonthDropdown
         showYearDropdown
+        showTimeSelect
+        timeIntervals={1}
       />
     </CustomWidgetWrapper>
   )
