@@ -26,7 +26,8 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev',
     cookieDomain: 'example.com',
-    tokenValidTime: '900'
+    tokenValidTime: '900',
+    env: 'development'
   }))
 }))
 
@@ -123,7 +124,7 @@ describe('AuthContextProvider component', () => {
       test('shows the name', async () => {
         useCookies.mockImplementation(() => ([
           {
-            [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
+            [`${MMT_COOKIE}_development`]: 'mock-jwt'
           },
           vi.fn(),
           vi.fn()
@@ -152,7 +153,7 @@ describe('AuthContextProvider component', () => {
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {
-              [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
+              [`${MMT_COOKIE}_development`]: 'mock-jwt'
             },
             setCookie,
             vi.fn()
@@ -177,7 +178,7 @@ describe('AuthContextProvider component', () => {
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {
-              [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
+              [`${MMT_COOKIE}_development`]: 'mock-jwt'
             },
             setCookie,
             vi.fn()
@@ -210,7 +211,7 @@ describe('AuthContextProvider component', () => {
         jwt.decode.mockImplementation(() => { throw new Error('Error decoding jwt') })
         useCookies.mockImplementation(() => ([
           {
-            [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
+            [`${MMT_COOKIE}_development`]: 'mock-jwt'
           },
           vi.fn(),
           vi.fn()

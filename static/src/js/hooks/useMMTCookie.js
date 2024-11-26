@@ -8,7 +8,7 @@ import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
  * Returns the cookie value for the MMT auth cookie
  */
 const useMMTCookie = () => {
-  const { cookieDomain } = getApplicationConfig()
+  const { env } = getApplicationConfig()
 
   const [
     cookies,
@@ -16,7 +16,7 @@ const useMMTCookie = () => {
     removeCookie
   ] = useCookies([MMT_COOKIE])
 
-  const { [`${MMT_COOKIE}_${cookieDomain}`]: mmtJwt } = cookies
+  const { [`${MMT_COOKIE}_${env}`]: mmtJwt } = cookies
 
   return {
     mmtJwt,

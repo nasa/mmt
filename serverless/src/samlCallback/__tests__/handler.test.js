@@ -17,7 +17,8 @@ vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
   apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
   graphQlHost: 'http://localhost:3013/dev/api',
   cmrHost: 'http://localhost:4000',
-  version: 'sit'
+  version: 'sit',
+  env: 'development'
 }))
 
 vi.spyOn(Date.prototype, 'valueOf').mockImplementation(() => 1234)
@@ -61,7 +62,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -83,7 +84,8 @@ describe('samlCallback', () => {
         apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
         graphQlHost: 'http://localhost:3013/dev/api',
         cmrHost: 'http://localhost:4000',
-        version: 'sit'
+        version: 'sit',
+        env: 'development'
       }))
 
       const response = await samlCallback(event)
@@ -95,7 +97,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -118,7 +120,8 @@ describe('samlCallback', () => {
         mmtHost: 'https://mmt.localtest.earthdata.nasa.gov',
         apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
         graphQlHost: 'http://localhost:3013/dev/api',
-        cmrHost: 'http://localhost:4000'
+        cmrHost: 'http://localhost:4000',
+        env: 'development'
       }))
 
       const response = await samlCallback(event)
@@ -130,7 +133,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('ABC-1', mockEdlProfile)

@@ -15,7 +15,7 @@ import { getApplicationConfig } from '../../../../../../sharedUtils/getConfig'
 
 import TemplateList from '../TemplateList'
 
-const { cookieDomain } = getApplicationConfig()
+const { env } = getApplicationConfig()
 
 vi.mock('@/js/utils/deleteTemplate')
 vi.mock('@/js/utils/errorLogger')
@@ -25,7 +25,7 @@ vi.mock('react-cookie', async () => ({
   ...await vi.importActual('react-cookie'),
   useCookies: vi.fn().mockImplementation(() => ([
     {
-      [`${MMT_COOKIE}_${cookieDomain}`]: 'mock-jwt'
+      [`${MMT_COOKIE}_${env}`]: 'mock-jwt'
     },
     vi.fn(),
     vi.fn()
