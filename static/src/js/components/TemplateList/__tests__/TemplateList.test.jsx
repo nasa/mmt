@@ -11,7 +11,11 @@ import deleteTemplate from '@/js/utils/deleteTemplate'
 import NotificationsContext from '@/js/context/NotificationsContext'
 import MMT_COOKIE from '@/js/constants/mmtCookie'
 
+import { getApplicationConfig } from '../../../../../../sharedUtils/getConfig'
+
 import TemplateList from '../TemplateList'
+
+const { cookieDomain } = getApplicationConfig()
 
 vi.mock('@/js/utils/deleteTemplate')
 vi.mock('@/js/utils/errorLogger')
@@ -21,7 +25,7 @@ vi.mock('react-cookie', async () => ({
   ...await vi.importActual('react-cookie'),
   useCookies: vi.fn().mockImplementation(() => ([
     {
-      [MMT_COOKIE]: 'mock-jwt'
+      [`${MMT_COOKIE}_${cookieDomain}`]: 'mock-jwt'
     },
     vi.fn(),
     vi.fn()

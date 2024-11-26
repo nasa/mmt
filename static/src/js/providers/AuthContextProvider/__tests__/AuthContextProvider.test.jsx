@@ -123,7 +123,7 @@ describe('AuthContextProvider component', () => {
       test('shows the name', async () => {
         useCookies.mockImplementation(() => ([
           {
-            [MMT_COOKIE]: 'mock-jwt'
+            [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
           },
           vi.fn(),
           vi.fn()
@@ -152,7 +152,7 @@ describe('AuthContextProvider component', () => {
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {
-              [MMT_COOKIE]: 'mock-jwt'
+              [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
             },
             setCookie,
             vi.fn()
@@ -177,7 +177,7 @@ describe('AuthContextProvider component', () => {
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {
-              [MMT_COOKIE]: 'mock-jwt'
+              [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
             },
             setCookie,
             vi.fn()
@@ -210,7 +210,7 @@ describe('AuthContextProvider component', () => {
         jwt.decode.mockImplementation(() => { throw new Error('Error decoding jwt') })
         useCookies.mockImplementation(() => ([
           {
-            [MMT_COOKIE]: 'mock-jwt'
+            [`${MMT_COOKIE}_example.com`]: 'mock-jwt'
           },
           vi.fn(),
           vi.fn()
