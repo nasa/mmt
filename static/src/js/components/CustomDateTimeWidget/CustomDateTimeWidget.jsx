@@ -89,6 +89,7 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
+    // The picket widget has a bug where it is not setting millis to 0 when selecting a time.
     newDate.setMilliseconds(0)
     const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
     onChange(formattedDateTime)
