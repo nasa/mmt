@@ -251,6 +251,7 @@ const collectionPermissionUiSchema = {
         ]
       },
       includeUndefined: {
+        'ui:clearUnselected': true,
         'ui:widget': CustomCheckboxWidget
       }
     },
@@ -298,6 +299,7 @@ const collectionPermissionUiSchema = {
         ]
       },
       includeUndefined: {
+        'ui:clearUnselected': true,
         'ui:widget': CustomCheckboxWidget
       }
     }
