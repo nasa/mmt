@@ -1,12 +1,5 @@
 import createCookie from '../createCookie'
 
-vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
-  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
-  getApplicationConfig: vi.fn(() => ({
-    env: 'development'
-  }))
-}))
-
 describe('createCookie', () => {
   const OLD_ENV = process.env
 

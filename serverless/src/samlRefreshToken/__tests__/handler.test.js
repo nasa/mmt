@@ -7,8 +7,7 @@ vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
   apiHost: 'https://mmt.localtest.earthdata.nasa.gov/dev',
   graphQlHost: 'http://localhost:3013/dev/api',
   cmrHost: 'http://localhost:4000',
-  version: 'sit',
-  env: 'development'
+  version: 'sit'
 }))
 
 vi.mock('jsonwebtoken', async () => ({

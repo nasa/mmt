@@ -563,7 +563,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: '1.18.2'
+                  ummVersion: `${ummCVersion}`
                 }
               },
               error: new Error('An error occurred')
