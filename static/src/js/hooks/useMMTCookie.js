@@ -11,7 +11,6 @@ const useMMTCookie = () => {
     setCookie,
     removeCookie
   ] = useCookies([MMT_COOKIE])
-
   const { [MMT_COOKIE]: mmtJwt } = cookies
 
   return {
