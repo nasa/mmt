@@ -12,10 +12,7 @@ import {
 } from 'react-router-dom'
 
 import userEvent from '@testing-library/user-event'
-import {
-  collectionRevisions,
-  collectionRevisionsWithDeletedRevision
-} from './__mocks__/revisionResults'
+import { collectionRevisions } from './__mocks__/revisionResults'
 
 import RevisionList from '../RevisionList'
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
@@ -118,37 +115,6 @@ describe('RevisionList component', () => {
       expect(row2Cells[0].textContent).toBe('7 - Revision')
       expect(row2Cells[2].textContent).toBe('admin')
       expect(row2Cells[3].textContent).toBe('Revert to this revision')
-    })
-  })
-
-  // Temporary solution from MMT-3946. We are determining that a revision has been deleted if its userId === cmr
-  describe('when there is a revision with userid === cmr', () => {
-    test('renders the revisions and indicates which of them has been deleted', async () => {
-      setup({ overrideMocks: [collectionRevisionsWithDeletedRevision] })
-
-      expect(screen.queryByText('Loading...'))
-
-      const tableRows = await screen.findAllByRole('row')
-      expect(tableRows.length).toEqual(3)
-
-      const date = new Date(2000, 1, 1, 13)
-      vi.setSystemTime(date)
-      const rows = screen.queryAllByRole('row')
-      const row1 = rows[1]
-      const row2 = rows[2]
-
-      const row1Cells = within(row1).queryAllByRole('cell')
-      const row2Cells = within(row2).queryAllByRole('cell')
-      expect(row1Cells).toHaveLength(4)
-      expect(row1Cells[0].textContent).toBe('8 - Published')
-      expect(row1Cells[1].textContent).toBe('Tuesday, February 1, 2000 6:00 PM')
-      expect(row1Cells[2].textContent).toBe('admin')
-      expect(row1Cells[3].textContent).toBe('')
-
-      expect(row2Cells).toHaveLength(4)
-      expect(row2Cells[0].textContent).toBe('7 - Deleted')
-      expect(row2Cells[2].textContent).toBe('cmr')
-      expect(row2Cells[3].textContent).toBe('deleted')
     })
   })
 

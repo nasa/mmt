@@ -42,30 +42,25 @@ const RevisionList = () => {
   })
 
   const { [derivedConceptType.toLowerCase()]: concept } = data
-  const { revisions } = concept
+  const { revisions, revisionId: conceptRevisionId } = concept
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
-    const published = rowData.revisionId === concept.revisionId
-
-    const { revisionId, userId } = rowData
-    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
-    const isDeleted = userId === 'cmr'
+    const { revisionId: rowDataRevisionId } = rowData
+    const isPublished = rowDataRevisionId === conceptRevisionId
 
     let descriptionCellContent
 
-    if (published) {
+    if (isPublished) {
       descriptionCellContent = (
         <EllipsisLink to={`/${type}/${conceptId}`}>
-          {[revisionId, ' - Published'].join('')}
+          {[rowDataRevisionId, ' - Published'].join('')}
         </EllipsisLink>
       )
-    } else if (!published && isDeleted) {
-      descriptionCellContent = `${revisionId} - Deleted`
     } else {
       descriptionCellContent = (
-        <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowData.revisionId}`}>
-          {[revisionId, ' - Revision'].join('')}
+        <EllipsisLink to={`/${type}/${conceptId}/revisions/${rowDataRevisionId}`}>
+          {[rowDataRevisionId, ' - Revision'].join('')}
         </EllipsisLink>
       )
     }
@@ -108,27 +103,23 @@ const RevisionList = () => {
   }
 
   const buildActionCell = useCallback((cellData, rowData) => {
-    const { revisionId, userId } = rowData
+    const { revisionId: rowDataRevisionId } = rowData
     const { revisionId: currRevisionId } = concept
-    const isPublished = revisionId === currRevisionId
-    // Temporary Solution from MMT-3946 until we can pass up a tombstone type instead
-    const isDeleted = userId === 'cmr'
+    const isPublished = rowDataRevisionId === currRevisionId
 
     let actionCellContent
 
-    if (!isPublished && !isDeleted) {
+    if (!isPublished) {
       actionCellContent = (
         <Button
           className="btn btn-link"
           type="button"
           variant="link"
-          onClick={() => { handleRevert(revisionId) }}
+          onClick={() => { handleRevert(rowDataRevisionId) }}
         >
           Revert to this revision
         </Button>
       )
-    } else if (!isPublished && isDeleted) {
-      actionCellContent = 'deleted'
     } else {
       actionCellContent = null
     }
