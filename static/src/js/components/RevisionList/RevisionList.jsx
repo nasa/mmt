@@ -46,7 +46,6 @@ const RevisionList = () => {
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
-    
     const { revisionId: rowDataRevisionId } = rowData
     const isPublished = rowDataRevisionId === conceptRevisionId
 
