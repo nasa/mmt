@@ -1,4 +1,4 @@
-import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
+import { getApplicationConfig } from '../sharedUtils/getConfig'
 
 /**
  * This is the name of the cookie that MMT uses.

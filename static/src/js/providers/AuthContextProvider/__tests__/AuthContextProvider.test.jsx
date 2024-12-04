@@ -14,7 +14,7 @@ import refreshToken from '@/js/utils/refreshToken'
 
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 
-import MMT_COOKIE from '@/js/constants/mmtCookie'
+import MMT_COOKIE from '../../../../../../sharedContstants/mmtCookie'
 
 import AuthContextProvider from '../AuthContextProvider'
 
