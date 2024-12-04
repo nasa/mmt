@@ -17,9 +17,17 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
+    let errorMessage = error.message
+    if (error.graphQLErrors
+      && (error.graphQLErrors[0].extensions?.code === 'INTERNAL_SERVER_ERROR')
+      && error.graphQLErrors[0].path?.includes('acl')
+      && error.graphQLErrors[0].path?.includes('groups')) {
+      errorMessage = 'Error retrieving groups. Please refresh'
+    }
+
     return {
       hasError: true,
-      error: error.message
+      error: errorMessage
     }
   }
 
