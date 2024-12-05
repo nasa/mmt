@@ -2,7 +2,6 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 
 import ErrorBoundary from '../ErrorBoundary'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 
 const setup = () => {
   render(
