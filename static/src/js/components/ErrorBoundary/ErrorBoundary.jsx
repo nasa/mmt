@@ -20,9 +20,9 @@ class ErrorBoundary extends React.Component {
     let errorMessage = error.message
     // Check to see if it is a known intermittent error from EDL (MMT-3923)
     if (error.graphQLErrors
-      && (error.graphQLErrors[0].extensions?.code === 'INTERNAL_SERVER_ERROR')
-      && error.graphQLErrors[0].path?.includes('acl')
-      && error.graphQLErrors[0].path?.includes('groups')) {
+      && (error.graphQLErrors[0]?.extensions?.code === 'INTERNAL_SERVER_ERROR')
+      && error.graphQLErrors[0]?.path?.includes('acl')
+      && error.graphQLErrors[0]?.path?.includes('groups')) {
       errorMessage = 'Error retrieving groups. Please refresh'
     }
 
