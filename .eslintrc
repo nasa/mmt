@@ -27,7 +27,8 @@
     "import/resolver": {
       "alias": {
         "map": [
-          [ "@", "./static/src" ]
+          [ "@", "./static/src" ],
+          [ "sharedConstants", "./sharedConstants"]
         ],
         "extensions": [
           ".js",

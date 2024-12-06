@@ -61,7 +61,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -95,7 +95,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900; Secure;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('launchpad_token', mockEdlProfile)
@@ -130,7 +130,7 @@ describe('samlCallback', () => {
 
       expect(statusCode).toEqual(303)
       expect(Location).toEqual('https://mmt.localtest.earthdata.nasa.gov/auth-callback?target=%2Fhome')
-      expect(setCookie).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900;')
+      expect(setCookie).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=example.com; Max-Age=900;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('ABC-1', mockEdlProfile)

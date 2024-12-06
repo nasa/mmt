@@ -17,7 +17,7 @@ describe('createCookie', () => {
 
   describe('when not running locally', () => {
     test('returns the cookie string', () => {
-      expect(createCookie('mock-jwt')).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
+      expect(createCookie('mock-jwt')).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
     })
   })
 
@@ -25,7 +25,7 @@ describe('createCookie', () => {
     test('returns the cookie string', () => {
       process.env.IS_OFFLINE = true
 
-      expect(createCookie('mock-jwt')).toEqual('_mmt_jwt=mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900;')
+      expect(createCookie('mock-jwt')).toEqual('_mmt_jwt_development=mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900;')
     })
   })
 })
