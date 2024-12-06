@@ -9,7 +9,7 @@ import errorLogger from '@/js/utils/errorLogger'
 import getTemplates from '@/js/utils/getTemplates'
 import deleteTemplate from '@/js/utils/deleteTemplate'
 import NotificationsContext from '@/js/context/NotificationsContext'
-import MMT_COOKIE from '../../../../../../sharedContstants/mmtCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import TemplateList from '../TemplateList'
 

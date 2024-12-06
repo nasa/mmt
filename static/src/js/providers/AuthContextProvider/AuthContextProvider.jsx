@@ -15,7 +15,7 @@ import useMMTCookie from '@/js/hooks/useMMTCookie'
 import errorLogger from '@/js/utils/errorLogger'
 import refreshToken from '@/js/utils/refreshToken'
 
-import MMT_COOKIE from '../../../../../sharedContstants/mmtCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 

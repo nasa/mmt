@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["static/src/*"]
+      "@/*": ["static/src/*"],
+      "sharedConstants/*": ["sharedConstants/*"]
     }
   },
-  "include": ["static/src/**/*"]
+  "include": ["static/src/**/*", "sharedConstants/*"]
 }

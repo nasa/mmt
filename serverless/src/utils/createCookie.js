@@ -1,4 +1,4 @@
-import MMT_COOKIE from '../../../sharedContstants/mmtCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 /**
  * Returns the cookie string with the provided JWT

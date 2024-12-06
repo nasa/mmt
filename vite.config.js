@@ -27,6 +27,10 @@ export default defineConfig({
       {
         find: '@',
         replacement: path.resolve(__dirname, 'static/src')
+      },
+      {
+        find: 'sharedConstants',
+        replacement: path.resolve(__dirname, 'sharedConstants')
       }
     ]
   },

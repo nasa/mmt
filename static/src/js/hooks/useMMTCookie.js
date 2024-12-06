@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie'
 
-import MMT_COOKIE from '../../../../sharedContstants/mmtCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 /**
  * Returns the cookie value for the MMT auth cookie
