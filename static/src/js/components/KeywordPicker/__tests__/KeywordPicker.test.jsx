@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
+import { test } from 'vitest'
 import useControlledKeywords from '../../../hooks/useControlledKeywords'
 
 import parseCmrResponse from '../../../utils/parseCmrResponse'
@@ -346,24 +347,39 @@ describe('when removing selected keyword', () => {
 })
 
 describe('when searching for a keyword', () => {
-  test('adds the searched keyword', async () => {
-    const { props, user } = setup()
+  describe('and user selects a keyword', () => {
+    test('adds the searched keyword', async () => {
+      const { props, user } = setup()
 
-    const searchBox = screen.getByRole('combobox')
+      const searchBox = screen.getByRole('combobox')
 
-    await user.type(searchBox, 'Earth')
-    const option = screen.getByRole('option', { name: 'EARTH SCIENCE SERVICES>DATA ANALYSIS AND VISUALIZATION>GEOGRAPHIC INFORMATION SYSTEMS>DESKTOP GEOGRAPHIC INFORMATION SYSTEMS' })
-    await user.click(option)
+      await user.type(searchBox, 'Earth')
+      const option = screen.getByRole('option', { name: 'EARTH SCIENCE SERVICES>DATA ANALYSIS AND VISUALIZATION>GEOGRAPHIC INFORMATION SYSTEMS>DESKTOP GEOGRAPHIC INFORMATION SYSTEMS' })
+      await user.click(option)
 
-    expect(props.onChange).toHaveBeenCalledTimes(1)
-    expect(props.onChange).not.toHaveBeenCalledWith([
-      {
-        ToolCategory: 'EARTH SCIENCE SERVICES',
-        ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
-        ToolTerm: 'CALIBRATION/VALIDATION',
-        ToolSpecificTerm: undefined
-      }
-    ])
+      expect(props.onChange).toHaveBeenCalledTimes(1)
+      expect(props.onChange).toHaveBeenCalledWith([
+        {
+          ToolCategory: 'EARTH SCIENCE SERVICES',
+          ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+          ToolTerm: 'GEOGRAPHIC INFORMATION SYSTEMS',
+          ToolSpecificTerm: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
+        }
+      ])
+    })
+
+    test('clears the search box after the selection', async () => {
+      const { user } = setup()
+
+      const searchBox = screen.getByRole('combobox')
+
+      await user.type(searchBox, 'Earth')
+
+      expect(searchBox).toHaveValue('Earth')
+      const option = screen.getByRole('option', { name: 'EARTH SCIENCE SERVICES>DATA ANALYSIS AND VISUALIZATION>GEOGRAPHIC INFORMATION SYSTEMS>DESKTOP GEOGRAPHIC INFORMATION SYSTEMS' })
+      await user.click(option)
+      expect(searchBox).toHaveValue('')
+    })
   })
 
   describe('when keyword recommender is included', () => {
