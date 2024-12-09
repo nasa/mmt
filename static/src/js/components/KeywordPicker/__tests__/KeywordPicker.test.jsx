@@ -358,12 +358,12 @@ describe('when searching for a keyword', () => {
       await user.click(option)
 
       expect(props.onChange).toHaveBeenCalledTimes(1)
-      expect(props.onChange).not.toHaveBeenCalledWith([
+      expect(props.onChange).toHaveBeenCalledWith([
         {
           ToolCategory: 'EARTH SCIENCE SERVICES',
           ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
-          ToolTerm: 'CALIBRATION/VALIDATION',
-          ToolSpecificTerm: undefined
+          ToolTerm: 'GEOGRAPHIC INFORMATION SYSTEMS',
+          ToolSpecificTerm: 'DESKTOP GEOGRAPHIC INFORMATION SYSTEMS'
         }
       ])
     })
