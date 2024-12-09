@@ -60,7 +60,7 @@ describe('samlRefreshToken', () => {
       const { 'Set-Cookie': setCookie } = headers
 
       expect(statusCode).toBe(200)
-      expect(setCookie).toEqual('_mmt_jwt=new-mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
+      expect(setCookie).toEqual('_mmt_jwt_development=new-mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('refresh_token', { mock: 'profile' })
@@ -114,7 +114,7 @@ describe('samlRefreshToken', () => {
       const { 'Set-Cookie': setCookie } = headers
 
       expect(statusCode).toBe(200)
-      expect(setCookie).toEqual('_mmt_jwt=new-mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900;')
+      expect(setCookie).toEqual('_mmt_jwt_development=new-mock-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900;')
 
       expect(createJwt).toHaveBeenCalledTimes(1)
       expect(createJwt).toHaveBeenCalledWith('mock-token', { mock: 'profile' })

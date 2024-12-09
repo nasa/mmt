@@ -10,12 +10,12 @@ import { useIdle } from '@uidotdev/usehooks'
 
 import AuthContext from '@/js/context/AuthContext'
 
-import MMT_COOKIE from '@/js/constants/mmtCookie'
-
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import errorLogger from '@/js/utils/errorLogger'
 import refreshToken from '@/js/utils/refreshToken'
+
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
