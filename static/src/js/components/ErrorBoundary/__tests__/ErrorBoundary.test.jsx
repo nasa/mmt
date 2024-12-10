@@ -2,9 +2,6 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 
 import ErrorBoundary from '../ErrorBoundary'
-import ErrorBanner from '../../ErrorBanner/ErrorBanner'
-
-vi.mock('../../ErrorBanner/ErrorBanner')
 
 const setup = () => {
   render(
@@ -37,7 +34,34 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       )
 
-      expect(ErrorBanner).toHaveBeenCalled(1)
+      expect(screen.getByText('Test for ErrorBoundary')).toBeInTheDocument()
+    })
+  })
+
+  describe('when there is an EDL timeout error', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    test('renders error banner asking user to refresh browser', async () => {
+      const ThrowError = () => {
+        const error = new Error('An unknown error occurred')
+        error.graphQLErrors = [
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR'
+            },
+            path: ['acl', 'groups']
+          }
+        ]
+
+        throw error
+      }
+
+      render(
+        <ErrorBoundary>
+          <ThrowError />
+        </ErrorBoundary>
+      )
+
+      expect(screen.getByText('Error retrieving groups. Please refresh')).toBeInTheDocument()
     })
   })
 })
