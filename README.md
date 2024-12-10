@@ -137,21 +137,34 @@ To run GraphDB in docker, run:
 
 #### Running Serverless Offline (API Gateway/Lambdas)
 
-In order to run serverless-offline, which is used for mimicking API Gateway to call lambda functions, run:
+In order to run serverless-offline, which is used for mimicking API Gateway to call lambda functions, run the following based the environment you have cmr-graphql pointed to:
 
+Environment|CLI|
+|-|-|
+|Local| $ npm run offline|
+|SIT| $ EDL_PASSWORD=SIT Password npm offline
+|UAT| $ EDL_PASSWORD='UAT Password' npm offline
+
+For UAT ONLY - you will need to change lines 34-37 in the static.config file to read as follows:
 ```bash
-    EDL_PASSWORD=<password> npm run offline
+    "edl": {
+        "host": "https://uat.urs.earthdata.nasa.gov",
+        "uid": "mmt_uat"
+    },
 ```
 
 _Note: The EDL_PASSWORD environment variable is required for group member queries to function._
 
 #### Running MMT
 
+In the samlCallback/handler.js file, you will need to replace line 17 'ABC-1' to your SIT or UAT token if pointing to one of those environments. You can get your token from either your sit/uat.urs.earthdata.nasa.gov profile OR (if that does not work) from mmt.sit/uat.earthdata.nasa.gov network tab. Click one of the last api calls, go to Headers, then to Authorization and copy the token from there. 
+
 After starting the local CMR, cmr-graphql and GraphDB, run:
 
 ```bash
     npm start
 ```
+If switching environments, remember to clear your cookies and login again.
 
 ### UMM JSON-Schema
 
