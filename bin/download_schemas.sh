@@ -1,7 +1,6 @@
 #!/bin/bash
 ummJsonSchemaUrl=`jq '.ummJsonSchemaUrl' ./static.config.json`
 ummJsonSchemaUrl=${ummJsonSchemaUrl//\"/}
-bamboo_STAGE_NAME="sit"
 stage=$bamboo_STAGE_NAME
 if [ "$stage" == "prod" ]; then
   stage=""
