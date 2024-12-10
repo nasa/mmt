@@ -157,7 +157,7 @@ _Note: The EDL_PASSWORD environment variable is required for group member querie
 
 #### Running MMT
 
-In the samlCallback/handler.js file, you will need to replace line 17 'ABC-1' to your SIT or UAT token if pointing to one of those environments. You can get your token from either your sit/uat.urs.earthdata.nasa.gov profile OR (if that does not work) from mmt.sit/uat.earthdata.nasa.gov network tab. Click one of the last api calls, go to Headers, then to Authorization and copy the token from there. 
+In the samlCallback/handler.js file, you will need to replace line 17 'ABC-1' to your SIT or UAT token if pointing to one of those environments.
 
 After starting the local CMR, cmr-graphql and GraphDB, run:
 
