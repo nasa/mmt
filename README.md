@@ -142,8 +142,8 @@ In order to run serverless-offline, which is used for mimicking API Gateway to c
 Environment|CLI|
 |-|-|
 |Local| $ npm run offline|
-|SIT| $ EDL_PASSWORD=SIT Password npm offline
-|UAT| $ EDL_PASSWORD='UAT Password' npm offline
+|SIT| $ EDL_PASSWORD=SIT Password npm run ffline
+|UAT| $ EDL_PASSWORD='UAT Password' npm run offline
 
 For UAT ONLY - you will need to change lines 34-37 in the static.config file to read as follows:
 ```bash
