@@ -234,7 +234,7 @@ const MetadataForm = () => {
         })
 
         // We still need to navigate to the new draft revision on save and publish
-        // even though we will end up navigating to the preivew page.  The reason
+        // even though we will end up navigating to the preview page.  The reason
         // being is because the publish mutation causes the cache to be cleared and as a
         // result the draft is refetched.
         if (type === saveTypes.save || type === saveTypes.saveAndPublish) {
