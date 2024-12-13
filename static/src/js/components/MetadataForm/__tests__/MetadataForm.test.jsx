@@ -838,7 +838,7 @@ describe('MetadataForm', () => {
         const button = screen.getByRole('button', { name: 'Save & Publish' })
         await user.click(button)
 
-        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledTimes(2)
         expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
       })
     })
