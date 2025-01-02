@@ -77,7 +77,7 @@ describe('CustomDateTimeWidget', () => {
     test('shows the field description', async () => {
       setup()
 
-      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
       await act(async () => {
         field.focus()
@@ -96,7 +96,7 @@ describe('CustomDateTimeWidget', () => {
     test('blurs the field', async () => {
       const { props } = setup()
 
-      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
       await act(async () => {
         field.focus()
@@ -115,7 +115,7 @@ describe('CustomDateTimeWidget', () => {
     test('calls onChange', async () => {
       const { props, user } = setup()
 
-      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
       await user.type(field, '1')
 
@@ -165,9 +165,9 @@ describe('CustomDateTimeWidget', () => {
         value: '2023-12-05T00:00:00.000Z'
       })
 
-      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
-      expect(field).toHaveValue('2023-12-05T00:00:00Z')
+      expect(field).toHaveValue('2023-12-05T00:00:00.000Z')
     })
   })
 
@@ -177,9 +177,9 @@ describe('CustomDateTimeWidget', () => {
         value: '2023-12-05T16:05:59.000Z'
       })
 
-      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SSZ')
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
-      expect(field).toHaveValue('2023-12-05T16:05:59Z')
+      expect(field).toHaveValue('2023-12-05T16:05:59.000Z')
     })
   })
 })
