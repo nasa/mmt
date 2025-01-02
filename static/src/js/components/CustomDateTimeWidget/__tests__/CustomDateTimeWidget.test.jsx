@@ -174,12 +174,24 @@ describe('CustomDateTimeWidget', () => {
   describe('When a date has a specific time in the form', () => {
     test('shows the date and time', async () => {
       setup({
-        value: '2023-12-05T16:05:59.000Z'
+        value: '2023-12-05T16:05:59.090Z'
       })
 
       const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
 
-      expect(field).toHaveValue('2023-12-05T16:05:59.000Z')
+      expect(field).toHaveValue('2023-12-05T16:05:59.090Z')
+    })
+  })
+
+  describe('when the field is typed in', () => {
+    test('calls onChange', async () => {
+      const { props, user } = setup()
+
+      const field = await screen.findByPlaceholderText('YYYY-MM-DDTHH:MM:SS.SSSZ')
+
+      await user.type(field, '2025-01-02T03:20:15.999Z')
+
+      expect(props.onChange).toHaveBeenCalledWith('2025-01-02T03:20:15.999Z')
     })
   })
 })
