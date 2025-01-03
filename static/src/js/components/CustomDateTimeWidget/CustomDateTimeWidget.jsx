@@ -93,9 +93,10 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    // The picket widget has a bug where it is not setting millis to 0 when selecting a time,
-    // so we need to reset the millisecond part. When the date time string is pasted in or a value
-    // exists, do not reset.
+    // The picker widget has a bug where it is not setting the ms. to 0 when a user selects a time.
+    // We are working around this bug by setting the ms to 0 only if the user selects/chooses
+    // a time from the widget. If they type in a date/time or paste in a date/time should ,
+    // we should not perform this reset as we should keep whatever ms they user enters.
     if (!value && dateInputMethod !== 'typed') newDate.setMilliseconds(0)
     const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
     onChange(formattedDateTime)
