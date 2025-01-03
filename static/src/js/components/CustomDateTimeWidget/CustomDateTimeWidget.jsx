@@ -104,7 +104,7 @@ const CustomDateTimeWidget = ({
     handleBlur()
   }
 
-  const handleDateInput = (event) => {
+  const handleDateInput = () => {
     // Saves the input method for handleChange
     dateInputMethod = 'typed'
   }
@@ -127,7 +127,7 @@ const CustomDateTimeWidget = ({
         locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
         onBlur={handleBlur}
         onChange={handleChange}
-        onChangeRaw={(event) => handleDateInput(event)}
+        onChangeRaw={() => handleDateInput()}
         onFocus={handleFocus}
         open={showCalender}
         peekNextMonth
