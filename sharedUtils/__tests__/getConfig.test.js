@@ -1,4 +1,3 @@
-
 import { getApplicationConfig, getUmmVersionsConfig } from '../getConfig'
 
 describe('getConfig', () => {

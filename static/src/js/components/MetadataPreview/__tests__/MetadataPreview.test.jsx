@@ -21,6 +21,7 @@ import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import {
   mockCollection,
   mockCollectionDraft,
+  mockCollectionWithAssociatedVariables,
   mockServiceDraft,
   mockToolDraft,
   mockVariableDraft
@@ -465,6 +466,48 @@ describe('MetadataPreview', () => {
           conceptUrlTemplate: '/{conceptType}/{conceptId}',
           isPlugin: true,
           collection: mockCollection,
+          token: null
+        }, {})
+      })
+
+      expect(CollectionPreview).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when the conceptType is Collection and there are more than 20 Associated Variables', () => {
+    test('renders a Collection Preview with correct Associated Variables', async () => {
+      setup({
+        overrideProps: {
+          conceptId: 'C1000000-MMT',
+          conceptType: 'Collection'
+        },
+        mock: [{
+          request: {
+            query: conceptTypeQueries.Collection,
+            variables: {
+              params: { conceptId: 'C1000000-MMT' },
+              variableParams: { limit: 1000 }
+            }
+          },
+          result: {
+            data: {
+              collection: mockCollectionWithAssociatedVariables
+            }
+          }
+        }],
+        initialEntries: '/C1000000-MMT',
+        overrideRoute: '/:conceptId',
+        overridePath: '/'
+      })
+
+      await waitFor(() => {
+        expect(CollectionPreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
+          conceptId: 'C1000000-MMT',
+          conceptType: 'collection',
+          conceptUrlTemplate: '/{conceptType}/{conceptId}',
+          isPlugin: true,
+          collection: mockCollectionWithAssociatedVariables,
           token: null
         }, {})
       })
