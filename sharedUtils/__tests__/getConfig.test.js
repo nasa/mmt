@@ -1,3 +1,4 @@
+
 import { getApplicationConfig, getUmmVersionsConfig } from '../getConfig'
 
 describe('getConfig', () => {
@@ -5,7 +6,7 @@ describe('getConfig', () => {
     test('returns a valid json object for applicationConfig', () => {
       const expectedApplicationConfig = {
         apiHost: 'http://localhost:4001/dev',
-        graphQlHost: 'http://localhost:3013/development/api',
+        graphQlHost: 'http://localhost:3013/api',
         cmrHost: 'http://localhost:4000',
         version: 'development'
       }

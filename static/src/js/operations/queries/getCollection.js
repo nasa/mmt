@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION = gql`
-  query GetCollection ($params: CollectionInput) {
+  query GetCollection ($params: CollectionInput, , $variableParams: VariablesInput) {
     collection (params: $params) {
       abstract
       accessConstraints
@@ -34,35 +34,35 @@ export const GET_COLLECTION = gql`
       publicationReferences
       purpose
       quality
-      relatedCollections (
-        limit: 10
-      ) {
-        count
-        items {
-          id
-          doi
-          title
-          relationships {
-            relationshipType
+      # relatedCollections (
+      #   limit: 10
+      # ) {
+      #   count
+      #   items {
+      #     id
+      #     doi
+      #     title
+      #     relationships {
+      #       relationshipType
 
-            ... on GraphDbRelatedUrl {
-              description
-              subtype
-              type
-              url
-            }
+      #       ... on GraphDbRelatedUrl {
+      #         description
+      #         subtype
+      #         type
+      #         url
+      #       }
 
-            ... on GraphDbProject {
-              name
-            }
+      #       ... on GraphDbProject {
+      #         name
+      #       }
 
-            ... on GraphDbPlatformInstrument {
-              instrument
-              platform
-            }
-          }
-        }
-      }
+      #       ... on GraphDbPlatformInstrument {
+      #         instrument
+      #         platform
+      #       }
+      #     }
+      #   }
+      # }
       relatedUrls
       revisionDate
       revisionId
@@ -119,8 +119,9 @@ export const GET_COLLECTION = gql`
       ummMetadata
       useConstraints
       userId
-      variables {
+      variables(params: $variableParams) {
         count
+        cursor
         items {
           conceptId
           name

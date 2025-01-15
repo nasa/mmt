@@ -5,22 +5,20 @@ import {
   ToolPreview,
   VariablePreview
 } from '@edsc/metadata-preview'
-import PropTypes from 'prop-types'
-
-import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
-
+import { useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
+import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
+
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import '@edsc/metadata-preview/dist/style.min.css'
-
 /**
  * MetadataPreview
  * @typedef {Object} MetadataPreview
@@ -64,9 +62,12 @@ const MetadataPreview = ({
     }
   }
 
+  const variableParams = (conceptType === 'Collection') ? { limit: 1000 } : null
+
   const { data } = useSuspenseQuery(query, {
     variables: {
-      params
+      params,
+      variableParams
     }
   })
 

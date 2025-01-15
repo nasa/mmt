@@ -98,7 +98,8 @@ describe('MetadataPreview', () => {
               params: {
                 conceptId: 'TD000000-MMT',
                 conceptType: 'Tool'
-              }
+              },
+              variableParams: null
             }
           },
           result: {
@@ -175,7 +176,8 @@ describe('MetadataPreview', () => {
               params: {
                 conceptId: 'SD000000-MMT',
                 conceptType: 'Service'
-              }
+              },
+              variableParams: null
             }
           },
           result: {
@@ -247,7 +249,8 @@ describe('MetadataPreview', () => {
               params: {
                 conceptId: 'VD000000-MMT',
                 conceptType: 'Variable'
-              }
+              },
+              variableParams: null
             }
           },
           result: {
@@ -320,7 +323,8 @@ describe('MetadataPreview', () => {
               params: {
                 conceptId: 'CD000000-MMT',
                 conceptType: 'Collection'
-              }
+              },
+              variableParams: { limit: 1000 }
             }
           },
           result: {
@@ -437,7 +441,10 @@ describe('MetadataPreview', () => {
         mock: [{
           request: {
             query: conceptTypeQueries.Collection,
-            variables: { params: { conceptId: 'C1000000-MMT' } }
+            variables: {
+              params: { conceptId: 'C1000000-MMT' },
+              variableParams: { limit: 1000 }
+            }
           },
           result: {
             data: {

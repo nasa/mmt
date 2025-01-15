@@ -1554,7 +1554,8 @@ export const mockCollection = {
   userId: 'admin',
   variables: {
     count: 0,
-    items: null,
+    cursor: '',
+    items: [],
     __typename: 'VariableList'
   },
   versionDescription: null,
