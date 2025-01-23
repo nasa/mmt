@@ -26,28 +26,21 @@ const getLaunchpadToken = (cookieString) => {
  * @param {Object} event Details about the HTTP request that it received
  */
 const samlCallback = async (event) => {
-  console.log('***** in saml callback')
   const { body, headers } = event
   const { Cookie: headerCookie } = headers
   const { mmtHost } = getApplicationConfig()
-  console.log('***** in saml callback mmthost=', mmtHost)
 
   const params = new URLSearchParams(body)
   const path = params.get('RelayState')
-  console.log('***** in saml callback path=', path)
 
   const launchpadToken = getLaunchpadToken(headerCookie)
-  console.log('***** in saml callback token=', launchpadToken)
 
   const edlProfile = await fetchEdlProfile(launchpadToken)
-  console.log('***** in saml callback profile=', edlProfile)
 
   // Create JWT with launchpad token and edl profile
   const jwt = createJwt(launchpadToken, edlProfile)
-  console.log('***** in saml callback jwt=', jwt)
 
   const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(path)}`
-  console.log('***** in saml callback location=', location)
 
   const response = {
     statusCode: 303,
@@ -60,7 +53,6 @@ const samlCallback = async (event) => {
       Location: location
     }
   }
-  console.log('***** in saml callback response=', response)
 
   return response
 }
