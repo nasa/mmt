@@ -46,6 +46,10 @@ const CustomDateTimeWidget = ({
 }) => {
   const [showCalender, setShowCalender] = useState(false)
   const datetimeScrollRef = useRef(null)
+  // Variable to flag method of input: selected or typed.
+  // We can't store as state variable because it gets updated
+  // only after some delay.
+  let dateInputMethod = 'selected'
 
   const { description } = schema
 
@@ -89,12 +93,20 @@ const CustomDateTimeWidget = ({
   }
 
   const handleChange = (newDate) => {
-    // The picket widget has a bug where it is not setting millis to 0 when selecting a time.
-    newDate.setMilliseconds(0)
+    // The picker widget has a bug where it is not setting the ms. to 0 when a user selects a time.
+    // We are working around this bug by setting the ms to 0 only if the user selects/chooses
+    // a time from the widget. If they type in a date/time or paste in a date/time should ,
+    // we should not perform this reset as we should keep whatever ms they user enters.
+    if (!value && dateInputMethod !== 'typed') newDate.setMilliseconds(0)
     const formattedDateTime = fromZonedTime(newDate, 'GMT').toISOString()
     onChange(formattedDateTime)
 
     handleBlur()
+  }
+
+  const handleDateInput = () => {
+    // Saves the input method for handleChange
+    dateInputMethod = 'typed'
   }
 
   return (
@@ -109,16 +121,17 @@ const CustomDateTimeWidget = ({
       <DatePicker
         className="w-100 p-2 form-control"
         disabled={disabled}
-        dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dropdownMode="select"
         id={id}
         locale="en-GB" // Use the UK locale, located in the Greenwich Mean Time (GMT) zone,
         onBlur={handleBlur}
         onChange={handleChange}
+        onChangeRaw={() => handleDateInput()}
         onFocus={handleFocus}
         open={showCalender}
         peekNextMonth
-        placeholderText="YYYY-MM-DDTHH:MM:SSZ"
+        placeholderText="YYYY-MM-DDTHH:MM:SS.SSSZ"
         wrapperClassName="d-block"
         selected={fieldValue}
         showMonthDropdown
