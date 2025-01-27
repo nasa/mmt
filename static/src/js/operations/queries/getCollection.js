@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION = gql`
-  query GetCollection ($params: CollectionInput) {
+  query GetCollection ($params: CollectionInput, , $variableParams: VariablesInput) {
     collection (params: $params) {
       abstract
       accessConstraints
@@ -119,8 +119,9 @@ export const GET_COLLECTION = gql`
       ummMetadata
       useConstraints
       userId
-      variables {
+      variables(params: $variableParams) {
         count
+        cursor
         items {
           conceptId
           name
