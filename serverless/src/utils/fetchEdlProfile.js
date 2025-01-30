@@ -16,10 +16,8 @@ const fetchEdlProfile = async (launchpadToken) => {
   }
 
   const { host } = getEdlConfig()
-  console.log('***** in saml callback edl host=', host)
 
   const clientToken = await fetchEdlClientToken()
-  console.log('***** in saml callback clientToken=', clientToken)
 
   return fetch(`${host}/api/nams/edl_user`, {
     body: `token=${launchpadToken}`,
@@ -31,7 +29,6 @@ const fetchEdlProfile = async (launchpadToken) => {
   })
     .then((response) => response.json())
     .then((profile) => {
-      console.log('***** in saml callback profile', profile)
       const {
         first_name: firstName,
         last_name: lastName

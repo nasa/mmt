@@ -96,7 +96,7 @@ describe('fetchEdlProfile', () => {
           expect(error.message).toEqual('Error calling EDL')
         })
 
-      expect(consoleMock).toHaveBeenCalledTimes(3)
+      expect(consoleMock).toHaveBeenCalledTimes(1)
       expect(consoleMock).toHaveBeenCalledWith('fetchEdlProfile Error: ', new Error('Error calling EDL'))
 
       expect(token).toEqual(undefined)
