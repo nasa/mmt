@@ -9,6 +9,7 @@ export const GET_COLLECTION = gql`
       ancillaryKeywords
       archiveAndDistributionInformation
       associatedDois
+      associationDetails
       collectionCitations
       collectionProgress
       conceptId
