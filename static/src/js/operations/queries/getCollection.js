@@ -8,6 +8,7 @@ export const GET_COLLECTION = gql`
       additionalAttributes
       ancillaryKeywords
       archiveAndDistributionInformation
+      associationDetails
       associatedDois
       collectionCitations
       collectionProgress

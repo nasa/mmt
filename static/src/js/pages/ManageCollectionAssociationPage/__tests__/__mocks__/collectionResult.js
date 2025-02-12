@@ -17,6 +17,7 @@ export const collectionResult = {
         additionalAttributes: null,
         ancillaryKeywords: null,
         archiveAndDistributionInformation: null,
+        associationDetails: null,
         associatedDois: null,
         collectionCitations: null,
         collectionProgress: null,
