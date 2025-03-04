@@ -5,6 +5,7 @@ ruby "3.0.7"
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
 gem 'rails', '~> 6.1.7', '>= 6.1.7.7'
+gem 'rake'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
 

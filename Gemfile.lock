@@ -487,6 +487,7 @@ DEPENDENCIES
   rack_session_access
   rails (~> 6.1.7, >= 6.1.7.7)
   rails-controller-testing
+  rake
   react-rails (= 2.6)
   rspec-rails
   rspec_junit_formatter
