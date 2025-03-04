@@ -78,7 +78,8 @@ gem 'browser'
 
 gem 'actionpack', '~> 6.1.7', '>= 6.1.7.10'
 
-gem 'pg', '<1.3'
+gem 'pg', '1.5.9'
+#gem 'pg', '<1.3'
 
 gem 'dotenv-rails'
 
