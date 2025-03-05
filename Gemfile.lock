@@ -130,7 +130,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.3.5)
+    concurrent-ruby (1.3.4)
     connection_pool (2.5.0)
     crass (1.0.6)
     date (3.4.1)
@@ -462,6 +462,7 @@ DEPENDENCIES
   capybara-screenshot
   carmen (~> 1.0.2)
   coffee-rails
+  concurrent-ruby (= 1.3.4)
   dotenv-rails
   erb
   factory_bot_rails

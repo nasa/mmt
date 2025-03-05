@@ -128,3 +128,4 @@ gem "shakapacker", "= 6.5"
 gem "react-rails", "= 2.6"
 gem 'erb'
 gem 'nokogiri', '~> 1.15.5'
+gem 'concurrent-ruby', '1.3.4'
