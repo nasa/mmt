@@ -372,7 +372,7 @@ const ummVarSchema = {
           items: {
             type: 'string',
             minLength: 1,
-            maxLength: 60
+            maxLength: 1024
           },
           minItems: 0
         },
