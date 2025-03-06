@@ -372,9 +372,9 @@ const ummVarSchema = {
           items: {
             type: 'string',
             minLength: 1,
-            maxLength: 60
+            maxLength: 1024
           },
-          minItems: 0
+          minItems: 1
         },
         CodeSystemIdentifierValue: {
           description: 'The code system identifier value is the textual or numerical value assigned to each meaning.',
