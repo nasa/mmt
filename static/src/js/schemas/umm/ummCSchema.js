@@ -1490,7 +1490,7 @@ const ummCSchema = {
       oneOf: [
         {
           type: 'object',
-          title: 'Contant or Varies Resolution',
+          title: 'Constant or Varies Resolution',
           additionalProperties: false,
           description: 'Describes the amount of time between measurements.',
           properties: {
@@ -1815,6 +1815,7 @@ const ummCSchema = {
         'application/x-vnd.iso.19139-2+xml',
         'text/html',
         'text/plain',
+        'application/geo+json',
         'Not provided'
       ]
     },
@@ -3435,7 +3436,7 @@ const ummCSchema = {
               $ref: '#/definitions/ArchiveDistributionFormatDescriptionType'
             },
             Media: {
-              description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include: CD-ROM, 9 track tape, diskettes, hard drives, online, transparencies, hardcopy, etc.',
+              description: 'This element defines the media by which the end user can obtain the distributable item. Each media type is listed separately. Examples of media include HTTPS, Earthdata Cloud, etc.',
               type: 'array',
               items: {
                 $ref: '#/definitions/DistributionMediaType'
@@ -3827,7 +3828,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            '1.18.2'
+            '1.18.3'
           ]
         }
       },
