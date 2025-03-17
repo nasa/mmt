@@ -930,7 +930,7 @@ const ummCSchema = {
       description: "Provides a DOI of the previous version of this collection. This allows users to find historical data for this collection. Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. For those that want to specify that a DOI is not applicable or unknown for their record, use the second option.",
       properties: {
         Version: {
-          description: "This element stores the DOI (Digital Object Identifier) that identifies the prevoius version of this collection.  Note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL.",
+          description: 'The version number if one exists.',
           $ref: '#/definitions/VersionType'
         },
         Description: {
@@ -3301,7 +3301,7 @@ const ummCSchema = {
       maxLength: 80
     },
     FileArchiveInformationType: {
-      description: 'This element defines a single archive artifact which a data provider would like to inform an end user that it exists.',
+      description: 'This element defines a single artifact that is distributed by the data provider. This element only includes the distributable artifacts that can be obtained by the user without the user having to invoke a service. These should be documented in the UMM-S specification',
       anyOf: [
         {
           type: 'object',
