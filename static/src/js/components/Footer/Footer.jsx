@@ -35,7 +35,7 @@ const Footer = () => {
               each={
                 [
                   {
-                    title: 'NASA Official: Stephen Berrick'
+                    title: 'NASA Official: Doug Newman'
                   },
                   {
                     title: 'FOIA',
