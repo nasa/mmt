@@ -78,7 +78,7 @@ const AboutModal = ({
             </p>
             <hr />
             <div className="d-flex flex-column align-items-center justify-content-center py-2">
-              <p className="small text-secondary mb-2">NASA Official: Stephen Berrick</p>
+              <p className="small text-secondary mb-2">NASA Official: Doug Newman</p>
               <ul className="list-unstyled d-flex justify-content-center mb-0">
                 <For each={
                   [

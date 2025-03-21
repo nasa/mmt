@@ -15,17 +15,17 @@ describe('Footer component', () => {
     test('renders the item as a span', () => {
       render(<Footer />)
 
-      expect(screen.getByText('NASA Official: Stephen Berrick').tagName).toBe('SPAN')
-      expect(screen.getByText('NASA Official: Stephen Berrick').href).toBe(undefined)
+      expect(screen.getByText('NASA Official: Doug Newman').tagName).toBe('SPAN')
+      expect(screen.getByText('NASA Official: Doug Newman').href).toBe(undefined)
     })
   })
 
   test('displays the NASA Official as text', async () => {
     render(<Footer />)
 
-    expect(screen.getByText('NASA Official: Stephen Berrick')).toBeInTheDocument()
-    expect(screen.getByText('NASA Official: Stephen Berrick').tagName).toBe('SPAN')
-    expect(screen.getByText('NASA Official: Stephen Berrick').href).toBe(undefined)
+    expect(screen.getByText('NASA Official: Doug Newman')).toBeInTheDocument()
+    expect(screen.getByText('NASA Official: Doug Newman').tagName).toBe('SPAN')
+    expect(screen.getByText('NASA Official: Doug Newman').href).toBe(undefined)
   })
 
   test('displays the FOIA link', async () => {
