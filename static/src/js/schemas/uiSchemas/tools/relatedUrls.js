@@ -1,5 +1,3 @@
-import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
-
 const relatedUrlsUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
@@ -104,20 +102,6 @@ const relatedUrlsUiSchema = {
       Description: {
         'ui:title': 'Description',
         'ui:widget': 'textarea'
-      },
-      Format: {
-        'ui:widget': CustomSelectWidget,
-        'ui:controlled': {
-          name: 'granule-data-format',
-          controlName: 'short_name'
-        }
-      },
-      MimeType: {
-        'ui:widget': CustomSelectWidget,
-        'ui:controlled': {
-          name: 'mime-type',
-          controlName: 'mime_type'
-        }
       }
     }
   }
