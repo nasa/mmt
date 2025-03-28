@@ -544,12 +544,9 @@ const dataContactsUiSchema = {
                   controlName: 'short_name'
                 }
               },
+              // For RelatedURLS >> GetService >> MimeType ONLY, we use URLMimeTypeEnum
               MimeType: {
-                'ui:widget': CustomSelectWidget,
-                'ui:controlled': {
-                  name: 'mime-type',
-                  controlName: 'mime_type'
-                }
+                'ui:widget': CustomSelectWidget
               }
             }
           }
@@ -1068,7 +1065,11 @@ const dataContactsUiSchema = {
                 ]
               },
               Format: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
               },
               MimeType: {
                 'ui:widget': CustomSelectWidget
