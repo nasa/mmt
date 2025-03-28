@@ -1065,7 +1065,11 @@ const dataContactsUiSchema = {
                 ]
               },
               Format: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
               },
               MimeType: {
                 'ui:widget': CustomSelectWidget
