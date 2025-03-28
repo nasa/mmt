@@ -293,6 +293,7 @@ const relatedUrlsUiSchema = {
             controlName: 'short_name'
           }
         },
+        // For RelatedURLS >> GetService >> MimeType ONLY, we use URLMimeTypeEnum
         MimeType: {
           'ui:widget': CustomSelectWidget
         }
