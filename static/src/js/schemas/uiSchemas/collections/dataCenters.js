@@ -558,11 +558,7 @@ const dataCentersUiSchema = {
                 }
               },
               MimeType: {
-                'ui:widget': CustomSelectWidget,
-                'ui:controlled': {
-                  name: 'mime-type',
-                  controlName: 'mime_type'
-                }
+                'ui:widget': CustomSelectWidget
               },
               URI: {
                 items: {
@@ -1073,11 +1069,7 @@ const dataCentersUiSchema = {
                     }
                   },
                   MimeType: {
-                    'ui:widget': CustomSelectWidget,
-                    'ui:controlled': {
-                      name: 'mime-type',
-                      controlName: 'mime_type'
-                    }
+                    'ui:widget': CustomSelectWidget
                   },
                   URI: {
                     items: {
@@ -1608,11 +1600,7 @@ const dataCentersUiSchema = {
                     }
                   },
                   MimeType: {
-                    'ui:widget': CustomSelectWidget,
-                    'ui:controlled': {
-                      name: 'mime-type',
-                      controlName: 'mime_type'
-                    }
+                    'ui:widget': CustomSelectWidget
                   },
                   URI: {
                     items: {

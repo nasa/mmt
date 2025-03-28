@@ -294,11 +294,7 @@ const relatedUrlsUiSchema = {
           }
         },
         MimeType: {
-          'ui:widget': CustomSelectWidget,
-          'ui:controlled': {
-            name: 'mime-type',
-            controlName: 'mime_type'
-          }
+          'ui:widget': CustomSelectWidget
         }
       }
     }
