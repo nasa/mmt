@@ -1,3 +1,4 @@
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '../../../components/CustomTextareaWidget/CustomTextareaWidget'
 
 const collectionCitationUiSchema = {
@@ -244,6 +245,13 @@ const collectionCitationUiSchema = {
         },
         Description: {
           'ui:widget': CustomTextareaWidget
+        },
+        MimeType: {
+          'ui:widget': CustomSelectWidget,
+          'ui:controlled': {
+            name: 'mime-type',
+            controlName: 'mime_type'
+          }
         }
       }
     }

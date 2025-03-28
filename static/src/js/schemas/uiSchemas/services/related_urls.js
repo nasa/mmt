@@ -1,3 +1,5 @@
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
+
 const relatedUrlsUiSchema = {
   'ui:submitButtonOptions': {
     norender: true
@@ -104,6 +106,20 @@ const relatedUrlsUiSchema = {
       },
       URLContentType: {
         'ui:title': 'URL Content Type'
+      },
+      Format: {
+        'ui:widget': CustomSelectWidget,
+        'ui:controlled': {
+          name: 'granule-data-format',
+          controlName: 'short_name'
+        }
+      },
+      MimeType: {
+        'ui:widget': CustomSelectWidget,
+        'ui:controlled': {
+          name: 'mime-type',
+          controlName: 'mime_type'
+        }
       }
     }
   }

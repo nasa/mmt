@@ -441,6 +441,20 @@ const dataContactsUiSchema = {
                     }
                   }
                 ]
+              },
+              Format: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
+              },
+              MimeType: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'mime-type',
+                  controlName: 'mime_type'
+                }
               }
             },
             GetService: {
@@ -524,10 +538,18 @@ const dataContactsUiSchema = {
                 ]
               },
               Format: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
               },
               MimeType: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'mime-type',
+                  controlName: 'mime_type'
+                }
               }
             }
           }
@@ -949,6 +971,20 @@ const dataContactsUiSchema = {
                     }
                   }
                 ]
+              },
+              Format: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
+              },
+              MimeType: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'mime-type',
+                  controlName: 'mime_type'
+                }
               }
             },
             GetService: {

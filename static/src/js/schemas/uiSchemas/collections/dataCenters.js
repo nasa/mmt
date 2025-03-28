@@ -455,6 +455,20 @@ const dataCentersUiSchema = {
                     }
                   }
                 ]
+              },
+              Format: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
+              },
+              MimeType: {
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'mime-type',
+                  controlName: 'mime_type'
+                }
               }
             },
             GetService: {
@@ -537,10 +551,18 @@ const dataCentersUiSchema = {
                 ]
               },
               Format: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'granule-data-format',
+                  controlName: 'short_name'
+                }
               },
               MimeType: {
-                'ui:widget': CustomSelectWidget
+                'ui:widget': CustomSelectWidget,
+                'ui:controlled': {
+                  name: 'mime-type',
+                  controlName: 'mime_type'
+                }
               },
               URI: {
                 items: {
@@ -947,6 +969,20 @@ const dataCentersUiSchema = {
                         }
                       }
                     ]
+                  },
+                  Format: {
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'granule-data-format',
+                      controlName: 'short_name'
+                    }
+                  },
+                  MimeType: {
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'mime-type',
+                      controlName: 'mime_type'
+                    }
                   }
                 },
                 GetService: {
@@ -1030,10 +1066,18 @@ const dataCentersUiSchema = {
                     ]
                   },
                   Format: {
-                    'ui:widget': CustomSelectWidget
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'granule-data-format',
+                      controlName: 'short_name'
+                    }
                   },
                   MimeType: {
-                    'ui:widget': CustomSelectWidget
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'mime-type',
+                      controlName: 'mime_type'
+                    }
                   },
                   URI: {
                     items: {
@@ -1460,6 +1504,20 @@ const dataCentersUiSchema = {
                         }
                       }
                     ]
+                  },
+                  Format: {
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'granule-data-format',
+                      controlName: 'short_name'
+                    }
+                  },
+                  MimeType: {
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'mime-type',
+                      controlName: 'mime_type'
+                    }
                   }
                 },
                 GetService: {
@@ -1543,10 +1601,18 @@ const dataCentersUiSchema = {
                     ]
                   },
                   Format: {
-                    'ui:widget': CustomSelectWidget
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'granule-data-format',
+                      controlName: 'short_name'
+                    }
                   },
                   MimeType: {
-                    'ui:widget': CustomSelectWidget
+                    'ui:widget': CustomSelectWidget,
+                    'ui:controlled': {
+                      name: 'mime-type',
+                      controlName: 'mime_type'
+                    }
                   },
                   URI: {
                     items: {

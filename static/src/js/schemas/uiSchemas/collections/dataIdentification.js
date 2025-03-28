@@ -419,6 +419,13 @@ const dataIdentificationUiSchema = {
       },
       Description: {
         'ui:widget': CustomTextareaWidget
+      },
+      MimeType: {
+        'ui:widget': CustomSelectWidget,
+        'ui:controlled': {
+          name: 'mime-type',
+          controlName: 'mime_type'
+        }
       }
     },
     LicenseText: {
@@ -764,6 +771,13 @@ const dataIdentificationUiSchema = {
         },
         Description: {
           'ui:widget': CustomTextareaWidget
+        },
+        MimeType: {
+          'ui:widget': CustomSelectWidget,
+          'ui:controlled': {
+            name: 'mime-type',
+            controlName: 'mime_type'
+          }
         }
       }
     }

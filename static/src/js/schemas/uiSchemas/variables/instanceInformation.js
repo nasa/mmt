@@ -1,4 +1,5 @@
 import CustomTextWidget from '../../../components/CustomTextWidget/CustomTextWidget'
+import CustomSelectWidget from '../../../components/CustomSelectWidget/CustomSelectWidget'
 
 const instanceInformationUiSchema = {
   'ui:field': 'layout',
@@ -70,6 +71,13 @@ const instanceInformationUiSchema = {
           }
         }
       ]
+    },
+    Format: {
+      'ui:widget': CustomSelectWidget,
+      'ui:controlled': {
+        name: 'granule-data-format',
+        controlName: 'short_name'
+      }
     },
     Description: {
       'ui:widget': 'textarea'
