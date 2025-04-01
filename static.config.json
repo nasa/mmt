@@ -3,7 +3,7 @@
     "apiHost": "http://localhost:4001/dev",
     "cmrHost": "http://localhost:4000",
     "env": "development",
-    "gkrHost": "https://gkr.sit.earthdatacloud.nasa.gov",
+    "gkrHost": "https://gkr.earthdatacloud.nasa.gov",
     "graphQlHost": "http://localhost:3013/api",
     "mmtHost": "http://localhost:5173",
     "edscHost": "https://search.sit.earthdata.nasa.gov",
