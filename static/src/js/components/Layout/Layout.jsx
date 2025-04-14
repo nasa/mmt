@@ -51,8 +51,9 @@ const Layout = ({ className, displayNav }) => {
 
   const { user } = useAuthContext()
 
-  const { hasSystemGroup, loading } = usePermissions({
-    systemGroup: ['read']
+  const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
+    systemGroup: ['read'],
+    systemKeywords: ['read']
   })
 
   const [showAboutModal, setShowAboutModal] = useState(false)
@@ -60,6 +61,7 @@ const Layout = ({ className, displayNav }) => {
   if (loading) return null
 
   const canViewGroups = hasSystemGroup
+  const canViewKeywords = hasSystemKeywords
   const canViewAdmin = canViewGroups // || canView* other permission if needed
 
   return (
@@ -215,6 +217,11 @@ const Layout = ({ className, displayNav }) => {
                                     to: '/admin/groups',
                                     title: 'System Groups',
                                     visible: canViewGroups
+                                  },
+                                  {
+                                    to: '/admin/keywordmanager',
+                                    title: 'Keyword Manager',
+                                    visible: canViewKeywords
                                   }
                                 ]
                               }
