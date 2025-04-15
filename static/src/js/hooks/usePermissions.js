@@ -26,8 +26,8 @@ const usePermissions = ({
         userId: uid
       },
       keywordsPermissionParams: {
-        // Change to 'GROUP' for testing, Change to correct string when CMR-10452 is complete
-        systemObject: 'KEYWORDS',
+        // Change to correct systemObject CMR-10452 is complete
+        systemObject: 'INGEST_MANAGEMENT_ACL',
         userId: uid
       }
     }
@@ -54,9 +54,9 @@ const usePermissions = ({
   const { items: keywordItems } = keywordsPermissionsResult
 
   const groupPermissionsObject = groupItems.find((groupItem) => groupItem.systemObject === 'GROUP')
-  const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORDS' || keywordItem.systemObject === 'GROUP')
+  const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'INGEST_MANAGEMENT_ACL' || keywordItem.systemObject === 'GROUP')
   // Remove the line above and comment in the line below and change to correct string when CMR-10452 is done
-  // const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORDS')
+  // const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'INGEST_MANAGEMENT_ACL')
 
   const { permissions: groupPermissions } = groupPermissionsObject || {}
   const { permissions: keywordsPermissions } = keywordsPermissionsObject || {}
