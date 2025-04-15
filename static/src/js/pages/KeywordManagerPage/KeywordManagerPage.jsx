@@ -5,8 +5,9 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
-// Placeholder component for the keyword management tree
+// Placeholder component for the keyword management tree. To be made into it's own file.
 const KeywordManagementTree = () => (
   <div>Keyword Management Tree to be inserted here</div>
 )
@@ -37,17 +38,25 @@ const KeywordManagerPageHeader = () => (
   />
 )
 
-const KeywordManagerPage = () => (
-  <Page
-    pageType="secondary"
-    header={<KeywordManagerPageHeader />}
-  >
-    <ErrorBoundary>
-      <Suspense fallback={<LoadingTable />}>
-        <KeywordManagementTree />
-      </Suspense>
-    </ErrorBoundary>
-  </Page>
-)
+const KeywordManagerPage = () => {
+  const { showKeywordManager } = getApplicationConfig()
+
+  if (showKeywordManager === 'false') {
+    return null
+  }
+
+  return (
+    <Page
+      pageType="secondary"
+      header={<KeywordManagerPageHeader />}
+    >
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingTable />}>
+          <KeywordManagementTree />
+        </Suspense>
+      </ErrorBoundary>
+    </Page>
+  )
+}
 
 export default KeywordManagerPage

@@ -26,7 +26,7 @@ const usePermissions = ({
         userId: uid
       },
       keywordsPermissionParams: {
-        // Change to 'GROUP' for testing
+        // Change to 'GROUP' for testing, Change to correct string when CMR-10452 is complete
         systemObject: 'KEYWORDS',
         userId: uid
       }
@@ -55,7 +55,7 @@ const usePermissions = ({
 
   const groupPermissionsObject = groupItems.find((groupItem) => groupItem.systemObject === 'GROUP')
   const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORDS' || keywordItem.systemObject === 'GROUP')
-  // Remove the line above and comment in the line below when CMR-10452 is done
+  // Remove the line above and comment in the line below and change to correct string when CMR-10452 is done
   // const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORDS')
 
   const { permissions: groupPermissions } = groupPermissionsObject || {}
