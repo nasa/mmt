@@ -73,7 +73,10 @@ const setup = (loggedIn) => {
 
 describe('Layout component', () => {
   test('renders the content to the React Router Outlet', async () => {
-    usePermissions.mockReturnValue({ hasSystemGroup: true })
+    usePermissions.mockReturnValue({
+      hasSystemGroup: true,
+      hasSystemKeywords: true
+    })
 
     setup()
 
@@ -81,7 +84,8 @@ describe('Layout component', () => {
 
     expect(usePermissions).toHaveBeenCalledTimes(1)
     expect(usePermissions).toHaveBeenCalledWith({
-      systemGroup: ['read']
+      systemGroup: ['read'],
+      systemKeywords: ['read']
     })
 
     expect(PrimaryNavigation).toHaveBeenCalledTimes(1)
@@ -180,6 +184,11 @@ describe('Layout component', () => {
                 to: '/admin/groups',
                 title: 'System Groups',
                 visible: true
+              },
+              {
+                to: '/admin/keywordmanager',
+                title: 'Keyword Manager',
+                visible: true
               }
             ]
           }
@@ -188,9 +197,12 @@ describe('Layout component', () => {
     }, {})
   })
 
-  describe('when the user does not have system group permissions', () => {
+  describe('when the user does not have system group or system keywords permissions', () => {
     test('does not render the admin links', async () => {
-      usePermissions.mockReturnValue({ hasSystemGroup: false })
+      usePermissions.mockReturnValue({
+        hasSystemGroup: false,
+        hasSystemKeywords: false
+      })
 
       setup()
 
@@ -291,6 +303,11 @@ describe('Layout component', () => {
                 {
                   to: '/admin/groups',
                   title: 'System Groups',
+                  visible: false
+                },
+                {
+                  to: '/admin/keywordmanager',
+                  title: 'Keyword Manager',
                   visible: false
                 }
               ]

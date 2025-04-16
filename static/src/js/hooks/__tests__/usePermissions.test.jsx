@@ -9,8 +9,9 @@ import AuthContext from '@/js/context/AuthContext'
 import usePermissions from '../usePermissions'
 
 const TestComponent = () => {
-  const { hasSystemGroup, loading } = usePermissions({
-    systemGroup: ['read']
+  const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
+    systemGroup: ['read'],
+    systemKeywords: ['read']
   })
 
   return (
@@ -34,13 +35,23 @@ const TestComponent = () => {
           </span>
         )
       }
+      {
+        hasSystemKeywords && (
+          <span>hasSystemKeywords is true</span>
+        )
+      }
+      {
+        !hasSystemKeywords && (
+          <span>hasSystemKeywords is false</span>
+        )
+      }
     </div>
   )
 }
 
 const setup = ({
   overrideMocks,
-  user = { uid: 'mock-user' }
+  overrideMockAuthContext
 }) => {
   const mocks = [
     {
@@ -49,6 +60,10 @@ const setup = ({
         variables: {
           groupPermissionParams: {
             systemObject: 'GROUP',
+            userId: 'mock-user'
+          },
+          keywordsPermissionParams: {
+            systemObject: 'INGEST_MANAGEMENT_ACL',
             userId: 'mock-user'
           }
         }
@@ -68,19 +83,32 @@ const setup = ({
               }
             ],
             __typename: 'PermissionList'
+          },
+          keywordsPermissions: {
+            count: 1,
+            items: [
+              {
+                systemObject: 'INGEST_MANAGEMENT_ACL',
+                permissions: [
+                  'read',
+                  'create'
+                ],
+                __typename: 'Permission'
+              }
+            ],
+            __typename: 'PermissionList'
           }
         }
       }
     }
   ]
 
+  const mockAuthContext = {
+    user: { uid: 'mock-user' }
+  }
+
   render(
-    <AuthContext.Provider value={
-      {
-        user
-      }
-    }
-    >
+    <AuthContext.Provider value={overrideMockAuthContext || mockAuthContext}>
       <MockedProvider
         mocks={overrideMocks || mocks}
       >
@@ -114,6 +142,10 @@ describe('usePermissions', () => {
                   groupPermissionParams: {
                     systemObject: 'GROUP',
                     userId: 'mock-user'
+                  },
+                  keywordsPermissionParams: {
+                    systemObject: 'INGEST_MANAGEMENT_ACL',
+                    userId: 'mock-user'
                   }
                 }
               },
@@ -124,6 +156,17 @@ describe('usePermissions', () => {
                     items: [
                       {
                         systemObject: 'GROUP',
+                        permissions: [],
+                        __typename: 'Permission'
+                      }
+                    ],
+                    __typename: 'PermissionList'
+                  },
+                  keywordsPermissions: {
+                    count: 1,
+                    items: [
+                      {
+                        systemObject: 'INGEST_MANAGEMENT_ACL',
                         permissions: [],
                         __typename: 'Permission'
                       }
@@ -144,15 +187,177 @@ describe('usePermissions', () => {
     })
   })
 
+  describe('systemKeywords', () => {
+    describe('when the user has the given keyword permission', () => {
+      test('returns true', async () => {
+        setup({})
+
+        expect(screen.getByText('Loading')).toBeInTheDocument()
+
+        expect(await screen.findByText('hasSystemKeywords is true')).toBeInTheDocument()
+        expect(screen.queryByText('hasSystemKeywords is false')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the user does not have the given keyword permission', () => {
+      test('returns false', async () => {
+        setup({
+          overrideMocks: [
+            {
+              request: {
+                query: GET_PERMISSIONS,
+                variables: {
+                  groupPermissionParams: {
+                    systemObject: 'GROUP',
+                    userId: 'mock-user'
+                  },
+                  keywordsPermissionParams: {
+                    systemObject: 'INGEST_MANAGEMENT_ACL',
+                    userId: 'mock-user'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  groupPermissions: {
+                    count: 1,
+                    items: [
+                      {
+                        systemObject: 'GROUP',
+                        permissions: ['read'],
+                        __typename: 'Permission'
+                      }
+                    ],
+                    __typename: 'PermissionList'
+                  },
+                  keywordsPermissions: {
+                    count: 1,
+                    items: [
+                      {
+                        systemObject: 'INGEST_MANAGEMENT_ACL',
+                        permissions: [],
+                        __typename: 'Permission'
+                      }
+                    ],
+                    __typename: 'PermissionList'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        expect(screen.getByText('Loading')).toBeInTheDocument()
+
+        expect(await screen.findByText('hasSystemKeywords is false')).toBeInTheDocument()
+        expect(screen.queryByText('hasSystemKeywords is true')).not.toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when both systemGroup and systemKeywords are provided', () => {
+    test('returns correct values for both', async () => {
+      setup({
+        overrideMocks: [
+          {
+            request: {
+              query: GET_PERMISSIONS,
+              variables: {
+                groupPermissionParams: {
+                  systemObject: 'GROUP',
+                  userId: 'mock-user'
+                },
+                keywordsPermissionParams: {
+                  systemObject: 'INGEST_MANAGEMENT_ACL',
+                  userId: 'mock-user'
+                }
+              }
+            },
+            result: {
+              data: {
+                groupPermissions: {
+                  count: 1,
+                  items: [
+                    {
+                      systemObject: 'GROUP',
+                      permissions: ['read'],
+                      __typename: 'Permission'
+                    }
+                  ],
+                  __typename: 'PermissionList'
+                },
+                keywordsPermissions: {
+                  count: 1,
+                  items: [
+                    {
+                      systemObject: 'INGEST_MANAGEMENT_ACL',
+                      permissions: ['read'],
+                      __typename: 'Permission'
+                    }
+                  ],
+                  __typename: 'PermissionList'
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      expect(screen.getByText('Loading')).toBeInTheDocument()
+
+      expect(await screen.findByText('hasSystemGroup is true')).toBeInTheDocument()
+      expect(screen.queryByText('hasSystemGroup is false')).not.toBeInTheDocument()
+      expect(await screen.findByText('hasSystemKeywords is true')).toBeInTheDocument()
+      expect(screen.queryByText('hasSystemKeywords is false')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when the data is loading', () => {
+    test('returns loading true', async () => {
+      setup({
+        overrideMocks: [
+          {
+            request: {
+              query: GET_PERMISSIONS,
+              variables: {
+                groupPermissionParams: {
+                  systemObject: 'GROUP',
+                  userId: 'mock-user'
+                },
+                keywordsPermissionParams: {
+                  systemObject: 'INGEST_MANAGEMENT_ACL',
+                  userId: 'mock-user'
+                }
+              }
+            },
+            result: {
+              data: {
+                groupPermissions: null,
+                keywordsPermissions: null
+              }
+            }
+          }
+        ]
+      })
+
+      expect(screen.getByText('Loading')).toBeInTheDocument()
+    })
+  })
+
   describe('when the user is not logged in', () => {
     test('loading is set to false and the items are displayed', async () => {
       setup({
         overrideMocks: [],
-        user: {}
+        overrideMockAuthContext: { user: undefined }
       })
 
+      expect(screen.queryByText('Loading')).not.toBeInTheDocument()
+
       expect(await screen.findByText('hasSystemGroup is false')).toBeInTheDocument()
+      expect(await screen.findByText('hasSystemKeywords is false')).toBeInTheDocument()
+
       expect(screen.queryByText('hasSystemGroup is true')).not.toBeInTheDocument()
+      expect(screen.queryByText('hasSystemKeywords is true')).not.toBeInTheDocument()
     })
   })
 })

@@ -3,8 +3,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["static/src/*"],
-      "sharedConstants/*": ["sharedConstants/*"]
+      "sharedConstants/*": ["sharedConstants/*"],
+      "sharedUtils/*": ["sharedUtils/*"]
     }
   },
-  "include": ["static/src/**/*", "sharedConstants/*"]
+  "include": ["static/src/**/*", "sharedConstants/*", "sharedUtils/*"]
 }

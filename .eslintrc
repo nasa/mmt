@@ -28,7 +28,8 @@
       "alias": {
         "map": [
           [ "@", "./static/src" ],
-          [ "sharedConstants", "./sharedConstants"]
+          [ "sharedConstants", "./sharedConstants"],
+          [ "sharedUtils", "./sharedUtils"]
         ],
         "extensions": [
           ".js",
