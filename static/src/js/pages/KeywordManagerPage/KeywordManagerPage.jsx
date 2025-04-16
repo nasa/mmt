@@ -49,7 +49,7 @@ const KeywordManagerPage = () => {
 
   const onVersionSelect = (versionInfo) => {
     setSelectedVersion(versionInfo)
-    console.log('Selected version:', versionInfo)
+    console.log('Selected version:', selectedVersion)
     // Todo: add more logic here to handle the selected version
   }
 
@@ -60,7 +60,20 @@ const KeywordManagerPage = () => {
     >
       <ErrorBoundary>
         <Suspense fallback={<LoadingTable />}>
-          <KmsConceptVersionSelector onVersionSelect={onVersionSelect} />
+          <div>
+            <div style={
+              {
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '20px'
+              }
+            }
+            >
+              <label htmlFor="version-selector" style={{ marginRight: '10px' }}>Version:</label>
+              <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+            </div>
+            {selectedVersion && <KeywordManagementTree />}
+          </div>
           <KeywordManagementTree />
         </Suspense>
       </ErrorBoundary>
