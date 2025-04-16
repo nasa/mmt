@@ -69,6 +69,7 @@
     "vite": "^4.5.0",
     "vite-plugin-ejs": "^1.6.4",
     "vite-plugin-node-polyfills": "^0.21.0",
+    "xml2js": "^0.6.2",
     "xpath": "^0.0.34"
   },
   "devDependencies": {
@@ -97,6 +98,7 @@
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
     "jsdom": "^22.1.0",
+    "react-select-event": "^5.5.1",
     "start-server-and-test": "^2.0.2",
     "stylelint": "^15.10.3",
     "stylelint-config-idiomatic-order": "^9.0.0",
