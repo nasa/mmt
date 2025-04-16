@@ -5,8 +5,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import getKmsConceptVersions from '../../utils/getKmsConceptVersions'
 
-import './KmsConceptVersionSelector.scss'
-
 const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   const [versions, setVersions] = useState([])
   const [selectedVersion, setSelectedVersion] = useState(null)
@@ -80,14 +78,13 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   return (
     <Row className="mb-4">
       <Col>
-        <div className="border rounded p-3">
+        <div className="rounded p-3">
           <Select
             isLoading={loading}
             options={versions}
             value={selectedVersion}
             onChange={handleChange}
             placeholder="Loading versions..."
-            className="version-selector__select"
           />
         </div>
       </Col>

@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 // Placeholder component for the keyword management tree. To be made into it's own file.
@@ -40,9 +41,16 @@ const KeywordManagerPageHeader = () => (
 
 const KeywordManagerPage = () => {
   const { showKeywordManager } = getApplicationConfig()
+  const [selectedVersion, setSelectedVersion] = useState(null)
 
   if (showKeywordManager === 'false') {
     return null
+  }
+
+  const onVersionSelect = (versionInfo) => {
+    setSelectedVersion(versionInfo)
+    console.log('Selected version:', versionInfo)
+    // Todo: add more logic here to handle the selected version
   }
 
   return (
@@ -52,6 +60,7 @@ const KeywordManagerPage = () => {
     >
       <ErrorBoundary>
         <Suspense fallback={<LoadingTable />}>
+          <KmsConceptVersionSelector onVersionSelect={onVersionSelect} />
           <KeywordManagementTree />
         </Suspense>
       </ErrorBoundary>

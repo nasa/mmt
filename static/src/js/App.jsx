@@ -43,7 +43,6 @@ import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
-import MyTestPage from './pages/MyTestPage/MyTestPage'
 
 /**
  * Renders the `App` component
@@ -68,10 +67,6 @@ export const App = () => {
         {
           path: '/',
           element: <HomePage />
-        },
-        {
-          path: '/test',
-          element: <MyTestPage />
         }
       ]
     },
