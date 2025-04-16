@@ -9,6 +9,7 @@ import GroupFormPage from '@/js/pages/GroupFormPage/GroupFormPage'
 import GroupListPage from '@/js/pages/GroupListPage/GroupListPage'
 import GroupPage from '@/js/pages/GroupPage/GroupPage'
 import HomePage from '@/js/pages/HomePage/HomePage'
+import KeywordManagerPage from '@/js/pages/KeywordManagerPage/KeywordManagerPage'
 import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
 import ManageCollectionAssociationPage from '@/js/pages/ManageCollectionAssociationPage/ManageCollectionAssociationPage'
 import ManageServiceAssociationsPage from '@/js/pages/ManageServiceAssociationsPage/ManageServiceAssociationsPage'
@@ -17,6 +18,7 @@ import OrderOptionFormPage from '@/js/pages/OrderOptionFormPage/OrderOptionFormP
 import OrderOptionListPage from '@/js/pages/OrderOptionListPage/OrderOptionListPage'
 import OrderOptionPage from '@/js/pages/OrderOptionPage/OrderOptionPage'
 import PermissionListPage from '@/js/pages/PermissionListPage/PermissionListPage'
+import PermissionFormPage from '@/js/pages/PermissionFormPage/PermissionFormPage'
 import PermissionPage from '@/js/pages/PermissionPage/PermissionPage'
 import ProviderPermissionsPage from '@/js/pages/ProviderPermissionsPage/ProviderPermissionsPage'
 import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
@@ -39,7 +41,6 @@ import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
 import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 
 import withProviders from '@/js/providers/withProviders/withProviders'
-import PermissionFormPage from './pages/PermissionFormPage/PermissionFormPage'
 
 import '../css/index.scss'
 import MyTestPage from './pages/MyTestPage/MyTestPage'
@@ -227,6 +228,10 @@ export const App = () => {
                   element: <GroupListPage isAdminPage />
                 },
                 {
+                  path: '/admin/keywordmanager',
+                  element: <KeywordManagerPage isAdminPage />
+                },
+                {
                   path: '/admin/groups/:id',
                   element: <GroupPage isAdminPage />
                 },
@@ -246,6 +251,10 @@ export const App = () => {
                 {
                   path: '/admin/groups/:id/edit',
                   element: <GroupFormPage isAdminPage />
+                },
+                {
+                  path: '/admin/keywordmanager',
+                  element: <KeywordManagerPage isAdminPage />
                 }
               ]
             }

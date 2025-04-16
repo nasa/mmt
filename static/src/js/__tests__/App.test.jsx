@@ -7,6 +7,22 @@ import App from '@/js/App'
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/utils/errorLogger')
 
+vi.mock('@/js/hooks/useAuthContext', () => ({
+  default: vi.fn(() => ({
+    user: {
+      uid: 'testuser'
+    }
+  }))
+}))
+
+vi.mock('@/js/hooks/usePermissions', () => ({
+  default: vi.fn(() => ({
+    hasSystemGroup: true,
+    hasSystemKeywords: true,
+    loading: false
+  }))
+}))
+
 vi.mock('@/js/pages/SearchPage/SearchPage', () => ({
   default: vi.fn(() => {
     const { type } = useParams()
@@ -56,6 +72,12 @@ vi.mock('@/js/components/Layout/Layout', () => ({
 vi.mock('@/js/components/LayoutUnauthenticated/LayoutUnauthenticated', () => ({
   default: vi.fn(() => (
     <div data-testid="mock-layout-unauthenticated"><Outlet /></div>
+  ))
+}))
+
+vi.mock('@/js/pages/KeywordManagerPage/KeywordManagerPage', () => ({
+  default: vi.fn(({ isAdminPage }) => (
+    <div data-testid={`mock-keyword-manager-page${isAdminPage ? '-admin' : ''}`}>Keyword Manager Page</div>
   ))
 }))
 
@@ -191,6 +213,18 @@ describe('App component', () => {
       setup()
 
       expect(window.location.href).toEqual('http://localhost:3000/collections')
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/admin/keywordmanager" route', () => {
+    test('renders the admin keyword manager page', async () => {
+      window.history.pushState({}, '', '/admin/keywordmanager')
+
+      setup()
+
+      expect(await screen.findByTestId('mock-keyword-manager-page-admin')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })

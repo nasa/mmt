@@ -31,6 +31,10 @@ export default defineConfig({
       {
         find: 'sharedConstants',
         replacement: path.resolve(__dirname, 'sharedConstants')
+      },
+      {
+        find: 'sharedUtils',
+        replacement: path.resolve(__dirname, 'sharedUtils')
       }
     ]
   },
