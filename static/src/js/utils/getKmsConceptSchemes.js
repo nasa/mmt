@@ -1,4 +1,4 @@
-import { xml2js } from 'xml2js'
+import xml2js from 'xml2js'
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 const getKmsConceptSchemes = async (version) => {
@@ -18,7 +18,7 @@ const getKmsConceptSchemes = async (version) => {
     const parser = new xml2js.Parser({ explicitArray: false })
     const result = await parser.parseStringPromise(xmlText)
 
-    // Transform the parsed object into a more friendly JSON structure
+    // Transform the parsed object into JSON structure
     const schemes = result.schemes.scheme
     const transformedData = Array.isArray(schemes) ? schemes : [schemes]
 

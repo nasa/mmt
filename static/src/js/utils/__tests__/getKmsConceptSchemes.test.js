@@ -1,9 +1,9 @@
-import { xml2js } from 'xml2js'
+import xml2js from 'xml2js'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 import getKmsConceptSchemes from '../getKmsConceptSchemes'
 
 vi.mock('xml2js', () => ({
-  xml2js: {
+  default: {
     Parser: vi.fn().mockImplementation(() => ({
       parseStringPromise: vi.fn()
     }))
