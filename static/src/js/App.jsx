@@ -67,6 +67,10 @@ export const App = () => {
         {
           path: '/',
           element: <HomePage />
+        },
+        {
+          path: '/admin/keywordmanager',
+          element: <KeywordManagerPage isAdminPage />
         }
       ]
     },
@@ -246,10 +250,6 @@ export const App = () => {
                 {
                   path: '/admin/groups/:id/edit',
                   element: <GroupFormPage isAdminPage />
-                },
-                {
-                  path: '/admin/keywordmanager',
-                  element: <KeywordManagerPage isAdminPage />
                 }
               ]
             }

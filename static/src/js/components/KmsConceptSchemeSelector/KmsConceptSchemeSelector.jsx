@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import getKmsConceptSchemes from '../../utils/getKmsConceptSchemes'
+import getKmsConceptSchemes from '@/js/utils/getKmsConceptSchemes'
 
 const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
   const [schemes, setSchemes] = useState([])
@@ -24,7 +23,7 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
         const result = await getKmsConceptSchemes(version)
         const options = result.schemes.map((scheme) => ({
           value: scheme.name,
-          label: scheme.longName,
+          label: scheme.name,
           updateDate: scheme.updateDate,
           csvHeaders: scheme.csvHeaders
         }))
@@ -32,6 +31,19 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
         options.sort((a, b) => a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }))
 
         setSchemes(options)
+
+        // Select the first option
+        if (options.length > 0) {
+          const firstOption = options[0]
+          setSelectedScheme(firstOption)
+          onSchemeSelect({
+            name: firstOption.value,
+            longName: firstOption.label,
+            updateDate: firstOption.updateDate,
+            csvHeaders: firstOption.csvHeaders
+          })
+        }
+
         setLoading(false)
       } catch (error) {
         console.error('Error fetching schemes:', error)
@@ -51,35 +63,20 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
         updateDate: selectedOption.updateDate,
         csvHeaders: selectedOption.csvHeaders
       })
-    } else {
-      onSchemeSelect(null)
     }
-  }
-
-  if (loading) {
-    return <div>Loading...</div>
   }
 
   return (
     <Row className="mb-4">
       <Col>
-        <div className="border rounded p-3">
-          <h5 className="text-center mb-3">Select Concept Scheme</h5>
-          <Form.Group>
-            <Select
-              isLoading={loading}
-              options={schemes}
-              value={selectedScheme}
-              onChange={handleChange}
-              placeholder="Select a concept scheme..."
-              className="scheme-selector__select"
-              isClearable
-              isDisabled={!version}
-            />
-          </Form.Group>
-          <div className="text-muted mt-2">
-            {selectedScheme ? `Selected scheme: ${selectedScheme.label}` : 'No scheme selected'}
-          </div>
+        <div className="rounded p-3">
+          <Select
+            isLoading={loading}
+            options={schemes}
+            value={selectedScheme}
+            onChange={handleChange}
+            placeholder="Loading schemes..."
+          />
         </div>
       </Col>
     </Row>

@@ -18,7 +18,6 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   const [versions, setVersions] = useState([])
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [initialSelectionMade, setInitialSelectionMade] = useState(false)
 
   useEffect(() => {
     /**
@@ -57,7 +56,7 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
 
         setVersions(options)
         // Automatically select the draft version if it exists and no selection has been made
-        if (!initialSelectionMade) {
+        if (options.length > 0) {
           const draftVersion = options.find((option) => option.value === 'draft')
           if (draftVersion) {
             setSelectedVersion(draftVersion)
@@ -65,8 +64,6 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
               version: draftVersion.value,
               version_type: draftVersion.type
             })
-
-            setInitialSelectionMade(true)
           }
         }
 

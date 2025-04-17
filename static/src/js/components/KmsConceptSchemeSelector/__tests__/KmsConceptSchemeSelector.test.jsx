@@ -8,8 +8,8 @@ import {
 } from '@testing-library/react'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import getKmsConceptSchemes from '@/js/utils/getKmsConceptSchemes'
 import KmsConceptSchemeSelector from '../KmsConceptSchemeSelector'
-import getKmsConceptSchemes from '../../../utils/getKmsConceptSchemes'
 
 vi.mock('../../../utils/getKmsConceptSchemes')
 

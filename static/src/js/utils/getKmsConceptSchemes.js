@@ -1,10 +1,11 @@
 import xml2js from 'xml2js'
-import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 const getKmsConceptSchemes = async (version) => {
+  console.log('GET ConceptScheme called with version=', version.version)
   const { kmsHost } = getApplicationConfig()
   try {
-    const response = await fetch(`${kmsHost}/concept_schemes/?version=${version}`, {
+    const response = await fetch(`${kmsHost}/concept_schemes/?version=${version.version}`, {
       method: 'GET'
     })
 
@@ -27,7 +28,7 @@ const getKmsConceptSchemes = async (version) => {
         name: s.$.name,
         longName: s.$.longName,
         updateDate: s.$.updateDate,
-        csvHeaders: s.$.csvHeaders.split(',')
+        csvHeaders: s.$.csvHeaders ? s.$.csvHeaders.split(',') : []
       } : null)).filter(Boolean)
     }
 
