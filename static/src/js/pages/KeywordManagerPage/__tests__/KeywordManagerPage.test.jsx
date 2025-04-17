@@ -45,13 +45,10 @@ describe('KeywordManagerPage component', () => {
       setup()
 
       expect(screen.getByTestId('page')).toBeInTheDocument()
-
       expect(screen.getByTestId('page-header')).toBeInTheDocument()
       expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
-
       expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
-
-      expect(screen.getByText('Keyword Management Tree to be inserted here')).toBeInTheDocument()
+      expect(screen.getByText('Version:')).toBeInTheDocument()
     })
   })
 })

@@ -1,4 +1,9 @@
-import React, { Suspense, useState } from 'react'
+import React, {
+  Suspense,
+  useState,
+  useCallback,
+  useEffect
+} from 'react'
 import { FaPlus } from 'react-icons/fa'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -50,11 +55,18 @@ const KeywordManagerPage = () => {
     return null
   }
 
-  const onVersionSelect = (versionInfo) => {
+  const onVersionSelect = useCallback((versionInfo) => {
     setSelectedVersion(versionInfo)
-    console.log('Selected version:', selectedVersion)
-    // Todo: add more logic here to handle the selected version
-  }
+  }, [])
+
+  useEffect(() => {
+    if (selectedVersion) {
+      if (selectedVersion.version_type === 'published') {
+        setShowWarning(true)
+      }
+      // Todo: add more logic here to handle the selected version: load scheme selector
+    }
+  }, [selectedVersion])
 
   const handleCloseWarning = () => setShowWarning(false)
 
@@ -74,12 +86,21 @@ const KeywordManagerPage = () => {
               }
             }
             >
-              <label htmlFor="version-selector" style={{ marginRight: '10px' }}>Version:</label>
+              <label
+                htmlFor="version-selector"
+                style={
+                  {
+                    marginRight: '10px',
+                    marginBottom: '25px'
+                  }
+                }
+              >
+                Version:
+              </label>
               <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
             </div>
-            {selectedVersion && <KeywordManagementTree />}
+            <KeywordManagementTree />
           </div>
-          <KeywordManagementTree />
         </Suspense>
       </ErrorBoundary>
 
