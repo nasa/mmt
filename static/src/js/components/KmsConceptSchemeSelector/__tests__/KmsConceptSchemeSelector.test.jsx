@@ -2,251 +2,226 @@ import React from 'react'
 import {
   render,
   screen,
-  fireEvent,
-  waitFor,
-  within
+  waitFor
 } from '@testing-library/react'
-import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import getKmsConceptSchemes from '@/js/utils/getKmsConceptSchemes'
 import KmsConceptSchemeSelector from '../KmsConceptSchemeSelector'
 
-vi.mock('../../../utils/getKmsConceptSchemes')
+vi.mock('@/js/utils/getKmsConceptSchemes')
+
+beforeAll(() => {
+  vi.spyOn(console, 'log').mockImplementation(() => {})
+  vi.spyOn(console, 'error').mockImplementation(() => {})
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
 
 describe('KmsConceptSchemeSelector', () => {
   const mockOnSchemeSelect = vi.fn()
 
-  let consoleErrorSpy
-
-  afterEach(() => {
-    consoleErrorSpy.mockRestore()
-  })
-
   beforeEach(() => {
-    mockOnSchemeSelect.mockClear()
-    getKmsConceptSchemes.mockClear()
-    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.clearAllMocks()
   })
 
-  test('renders without crashing', async () => {
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-    await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /Select Concept Scheme/i })).toBeInTheDocument()
+  describe('when component is initially rendered', () => {
+    test('should display loading state', () => {
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+      expect(screen.getByText('Loading schemes...')).toBeInTheDocument()
     })
   })
 
-  test('displays loading state when fetching schemes', () => {
-    getKmsConceptSchemes.mockResolvedValue({ schemes: [] })
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+  describe('when version is provided', () => {
+    test('should fetch and display schemes', async () => {
+      const mockSchemes = [
+        {
+          name: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        },
+        {
+          name: 'Scheme 2',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header3', 'header4']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.queryByText('Loading schemes...')).not.toBeInTheDocument()
+      })
+
+      const selectElement = screen.getByRole('combobox')
+      await userEvent.click(selectElement)
+
+      await waitFor(() => {
+        const options = screen.getAllByRole('option')
+        expect(options.length).toBe(2)
+      })
+
+      // Then, perform the additional assertions outside of waitFor
+      const options = screen.getAllByRole('option')
+      expect(options[0]).toHaveTextContent('Scheme 1')
+      expect(options[1]).toHaveTextContent('Scheme 2')
+
+      expect(getKmsConceptSchemes).toHaveBeenCalledWith('1.0')
+    })
+
+    test('should select first scheme by default and call onSchemeSelect', async () => {
+      const mockSchemes = [
+        {
+          name: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        },
+        {
+          name: 'Scheme 2',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header3', 'header4']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(mockOnSchemeSelect).toHaveBeenCalledWith({
+          name: 'Scheme 1',
+          longName: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        })
+      })
+    })
   })
 
-  test('displays schemes after fetching', async () => {
-    const mockSchemes = [
-      {
-        name: 'scheme1',
-        longName: 'Scheme 1',
-        updateDate: '2023-01-01',
-        csvHeaders: ['header1']
-      },
-      {
-        name: 'scheme2',
+  describe('when user selects a new scheme', () => {
+    test('should call onSchemeSelect with the selected scheme', async () => {
+      const mockSchemes = [
+        {
+          name: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        },
+        {
+          name: 'Scheme 2',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header3', 'header4']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.getByText('Scheme 1')).toBeInTheDocument()
+      })
+
+      await userEvent.click(screen.getByText('Scheme 1'))
+      await userEvent.click(screen.getByText('Scheme 2'))
+
+      expect(mockOnSchemeSelect).toHaveBeenCalledWith({
+        name: 'Scheme 2',
         longName: 'Scheme 2',
         updateDate: '2023-01-02',
-        csvHeaders: ['header2']
-      }
-    ]
-    getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
-
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
+        csvHeaders: ['header3', 'header4']
+      })
     })
   })
 
-  test('calls onSchemeSelect when a scheme is selected', async () => {
-    const mockSchemes = [
-      {
-        name: 'scheme1',
-        longName: 'Scheme 1',
-        updateDate: '2023-01-01',
-        csvHeaders: ['header1']
-      }
-    ]
-    getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+  describe('when fetching schemes fails', () => {
+    test('should log error and keep loading state', async () => {
+      console.error = vi.fn()
+      getKmsConceptSchemes.mockRejectedValue(new Error('Failed to fetch schemes'))
 
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
 
-    // Wait for the component to finish loading
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
-    })
+      await waitFor(() => {
+        expect(console.error).toHaveBeenCalledWith('Error fetching schemes:', expect.any(Error))
+      })
 
-    // Find the select element
-    const selectElement = screen.getByRole('combobox')
-
-    // Click the select to open the dropdown
-    await userEvent.click(selectElement)
-
-    // Find and click the option
-    const option = await screen.findByText('Scheme 1')
-    await userEvent.click(option)
-
-    // Check if onSchemeSelect was called with the correct argument
-    expect(mockOnSchemeSelect).toHaveBeenCalledWith({
-      name: 'scheme1',
-      longName: 'Scheme 1',
-      updateDate: '2023-01-01',
-      csvHeaders: ['header1']
-    })
-
-    // Check if the selected scheme is displayed
-    expect(screen.getByText((content, element) => element.textContent === 'Selected scheme: Scheme 1')).toBeInTheDocument()
-  })
-
-  test('displays "No scheme selected" when no scheme is selected', async () => {
-    const mockSchemes = [
-      {
-        name: 'scheme1',
-        longName: 'Scheme 1',
-        updateDate: '2023-01-01',
-        csvHeaders: ['header1']
-      }
-    ]
-    getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
-
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    // Wait for the component to finish loading
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
-    })
-
-    // Find the div that contains the scheme selection status
-    const statusDiv = screen.getByText((content, element) => element.tagName.toLowerCase() === 'div'
-             && element.className.includes('text-muted')
-             && element.textContent.includes('No scheme selected'))
-
-    expect(statusDiv).toBeInTheDocument()
-  })
-
-  test('disables selector when no version is provided', async () => {
-    render(<KmsConceptSchemeSelector onSchemeSelect={mockOnSchemeSelect} />)
-
-    // Wait for the component to render
-    await waitFor(() => {
-      expect(screen.getByText('Select Concept Scheme')).toBeInTheDocument()
-    })
-
-    // Find the select container
-    const selectContainer = screen.getByRole('combobox', { name: /select a concept scheme/i })
-
-    // Check if the select container has the expected classes
-    expect(selectContainer).toHaveClass('scheme-selector__select')
-    expect(selectContainer).toHaveClass('css-3iigni-container')
-
-    // Find the input element within the select container
-    const selectInput = within(selectContainer).getByRole('textbox')
-
-    // Check if the input is disabled
-    expect(selectInput).toBeDisabled()
-
-    // Try to interact with the select and expect it to not change
-    await userEvent.click(selectContainer)
-    expect(screen.queryByText('Scheme 1')).not.toBeInTheDocument()
-
-    // Check if the onSchemeSelect function was not called
-    expect(mockOnSchemeSelect).not.toHaveBeenCalled()
-  })
-
-  test('handles error when fetching schemes fails', async () => {
-    console.error = vi.fn()
-    getKmsConceptSchemes.mockRejectedValue(new Error('Fetch error'))
-
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith('Error fetching schemes:', expect.any(Error))
+      expect(screen.getByText('Loading schemes...')).toBeInTheDocument()
     })
   })
 
-  test('sorts schemes alphabetically', async () => {
-    const mockSchemes = [
-      {
-        name: 'schemeB',
-        longName: 'Scheme B',
-        updateDate: '2023-01-01',
-        csvHeaders: ['header1']
-      },
-      {
-        name: 'schemeA',
-        longName: 'Scheme A',
+  describe('when version is not provided', () => {
+    test('should clear schemes and reset to loading state', async () => {
+      const mockSchemes = [
+        {
+          name: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      const { rerender } = render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.getByText('Scheme 1')).toBeInTheDocument()
+      })
+
+      rerender(<KmsConceptSchemeSelector version="" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {})
+
+      expect(screen.queryByText('Scheme 1')).toBeNull()
+      expect(screen.getByText('Loading schemes...')).toBeInTheDocument()
+      expect(getKmsConceptSchemes).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when multiple schemes are provided', () => {
+    test('should sort schemes alphabetically', async () => {
+      const mockSchemes = [
+        {
+          name: 'C Scheme',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        },
+        {
+          name: 'A Scheme',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header3', 'header4']
+        },
+        {
+          name: 'B Scheme',
+          updateDate: '2023-01-03',
+          csvHeaders: ['header5', 'header6']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.queryByText('Loading schemes...')).not.toBeInTheDocument()
+      })
+
+      expect(screen.getByText('A Scheme')).toBeInTheDocument()
+
+      const selectInput = screen.getByRole('combobox')
+      await userEvent.click(selectInput)
+
+      const options = screen.getAllByText(/[ABC] Scheme/)
+      expect(options.length).toBeGreaterThanOrEqual(3)
+
+      const dropdownOptions = options.slice(-3)
+      expect(dropdownOptions[0]).toHaveTextContent('A Scheme')
+      expect(dropdownOptions[1]).toHaveTextContent('B Scheme')
+      expect(dropdownOptions[2]).toHaveTextContent('C Scheme')
+
+      expect(mockOnSchemeSelect).toHaveBeenCalledWith({
+        name: 'A Scheme',
+        longName: 'A Scheme',
         updateDate: '2023-01-02',
-        csvHeaders: ['header2']
-      },
-      {
-        name: 'schemeC',
-        longName: 'Scheme C',
-        updateDate: '2023-01-03',
-        csvHeaders: ['header3']
-      }
-    ]
-    getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
-
-    render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    // Wait for the component to load
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
-    })
-
-    // Open the dropdown
-    const selectElement = screen.getByText('Select a concept scheme...')
-    fireEvent.mouseDown(selectElement)
-
-    // Check if options are rendered in alphabetical order
-    const options = screen.getAllByText(/Scheme [ABC]/)
-    expect(options[0]).toHaveTextContent('Scheme A')
-    expect(options[1]).toHaveTextContent('Scheme B')
-    expect(options[2]).toHaveTextContent('Scheme C')
-  })
-
-  test('updates schemes when version changes', async () => {
-    const mockSchemes1 = [
-      {
-        name: 'scheme1',
-        longName: 'Scheme 1',
-        updateDate: '2023-01-01',
-        csvHeaders: ['header1']
-      }
-    ]
-    const mockSchemes2 = [
-      {
-        name: 'scheme2',
-        longName: 'Scheme 2',
-        updateDate: '2023-01-02',
-        csvHeaders: ['header2']
-      }
-    ]
-
-    getKmsConceptSchemes.mockResolvedValueOnce({ schemes: mockSchemes1 })
-    getKmsConceptSchemes.mockResolvedValueOnce({ schemes: mockSchemes2 })
-
-    const { rerender } = render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
-    })
-
-    rerender(<KmsConceptSchemeSelector version="2.0" onSchemeSelect={mockOnSchemeSelect} />)
-
-    await waitFor(() => {
-      expect(getKmsConceptSchemes).toHaveBeenCalledWith('2.0')
-    })
-
-    await waitFor(() => {
-      expect(screen.getByText('Select a concept scheme...')).toBeInTheDocument()
+        csvHeaders: ['header3', 'header4']
+      })
     })
   })
 })

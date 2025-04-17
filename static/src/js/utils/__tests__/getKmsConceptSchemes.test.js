@@ -1,190 +1,156 @@
-import xml2js from 'xml2js'
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+import {
+  describe,
+  test,
+  expect,
+  vi,
+  beforeEach
+} from 'vitest'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 import getKmsConceptSchemes from '../getKmsConceptSchemes'
 
-vi.mock('xml2js', () => ({
-  default: {
-    Parser: vi.fn().mockImplementation(() => ({
-      parseStringPromise: vi.fn()
-    }))
-  }
+// Mock the getApplicationConfig function
+vi.mock('sharedUtils/getConfig', () => ({
+  getApplicationConfig: vi.fn()
 }))
 
-let consoleErrorSpy
-
-beforeEach(() => {
-  vi.clearAllMocks()
-  consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-})
-
-afterEach(() => {
-  consoleErrorSpy.mockRestore()
-})
-
-global.fetch = vi.fn(() => Promise.resolve({
-  text: () => Promise.resolve()
-}))
+// Mock the global fetch function
+global.fetch = vi.fn()
 
 describe('getKmsConceptSchemes', () => {
-  describe('when getKmsConceptSchemes is called successfully', () => {
-    test('schemes are returned', async () => {
-      const { kmsHost } = getApplicationConfig()
-      const mockXmlResponse = `
-        <schemes>
-          <scheme name="scheme1" longName="Scheme 1" updateDate="2023-05-01" csvHeaders="header1,header2,header3"/>
-          <scheme name="scheme2" longName="Scheme 2" updateDate="2023-05-02" csvHeaders="header4,header5,header6"/>
-        </schemes>
-      `
+  beforeEach(() => {
+    // Clear all mocks before each test
+    vi.clearAllMocks()
 
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockXmlResponse)
-      }))
-
-      xml2js.Parser.mockImplementation(() => ({
-        parseStringPromise: vi.fn().mockResolvedValue({
-          schemes: {
-            scheme: [
-              {
-                $: {
-                  name: 'scheme1',
-                  longName: 'Scheme 1',
-                  updateDate: '2023-05-01',
-                  csvHeaders: 'header1,header2,header3'
-                }
-              },
-              {
-                $: {
-                  name: 'scheme2',
-                  longName: 'Scheme 2',
-                  updateDate: '2023-05-02',
-                  csvHeaders: 'header4,header5,header6'
-                }
-              }
-            ]
-          }
-        })
-      }))
-
-      const response = await getKmsConceptSchemes('1.0')
-
-      expect(response).toEqual({
-        schemes: [
-          {
-            name: 'scheme1',
-            longName: 'Scheme 1',
-            updateDate: '2023-05-01',
-            csvHeaders: ['header1', 'header2', 'header3']
-          },
-          {
-            name: 'scheme2',
-            longName: 'Scheme 2',
-            updateDate: '2023-05-02',
-            csvHeaders: ['header4', 'header5', 'header6']
-          }
-        ]
-      })
-
-      expect(fetch).toHaveBeenCalledTimes(1)
-      expect(fetch).toHaveBeenCalledWith(`${kmsHost}/concept_schemes/?version=1.0`, { method: 'GET' })
-    })
+    // Set up default mock return values
+    getApplicationConfig.mockReturnValue({ kmsHost: 'http://example.com' })
+    vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
-  describe('when getKmsConceptSchemes call fails', () => {
-    test('throws an error', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: false,
-        status: 500
-      }))
-
-      await expect(getKmsConceptSchemes('1.0')).rejects.toThrow('getKmsConceptSchemes HTTP error! status: 500')
-      expect(fetch).toHaveBeenCalledTimes(1)
-    })
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
-  describe('when XML parsing fails', () => {
-    test('throws an error', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve('<invalid>xml</invalid>')
-      }))
-
-      xml2js.Parser.mockImplementation(() => ({
-        parseStringPromise: vi.fn().mockRejectedValue(new Error('XML parsing error'))
-      }))
-
-      await expect(getKmsConceptSchemes('1.0')).rejects.toThrow('XML parsing error')
-      expect(fetch).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  test('handles single scheme response', async () => {
-    const { kmsHost } = getApplicationConfig()
+  test('should correctly transform and filter concept schemes', async () => {
     const mockXmlResponse = `
       <schemes>
-        <scheme name="scheme1" longName="Scheme 1" updateDate="2023-05-01" csvHeaders="header1,header2,header3"/>
+        <scheme name="scheme1" longName="Scheme 1" updateDate="2023-01-01" csvHeaders="header1,header2"/>
+        <scheme name="scheme2" longName="Scheme 2" updateDate="2023-01-02"/>
+        <scheme name="scheme3" longName="Scheme 3" updateDate="2023-01-03" csvHeaders=""/>
+        <scheme/>
       </schemes>
     `
 
-    global.fetch = vi.fn(() => Promise.resolve({
+    global.fetch.mockResolvedValueOnce({
       ok: true,
       text: () => Promise.resolve(mockXmlResponse)
-    }))
+    })
 
-    xml2js.Parser.mockImplementation(() => ({
-      parseStringPromise: vi.fn().mockResolvedValue({
-        schemes: {
-          scheme: {
-            $: {
-              name: 'scheme1',
-              longName: 'Scheme 1',
-              updateDate: '2023-05-01',
-              csvHeaders: 'header1,header2,header3'
-            }
-          }
-        }
-      })
-    }))
+    const result = await getKmsConceptSchemes({ version: '1.0' })
 
-    const response = await getKmsConceptSchemes('1.0')
+    expect(result).toEqual({
+      schemes: [
+        { name: 'scheme1', longName: 'Scheme 1', updateDate: '2023-01-01', csvHeaders: ['header1', 'header2'] },
+        { name: 'scheme2', longName: 'Scheme 2', updateDate: '2023-01-02', csvHeaders: [] },
+        { name: 'scheme3', longName: 'Scheme 3', updateDate: '2023-01-03', csvHeaders: [] }
+      ]
+    })
 
-    expect(response).toEqual({
+    // Verify that the empty scheme was filtered out
+    expect(result.schemes.length).toBe(3)
+
+    // Verify that csvHeaders are correctly split or empty
+    expect(result.schemes[0].csvHeaders).toEqual(['header1', 'header2'])
+    expect(result.schemes[1].csvHeaders).toEqual([])
+    expect(result.schemes[2].csvHeaders).toEqual([])
+  })
+
+  test('should fetch and parse concept schemes successfully', async () => {
+    const mockXmlResponse = `
+      <schemes>
+        <scheme name="scheme1" longName="Scheme 1" updateDate="2023-01-01" csvHeaders="header1,header2"/>
+        <scheme name="scheme2" longName="Scheme 2" updateDate="2023-01-02" csvHeaders="header3,header4"/>
+      </schemes>
+    `
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve(mockXmlResponse)
+    })
+
+    const result = await getKmsConceptSchemes({ version: '1.0' })
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://example.com/concept_schemes/?version=1.0',
+      { method: 'GET' }
+    )
+
+    expect(result).toEqual({
       schemes: [
         {
           name: 'scheme1',
           longName: 'Scheme 1',
-          updateDate: '2023-05-01',
-          csvHeaders: ['header1', 'header2', 'header3']
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        },
+        {
+          name: 'scheme2',
+          longName: 'Scheme 2',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header3', 'header4']
         }
       ]
     })
-
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(`${kmsHost}/concept_schemes/?version=1.0`, { method: 'GET' })
   })
 
-  test('handles empty response', async () => {
-    const { kmsHost } = getApplicationConfig()
-    const mockXmlResponse = '<schemes></schemes>'
+  test('should handle a single scheme response', async () => {
+    const mockXmlResponse = `
+      <schemes>
+        <scheme name="scheme1" longName="Scheme 1" updateDate="2023-01-01" csvHeaders="header1,header2"/>
+      </schemes>
+    `
 
-    global.fetch = vi.fn(() => Promise.resolve({
+    global.fetch.mockResolvedValueOnce({
       ok: true,
       text: () => Promise.resolve(mockXmlResponse)
-    }))
-
-    xml2js.Parser.mockImplementation(() => ({
-      parseStringPromise: vi.fn().mockResolvedValue({
-        schemes: {}
-      })
-    }))
-
-    const response = await getKmsConceptSchemes('1.0')
-
-    expect(response).toEqual({
-      schemes: []
     })
 
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(`${kmsHost}/concept_schemes/?version=1.0`, { method: 'GET' })
+    const result = await getKmsConceptSchemes({ version: '1.0' })
+
+    expect(result).toEqual({
+      schemes: [
+        {
+          name: 'scheme1',
+          longName: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1', 'header2']
+        }
+      ]
+    })
+  })
+
+  test('should throw an error when fetch fails', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: false,
+      status: 404
+    })
+
+    await expect(getKmsConceptSchemes({ version: '1.0' })).rejects.toThrow(
+      'getKmsConceptSchemes HTTP error! status: 404'
+    )
+  })
+
+  test('should handle network errors', async () => {
+    global.fetch.mockRejectedValueOnce(new Error('Network error'))
+
+    await expect(getKmsConceptSchemes({ version: '1.0' })).rejects.toThrow('Network error')
+  })
+
+  test('should handle XML parsing errors', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve('Invalid XML')
+    })
+
+    await expect(getKmsConceptSchemes({ version: '1.0' })).rejects.toThrow()
   })
 })

@@ -14,7 +14,9 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
     const fetchSchemes = async () => {
       if (!version) {
         setSchemes([])
+        setSelectedScheme(null)
         setLoading(false)
+        onSchemeSelect(null)
 
         return
       }
