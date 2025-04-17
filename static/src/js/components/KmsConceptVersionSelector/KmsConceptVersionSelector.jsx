@@ -5,6 +5,15 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import getKmsConceptVersions from '../../utils/getKmsConceptVersions'
 
+/**
+ * KmsConceptVersionSelector component
+ *
+ * This component renders a dropdown selector for KMS concept versions.
+ * It fetches the available versions, sorts them, and allows the user to select a version.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onVersionSelect - Callback function called when a version is selected
+ */
 const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   const [versions, setVersions] = useState([])
   const [selectedVersion, setSelectedVersion] = useState(null)
@@ -12,10 +21,14 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   const [initialSelectionMade, setInitialSelectionMade] = useState(false)
 
   useEffect(() => {
+    /**
+     * Fetches KMS concept versions and prepares them for display
+     */
     const fetchVersions = async () => {
       try {
         const result = await getKmsConceptVersions()
         const options = result.versions.map((version) => {
+          // Map version types to display labels
           let type
           switch (version.type.toLowerCase()) {
             case 'draft':
@@ -38,12 +51,12 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
           }
         })
 
-        // Sort the options
+        // Sort the options based on version type
         const sortOrder = ['draft', 'published', 'past_published']
         options.sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
 
         setVersions(options)
-        // Select the draft version if it exists and no selection has been made
+        // Automatically select the draft version if it exists and no selection has been made
         if (!initialSelectionMade) {
           const draftVersion = options.find((option) => option.value === 'draft')
           if (draftVersion) {
@@ -67,6 +80,10 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
     fetchVersions()
   }, [])
 
+  /**
+   * Handles the selection of a version from the dropdown
+   * @param {Object} selectedOption - The selected version option
+   */
   const handleChange = (selectedOption) => {
     setSelectedVersion(selectedOption)
     onVersionSelect({
