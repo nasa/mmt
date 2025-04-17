@@ -6,8 +6,6 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import getKmsConceptSchemes from '../../utils/getKmsConceptSchemes'
 
-import './KmsConceptSchemeSelector.scss'
-
 const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
   const [schemes, setSchemes] = useState([])
   const [selectedScheme, setSelectedScheme] = useState(null)
