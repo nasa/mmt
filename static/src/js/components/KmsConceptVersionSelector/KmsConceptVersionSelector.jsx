@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import getKmsConceptVersions from '../../utils/getKmsConceptVersions'
+import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
 
 /**
  * KmsConceptVersionSelector component
@@ -58,7 +58,7 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
         setVersions(options)
         // Automatically select the draft version if it exists and no selection has been made
         if (!initialSelectionMade) {
-          const draftVersion = options.find((option) => option.value === 'draft')
+          const draftVersion = options.find((option) => option.type === 'draft')
           if (draftVersion) {
             setSelectedVersion(draftVersion)
             onVersionSelect({

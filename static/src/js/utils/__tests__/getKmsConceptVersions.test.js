@@ -1,5 +1,5 @@
 import xml2js from 'xml2js'
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 import getKmsConceptVersions from '../getKmsConceptVersions'
 
 vi.mock('xml2js', () => ({
@@ -33,6 +33,7 @@ describe('getKmsConceptVersions', () => {
         <versions>
           <version type="published" creation_date="2023-05-01">1.0</version>
           <version type="past_published" creation_date="2023-04-01">0.9</version>
+          <version type="draft" creation_date="2023-05-15">1.1</version>
         </versions>
       `
 
@@ -58,6 +59,13 @@ describe('getKmsConceptVersions', () => {
                   creation_date: '2023-04-01'
                 },
                 _: '0.9'
+              },
+              {
+                $: {
+                  type: 'draft',
+                  creation_date: '2023-05-15'
+                },
+                _: '1.1'
               }
             ]
           }
@@ -77,6 +85,11 @@ describe('getKmsConceptVersions', () => {
             type: 'past_published',
             creation_date: '2023-04-01',
             version: '0.9'
+          },
+          {
+            type: 'draft',
+            creation_date: '2023-05-15',
+            version: '1.1'
           }
         ]
       })

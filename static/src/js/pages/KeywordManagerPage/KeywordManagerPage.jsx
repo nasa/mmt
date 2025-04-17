@@ -105,11 +105,11 @@ const KeywordManagerPage = () => {
       </ErrorBoundary>
 
       <Modal show={showWarning} onHide={handleCloseWarning}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Warning</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Warning: You are now viewing the live published keyword version. Changes made
+          You are now viewing the live published keyword version. Changes made
           to this version will show up on the website right away.
         </Modal.Body>
         <Modal.Footer>

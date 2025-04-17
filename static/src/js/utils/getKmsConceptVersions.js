@@ -1,5 +1,5 @@
 import xml2js from 'xml2js'
-import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 /**
  * Fetches and parses KMS concept versions from the server.
