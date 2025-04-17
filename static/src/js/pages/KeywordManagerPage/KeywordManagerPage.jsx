@@ -1,5 +1,7 @@
 import React, { Suspense, useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
@@ -42,6 +44,7 @@ const KeywordManagerPageHeader = () => (
 const KeywordManagerPage = () => {
   const { showKeywordManager } = getApplicationConfig()
   const [selectedVersion, setSelectedVersion] = useState(null)
+  const [showWarning, setShowWarning] = useState(false)
 
   if (showKeywordManager === 'false') {
     return null
@@ -52,6 +55,8 @@ const KeywordManagerPage = () => {
     console.log('Selected version:', selectedVersion)
     // Todo: add more logic here to handle the selected version
   }
+
+  const handleCloseWarning = () => setShowWarning(false)
 
   return (
     <Page
@@ -77,6 +82,21 @@ const KeywordManagerPage = () => {
           <KeywordManagementTree />
         </Suspense>
       </ErrorBoundary>
+
+      <Modal show={showWarning} onHide={handleCloseWarning}>
+        <Modal.Header closeButton>
+          <Modal.Title>Warning</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Warning: You are now viewing the live published keyword version. Changes made
+          to this version will show up on the website right away.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseWarning}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Page>
   )
 }

@@ -29,6 +29,17 @@ const setup = () => {
 }
 
 describe('KeywordManagerPage component', () => {
+  let originalConsoleError
+
+  beforeEach(() => {
+    originalConsoleError = console.error
+    console.error = vi.fn()
+  })
+
+  afterEach(() => {
+    console.error = originalConsoleError
+  })
+
   describe('when the page loads', () => {
     test('renders the KeywordManagerPage component', () => {
       setup()
