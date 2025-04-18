@@ -63,7 +63,7 @@ const setup = ({
             userId: 'mock-user'
           },
           keywordsPermissionParams: {
-            systemObject: 'INGEST_MANAGEMENT_ACL',
+            systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
             userId: 'mock-user'
           }
         }
@@ -88,7 +88,7 @@ const setup = ({
             count: 1,
             items: [
               {
-                systemObject: 'INGEST_MANAGEMENT_ACL',
+                systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                 permissions: [
                   'read',
                   'create'
@@ -144,7 +144,7 @@ describe('usePermissions', () => {
                     userId: 'mock-user'
                   },
                   keywordsPermissionParams: {
-                    systemObject: 'INGEST_MANAGEMENT_ACL',
+                    systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                     userId: 'mock-user'
                   }
                 }
@@ -166,7 +166,7 @@ describe('usePermissions', () => {
                     count: 1,
                     items: [
                       {
-                        systemObject: 'INGEST_MANAGEMENT_ACL',
+                        systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                         permissions: [],
                         __typename: 'Permission'
                       }
@@ -212,7 +212,7 @@ describe('usePermissions', () => {
                     userId: 'mock-user'
                   },
                   keywordsPermissionParams: {
-                    systemObject: 'INGEST_MANAGEMENT_ACL',
+                    systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                     userId: 'mock-user'
                   }
                 }
@@ -234,7 +234,7 @@ describe('usePermissions', () => {
                     count: 1,
                     items: [
                       {
-                        systemObject: 'INGEST_MANAGEMENT_ACL',
+                        systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                         permissions: [],
                         __typename: 'Permission'
                       }
@@ -268,7 +268,7 @@ describe('usePermissions', () => {
                   userId: 'mock-user'
                 },
                 keywordsPermissionParams: {
-                  systemObject: 'INGEST_MANAGEMENT_ACL',
+                  systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                   userId: 'mock-user'
                 }
               }
@@ -290,7 +290,7 @@ describe('usePermissions', () => {
                   count: 1,
                   items: [
                     {
-                      systemObject: 'INGEST_MANAGEMENT_ACL',
+                      systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                       permissions: ['read'],
                       __typename: 'Permission'
                     }
@@ -325,7 +325,7 @@ describe('usePermissions', () => {
                   userId: 'mock-user'
                 },
                 keywordsPermissionParams: {
-                  systemObject: 'INGEST_MANAGEMENT_ACL',
+                  systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
                   userId: 'mock-user'
                 }
               }
