@@ -7,6 +7,16 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @function getKmsConceptVersions
  * @returns {Promise<Object>} A promise that resolves to an object containing parsed version data.
  * @throws {Error} If there's an error fetching or parsing the data.
+ * *
+ * @example
+ * // Usage example
+ * try {
+ *   const kmsVersions = await getKmsConceptVersions();
+ *   console.log(kmsVersions);
+ *   // Output: { versions: [{ type: 'PUBLISHED', creation_date: '2023-06-15', version: '1.0' }, ...] }
+ * } catch (error) {
+ *   console.error('Failed to fetch KMS concept versions:', error);
+ * }
  */
 const getKmsConceptVersions = async () => {
   const { kmsHost } = getApplicationConfig()
