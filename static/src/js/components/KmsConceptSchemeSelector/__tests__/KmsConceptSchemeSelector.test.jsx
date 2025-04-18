@@ -224,4 +224,94 @@ describe('KmsConceptSchemeSelector', () => {
       })
     })
   })
+
+  describe('when fetching schemes succeeds', () => {
+    test('should sort schemes alphabetically', async () => {
+      const mockSchemes = [
+        {
+          name: 'C Scheme',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1']
+        },
+        {
+          name: 'A Scheme',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header2']
+        },
+        {
+          name: 'B Scheme',
+          updateDate: '2023-01-03',
+          csvHeaders: ['header3']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      // Wait for the select to be loaded (no longer showing "Loading schemes...")
+      await waitFor(() => {
+        expect(screen.queryByText('Loading schemes...')).not.toBeInTheDocument()
+      })
+
+      // Check if the first option (which is selected by default) is 'A Scheme'
+      expect(screen.getByText('A Scheme')).toBeInTheDocument()
+
+      // Open the dropdown
+      const selectInput = screen.getByRole('combobox')
+      await userEvent.click(selectInput)
+
+      // Get all options, including the selected one
+      const allOptions = screen.getAllByText(/[ABC] Scheme/)
+
+      // The first option might appear twice (in the input and in the list),
+      // so we'll slice the array to get only the dropdown options
+      const dropdownOptions = allOptions.slice(-3)
+
+      expect(dropdownOptions.length).toBe(3)
+      expect(dropdownOptions[0]).toHaveTextContent('A Scheme')
+      expect(dropdownOptions[1]).toHaveTextContent('B Scheme')
+      expect(dropdownOptions[2]).toHaveTextContent('C Scheme')
+    })
+
+    test('should handle case when no schemes are returned', async () => {
+      getKmsConceptSchemes.mockResolvedValue({ schemes: [] })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.queryByRole('option')).not.toBeInTheDocument()
+      })
+
+      expect(mockOnSchemeSelect).not.toHaveBeenCalled()
+    })
+
+    test('should select first option when schemes are loaded', async () => {
+      const mockSchemes = [
+        {
+          name: 'Scheme 1',
+          updateDate: '2023-01-01',
+          csvHeaders: ['header1']
+        },
+        {
+          name: 'Scheme 2',
+          updateDate: '2023-01-02',
+          csvHeaders: ['header2']
+        }
+      ]
+      getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
+
+      render(<KmsConceptSchemeSelector version="1.0" onSchemeSelect={mockOnSchemeSelect} />)
+
+      await waitFor(() => {
+        expect(screen.getByText('Scheme 1')).toBeInTheDocument()
+      })
+
+      expect(mockOnSchemeSelect).toHaveBeenCalledWith({
+        name: 'Scheme 1',
+        longName: 'Scheme 1',
+        updateDate: '2023-01-01',
+        csvHeaders: ['header1']
+      })
+    })
+  })
 })

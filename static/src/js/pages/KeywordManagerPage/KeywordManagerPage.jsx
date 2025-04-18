@@ -67,18 +67,15 @@ const KeywordManagerPage = () => {
 
   useEffect(() => {
     console.log('selectedVersion=', selectedVersion)
-    if (selectedVersion) {
-      if (selectedVersion.version_type === 'published') {
-        setShowWarning(true)
-      }
-      // Todo: add more logic here to handle the selected version: load scheme selector
+    if (selectedVersion && selectedVersion.version_type === 'published') {
+      setShowWarning(true)
     }
   }, [selectedVersion])
 
   useEffect(() => {
     if (selectedScheme) {
       console.log('selectedScheme=', selectedScheme)
-      // Todo: add more logic here to handle the selected scheme
+      // Todo: add more logic here to handle the selected version and scheme (showing the tree)
     }
   }, [selectedScheme])
 

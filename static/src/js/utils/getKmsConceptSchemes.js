@@ -8,6 +8,33 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @param {string} version.version - The version string to fetch concept schemes for.
  * @returns {Promise<Object>} A promise that resolves to an object containing the parsed concept schemes.
  * @throws {Error} If there's an error fetching or parsing the data.
+ *
+ * @example
+ * // Usage example
+ * const version = { version: '1.0' };
+ * try {
+ *   const conceptSchemes = await getKmsConceptSchemes(version);
+ *   console.log(conceptSchemes);
+ *   // Output example:
+ *   // {
+ *   //   schemes: [
+ *   //     {
+ *   //       name: 'SchemeA',
+ *   //       longName: 'Concept Scheme A',
+ *   //       updateDate: '2023-06-01',
+ *   //       csvHeaders: ['Header1', 'Header2', 'Header3']
+ *   //     },
+ *   //     {
+ *   //       name: 'SchemeB',
+ *   //       longName: 'Concept Scheme B',
+ *   //       updateDate: '2023-06-02',
+ *   //       csvHeaders: ['HeaderX', 'HeaderY', 'HeaderZ']
+ *   //     }
+ *   //   ]
+ *   // }
+ * } catch (error) {
+ *   console.error('Error:', error);
+ * }
  */
 const getKmsConceptSchemes = async (version) => {
   console.log('GET ConceptScheme called with version=', version.version)
