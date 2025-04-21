@@ -41,7 +41,7 @@ const getKmsConceptSchemes = async (version) => {
   const { kmsHost } = getApplicationConfig()
   try {
     // Fetch XML data from the server
-    const response = await fetch(`${kmsHost}/concept_schemes/?version=${version.version}`, {
+    const response = await fetch(`${kmsHost}/kms/concept_schemes/?version=${version.version}`, {
       method: 'GET'
     })
 
