@@ -223,12 +223,12 @@ export const App = () => {
                   element: <GroupListPage isAdminPage />
                 },
                 {
-                  path: '/admin/keywordmanager',
-                  element: <KeywordManagerPage isAdminPage />
-                },
-                {
                   path: '/admin/groups/:id',
                   element: <GroupPage isAdminPage />
+                },
+                {
+                  path: '/admin/keywordmanager',
+                  element: <KeywordManagerPage isAdminPage />
                 },
                 {
                   path: '/admin/groups/:id/permissions',
