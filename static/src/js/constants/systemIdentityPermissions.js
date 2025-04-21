@@ -46,6 +46,10 @@ const systemIdentityPermissions = {
     title: 'Ingest Operations',
     permittedPermissions: ['read', 'update']
   },
+  KEYWORD_MANAGEMENT_SYSTEM: {
+    title: 'Keyword Management System',
+    permittedPermissions: ['create', 'read', 'update', 'delete']
+  },
   METRIC_DATA_POINT_SAMPLE: {
     title: 'Metric Data Point Samples',
     permittedPermissions: ['read']
