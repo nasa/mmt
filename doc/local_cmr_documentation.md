@@ -1,6 +1,6 @@
 ## Documentation for the local CMR
 MMT uses a local version of the CMR for our development and test environments. Downloading it is described in our main Readme. Our local CMR setup is run through our rake tasks described also in the Readme file.
-The main file that is run by that rake task is `lib/test_cmr/load_data.rb`.
+The main file that is run by that rake task is `lib/test_cmr/local.rb`.
 
 ### This Document is currently a DRAFT
 This should be more fully fleshed out with MMT-1517 to refactor the files described here

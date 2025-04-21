@@ -7,7 +7,7 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
 
   context 'when saving GKR recommendations' do
     before do
-      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
+      allow_any_instance_of(GkrKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
                                                                                                                recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE', 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'],
                                                                                                                uuids: { 'EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE': 1, 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY': 2 } })
       visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
@@ -27,7 +27,7 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
 
   context 'when publishing GKR recommendations' do
     before do
-      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
+      allow_any_instance_of(GkrKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ id: 22,
                                                                                                                recommendations: ['EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE', 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY'],
                                                                                                                uuids: { 'EARTH SCIENCE > ATMOSPHERE > ATMOSPHERIC CHEMISTRY > OXYGEN COMPOUNDS > OZONE': 1, 'EARTH SCIENCE > ATMOSPHERE > AIR QUALITY': 2 } })
       visit edit_collection_draft_path(@draft, form: 'descriptive_keywords')
@@ -48,7 +48,7 @@ describe 'GCMD Keyword Recommender (GKR) Tests', js: true do
 
   context 'when there is a failure fetching GKR recommendations' do
     before do
-      allow_any_instance_of(GKRKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ error: 'CommError' })
+      allow_any_instance_of(GkrKeywordRecommendations).to receive(:fetch_keyword_recommendations).and_return({ error: 'CommError' })
       visit edit_collection_draft_path(@draft2, form: 'descriptive_keywords')
     end
 

@@ -46,7 +46,7 @@
               <%= display_submitter_name(proposal.submitter_id, @urs_user_hash) %>
             </td>
             <td>
-              <%= proposal.updated_at.to_s(:date) %>
+              <%= proposal.updated_at.to_fs(:date) %>
             </td>
           </tr>
         <% end %>

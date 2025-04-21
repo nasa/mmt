@@ -2,7 +2,7 @@
 # TODO need to make sure we are getting the right groups in a non-hardcoded way
 # with MMT-1517 for refactoring the local cmr setup
 # the commented out tasks will need those group concept ids or to have the groups changed
-require 'test_cmr/load_data.rb'
+require_relative '../test_cmr/local.rb'
 
 namespace :acls do
 
@@ -74,7 +74,7 @@ namespace :acls do
   end
 
   namespace :subscriptions do
-    include Cmr
+    # include TestCmr::Local
     desc 'Creates a group and grants permission for managing subscriptions'
     task :full_acls, [:username] => :environment do |_task, args|
       # Create the group
@@ -83,7 +83,7 @@ namespace :acls do
       # user that owns the token we pass in dev/test.
       Rake::Task['acls:groups:create'].invoke('Subscription Management', 'Group Created for Subscription Management', [args.username, 'typical'], 'MMT_2')
 
-      cmr = Cmr::Local.new
+      cmr = TestCmr::Local.new
       cmr.clear_cache
 
       group_id = get_group_concept_from_name(group_name: 'Subscription Management')
@@ -98,7 +98,7 @@ namespace :acls do
           'provider_id' => 'MMT_2'
         }
       }
-      cmr = Cmr::Local.new
+      cmr = TestCmr::Local.new
       cmr.clear_cache
 
       print_result(cmr_client.add_group_permissions(provider_perm, get_acls_token(admin: true)), '`Subscription Management` permissions added to the group.')

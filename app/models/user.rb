@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  serialize :available_providers, JSON
+  serialize :available_providers, coder: JSON
 
   has_many :collection_drafts
   has_many :service_drafts

@@ -1,4 +1,4 @@
-describe GroupsController, reset_provider: true do
+describe ManageCmr::GroupsController, reset_provider: true do
   before do
     set_as_mmt_proper
   end

@@ -1,8 +1,9 @@
 module Cmr
   Faraday::Response.register_middleware(
-    logging: Cmr::ClientMiddleware::LoggingMiddleware,
-    errors: Cmr::ClientMiddleware::ErrorMiddleware,
-    events: Cmr::ClientMiddleware::EventMiddleware)
+    logging: -> { Cmr::ClientMiddleware::LoggingMiddleware },
+    errors:  -> { Cmr::ClientMiddleware::ErrorMiddleware },
+    events:  -> { Cmr::ClientMiddleware::EventMiddleware }
+  )
   class BaseClient
     # include Cmr::QueryTransformations
     include Cmr::Util
@@ -58,7 +59,7 @@ module Cmr
     end
 
     def request(method, url, params, body, headers)
-      Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_s(:log_time)}"
+      # Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_fs(:log_time)}"
       if params.nil?
         faraday_response = connection.send(method, url) do |req|
           unless self.class == UrsClient || self.class == LaunchpadClient
@@ -108,7 +109,7 @@ module Cmr
           Rails.logger.error "#{self.class} Response Error: #{error_string}"
         end
 
-        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+        Rails.logger.info "#{self.class} Response #{method} #{url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_fs(:log_time)}"
       rescue => e
         Rails.logger.error "#{self.class} Error: #{e}"
       end

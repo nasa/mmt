@@ -158,7 +158,7 @@ class CollectionDraft < Draft
 
   def add_metadata_dates(date: Time.now.utc, save_record: true)
     # Format the provided date
-    current_datetime = date.to_s(:metadata_dates_format)
+    current_datetime = date.to_fs(:metadata_dates_format)
 
     # Get the current dates from the metadata dates hash
     dates = draft['MetadataDates'] || []

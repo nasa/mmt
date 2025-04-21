@@ -103,7 +103,7 @@ class ApplicationController < ActionController::Base
   # the users valid token. This provides our policies with the ability to
   # retrieve the authenticated user and also their token
   def pundit_user
-    UserContext.new(current_user, token)
+    Pundit::UserContext.new(current_user, token)
   end
 
   def current_provider?(provider)

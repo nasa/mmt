@@ -28,7 +28,7 @@
 
     <p class="update-timestamp">
       <% unless draft.new_record? %>
-        Last saved <%= draft.updated_at.in_time_zone('Eastern Time (US & Canada)').to_s(:default_with_time_zone) %>
+        Last saved <%= draft.updated_at.in_time_zone('Eastern Time (US & Canada)').to_fs(:default_with_time_zone) %>
       <% end %>
     </p>
   </div>

@@ -1,6 +1,4 @@
-#lib/core_ext/hash.rb
 class Hash
-
   def to_camelback_keys(value = self)
     process_value(:to_camelback_keys, value, first_upper: false)
   end
@@ -24,32 +22,32 @@ class Hash
       key # Awrence can't camelize anything except strings and symbols
     end
   end
-  UPCASE_WORDS = %w(
-      urls
-      url_value
-      url
-      uri
-      url_content_type
-      related_url
-      license_url
-      data_id
-      isbn
-      doi
-      associated_dois
-      data_resource_doi
-      iso_topic_categories
-      online_access_url_pattern_match
-      online_access_url_pattern_substitution
-      crs_identifier
-      uom_label
-      avg_compression_rate_ascii
-      avg_compression_rate_net_cdf4
-      url_value
-      s3_credentials_api_documentation_url
-      s3_credentials_api_endpoint
-      eula_identifiers
-    )
 
+  UPCASE_WORDS = %w(
+    urls
+    url_value
+    url
+    uri
+    url_content_type
+    related_url
+    license_url
+    data_id
+    isbn
+    doi
+    associated_dois
+    data_resource_doi
+    iso_topic_categories
+    online_access_url_pattern_match
+    online_access_url_pattern_substitution
+    crs_identifier
+    uom_label
+    avg_compression_rate_ascii
+    avg_compression_rate_net_cdf4
+    url_value
+    s3_credentials_api_documentation_url
+    s3_credentials_api_endpoint
+    eula_identifiers
+  )
 
   def camelize(snake_word, first_upper = true)
     # Here is the patch

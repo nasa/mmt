@@ -19,7 +19,7 @@ module Cmr
           Rails.logger.error "#{self.class} Response Error: #{client_response.body.inspect}"
         end
 
-        Rails.logger.info "#{self.class} Response post #{faraday_response.env.url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_s(:log_time)}"
+        Rails.logger.info "#{self.class} Response post #{faraday_response.env.url} result : Headers: #{client_response_headers_for_logs} - Body Size (bytes): #{client_response.body.to_s.bytesize} - Body md5: #{Digest::MD5.hexdigest(client_response.body.to_s)} - Status: #{client_response.status} - Time: #{Time.now.to_fs(:log_time)}"
       rescue => e
         Rails.logger.error "#{self.class} Error: #{e}"
       end

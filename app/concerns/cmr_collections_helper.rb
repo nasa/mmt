@@ -1,4 +1,4 @@
-module CMRCollectionsHelper
+module CmrCollectionsHelper
   extend ActiveSupport::Concern
 
   def get_revisions(concept_id, revision_id)

@@ -1,6 +1,6 @@
 class CollectionsController < ManageCollectionsController
   include ManageMetadataHelper
-  include CMRCollectionsHelper
+  include CmrCollectionsHelper
   include CollectionsHelper
   include LossReportHelper
 

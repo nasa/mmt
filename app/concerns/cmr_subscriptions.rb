@@ -1,4 +1,4 @@
-module CMRSubscriptions
+module CmrSubscriptions
   extend ActiveSupport::Concern
 
   # This is derived from a similar method found in the cmr_collections_helper

@@ -35,7 +35,7 @@
               <%= draft.display_entry_title %>
             </td>
             <td>
-              <%= draft.updated_at.to_s(:date) %>
+              <%= draft.updated_at.to_fs(:date) %>
             </td>
             <td class="download_json_link">
             <%= link_to "Download JSON", "/#{resource_name}s/#{draft.id}.json", download: "#{draft.display_short_name}-#{draft.id}.json", id: 'download_link', class: 'eui-btn--link'%>

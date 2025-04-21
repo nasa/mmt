@@ -25,7 +25,7 @@
             <% @drafts[0..@draft_display_max_count-1].each do |draft| %>
               <li>
                 <p class="drafts">
-                  <%= time_tag draft.updated_at, draft.updated_at.to_s(:date) %> |
+                  <%= time_tag draft.updated_at, draft.updated_at.to_fs(:date) %> |
                   <%= link_to draft.display_short_name, tool_draft_path(draft), title: draft.display_short_name %>
                   <br>
                   <%= content_tag(:span, draft.display_entry_title, title: draft.display_entry_title) %>

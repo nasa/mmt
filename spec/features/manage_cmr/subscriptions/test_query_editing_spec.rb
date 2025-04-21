@@ -16,7 +16,7 @@ describe 'Testing Queries when editing', reset_provider: true, js: true do
       frequency = frequency.to_i if frequency.to_i == frequency.to_f
       @frequency = "#{frequency} #{frequency > 1 ? 'hours' : 'hour'}"
       allow_any_instance_of(ApplicationController).to receive(:authenticated_urs_uid).and_return('hvtranho')
-      allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+      allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
       login
       allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
       allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)

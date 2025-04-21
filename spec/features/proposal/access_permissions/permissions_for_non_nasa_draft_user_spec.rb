@@ -5,7 +5,7 @@ describe 'Non-NASA Draft User Permissions for Draft MMT', reset_provider: true d
       @token = 'jwt_access_token'
 
       allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_token')
-      allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+      allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
       allow_any_instance_of(User).to receive(:urs_uid).and_return('admin')
       VCR.use_cassette("edl/#{File.basename(__FILE__, ".rb")}_vcr", record: :none) do
         @non_nasa_draft_users_group = create_group(name: 'Non_NASA_Draft_Users_Group_003', members: ['admin'], provider_id: 'MMT_2')

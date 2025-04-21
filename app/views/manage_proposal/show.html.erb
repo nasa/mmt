@@ -62,7 +62,7 @@
               <%= display_submitter_name(proposal['submitter_id'], @urs_user_hash) %>
             </td>
             <td>
-              <%= DateTime.parse(proposal['updated_at']).to_s(:date) %>
+              <%= DateTime.parse(proposal['updated_at']).to_fs(:date) %>
             </td>
             <td>
               <%= link_to proposal['request_type'] == 'delete' ? 'Delete' : 'Publish' , "#approver-proposal-modal", class: 'eui-btn--link display-modal approver-proposal-modal-link', data: { 'proposal': proposal.to_json } %>

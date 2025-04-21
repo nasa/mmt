@@ -4,7 +4,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-    allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+    allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
     allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
 
     @group_name = 'Test_System_Permissions_Group_50'
@@ -46,7 +46,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
         @token = 'jwt_access_token'
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
         allow_any_instance_of(User).to receive(:urs_uid).and_return('hvtranho')
         visit edit_system_identity_permission_path(@group_response['group_id'])
         # By adding permissions after the 'user' loads the page, the system would
@@ -81,7 +81,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
         @token = 'jwt_access_token'
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
         allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
         add_group_permissions(
           { 'group_permissions' =>
@@ -124,7 +124,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
       VCR.use_cassette('permissions/concurrent_delete', erb: { group_id: @group_response['concept_id'] }, record: :none) do
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return('jwt_access_token')
-        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
         allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
         click_on 'Submit'
       end
@@ -149,7 +149,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
         @token = 'jwt_access_token'
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
         response = add_group_permissions(
           { 'group_permissions' =>
             [{
@@ -184,7 +184,7 @@ describe 'Concurrent Users Editing System Permissions', js: true do
         @token = 'jwt_access_token'
         allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
         allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-        allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+        allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
         allow_any_instance_of(User).to receive(:urs_uid).and_return('chris.gokey')
         response = add_group_permissions(
           { 'group_permissions' =>
