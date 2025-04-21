@@ -18,6 +18,7 @@ config="`jq '.application.apiHost = $newValue' --arg newValue $bamboo_API_HOST <
 config="`jq '.application.cmrHost = $newValue' --arg newValue $bamboo_CMR_HOST <<< $config`"
 config="`jq '.application.edscHost = $newValue' --arg newValue $bamboo_EDSC_HOST <<< $config`"
 config="`jq '.application.gkrHost = $newValue' --arg newValue $bamboo_GKR_HOST <<< $config`"
+config="`jq '.application.kmsHost = $newValue' --arg newValue $bamboo_KMS_HOST <<< $config`"
 # Remove after CMR-10452 has been completed
 config="`jq '.application.showKeywordManager = $newValue' --arg newValue $bamboo_SHOW_KEYWORD_MANAGER <<< $config`"
 config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKIE_DOMAIN <<< $config`"
