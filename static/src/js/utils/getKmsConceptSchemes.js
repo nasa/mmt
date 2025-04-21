@@ -1,4 +1,4 @@
-import xml2js from 'xml2js'
+import { XMLParser } from 'fast-xml-parser'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 /**
@@ -52,8 +52,11 @@ const getKmsConceptSchemes = async (version) => {
     const xmlText = await response.text()
 
     // Parse XML to JavaScript object
-    const parser = new xml2js.Parser({ explicitArray: false })
-    const result = await parser.parseStringPromise(xmlText)
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: '@_'
+    })
+    const result = parser.parse(xmlText)
 
     // Transform the parsed object into JSON structure
     const schemes = result.schemes.scheme
@@ -62,10 +65,10 @@ const getKmsConceptSchemes = async (version) => {
     // Create the final JSON result
     const jsonResult = {
       schemes: transformedData.map((s) => (s ? {
-        name: s.$.name,
-        longName: s.$.longName,
-        updateDate: s.$.updateDate,
-        csvHeaders: s.$.csvHeaders ? s.$.csvHeaders.split(',') : []
+        name: s['@_name'],
+        longName: s['@_longName'],
+        updateDate: s['@_updateDate'],
+        csvHeaders: s['@_csvHeaders'] ? s['@_csvHeaders'].split(',') : []
       } : null)).filter(Boolean)
     }
 
