@@ -75,7 +75,7 @@ describe('getKmsConceptVersions', () => {
     const result = await getKmsConceptVersions()
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://test-kms-host.com/concept_versions/version_type/all',
+      'http://test-kms-host.com/kms/concept_versions/version_type/all',
       { method: 'GET' }
     )
 
@@ -101,7 +101,7 @@ describe('getKmsConceptVersions', () => {
     await expect(getKmsConceptVersions()).rejects.toThrow('Network error')
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://test-kms-host.com/concept_versions/version_type/all',
+      'http://test-kms-host.com/kms/concept_versions/version_type/all',
       { method: 'GET' }
     )
   })

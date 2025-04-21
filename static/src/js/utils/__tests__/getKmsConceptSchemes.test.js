@@ -89,7 +89,7 @@ describe('getKmsConceptSchemes', () => {
       const result = await getKmsConceptSchemes({ version: '1.0' })
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://example.com/concept_schemes/?version=1.0',
+        'http://example.com/kms/concept_schemes/?version=1.0',
         { method: 'GET' }
       )
 
