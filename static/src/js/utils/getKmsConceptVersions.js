@@ -1,23 +1,6 @@
-import xml2js from 'xml2js'
+import { XMLParser } from 'fast-xml-parser'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
-/**
- * Fetches and parses KMS concept versions from the server.
- * @async
- * @function getKmsConceptVersions
- * @returns {Promise<Object>} A promise that resolves to an object containing parsed version data.
- * @throws {Error} If there's an error fetching or parsing the data.
- * *
- * @example
- * // Usage example
- * try {
- *   const kmsVersions = await getKmsConceptVersions();
- *   console.log(kmsVersions);
- *   // Output: { versions: [{ type: 'PUBLISHED', creation_date: '2023-06-15', version: '1.0' }, ...] }
- * } catch (error) {
- *   console.error('Failed to fetch KMS concept versions:', error);
- * }
- */
 const getKmsConceptVersions = async () => {
   const { kmsHost } = getApplicationConfig()
   try {
@@ -33,28 +16,27 @@ const getKmsConceptVersions = async () => {
     const xmlText = await response.text()
 
     // Parse XML to JavaScript object
-    const parser = new xml2js.Parser({ explicitArray: false })
-    const result = await parser.parseStringPromise(xmlText)
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: '',
+      textNodeName: 'value',
+      parseAttributeValue: false, // Add this line to prevent attribute value parsing
+      numberParseOptions: {
+        leadingZeros: false, // Add this to preserve leading zeros
+        skipLike: /^[0-9]+\.?[0-9]*$/ // Add this to skip parsing numbers with decimal points
+      }
+    })
+    const result = parser.parse(xmlText)
 
     // Transform the parsed object into a more friendly JSON structure
     const versions = result.versions.version
     const transformedData = Array.isArray(versions) ? versions : [versions]
 
-    /**
-     * @typedef {Object} Version
-     * @property {string} type - The type of the version.
-     * @property {string} creation_date - The creation date of the version.
-     * @property {string} version - The version number or identifier.
-     */
-
-    /**
-     * @type {{versions: Version[]}}
-     */
     const jsonResult = {
       versions: transformedData.map((v) => ({
-        type: v.$.type,
-        creation_date: v.$.creation_date,
-        version: v._
+        type: v.type,
+        creation_date: v.creation_date,
+        version: v.value // This should now preserve the original string representation
       }))
     }
 

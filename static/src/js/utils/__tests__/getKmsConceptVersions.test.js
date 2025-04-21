@@ -1,13 +1,18 @@
-import xml2js from 'xml2js'
+import {
+  describe,
+  expect,
+  beforeAll,
+  afterAll,
+  beforeEach,
+  vi
+} from 'vitest'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { XMLBuilder } from 'fast-xml-parser'
 import getKmsConceptVersions from '../getKmsConceptVersions'
 
-vi.mock('xml2js', () => ({
-  default: {
-    Parser: vi.fn().mockImplementation(() => ({
-      parseStringPromise: vi.fn()
-    }))
-  }
+// Mock the getApplicationConfig function
+vi.mock('sharedUtils/getConfig', () => ({
+  getApplicationConfig: vi.fn()
 }))
 
 let consoleErrorSpy
@@ -26,147 +31,147 @@ global.fetch = vi.fn(() => Promise.resolve({
 }))
 
 describe('getKmsConceptVersions', () => {
-  describe('when getKmsConceptVersions is called successfully', () => {
-    test('versions are returned', async () => {
-      const { kmsHost } = getApplicationConfig()
-      const mockXmlResponse = `
-        <versions>
-          <version type="published" creation_date="2023-05-01">1.0</version>
-          <version type="past_published" creation_date="2023-04-01">0.9</version>
-          <version type="draft" creation_date="2023-05-15">1.1</version>
-        </versions>
-      `
+  let originalFetch
 
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockXmlResponse)
-      }))
+  beforeAll(() => {
+    originalFetch = global.fetch
+  })
 
-      xml2js.Parser.mockImplementation(() => ({
-        parseStringPromise: vi.fn().mockResolvedValue({
-          versions: {
-            version: [
-              {
-                $: {
-                  type: 'published',
-                  creation_date: '2023-05-01'
-                },
-                _: '1.0'
-              },
-              {
-                $: {
-                  type: 'past_published',
-                  creation_date: '2023-04-01'
-                },
-                _: '0.9'
-              },
-              {
-                $: {
-                  type: 'draft',
-                  creation_date: '2023-05-15'
-                },
-                _: '1.1'
-              }
-            ]
-          }
-        })
-      }))
+  afterAll(() => {
+    global.fetch = originalFetch
+  })
 
-      const response = await getKmsConceptVersions()
+  beforeEach(() => {
+    global.fetch = vi.fn()
+    vi.mocked(getApplicationConfig).mockReturnValue({ kmsHost: 'http://test-kms-host.com' })
+  })
 
-      expect(response).toEqual({
-        versions: [
+  test('fetches and parses KMS concept versions correctly', async () => {
+    const mockXmlResponse = new XMLBuilder({
+      ignoreAttributes: false,
+      format: true
+    }).build({
+      versions: {
+        version: [
           {
-            type: 'published',
-            creation_date: '2023-05-01',
-            version: '1.0'
+            '@_type': 'PUBLISHED',
+            '@_creation_date': '2023-06-15',
+            '#text': '1.0'
           },
           {
-            type: 'past_published',
-            creation_date: '2023-04-01',
-            version: '0.9'
-          },
-          {
-            type: 'draft',
-            creation_date: '2023-05-15',
-            version: '1.1'
+            '@_type': 'DRAFT',
+            '@_creation_date': '2023-06-16',
+            '#text': '1.1'
           }
         ]
-      })
-
-      expect(fetch).toHaveBeenCalledTimes(1)
-      expect(fetch).toHaveBeenCalledWith(`${kmsHost}/concept_versions/version_type/all`, { method: 'GET' })
+      }
     })
-  })
 
-  describe('when getKmsConceptVersions call fails', () => {
-    test('throws an error', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: false,
-        status: 500
-      }))
-
-      await expect(getKmsConceptVersions()).rejects.toThrow('getKmsConceptVersions HTTP error! status: 500')
-      expect(fetch).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('when XML parsing fails', () => {
-    test('throws an error', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve('<invalid>xml</invalid>')
-      }))
-
-      xml2js.Parser.mockImplementation(() => ({
-        parseStringPromise: vi.fn().mockRejectedValue(new Error('XML parsing error'))
-      }))
-
-      await expect(getKmsConceptVersions()).rejects.toThrow('XML parsing error')
-      expect(fetch).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  test('handles single version response', async () => {
-    const { kmsHost } = getApplicationConfig()
-    const mockXmlResponse = `
-      <versions>
-        <version type="published" creation_date="2023-05-01">1.0</version>
-      </versions>
-    `
-
-    global.fetch = vi.fn(() => Promise.resolve({
+    vi.mocked(global.fetch).mockResolvedValueOnce({
       ok: true,
       text: () => Promise.resolve(mockXmlResponse)
-    }))
+    })
 
-    xml2js.Parser.mockImplementation(() => ({
-      parseStringPromise: vi.fn().mockResolvedValue({
-        versions: {
-          version: {
-            $: {
-              type: 'published',
-              creation_date: '2023-05-01'
-            },
-            _: '1.0'
-          }
-        }
-      })
-    }))
+    const result = await getKmsConceptVersions()
 
-    const response = await getKmsConceptVersions()
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://test-kms-host.com/concept_versions/version_type/all',
+      { method: 'GET' }
+    )
 
-    expect(response).toEqual({
+    expect(result).toEqual({
       versions: [
         {
-          type: 'published',
-          creation_date: '2023-05-01',
+          type: 'PUBLISHED',
+          creation_date: '2023-06-15',
           version: '1.0'
+        },
+        {
+          type: 'DRAFT',
+          creation_date: '2023-06-16',
+          version: '1.1'
         }
       ]
     })
+  })
 
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(`${kmsHost}/concept_versions/version_type/all`, { method: 'GET' })
+  test('handles errors correctly', async () => {
+    vi.mocked(global.fetch).mockRejectedValueOnce(new Error('Network error'))
+
+    await expect(getKmsConceptVersions()).rejects.toThrow('Network error')
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://test-kms-host.com/concept_versions/version_type/all',
+      { method: 'GET' }
+    )
+  })
+
+  test('throws an error when the HTTP response is not ok', async () => {
+    // Mock a failed HTTP response
+    global.fetch.mockResolvedValue({
+      ok: false,
+      status: 404
+    })
+
+    // Assert that the function throws an error with the correct message
+    await expect(getKmsConceptVersions()).rejects.toThrow('getKmsConceptVersions HTTP error! status: 404')
+  })
+
+  test('handles both array and single object responses', async () => {
+    // Test case for array response
+    const mockArrayXmlResponse = new XMLBuilder({
+      ignoreAttributes: false,
+      format: true
+    }).build({
+      versions: {
+        version: [
+          {
+            '@_type': 'PUBLISHED',
+            '@_creation_date': '2023-06-15',
+            '#text': '1.0'
+          },
+          {
+            '@_type': 'DRAFT',
+            '@_creation_date': '2023-06-16',
+            '#text': '1.1'
+          }
+        ]
+      }
+    })
+
+    vi.mocked(global.fetch).mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve(mockArrayXmlResponse)
+    })
+
+    let result = await getKmsConceptVersions()
+
+    expect(result.versions).toHaveLength(2)
+    expect(result.versions[0].version).toBe('1.0')
+    expect(result.versions[1].version).toBe('1.1')
+
+    // Test case for single object response
+    const mockSingleXmlResponse = new XMLBuilder({
+      ignoreAttributes: false,
+      format: true
+    }).build({
+      versions: {
+        version: {
+          '@_type': 'PUBLISHED',
+          '@_creation_date': '2023-06-15',
+          '#text': '1.0'
+        }
+      }
+    })
+
+    vi.mocked(global.fetch).mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve(mockSingleXmlResponse)
+    })
+
+    result = await getKmsConceptVersions()
+
+    expect(result.versions).toHaveLength(1)
+    expect(result.versions[0].version).toBe('1.0')
   })
 })

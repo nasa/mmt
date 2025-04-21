@@ -38,6 +38,7 @@
     "esbuild": "^0.19.5",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-testing-library": "^6.2.2",
+    "fast-xml-parser": "^5.2.0",
     "graphql": "^16.8.1",
     "json-schema": "^0.4.0",
     "jsonwebtoken": "^9.0.2",
@@ -69,7 +70,6 @@
     "vite": "^4.5.0",
     "vite-plugin-ejs": "^1.6.4",
     "vite-plugin-node-polyfills": "^0.21.0",
-    "xml2js": "^0.6.2",
     "xpath": "^0.0.34"
   },
   "devDependencies": {
