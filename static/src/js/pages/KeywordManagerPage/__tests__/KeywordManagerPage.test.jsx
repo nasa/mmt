@@ -7,6 +7,7 @@ import {
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as getConfigModule from 'sharedUtils/getConfig'
+import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('@/js/components/ErrorBoundary/ErrorBoundary', () => ({
@@ -27,25 +28,41 @@ vi.mock('@/js/components/PageHeader/PageHeader', () => ({
 }))
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
-  default: ({ onVersionSelect }) => (
-    <select
-      data-testid="version-selector"
-      onChange={
-        (e) => {
-          const [version, type] = e.target.value.split('|')
-          onVersionSelect({
-            version,
-            version_type: type
-          })
+  __esModule: true,
+  default: ({ onVersionSelect }) => {
+    const { useState, useEffect } = React
+
+    const [versions, setVersions] = useState([])
+    useEffect(() => {
+      getKmsConceptVersionsModule.default().then((result) => {
+        setVersions(result.versions)
+      })
+    }, [])
+
+    return (
+      <select
+        data-testid="version-selector"
+        onChange={
+          (e) => {
+            const selectedVersion = versions.find((v) => v.version === e.target.value)
+            onVersionSelect({
+              version: selectedVersion.version,
+              version_type: selectedVersion.type
+            })
+          }
         }
-      }
-    >
-      <option value="">Select a version</option>
-      <option value="1.0|draft">Version 1.0 (Draft)</option>
-      <option value="2.0|draft">Version 2.0 (Draft)</option>
-      <option value="3.0|published">Version 3.0 (Published)</option>
-    </select>
-  )
+      >
+        <option value="">Select a version</option>
+        {
+          versions.map((version) => (
+            <option key={version.version} value={version.version}>
+              {`${version.version} (${version.type.toUpperCase()})`}
+            </option>
+          ))
+        }
+      </select>
+    )
+  }
 }))
 
 const setup = () => {
@@ -59,14 +76,36 @@ const setup = () => {
 describe('KeywordManagerPage component', () => {
   let originalConsoleError
   let getApplicationConfigMock
+  let getKmsConceptVersionsMock
 
   beforeEach(() => {
     originalConsoleError = console.error
     console.error = vi.fn()
 
-    // Mock the getApplicationConfig function
     getApplicationConfigMock = vi.fn().mockReturnValue({ showKeywordManager: 'true' })
     vi.spyOn(getConfigModule, 'getApplicationConfig').mockImplementation(getApplicationConfigMock)
+
+    getKmsConceptVersionsMock = vi.fn().mockResolvedValue({
+      versions: [
+        {
+          version: '1.0',
+          type: 'draft',
+          creation_date: '2023-01-01'
+        },
+        {
+          version: '2.0',
+          type: 'past_published',
+          creation_date: '2023-02-01'
+        },
+        {
+          version: '3.0',
+          type: 'published',
+          creation_date: '2023-03-01'
+        }
+      ]
+    })
+
+    vi.spyOn(getKmsConceptVersionsModule, 'default').mockImplementation(getKmsConceptVersionsMock)
   })
 
   afterEach(() => {
@@ -75,14 +114,18 @@ describe('KeywordManagerPage component', () => {
   })
 
   describe('when the page loads', () => {
-    test('renders the KeywordManagerPage component', () => {
+    test('renders the KeywordManagerPage component', async () => {
       setup()
 
-      expect(screen.getByTestId('page')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByTestId('page')).toBeInTheDocument()
+      })
+
       expect(screen.getByTestId('page-header')).toBeInTheDocument()
       expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
       expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
       expect(screen.getByText('Version:')).toBeInTheDocument()
+      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
     })
   })
 
@@ -101,24 +144,30 @@ describe('KeywordManagerPage component', () => {
   })
 
   describe('when showKeywordManager is true', () => {
-    test('renders the KeywordManagerPage component', () => {
+    test('renders the KeywordManagerPage component', async () => {
       getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'true' })
 
       setup()
 
-      expect(screen.getByTestId('page')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByTestId('page')).toBeInTheDocument()
+      })
+
       expect(screen.getByTestId('page-header')).toBeInTheDocument()
       expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
       expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
       expect(screen.getByText('Version:')).toBeInTheDocument()
+      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
     })
   })
 
   describe('when a version is selected', () => {
-    test('calls onVersionSelect and updates selectedVersion', async () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'true' })
-
+    test('updates selectedVersion', async () => {
       setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
 
       const versionSelector = screen.getByTestId('version-selector')
 
@@ -126,25 +175,23 @@ describe('KeywordManagerPage component', () => {
       expect(versionSelector).toHaveValue('')
 
       // Simulate version selection
-      fireEvent.change(versionSelector, { target: { value: '2.0|draft' } })
+      fireEvent.change(versionSelector, { target: { value: '2.0' } })
 
       // Check if the version selector value has been updated
-      expect(versionSelector).toHaveValue('2.0|draft')
+      expect(versionSelector).toHaveValue('2.0')
     })
 
     test('shows warning modal when a published version is selected', async () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'true' })
+      setup()
 
-      const { rerender } = render(
-        <BrowserRouter>
-          <KeywordManagerPage />
-        </BrowserRouter>
-      )
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
 
       const versionSelector = screen.getByTestId('version-selector')
 
       // Simulate selecting a published version
-      fireEvent.change(versionSelector, { target: { value: '3.0|published' } })
+      fireEvent.change(versionSelector, { target: { value: '3.0' } })
 
       // Check if the warning modal is shown
       await waitFor(() => {
@@ -156,20 +203,13 @@ describe('KeywordManagerPage component', () => {
       // Close the modal
       fireEvent.click(screen.getByText('OK'))
 
-      // Force a re-render to reflect the state change
-      rerender(
-        <BrowserRouter>
-          <KeywordManagerPage />
-        </BrowserRouter>
-      )
-
       // Check if the modal is closed
       await waitFor(() => {
         expect(screen.queryByText('Warning')).not.toBeInTheDocument()
       })
 
       // Verify that the selected version is still set
-      expect(versionSelector).toHaveValue('3.0|published')
+      expect(versionSelector).toHaveValue('3.0')
     })
   })
 })

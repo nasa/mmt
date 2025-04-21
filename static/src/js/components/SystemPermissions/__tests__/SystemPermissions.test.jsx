@@ -201,7 +201,7 @@ describe('SystemPermissions', () => {
         const table = screen.getByRole('table')
 
         const checkedCheckboxes = within(table).queryAllByRole('checkbox', { checked: true })
-        expect(checkedCheckboxes.length).toBe(50)
+        expect(checkedCheckboxes.length).toBe(54)
 
         await user.click(checkAll)
 
