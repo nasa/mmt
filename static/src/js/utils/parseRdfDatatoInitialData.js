@@ -29,8 +29,9 @@ const parseRdfDataToInitialData = (rdfData) => {
   const broaderKeyword = getAttributeValue(conceptElement.getElementsByTagNameNS(namespaces.skos, 'broader')[0], 'rdf:resource')
 
   const narrowerKeywords = Array.from(conceptElement.getElementsByTagNameNS(namespaces.skos, 'narrower'))
-    .map((narrower) => getAttributeValue(narrower, 'rdf:resource'))
-    .join(', ')
+    .map((narrower) => ({
+      NarrowerUUID: getAttributeValue(narrower, 'rdf:resource')
+    }))
 
   const alternateLevels = Array.from(conceptElement.getElementsByTagNameNS(namespaces.skos, 'altLabel'))
     .map((altLabel) => ({
@@ -46,14 +47,14 @@ const parseRdfDataToInitialData = (rdfData) => {
   const resources = Array.from(conceptElement.getElementsByTagNameNS(namespaces.gcmd, 'resource'))
     .map((resource) => ({
       ResourceType: getAttributeValue(resource, 'gcmd:type'),
-      ResourceLabel: getAttributeValue(resource, 'gcmd:url')
+      ResourceUri: getAttributeValue(resource, 'gcmd:url')
     }))
 
   const relatedKeywords = [
     ...Array.from(conceptElement.getElementsByTagNameNS(namespaces.skos, 'related'))
       .map((related) => ({
         UUID: getAttributeValue(related, 'rdf:resource'),
-        RelationshipType: 'Similar'
+        RelationshipType: 'Related'
       })),
     ...Array.from(conceptElement.getElementsByTagNameNS(namespaces.gcmd, 'hasInstrument'))
       .map((related) => ({
@@ -75,7 +76,9 @@ const parseRdfDataToInitialData = (rdfData) => {
   const transformedData = {
     KeywordUUID: keywordUUID,
     BroaderKeyword: broaderKeyword,
-    NarrowerKeyword: narrowerKeywords,
+    NarrowerKeyword: narrowerKeywords.map((narrower) => ({
+      NarrowerUUID: narrower.NarrowerUUID
+    })),
     PreferredLabel: preferredLabel,
     AlternateLabels: alternateLevels.map((label) => ({
       LabelName: label.LabelName,
@@ -85,7 +88,7 @@ const parseRdfDataToInitialData = (rdfData) => {
     DefinitionReference: definitionReference,
     Resources: resources.map((resource) => ({
       ResourceType: resource.ResourceType,
-      ResourceLabel: resource.ResourceLabel
+      ResourceUri: resource.ResourceUri
     })),
     RelatedKeywords: relatedKeywords.map((keyword) => ({
       UUID: keyword.UUID,

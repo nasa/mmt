@@ -11,7 +11,15 @@ const keywordSchema = {
       type: 'string'
     },
     NarrowerKeyword: {
-      type: 'string'
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          NarrowerUUID: {
+            type: 'string'
+          }
+        }
+      }
     },
     PreferredLabel: {
       type: 'string',
@@ -42,7 +50,7 @@ const keywordSchema = {
     DefinitionReference: {
       type: 'string',
       minLength: 1,
-      maxLength: 1024
+      maxLength: 2000
     },
     Resources: {
       type: 'array',
@@ -52,13 +60,13 @@ const keywordSchema = {
           ResourceType: {
             $ref: '#/definitions/ResourceTypeEnum'
           },
-          ResourceLabel: {
+          ResourceUri: {
             type: 'string',
             minLength: 1,
             maxLength: 1024
           }
         },
-        required: ['ResourceType', 'ResourceLabel']
+        required: ['ResourceType', 'ResourceUri']
       }
     },
     RelatedKeywords: {
@@ -89,7 +97,7 @@ const keywordSchema = {
     },
     RelationshipTypeEnum: {
       type: 'string',
-      enum: ['Has Instrument', 'On Platform', 'Has Sensor', 'Similar']
+      enum: ['Has Instrument', 'On Platform', 'Has Sensor', 'Related']
     },
     ResourceTypeEnum: {
       type: 'string',

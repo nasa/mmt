@@ -40,7 +40,7 @@ const KeywordForm = ({
     setFormData(newFormData)
   }
 
-  // Handlesubmit to completed in MMT-4003
+  // Handlesubmit to be completed in MMT-4003
   // const handleSubmit = ({ submitFormData }) => {
   //   console.log('Form submitted:', submitFormData)
   // }
@@ -73,7 +73,9 @@ KeywordForm.propTypes = {
   initialData: PropTypes.shape({
     KeywordUUID: PropTypes.string,
     BroaderKeyword: PropTypes.string,
-    NarrowerKeyword: PropTypes.string,
+    NarrowerKeyword: PropTypes.arrayOf(PropTypes.shape({
+      NarrowerUUID: PropTypes.string
+    })),
     PreferredLabel: PropTypes.string,
     AlternateLabels: PropTypes.arrayOf(PropTypes.shape({
       LabelName: PropTypes.string,
@@ -83,7 +85,7 @@ KeywordForm.propTypes = {
     DefinitionReference: PropTypes.string,
     Resources: PropTypes.arrayOf(PropTypes.shape({
       ResourceType: PropTypes.string,
-      ResourceLabel: PropTypes.string
+      ResourceUri: PropTypes.string
     })),
     RelatedKeywords: PropTypes.arrayOf(PropTypes.shape({
       UUID: PropTypes.string,

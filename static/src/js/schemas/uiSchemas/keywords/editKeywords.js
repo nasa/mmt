@@ -85,10 +85,28 @@ const editKeywordsUiSchema = {
   },
   KeywordUUID: {
     'ui:widget': CustomTextWidget,
-    'ui:readonly': true
+    'ui:disabled': true
   },
   BroaderKeyword: {
     'ui:widget': CustomTextWidget
+  },
+  NarrowerKeyword: {
+    items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: ['NarrowerUUID']
+            }
+          }
+        ]
+      }
+    },
+    NarrowerUUID: {
+      'ui:widget': CustomTextWidget
+    }
   },
   PreferredLabel: {
     'ui:widget': CustomTextWidget
@@ -100,13 +118,13 @@ const editKeywordsUiSchema = {
         'ui:row': [
           {
             'ui:col': {
-              md: 6,
+              md: 4,
               children: ['LabelType']
             }
           },
           {
             'ui:col': {
-              md: 6,
+              md: 8,
               children: ['LabelName']
             }
           }
@@ -127,14 +145,14 @@ const editKeywordsUiSchema = {
         'ui:row': [
           {
             'ui:col': {
-              md: 6,
+              md: 4,
               children: ['ResourceType']
             }
           },
           {
             'ui:col': {
-              md: 6,
-              children: ['ResourceLabel']
+              md: 8,
+              children: ['ResourceUri']
             }
           }
         ]
@@ -142,7 +160,7 @@ const editKeywordsUiSchema = {
       ResourceType: {
         'ui:widget': CustomSelectWidget
       },
-      ResourceLabel: {
+      ResourceUri: {
         'ui:widget': CustomTextWidget
       }
     }
@@ -151,7 +169,7 @@ const editKeywordsUiSchema = {
     'ui:widget': CustomTextareaWidget
   },
   DefinitionReference: {
-    'ui:widget': CustomTextWidget
+    'ui:widget': CustomTextareaWidget
   },
   RelatedKeywords: {
     items: {
@@ -160,13 +178,13 @@ const editKeywordsUiSchema = {
         'ui:row': [
           {
             'ui:col': {
-              md: 6,
+              md: 4,
               children: ['RelationshipType']
             }
           },
           {
             'ui:col': {
-              md: 6,
+              md: 8,
               children: ['UUID']
             }
           }

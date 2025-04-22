@@ -6,10 +6,10 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { getApplicationConfig } from 'sharedUtils/getConfig'
 import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
+import userEvent from '@testing-library/user-event'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('sharedUtils/getConfig')
@@ -115,46 +115,18 @@ describe('KeywordManagerPage component', () => {
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('page')).toBeInTheDocument()
+        expect(screen.getByRole('heading', { name: 'Keyword Manager' })).toBeInTheDocument()
       })
 
-      expect(screen.getByTestId('page-header')).toBeInTheDocument()
-      expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
-      expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
       expect(screen.getByText('Version:')).toBeInTheDocument()
-      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Preview Keyword' })).toBeInTheDocument()
 
-  describe('when showKeywordManager is false', () => {
-    test('renders nothing', () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'false' })
-
-      setup()
-
-      expect(screen.queryByTestId('page')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('page-header')).not.toBeInTheDocument()
-      expect(screen.queryByText('Keyword Manager')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('error-boundary')).not.toBeInTheDocument()
-      expect(screen.queryByText('Version:')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('when showKeywordManager is true', () => {
-    test('renders the KeywordManagerPage component', async () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'true' })
-
-      setup()
-
-      await waitFor(() => {
-        expect(screen.getByTestId('page')).toBeInTheDocument()
-      })
-
-      expect(screen.getByTestId('page-header')).toBeInTheDocument()
-      expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
-      expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
-      expect(screen.getByText('Version:')).toBeInTheDocument()
-      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      // Check for the presence of both main columns
+      const columns = screen.getAllByRole('generic').filter(
+        (element) => element.classList.contains('col-md-5') || element.classList.contains('col-md-7')
+      )
+      expect(columns).toHaveLength(2)
     })
   })
 
@@ -207,6 +179,86 @@ describe('KeywordManagerPage component', () => {
 
       // Verify that the selected version is still set
       expect(versionSelector).toHaveValue('3.0')
+    })
+  })
+
+  describe('when a user clicks the Preview Keyword button', () => {
+    test('should fetch and display keyword data', async () => {
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+      })
+      global.fetch = mockFetch
+
+      const mockParsedData = {
+        PreferredLabel: 'Test Keyword',
+        Definition: 'This is a test definition'
+      }
+      const mockParseRdfData = vi.fn().mockReturnValue(mockParsedData)
+      parseRdfDataToInitialData.mockImplementation(mockParseRdfData)
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledTimes(1)
+      })
+
+      expect(mockParseRdfData).toHaveBeenCalledTimes(1)
+
+      expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
+      expect(screen.getByText('This is a test definition')).toBeInTheDocument()
+      expect(screen.getByText('12/80 characters')).toBeInTheDocument()
+      expect(screen.getByLabelText('Keyword UUID')).toBeInTheDocument()
+      expect(screen.getByLabelText('Broader Keyword')).toBeInTheDocument()
+      expect(screen.getByLabelText('Preferred Label')).toBeInTheDocument()
+      expect(screen.getByLabelText('Definition')).toBeInTheDocument()
+
+      expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+    })
+
+    test('should handle fetch error', async () => {
+      const mockFetch = vi.fn().mockRejectedValue(new Error('Fetch failed'))
+      global.fetch = mockFetch
+
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledTimes(1)
+      })
+
+      expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
+      expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
+
+      consoleSpy.mockRestore()
+    })
+
+    test('should handle non-ok response', async () => {
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 404,
+        statusText: 'Not Found'
+      })
+      global.fetch = mockFetch
+
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledTimes(1)
+      })
+
+      expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
+      expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
+      consoleSpy.mockRestore()
     })
   })
 })

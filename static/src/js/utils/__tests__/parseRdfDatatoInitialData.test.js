@@ -29,7 +29,11 @@ describe('parseRdfDataToInitialData', () => {
         PreferredLabel: 'Test Concept',
         Definition: 'This is a test concept',
         BroaderKeyword: 'http://example.com/concept/parent',
-        NarrowerKeyword: 'http://example.com/concept/child1, http://example.com/concept/child2',
+        NarrowerKeyword: [{
+          NarrowerUUID: 'http://example.com/concept/child1'
+        }, {
+          NarrowerUUID: 'http://example.com/concept/child2'
+        }],
         AlternateLabels: [{
           LabelName: 'TC',
           LabelType: 'Acronym'
@@ -37,11 +41,11 @@ describe('parseRdfDataToInitialData', () => {
         DefinitionReference: 'http://example.com/reference',
         Resources: [{
           ResourceType: 'provider',
-          ResourceLabel: 'http://example.com'
+          ResourceUri: 'http://example.com'
         }],
         RelatedKeywords: [{
           UUID: 'http://example.com/concept/related',
-          RelationshipType: 'Similar'
+          RelationshipType: 'Related'
         }],
         ChangeLogs: 'Updated on 2023-01-01'
       })
@@ -90,11 +94,11 @@ describe('parseRdfDataToInitialData', () => {
       expect(result.Resources).toEqual([
         {
           ResourceType: 'Website',
-          ResourceLabel: 'http://example1.com'
+          ResourceUri: 'http://example1.com'
         },
         {
           ResourceType: 'Document',
-          ResourceLabel: 'http://example2.com'
+          ResourceUri: 'http://example2.com'
         }
       ])
 
@@ -112,7 +116,7 @@ describe('parseRdfDataToInitialData', () => {
           <gcmd:hasInstrument rdf:resource="http://example.com/instrument/1"/>
           <gcmd:isOnPlatform rdf:resource="http://example.com/platform/1"/>
           <gcmd:hasSensor rdf:resource="http://example.com/sensor/1"/>
-          <skos:related rdf:resource="http://example.com/similar/1"/>
+          <skos:related rdf:resource="http://example.com/related/1"/>
         </skos:Concept>
       </rdf:RDF>
     `
@@ -122,8 +126,8 @@ describe('parseRdfDataToInitialData', () => {
 
       expect(result.RelatedKeywords).toEqual([
         {
-          UUID: 'http://example.com/similar/1',
-          RelationshipType: 'Similar'
+          UUID: 'http://example.com/related/1',
+          RelationshipType: 'Related'
         },
         {
           UUID: 'http://example.com/instrument/1',

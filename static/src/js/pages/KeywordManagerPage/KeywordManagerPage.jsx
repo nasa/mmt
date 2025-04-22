@@ -1,5 +1,4 @@
 import React, {
-  Suspense,
   useState,
   useCallback,
   useEffect
@@ -11,9 +10,7 @@ import {
   Button
 } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import React, { useState, useCallback } from 'react'
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
@@ -26,16 +23,21 @@ import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 
-const KeywordManagementTree = ({ onShowKeyword }) => (
-  <div>
-    <Button
-      onClick={() => onShowKeyword({})}
-      variant="primary"
-    >
-      Preview Keyword
-    </Button>
-  </div>
-)
+const KeywordManagementTree = ({ onShowKeyword }) => {
+  // Needed until MMT-4003 can implement UUIDs
+  const exampleUUID = '7545e1af-1a3a-4ebc-95e3-cbff49cca4c5'
+
+  return (
+    <div>
+      <Button
+        onClick={() => onShowKeyword(exampleUUID)}
+        variant="primary"
+      >
+        Preview Keyword
+      </Button>
+    </div>
+  )
+}
 
 const KeywordManagerPageHeader = () => (
   <PageHeader
@@ -65,15 +67,16 @@ const KeywordManagerPageHeader = () => (
 )
 
 const KeywordManagerPage = () => {
-  const { showKeywordManager, cmrHost } = getApplicationConfig()
   const [isLoading, setIsLoading] = useState(false)
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
+  const [selectedVersion, setSelectedVersion] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
+  const { kmsHost } = getApplicationConfig()
 
   const handleShowKeyword = useCallback(async (uuid) => {
     setIsLoading(true)
     try {
-      const response = await fetch(`${cmrHost}/kms/concept/${uuid}`)
+      const response = await fetch(`${kmsHost}/concept/${uuid}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -87,10 +90,6 @@ const KeywordManagerPage = () => {
       setIsLoading(false)
     }
   }, [])
-
-  if (showKeywordManager === 'false') {
-    return null
-  }
 
   const onVersionSelect = useCallback((versionInfo) => {
     setSelectedVersion(versionInfo)
@@ -137,7 +136,7 @@ const KeywordManagerPage = () => {
                 </label>
                 <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
               </div>
-              <KeywordManagementTree onShowKeyword={handleShowKeyword}/>
+              <KeywordManagementTree onShowKeyword={handleShowKeyword} />
             </div>
           </Col>
           <Col md={7}>
