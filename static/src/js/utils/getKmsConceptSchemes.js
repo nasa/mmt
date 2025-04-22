@@ -37,11 +37,16 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * }
  */
 const getKmsConceptSchemes = async (version) => {
-  console.log('GET ConceptScheme called with version=', version.version)
   const { kmsHost } = getApplicationConfig()
   try {
+    // In case of published version, use 'published' instead of the version label
+    let versionName = version.version
+    if (version.version_type === 'published') {
+      versionName = 'published'
+    }
+
     // Fetch XML data from the server
-    const response = await fetch(`${kmsHost}/kms/concept_schemes/?version=${version.version}`, {
+    const response = await fetch(`${kmsHost}/concept_schemes/?version=${versionName}`, {
       method: 'GET'
     })
 

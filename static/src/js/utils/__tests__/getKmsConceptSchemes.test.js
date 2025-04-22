@@ -89,7 +89,7 @@ describe('getKmsConceptSchemes', () => {
       const result = await getKmsConceptSchemes({ version: '1.0' })
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://example.com/kms/concept_schemes/?version=1.0',
+        'http://example.com/concept_schemes/?version=1.0',
         { method: 'GET' }
       )
 
@@ -132,6 +132,46 @@ describe('getKmsConceptSchemes', () => {
             longName: 'Scheme 1',
             updateDate: '2023-01-01',
             csvHeaders: ['header1', 'header2']
+          }
+        ]
+      })
+    })
+  })
+
+  describe('when fetching published concept schemes', () => {
+    test('should fetch published concept schemes successfully', async () => {
+      const mockXmlResponse = `
+        <schemes>
+          <scheme name="publishedScheme1" longName="Published Scheme 1" updateDate="2023-01-01" csvHeaders="header1,header2"/>
+          <scheme name="publishedScheme2" longName="Published Scheme 2" updateDate="2023-01-02" csvHeaders="header3,header4"/>
+        </schemes>
+      `
+
+      global.fetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockXmlResponse)
+      })
+
+      const result = await getKmsConceptSchemes({ version_type: 'published' })
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        'http://example.com/concept_schemes/?version=published',
+        { method: 'GET' }
+      )
+
+      expect(result).toEqual({
+        schemes: [
+          {
+            name: 'publishedScheme1',
+            longName: 'Published Scheme 1',
+            updateDate: '2023-01-01',
+            csvHeaders: ['header1', 'header2']
+          },
+          {
+            name: 'publishedScheme2',
+            longName: 'Published Scheme 2',
+            updateDate: '2023-01-02',
+            csvHeaders: ['header3', 'header4']
           }
         ]
       })

@@ -108,8 +108,16 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
 }
 
 KmsConceptSchemeSelector.propTypes = {
-  version: PropTypes.string.isRequired,
-  onSchemeSelect: PropTypes.func.isRequired
+  version: PropTypes.shape({
+    version: PropTypes.string,
+    version_type: PropTypes.string
+  }),
+  onSchemeSelect: PropTypes.func
+}
+
+KmsConceptSchemeSelector.defaultProps = {
+  version: null,
+  onSchemeSelect: () => {}
 }
 
 export default KmsConceptSchemeSelector

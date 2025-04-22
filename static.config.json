@@ -7,7 +7,7 @@
     "graphQlHost": "http://localhost:3013/api",
     "mmtHost": "http://localhost:5173",
     "edscHost": "https://search.sit.earthdata.nasa.gov",
-    "kmsHost": "https://cmr.sit.earthdata.nasa.gov",
+    "kmsHost": "https://cmr.sit.earthdata.nasa.gov/kms",
     "version": "development",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",

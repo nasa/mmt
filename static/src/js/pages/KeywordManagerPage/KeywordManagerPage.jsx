@@ -66,7 +66,6 @@ const KeywordManagerPage = () => {
   }, [])
 
   useEffect(() => {
-    console.log('selectedVersion=', selectedVersion)
     if (selectedVersion && selectedVersion.version_type === 'published') {
       setShowWarning(true)
     }
@@ -74,7 +73,6 @@ const KeywordManagerPage = () => {
 
   useEffect(() => {
     if (selectedScheme) {
-      console.log('selectedScheme=', selectedScheme)
       // Todo: add more logic here to handle the selected version and scheme (showing the tree)
     }
   }, [selectedScheme])

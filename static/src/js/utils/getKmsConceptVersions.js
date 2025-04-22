@@ -5,7 +5,7 @@ const getKmsConceptVersions = async () => {
   const { kmsHost } = getApplicationConfig()
   try {
     // Fetch data from KMS server
-    const response = await fetch(`${kmsHost}/kms/concept_versions/version_type/all`, {
+    const response = await fetch(`${kmsHost}/concept_versions/version_type/all`, {
       method: 'GET'
     })
 
