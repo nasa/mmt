@@ -6,25 +6,17 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import KeywordManagerPage from '../KeywordManagerPage'
 
-vi.mock('@/js/components/ErrorBoundary/ErrorBoundary', () => ({
-  default: ({ children }) => <div data-testid="error-boundary">{children}</div>
-}))
+vi.mock('sharedUtils/getConfig')
+vi.mock('@/js/utils/parseRdfDatatoInitialData')
 
-vi.mock('@/js/components/Page/Page', () => ({
-  default: ({ children, header }) => (
-    <div data-testid="page">
-      {header}
-      {children}
-    </div>
-  )
-}))
-
-vi.mock('@/js/components/PageHeader/PageHeader', () => ({
-  default: ({ title }) => <h1 data-testid="page-header">{title}</h1>
+vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder', () => ({
+  default: () => <div>Metadata Preview Placeholder</div>
 }))
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
@@ -65,12 +57,17 @@ vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', (
   }
 }))
 
+global.fetch = vi.fn()
+
 const setup = () => {
+  const user = userEvent.setup()
   render(
     <BrowserRouter>
       <KeywordManagerPage />
     </BrowserRouter>
   )
+
+  return { user }
 }
 
 describe('KeywordManagerPage component', () => {

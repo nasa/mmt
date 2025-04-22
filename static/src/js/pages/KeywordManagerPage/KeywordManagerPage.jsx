@@ -5,19 +5,36 @@ import React, {
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
+import {
+  Row,
+  Col,
+  Button
+} from 'react-bootstrap'
+import PropTypes from 'prop-types'
+import React, { useState, useCallback } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
-import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
+import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
-import { getApplicationConfig } from 'sharedUtils/getConfig'
 
-// Placeholder component for the keyword management tree. To be made into it's own file.
-const KeywordManagementTree = () => (
-  <div>Keyword Management Tree to be inserted here</div>
+import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
+
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+
+const KeywordManagementTree = ({ onShowKeyword }) => (
+  <div>
+    <Button
+      onClick={() => onShowKeyword({})}
+      variant="primary"
+    >
+      Preview Keyword
+    </Button>
+  </div>
 )
 
 const KeywordManagerPageHeader = () => (
@@ -32,24 +49,44 @@ const KeywordManagerPageHeader = () => (
       ]
     }
     pageType="secondary"
-    // To be added to/amended
     primaryActions={
-      [{
-        icon: FaPlus,
-        iconTitle: 'A plus icon',
-        title: 'Publish New Keyword Version',
-        to: 'new',
-        variant: 'success'
-      }]
+      [
+        {
+          icon: FaPlus,
+          iconTitle: 'A plus icon',
+          title: 'Publish New Keyword Version',
+          to: 'new',
+          variant: 'success'
+        }
+      ]
     }
     title="Keyword Manager"
   />
 )
 
 const KeywordManagerPage = () => {
-  const { showKeywordManager } = getApplicationConfig()
-  const [selectedVersion, setSelectedVersion] = useState(null)
+  const { showKeywordManager, cmrHost } = getApplicationConfig()
+  const [isLoading, setIsLoading] = useState(false)
+  const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
+
+  const handleShowKeyword = useCallback(async (uuid) => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${cmrHost}/kms/concept/${uuid}`)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const rdfData = await response.text()
+      const parsedData = parseRdfDataToInitialData(rdfData)
+      setSelectedKeywordData(parsedData)
+    } catch (error) {
+      console.error('Error fetching keyword data:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
   if (showKeywordManager === 'false') {
     return null
@@ -76,32 +113,43 @@ const KeywordManagerPage = () => {
       header={<KeywordManagerPageHeader />}
     >
       <ErrorBoundary>
-        <Suspense fallback={<LoadingTable />}>
-          <div>
-            <div style={
-              {
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '20px'
-              }
-            }
-            >
-              <label
-                htmlFor="version-selector"
-                style={
-                  {
-                    marginRight: '10px',
-                    marginBottom: '25px'
-                  }
+        <Row>
+          <Col md={5}>
+            <div>
+              <div style={
+                {
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '20px'
                 }
+              }
               >
-                Version:
-              </label>
-              <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+                <label
+                  htmlFor="version-selector"
+                  style={
+                    {
+                      marginRight: '10px',
+                      marginBottom: '25px'
+                    }
+                  }
+                >
+                  Version:
+                </label>
+                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+              </div>
+              <KeywordManagementTree onShowKeyword={handleShowKeyword}/>
             </div>
-            <KeywordManagementTree />
-          </div>
-        </Suspense>
+          </Col>
+          <Col md={7}>
+            {
+              isLoading ? (
+                <MetadataPreviewPlaceholder />
+              ) : (
+                selectedKeywordData && <KeywordForm initialData={selectedKeywordData} />
+              )
+            }
+          </Col>
+        </Row>
       </ErrorBoundary>
 
       <Modal show={showWarning} onHide={handleCloseWarning}>
@@ -120,6 +168,10 @@ const KeywordManagerPage = () => {
       </Modal>
     </Page>
   )
+}
+
+KeywordManagementTree.propTypes = {
+  onShowKeyword: PropTypes.func.isRequired
 }
 
 export default KeywordManagerPage
