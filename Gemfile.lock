@@ -253,6 +253,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.5)
     momentjs-rails (2.29.4.1)
       railties (>= 3.1)
@@ -269,7 +270,8 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.7-x86_64-darwin)
+    nokogiri (1.18.8)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogiri-diff (0.2.0)
       nokogiri (~> 1.5)
@@ -449,10 +451,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.3.1)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0, < 4.11)
     webrick (1.9.1)
     websocket (1.2.11)
     websocket-driver (0.7.7)
@@ -504,6 +502,7 @@ DEPENDENCIES
   libxml-to-hash!
   momentjs-rails
   multi_xml
+  nokogiri
   nokogiri-diff (~> 0.2.0)
   pg
   prime
@@ -528,12 +527,11 @@ DEPENDENCIES
   unicorn
   vcr
   web-console
-  webdrivers
   webrick (~> 1.7)
   whenever
 
 RUBY VERSION
-   ruby 3.2.8p263
+   ruby 3.3.8p144
 
 BUNDLED WITH
    2.4.19
