@@ -163,14 +163,9 @@ describe('KeywordManagerPage component', () => {
       })
 
       expect(screen.getByText('Version:')).toBeInTheDocument()
-      expect(screen.getByRole('combobox')).toBeInTheDocument()
+      expect(screen.getByText('Scheme:')).toBeInTheDocument()
+      expect(screen.getAllByRole('combobox')).toHaveLength(2) // Two selectors
       expect(screen.getByRole('button', { name: 'Preview Keyword' })).toBeInTheDocument()
-
-      // Check for the presence of both main columns
-      const columns = screen.getAllByRole('generic').filter(
-        (element) => element.classList.contains('col-md-5') || element.classList.contains('col-md-7')
-      )
-      expect(columns).toHaveLength(2)
     })
   })
 
@@ -303,17 +298,25 @@ describe('KeywordManagerPage component', () => {
       expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
       expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       consoleSpy.mockRestore()
+    })
+  })
 
   describe('KmsConceptSchemeSelector', () => {
-    test('renders the scheme selector', async () => {
+    test('renders the scheme selector next to the version selector', async () => {
       setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('version-selector')).toBeInTheDocument()
       })
 
+      // Find the flex container using only Testing Library methods
+      const versionLabel = screen.getByText('Version:')
+      const schemeLabel = screen.getByText('Scheme:')
+
+      expect(screen.getByText('Version:')).toBe(versionLabel)
+      expect(screen.getByText('Scheme:')).toBe(schemeLabel)
+
       expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
-      expect(screen.getByText('Scheme:')).toBeInTheDocument()
     })
 
     test('updates selectedScheme when a scheme is selected', async () => {

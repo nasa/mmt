@@ -121,43 +121,32 @@ const KeywordManagerPage = () => {
       header={<KeywordManagerPageHeader />}
     >
       <ErrorBoundary>
-        <Row>
-          <Col md={5}>
-            <div>
-              <div style={
-                {
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '20px'
-                }
-              }
-              >
+        <Row className="mb-4">
+          <Col>
+            <div className="d-flex align-items-center">
+              <div className="me-4">
                 <label
                   htmlFor="version-selector"
-                  style={
-                    {
-                      marginRight: '10px',
-                      marginBottom: '25px'
-                    }
-                  }
+                  className="mb-2 d-block"
                 >
                   Version:
                 </label>
                 <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+              </div>
+              <div>
                 <label
                   htmlFor="scheme-selector"
-                  style={
-                    {
-                      marginLeft: '20px',
-                      marginRight: '10px',
-                      marginBottom: '25px'
-                    }
-                  }
+                  className="mb-2 d-block"
                 >
                   Scheme:
                 </label>
                 <KmsConceptSchemeSelector version={selectedVersion} onSchemeSelect={onSchemeSelect} id="scheme-selector" />
+              </div>
             </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={5}>
             <KeywordManagementTree onShowKeyword={handleShowKeyword} />
           </Col>
           <Col md={7}>
