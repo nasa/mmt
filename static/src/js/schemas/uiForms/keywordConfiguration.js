@@ -3,7 +3,7 @@ const keywordConfiguration = [
     properties: [
       'KeywordUUID',
       'BroaderKeyword',
-      'NarrowerKeyword',
+      'NarrowerKeywords',
       'PreferredLabel',
       'AlternateLabels',
       'Resources',

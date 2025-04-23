@@ -31,7 +31,7 @@ const editKeywordsUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
-                    children: ['NarrowerKeyword']
+                    children: ['NarrowerKeywords']
                   }
                 },
                 {
@@ -90,7 +90,7 @@ const editKeywordsUiSchema = {
   BroaderKeyword: {
     'ui:widget': CustomTextWidget
   },
-  NarrowerKeyword: {
+  NarrowerKeywords: {
     items: {
       'ui:field': 'layout',
       'ui:layout_grid': {

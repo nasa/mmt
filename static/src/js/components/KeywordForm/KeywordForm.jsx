@@ -73,7 +73,7 @@ KeywordForm.propTypes = {
   initialData: PropTypes.shape({
     KeywordUUID: PropTypes.string,
     BroaderKeyword: PropTypes.string,
-    NarrowerKeyword: PropTypes.arrayOf(PropTypes.shape({
+    NarrowerKeywords: PropTypes.arrayOf(PropTypes.shape({
       NarrowerUUID: PropTypes.string
     })),
     PreferredLabel: PropTypes.string,

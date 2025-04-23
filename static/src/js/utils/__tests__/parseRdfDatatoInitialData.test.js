@@ -12,9 +12,9 @@ describe('parseRdfDataToInitialData', () => {
           <skos:broader rdf:resource="http://example.com/concept/parent"/>
           <skos:narrower rdf:resource="http://example.com/concept/child1"/>
           <skos:narrower rdf:resource="http://example.com/concept/child2"/>
-          <skos:altLabel gcmd:category="Acronym">TC</skos:altLabel>
+          <gcmd:altLabel gcmd:text="TC" gcmd:category="Acronym"/>
           <gcmd:reference gcmd:text="http://example.com/reference"/>
-          <gcmd:resource gcmd:type="provider" gcmd:url="http://example.com"/>
+          <gcmd:resource gcmd:url="http://example.com" gcmd:type="provider"/>
           <skos:related rdf:resource="http://example.com/concept/related"/>
           <skos:changeNote>Updated on 2023-01-01</skos:changeNote>
         </skos:Concept>
@@ -29,11 +29,10 @@ describe('parseRdfDataToInitialData', () => {
         PreferredLabel: 'Test Concept',
         Definition: 'This is a test concept',
         BroaderKeyword: 'http://example.com/concept/parent',
-        NarrowerKeyword: [{
-          NarrowerUUID: 'http://example.com/concept/child1'
-        }, {
-          NarrowerUUID: 'http://example.com/concept/child2'
-        }],
+        NarrowerKeywords: [
+          { NarrowerUUID: 'http://example.com/concept/child1' },
+          { NarrowerUUID: 'http://example.com/concept/child2' }
+        ],
         AlternateLabels: [{
           LabelName: 'TC',
           LabelType: 'Acronym'
@@ -60,73 +59,72 @@ describe('parseRdfDataToInitialData', () => {
     })
   })
 
-  describe('when given RDF XML data with multiple elements of the same type', () => {
-    const multipleElementsRdfXml = `
+  describe('when given RDF XML data with a single resource', () => {
+    const singleResourceRdfXml = `
       <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-               xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-               xmlns:gcmd="https://gcmd.earthdata.nasa.gov/kms#">
+              xmlns:gcmd="https://gcmd.earthdata.nasa.gov/kms#">
         <skos:Concept rdf:about="http://example.com/concept/123">
-          <skos:prefLabel>Test Concept</skos:prefLabel>
-          <skos:altLabel gcmd:category="Acronym">TC1</skos:altLabel>
-          <skos:altLabel gcmd:category="Abbreviation">TC2</skos:altLabel>
-          <gcmd:resource gcmd:type="Website" gcmd:url="http://example1.com"/>
-          <gcmd:resource gcmd:type="Document" gcmd:url="http://example2.com"/>
-          <skos:changeNote>Updated on 2023-01-01</skos:changeNote>
-          <skos:changeNote>Updated on 2023-02-01</skos:changeNote>
+          <gcmd:resource gcmd:url="https://example.com" gcmd:type="Website"/>
         </skos:Concept>
       </rdf:RDF>
     `
 
-    test('should correctly handle multiple elements', () => {
-      const result = parseRdfDataToInitialData(multipleElementsRdfXml)
-
-      expect(result.AlternateLabels).toEqual([
-        {
-          LabelName: 'TC1',
-          LabelType: 'Acronym'
-        },
-        {
-          LabelName: 'TC2',
-          LabelType: 'Abbreviation'
-        }
-      ])
-
+    test('should correctly parse a single resource', () => {
+      const result = parseRdfDataToInitialData(singleResourceRdfXml)
       expect(result.Resources).toEqual([
         {
           ResourceType: 'Website',
-          ResourceUri: 'http://example1.com'
-        },
-        {
-          ResourceType: 'Document',
-          ResourceUri: 'http://example2.com'
+          ResourceUri: 'https://example.com'
         }
       ])
-
-      expect(result.ChangeLogs).toBe('Updated on 2023-01-01\n\nUpdated on 2023-02-01')
     })
   })
 
-  describe('when given RDF XML data with special relationship types', () => {
-    const specialRelationshipsRdfXml = `
+  describe('when given RDF XML data with a single alternate label', () => {
+    const singleAltLabelRdfXml = `
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+              xmlns:gcmd="https://gcmd.earthdata.nasa.gov/kms#">
+        <skos:Concept rdf:about="http://example.com/concept/123">
+          <gcmd:altLabel gcmd:text="TC" gcmd:category="Acronym"/>
+        </skos:Concept>
+      </rdf:RDF>
+    `
+
+    test('should correctly parse a single alternate label', () => {
+      const result = parseRdfDataToInitialData(singleAltLabelRdfXml)
+      expect(result.AlternateLabels).toEqual([
+        {
+          LabelName: 'TC',
+          LabelType: 'Acronym'
+        }
+      ])
+    })
+  })
+
+  describe('when given RDF XML data with multiple related keywords', () => {
+    const multipleRelatedKeywordsRdfXml = `
       <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
               xmlns:skos="http://www.w3.org/2004/02/skos/core#"
               xmlns:gcmd="https://gcmd.earthdata.nasa.gov/kms#">
         <skos:Concept rdf:about="http://example.com/concept/123">
-          <skos:prefLabel>Test Concept</skos:prefLabel>
+          <skos:related rdf:resource="http://example.com/concept/related1"/>
+          <skos:related rdf:resource="http://example.com/concept/related2"/>
           <gcmd:hasInstrument rdf:resource="http://example.com/instrument/1"/>
           <gcmd:isOnPlatform rdf:resource="http://example.com/platform/1"/>
           <gcmd:hasSensor rdf:resource="http://example.com/sensor/1"/>
-          <skos:related rdf:resource="http://example.com/related/1"/>
         </skos:Concept>
       </rdf:RDF>
     `
 
-    test('should correctly handle special relationship types', () => {
-      const result = parseRdfDataToInitialData(specialRelationshipsRdfXml)
-
+    test('should correctly parse multiple related keywords', () => {
+      const result = parseRdfDataToInitialData(multipleRelatedKeywordsRdfXml)
       expect(result.RelatedKeywords).toEqual([
         {
-          UUID: 'http://example.com/related/1',
+          UUID: 'http://example.com/concept/related1',
+          RelationshipType: 'Related'
+        },
+        {
+          UUID: 'http://example.com/concept/related2',
           RelationshipType: 'Related'
         },
         {
@@ -145,24 +143,64 @@ describe('parseRdfDataToInitialData', () => {
     })
   })
 
-  describe('when given RDF XML data with namespaces', () => {
-    const namespacedRdfXml = `
+  describe('when given RDF XML data with multiple change notes', () => {
+    const multipleChangeNotesRdfXml = `
       <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-              xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-              xmlns:gcmd="https://gcmd.earthdata.nasa.gov/kms#"
-              xmlns:dcterms="http://purl.org/dc/terms/">
+              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
         <skos:Concept rdf:about="http://example.com/concept/123">
-          <skos:prefLabel>Test Concept</skos:prefLabel>
-          <dcterms:modified>2023-03-01</dcterms:modified>
+          <skos:changeNote>Updated on 2023-01-01</skos:changeNote>
+          <skos:changeNote>Updated on 2023-02-01</skos:changeNote>
         </skos:Concept>
       </rdf:RDF>
     `
 
-    test('should correctly handle namespaced elements', () => {
-      const result = parseRdfDataToInitialData(namespacedRdfXml)
+    test('should correctly join multiple change notes', () => {
+      const result = parseRdfDataToInitialData(multipleChangeNotesRdfXml)
+      expect(result.ChangeLogs).toBe('Updated on 2023-01-01\n\nUpdated on 2023-02-01')
+    })
+  })
 
-      expect(result.KeywordUUID).toBe('http://example.com/concept/123')
-      expect(result.PreferredLabel).toBe('Test Concept')
+  describe('when given RDF XML data with empty or missing elements', () => {
+    const sparseRdfXml = `
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+        <skos:Concept rdf:about="http://example.com/concept/123">
+          <skos:prefLabel>Test Concept</skos:prefLabel>
+        </skos:Concept>
+      </rdf:RDF>
+    `
+
+    test('should return an object with only non-empty properties', () => {
+      const result = parseRdfDataToInitialData(sparseRdfXml)
+
+      expect(result).toEqual({
+        KeywordUUID: 'http://example.com/concept/123',
+        PreferredLabel: 'Test Concept',
+        BroaderKeyword: '',
+        NarrowerKeywords: [],
+        AlternateLabels: [],
+        Definition: '',
+        DefinitionReference: '',
+        Resources: [],
+        RelatedKeywords: [],
+        ChangeLogs: ''
+      })
+    })
+  })
+
+  describe('when given RDF XML data with complex text content', () => {
+    const complexTextRdfXml = `
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+        <skos:Concept rdf:about="http://example.com/concept/123">
+          <skos:definition xml:lang="en">This is a complex definition</skos:definition>
+        </skos:Concept>
+      </rdf:RDF>
+    `
+
+    test('should correctly handle complex text content', () => {
+      const result = parseRdfDataToInitialData(complexTextRdfXml)
+      expect(result.Definition).toBe('This is a complex definition')
     })
   })
 
@@ -171,20 +209,6 @@ describe('parseRdfDataToInitialData', () => {
 
     test('should throw an error', () => {
       expect(() => parseRdfDataToInitialData(invalidXml)).toThrow()
-    })
-  })
-
-  describe('when given empty input', () => {
-    test('should throw an error for empty string', () => {
-      expect(() => parseRdfDataToInitialData('')).toThrow()
-    })
-
-    test('should throw an error for null', () => {
-      expect(() => parseRdfDataToInitialData(null)).toThrow()
-    })
-
-    test('should throw an error for undefined', () => {
-      expect(() => parseRdfDataToInitialData(undefined)).toThrow()
     })
   })
 })

@@ -10,7 +10,7 @@ const keywordSchema = {
     BroaderKeyword: {
       type: 'string'
     },
-    NarrowerKeyword: {
+    NarrowerKeywords: {
       type: 'array',
       items: {
         type: 'object',
