@@ -17,6 +17,7 @@ import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
+import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 
 import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
 
@@ -70,6 +71,7 @@ const KeywordManagerPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
+  const [selectedScheme, setSelectedScheme] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
   const { kmsHost } = getApplicationConfig()
 
@@ -95,14 +97,21 @@ const KeywordManagerPage = () => {
     setSelectedVersion(versionInfo)
   }, [])
 
+  const onSchemeSelect = useCallback((schemeInfo) => {
+    setSelectedScheme(schemeInfo)
+  }, [])
+
   useEffect(() => {
-    if (selectedVersion) {
-      if (selectedVersion.version_type === 'published') {
-        setShowWarning(true)
-      }
-      // Todo: add more logic here to handle the selected version: load scheme selector
+    if (selectedVersion && selectedVersion.version_type === 'published') {
+      setShowWarning(true)
     }
   }, [selectedVersion])
+
+  useEffect(() => {
+    if (selectedScheme) {
+      // Todo: add more logic here to handle the selected version and scheme (showing the tree)
+    }
+  }, [selectedScheme])
 
   const handleCloseWarning = () => setShowWarning(false)
 
@@ -135,9 +144,21 @@ const KeywordManagerPage = () => {
                   Version:
                 </label>
                 <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
-              </div>
-              <KeywordManagementTree onShowKeyword={handleShowKeyword} />
+                <label
+                  htmlFor="scheme-selector"
+                  style={
+                    {
+                      marginLeft: '20px',
+                      marginRight: '10px',
+                      marginBottom: '25px'
+                    }
+                  }
+                >
+                  Scheme:
+                </label>
+                <KmsConceptSchemeSelector version={selectedVersion} onSchemeSelect={onSchemeSelect} id="scheme-selector" />
             </div>
+            <KeywordManagementTree onShowKeyword={handleShowKeyword} />
           </Col>
           <Col md={7}>
             {

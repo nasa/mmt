@@ -59,6 +59,50 @@ vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', (
 
 global.fetch = vi.fn()
 
+vi.mock('@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector', () => ({
+  __esModule: true,
+  default: ({ onSchemeSelect, version }) => {
+    const { useState, useEffect } = React
+
+    const [schemes, setSchemes] = useState([])
+    useEffect(() => {
+      if (version) {
+        setSchemes([
+          {
+            id: 'scheme1',
+            name: 'Scheme 1'
+          },
+          {
+            id: 'scheme2',
+            name: 'Scheme 2'
+          }
+        ])
+      }
+    }, [version])
+
+    return (
+      <select
+        data-testid="scheme-selector"
+        onChange={
+          (e) => onSchemeSelect({
+            id: e.target.value,
+            name: e.target.options[e.target.selectedIndex].text
+          })
+        }
+      >
+        <option value="">Select a scheme</option>
+        {
+          schemes.map((scheme) => (
+            <option key={scheme.id} value={scheme.id}>
+              {scheme.name}
+            </option>
+          ))
+        }
+      </select>
+    )
+  }
+}))
+
 const setup = () => {
   const user = userEvent.setup()
   render(
@@ -259,6 +303,56 @@ describe('KeywordManagerPage component', () => {
       expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
       expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       consoleSpy.mockRestore()
+
+  describe('KmsConceptSchemeSelector', () => {
+    test('renders the scheme selector', async () => {
+      setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      expect(screen.getByText('Scheme:')).toBeInTheDocument()
+    })
+
+    test('updates selectedScheme when a scheme is selected', async () => {
+      setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      fireEvent.change(versionSelector, { target: { value: '2.0' } })
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      expect(schemeSelector).toHaveValue('')
+
+      fireEvent.change(schemeSelector, { target: { value: 'scheme1' } })
+      expect(schemeSelector).toHaveValue('scheme1')
+    })
+
+    test('scheme selector is enabled when a version is selected', async () => {
+      setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      fireEvent.change(versionSelector, { target: { value: '2.0' } })
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      expect(schemeSelector).not.toBeDisabled()
     })
   })
 })
