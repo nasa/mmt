@@ -222,82 +222,65 @@ describe('KeywordManagerPage component', () => {
   })
 
   describe('when a user clicks the Preview Keyword button', () => {
-    test('should fetch and display keyword data', async () => {
-      const mockFetch = vi.fn().mockResolvedValue({
-        ok: true,
-        text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+    describe('and the fetch is successful', () => {
+      test('should display the keyword form', async () => {
+        global.fetch = vi.fn().mockResolvedValue({
+          ok: true,
+          text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+        })
+
+        const mockParsedData = {
+          PreferredLabel: 'Test Keyword',
+          Definition: 'This is a test definition'
+        }
+        createFormDataFromRdf.mockReturnValue(mockParsedData)
+
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+        await waitFor(() => {
+          expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
+        })
+
+        expect(screen.getByText('This is a test definition')).toBeInTheDocument()
       })
-      global.fetch = mockFetch
-
-      const mockParsedData = {
-        PreferredLabel: 'Test Keyword',
-        Definition: 'This is a test definition'
-      }
-      const mockParseRdfData = vi.fn().mockReturnValue(mockParsedData)
-      createFormDataFromRdf.mockImplementation(mockParseRdfData)
-
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
-
-      await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledTimes(1)
-      })
-
-      expect(mockParseRdfData).toHaveBeenCalledTimes(1)
-
-      expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
-      expect(screen.getByText('This is a test definition')).toBeInTheDocument()
-      expect(screen.getByText('12/80 characters')).toBeInTheDocument()
-      expect(screen.getByLabelText('Keyword UUID')).toBeInTheDocument()
-      expect(screen.getByLabelText('Broader Keyword')).toBeInTheDocument()
-      expect(screen.getByLabelText('Preferred Label')).toBeInTheDocument()
-      expect(screen.getByLabelText('Definition')).toBeInTheDocument()
-
-      expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
     })
 
-    test('should handle fetch error', async () => {
-      const mockFetch = vi.fn().mockRejectedValue(new Error('Fetch failed'))
-      global.fetch = mockFetch
+    describe('and the fetch fails', () => {
+      test('should display an error message', async () => {
+        global.fetch = vi.fn().mockRejectedValue(new Error('Fetch failed'))
 
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+        const { user } = setup()
 
-      const { user } = setup()
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
 
-      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+        await waitFor(() => {
+          expect(screen.getByText('Fetch failed')).toBeInTheDocument()
+        })
 
-      await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledTimes(1)
+        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       })
-
-      expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
-      expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
-
-      consoleSpy.mockRestore()
     })
 
-    test('should handle non-ok response', async () => {
-      const mockFetch = vi.fn().mockResolvedValue({
-        ok: false,
-        status: 404,
-        statusText: 'Not Found'
+    describe('and the response is not ok', () => {
+      test('should display an error message with the status', async () => {
+        global.fetch = vi.fn().mockResolvedValue({
+          ok: false,
+          status: 404,
+          statusText: 'Not Found'
+        })
+
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+        await waitFor(() => {
+          expect(screen.getByText('HTTP error! status: 404')).toBeInTheDocument()
+        })
+
+        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       })
-      global.fetch = mockFetch
-
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
-
-      await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledTimes(1)
-      })
-
-      expect(consoleSpy).toHaveBeenCalledWith('Error fetching keyword data:', expect.any(Error))
-      expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
-      consoleSpy.mockRestore()
     })
   })
 

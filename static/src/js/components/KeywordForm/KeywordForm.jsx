@@ -9,8 +9,8 @@ import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTex
 import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
 
-import getUmmSchema from '@/js/utils/getUmmSchema'
-import getUiSchema from '@/js/utils/getUiSchema'
+import editKeywordsUiSchema from '@/js/schemas/uiSchemas/keywords/editKeyword'
+import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
 const KeywordForm = ({
   initialData
@@ -20,9 +20,6 @@ const KeywordForm = ({
   useEffect(() => {
     setFormData(initialData)
   }, [initialData])
-
-  const schema = getUmmSchema('Keyword')
-  const uiSchema = getUiSchema('Keyword')['keyword-editor']
 
   const fields = {
     layout: GridLayout
@@ -52,8 +49,8 @@ const KeywordForm = ({
         fields={fields}
         templates={templates}
         widgets={widgets}
-        schema={schema}
-        uiSchema={uiSchema}
+        schema={keywordSchema}
+        uiSchema={editKeywordsUiSchema}
         formData={formData}
         onChange={handleChange}
         // OnSubmit={handleSubmit}

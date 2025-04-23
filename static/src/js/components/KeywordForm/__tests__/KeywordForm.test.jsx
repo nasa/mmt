@@ -2,7 +2,7 @@ import React from 'react'
 import {
   render,
   screen,
-  fireEvent
+  waitFor
 } from '@testing-library/react'
 import {
   describe,
@@ -10,6 +10,7 @@ import {
   expect,
   vi
 } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import KeywordForm from '../KeywordForm'
 
 vi.mock('@/js/utils/getUmmSchema', () => ({
@@ -51,11 +52,19 @@ describe('when KeywordForm is rendered', () => {
 })
 
 describe('when user types in the form', () => {
-  test('should update form data', () => {
-    render(<KeywordForm initialData={{}} />)
+  test('updates formData when a change occurs', async () => {
+    const user = userEvent.setup()
+
+    render(<KeywordForm initialData={{ PreferredLabel: '' }} />)
+
     const preferredLabelInput = screen.getByLabelText('Preferred Label')
-    fireEvent.change(preferredLabelInput, { target: { value: 'New Keyword' } })
-    expect(preferredLabelInput).toHaveValue('New Keyword')
+
+    await user.type(preferredLabelInput, 'New Keyword')
+
+    // Wait for the state to update
+    await waitFor(() => {
+      expect(preferredLabelInput).toHaveValue('New Keyword')
+    })
   })
 })
 
