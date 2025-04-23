@@ -92,7 +92,7 @@ group :development, :test do
 
   # gem 'jshint'
   gem 'rspec-rails'
-  gem 'sqlite3', force_ruby_platform: true
+  gem 'sqlite3', '~> 2.5.0', force_ruby_platform: true
   gem 'vcr'
   gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
 end
