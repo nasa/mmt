@@ -6,14 +6,14 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
+import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import userEvent from '@testing-library/user-event'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('sharedUtils/getConfig')
-vi.mock('@/js/utils/parseRdfDatatoInitialData')
+vi.mock('@/js/utils/createFormDataFromRdf')
 
 vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder', () => ({
   default: () => <div>Metadata Preview Placeholder</div>
@@ -234,7 +234,7 @@ describe('KeywordManagerPage component', () => {
         Definition: 'This is a test definition'
       }
       const mockParseRdfData = vi.fn().mockReturnValue(mockParsedData)
-      parseRdfDataToInitialData.mockImplementation(mockParseRdfData)
+      createFormDataFromRdf.mockImplementation(mockParseRdfData)
 
       const { user } = setup()
 

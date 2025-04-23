@@ -1,6 +1,6 @@
-import parseRdfDataToInitialData from '../parseRdfDatatoInitialData'
+import createFormDataFromRdf from '../createFormDataFromRdf'
 
-describe('parseRdfDataToInitialData', () => {
+describe('createFormDataFromRdf', () => {
   describe('when given valid RDF XML data', () => {
     const validRdfXml = `
       <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
@@ -22,7 +22,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should parse RDF data correctly', () => {
-      const result = parseRdfDataToInitialData(validRdfXml)
+      const result = createFormDataFromRdf(validRdfXml)
 
       expect(result).toEqual({
         KeywordUUID: 'http://example.com/concept/123',
@@ -55,7 +55,7 @@ describe('parseRdfDataToInitialData', () => {
     const invalidRdfXml = '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"></rdf:RDF>'
 
     test('should throw an error', () => {
-      expect(() => parseRdfDataToInitialData(invalidRdfXml)).toThrow('Could not find skos:Concept element in the XML')
+      expect(() => createFormDataFromRdf(invalidRdfXml)).toThrow('Could not find skos:Concept element in the XML')
     })
   })
 
@@ -70,7 +70,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should correctly parse a single resource', () => {
-      const result = parseRdfDataToInitialData(singleResourceRdfXml)
+      const result = createFormDataFromRdf(singleResourceRdfXml)
       expect(result.Resources).toEqual([
         {
           ResourceType: 'Website',
@@ -91,7 +91,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should correctly parse a single alternate label', () => {
-      const result = parseRdfDataToInitialData(singleAltLabelRdfXml)
+      const result = createFormDataFromRdf(singleAltLabelRdfXml)
       expect(result.AlternateLabels).toEqual([
         {
           LabelName: 'TC',
@@ -117,7 +117,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should correctly parse multiple related keywords', () => {
-      const result = parseRdfDataToInitialData(multipleRelatedKeywordsRdfXml)
+      const result = createFormDataFromRdf(multipleRelatedKeywordsRdfXml)
       expect(result.RelatedKeywords).toEqual([
         {
           UUID: 'http://example.com/concept/related1',
@@ -155,7 +155,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should correctly join multiple change notes', () => {
-      const result = parseRdfDataToInitialData(multipleChangeNotesRdfXml)
+      const result = createFormDataFromRdf(multipleChangeNotesRdfXml)
       expect(result.ChangeLogs).toBe('Updated on 2023-01-01\n\nUpdated on 2023-02-01')
     })
   })
@@ -171,7 +171,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should return an object with only non-empty properties', () => {
-      const result = parseRdfDataToInitialData(sparseRdfXml)
+      const result = createFormDataFromRdf(sparseRdfXml)
 
       expect(result).toEqual({
         KeywordUUID: 'http://example.com/concept/123',
@@ -199,7 +199,7 @@ describe('parseRdfDataToInitialData', () => {
     `
 
     test('should correctly handle complex text content', () => {
-      const result = parseRdfDataToInitialData(complexTextRdfXml)
+      const result = createFormDataFromRdf(complexTextRdfXml)
       expect(result.Definition).toBe('This is a complex definition')
     })
   })
@@ -208,7 +208,7 @@ describe('parseRdfDataToInitialData', () => {
     const invalidXml = '<invalid>XML</invalid>'
 
     test('should throw an error', () => {
-      expect(() => parseRdfDataToInitialData(invalidXml)).toThrow()
+      expect(() => createFormDataFromRdf(invalidXml)).toThrow()
     })
   })
 })

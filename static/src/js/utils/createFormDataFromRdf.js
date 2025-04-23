@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 
-const parseRdfDataToInitialData = (rdfData) => {
+const createFormDataFromRdf = (rdfData) => {
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: '@_',
@@ -33,7 +33,7 @@ const parseRdfDataToInitialData = (rdfData) => {
   const definition = getTextContent(conceptElement['skos:definition'])
   const broaderKeyword = conceptElement['skos:broader']?.['@_rdf:resource'] || ''
 
-  const narrowerKeywords = (conceptElement['skos:narrower'] || [])
+  const narrowerKeywords = ensureArray(conceptElement['skos:narrower'])
     .map((narrower) => ({
       NarrowerUUID: narrower['@_rdf:resource']
     }))
@@ -61,11 +61,11 @@ const parseRdfDataToInitialData = (rdfData) => {
       UUID: related['@_rdf:resource'],
       RelationshipType: 'Has Instrument'
     })),
-    ...ensureArray(conceptElement['gcmd:isOnPlatform'] || []).map((related) => ({
+    ...ensureArray(conceptElement['gcmd:isOnPlatform']).map((related) => ({
       UUID: related['@_rdf:resource'],
       RelationshipType: 'On Platform'
     })),
-    ...ensureArray(conceptElement['gcmd:hasSensor'] || []).map((related) => ({
+    ...ensureArray(conceptElement['gcmd:hasSensor']).map((related) => ({
       UUID: related['@_rdf:resource'],
       RelationshipType: 'Has Sensor'
     }))
@@ -89,4 +89,4 @@ const parseRdfDataToInitialData = (rdfData) => {
   return transformedData
 }
 
-export default parseRdfDataToInitialData
+export default createFormDataFromRdf

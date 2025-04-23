@@ -19,7 +19,7 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 
-import parseRdfDataToInitialData from '@/js/utils/parseRdfDatatoInitialData'
+import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
@@ -84,7 +84,7 @@ const KeywordManagerPage = () => {
       }
 
       const rdfData = await response.text()
-      const parsedData = parseRdfDataToInitialData(rdfData)
+      const parsedData = createFormDataFromRdf(rdfData)
       setSelectedKeywordData(parsedData)
     } catch (error) {
       console.error('Error fetching keyword data:', error)
@@ -120,35 +120,37 @@ const KeywordManagerPage = () => {
       pageType="secondary"
       header={<KeywordManagerPageHeader />}
     >
-      <ErrorBoundary>
-        <Row className="mb-4">
-          <Col>
-            <div className="d-flex align-items-center">
-              <div className="me-4">
-                <label
-                  htmlFor="version-selector"
-                  className="mb-2 d-block"
-                >
-                  Version:
-                </label>
-                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
-              </div>
-              <div>
-                <label
-                  htmlFor="scheme-selector"
-                  className="mb-2 d-block"
-                >
-                  Scheme:
-                </label>
-                <KmsConceptSchemeSelector version={selectedVersion} onSchemeSelect={onSchemeSelect} id="scheme-selector" />
-              </div>
+      <Row className="mb-4">
+        <Col>
+          <div className="d-flex align-items-center">
+            <div className="me-4">
+              <label
+                htmlFor="version-selector"
+                className="mb-2 d-block"
+              >
+                Version:
+              </label>
+              <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
             </div>
-          </Col>
-        </Row>
-        <Row>
+            <div>
+              <label
+                htmlFor="scheme-selector"
+                className="mb-2 d-block"
+              >
+                Scheme:
+              </label>
+              <KmsConceptSchemeSelector version={selectedVersion} onSchemeSelect={onSchemeSelect} id="scheme-selector" />
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <ErrorBoundary>
           <Col md={5}>
             <KeywordManagementTree onShowKeyword={handleShowKeyword} />
           </Col>
+        </ErrorBoundary>
+        <ErrorBoundary>
           <Col md={7}>
             {
               isLoading ? (
@@ -158,8 +160,8 @@ const KeywordManagerPage = () => {
               )
             }
           </Col>
-        </Row>
-      </ErrorBoundary>
+        </ErrorBoundary>
+      </Row>
 
       <Modal show={showWarning} onHide={handleCloseWarning}>
         <Modal.Header>
