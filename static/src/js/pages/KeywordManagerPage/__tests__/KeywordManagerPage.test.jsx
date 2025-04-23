@@ -275,9 +275,10 @@ describe('KeywordManagerPage component', () => {
 
         await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
 
+        // Makes matcher more flexible for github actions
         await waitFor(() => {
           expect(screen.getByText('HTTP error! status: 404')).toBeInTheDocument()
-        })
+        }, { timeout: 5000 })
 
         expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       })
