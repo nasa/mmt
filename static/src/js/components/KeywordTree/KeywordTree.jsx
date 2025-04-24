@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef
+} from 'react'
 import { Tree } from 'react-arborist'
 import PropTypes from 'prop-types'
 
@@ -29,16 +33,86 @@ const treeContainerStyle = {
   overflowY: 'auto'
 }
 
-const CustomNode = ({
-  node, style, dragHandle, onAdd
+const ContextMenu = ({
+  x, y, onClose, options, forwardedRef
 }) => {
-  const addChild = () => {
-    const newChild = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: 'New Child',
-      children: []
+  const style = {
+    position: 'absolute',
+    top: `${y}px`,
+    left: `${x}px`,
+    background: 'white',
+    border: '1px solid #ccc',
+    boxShadow: '2px 2px 5px rgba(0,0,0,0.1)',
+    zIndex: 1000
+  }
+
+  return (
+    <div style={style} ref={forwardedRef}>
+      {
+        options.map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            onClick={
+              () => {
+                option.action()
+                onClose()
+              }
+            }
+            onKeyDown={
+              (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  option.action()
+                  onClose()
+                }
+              }
+            }
+            style={
+              {
+                padding: '5px 10px',
+                cursor: 'pointer',
+                background: 'none',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left'
+              }
+            }
+          >
+            {option.label}
+          </button>
+        ))
+      }
+    </div>
+
+  )
+}
+
+const CustomNode = ({
+  node, style, dragHandle, onAdd, onDelete, setContextMenu
+}) => {
+  const handleContextMenu = (e) => {
+    e.preventDefault()
+    const newContextMenu = {
+      x: e.clientX,
+      y: e.clientY,
+      options: [
+        {
+          id: 'add-child',
+          label: 'Add Child',
+          action: () => onAdd({
+            id: Math.random().toString(36).substr(2, 9),
+            title: 'New Child',
+            children: []
+          }, node.id)
+        },
+        {
+          id: 'delete',
+          label: 'Delete',
+          action: () => onDelete(node.id)
+        }
+      ]
     }
-    onAdd(newChild, node.id)
+    setContextMenu(newContextMenu)
   }
 
   return (
@@ -50,6 +124,7 @@ const CustomNode = ({
         }
       }
       ref={dragHandle}
+      onContextMenu={handleContextMenu}
     >
       {
         node.data.children && node.data.children.length > 0 ? (
@@ -68,17 +143,29 @@ const CustomNode = ({
         )
       }
       <span style={nodeTextStyle}>{node.data.title}</span>
-      <button type="button" onClick={addChild} style={iconButtonStyle}>
-        ➕
-      </button>
     </div>
   )
 }
 
 const KeywordTree = ({ data }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
-
+  const [contextMenu, setContextMenu] = useState(null)
+  const contextMenuRef = useRef(null)
   const idAccessor = (node) => node.id || node.key || node.title
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+        setContextMenu(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const handleAdd = (newChild, parentId) => {
     setTreeData((prevData) => {
@@ -104,6 +191,18 @@ const KeywordTree = ({ data }) => {
     })
   }
 
+  const handleDelete = (nodeId) => {
+    setTreeData((prevData) => {
+      const deleteNode = (nodes) => nodes.filter((node) => node.id !== nodeId)
+        .map((node) => ({
+          ...node,
+          children: node.children ? deleteNode(node.children) : undefined
+        }))
+
+      return deleteNode(prevData)
+    })
+  }
+
   return (
     <div style={treeContainerStyle}>
       <Tree
@@ -116,10 +215,43 @@ const KeywordTree = ({ data }) => {
         idAccessor={idAccessor}
         onchange={setTreeData}
       >
-        {({ node, ...props }) => <CustomNode {...props} node={node} onAdd={handleAdd} />}
+        {
+          ({ node, ...props }) => (
+            <CustomNode
+              {...props}
+              node={node}
+              onAdd={handleAdd}
+              onDelete={handleDelete}
+              setContextMenu={setContextMenu}
+            />
+          )
+        }
       </Tree>
+      {
+        contextMenu && (
+          <ContextMenu
+            {...contextMenu}
+            onClose={() => setContextMenu(null)}
+            forwardedRef={contextMenuRef}
+          />
+        )
+      }
     </div>
   )
+}
+
+ContextMenu.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired
+  })).isRequired,
+  forwardedRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]).isRequired
 }
 
 const NodeShape = {
@@ -143,7 +275,9 @@ CustomNode.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  onAdd: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  setContextMenu: PropTypes.func.isRequired
 }
 
 CustomNode.defaultProps = {
