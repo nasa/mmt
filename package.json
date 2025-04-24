@@ -38,7 +38,7 @@
     "esbuild": "^0.19.5",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-testing-library": "^6.2.2",
-    "fast-xml-parser": "^5.2.0",
+    "fast-xml-parser": "^5.2.1",
     "graphql": "^16.8.1",
     "json-schema": "^0.4.0",
     "jsonwebtoken": "^9.0.2",

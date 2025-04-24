@@ -11,6 +11,7 @@ import './CustomTextareaWidget.scss'
 /**
  * CustomTextareaWidget
  * @typedef {Object} CustomTextareaWidget
+ * @property {Boolean} disabled A boolean value to disable the text field.
  * @property {String} id The id of the widget.
  * @property {String} label The label of the widget.
  * @property {Boolean} onBlur Should blur a field.
@@ -27,6 +28,7 @@ import './CustomTextareaWidget.scss'
  * @param {CustomArrayFieldTemplate} props
  */
 const CustomTextareaWidget = ({
+  disabled,
   id,
   label,
   onBlur,
@@ -89,6 +91,7 @@ const CustomTextareaWidget = ({
     >
       <textarea
         className="custom-textarea-widget__input form-control d-block"
+        disabled={disabled}
         id={id}
         maxLength={maxLength}
         name={title}
@@ -102,10 +105,12 @@ const CustomTextareaWidget = ({
 }
 
 CustomTextareaWidget.defaultProps = {
+  disabled: false,
   value: ''
 }
 
 CustomTextareaWidget.propTypes = {
+  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
