@@ -1,14 +1,11 @@
 import React, {
+  Suspense,
   useState,
   useCallback,
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import {
-  Row,
-  Col,
-  Button
-} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal'
 import PropTypes from 'prop-types'
 
@@ -16,31 +13,18 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
+import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
 
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
-
-const KeywordManagementTree = ({ onShowKeyword }) => {
-  // Needed until MMT-4003 can implement UUIDs
-  const exampleUUID = '7545e1af-1a3a-4ebc-95e3-cbff49cca4c5'
-
-  return (
-    <div>
-      <Button
-        onClick={() => onShowKeyword(exampleUUID)}
-        variant="primary"
-      >
-        Preview Keyword
-      </Button>
-    </div>
-  )
-}
 
 const KeywordManagerPageHeader = () => (
   <PageHeader
@@ -69,6 +53,24 @@ const KeywordManagerPageHeader = () => (
   />
 )
 
+const TreePlaceholder = ({ message }) => (
+  <div style={
+    {
+      width: '40%',
+      maxWidth: '40%',
+      height: '300px', // Adjust as needed
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      border: '1px solid #ccc',
+      borderRadius: '4px'
+    }
+  }
+  >
+    {message}
+  </div>
+)
+
 const KeywordManagerPage = () => {
   const [showError, setShowError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -76,7 +78,10 @@ const KeywordManagerPage = () => {
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
+  const [treeData, setTreeData] = useState(null)
+  const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
+  const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
 
   const handleShowKeyword = useCallback(async (uuid) => {
     setIsLoading(true)
@@ -99,12 +104,34 @@ const KeywordManagerPage = () => {
     }
   }, [])
 
+  const handleNodeDoubleClick = useCallback((nodeId) => {
+    handleShowKeyword(nodeId)
+  }, [handleShowKeyword])
+
+  const fetchTreeData = async (version, scheme) => {
+    if (version && scheme) {
+      setIsTreeLoading(true)
+      try {
+        const data = await getKmsKeywordTree(version, scheme)
+        setTreeData(data)
+      } catch (error) {
+        console.error('Error fetching keyword tree:', error)
+        setTreeData(null)
+      } finally {
+        setIsTreeLoading(false)
+      }
+    }
+  }
+
   const onVersionSelect = useCallback((versionInfo) => {
     setSelectedVersion(versionInfo)
+    setSelectedScheme(null)
+    setTreeData(null)
   }, [])
 
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
+    setTreeData(null)
   }, [])
 
   useEffect(() => {
@@ -114,10 +141,13 @@ const KeywordManagerPage = () => {
   }, [selectedVersion])
 
   useEffect(() => {
-    if (selectedScheme) {
-      // Todo: add more logic here to handle the selected version and scheme (showing the tree)
+    if (selectedVersion && selectedScheme) {
+      setTreeMessage('Loading...')
+      fetchTreeData(selectedVersion, selectedScheme)
+    } else {
+      setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedScheme])
+  }, [selectedVersion, selectedScheme])
 
   const handleCloseWarning = () => setShowWarning(false)
 
@@ -137,47 +167,117 @@ const KeywordManagerPage = () => {
     return null
   }
 
+  const renderTree = () => {
+    if (isTreeLoading) {
+      return <TreePlaceholder message="Loading tree..." />
+    }
+
+    if (treeData) {
+      return (
+        <KeywordTree
+          key={`${selectedVersion?.version}-${selectedScheme?.name}`}
+          data={treeData}
+          onNodeDoubleClick={handleNodeDoubleClick}
+          onNodeEdit={handleShowKeyword}
+        />
+      )
+    }
+
+    return <TreePlaceholder message={treeMessage} />
+  }
+
   return (
     <Page
       pageType="secondary"
       header={<KeywordManagerPageHeader />}
     >
-      <Row className="mb-4">
-        <Col>
-          <div className="d-flex align-items-center">
-            <div className="me-4">
-              <label
-                htmlFor="version-selector"
-                className="mb-2 d-block"
-              >
-                Version:
-              </label>
-              <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
-            </div>
-            <div>
-              <label
-                htmlFor="scheme-selector"
-                className="mb-2 d-block"
-              >
-                Scheme:
-              </label>
-              <KmsConceptSchemeSelector version={selectedVersion} onSchemeSelect={onSchemeSelect} id="scheme-selector" />
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingTable />}>
+
+          <div style={
+            {
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '20px'
+            }
+          }
+          >
+            <label
+              htmlFor="version-selector"
+              style={
+                {
+                  marginRight: '10px',
+                  marginBottom: '25px'
+                }
+              }
+            >
+              Version:
+            </label>
+            <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+            <label
+              htmlFor="scheme-selector"
+              style={
+                {
+                  marginLeft: '20px',
+                  marginRight: '10px',
+                  marginBottom: '25px'
+                }
+              }
+            >
+              Scheme:
+            </label>
+            <div style={{ width: '300px' }}>
+              <KmsConceptSchemeSelector
+                version={selectedVersion}
+                onSchemeSelect={onSchemeSelect}
+                key={selectedVersion?.version}
+                id="scheme-selector"
+              />
             </div>
           </div>
-        </Col>
-      </Row>
-      <Row>
+
+        </Suspense>
+      </ErrorBoundary>
+      <div style={
+        {
+          display: 'flex',
+          flexWrap: 'wrap'
+        }
+      }
+      >
         <ErrorBoundary>
-          <Col md={5}>
-            <KeywordManagementTree onShowKeyword={handleShowKeyword} />
-          </Col>
+          <div style={
+            {
+              width: '40%',
+              maxWidth: '40%',
+              overflowX: 'auto',
+              padding: '10px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              alignSelf: 'flex-start',
+              maxHeight: '80vh',
+              overflowY: 'auto'
+            }
+          }
+          >
+            {renderTree()}
+          </div>
         </ErrorBoundary>
         <ErrorBoundary>
-          <Col md={7}>
+          <div style={
+            {
+              flexBasis: '58.33%',
+              maxWidth: '58.33%',
+              padding: '0 15px 0 40px',
+              minHeight: '300px'
+            }
+          }
+          >
             {renderContent()}
-          </Col>
+          </div>
         </ErrorBoundary>
-      </Row>
+      </div>
+
       <Modal show={showWarning} onHide={handleCloseWarning}>
         <Modal.Header>
           <Modal.Title>Warning</Modal.Title>
@@ -192,12 +292,13 @@ const KeywordManagerPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </Page>
   )
 }
 
-KeywordManagementTree.propTypes = {
-  onShowKeyword: PropTypes.func.isRequired
+TreePlaceholder.propTypes = {
+  message: PropTypes.string.isRequired
 }
 
 export default KeywordManagerPage
