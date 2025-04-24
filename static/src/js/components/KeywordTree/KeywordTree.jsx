@@ -6,12 +6,25 @@ import React, {
 import { Tree } from 'react-arborist'
 import PropTypes from 'prop-types'
 
+const rightTriangle = '˃'
+const downTriangle = '˅'
+
 const iconButtonStyle = {
   background: 'none',
   border: 'none',
   cursor: 'pointer',
-  fontSize: '16px',
-  padding: '0 5px'
+  padding: '0 5px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px'
+}
+
+const triangleIconStyle = {
+  fontSize: '25px',
+  lineHeight: '1',
+  paddingTop: '6px'
 }
 
 const nodeTextStyle = {
@@ -36,6 +49,7 @@ const treeContainerStyle = {
 const ContextMenu = ({
   x, y, onClose, options, forwardedRef
 }) => {
+  const [hoveredIndex, setHoveredIndex] = useState(null)
   const style = {
     position: 'absolute',
     top: `${y}px`,
@@ -49,7 +63,7 @@ const ContextMenu = ({
   return (
     <div style={style} ref={forwardedRef}>
       {
-        options.map((option) => (
+        options.map((option, index) => (
           <button
             key={option.id}
             type="button"
@@ -67,14 +81,17 @@ const ContextMenu = ({
                 }
               }
             }
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
             style={
               {
                 padding: '5px 10px',
                 cursor: 'pointer',
-                background: 'none',
+                background: hoveredIndex === index ? '#cce5ff' : 'none',
                 border: 'none',
                 width: '100%',
-                textAlign: 'left'
+                textAlign: 'left',
+                transition: 'background-color 0.2s ease'
               }
             }
           >
@@ -88,8 +105,9 @@ const ContextMenu = ({
 }
 
 const CustomNode = ({
-  node, style, dragHandle, onAdd, onDelete, setContextMenu
+  node, style, dragHandle, onAdd, onDelete, setContextMenu, onToggle
 }) => {
+  const [isHovered, setIsHovered] = useState(false)
   const handleContextMenu = (e) => {
     e.preventDefault()
     const newContextMenu = {
@@ -125,11 +143,22 @@ const CustomNode = ({
       }
       ref={dragHandle}
       onContextMenu={handleContextMenu}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {
         node.data.children && node.data.children.length > 0 ? (
-          <button type="button" onClick={() => node.toggle()} style={iconButtonStyle}>
-            {node.isOpen ? '−' : '+'}
+          <button
+            type="button"
+            onClick={() => onToggle(node)}
+            style={
+              {
+                ...iconButtonStyle,
+                ...triangleIconStyle
+              }
+            }
+          >
+            {node.isOpen ? downTriangle : rightTriangle}
           </button>
         ) : (
           <span style={
@@ -142,7 +171,19 @@ const CustomNode = ({
           />
         )
       }
-      <span style={nodeTextStyle}>{node.data.title}</span>
+      <span
+        style={
+          {
+            ...nodeTextStyle,
+            backgroundColor: isHovered ? '#cce5ff' : 'transparent',
+            padding: '2px 4px',
+            borderRadius: '2px',
+            transition: 'background-color 0.2s ease'
+          }
+        }
+      >
+        {node.data.title}
+      </span>
     </div>
   )
 }
@@ -166,6 +207,24 @@ const KeywordTree = ({ data }) => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  const closeAllDescendants = (node) => {
+    if (node.isOpen) {
+      node.toggle()
+    }
+
+    if (node.children) {
+      node.children.forEach(closeAllDescendants)
+    }
+  }
+
+  const handleToggle = (node) => {
+    if (node.isOpen) {
+      closeAllDescendants(node)
+    } else {
+      node.toggle()
+    }
+  }
 
   const handleAdd = (newChild, parentId) => {
     setTreeData((prevData) => {
@@ -223,6 +282,7 @@ const KeywordTree = ({ data }) => {
               onAdd={handleAdd}
               onDelete={handleDelete}
               setContextMenu={setContextMenu}
+              onToggle={handleToggle}
             />
           )
         }
@@ -277,7 +337,8 @@ CustomNode.propTypes = {
   ]),
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  setContextMenu: PropTypes.func.isRequired
+  setContextMenu: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired
 }
 
 CustomNode.defaultProps = {
