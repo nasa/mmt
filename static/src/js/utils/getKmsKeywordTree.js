@@ -1,5 +1,10 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
+/**
+ * Recursively adds unique IDs to each node in the tree.
+ * @param {Object} node - The node to process.
+ * @returns {Object} A new node with added ID.
+ */
 const addIdsToNodes = (node) => {
   const newNode = {
     ...node,
@@ -12,6 +17,25 @@ const addIdsToNodes = (node) => {
   return newNode
 }
 
+/**
+ * Fetches the keyword tree from the KMS server and processes it.
+ * @param {Object} version - The version object containing version information.
+ * @param {Object} scheme - The scheme object containing the scheme name.
+ * @returns {Promise<Object>} A promise that resolves to the processed keyword tree.
+ * @throws {Error} If there's an error fetching or processing the tree.
+ *
+ * @example
+ * // Usage example
+ * const version = { version: '1.0', version_type: 'draft' };
+ * const scheme = { name: 'MyScheme' };
+ *
+ * try {
+ *   const keywordTree = await getKmsKeywordTree(version, scheme);
+ *   console.log(keywordTree);
+ * } catch (error) {
+ *   console.error('Failed to get keyword tree:', error);
+ * }
+ */
 const getKmsKeywordTree = async (version, scheme) => {
   const { kmsHost } = getApplicationConfig()
   try {
@@ -21,7 +45,7 @@ const getKmsKeywordTree = async (version, scheme) => {
       versionParam = 'published'
     }
 
-    const schemeParam = scheme.name
+    const schemeParam = encodeURIComponent(scheme.name)
 
     // Fetch data from KMS server
     const response = await fetch(`${kmsHost}/tree/concept_scheme/${schemeParam}?version=${versionParam}`, {
