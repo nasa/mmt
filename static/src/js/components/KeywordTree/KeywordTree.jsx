@@ -105,7 +105,7 @@ const ContextMenu = ({
 }
 
 const CustomNode = ({
-  node, style, dragHandle, onAdd, onDelete, setContextMenu, onToggle
+  node, style, dragHandle, onAdd, onDelete, setContextMenu, onToggle, onEdit, onNodeDoubleClick
 }) => {
   const [isHovered, setIsHovered] = useState(false)
   const handleContextMenu = (e) => {
@@ -114,6 +114,11 @@ const CustomNode = ({
       x: e.clientX,
       y: e.clientY,
       options: [
+        {
+          id: 'edit',
+          label: 'Edit',
+          action: () => onEdit(node.id)
+        },
         {
           id: 'add-child',
           label: 'Add Child',
@@ -145,6 +150,7 @@ const CustomNode = ({
       onContextMenu={handleContextMenu}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onDoubleClick={() => onNodeDoubleClick(node.id)}
     >
       {
         node.data.children && node.data.children.length > 0 ? (
@@ -188,7 +194,7 @@ const CustomNode = ({
   )
 }
 
-const KeywordTree = ({ data }) => {
+const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const [contextMenu, setContextMenu] = useState(null)
   const contextMenuRef = useRef(null)
@@ -283,6 +289,9 @@ const KeywordTree = ({ data }) => {
               onDelete={handleDelete}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
+              onDoubleClick={onNodeDoubleClick}
+              onEdit={onNodeEdit}
+              onNodeDoubleClick={onNodeDoubleClick}
             />
           )
         }
@@ -338,7 +347,9 @@ CustomNode.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   setContextMenu: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired
+  onToggle: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onNodeDoubleClick: PropTypes.func.isRequired
 }
 
 CustomNode.defaultProps = {
@@ -350,7 +361,9 @@ KeywordTree.propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
-  ]).isRequired
+  ]).isRequired,
+  onNodeDoubleClick: PropTypes.func.isRequired,
+  onNodeEdit: PropTypes.func.isRequired
 }
 
 export default KeywordTree
