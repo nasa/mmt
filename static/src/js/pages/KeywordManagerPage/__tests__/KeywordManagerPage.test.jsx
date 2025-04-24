@@ -6,25 +6,17 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
+import userEvent from '@testing-library/user-event'
 import KeywordManagerPage from '../KeywordManagerPage'
 
-vi.mock('@/js/components/ErrorBoundary/ErrorBoundary', () => ({
-  default: ({ children }) => <div data-testid="error-boundary">{children}</div>
-}))
+vi.mock('sharedUtils/getConfig')
+vi.mock('@/js/utils/createFormDataFromRdf')
 
-vi.mock('@/js/components/Page/Page', () => ({
-  default: ({ children, header }) => (
-    <div data-testid="page">
-      {header}
-      {children}
-    </div>
-  )
-}))
-
-vi.mock('@/js/components/PageHeader/PageHeader', () => ({
-  default: ({ title }) => <h1 data-testid="page-header">{title}</h1>
+vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder', () => ({
+  default: () => <div>Metadata Preview Placeholder</div>
 }))
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
@@ -64,6 +56,8 @@ vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', (
     )
   }
 }))
+
+global.fetch = vi.fn()
 
 vi.mock('@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector', () => ({
   __esModule: true,
@@ -110,11 +104,14 @@ vi.mock('@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector', () 
 }))
 
 const setup = () => {
+  const user = userEvent.setup()
   render(
     <BrowserRouter>
       <KeywordManagerPage />
     </BrowserRouter>
   )
+
+  return { user }
 }
 
 describe('KeywordManagerPage component', () => {
@@ -162,46 +159,13 @@ describe('KeywordManagerPage component', () => {
       setup()
 
       await waitFor(() => {
-        expect(screen.getByTestId('page')).toBeInTheDocument()
+        expect(screen.getByRole('heading', { name: 'Keyword Manager' })).toBeInTheDocument()
       })
 
-      expect(screen.getByTestId('page-header')).toBeInTheDocument()
-      expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
-      expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
       expect(screen.getByText('Version:')).toBeInTheDocument()
-      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-    })
-  })
-
-  describe('when showKeywordManager is false', () => {
-    test('renders nothing', () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'false' })
-
-      setup()
-
-      expect(screen.queryByTestId('page')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('page-header')).not.toBeInTheDocument()
-      expect(screen.queryByText('Keyword Manager')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('error-boundary')).not.toBeInTheDocument()
-      expect(screen.queryByText('Version:')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('when showKeywordManager is true', () => {
-    test('renders the KeywordManagerPage component', async () => {
-      getApplicationConfigMock.mockReturnValue({ showKeywordManager: 'true' })
-
-      setup()
-
-      await waitFor(() => {
-        expect(screen.getByTestId('page')).toBeInTheDocument()
-      })
-
-      expect(screen.getByTestId('page-header')).toBeInTheDocument()
-      expect(screen.getByText('Keyword Manager')).toBeInTheDocument()
-      expect(screen.getByTestId('error-boundary')).toBeInTheDocument()
-      expect(screen.getByText('Version:')).toBeInTheDocument()
-      expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      expect(screen.getByText('Scheme:')).toBeInTheDocument()
+      expect(screen.getAllByRole('combobox')).toHaveLength(2) // Two selectors
+      expect(screen.getByRole('button', { name: 'Preview Keyword' })).toBeInTheDocument()
     })
   })
 
@@ -257,16 +221,92 @@ describe('KeywordManagerPage component', () => {
     })
   })
 
+  describe('when a user clicks the Preview Keyword button', () => {
+    describe('and the fetch is successful', () => {
+      test('should display the keyword form', async () => {
+        global.fetch = vi.fn().mockResolvedValue({
+          ok: true,
+          text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+        })
+
+        const mockParsedData = {
+          PreferredLabel: 'Test Keyword',
+          Definition: 'This is a test definition'
+        }
+        createFormDataFromRdf.mockReturnValue(mockParsedData)
+
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+        await waitFor(() => {
+          expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
+        })
+
+        expect(screen.getByText('This is a test definition')).toBeInTheDocument()
+      })
+    })
+
+    describe('when there is an error in the fetch', () => {
+      test('should display an ErrorBanner with the error message', async () => {
+        global.fetch = vi.fn().mockRejectedValue(new Error('Test error message'))
+
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+        await waitFor(() => {
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
+
+        const errorBanner = screen.getByRole('alert')
+        expect(errorBanner).toHaveTextContent('Test error message')
+        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the response is not ok', () => {
+      test('should set an error message with the status code', async () => {
+        global.fetch = vi.fn().mockResolvedValue({
+          ok: false,
+          status: 404,
+          statusText: 'Not Found'
+        })
+
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
+
+        await waitFor(() => {
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
+
+        const errorBanner = screen.getByRole('alert')
+        expect(errorBanner).toHaveTextContent('HTTP error! status: 404')
+        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
+
+        // Verify that loading state is false after the error
+        expect(screen.queryByText('Metadata Preview Placeholder')).not.toBeInTheDocument()
+      })
+    })
+  })
+
   describe('KmsConceptSchemeSelector', () => {
-    test('renders the scheme selector', async () => {
+    test('renders the scheme selector next to the version selector', async () => {
       setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('version-selector')).toBeInTheDocument()
       })
 
+      // Find the flex container using only Testing Library methods
+      const versionLabel = screen.getByText('Version:')
+      const schemeLabel = screen.getByText('Scheme:')
+
+      expect(screen.getByText('Version:')).toBe(versionLabel)
+      expect(screen.getByText('Scheme:')).toBe(schemeLabel)
+
       expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
-      expect(screen.getByText('Scheme:')).toBeInTheDocument()
     })
 
     test('updates selectedScheme when a scheme is selected', async () => {
