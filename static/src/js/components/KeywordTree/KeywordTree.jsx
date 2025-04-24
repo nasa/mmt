@@ -6,62 +6,27 @@ import React, {
 import { Tree } from 'react-arborist'
 import PropTypes from 'prop-types'
 
+import './KeywordTree.scss'
+
 const rightTriangle = '˃'
 const downTriangle = '˅'
-
-const iconButtonStyle = {
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  padding: '0 5px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '24px',
-  height: '24px'
-}
-
-const triangleIconStyle = {
-  fontSize: '25px',
-  lineHeight: '1',
-  paddingTop: '6px'
-}
-
-const nodeTextStyle = {
-  fontSize: '14px'
-}
-
-const nodeContentStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis'
-}
-
-const treeContainerStyle = {
-  width: '100%',
-  height: '500px',
-  overflowX: 'auto',
-  overflowY: 'auto'
-}
 
 const ContextMenu = ({
   x, y, onClose, options, forwardedRef
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null)
-  const style = {
-    position: 'absolute',
-    top: `${y}px`,
-    left: `${x}px`,
-    background: 'white',
-    border: '1px solid #ccc',
-    boxShadow: '2px 2px 5px rgba(0,0,0,0.1)',
-    zIndex: 1000
-  }
 
   return (
-    <div style={style} ref={forwardedRef}>
+    <div
+      className="keyword-tree__context-menu"
+      style={
+        {
+          top: `${y}px`,
+          left: `${x}px`
+        }
+      }
+      ref={forwardedRef}
+    >
       {
         options.map((option, index) => (
           <button
@@ -83,15 +48,10 @@ const ContextMenu = ({
             }
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
+            className="keyword-tree__context-menu-item"
             style={
               {
-                padding: '5px 10px',
-                cursor: 'pointer',
-                background: hoveredIndex === index ? '#cce5ff' : 'none',
-                border: 'none',
-                width: '100%',
-                textAlign: 'left',
-                transition: 'background-color 0.2s ease'
+                backgroundColor: hoveredIndex === index ? '#cce5ff' : 'none'
               }
             }
           >
@@ -140,12 +100,8 @@ const CustomNode = ({
 
   return (
     <div
-      style={
-        {
-          ...style,
-          ...nodeContentStyle
-        }
-      }
+      className="keyword-tree__node-content"
+      style={style}
       ref={dragHandle}
       onContextMenu={handleContextMenu}
       onMouseEnter={() => setIsHovered(true)}
@@ -157,34 +113,19 @@ const CustomNode = ({
           <button
             type="button"
             onClick={() => onToggle(node)}
-            style={
-              {
-                ...iconButtonStyle,
-                ...triangleIconStyle
-              }
-            }
+            className="keyword-tree__icon-button keyword-tree__triangle-icon"
           >
             {node.isOpen ? downTriangle : rightTriangle}
           </button>
         ) : (
-          <span style={
-            {
-              ...iconButtonStyle,
-              width: '1.25em',
-              display: 'inline-block'
-            }
-          }
-          />
+          <span className="keyword-tree__icon-button" />
         )
       }
       <span
+        className="keyword-tree__node-text"
         style={
           {
-            ...nodeTextStyle,
-            backgroundColor: isHovered ? '#cce5ff' : 'transparent',
-            padding: '2px 4px',
-            borderRadius: '2px',
-            transition: 'background-color 0.2s ease'
+            backgroundColor: isHovered ? '#cce5ff' : 'transparent'
           }
         }
       >
@@ -269,7 +210,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   }
 
   return (
-    <div style={treeContainerStyle}>
+    <div className="keyword-tree__container">
       <Tree
         data={treeData}
         openByDefault={false}
