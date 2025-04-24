@@ -54,8 +54,12 @@ describe('when KeywordForm is rendered', () => {
 describe('when user types in the form', () => {
   test('updates formData when a change occurs', async () => {
     const user = userEvent.setup()
+    const mockOnFormDataChange = vi.fn()
 
-    render(<KeywordForm initialData={{ PreferredLabel: '' }} />)
+    render(<KeywordForm
+      initialData={{ PreferredLabel: '' }}
+      onFormDataChange={mockOnFormDataChange}
+    />)
 
     const preferredLabelInput = screen.getByLabelText('Preferred Label')
 
@@ -65,6 +69,12 @@ describe('when user types in the form', () => {
     await waitFor(() => {
       expect(preferredLabelInput).toHaveValue('New Keyword')
     })
+
+    expect(mockOnFormDataChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        PreferredLabel: 'New Keyword'
+      })
+    )
   })
 })
 

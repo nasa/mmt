@@ -13,7 +13,8 @@ import editKeywordsUiSchema from '@/js/schemas/uiSchemas/keywords/editKeyword'
 import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
 const KeywordForm = ({
-  initialData
+  initialData,
+  onFormDataChange
 }) => {
   const [formData, setFormData] = useState(initialData)
 
@@ -35,6 +36,7 @@ const KeywordForm = ({
 
   const handleChange = ({ formData: newFormData }) => {
     setFormData(newFormData)
+    onFormDataChange(newFormData)
   }
 
   // Handlesubmit to be completed in MMT-4003
@@ -66,6 +68,11 @@ const KeywordForm = ({
   )
 }
 
+KeywordForm.defaultProps = {
+  initialData: {},
+  onFormDataChange: () => {}
+}
+
 KeywordForm.propTypes = {
   initialData: PropTypes.shape({
     KeywordUUID: PropTypes.string,
@@ -89,11 +96,8 @@ KeywordForm.propTypes = {
       RelationshipType: PropTypes.string
     })),
     ChangeLogs: PropTypes.string
-  })
-}
-
-KeywordForm.defaultProps = {
-  initialData: {}
+  }),
+  onFormDataChange: PropTypes.func
 }
 
 export default KeywordForm
