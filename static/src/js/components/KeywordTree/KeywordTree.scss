@@ -13,16 +13,16 @@
   &__node {
     &-content {
       display: flex;
-      overflow: hidden;
       align-items: center;
-      text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &-text {
+      font-size: 14px;
       padding: 2px 4px;
       border-radius: 2px;
-      font-size: 14px;
       transition: background-color 0.2s ease;
 
       &:hover {
@@ -32,42 +32,42 @@
   }
 
   &__icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
     display: flex;
-    width: 24px;
-    height: 24px;
     align-items: center;
     justify-content: center;
-    padding: 0 5px;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-
-  &__caret-icon {
-    font-size: 0.60em;
-  }
-
-  &__node-wrapper {
-    display: flex;
-    height: 100%;
-    align-items: center;
-  }
-  
-  &__icon-wrapper {
-    display: flex;
-    align-items: center;
-    padding-bottom: 6px;
-  }
-  
-  &__text-wrapper {
-    display: flex;
-    height: 100%;
-    align-items: center;
+    width: 24px;
+    height: 24px;
   }
 
   &__triangle-icon {
-    padding-top: 6px;
     font-size: 25px;
     line-height: 1;
+    padding-top: 6px;
+  }
+
+  &__context-menu {
+    position: absolute;
+    background: $white;
+    border: 1px solid $gray-300;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    &-item {
+      padding: 5px 10px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: $blue-100;
+      }
+    }
   }
 }
