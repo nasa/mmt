@@ -79,7 +79,7 @@ describe('when user types in the form', () => {
 })
 
 describe('when initialData prop changes', () => {
-  test('should update the form data', () => {
+  test('should update the form', () => {
     const { rerender } = render(<KeywordForm initialData={{ PreferredLabel: 'Initial Keyword' }} />)
     expect(screen.getByDisplayValue('Initial Keyword')).toBeInTheDocument()
 

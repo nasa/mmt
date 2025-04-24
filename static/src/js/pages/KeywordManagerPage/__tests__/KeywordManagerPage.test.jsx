@@ -247,24 +247,26 @@ describe('KeywordManagerPage component', () => {
       })
     })
 
-    describe('and the fetch fails', () => {
-      test('should display an error message', async () => {
-        global.fetch = vi.fn().mockRejectedValue(new Error('Fetch failed'))
+    describe('when there is an error in the fetch', () => {
+      test('should display an ErrorBanner with the error message', async () => {
+        global.fetch = vi.fn().mockRejectedValue(new Error('Test error message'))
 
         const { user } = setup()
 
         await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
 
         await waitFor(() => {
-          expect(screen.getByText('Fetch failed')).toBeInTheDocument()
+          expect(screen.getByRole('alert')).toBeInTheDocument()
         })
 
+        const errorBanner = screen.getByRole('alert')
+        expect(errorBanner).toHaveTextContent('Test error message')
         expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
       })
     })
 
-    describe('and the response is not ok', () => {
-      test('should display an error message with the status', async () => {
+    describe('when the response is not ok', () => {
+      test('should set an error message with the status code', async () => {
         global.fetch = vi.fn().mockResolvedValue({
           ok: false,
           status: 404,
@@ -275,12 +277,16 @@ describe('KeywordManagerPage component', () => {
 
         await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
 
-        // Makes matcher more flexible for github actions
         await waitFor(() => {
-          expect(screen.getByText('HTTP error! status: 404')).toBeInTheDocument()
-        }, { timeout: 5000 })
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
 
+        const errorBanner = screen.getByRole('alert')
+        expect(errorBanner).toHaveTextContent('HTTP error! status: 404')
         expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
+
+        // Verify that loading state is false after the error
+        expect(screen.queryByText('Metadata Preview Placeholder')).not.toBeInTheDocument()
       })
     })
   })

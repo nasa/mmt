@@ -9,20 +9,22 @@ import {
   Col,
   Button
 } from 'react-bootstrap'
-import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal'
-
-import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
-import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
-import Page from '@/js/components/Page/Page'
-import PageHeader from '@/js/components/PageHeader/PageHeader'
-import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
-import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
-
-import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
+import PropTypes from 'prop-types'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+
+import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
+import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
+import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import Page from '@/js/components/Page/Page'
+import PageHeader from '@/js/components/PageHeader/PageHeader'
+
+import errorLogger from '@/js/utils/errorLogger'
+import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
 const KeywordManagementTree = ({ onShowKeyword }) => {
   // Needed until MMT-4003 can implement UUIDs
@@ -68,6 +70,7 @@ const KeywordManagerPageHeader = () => (
 )
 
 const KeywordManagerPage = () => {
+  const [showError, setShowError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
@@ -77,6 +80,7 @@ const KeywordManagerPage = () => {
 
   const handleShowKeyword = useCallback(async (uuid) => {
     setIsLoading(true)
+    setShowError(null)
     try {
       const response = await fetch(`${kmsHost}/concept/${uuid}`)
       if (!response.ok) {
@@ -87,7 +91,9 @@ const KeywordManagerPage = () => {
       const parsedData = createFormDataFromRdf(rdfData)
       setSelectedKeywordData(parsedData)
     } catch (error) {
-      console.error('Error fetching keyword data:', error)
+      errorLogger(error, 'KeywordManagerPage: handleShowKeyword')
+      setShowError(error.message)
+      setSelectedKeywordData(null)
     } finally {
       setIsLoading(false)
     }
@@ -114,6 +120,22 @@ const KeywordManagerPage = () => {
   }, [selectedScheme])
 
   const handleCloseWarning = () => setShowWarning(false)
+
+  const renderContent = () => {
+    if (isLoading) {
+      return <MetadataPreviewPlaceholder />
+    }
+
+    if (showError) {
+      return <ErrorBanner message={showError} />
+    }
+
+    if (selectedKeywordData) {
+      return <KeywordForm initialData={selectedKeywordData} />
+    }
+
+    return null
+  }
 
   return (
     <Page
@@ -152,17 +174,10 @@ const KeywordManagerPage = () => {
         </ErrorBoundary>
         <ErrorBoundary>
           <Col md={7}>
-            {
-              isLoading ? (
-                <MetadataPreviewPlaceholder />
-              ) : (
-                selectedKeywordData && <KeywordForm initialData={selectedKeywordData} />
-              )
-            }
+            {renderContent()}
           </Col>
         </ErrorBoundary>
       </Row>
-
       <Modal show={showWarning} onHide={handleCloseWarning}>
         <Modal.Header>
           <Modal.Title>Warning</Modal.Title>
