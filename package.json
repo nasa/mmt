@@ -48,6 +48,7 @@
     "postcss-scss": "^4.0.9",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-arborist": "^3.4.3",
     "react-bootstrap": "^2.9.1",
     "react-bootstrap-typeahead": "^6.3.2",
     "react-cookie": "^7.1.4",
