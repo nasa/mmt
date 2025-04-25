@@ -27,6 +27,8 @@ import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
+import './KeywordManagerPage.scss'
+
 const KeywordManagerPageHeader = () => (
   <PageHeader
     breadcrumbs={
@@ -55,19 +57,7 @@ const KeywordManagerPageHeader = () => (
 )
 
 const TreePlaceholder = ({ message }) => (
-  <div style={
-    {
-      width: '40%',
-      maxWidth: '40%',
-      height: '300px', // Adjust as needed
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      border: '1px solid #ccc',
-      borderRadius: '4px'
-    }
-  }
-  >
+  <div className="keyword-manager-page__tree-placeholder">
     {message}
   </div>
 )
@@ -271,40 +261,21 @@ const KeywordManagerPage = () => {
     >
       <ErrorBoundary>
         <Suspense fallback={<LoadingTable />}>
-
-          <div style={
-            {
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '20px'
-            }
-          }
-          >
+          <div className="keyword-manager-page__selector-container">
             <label
               htmlFor="version-selector"
-              style={
-                {
-                  marginRight: '10px',
-                  marginBottom: '25px'
-                }
-              }
+              className="keyword-manager-page__selector-label"
             >
               Version:
             </label>
             <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
             <label
               htmlFor="scheme-selector"
-              style={
-                {
-                  marginLeft: '20px',
-                  marginRight: '10px',
-                  marginBottom: '25px'
-                }
-              }
+              className="keyword-manager-page__scheme-selector-label"
             >
               Scheme:
             </label>
-            <div style={{ width: '300px' }}>
+            <div className="keyword-manager-page__scheme-selector-wrapper">
               <KmsConceptSchemeSelector
                 version={selectedVersion}
                 onSchemeSelect={onSchemeSelect}
@@ -313,44 +284,16 @@ const KeywordManagerPage = () => {
               />
             </div>
           </div>
-
         </Suspense>
       </ErrorBoundary>
-      <div style={
-        {
-          display: 'flex',
-          flexWrap: 'wrap'
-        }
-      }
-      >
+      <div className="keyword-manager-page__content">
         <ErrorBoundary>
-          <div style={
-            {
-              width: '40%',
-              maxWidth: '40%',
-              overflowX: 'auto',
-              padding: '10px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              alignSelf: 'flex-start',
-              maxHeight: '80vh',
-              overflowY: 'auto'
-            }
-          }
-          >
+          <div className="keyword-manager-page__tree-container">
             {renderTree()}
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
-          <div style={
-            {
-              flexBasis: '58.33%',
-              maxWidth: '58.33%',
-              padding: '0 15px 0 40px',
-              minHeight: '300px'
-            }
-          }
-          >
+          <div className="keyword-manager-page__form-container">
             {renderContent()}
           </div>
         </ErrorBoundary>
@@ -370,7 +313,6 @@ const KeywordManagerPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </Page>
   )
 }
