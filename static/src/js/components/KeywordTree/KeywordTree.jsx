@@ -10,6 +10,7 @@ import {
   Form,
   Button
 } from 'react-bootstrap'
+import { v4 as uuidv4 } from 'uuid'
 
 import './KeywordTree.scss'
 
@@ -195,8 +196,10 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
 
   const handleAddChildConfirm = () => {
     if (newChildTitle.trim()) {
+      const newUuid = uuidv4()
       const newChild = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: newUuid,
+        key: newUuid,
         title: newChildTitle.trim(),
         children: []
       }
