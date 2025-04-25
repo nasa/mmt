@@ -87,7 +87,7 @@ describe('KeywordTree', () => {
 
     fireEvent.contextMenu(screen.getByText('Child 1'))
     expect(screen.getByText('Edit')).toBeInTheDocument()
-    expect(screen.getByText('Add')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
     expect(screen.getByText('Delete')).toBeInTheDocument()
   })
 
@@ -202,17 +202,17 @@ describe('KeywordTree', () => {
     render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
 
     fireEvent.contextMenu(screen.getByText('Child 1'))
-    fireEvent.click(screen.getByText('Add'))
+    fireEvent.click(screen.getByText('Add Narrower'))
 
     // Modal should be open
-    expect(screen.getByText('Add Keyword')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
 
     // Click Cancel
     fireEvent.click(screen.getByText('Cancel'))
 
     // Wait for the modal to close
     await waitFor(() => {
-      expect(screen.queryByText('Add Keyword')).not.toBeInTheDocument()
+      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
     })
   })
 
@@ -246,7 +246,7 @@ describe('KeywordTree', () => {
 
     const contextMenu = screen.getByRole('menu')
     const editOption = screen.getByText('Edit')
-    const addOption = screen.getByText('Add')
+    const addOption = screen.getByText('Add Narrower')
     const deleteOption = screen.getByText('Delete')
 
     contextMenu.focus()
@@ -299,7 +299,7 @@ describe('KeywordTree', () => {
 
     const contextMenu = screen.getByRole('menu')
     const editOption = screen.getByText('Edit')
-    const addOption = screen.getByText('Add')
+    const addOption = screen.getByText('Add Narrower')
     const deleteOption = screen.getByText('Delete')
 
     contextMenu.focus()
@@ -441,10 +441,10 @@ describe('KeywordTree', () => {
     fireEvent.contextMenu(screen.getByText('Child 1'))
 
     // Click 'Add' in the context menu
-    await user.click(screen.getByText('Add'))
+    await user.click(screen.getByText('Add Narrower'))
 
     // Check if the modal is open
-    expect(screen.getByText('Add Keyword')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
 
     // Type new keyword
     await user.type(screen.getByPlaceholderText('Enter Keyword'), 'Cancelled Child')
@@ -453,7 +453,7 @@ describe('KeywordTree', () => {
     await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
     // Check if the modal is closed
-    expect(screen.queryByText('Add Keyword')).not.toBeInTheDocument()
+    expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
 
     // Check that the new child was not added
     expect(screen.queryByText('Cancelled Child')).not.toBeInTheDocument()
@@ -468,10 +468,10 @@ describe('KeywordTree', () => {
     fireEvent.contextMenu(screen.getByText('Child 1'))
 
     // Click 'Add' in the context menu
-    await user.click(screen.getByText('Add'))
+    await user.click(screen.getByText('Add Narrower'))
 
     // Check if the modal is open
-    expect(screen.getByText('Add Keyword')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
 
     // Don't type anything (leave input empty)
 
@@ -479,7 +479,7 @@ describe('KeywordTree', () => {
     await user.click(screen.getByRole('button', { name: 'Add' }))
 
     // Check that the modal is still open (add was not performed)
-    expect(screen.getByText('Add Keyword')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
 
     // Close the modal
     await user.click(screen.getByRole('button', { name: 'Cancel' }))
@@ -496,10 +496,10 @@ describe('KeywordTree', () => {
     fireEvent.contextMenu(screen.getByText('Child 1'))
 
     // Click 'Add' in the context menu
-    await user.click(screen.getByText('Add'))
+    await user.click(screen.getByText('Add Narrower'))
 
     // Check if the modal is open
-    expect(screen.getByText('Add Keyword')).toBeInTheDocument()
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
 
     // Type new keyword
     await user.type(screen.getByPlaceholderText('Enter Keyword'), 'New Child')
@@ -509,7 +509,7 @@ describe('KeywordTree', () => {
 
     // Check if the modal is closed
     await waitFor(() => {
-      expect(screen.queryByText('Add Keyword')).not.toBeInTheDocument()
+      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
     })
 
     // Wait for any asynchronous updates
