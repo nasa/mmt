@@ -106,6 +106,7 @@ const KeywordManagerPage = () => {
       } catch (error) {
         console.error('Error fetching keyword tree:', error)
         setTreeData(null)
+        setTreeMessage('Failed to load the tree. Please try again.')
       } finally {
         setIsTreeLoading(false)
       }
@@ -158,7 +159,7 @@ const KeywordManagerPage = () => {
 
   const renderTree = () => {
     if (isTreeLoading) {
-      return <TreePlaceholder message="Loading tree..." />
+      return <TreePlaceholder message="Loading..." />
     }
 
     if (treeData) {

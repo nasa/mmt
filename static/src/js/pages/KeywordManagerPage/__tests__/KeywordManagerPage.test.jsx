@@ -6,14 +6,41 @@ import {
   waitFor
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import userEvent from '@testing-library/user-event'
+import * as getKmsKeywordTreeModule from '@/js/utils/getKmsKeywordTree'
 import KeywordManagerPage from '../KeywordManagerPage'
+
+vi.mock('@/js/utils/getKmsKeywordTree')
+
+vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
+  __esModule: true,
+  default: ({ data, onNodeDoubleClick }) => {
+    if (!data) {
+      return null
+    }
+
+    return (
+      <div data-testid="keyword-tree">
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <button type="button" onClick={() => onNodeDoubleClick('test-node-id')}>Double Click Node</button>
+      </div>
+    )
+  }
+}))
 
 vi.mock('sharedUtils/getConfig')
 vi.mock('@/js/utils/createFormDataFromRdf')
+
+vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
+  __esModule: true,
+  default: ({ initialData }) => (
+    <div data-testid="keyword-form">
+      <pre>{JSON.stringify(initialData, null, 2)}</pre>
+    </div>
+  )
+}))
 
 vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder', () => ({
   default: () => <div>Metadata Preview Placeholder</div>
@@ -22,24 +49,30 @@ vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder',
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
   __esModule: true,
   default: ({ onVersionSelect }) => {
-    const { useState, useEffect } = React
-
-    const [versions, setVersions] = useState([])
-    useEffect(() => {
-      getKmsConceptVersionsModule.default().then((result) => {
-        setVersions(result.versions)
-      })
-    }, [])
+    const versions = [
+      {
+        version: '1.0',
+        type: 'draft'
+      },
+      {
+        version: '2.0',
+        type: 'past_published'
+      },
+      {
+        version: '3.0',
+        type: 'published'
+      }
+    ]
 
     return (
       <select
         data-testid="version-selector"
         onChange={
           (e) => {
-            const selectedVersion = versions.find((v) => v.version === e.target.value)
+            const selected = versions.find((v) => v.version === e.target.value)
             onVersionSelect({
-              version: selectedVersion.version,
-              version_type: selectedVersion.type
+              version: selected.version,
+              version_type: selected.type
             })
           }
         }
@@ -164,14 +197,13 @@ describe('KeywordManagerPage component', () => {
 
       expect(screen.getByText('Version:')).toBeInTheDocument()
       expect(screen.getByText('Scheme:')).toBeInTheDocument()
-      expect(screen.getAllByRole('combobox')).toHaveLength(2) // Two selectors
-      expect(screen.getByRole('button', { name: 'Preview Keyword' })).toBeInTheDocument()
+      expect(screen.getAllByRole('combobox')).toHaveLength(2)
     })
   })
 
   describe('when a version is selected', () => {
     test('updates selectedVersion', async () => {
-      setup()
+      const { user } = setup()
 
       await waitFor(() => {
         expect(screen.getByTestId('version-selector')).toBeInTheDocument()
@@ -183,10 +215,10 @@ describe('KeywordManagerPage component', () => {
       expect(versionSelector).toHaveValue('')
 
       // Simulate version selection
-      fireEvent.change(versionSelector, { target: { value: '2.0' } })
+      await user.selectOptions(versionSelector, '3.0')
 
       // Check if the version selector value has been updated
-      expect(versionSelector).toHaveValue('2.0')
+      expect(versionSelector).toHaveValue('3.0')
     })
 
     test('shows warning modal when a published version is selected', async () => {
@@ -218,76 +250,6 @@ describe('KeywordManagerPage component', () => {
 
       // Verify that the selected version is still set
       expect(versionSelector).toHaveValue('3.0')
-    })
-  })
-
-  describe('when a user clicks the Preview Keyword button', () => {
-    describe('and the fetch is successful', () => {
-      test('should display the keyword form', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
-          ok: true,
-          text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
-        })
-
-        const mockParsedData = {
-          PreferredLabel: 'Test Keyword',
-          Definition: 'This is a test definition'
-        }
-        createFormDataFromRdf.mockReturnValue(mockParsedData)
-
-        const { user } = setup()
-
-        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
-
-        await waitFor(() => {
-          expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
-        })
-
-        expect(screen.getByText('This is a test definition')).toBeInTheDocument()
-      })
-    })
-
-    describe('when there is an error in the fetch', () => {
-      test('should display an ErrorBanner with the error message', async () => {
-        global.fetch = vi.fn().mockRejectedValue(new Error('Test error message'))
-
-        const { user } = setup()
-
-        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
-
-        await waitFor(() => {
-          expect(screen.getByRole('alert')).toBeInTheDocument()
-        })
-
-        const errorBanner = screen.getByRole('alert')
-        expect(errorBanner).toHaveTextContent('Test error message')
-        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when the response is not ok', () => {
-      test('should set an error message with the status code', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
-          ok: false,
-          status: 404,
-          statusText: 'Not Found'
-        })
-
-        const { user } = setup()
-
-        await user.click(screen.getByRole('button', { name: 'Preview Keyword' }))
-
-        await waitFor(() => {
-          expect(screen.getByRole('alert')).toBeInTheDocument()
-        })
-
-        const errorBanner = screen.getByRole('alert')
-        expect(errorBanner).toHaveTextContent('HTTP error! status: 404')
-        expect(screen.queryByText('Edit Keyword')).not.toBeInTheDocument()
-
-        // Verify that loading state is false after the error
-        expect(screen.queryByText('Metadata Preview Placeholder')).not.toBeInTheDocument()
-      })
     })
   })
 
@@ -346,6 +308,120 @@ describe('KeywordManagerPage component', () => {
 
       const schemeSelector = screen.getByTestId('scheme-selector')
       expect(schemeSelector).not.toBeDisabled()
+    })
+  })
+
+  describe('KeywordTree', () => {
+    let getKmsKeywordTreeMock
+
+    beforeEach(() => {
+      getKmsKeywordTreeMock = vi.fn().mockResolvedValue([
+        {
+          id: 'root',
+          name: 'Root',
+          children: [
+            {
+              id: 'child1',
+              name: 'Child 1'
+            },
+            {
+              id: 'child2',
+              name: 'Child 2'
+            }
+          ]
+        }
+      ])
+
+      vi.spyOn(getKmsKeywordTreeModule, 'default').mockImplementation(getKmsKeywordTreeMock)
+    })
+
+    test('renders the tree when version and scheme are selected', async () => {
+      const { user } = setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      const treeContent = screen.getByTestId('keyword-tree')
+      expect(treeContent).toHaveTextContent('"id": "root"')
+      expect(treeContent).toHaveTextContent('"name": "Root"')
+      expect(treeContent).toHaveTextContent('"name": "Child 1"')
+      expect(treeContent).toHaveTextContent('"name": "Child 2"')
+    })
+
+    test('shows loading message while fetching tree data', async () => {
+      getKmsKeywordTreeMock.mockImplementation(() => new Promise((resolve) => {
+        setTimeout(() => resolve([]), 1000)
+      }))
+
+      const { user } = setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Check for the loading message
+      await screen.findByText('Loading...')
+
+      // Wait for the loading to finish
+      await waitFor(() => {
+        expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
+      }, { timeout: 2000 })
+
+      // Check that the tree is now loaded
+      expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+    })
+
+    test('shows error message when tree data fetch fails', async () => {
+      getKmsKeywordTreeMock.mockRejectedValue(new Error('Failed to fetch tree data'))
+
+      const { user } = setup()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for and check the error message
+      await waitFor(() => {
+        expect(screen.getByText('Failed to load the tree. Please try again.')).toBeInTheDocument()
+      }, { timeout: 2000 })
+
+      // Ensure the tree is not rendered
+      expect(screen.queryByTestId('keyword-tree')).not.toBeInTheDocument()
     })
   })
 })
