@@ -138,6 +138,7 @@ const CustomNode = ({
 
 const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
+  const treeRef = useRef(null)
   const [contextMenu, setContextMenu] = useState(null)
   const contextMenuRef = useRef(null)
   const idAccessor = (node) => node.id || node.key || node.title
@@ -158,6 +159,16 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  useEffect(() => {
+    if (treeRef.current && treeData.length > 0) {
+      const tree = treeRef.current
+      const rootNode = tree.get(treeData[0].id)
+      if (rootNode) {
+        rootNode.open()
+      }
+    }
+  }, [treeData])
 
   const closeAllDescendants = (node) => {
     if (node.isOpen) {
@@ -232,6 +243,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   return (
     <div className="keyword-tree__container">
       <Tree
+        ref={treeRef}
         data={treeData}
         openByDefault={false}
         width={1000}
