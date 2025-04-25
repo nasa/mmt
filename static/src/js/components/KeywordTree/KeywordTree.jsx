@@ -116,7 +116,7 @@ const CustomNode = ({
         },
         {
           id: 'add-child',
-          label: 'Add',
+          label: 'Add Narrower',
           action: () => handleAdd(node.id)
         },
         {
@@ -317,7 +317,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
       }
       <Modal show={showAddChildPopup} onHide={() => setShowAddChildPopup(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Keyword</Modal.Title>
+          <Modal.Title>Add Narrower</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group>
