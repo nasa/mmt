@@ -43,6 +43,28 @@
     height: 24px;
   }
 
+  &__caret-icon {
+    font-size: 0.60em;
+  }
+
+  &__node-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    padding-bottom: 6px;
+  }
+  
+  &__text-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
   &__triangle-icon {
     font-size: 25px;
     line-height: 1;

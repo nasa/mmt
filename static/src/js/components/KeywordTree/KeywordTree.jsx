@@ -14,9 +14,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 import './KeywordTree.scss'
 
-const rightTriangle = '˃'
-const downTriangle = '˅'
-
 const ContextMenu = ({
   x, y, onClose, options, forwardedRef
 }) => {
@@ -110,29 +107,33 @@ const CustomNode = ({
       onMouseLeave={() => setIsHovered(false)}
       onDoubleClick={() => onNodeDoubleClick(node.id)}
     >
-      {
-        node.data.children && node.data.children.length > 0 ? (
-          <button
-            type="button"
-            onClick={() => onToggle(node)}
-            className="keyword-tree__icon-button keyword-tree__triangle-icon"
-          >
-            {node.isOpen ? downTriangle : rightTriangle}
-          </button>
-        ) : (
-          <span className="keyword-tree__icon-button" />
-        )
-      }
-      <span
-        className="keyword-tree__node-text"
-        style={
-          {
-            backgroundColor: isHovered ? '#cce5ff' : 'transparent'
-          }
+      <div className="keyword-tree__icon-wrapper">
+        {
+          node.data.children && node.data.children.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => onToggle(node)}
+              className="keyword-tree__icon-button keyword-tree__triangle-icon"
+            >
+              {node.isOpen ? <i className="fa fa-caret-down keyword-tree__caret-icon" aria-hidden="true" /> : <i className="fa fa-caret-right keyword-tree__caret-icon" aria-hidden="true" />}
+            </button>
+          ) : (
+            <span className="keyword-tree__icon-button" />
+          )
         }
-      >
-        {node.data.title}
-      </span>
+      </div>
+      <div className="keyword-tree__text-wrapper">
+        <span
+          className="keyword-tree__node-text"
+          style={
+            {
+              backgroundColor: isHovered ? '#cce5ff' : 'transparent'
+            }
+          }
+        >
+          {node.data.title}
+        </span>
+      </div>
     </div>
   )
 }
