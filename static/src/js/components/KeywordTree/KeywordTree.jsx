@@ -18,6 +18,35 @@ const ContextMenu = ({
   x, y, onClose, options, forwardedRef
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [focusedIndex, setFocusedIndex] = useState(null)
+
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setFocusedIndex((prev) => ((prev === null || prev === options.length - 1) ? 0 : prev + 1))
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setFocusedIndex((prev) => ((prev === null || prev === 0) ? options.length - 1 : prev - 1))
+        break
+      case 'Enter':
+      case ' ':
+        e.preventDefault()
+        if (focusedIndex !== null) {
+          options[focusedIndex].action()
+          onClose()
+        }
+
+        break
+      case 'Escape':
+        e.preventDefault()
+        onClose()
+        break
+      default:
+        break
+    }
+  }
 
   return (
     <div
@@ -29,13 +58,17 @@ const ContextMenu = ({
         }
       }
       ref={forwardedRef}
-      onMouseLeave={() => setHoveredIndex(null)} // Add this line
+      role="menu"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onMouseLeave={() => setHoveredIndex(null)}
     >
       {
         options.map((option, index) => (
-          <button
+          <div
             key={option.id}
-            type="button"
+            role="menuitem"
+            tabIndex={-1}
             onClick={
               () => {
                 option.action()
@@ -45,22 +78,21 @@ const ContextMenu = ({
             onKeyDown={
               (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
                   option.action()
                   onClose()
                 }
               }
             }
             onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            className="keyword-tree__context-menu-item"
-            style={
-              {
-                backgroundColor: hoveredIndex === index ? '#cce5ff' : 'transparent'
-              }
+            className={
+              `keyword-tree__context-menu-item ${
+                focusedIndex === index ? 'focused' : ''
+              } ${hoveredIndex === index ? 'hovered' : ''}`
             }
           >
             {option.label}
-          </button>
+          </div>
         ))
       }
     </div>
@@ -311,6 +343,12 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   )
 }
 
+const NodeShape = {
+  key: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+}
+NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
+
 ContextMenu.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
@@ -324,12 +362,6 @@ ContextMenu.propTypes = {
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]).isRequired
 }
-
-const NodeShape = {
-  key: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
-}
-NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 
 CustomNode.propTypes = {
   node: PropTypes.shape({

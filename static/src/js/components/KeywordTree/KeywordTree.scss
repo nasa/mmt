@@ -88,6 +88,14 @@
       transition: background-color 0.2s ease;
 
       &:hover {
+        background-color: rgb(204, 229, 255);
+      }
+
+      &.focused {
+        background-color: $blue-200;
+      }
+    
+      &.hovered {
         background-color: $blue-100;
       }
     }
