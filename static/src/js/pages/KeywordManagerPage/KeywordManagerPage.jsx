@@ -5,8 +5,7 @@ import React, {
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import { Button } from 'react-bootstrap'
-import Modal from 'react-bootstrap/Modal'
+import { Modal, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'

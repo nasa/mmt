@@ -5,6 +5,11 @@ import React, {
 } from 'react'
 import { Tree } from 'react-arborist'
 import PropTypes from 'prop-types'
+import {
+  Modal,
+  Form,
+  Button
+} from 'react-bootstrap'
 
 import './KeywordTree.scss'
 
@@ -26,6 +31,7 @@ const ContextMenu = ({
         }
       }
       ref={forwardedRef}
+      onMouseLeave={() => setHoveredIndex(null)} // Add this line
     >
       {
         options.map((option, index) => (
@@ -51,7 +57,7 @@ const ContextMenu = ({
             className="keyword-tree__context-menu-item"
             style={
               {
-                backgroundColor: hoveredIndex === index ? '#cce5ff' : 'none'
+                backgroundColor: hoveredIndex === index ? '#cce5ff' : 'transparent'
               }
             }
           >
@@ -60,12 +66,11 @@ const ContextMenu = ({
         ))
       }
     </div>
-
   )
 }
 
 const CustomNode = ({
-  node, style, dragHandle, onAdd, onDelete, setContextMenu, onToggle, onEdit, onNodeDoubleClick
+  node, style, dragHandle, onDelete, setContextMenu, onToggle, onEdit, onNodeDoubleClick, handleAdd
 }) => {
   const [isHovered, setIsHovered] = useState(false)
   const handleContextMenu = (e) => {
@@ -81,12 +86,8 @@ const CustomNode = ({
         },
         {
           id: 'add-child',
-          label: 'Add Child',
-          action: () => onAdd({
-            id: Math.random().toString(36).substr(2, 9),
-            title: 'New Child',
-            children: []
-          }, node.id)
+          label: 'Add',
+          action: () => handleAdd(node.id)
         },
         {
           id: 'delete',
@@ -140,6 +141,9 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   const [contextMenu, setContextMenu] = useState(null)
   const contextMenuRef = useRef(null)
   const idAccessor = (node) => node.id || node.key || node.title
+  const [showAddChildPopup, setShowAddChildPopup] = useState(false)
+  const [newChildTitle, setNewChildTitle] = useState('')
+  const [addChildParentId, setAddChildParentId] = useState(null)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -173,28 +177,44 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
     }
   }
 
-  const handleAdd = (newChild, parentId) => {
-    setTreeData((prevData) => {
-      const addChildToNode = (node) => {
-        if (node.id === parentId || node.key === parentId) {
-          return {
-            ...node,
-            children: [...(node.children || []), newChild]
-          }
-        }
+  const handleAdd = (parentId) => {
+    setAddChildParentId(parentId)
+    setShowAddChildPopup(true)
+  }
 
-        if (node.children) {
-          return {
-            ...node,
-            children: node.children.map(addChildToNode)
-          }
-        }
-
-        return node
+  const handleAddChildConfirm = () => {
+    if (newChildTitle.trim()) {
+      const newChild = {
+        id: Math.random().toString(36).substr(2, 9),
+        title: newChildTitle.trim(),
+        children: []
       }
+      setTreeData((prevData) => {
+        const addChildToNode = (node) => {
+          if (node.id === addChildParentId || node.key === addChildParentId) {
+            return {
+              ...node,
+              children: [...(node.children || []), newChild]
+            }
+          }
 
-      return prevData.map(addChildToNode)
-    })
+          if (node.children) {
+            return {
+              ...node,
+              children: node.children.map(addChildToNode)
+            }
+          }
+
+          return node
+        }
+
+        return prevData.map(addChildToNode)
+      })
+
+      setShowAddChildPopup(false)
+      setNewChildTitle('')
+      setAddChildParentId(null)
+    }
   }
 
   const handleDelete = (nodeId) => {
@@ -233,6 +253,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
               onDoubleClick={onNodeDoubleClick}
               onEdit={onNodeEdit}
               onNodeDoubleClick={onNodeDoubleClick}
+              handleAdd={handleAdd}
             />
           )
         }
@@ -246,6 +267,30 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
           />
         )
       }
+      <Modal show={showAddChildPopup} onHide={() => setShowAddChildPopup(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Keyword</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              value={newChildTitle}
+              onChange={(e) => setNewChildTitle(e.target.value)}
+              placeholder="Enter Keyword"
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAddChildPopup(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAddChildConfirm}>
+            Add
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   )
 }
@@ -285,12 +330,12 @@ CustomNode.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   setContextMenu: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onNodeDoubleClick: PropTypes.func.isRequired
+  onNodeDoubleClick: PropTypes.func.isRequired,
+  handleAdd: PropTypes.func.isRequired
 }
 
 CustomNode.defaultProps = {
