@@ -14,6 +14,42 @@ import { v4 as uuidv4 } from 'uuid'
 
 import './KeywordTree.scss'
 
+/**
+ * ContextMenu Component
+ *
+ * This component renders a context menu at the specified coordinates with given options.
+ * It supports keyboard navigation and accessibility features.
+ *
+ * @component
+ * @param {Object} props
+ * @param {number} props.x - The x-coordinate for positioning the context menu
+ * @param {number} props.y - The y-coordinate for positioning the context menu
+ * @param {Function} props.onClose - Callback function to close the context menu
+ * @param {Array} props.options - An array of option objects for the context menu
+ * @param {React.Ref} props.forwardedRef - Ref to be forwarded to the context menu container
+ *
+ * @example
+ * const contextMenuOptions = [
+ *   { id: 'edit', label: 'Edit', action: () => console.log('Edit clicked') },
+ *   { id: 'delete', label: 'Delete', action: () => console.log('Delete clicked') }
+ * ];
+ *
+ * const handleClose = () => {
+ *   setShowContextMenu(false);
+ * };
+ *
+ * return (
+ *   showContextMenu && (
+ *     <ContextMenu
+ *       x={mousePosition.x}
+ *       y={mousePosition.y}
+ *       onClose={handleClose}
+ *       options={contextMenuOptions}
+ *       forwardedRef={contextMenuRef}
+ *     />
+ *   )
+ * );
+ */
 const ContextMenu = ({
   x, y, onClose, options, forwardedRef
 }) => {
@@ -99,6 +135,42 @@ const ContextMenu = ({
   )
 }
 
+/**
+ * CustomNode Component
+ *
+ * This component renders a single node in the KeywordTree. It handles node
+ * interactions such as toggling, context menu, and hover effects.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.node - The node data object
+ * @param {Object} props.style - Inline styles for the node
+ * @param {Function|Object} props.dragHandle - Ref or function for drag handle
+ * @param {Function} props.onDelete - Callback function to delete a node
+ * @param {Function} props.setContextMenu - Function to set the context menu
+ * @param {Function} props.onToggle - Callback function to toggle node expansion
+ * @param {Function} props.onEdit - Callback function to edit a node
+ * @param {Function} props.onNodeDoubleClick - Callback function for node double-click
+ * @param {Function} props.handleAdd - Callback function to add a child node
+ *
+ * @example
+ * <CustomNode
+ *   node={{
+ *     id: '1',
+ *     data: { title: 'Node 1', children: [] },
+ *     isOpen: false,
+ *     toggle: () => {}
+ *   }}
+ *   style={{}}
+ *   dragHandle={dragHandleRef}
+ *   onDelete={(id) => console.log('Delete node', id)}
+ *   setContextMenu={(menu) => setContextMenu(menu)}
+ *   onToggle={(node) => node.toggle()}
+ *   onEdit={(id) => console.log('Edit node', id)}
+ *   onNodeDoubleClick={(id) => console.log('Double click on node', id)}
+ *   handleAdd={(parentId) => console.log('Add child to', parentId)}
+ * />
+ */
 const CustomNode = ({
   node, style, dragHandle, onDelete, setContextMenu, onToggle, onEdit, onNodeDoubleClick, handleAdd
 }) => {
@@ -170,6 +242,56 @@ const CustomNode = ({
   )
 }
 
+/**
+ * KeywordTree Component
+ *
+ * This component renders a tree structure of keywords with the ability to add, edit, and delete nodes.
+ * It uses react-arborist for the tree structure and provides context menu functionality.
+ *
+ * @component
+ * @param {Object|Array} props.data - The initial tree data structure
+ * @param {Function} props.onNodeDoubleClick - Callback function when a node is double-clicked
+ * @param {Function} props.onNodeEdit - Callback function when a node is edited
+ *
+ * @example
+ * const treeData = [
+ *   {
+ *     id: '1',
+ *     key: '1',
+ *     title: 'Root',
+ *     children: [
+ *       {
+ *         id: '2',
+ *         key: '2',
+ *         title: 'Child 1',
+ *         children: []
+ *       },
+ *       {
+ *         id: '3',
+ *         key: '3',
+ *         title: 'Child 2',
+ *         children: []
+ *       }
+ *     ]
+ *   }
+ * ];
+ *
+ * const handleNodeDoubleClick = (nodeId) => {
+ *   console.log('Node double-clicked:', nodeId);
+ * };
+ *
+ * const handleNodeEdit = (nodeId) => {
+ *   console.log('Node edit requested:', nodeId);
+ * };
+ *
+ * return (
+ *   <KeywordTree
+ *     data={treeData}
+ *     onNodeDoubleClick={handleNodeDoubleClick}
+ *     onNodeEdit={handleNodeEdit}
+ *   />
+ * );
+ */
 const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)

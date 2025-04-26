@@ -14,12 +14,9 @@ import {
   beforeEach
 } from 'vitest'
 import { v4 as uuidv4 } from 'uuid'
-
-// Add this to your existing imports
 import userEvent from '@testing-library/user-event'
 import KeywordTree from '../KeywordTree'
 
-// Add this to your mocks
 vi.mock('uuid', () => ({
   v4: vi.fn()
 }))
@@ -490,7 +487,13 @@ describe('KeywordTree', () => {
     const newChildUuid = 'new-child-uuid'
     uuidv4.mockReturnValue(newChildUuid)
 
-    const { rerender } = render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+    const { rerender } = render(
+      <KeywordTree
+        data={mockData}
+        onNodeDoubleClick={() => {}}
+        onNodeEdit={() => {}}
+      />
+    )
 
     // Open context menu for 'Child 1'
     fireEvent.contextMenu(screen.getByText('Child 1'))
@@ -536,6 +539,6 @@ describe('KeywordTree', () => {
     await waitFor(() => {
       const newChildNode = screen.getByText('New Child')
       expect(newChildNode).toBeInTheDocument()
-    }, { timeout: 2000 }) // Increase timeout if needed
+    }, { timeout: 2000 })
   })
 })
