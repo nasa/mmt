@@ -316,12 +316,14 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
         )
       }
       <Modal show={showAddChildPopup} onHide={() => setShowAddChildPopup(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Add Narrower</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group>
+            <Form.Label htmlFor="newChildKeyword">Narrower Keyword:</Form.Label>
             <Form.Control
+              id="newChildKeyword"
               type="text"
               value={newChildTitle}
               onChange={(e) => setNewChildTitle(e.target.value)}
