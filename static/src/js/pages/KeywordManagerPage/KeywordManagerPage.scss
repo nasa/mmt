@@ -2,15 +2,6 @@
 
 @import '../../../css/vendor/bootstrap/variables';
 
-$md-breakpoint: map.get($grid-breakpoints, "md");
-
-@mixin md-down {
-  // stylelint-disable-next-line media-query-no-invalid
-  @media (max-width: #{$md-breakpoint}) {
-    @content;
-  }
-}
-
 .keyword-manager-page {
   &__content {
     display: flex;
@@ -65,17 +56,5 @@ $md-breakpoint: map.get($grid-breakpoints, "md");
     justify-content: center;
     border: 1px solid $gray-300;
     border-radius: 4px;
-  }
-
-  @include md-down {
-    &__tree-container,
-    &__form-container {
-      width: 100%;
-      max-width: 100%;
-    }
-
-    &__form-container {
-      padding: 15px 0 0;
-    }
   }
 }
