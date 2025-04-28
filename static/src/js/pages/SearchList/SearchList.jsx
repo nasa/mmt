@@ -79,6 +79,15 @@ const SearchList = ({ limit }) => {
     }
   }
 
+  if (formattedType === conceptTypes.Visualizations) {
+    params = {
+      limit,
+      offset,
+      provider: providerParam,
+      sortKey: sortKeyParam
+    }
+  }
+
   const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params
@@ -111,18 +120,28 @@ const SearchList = ({ limit }) => {
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
 
+    let newCellData = cellData
+
+    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Short Name>'
+
     return (
       <EllipsisLink to={`/${conceptType}/${conceptId}`}>
-        {cellData}
+        {newCellData}
       </EllipsisLink>
     )
   }, [conceptType])
 
-  const buildEllipsisTextCell = useCallback((cellData) => (
-    <EllipsisText>
-      {cellData}
-    </EllipsisText>
-  ), [])
+  const buildEllipsisTextCell = useCallback((cellData) => {
+    let newCellData = cellData
+
+    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Long Name>'
+
+    return (
+      <EllipsisText>
+        {newCellData}
+      </EllipsisText>
+    )
+  }, [])
 
   const buildTagCell = useCallback((cellData, rowData) => {
     const tagCount = getTagCount(cellData)
@@ -204,6 +223,41 @@ const SearchList = ({ limit }) => {
           dataAccessorFn: buildTagCell,
           dataKey: 'tagDefinitions',
           title: 'Tags'
+        },
+        {
+          align: 'end',
+          className: 'col-auto text-nowrap',
+          dataAccessorFn: (cellData) => moment.utc(cellData).format(DATE_FORMAT),
+          dataKey: 'revisionDate',
+          sortFn,
+          title: 'Last Modified (UTC)'
+        }
+      ]
+    }
+
+    if (formattedType === conceptTypes.Visualizations) {
+      return [
+        {
+          className: 'col-auto',
+          dataAccessorFn: buildEllipsisLinkCell,
+          dataKey: 'name',
+          sortFn,
+          title: 'Short Name'
+        },
+        {
+          className: 'col-auto',
+          dataAccessorFn: buildEllipsisTextCell,
+          dataKey: 'title',
+          // SortFn,
+          // sortKey: 'title', // Need to enable something to get this work
+          title: 'Long Name'
+        },
+        {
+          align: 'center',
+          className: 'col-auto text-nowrap',
+          dataKey: 'providerId',
+          sortFn,
+          title: 'Provider'
         },
         {
           align: 'end',

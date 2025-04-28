@@ -3,7 +3,8 @@ const urlValueTypeToConceptTypeStringMap = {
   collections: 'Collection',
   tools: 'Tool',
   services: 'Service',
-  cmr: 'CMR'
+  cmr: 'CMR',
+  visualizations: 'Visualization'
 }
 
 export default urlValueTypeToConceptTypeStringMap

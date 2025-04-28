@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 import { DATE_FORMAT } from '@/js/constants/dateFormat'
-import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeDraftsQueries from '@/js/constants/conceptTypeDraftsQueries'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
@@ -58,7 +57,7 @@ const DraftList = () => {
 
     let cellData = originalCellData
 
-    if (!cellData && draftType === conceptIdTypes.C) cellData = '<Blank Short Name>'
+    if (!cellData && draftType === 'Collection') cellData = '<Blank Short Name>'
     if (!cellData) cellData = '<Blank Name>'
 
     return (
@@ -71,7 +70,7 @@ const DraftList = () => {
   const buildEllipsisTextCell = useCallback((originalCellData) => {
     let cellData = originalCellData
 
-    if (!cellData && draftType === conceptIdTypes.C) cellData = '<Blank Entry Title>'
+    if (!cellData && draftType === 'Collection') cellData = '<Blank Entry Title>'
     if (!cellData) cellData = '<Blank Long Name>'
 
     return (
@@ -114,7 +113,23 @@ const DraftList = () => {
       dataAccessorFn: buildEllipsisTextCell
     }
   ]
-  const nonCollectionColumns = [
+
+  const visColumns = [
+    {
+      dataKey: 'previewMetadata.name',
+      title: 'Name',
+      className: 'col-auto',
+      dataAccessorFn: buildPrimaryEllipsisLink
+    },
+    {
+      dataKey: 'previewMetadata.title',
+      title: 'Long Name',
+      className: 'col-auto',
+      dataAccessorFn: buildEllipsisTextCell
+    }
+  ]
+
+  const defaultColumns = [
     {
       dataKey: 'ummMetadata.Name',
       title: 'Name',
@@ -147,9 +162,18 @@ const DraftList = () => {
     }
   ]
 
-  const columns = draftType === conceptIdTypes.C
-    ? [...collectionColumns, ...commonColumns]
-    : [...nonCollectionColumns, ...commonColumns]
+  const getColumns = () => {
+    switch (draftType) {
+      case 'Collection':
+        return [...collectionColumns, ...commonColumns]
+      case 'Visualization':
+        return [...visColumns, ...commonColumns]
+      default:
+        return [...defaultColumns, ...commonColumns]
+    }
+  }
+
+  const columns = getColumns()
 
   return (
     <Row>
