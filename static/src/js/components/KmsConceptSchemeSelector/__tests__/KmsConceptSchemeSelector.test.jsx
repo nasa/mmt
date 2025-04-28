@@ -163,8 +163,12 @@ describe('KmsConceptSchemeSelector', () => {
       ]
       getKmsConceptSchemes.mockResolvedValue({ schemes: mockSchemes })
 
-      const { rerender } = render(<KmsConceptSchemeSelector version={mockVersion} onSchemeSelect={mockOnSchemeSelect} />)
-
+      const { rerender } = render(
+        <KmsConceptSchemeSelector
+          version={mockVersion}
+          onSchemeSelect={mockOnSchemeSelect}
+        />
+      )
       await waitFor(() => {
         expect(screen.getByText('Scheme 1')).toBeInTheDocument()
       })
@@ -373,8 +377,12 @@ describe('KmsConceptSchemeSelector', () => {
 
       getKmsConceptSchemes.mockResolvedValueOnce({ schemes: initialMockSchemes })
 
-      const { rerender } = render(<KmsConceptSchemeSelector version={mockVersion} onSchemeSelect={mockOnSchemeSelect} />)
-
+      const { rerender } = render(
+        <KmsConceptSchemeSelector
+          version={mockVersion}
+          onSchemeSelect={mockOnSchemeSelect}
+        />
+      )
       await waitFor(() => {
         expect(screen.getByText('Initial Scheme')).toBeInTheDocument()
       })
@@ -385,7 +393,12 @@ describe('KmsConceptSchemeSelector', () => {
         version: '2.0',
         version_type: 'published'
       }
-      rerender(<KmsConceptSchemeSelector version={updatedVersion} onSchemeSelect={mockOnSchemeSelect} />)
+      rerender(
+        <KmsConceptSchemeSelector
+          version={updatedVersion}
+          onSchemeSelect={mockOnSchemeSelect}
+        />
+      )
 
       await waitFor(() => {
         expect(screen.getByText('Updated Scheme')).toBeInTheDocument()
