@@ -88,6 +88,15 @@ const SearchList = ({ limit }) => {
     }
   }
 
+  if (formattedType === conceptTypes.Visualizations) {
+    params = {
+      limit,
+      offset,
+      provider: providerParam,
+      sortKey: sortKeyParam
+    }
+  }
+
   const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params
@@ -124,13 +133,29 @@ const SearchList = ({ limit }) => {
 
     if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Short Name>'
 
+    let newCellData = cellData
+
+    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Short Name>'
+
     return (
       <EllipsisLink to={`/${conceptType}/${conceptId}`}>
+        {newCellData}
         {newCellData}
       </EllipsisLink>
     )
   }, [conceptType])
 
+  const buildEllipsisTextCell = useCallback((cellData) => {
+    let newCellData = cellData
+
+    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Long Name>'
+
+    return (
+      <EllipsisText>
+        {newCellData}
+      </EllipsisText>
+    )
+  }, [])
   const buildEllipsisTextCell = useCallback((cellData) => {
     let newCellData = cellData
 
@@ -248,9 +273,8 @@ const SearchList = ({ limit }) => {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisTextCell,
           dataKey: 'title',
-          // To be completed in MMT-4023
           // SortFn,
-          // sortKey: 'title',
+          // sortKey: 'title', // Need to enable something to get this work
           title: 'Long Name'
         },
         {
