@@ -437,7 +437,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
           />
         )
       }
-      <Modal show={showAddChildPopup} onHide={() => setShowAddChildPopup(false)}>
+      <Modal show={showAddChildPopup}>
         <Modal.Header>
           <Modal.Title>Add Narrower</Modal.Title>
         </Modal.Header>
