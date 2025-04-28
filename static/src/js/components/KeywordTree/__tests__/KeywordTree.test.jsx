@@ -541,4 +541,112 @@ describe('KeywordTree', () => {
       expect(newChildNode).toBeInTheDocument()
     }, { timeout: 2000 })
   })
+
+  test('handles adding child to a parent with leaf sibling nodes', async () => {
+    const user = userEvent.setup()
+
+    // Create a mock data structure with a leaf node
+    const mockDataWithLeaf = {
+      id: 'root',
+      key: 'root',
+      title: 'Root',
+      children: [
+        {
+          id: 'parent',
+          key: 'parent',
+          title: 'Parent',
+          children: []
+        },
+        {
+          id: 'leaf',
+          key: 'leaf',
+          title: 'Leaf',
+          children: undefined // This is a leaf node
+        }
+      ]
+    }
+
+    const { rerender } = render(
+      <KeywordTree
+        data={mockDataWithLeaf}
+        onNodeDoubleClick={() => {}}
+        onNodeEdit={() => {}}
+      />
+    )
+
+    // Open context menu for 'Parent'
+    fireEvent.contextMenu(screen.getByText('Parent'))
+
+    // Click 'Add Narrower' in the context menu
+    await user.click(screen.getByText('Add Narrower'))
+
+    // Check if the modal is open
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+    // Type new keyword
+    await user.type(screen.getByPlaceholderText('Enter Keyword'), 'New Child')
+
+    // Click 'Add' button
+    await user.click(screen.getByRole('button', { name: 'Add' }))
+
+    // Check if the modal is closed
+    await waitFor(() => {
+      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+    })
+
+    // Wait for any asynchronous updates
+    await waitFor(() => {})
+
+    // Force a re-render with the updated data
+    rerender(
+      <KeywordTree
+        data={mockDataWithLeaf}
+        onNodeDoubleClick={() => {}}
+        onNodeEdit={() => {}}
+      />
+    )
+
+    // Find the 'Parent' node container
+    const parentNodeContainer = screen.getByRole('treeitem', { name: /Parent/i })
+
+    // Find the toggle button for 'Parent' node
+    const toggleButton = within(parentNodeContainer).getByRole('button')
+
+    // Click the toggle button to expand 'Parent' node
+    await user.click(toggleButton)
+
+    // Now check that the new child was added to 'Parent'
+    await waitFor(() => {
+      expect(screen.getByText('New Child')).toBeInTheDocument()
+    })
+
+    // Check that 'Leaf' node still exists and wasn't modified
+    expect(screen.getByText('Leaf')).toBeInTheDocument()
+  })
+
+  test('shows and hides add child modal', async () => {
+    const user = userEvent.setup()
+
+    render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+
+    // Initially, the modal should not be in the document
+    expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+
+    // Open context menu for 'Child 1'
+    fireEvent.contextMenu(screen.getByText('Child 1'))
+
+    // Click 'Add Narrower' in the context menu
+    await user.click(screen.getByText('Add Narrower'))
+
+    // Check if the modal is open
+    expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+    // Close the modal
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+
+    // Check if the modal is closed
+    await waitFor(() => {
+      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+    })
+  })
 })
