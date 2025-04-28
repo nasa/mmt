@@ -2,6 +2,15 @@
 
 @import '../../../css/vendor/bootstrap/variables';
 
+$md-breakpoint: map.get($grid-breakpoints, "md");
+
+@mixin md-down {
+  // stylelint-disable-next-line media-query-no-invalid
+  @media (max-width: #{$md-breakpoint}) {
+    @content;
+  }
+}
+
 .keyword-manager-page {
   &__content {
     display: flex;
@@ -11,20 +20,20 @@
   &__tree-container {
     width: 40%;
     max-width: 40%;
-    overflow-x: auto;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid $gray-300;
-    align-self: flex-start;
     max-height: 80vh;
+    align-self: flex-start;
+    padding: 10px;
+    border: 1px solid $gray-300;
+    border-radius: 4px;
+    overflow-x: auto;
     overflow-y: auto;
   }
 
   &__form-container {
-    flex-basis: 58.33%;
     max-width: 58.33%;
-    padding: 0 15px 0 40px;
     min-height: 300px;
+    flex-basis: 58.33%;
+    padding: 0 15px 0 40px;
   }
 
   &__selector-container {
@@ -39,9 +48,9 @@
   }
 
   &__scheme-selector-label {
-    margin-left: 20px;
     margin-right: 10px;
     margin-bottom: 25px;
+    margin-left: 20px;
   }
 
   &__scheme-selector-wrapper {
@@ -49,19 +58,16 @@
   }
 
   &__tree-placeholder {
+    display: flex;
     width: 100%;
     height: 300px;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     border: 1px solid $gray-300;
     border-radius: 4px;
   }
-}
 
-
-@media (max-width: map.get($grid-breakpoints, "md")) {
-  .keyword-manager-page {
+  @include md-down {
     &__tree-container,
     &__form-container {
       width: 100%;
@@ -69,7 +75,7 @@
     }
 
     &__form-container {
-      padding: 15px 0 0 0;
+      padding: 15px 0 0;
     }
   }
 }
