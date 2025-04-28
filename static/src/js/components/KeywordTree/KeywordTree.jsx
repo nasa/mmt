@@ -4,12 +4,9 @@ import React, {
   useRef
 } from 'react'
 import { Tree } from 'react-arborist'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 import PropTypes from 'prop-types'
-import {
-  Modal,
-  Form,
-  Button
-} from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 
 import './KeywordTree.scss'
@@ -386,6 +383,19 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
     }
   }
 
+  const modalActions = [
+    {
+      label: 'Cancel',
+      variant: 'secondary',
+      onClick: () => setShowAddChildPopup(false)
+    },
+    {
+      label: 'Add',
+      variant: 'primary',
+      onClick: handleAddChildConfirm
+    }
+  ]
+
   const handleDelete = (nodeId) => {
     setTreeData((prevData) => {
       const deleteNode = (nodes) => nodes.filter((node) => node.id !== nodeId)
@@ -437,31 +447,26 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
           />
         )
       }
-      <Modal show={showAddChildPopup}>
-        <Modal.Header>
-          <Modal.Title>Add Narrower</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label htmlFor="newChildKeyword">Narrower Keyword:</Form.Label>
-            <Form.Control
-              id="newChildKeyword"
-              type="text"
-              value={newChildTitle}
-              onChange={(e) => setNewChildTitle(e.target.value)}
-              placeholder="Enter Keyword"
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddChildPopup(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleAddChildConfirm}>
-            Add
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CustomModal
+        show={showAddChildPopup}
+        header="Add Narrower"
+        message={
+          (
+            <Form.Group>
+              <Form.Label htmlFor="newChildKeyword">Narrower Keyword:</Form.Label>
+              <Form.Control
+                id="newChildKeyword"
+                type="text"
+                value={newChildTitle}
+                onChange={(e) => setNewChildTitle(e.target.value)}
+                placeholder="Enter Keyword"
+              />
+            </Form.Group>
+          )
+        }
+        actions={modalActions}
+        toggleModal={setShowAddChildPopup}
+      />
 
     </div>
   )
