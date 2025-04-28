@@ -428,43 +428,43 @@ describe('KeywordManagerPage component', () => {
     test('calls handleShowKeyword and createFormDataFromRdf when a node is double-clicked', async () => {
       const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({})
       vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
-  
+
       global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
       })
-  
+
       const { user } = setup()
-  
+
       // Select version and scheme
       await waitFor(() => {
         expect(screen.getByTestId('version-selector')).toBeInTheDocument()
       })
-  
+
       const versionSelector = screen.getByTestId('version-selector')
       await user.selectOptions(versionSelector, '2.0')
-  
+
       await waitFor(() => {
         expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
       })
-  
+
       const schemeSelector = screen.getByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
-  
+
       // Wait for the tree to load
       await waitFor(() => {
         expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
       })
-  
+
       // Simulate double-click on a node
       const doubleClickButton = screen.getByText('Double Click Node')
       await user.click(doubleClickButton)
-  
+
       // Wait for the fetch to be called
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/concept/test-node-id'))
       })
-  
+
       // Verify that createFormDataFromRdf was called with the fetched RDF data
       await waitFor(() => {
         expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
