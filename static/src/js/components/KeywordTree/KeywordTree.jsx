@@ -360,7 +360,8 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
           if (node.id === addChildParentId || node.key === addChildParentId) {
             return {
               ...node,
-              children: [...(node.children || []), newChild]
+              children: [...(node.children || []), newChild],
+              isOpen: true
             }
           }
 
@@ -376,6 +377,14 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
 
         return prevData.map(addChildToNode)
       })
+
+      // Expand the parent node
+      if (treeRef.current) {
+        const parentNode = treeRef.current.get(addChildParentId)
+        if (parentNode && !parentNode.isOpen) {
+          parentNode.toggle()
+        }
+      }
 
       setShowAddChildPopup(false)
       setNewChildTitle('')

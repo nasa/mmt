@@ -433,24 +433,31 @@ describe('KeywordTree', () => {
         expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
       })
 
+      // Wait for the component to update
       await waitFor(() => {})
 
+      // Force a re-render
       rerender(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
 
-      const treeItem = within(screen.getByRole('tree')).getByRole('treeitem', { name: /Child 1/i })
-      const possibleExpandButtons = within(treeItem).queryAllByRole('button')
-      const possibleExpandButton = possibleExpandButtons.length > 0
-        ? possibleExpandButtons[0]
-        : null
-
-      if (possibleExpandButton) {
-        await user.click(possibleExpandButton)
-      }
-
+      // The parent node should now be automatically expanded, so we can directly look for the new child
       await waitFor(() => {
         const newChildNode = screen.getByText('New Child')
         expect(newChildNode).toBeInTheDocument()
       }, { timeout: 2000 })
+
+      // Verify that the parent node is indeed expanded
+      const treeItem = within(screen.getByRole('tree')).getByRole('treeitem', { name: /Child 1/i })
+      const expandButton = within(treeItem).getByRole('button', {
+        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
+      })
+
+      expect(expandButton).toHaveClass('keyword-tree__icon-button')
+      expect(expandButton).toHaveClass('keyword-tree__triangle-icon')
+
+      // Check if the caret icon is pointing down (expanded state)
+      const caretIcon = within(expandButton).getByText('', { selector: 'i.fa' })
+      expect(caretIcon).toHaveClass('fa-caret-down')
+      expect(caretIcon).not.toHaveClass('fa-caret-right')
     })
 
     test('handles adding child to a parent with leaf sibling nodes', async () => {
@@ -496,8 +503,10 @@ describe('KeywordTree', () => {
         expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
       })
 
+      // Wait for the component to update
       await waitFor(() => {})
 
+      // Force a re-render
       rerender(
         <KeywordTree
           data={mockDataWithLeaf}
@@ -506,15 +515,41 @@ describe('KeywordTree', () => {
         />
       )
 
-      const parentNodeContainer = screen.getByRole('treeitem', { name: /Parent/i })
-      const toggleButton = within(parentNodeContainer).getByRole('button')
-      await user.click(toggleButton)
+      const parentNode = screen.getByRole('treeitem', { name: /Parent/i })
 
-      await waitFor(() => {
-        expect(screen.getByText('New Child')).toBeInTheDocument()
+      // Instead of using .closest(), we can use within() to search within the parent node
+      const expandButton1 = within(parentNode).getByRole('button', {
+        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
       })
 
+      if (!expandButton1) {
+        throw new Error('Expand button not found within parent node')
+      }
+
+      const expandButton = within(parentNode).getByRole('button', {
+        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
+      })
+
+      // Ensure the parent node is expanded
+      const caretIcon = within(expandButton).getByText('', { selector: 'i.fa' })
+      if (!caretIcon.classList.contains('fa-caret-down')) {
+        await user.click(expandButton)
+      }
+
+      // Wait for the new child to appear
+      await waitFor(() => {
+        const newChildNode = screen.getByText('New Child')
+        expect(newChildNode).toBeInTheDocument()
+      }, { timeout: 2000 })
+
+      // Verify that the leaf sibling is still present
       expect(screen.getByText('Leaf')).toBeInTheDocument()
+
+      // Check if the caret icon is pointing down (expanded state)
+      if (expandButton) {
+        const caretIcon1 = within(expandButton).getByText('', { selector: 'i.fa' })
+        expect(caretIcon1).toHaveClass('fa-caret-down')
+      }
     })
 
     test('shows and hides add child modal', async () => {

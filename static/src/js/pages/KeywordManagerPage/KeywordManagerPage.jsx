@@ -5,7 +5,6 @@ import React, {
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import { Modal, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
@@ -21,6 +20,7 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
@@ -180,7 +180,7 @@ const KeywordManagerPage = () => {
    * Closes the warning modal
    */
   const handleCloseWarning = () => setShowWarning(false)
-  // Modal actions for the warning modal
+
   const warningModalActions = [
     {
       label: 'OK',
@@ -188,10 +188,7 @@ const KeywordManagerPage = () => {
       onClick: handleCloseWarning
     }
   ]
-  /**
-   * Renders the content based on the current state
-   * @returns {JSX.Element} The rendered content
-   */
+
   const renderContent = () => {
     if (isLoading) {
       return <MetadataPreviewPlaceholder />
@@ -299,20 +296,13 @@ const KeywordManagerPage = () => {
         </ErrorBoundary>
       </div>
 
-      <Modal show={showWarning} onHide={handleCloseWarning}>
-        <Modal.Header>
-          <Modal.Title>Warning</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          You are now viewing the live published keyword version. Changes made
-          to this version will show up on the website right away.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseWarning}>
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CustomModal
+        show={showWarning}
+        toggleModal={() => setShowWarning(false)}
+        header="Warning"
+        message="You are now viewing the live published keyword version. Changes made to this version will show up on the website right away."
+        actions={warningModalActions}
+      />
     </Page>
   )
 }
