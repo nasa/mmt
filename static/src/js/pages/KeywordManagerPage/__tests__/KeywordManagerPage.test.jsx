@@ -470,5 +470,48 @@ describe('KeywordManagerPage component', () => {
         expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
       })
     })
+
+    test('shows error message when fetching keyword data fails', async () => {
+      // Mock fetch to return a non-OK response
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 404,
+        statusText: 'Not Found'
+      })
+
+      const { user } = setup()
+
+      // Select version and scheme
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for the tree to load
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      // Simulate double-click on a node
+      const doubleClickButton = screen.getByText('Double Click Node')
+      await user.click(doubleClickButton)
+
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('HTTP error! status: 404')).toBeInTheDocument()
+      })
+
+      // Ensure that the KeywordForm is not rendered
+      expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
+    })
   })
 })
