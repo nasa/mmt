@@ -280,6 +280,33 @@ describe('KeywordManagerPage component', () => {
       expect(versionSelector).toHaveValue('3.0')
     })
 
+    test('closes warning modal when toggleModal is called', async () => {
+      const { user } = setup()
+
+      // Select a published version to trigger the warning modal
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      // Check if the warning modal is shown
+      await waitFor(() => {
+        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+      })
+
+      // Find and click the close button
+      const closeButton = screen.getByTestId('modal-close')
+      await user.click(closeButton)
+
+      // Check if the modal is closed
+      await waitFor(() => {
+        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+      })
+    })
+  })
+
   describe('KmsConceptSchemeSelector', () => {
     test('renders the scheme selector next to the version selector', async () => {
       setup()
