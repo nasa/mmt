@@ -137,6 +137,33 @@ vi.mock('@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector', () 
   }
 }))
 
+vi.mock('@/js/components/CustomModal/CustomModal', () => ({
+  __esModule: true,
+  default: ({
+    show, toggleModal, header, message, actions
+  }) => (
+    show ? (
+      <div data-testid="custom-modal">
+        <h2>{header}</h2>
+        <p>{message}</p>
+        <button type="button" onClick={toggleModal} data-testid="modal-close">Close</button>
+        {
+          actions.map((action) => (
+            <button
+              type="button"
+              key={action.label}
+              onClick={action.onClick}
+              data-testid={`modal-action-${action.label.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              {action.label}
+            </button>
+          ))
+        }
+      </div>
+    ) : null
+  )
+}))
+
 const setup = () => {
   const user = userEvent.setup()
   render(
@@ -251,6 +278,32 @@ describe('KeywordManagerPage component', () => {
 
       // Verify that the selected version is still set
       expect(versionSelector).toHaveValue('3.0')
+    })
+
+    test('closes warning modal when toggleModal is called', async () => {
+      const { user } = setup()
+
+      // Select a published version to trigger the warning modal
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      // Check if the warning modal is shown
+      await waitFor(() => {
+        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+      })
+
+      // Find and click the close button
+      const closeButton = screen.getByTestId('modal-close')
+      await user.click(closeButton)
+
+      // Check if the modal is closed
+      await waitFor(() => {
+        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+      })
     })
   })
 
