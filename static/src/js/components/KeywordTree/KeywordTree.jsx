@@ -1,7 +1,8 @@
 import React, {
   useState,
   useEffect,
-  useRef
+  useRef,
+  useCallback
 } from 'react'
 import { Tree } from 'react-arborist'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -289,15 +290,60 @@ const CustomNode = ({
  *   />
  * );
  */
-const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
+const KeywordTree = ({
+  data, onNodeDoubleClick, onNodeEdit, selectedScheme
+}) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)
   const [contextMenu, setContextMenu] = useState(null)
   const contextMenuRef = useRef(null)
   const idAccessor = (node) => node.id || node.key || node.title
-  const [showAddChildPopup, setShowAddChildPopup] = useState(false)
-  const [newChildTitle, setNewChildTitle] = useState('')
-  const [addChildParentId, setAddChildParentId] = useState(null)
+  const [showAddNarrowerPopup, setShowAddNarrowerPopup] = useState(false)
+  const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
+  const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
+
+  const findParent = (nodes, targetId, parent = null) => nodes.reduce((result, node) => {
+    if (result) return result
+
+    if (node.id === targetId) {
+      return parent
+    }
+
+    if (node.children && node.children.length > 0) {
+      const childResult = findParent(node.children, targetId, node)
+      if (childResult) return childResult
+    }
+
+    return null
+  }, null)
+
+  const expandToDirectParent = (targetId) => {
+    if (!treeRef.current) return
+
+    const parent = findParent(treeData, targetId)
+    if (parent) {
+      const parentNode = treeRef.current.get(parent.id)
+      if (parentNode && !parentNode.isOpen) {
+        parentNode.open()
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (selectedScheme === 'sciencekeywords') {
+      const targetId = 'f1a25060-330c-4f84-9633-ed59ae8c64bf'
+      // Use setTimeout to ensure the tree has been fully rendered
+      setTimeout(() => expandToDirectParent(targetId), 0)
+    }
+  }, [selectedScheme, treeData])
+
+  const handleTreeChange = useCallback((updatedData) => {
+    setTreeData(updatedData)
+    if (selectedScheme === 'sciencekeywords') {
+      const targetId = 'f1a25060-330c-4f84-9633-ed59ae8c64bf'
+      setTimeout(() => expandToDirectParent(targetId), 0)
+    }
+  }, [selectedScheme])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -342,22 +388,22 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
   }
 
   const handleAdd = (parentId) => {
-    setAddChildParentId(parentId)
-    setShowAddChildPopup(true)
+    setAddNarrowerParentId(parentId)
+    setShowAddNarrowerPopup(true)
   }
 
-  const handleAddChildConfirm = () => {
-    if (newChildTitle.trim()) {
+  const handleAddNarrowerConfirm = () => {
+    if (newNarrowerTitle.trim()) {
       const newUuid = uuidv4()
       const newChild = {
         id: newUuid,
         key: newUuid,
-        title: newChildTitle.trim(),
+        title: newNarrowerTitle.trim(),
         children: []
       }
       setTreeData((prevData) => {
         const addChildToNode = (node) => {
-          if (node.id === addChildParentId || node.key === addChildParentId) {
+          if (node.id === addNarrowerParentId || node.key === addNarrowerParentId) {
             return {
               ...node,
               children: [...(node.children || []), newChild],
@@ -380,15 +426,15 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
 
       // Expand the parent node
       if (treeRef.current) {
-        const parentNode = treeRef.current.get(addChildParentId)
+        const parentNode = treeRef.current.get(addNarrowerParentId)
         if (parentNode && !parentNode.isOpen) {
           parentNode.toggle()
         }
       }
 
-      setShowAddChildPopup(false)
-      setNewChildTitle('')
-      setAddChildParentId(null)
+      setShowAddNarrowerPopup(false)
+      setNewNarrowerTitle('')
+      setAddNarrowerParentId(null)
     }
   }
 
@@ -396,12 +442,12 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
     {
       label: 'Cancel',
       variant: 'secondary',
-      onClick: () => setShowAddChildPopup(false)
+      onClick: () => setShowAddNarrowerPopup(false)
     },
     {
       label: 'Add',
       variant: 'primary',
-      onClick: handleAddChildConfirm
+      onClick: handleAddNarrowerConfirm
     }
   ]
 
@@ -428,7 +474,7 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
         rowHeight={36}
         overscanCount={1}
         idAccessor={idAccessor}
-        onchange={setTreeData}
+        onChange={handleTreeChange}
       >
         {
           ({ node, ...props }) => (
@@ -457,24 +503,24 @@ const KeywordTree = ({ data, onNodeDoubleClick, onNodeEdit }) => {
         )
       }
       <CustomModal
-        show={showAddChildPopup}
+        show={showAddNarrowerPopup}
         header="Add Narrower"
         message={
           (
             <Form.Group>
               <Form.Label htmlFor="newChildKeyword">Narrower Keyword:</Form.Label>
               <Form.Control
-                id="newChildKeyword"
+                id="newNarrowerKeyword"
                 type="text"
-                value={newChildTitle}
-                onChange={(e) => setNewChildTitle(e.target.value)}
+                value={newNarrowerTitle}
+                onChange={(e) => setNewNarrowerTitle(e.target.value)}
                 placeholder="Enter Keyword"
               />
             </Form.Group>
           )
         }
         actions={modalActions}
-        toggleModal={setShowAddChildPopup}
+        toggleModal={setShowAddNarrowerPopup}
       />
 
     </div>
@@ -535,7 +581,8 @@ KeywordTree.propTypes = {
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
   ]).isRequired,
   onNodeDoubleClick: PropTypes.func.isRequired,
-  onNodeEdit: PropTypes.func.isRequired
+  onNodeEdit: PropTypes.func.isRequired,
+  selectedScheme: PropTypes.string.isRequired
 }
 
 export default KeywordTree

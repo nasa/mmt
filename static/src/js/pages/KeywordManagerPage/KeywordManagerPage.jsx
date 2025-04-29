@@ -1,5 +1,4 @@
 import React, {
-  Suspense,
   useState,
   useCallback,
   useEffect
@@ -11,17 +10,16 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
-import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 
+import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
@@ -177,6 +175,7 @@ const KeywordManagerPage = () => {
           data={treeData}
           onNodeDoubleClick={handleNodeDoubleClick}
           onNodeEdit={handleShowKeyword}
+          selectedScheme={selectedScheme?.name}
         />
       )
     }
@@ -190,31 +189,29 @@ const KeywordManagerPage = () => {
       header={<KeywordManagerPageHeader />}
     >
       <ErrorBoundary>
-        <Suspense fallback={<LoadingTable />}>
-          <div className="keyword-manager-page__selector-container">
-            <label
-              htmlFor="version-selector"
-              className="keyword-manager-page__selector-label"
-            >
-              Version:
-            </label>
-            <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
-            <label
-              htmlFor="scheme-selector"
-              className="keyword-manager-page__scheme-selector-label"
-            >
-              Scheme:
-            </label>
-            <div className="keyword-manager-page__scheme-selector-wrapper">
-              <KmsConceptSchemeSelector
-                version={selectedVersion}
-                onSchemeSelect={onSchemeSelect}
-                key={selectedVersion?.version}
-                id="scheme-selector"
-              />
-            </div>
+        <div className="keyword-manager-page__selector-container">
+          <label
+            htmlFor="version-selector"
+            className="keyword-manager-page__selector-label"
+          >
+            Version:
+          </label>
+          <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+          <label
+            htmlFor="scheme-selector"
+            className="keyword-manager-page__scheme-selector-label"
+          >
+            Scheme:
+          </label>
+          <div className="keyword-manager-page__scheme-selector-wrapper">
+            <KmsConceptSchemeSelector
+              version={selectedVersion}
+              onSchemeSelect={onSchemeSelect}
+              key={selectedVersion?.version}
+              id="scheme-selector"
+            />
           </div>
-        </Suspense>
+        </div>
       </ErrorBoundary>
       <div className="keyword-manager-page__content">
         <ErrorBoundary>
