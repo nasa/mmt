@@ -4,7 +4,6 @@ import React, {
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import PropTypes from 'prop-types'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
@@ -18,6 +17,9 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
@@ -50,12 +52,6 @@ const KeywordManagerPageHeader = () => (
     }
     title="Keyword Manager"
   />
-)
-
-const TreePlaceholder = ({ message }) => (
-  <div className="keyword-manager-page__tree-placeholder">
-    {message}
-  </div>
 )
 
 const KeywordManagerPage = () => {
@@ -204,7 +200,7 @@ const KeywordManagerPage = () => {
 
   const renderTree = () => {
     if (isTreeLoading) {
-      return <TreePlaceholder message="Loading..." />
+      return <KeywordTreePlaceHolder message="Loading..." />
     }
 
     if (treeData) {
@@ -219,7 +215,7 @@ const KeywordManagerPage = () => {
       )
     }
 
-    return <TreePlaceholder message={treeMessage} />
+    return <KeywordTreePlaceHolder message={treeMessage} />
   }
 
   return (
@@ -301,10 +297,6 @@ const KeywordManagerPage = () => {
       />
     </Page>
   )
-}
-
-TreePlaceholder.propTypes = {
-  message: PropTypes.string.isRequired
 }
 
 export default KeywordManagerPage
