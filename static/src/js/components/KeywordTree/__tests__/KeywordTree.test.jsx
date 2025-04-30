@@ -656,8 +656,8 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Leaf Node 2')).toBeInTheDocument()
 
       // Verify that Leaf Node 2 still doesn't have any children
-      const leafNode2 = screen.getByText('Leaf Node 2')
-      expect(leafNode2.nextElementSibling).toBeFalsy()
+      const leafNode2 = screen.getByRole('treeitem', { name: /Leaf Node 2/i })
+      expect(within(leafNode2).queryByRole('group')).not.toBeInTheDocument()
     })
   })
 
