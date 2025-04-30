@@ -1,0 +1,33 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.keyword-tree__context-menu {
+  position: absolute;
+  z-index: 1000;
+  border: 1px solid $gray-300;
+  background: $white;
+  box-shadow: 2px 2px 5px rgb(0 0 0 / 10%);
+
+  &-item {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgb(204 229 255 / 100%);
+    }
+
+    &.focused {
+      background-color: $blue-200;
+    }
+  
+    &.hovered {
+      background-color: $blue-100;
+    }
+  }
+}

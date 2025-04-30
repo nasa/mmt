@@ -16,19 +16,18 @@ import KeywordManagerPage from '../KeywordManagerPage'
 vi.mock('@/js/utils/getKmsKeywordTree')
 
 vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
-  __esModule: true,
-  default: ({ data, onNodeDoubleClick }) => {
-    if (!data) {
+  KeywordTree: vi.fn((props) => {
+    if (!props.data) {
       return null
     }
 
     return (
       <div data-testid="keyword-tree">
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-        <button type="button" onClick={() => onNodeDoubleClick('test-node-id')}>Double Click Node</button>
+        <pre>{JSON.stringify(props.data, null, 2)}</pre>
+        <button type="button" onClick={() => props.onNodeClick('test-node-id')}>Click Node</button>
       </div>
     )
-  }
+  })
 }))
 
 vi.mock('sharedUtils/getConfig')
@@ -478,7 +477,7 @@ describe('KeywordManagerPage component', () => {
       expect(screen.queryByTestId('keyword-tree')).not.toBeInTheDocument()
     })
 
-    test('calls handleShowKeyword and createFormDataFromRdf when a node is double-clicked', async () => {
+    test('calls handleShowKeyword and createFormDataFromRdf when a node is clicked', async () => {
       const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({})
       vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
 
@@ -509,9 +508,9 @@ describe('KeywordManagerPage component', () => {
         expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
       })
 
-      // Simulate double-click on a node
-      const doubleClickButton = screen.getByText('Double Click Node')
-      await user.click(doubleClickButton)
+      // Simulate click on a node
+      const clickButton = screen.getByText('Click Node')
+      await user.click(clickButton)
 
       // Wait for the fetch to be called
       await waitFor(() => {
@@ -554,9 +553,9 @@ describe('KeywordManagerPage component', () => {
         expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
       })
 
-      // Simulate double-click on a node
-      const doubleClickButton = screen.getByText('Double Click Node')
-      await user.click(doubleClickButton)
+      // Simulate click on a node
+      const clickButton = screen.getByText('Click Node')
+      await user.click(clickButton)
 
       // Wait for the error message to appear
       await waitFor(() => {

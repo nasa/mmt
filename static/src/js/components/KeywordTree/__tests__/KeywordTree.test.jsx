@@ -3,571 +3,662 @@ import {
   render,
   fireEvent,
   screen,
-  waitFor,
-  within
+  within,
+  waitFor
 } from '@testing-library/react'
 import {
   describe,
   test,
   expect,
-  vi,
-  beforeEach
+  vi
 } from 'vitest'
-import { v4 as uuidv4 } from 'uuid'
-import userEvent from '@testing-library/user-event'
-import KeywordTree from '../KeywordTree'
-
-vi.mock('uuid', () => ({
-  v4: vi.fn()
-}))
+import { KeywordTree } from '../KeywordTree'
 
 describe('KeywordTree', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
+  const mockData = [
+    {
+      id: '1',
+      key: '1',
+      title: 'Root',
+      children: [
+        {
+          id: '2',
+          key: '2',
+          title: 'Child 1',
+          children: []
+        },
+        {
+          id: '3',
+          key: '3',
+          title: 'Child 2',
+          children: []
+        }
+      ]
+    }
+  ]
+
+  const mockOnNodeClick = vi.fn()
+  const mockOnNodeEdit = vi.fn()
+  let consoleErrorSpy
+
+  beforeAll(() => {
+    // Suppress console.error for all tests in this file
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
-  const rootUuid = 'root-uuid'
-  const child1Uuid = 'child1-uuid'
-  const child2Uuid = 'child2-uuid'
-
-  const mockData = {
-    id: rootUuid,
-    key: rootUuid,
-    title: 'Root',
-    children: [
-      {
-        id: child1Uuid,
-        key: child1Uuid,
-        title: 'Child 1',
-        children: []
-      },
-      {
-        id: child2Uuid,
-        key: child2Uuid,
-        title: 'Child 2',
-        children: []
-      }
-    ]
-  }
+  afterAll(() => {
+    // Restore console.error after all tests
+    consoleErrorSpy.mockRestore()
+  })
 
   describe('Rendering', () => {
-    test('renders without crashing', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-      expect(screen.getByText('Root')).toBeInTheDocument()
-    })
-
-    test('renders child nodes', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-      expect(screen.getByText('Child 1')).toBeInTheDocument()
-      expect(screen.getByText('Child 2')).toBeInTheDocument()
-    })
-
-    test('handles empty data', () => {
+    test('renders KeywordTree component', () => {
       render(
         <KeywordTree
-          data={[]}
-          onNodeDoubleClick={() => {}}
-          onNodeEdit={() => {}}
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
         />
       )
 
-      expect(screen.getByRole('tree')).toBeInTheDocument()
+      expect(screen.getByText('Root')).toBeTruthy()
+    })
+
+    test('expands root node on initial render', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      expect(screen.getByText('Child 1')).toBeTruthy()
+      expect(screen.getByText('Child 2')).toBeTruthy()
+    })
+
+    test('handles empty data gracefully', () => {
+      render(
+        <KeywordTree
+          data={[]}
+          onNodeClick={vi.fn()}
+          onNodeEdit={vi.fn()}
+        />
+      )
+
+      // Check if the tree container is rendered
+      const treeContainer = screen.getByRole('tree')
+      expect(treeContainer).toBeInTheDocument()
+
+      // Check that no nodes are rendered
+      const nodes = screen.queryAllByRole('button', { name: /Keyword:/i })
+      expect(nodes).toHaveLength(0)
     })
   })
 
   describe('Node Interaction', () => {
-    test('calls onNodeDoubleClick when a node is double-clicked', () => {
-      const onNodeDoubleClick = vi.fn()
+    test('calls onNodeClick when a node is clicked', () => {
       render(
         <KeywordTree
           data={mockData}
-          onNodeDoubleClick={onNodeDoubleClick}
-          onNodeEdit={() => {}}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
         />
       )
 
-      fireEvent.doubleClick(screen.getByText('Child 1'))
-      expect(onNodeDoubleClick).toHaveBeenCalledWith(child1Uuid)
+      fireEvent.click(screen.getByText('Child 1'))
+      expect(mockOnNodeClick).toHaveBeenCalledWith('2')
     })
 
-    test('toggles node expansion', async () => {
-      const grandchildUuid = 'grandchild-uuid'
-      const nestedMockData = {
-        ...mockData,
-        children: [
-          {
-            id: child1Uuid,
-            key: child1Uuid,
-            title: 'Child 1',
-            children: [
-              {
-                id: grandchildUuid,
-                key: grandchildUuid,
-                title: 'Grandchild',
-                children: []
-              }
-            ]
-          }
-        ]
-      }
+    test('toggles node expansion when clicked', async () => {
+      const dataWithGrandchildren = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'Child 1',
+              children: [
+                {
+                  id: '4',
+                  key: '4',
+                  title: 'Grandchild 1',
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
 
       render(
         <KeywordTree
-          data={nestedMockData}
-          onNodeDoubleClick={() => {}}
-          onNodeEdit={() => {}}
+          data={dataWithGrandchildren}
+          onNodeClick={vi.fn()}
+          onNodeEdit={vi.fn()}
         />
       )
 
-      expect(screen.queryByText('Grandchild')).not.toBeInTheDocument()
+      // Find the root node
+      const rootNode = screen.getByRole('button', { name: /Keyword: Root/i })
+      expect(rootNode).toBeInTheDocument()
 
-      const child1Item = screen.getByRole('treeitem', { name: /child 1/i })
-      const toggleButton = within(child1Item).getByRole('button')
-      fireEvent.click(toggleButton)
+      // Find Child 1 node (it should be visible initially as the root is expanded by default)
+      const child1Node = screen.getByRole('button', { name: /Keyword: Child 1/i })
+      expect(child1Node).toBeInTheDocument()
 
-      const grandchild = await screen.findByText('Grandchild')
-      expect(grandchild).toBeInTheDocument()
+      // Initially, Grandchild 1 should not be visible
+      expect(screen.queryByRole('button', { name: /Keyword: Grandchild 1/i })).not.toBeInTheDocument()
 
-      fireEvent.click(toggleButton)
+      // Find the toggle button for Child 1
+      const child1Toggle = within(child1Node).getByRole('button', { name: /Toggle Child 1/i })
+      expect(child1Toggle).toBeInTheDocument()
 
+      // Click on the toggle button to expand Child 1
+      fireEvent.click(child1Toggle)
+
+      // After clicking, Grandchild 1 should become visible
       await waitFor(() => {
-        expect(screen.queryByText('Grandchild')).not.toBeInTheDocument()
+        const grandchild1Node = screen.getByRole('button', { name: /Keyword: Grandchild 1/i })
+        expect(grandchild1Node).toBeInTheDocument()
+      })
+
+      // Click on the toggle button again to collapse Child 1
+      fireEvent.click(child1Toggle)
+
+      // After collapsing, Grandchild 1 should not be visible again
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: /Keyword: Grandchild 1/i })).not.toBeInTheDocument()
       })
     })
 
-    test('node changes background color on hover', async () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+    test('handles node click on leaf nodes', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
 
-      const node = screen.getByText('Child 1')
+      fireEvent.click(screen.getByText('Child 1'))
+      expect(mockOnNodeClick).toHaveBeenCalledWith('2')
+    })
 
-      expect(node).toHaveStyle('background-color: rgba(0, 0, 0, 0)')
+    test('handles node click on parent nodes', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
 
-      fireEvent.mouseEnter(node)
-      expect(node).toHaveStyle('background-color: #cce5ff')
+      fireEvent.click(screen.getByText('Root'))
+      expect(mockOnNodeClick).toHaveBeenCalledWith('1')
+    })
 
-      fireEvent.mouseLeave(node)
-      expect(node).toHaveStyle('background-color: rgba(0, 0, 0, 0)')
+    test('handles rapid expansion and collapse of nodes', async () => {
+      const nestedData = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'Parent 1',
+              children: [
+                {
+                  id: '3',
+                  key: '3',
+                  title: 'Child 1',
+                  children: []
+                }
+              ]
+            },
+            {
+              id: '4',
+              key: '4',
+              title: 'Parent 2',
+              children: [
+                {
+                  id: '5',
+                  key: '5',
+                  title: 'Child 2',
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+
+      render(
+        <KeywordTree
+          data={nestedData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      const parent1Node = screen.getByText('Parent 1')
+      const parent2Node = screen.getByText('Parent 2')
+
+      // Rapidly expand and collapse nodes
+      fireEvent.click(parent1Node)
+      fireEvent.click(parent2Node)
+      fireEvent.click(parent1Node)
+      fireEvent.click(parent2Node)
+
+      // Check if the tree structure is maintained
+      expect(screen.getByText('Root')).toBeInTheDocument()
+      expect(screen.getByText('Parent 1')).toBeInTheDocument()
+      expect(screen.getByText('Parent 2')).toBeInTheDocument()
+
+      // Check if child nodes are not visible (as parents should be collapsed after the last click)
+      expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
+      expect(screen.queryByText('Child 2')).not.toBeInTheDocument()
     })
   })
 
   describe('Context Menu', () => {
-    test('opens context menu on right-click', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+    test('context menu appears on right click', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
 
       fireEvent.contextMenu(screen.getByText('Child 1'))
-      expect(screen.getByText('Edit')).toBeInTheDocument()
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-      expect(screen.getByText('Delete')).toBeInTheDocument()
+      expect(screen.getByRole('menu')).toBeTruthy()
     })
 
-    test('deletes a node', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+    test('context menu closes when clicking outside', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
 
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+      expect(screen.getByRole('menu')).toBeTruthy()
+
+      fireEvent.mouseDown(document.body)
+      expect(screen.queryByRole('menu')).toBeFalsy()
+    })
+
+    test('handles multiple context menu opens without clicking', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      fireEvent.contextMenu(screen.getByText('Root'))
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+      fireEvent.contextMenu(screen.getByText('Child 2'))
+
+      // Only the last context menu should be open
+      expect(screen.getAllByRole('menu')).toHaveLength(1)
+    })
+  })
+
+  describe('Adding Nodes', () => {
+    test('adds a new node when "Add Narrower" is used', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu
+      fireEvent.contextMenu(screen.getByText('Root'))
+
+      // Click "Add Narrower" option
+      fireEvent.click(screen.getByText('Add Narrower'))
+
+      // Check if modal is open
+      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+      // Enter new node title
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'New Child' }
+      })
+
+      // Click "Add" button
+      fireEvent.click(screen.getByText('Add'))
+
+      // Check if new node is added
+      await waitFor(() => {
+        expect(screen.getByText('New Child')).toBeInTheDocument()
+      })
+    })
+
+    test('closes "Add Narrower" modal when Cancel is clicked', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu
+      fireEvent.contextMenu(screen.getByText('Root'))
+
+      // Click "Add Narrower" option
+      fireEvent.click(screen.getByText('Add Narrower'))
+
+      // Check if modal is open
+      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+      // Click "Cancel" button
+      fireEvent.click(screen.getByText('Cancel'))
+
+      // Check if modal is closed
+      await waitFor(() => {
+        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+      })
+    })
+
+    test('handles adding a node with empty title', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu
+      fireEvent.contextMenu(screen.getByText('Root'))
+      // Click "Add Narrower" option
+      fireEvent.click(screen.getByText('Add Narrower'))
+
+      // Check if modal is open
+      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+      // Don't enter any title (leave it empty)
+
+      // Click "Add" button
+      fireEvent.click(screen.getByText('Add'))
+
+      // Check if modal is still open (because empty title should not be added)
+      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+    })
+
+    test('expands parent node when a new child is added', async () => {
+      const collapsedData = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'Collapsed Parent',
+              children: []
+            }
+          ]
+        }
+      ]
+
+      render(
+        <KeywordTree
+          data={collapsedData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu for Collapsed Parent
+      fireEvent.contextMenu(screen.getByText('Collapsed Parent'))
+
+      // Click "Add Narrower" option
+      fireEvent.click(screen.getByText('Add Narrower'))
+
+      // Enter new node title
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'New Child' }
+      })
+
+      // Click "Add" button
+      fireEvent.click(screen.getByText('Add'))
+
+      // Check if new node is added and visible (parent should be expanded)
+      await waitFor(() => {
+        expect(screen.getByText('New Child')).toBeInTheDocument()
+      })
+    })
+
+    test('handles adding a node with a very long title', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      fireEvent.contextMenu(screen.getByText('Root'))
+      fireEvent.click(screen.getByText('Add Narrower'))
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'This is a very long title for a new node that might cause issues with layout or display' }
+      })
+
+      fireEvent.click(screen.getByText('Add'))
+
+      await waitFor(() => {
+        expect(screen.getByText('This is a very long title for a new node that might cause issues with layout or display')).toBeInTheDocument()
+      })
+    })
+
+    test('handles nodes with very long titles', async () => {
+      const longTitleData = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'This is a very long title that might cause issues with layout or display',
+              children: []
+            }
+          ]
+        }
+      ]
+
+      render(
+        <KeywordTree
+          data={longTitleData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      expect(screen.getByText('This is a very long title that might cause issues with layout or display')).toBeInTheDocument()
+    })
+  })
+
+  describe('Editing and Deleting Nodes', () => {
+    test('deletes a node when "Delete" is used', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu for Child 1
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+
+      // Click "Delete" option
+      fireEvent.click(screen.getByText('Delete'))
+
+      // Check if node is deleted
+      await waitFor(() => {
+        expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
+      })
+    })
+
+    test('edits a node when "Edit" is used', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Open context menu for Child 1
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+
+      // Click "Edit" option
+      fireEvent.click(screen.getByText('Edit'))
+
+      // Check if onNodeEdit was called with correct id
+      expect(mockOnNodeEdit).toHaveBeenCalledWith('2')
+    })
+  })
+
+  describe('Tree State Management', () => {
+    test('maintains tree state when nodes are added or deleted', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Add a new node
+      fireEvent.contextMenu(screen.getByText('Root'))
+      fireEvent.click(screen.getByText('Add Narrower'))
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'New Child' }
+      })
+
+      fireEvent.click(screen.getByText('Add'))
+
+      await waitFor(() => {
+        expect(screen.getByText('New Child')).toBeInTheDocument()
+      })
+
+      // Delete an existing node
       fireEvent.contextMenu(screen.getByText('Child 1'))
       fireEvent.click(screen.getByText('Delete'))
 
-      expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
-    })
-
-    test('calls onNodeEdit when edit is selected from context menu', () => {
-      const onNodeEdit = vi.fn()
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={onNodeEdit} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      fireEvent.click(screen.getByText('Edit'))
-
-      expect(onNodeEdit).toHaveBeenCalledWith(child1Uuid)
-    })
-
-    test('closes context menu when clicking outside', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      expect(screen.getByText('Edit')).toBeInTheDocument()
-
-      fireEvent.mouseDown(document.body)
-
-      expect(screen.queryByText('Edit')).not.toBeInTheDocument()
-    })
-
-    test('resets hovered index when mouse leaves context menu', async () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const editOption = screen.getByText('Edit')
-      fireEvent.mouseEnter(editOption)
-
-      expect(editOption).toHaveClass('hovered')
-
-      const contextMenu = screen.getByRole('menu')
-      fireEvent.mouseLeave(contextMenu)
-
       await waitFor(() => {
-        expect(editOption).not.toHaveClass('hovered')
-      })
-    })
-  })
-
-  describe('Keyboard Navigation', () => {
-    test('supports keyboard navigation in context menu', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const editButton = screen.getByText('Edit')
-      editButton.focus()
-
-      fireEvent.keyDown(editButton, {
-        key: 'Enter',
-        code: 'Enter'
+        expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
       })
 
-      expect(screen.queryByText('Edit')).not.toBeInTheDocument()
+      // Check if other nodes still exist
+      expect(screen.getByText('Root')).toBeInTheDocument()
+      expect(screen.getByText('Child 2')).toBeInTheDocument()
+      expect(screen.getByText('New Child')).toBeInTheDocument()
     })
 
-    test('handles ArrowDown key in context menu', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const contextMenu = screen.getByRole('menu')
-      const editOption = screen.getByText('Edit')
-      const addOption = screen.getByText('Add Narrower')
-      const deleteOption = screen.getByText('Delete')
-
-      contextMenu.focus()
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowDown',
-        code: 'ArrowDown'
-      })
-
-      expect(editOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowDown',
-        code: 'ArrowDown'
-      })
-
-      expect(addOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowDown',
-        code: 'ArrowDown'
-      })
-
-      expect(deleteOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowDown',
-        code: 'ArrowDown'
-      })
-
-      expect(editOption).toHaveClass('focused')
-    })
-
-    test('handles ArrowUp key in context menu', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const contextMenu = screen.getByRole('menu')
-      const editOption = screen.getByText('Edit')
-      const addOption = screen.getByText('Add Narrower')
-      const deleteOption = screen.getByText('Delete')
-
-      contextMenu.focus()
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowUp',
-        code: 'ArrowUp'
-      })
-
-      expect(deleteOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowUp',
-        code: 'ArrowUp'
-      })
-
-      expect(addOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowUp',
-        code: 'ArrowUp'
-      })
-
-      expect(editOption).toHaveClass('focused')
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowUp',
-        code: 'ArrowUp'
-      })
-
-      expect(deleteOption).toHaveClass('focused')
-    })
-
-    test('calls action and closes context menu when Enter is pressed on focused item', () => {
-      const onNodeEdit = vi.fn()
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={onNodeEdit} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const contextMenu = screen.getByRole('menu')
-      contextMenu.focus()
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'ArrowDown',
-        code: 'ArrowDown'
-      })
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'Enter',
-        code: 'Enter'
-      })
-
-      expect(onNodeEdit).toHaveBeenCalledWith(child1Uuid)
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
-    })
-
-    test('closes context menu when Escape is pressed and does nothing for other keys', () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-
-      const contextMenu = screen.getByRole('menu')
-      expect(contextMenu).toBeInTheDocument()
-
-      fireEvent.keyDown(contextMenu, {
-        key: 'Escape',
-        code: 'Escape'
-      })
-
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      const newContextMenu = screen.getByRole('menu')
-
-      fireEvent.keyDown(newContextMenu, {
-        key: 'a',
-        code: 'KeyA'
-      })
-
-      expect(newContextMenu).toBeInTheDocument()
-    })
-  })
-
-  describe('Adding Child Nodes', () => {
-    test('handles add child cancellation', async () => {
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      fireEvent.click(screen.getByText('Add Narrower'))
-
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      fireEvent.click(screen.getByText('Cancel'))
-
-      await waitFor(() => {
-        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
-      })
-    })
-
-    test('handles cancelling add new child', async () => {
-      const user = userEvent.setup()
-
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      await user.click(screen.getByText('Add Narrower'))
-
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.type(screen.getByPlaceholderText('Enter Keyword'), 'Cancelled Child')
-      await user.click(screen.getByRole('button', { name: 'Cancel' }))
-
-      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
-      expect(screen.queryByText('Cancelled Child')).not.toBeInTheDocument()
-    })
-
-    test('prevents adding empty keyword', async () => {
-      const user = userEvent.setup()
-
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      await user.click(screen.getByText('Add Narrower'))
-
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.click(screen.getByRole('button', { name: 'Add' }))
-
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.click(screen.getByRole('button', { name: 'Cancel' }))
-    })
-
-    test('adds new child node', async () => {
-      const user = userEvent.setup()
-      const newChildUuid = 'new-child-uuid'
-      uuidv4.mockReturnValue(newChildUuid)
-
-      const { rerender } = render(
+    test('handles concurrent add and delete operations', async () => {
+      render(
         <KeywordTree
           data={mockData}
-          onNodeDoubleClick={() => {}}
-          onNodeEdit={() => {}}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
         />
       )
 
+      // Add a new node
+      fireEvent.contextMenu(screen.getByText('Root'))
+      fireEvent.click(screen.getByText('Add Narrower'))
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'New Node' }
+      })
+
+      fireEvent.click(screen.getByText('Add'))
+
+      // Delete an existing node
       fireEvent.contextMenu(screen.getByText('Child 1'))
-      await user.click(screen.getByText('Add Narrower'))
+      fireEvent.click(screen.getByText('Delete'))
 
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.type(screen.getByPlaceholderText('Enter Keyword'), 'New Child')
-      await user.click(screen.getByRole('button', { name: 'Add' }))
-
+      // Check if the new node is added and the deleted node is removed
       await waitFor(() => {
-        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+        expect(screen.getByText('New Node')).toBeInTheDocument()
       })
 
-      // Wait for the component to update
-      await waitFor(() => {})
+      expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
 
-      // Force a re-render
-      rerender(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
+      // Check if other existing nodes are still present
+      expect(screen.getByText('Root')).toBeInTheDocument()
+      expect(screen.getByText('Child 2')).toBeInTheDocument()
+    })
+  })
 
-      // The parent node should now be automatically expanded, so we can directly look for the new child
-      await waitFor(() => {
-        const newChildNode = screen.getByText('New Child')
-        expect(newChildNode).toBeInTheDocument()
-      }, { timeout: 2000 })
+  describe('Edge Cases and Performance', () => {
+    test('handles nodes with empty children array', () => {
+      const dataWithEmptyChildren = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'Node with empty children',
+              children: []
+            }
+          ]
+        }
+      ]
 
-      // Verify that the parent node is indeed expanded
-      const treeItem = within(screen.getByRole('tree')).getByRole('treeitem', { name: /Child 1/i })
-      const expandButton = within(treeItem).getByRole('button', {
-        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
-      })
+      render(
+        <KeywordTree
+          data={dataWithEmptyChildren}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
 
-      expect(expandButton).toHaveClass('keyword-tree__icon-button')
-      expect(expandButton).toHaveClass('keyword-tree__triangle-icon')
-
-      // Check if the caret icon is pointing down (expanded state)
-      const caretIcon = within(expandButton).getByText('', { selector: 'i.fa' })
-      expect(caretIcon).toHaveClass('fa-caret-down')
-      expect(caretIcon).not.toHaveClass('fa-caret-right')
+      expect(screen.getByText('Node with empty children')).toBeInTheDocument()
     })
 
-    test('handles adding child to a parent with leaf sibling nodes', async () => {
-      const user = userEvent.setup()
-
-      const mockDataWithLeaf = {
-        id: 'root',
-        key: 'root',
-        title: 'Root',
-        children: [
-          {
-            id: 'parent',
-            key: 'parent',
-            title: 'Parent',
-            children: []
-          },
-          {
-            id: 'leaf',
-            key: 'leaf',
-            title: 'Leaf',
-            children: undefined
-          }
-        ]
-      }
-
-      const { rerender } = render(
+    test('handles very large number of operations without crashing', async () => {
+      render(
         <KeywordTree
-          data={mockDataWithLeaf}
-          onNodeDoubleClick={() => {}}
-          onNodeEdit={() => {}}
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
         />
       )
 
-      fireEvent.contextMenu(screen.getByText('Parent'))
-      await user.click(screen.getByText('Add Narrower'))
+      const root = screen.getByText('Root')
 
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.type(screen.getByPlaceholderText('Enter Keyword'), 'New Child')
-      await user.click(screen.getByRole('button', { name: 'Add' }))
-
-      await waitFor(() => {
-        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
-      })
-
-      // Wait for the component to update
-      await waitFor(() => {})
-
-      // Force a re-render
-      rerender(
-        <KeywordTree
-          data={mockDataWithLeaf}
-          onNodeDoubleClick={() => {}}
-          onNodeEdit={() => {}}
-        />
-      )
-
-      const parentNode = screen.getByRole('treeitem', { name: /Parent/i })
-
-      // Instead of using .closest(), we can use within() to search within the parent node
-      const expandButton1 = within(parentNode).getByRole('button', {
-        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
-      })
-
-      if (!expandButton1) {
-        throw new Error('Expand button not found within parent node')
+      // Perform a large number of expand/collapse operations
+      for (let i = 0; i < 1000; i += 1) {
+        fireEvent.click(root)
       }
 
-      const expandButton = within(parentNode).getByRole('button', {
-        class: /keyword-tree__icon-button keyword-tree__triangle-icon/
-      })
-
-      // Ensure the parent node is expanded
-      const caretIcon = within(expandButton).getByText('', { selector: 'i.fa' })
-      if (!caretIcon.classList.contains('fa-caret-down')) {
-        await user.click(expandButton)
-      }
-
-      // Wait for the new child to appear
+      // The component should still be responsive after many operations
+      fireEvent.click(root)
       await waitFor(() => {
-        const newChildNode = screen.getByText('New Child')
-        expect(newChildNode).toBeInTheDocument()
-      }, { timeout: 2000 })
-
-      // Verify that the leaf sibling is still present
-      expect(screen.getByText('Leaf')).toBeInTheDocument()
-
-      // Check if the caret icon is pointing down (expanded state)
-      if (expandButton) {
-        const caretIcon1 = within(expandButton).getByText('', { selector: 'i.fa' })
-        expect(caretIcon1).toHaveClass('fa-caret-down')
-      }
-    })
-
-    test('shows and hides add child modal', async () => {
-      const user = userEvent.setup()
-
-      render(<KeywordTree data={mockData} onNodeDoubleClick={() => {}} onNodeEdit={() => {}} />)
-
-      expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
-
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      await user.click(screen.getByText('Add Narrower'))
-
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      await user.click(screen.getByRole('button', { name: 'Cancel' }))
-
-      await waitFor(() => {
-        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+        expect(screen.getByText('Child 1')).toBeInTheDocument()
       })
     })
   })

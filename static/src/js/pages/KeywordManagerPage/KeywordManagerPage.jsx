@@ -4,7 +4,6 @@ import React, {
   useEffect
 } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import PropTypes from 'prop-types'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
@@ -16,47 +15,17 @@ import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
+import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
 import './KeywordManagerPage.scss'
-
-const KeywordManagerPageHeader = () => (
-  <PageHeader
-    breadcrumbs={
-      [
-        {
-          label: 'Keyword Manager',
-          to: '/keywords',
-          active: true
-        }
-      ]
-    }
-    pageType="secondary"
-    primaryActions={
-      [
-        {
-          icon: FaPlus,
-          iconTitle: 'A plus icon',
-          title: 'Publish New Keyword Version',
-          to: 'new',
-          variant: 'success'
-        }
-      ]
-    }
-    title="Keyword Manager"
-  />
-)
-
-const TreePlaceholder = ({ message }) => (
-  <div className="keyword-manager-page__tree-placeholder">
-    {message}
-  </div>
-)
 
 const KeywordManagerPage = () => {
   const [showError, setShowError] = useState(null)
@@ -91,7 +60,7 @@ const KeywordManagerPage = () => {
     }
   }, [])
 
-  const handleNodeDoubleClick = useCallback((nodeId) => {
+  const handleNodeClick = useCallback((nodeId) => {
     handleShowKeyword(nodeId)
   }, [handleShowKeyword])
 
@@ -165,7 +134,7 @@ const KeywordManagerPage = () => {
 
   const renderTree = () => {
     if (isTreeLoading) {
-      return <TreePlaceholder message="Loading..." />
+      return <KeywordTreePlaceHolder message="Loading..." />
     }
 
     if (treeData) {
@@ -173,20 +142,46 @@ const KeywordManagerPage = () => {
         <KeywordTree
           key={`${selectedVersion?.version}-${selectedScheme?.name}`}
           data={treeData}
-          onNodeDoubleClick={handleNodeDoubleClick}
+          onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
-          selectedScheme={selectedScheme?.name}
         />
       )
     }
 
-    return <TreePlaceholder message={treeMessage} />
+    return <KeywordTreePlaceHolder message={treeMessage} />
   }
 
   return (
     <Page
       pageType="secondary"
-      header={<KeywordManagerPageHeader />}
+      header={
+        (
+          <PageHeader
+            breadcrumbs={
+              [
+                {
+                  label: 'Keyword Manager',
+                  to: '/keywords',
+                  active: true
+                }
+              ]
+            }
+            pageType="secondary"
+            primaryActions={
+              [
+                {
+                  icon: FaPlus,
+                  iconTitle: 'A plus icon',
+                  title: 'Publish New Keyword Version',
+                  to: 'new',
+                  variant: 'success'
+                }
+              ]
+            }
+            title="Keyword Manager"
+          />
+        )
+      }
     >
       <ErrorBoundary>
         <div className="keyword-manager-page__selector-container">
@@ -235,10 +230,6 @@ const KeywordManagerPage = () => {
       />
     </Page>
   )
-}
-
-TreePlaceholder.propTypes = {
-  message: PropTypes.string.isRequired
 }
 
 export default KeywordManagerPage
