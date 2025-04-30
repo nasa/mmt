@@ -608,6 +608,57 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Root')).toBeInTheDocument()
       expect(screen.getByText('Child 2')).toBeInTheDocument()
     })
+
+    test('does not modify nodes that are not the target parent and have no children', async () => {
+      const dataWithLeafNodes = [
+        {
+          id: '1',
+          key: '1',
+          title: 'Root',
+          children: [
+            {
+              id: '2',
+              key: '2',
+              title: 'Leaf Node 1'
+            },
+            {
+              id: '3',
+              key: '3',
+              title: 'Leaf Node 2'
+            }
+          ]
+        }
+      ]
+
+      render(
+        <KeywordTree
+          data={dataWithLeafNodes}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+        />
+      )
+
+      // Attempt to add a child to Leaf Node 1
+      fireEvent.contextMenu(screen.getByText('Leaf Node 1'))
+      fireEvent.click(screen.getByText('Add Narrower'))
+      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
+        target: { value: 'New Child' }
+      })
+
+      fireEvent.click(screen.getByText('Add'))
+
+      // Wait for the new node to be added
+      await waitFor(() => {
+        expect(screen.getByText('New Child')).toBeInTheDocument()
+      })
+
+      // Verify that Leaf Node 2 remains unchanged
+      expect(screen.getByText('Leaf Node 2')).toBeInTheDocument()
+
+      // Verify that Leaf Node 2 still doesn't have any children
+      const leafNode2 = screen.getByText('Leaf Node 2')
+      expect(leafNode2.nextElementSibling).toBeFalsy()
+    })
   })
 
   describe('Edge Cases and Performance', () => {
