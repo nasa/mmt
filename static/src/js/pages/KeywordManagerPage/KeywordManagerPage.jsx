@@ -27,33 +27,6 @@ import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
 import './KeywordManagerPage.scss'
 
-const KeywordManagerPageHeader = () => (
-  <PageHeader
-    breadcrumbs={
-      [
-        {
-          label: 'Keyword Manager',
-          to: '/keywords',
-          active: true
-        }
-      ]
-    }
-    pageType="secondary"
-    primaryActions={
-      [
-        {
-          icon: FaPlus,
-          iconTitle: 'A plus icon',
-          title: 'Publish New Keyword Version',
-          to: 'new',
-          variant: 'success'
-        }
-      ]
-    }
-    title="Keyword Manager"
-  />
-)
-
 const KeywordManagerPage = () => {
   const [showError, setShowError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
