@@ -79,6 +79,20 @@ export const KeywordTree = ({
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+        setContextMenu(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  useEffect(() => {
     if (treeRef.current && treeData.length > 0) {
       if (openAll) {
         treeRef.current.openAll()

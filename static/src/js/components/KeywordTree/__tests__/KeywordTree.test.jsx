@@ -1,17 +1,18 @@
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within
+} from '@testing-library/react'
 import React from 'react'
 import {
-  render,
-  fireEvent,
-  screen,
-  within,
-  waitFor
-} from '@testing-library/react'
-import {
   describe,
-  test,
   expect,
+  test,
   vi
 } from 'vitest'
+
 import { KeywordTree } from '../KeywordTree'
 
 describe('KeywordTree', () => {

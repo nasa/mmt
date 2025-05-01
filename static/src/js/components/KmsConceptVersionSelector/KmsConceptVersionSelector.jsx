@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Select from 'react-select'
 
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
