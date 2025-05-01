@@ -565,5 +565,61 @@ describe('KeywordManagerPage component', () => {
       // Ensure that the KeywordForm is not rendered
       expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
     })
+    // Add this test within the 'KeywordTree' describe block
+
+    test('uses "published" as version parameter when selected version is published', async () => {
+      const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({})
+      vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+      })
+
+      const { user } = setup()
+
+      // Select published version
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0') // Assuming '3.0' is the published version
+
+      // Close the warning modal
+      await waitFor(() => {
+        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+      })
+
+      const okButton = screen.getByTestId('modal-action-ok')
+      await user.click(okButton)
+
+      // Select scheme
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for the tree to load
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      // Simulate click on a node
+      const clickButton = screen.getByText('Click Node')
+      await user.click(clickButton)
+
+      // Wait for the fetch to be called and check the URL
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/concept/test-node-id?version=published'))
+      })
+
+      // Verify that createFormDataFromRdf was called with the fetched RDF data
+      await waitFor(() => {
+        expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
+      })
+    })
   })
 })

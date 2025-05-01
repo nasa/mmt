@@ -43,7 +43,12 @@ const KeywordManagerPage = () => {
     setIsLoading(true)
     setShowError(null)
     try {
-      const response = await fetch(`${kmsHost}/concept/${uuid}`)
+      let versionParam = selectedVersion.version
+      if (selectedVersion.version_type === 'published') {
+        versionParam = 'published'
+      }
+
+      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${versionParam}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -58,7 +63,7 @@ const KeywordManagerPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [selectedVersion])
 
   const handleNodeClick = useCallback((nodeId) => {
     handleShowKeyword(nodeId)
