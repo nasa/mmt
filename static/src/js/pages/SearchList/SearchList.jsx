@@ -248,8 +248,9 @@ const SearchList = ({ limit }) => {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisTextCell,
           dataKey: 'title',
+          // To be completed in MMT-4023
           // SortFn,
-          // sortKey: 'title', // Need to enable something to get this work
+          // sortKey: 'title',
           title: 'Long Name'
         },
         {
