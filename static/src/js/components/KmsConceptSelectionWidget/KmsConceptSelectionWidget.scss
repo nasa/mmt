@@ -14,11 +14,11 @@
   &__edit-button {
     display: inline-flex;          
     align-items: center;
-    background: none;
-    border: none;                  
+    border: none;
+    margin: 0;
+    background: none;                  
     color: #007bff; 
     cursor: pointer;
-    margin: 0;
     padding-inline-start: 5px;
     transition: color 0.2s ease-in-out; 
    
@@ -28,11 +28,11 @@
     }
   }
 
-  &__input {
+  &__input { 
+    padding: 8px;
     border: 1px solid #ccc;       
     border-radius: 4px;
-    inline-size: 80%; 
-    padding: 8px;                    
+    inline-size: 80%;                    
     transition: border-color 0.2s ease;
 
     &:focus {
