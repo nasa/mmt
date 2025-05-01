@@ -53,6 +53,8 @@ export const KmsConceptSelectionEditModal = ({
       } finally {
         setIsTreeLoading(false)
       }
+    } else {
+      setTreeMessage('Select a version and scheme to load the tree')
     }
   }
 
@@ -60,8 +62,6 @@ export const KmsConceptSelectionEditModal = ({
     if (version && selectedScheme) {
       setTreeMessage('Loading...')
       fetchTreeData(version, selectedScheme, searchPatternApplied)
-    } else {
-      setTreeMessage('Select a version and scheme to load the tree')
     }
   }, [show, version, selectedScheme, searchPatternApplied])
 
@@ -110,7 +110,7 @@ export const KmsConceptSelectionEditModal = ({
       return <TreePlaceholder message="Loading..." />
     }
 
-    const schemeSelectorId = selectedScheme.name
+    const schemeSelectorId = selectedScheme?.name
 
     return (
       <div>

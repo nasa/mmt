@@ -13,7 +13,6 @@ import {
 } from '@/js/components/KmsConceptSelectionEditModal/KmsConceptSelectionEditModal'
 import { getKmsConceptFullPaths } from '@/js/utils/getKmsConceptFullPaths'
 
-import shouldFocusField from '../../utils/shouldFocusField'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import './KmsConceptSelectionWidget.scss'
@@ -50,7 +49,7 @@ const KmsConceptSelectionWidget = ({
   const focusRef = useRef(null)
 
   const { formContext } = registry
-  const { focusField, version, scheme } = formContext
+  const { version, scheme } = formContext
 
   const { maxLength, description } = schema
 
@@ -58,15 +57,6 @@ const KmsConceptSelectionWidget = ({
   if (uiSchema['ui:title']) {
     title = uiSchema['ui:title']
   }
-
-  const shouldFocus = shouldFocusField(focusField, id)
-
-  useEffect(() => {
-    if (shouldFocus) {
-      inputScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-      focusRef.current?.focus()
-    }
-  }, [shouldFocus])
 
   useEffect(() => {
     const fetchFullPaths = async () => {
@@ -110,6 +100,7 @@ const KmsConceptSelectionWidget = ({
           {keywordLabel || 'No value set'}
         </span>
         <Button
+          title="Edit Keyword"
           className="kms-concept-selection-widget__edit-button"
           Icon={FaPencilAlt}
           iconTitle="Pencil icon to edit"

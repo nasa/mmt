@@ -1,12 +1,14 @@
 import {
-  describe,
-  test,
-  expect,
-  vi,
+  afterEach,
   beforeEach,
-  afterEach
+  describe,
+  expect,
+  test,
+  vi
 } from 'vitest'
+
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+
 import getKmsConceptSchemes from '../getKmsConceptSchemes'
 
 vi.mock('sharedUtils/getConfig', () => ({

@@ -4,8 +4,8 @@
 
 .keyword-tree-placeholder {
   display: flex;
-  width: 100%;
-  height: 300px;
+  inline-size: 100%;
+  block-size: 300px;
   align-items: center;
   justify-content: center;
   border: 1px solid $gray-300;
