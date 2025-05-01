@@ -18,15 +18,15 @@
   }
 
   &__icon-button {
-    background: none;
     display: flex;                 
     align-items: center;
-    justify-content: center;       
+    justify-content: center;
+    padding: 0 5px;       
     border: none;
+    background: none;
     block-size: 24px;
-    inline-size: 24px;
     cursor: pointer;
-    padding: 0 5px;
+    inline-size: 24px;
   }
 
   &__triangle-icon {
@@ -39,9 +39,9 @@
     font-size: 0.60em;
   }
 
-  &__text-wrapper {
-    align-items: center;           
+  &__text-wrapper {           
     display: flex;
+    align-items: center;
     block-size: 100%;
   }
 

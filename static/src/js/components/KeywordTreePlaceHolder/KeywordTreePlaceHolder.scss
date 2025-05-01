@@ -3,11 +3,11 @@
 @import '../../../css/vendor/bootstrap/variables';
 
 .keyword-tree-placeholder {
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid $gray-300;
   border-radius: 4px;
   block-size: 300px;
-  justify-content: center;
   inline-size: 100%;
 }

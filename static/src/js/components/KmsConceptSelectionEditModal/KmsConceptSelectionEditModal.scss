@@ -4,10 +4,10 @@
 
 .kms-concept-selection-edit-modal {
   &__search-input {
-    inline-size: 80%;
     padding: 8px;
     border: 1px solid #ccc;      
-    border-radius: 4px;          
+    border-radius: 4px;
+    inline-size: 80%;          
 
     &:focus {
       border-color: #007bff;
@@ -35,11 +35,11 @@
   &__tree-placeholder {
     display: flex;                
     align-items: center;
-    justify-content: center;      
+    justify-content: center;           
+    border: 1px solid $gray-300;
+    border-radius: 4px;  
+    block-size: 300px;      
     inline-size: 100%;
-    border-radius: 4px;           
-    border: 1px solid $gray-300;  
-    block-size: 300px;
   }
 
   &__apply-button {
