@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
 import './KeywordTreeContextMenu.scss'
 
@@ -102,7 +102,6 @@ export const KeywordTreeContextMenu = ({
             }
             onKeyDown={
               (e) => {
-                console.log('KeyDown event triggered', e.key)
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault()
                   option.action()

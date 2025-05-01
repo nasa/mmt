@@ -1,29 +1,28 @@
 import React, {
-  useState,
   useCallback,
-  useEffect
+  useEffect,
+  useState
 } from 'react'
+import { Col, Row } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
-import { getApplicationConfig } from 'sharedUtils/getConfig'
-
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
+import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import KeywordTree from '@/js/components/KeywordTree/KeywordTree'
-import CustomModal from '@/js/components/CustomModal/CustomModal'
-import {
-  KeywordTreePlaceHolder
-} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
-
-import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
-import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
+import errorLogger from '@/js/utils/errorLogger'
+import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import './KeywordManagerPage.scss'
 
@@ -92,7 +91,7 @@ const KeywordManagerPage = () => {
     }
   }
 
-  const handleNodeDoubleClick = useCallback((nodeId) => {
+  const handleNodeClick = useCallback((nodeId) => {
     handleShowKeyword(nodeId)
   }, [handleShowKeyword])
 
@@ -165,7 +164,13 @@ const KeywordManagerPage = () => {
     }
 
     if (selectedKeywordData) {
-      return <KeywordForm initialData={selectedKeywordData} />
+      return (
+        <KeywordForm
+          initialData={selectedKeywordData}
+          version={selectedVersion}
+          scheme={selectedScheme}
+        />
+      )
     }
 
     return null
@@ -181,9 +186,8 @@ const KeywordManagerPage = () => {
         <KeywordTree
           key={`${selectedVersion?.version}-${selectedScheme?.name}`}
           data={treeData}
-          onNodeDoubleClick={handleNodeDoubleClick}
+          onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
-          selectedScheme={selectedScheme?.name}
         />
       )
     }
@@ -231,7 +235,13 @@ const KeywordManagerPage = () => {
           >
             Version:
           </label>
-          <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+          <Row className="mb-4">
+            <Col>
+              <div className="rounded p-3">
+                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+              </div>
+            </Col>
+          </Row>
           <label
             htmlFor="scheme-selector"
             className="keyword-manager-page__scheme-selector-label"
@@ -239,12 +249,18 @@ const KeywordManagerPage = () => {
             Scheme:
           </label>
           <div className="keyword-manager-page__scheme-selector-wrapper">
-            <KmsConceptSchemeSelector
-              version={selectedVersion}
-              onSchemeSelect={onSchemeSelect}
-              key={selectedVersion?.version}
-              id="scheme-selector"
-            />
+            <Row className="mb-4">
+              <Col>
+                <div className="rounded p-3">
+                  <KmsConceptSchemeSelector
+                    version={selectedVersion}
+                    onSchemeSelect={onSchemeSelect}
+                    key={selectedVersion?.version}
+                    id="scheme-selector"
+                  />
+                </div>
+              </Col>
+            </Row>
           </div>
         </div>
       </ErrorBoundary>

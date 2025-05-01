@@ -1,3 +1,5 @@
+import { castArray } from 'lodash-es'
+
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 /**
@@ -6,6 +8,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @returns {Object} A new node with added ID.
  */
 const addIdsToNodes = (node) => {
+  if (!node) return null
   const newNode = {
     ...node,
     id: node.key || node.title
@@ -36,7 +39,7 @@ const addIdsToNodes = (node) => {
  *   console.error('Failed to get keyword tree:', error);
  * }
  */
-const getKmsKeywordTree = async (version, scheme) => {
+const getKmsKeywordTree = async (version, scheme, searchPattern) => {
   const { kmsHost } = getApplicationConfig()
   try {
     // In case of published version, use 'published' instead of the version label
@@ -47,8 +50,13 @@ const getKmsKeywordTree = async (version, scheme) => {
 
     const schemeParam = encodeURIComponent(scheme.name)
 
+    let endpoint = `${kmsHost}/tree/concept_scheme/${schemeParam}?version=${versionParam}`
+    if (searchPattern && searchPattern.trim() !== '') {
+      endpoint += `&filter=${searchPattern}`
+    }
+
     // Fetch data from KMS server
-    const response = await fetch(`${kmsHost}/tree/concept_scheme/${schemeParam}?version=${versionParam}`, {
+    const response = await fetch(endpoint, {
       method: 'GET'
     })
 
@@ -59,7 +67,9 @@ const getKmsKeywordTree = async (version, scheme) => {
     const json = await response.json()
 
     // Add ids to all nodes in the tree
-    const treeWithIds = addIdsToNodes(json.tree.treeData[0].children[0])
+    const childrenArray = castArray(json.tree.treeData[0].children)
+    const firstChild = childrenArray[0]
+    const treeWithIds = addIdsToNodes(firstChild)
 
     return treeWithIds
   } catch (error) {

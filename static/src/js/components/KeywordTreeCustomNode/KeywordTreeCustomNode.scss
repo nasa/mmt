@@ -14,13 +14,13 @@
   &__icon-wrapper {
     display: flex;
     align-items: center;
-    padding-bottom: 6px;
+    padding-block-end: 6px;
   }
 
   &__icon-button {
     display: flex;
-    width: 24px;
-    height: 24px;
+    inline-size: 24px;
+    block-size: 24px;
     align-items: center;
     justify-content: center;
     padding: 0 5px;
@@ -30,7 +30,7 @@
   }
 
   &__triangle-icon {
-    padding-top: 6px;
+    padding-block-start: 6px;
     font-size: 25px;
     line-height: 1;
   }
@@ -41,7 +41,7 @@
 
   &__text-wrapper {
     display: flex;
-    height: 100%;
+    block-size: 100%;
     align-items: center;
   }
 
