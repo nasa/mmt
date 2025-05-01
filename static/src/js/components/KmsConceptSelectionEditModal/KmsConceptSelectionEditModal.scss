@@ -1,0 +1,48 @@
+@use "sass:map";
+@import '../../../css/vendor/bootstrap/variables';
+
+.kms-concept-selection-edit-modal {
+
+  &__search-input {
+    inline-size: 80%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+
+  &__scheme-selector {
+    display: flex;
+    align-items: center;
+    padding-block-end: 8px;
+  }
+
+  &__label {
+    padding-inline-end: 8px;
+    font-weight: bold;
+  }
+
+  &__tree-wrapper {
+    margin-block-end: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__tree-placeholder {
+    display: flex;
+    inline-size: 100%;
+    block-size: 300px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $gray-300;
+    border-radius: 4px;
+  }
+
+  &__apply-button {
+    margin-inline-start: 10px; // Add spacing to the left of the button
+  }
+}

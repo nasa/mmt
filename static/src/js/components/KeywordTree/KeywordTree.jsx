@@ -1,244 +1,20 @@
+import PropTypes from 'prop-types'
 import React, {
-  useState,
   useEffect,
   useRef,
-  useCallback
+  useState
 } from 'react'
 import { Tree } from 'react-arborist'
-import CustomModal from '@/js/components/CustomModal/CustomModal'
-import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import {
+  KeywordTreeContextMenu
+} from '@/js/components/KeywordTreeContextMenu/KeywordTreeContextMenu'
+import { KeywordTreeCustomNode } from '@/js/components/KeywordTreeCustomNode/KeywordTreeCustomNode'
+
 import './KeywordTree.scss'
-
-/**
- * ContextMenu Component
- *
- * This component renders a context menu at the specified coordinates with given options.
- * It supports keyboard navigation and accessibility features.
- *
- * @component
- * @param {Object} props
- * @param {number} props.x - The x-coordinate for positioning the context menu
- * @param {number} props.y - The y-coordinate for positioning the context menu
- * @param {Function} props.onClose - Callback function to close the context menu
- * @param {Array} props.options - An array of option objects for the context menu
- * @param {React.Ref} props.forwardedRef - Ref to be forwarded to the context menu container
- *
- * @example
- * const contextMenuOptions = [
- *   { id: 'edit', label: 'Edit', action: () => console.log('Edit clicked') },
- *   { id: 'delete', label: 'Delete', action: () => console.log('Delete clicked') }
- * ];
- *
- * const handleClose = () => {
- *   setShowContextMenu(false);
- * };
- *
- * return (
- *   showContextMenu && (
- *     <ContextMenu
- *       x={mousePosition.x}
- *       y={mousePosition.y}
- *       onClose={handleClose}
- *       options={contextMenuOptions}
- *       forwardedRef={contextMenuRef}
- *     />
- *   )
- * );
- */
-const ContextMenu = ({
-  x, y, onClose, options, forwardedRef
-}) => {
-  const [hoveredIndex, setHoveredIndex] = useState(null)
-  const [focusedIndex, setFocusedIndex] = useState(null)
-
-  const handleKeyDown = (e) => {
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault()
-        setFocusedIndex((prev) => ((prev === null || prev === options.length - 1) ? 0 : prev + 1))
-        break
-      case 'ArrowUp':
-        e.preventDefault()
-        setFocusedIndex((prev) => ((prev === null || prev === 0) ? options.length - 1 : prev - 1))
-        break
-      case 'Enter':
-      case ' ':
-        e.preventDefault()
-        if (focusedIndex !== null) {
-          options[focusedIndex].action()
-          onClose()
-        }
-
-        break
-      case 'Escape':
-        e.preventDefault()
-        onClose()
-        break
-      default:
-        break
-    }
-  }
-
-  return (
-    <div
-      className="keyword-tree__context-menu"
-      style={
-        {
-          top: `${y}px`,
-          left: `${x}px`
-        }
-      }
-      ref={forwardedRef}
-      role="menu"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onMouseLeave={() => setHoveredIndex(null)}
-    >
-      {
-        options.map((option, index) => (
-          <div
-            key={option.id}
-            role="menuitem"
-            tabIndex={-1}
-            onClick={
-              () => {
-                option.action()
-                onClose()
-              }
-            }
-            onKeyDown={
-              (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  option.action()
-                  onClose()
-                }
-              }
-            }
-            onMouseEnter={() => setHoveredIndex(index)}
-            className={
-              `keyword-tree__context-menu-item ${
-                focusedIndex === index ? 'focused' : ''
-              } ${hoveredIndex === index ? 'hovered' : ''}`
-            }
-          >
-            {option.label}
-          </div>
-        ))
-      }
-    </div>
-  )
-}
-
-/**
- * CustomNode Component
- *
- * This component renders a single node in the KeywordTree. It handles node
- * interactions such as toggling, context menu, and hover effects.
- *
- * @component
- * @param {Object} props
- * @param {Object} props.node - The node data object
- * @param {Object} props.style - Inline styles for the node
- * @param {Function|Object} props.dragHandle - Ref or function for drag handle
- * @param {Function} props.onDelete - Callback function to delete a node
- * @param {Function} props.setContextMenu - Function to set the context menu
- * @param {Function} props.onToggle - Callback function to toggle node expansion
- * @param {Function} props.onEdit - Callback function to edit a node
- * @param {Function} props.onNodeDoubleClick - Callback function for node double-click
- * @param {Function} props.handleAdd - Callback function to add a child node
- *
- * @example
- * <CustomNode
- *   node={{
- *     id: '1',
- *     data: { title: 'Node 1', children: [] },
- *     isOpen: false,
- *     toggle: () => {}
- *   }}
- *   style={{}}
- *   dragHandle={dragHandleRef}
- *   onDelete={(id) => console.log('Delete node', id)}
- *   setContextMenu={(menu) => setContextMenu(menu)}
- *   onToggle={(node) => node.toggle()}
- *   onEdit={(id) => console.log('Edit node', id)}
- *   onNodeDoubleClick={(id) => console.log('Double click on node', id)}
- *   handleAdd={(parentId) => console.log('Add child to', parentId)}
- * />
- */
-const CustomNode = ({
-  node, style, dragHandle, onDelete, setContextMenu, onToggle, onEdit, onNodeDoubleClick, handleAdd
-}) => {
-  const [isHovered, setIsHovered] = useState(false)
-  const handleContextMenu = (e) => {
-    e.preventDefault()
-    const newContextMenu = {
-      x: e.clientX,
-      y: e.clientY,
-      options: [
-        {
-          id: 'edit',
-          label: 'Edit',
-          action: () => onEdit(node.id)
-        },
-        {
-          id: 'add-child',
-          label: 'Add Narrower',
-          action: () => handleAdd(node.id)
-        },
-        {
-          id: 'delete',
-          label: 'Delete',
-          action: () => onDelete(node.id)
-        }
-      ]
-    }
-    setContextMenu(newContextMenu)
-  }
-
-  return (
-    <div
-      className="keyword-tree__node-content"
-      style={style}
-      ref={dragHandle}
-      onContextMenu={handleContextMenu}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onDoubleClick={() => onNodeDoubleClick(node.id)}
-    >
-      <div className="keyword-tree__icon-wrapper">
-        {
-          node.data.children && node.data.children.length > 0 ? (
-            <button
-              type="button"
-              onClick={() => onToggle(node)}
-              className="keyword-tree__icon-button keyword-tree__triangle-icon"
-            >
-              {node.isOpen ? <i className="fa fa-caret-down keyword-tree__caret-icon" aria-hidden="true" /> : <i className="fa fa-caret-right keyword-tree__caret-icon" aria-hidden="true" />}
-            </button>
-          ) : (
-            <span className="keyword-tree__icon-button" />
-          )
-        }
-      </div>
-      <div className="keyword-tree__text-wrapper">
-        <span
-          className="keyword-tree__node-text"
-          style={
-            {
-              backgroundColor: isHovered ? '#cce5ff' : 'transparent'
-            }
-          }
-        >
-          {node.data.title}
-        </span>
-      </div>
-    </div>
-  )
-}
 
 /**
  * KeywordTree Component
@@ -248,7 +24,7 @@ const CustomNode = ({
  *
  * @component
  * @param {Object|Array} props.data - The initial tree data structure
- * @param {Function} props.onNodeDoubleClick - Callback function when a node is double-clicked
+ * @param {Function} props.onNodeClick - Callback function when a node is clicked
  * @param {Function} props.onNodeEdit - Callback function when a node is edited
  *
  * @example
@@ -274,8 +50,8 @@ const CustomNode = ({
  *   }
  * ];
  *
- * const handleNodeDoubleClick = (nodeId) => {
- *   console.log('Node double-clicked:', nodeId);
+ * const handleNodeClick = (nodeId) => {
+ *   console.log('Node clicked:', nodeId);
  * };
  *
  * const handleNodeEdit = (nodeId) => {
@@ -285,13 +61,13 @@ const CustomNode = ({
  * return (
  *   <KeywordTree
  *     data={treeData}
- *     onNodeDoubleClick={handleNodeDoubleClick}
+ *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
  *   />
  * );
  */
-const KeywordTree = ({
-  data, onNodeDoubleClick, onNodeEdit, selectedScheme
+export const KeywordTree = ({
+  data, onNodeClick, onNodeEdit, searchTerm, selectedNodeId, openAll
 }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)
@@ -302,72 +78,28 @@ const KeywordTree = ({
   const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
 
-  const findParent = (nodes, targetId, parent = null) => nodes.reduce((result, node) => {
-    if (result) return result
-
-    if (node.id === targetId) {
-      return parent
-    }
-
-    if (node.children && node.children.length > 0) {
-      const childResult = findParent(node.children, targetId, node)
-      if (childResult) return childResult
-    }
-
-    return null
-  }, null)
-
-  const expandToDirectParent = (targetId) => {
-    if (!treeRef.current) return
-
-    const parent = findParent(treeData, targetId)
-    if (parent) {
-      const parentNode = treeRef.current.get(parent.id)
-      if (parentNode && !parentNode.isOpen) {
-        parentNode.open()
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (selectedScheme === 'sciencekeywords') {
-      const targetId = 'f1a25060-330c-4f84-9633-ed59ae8c64bf'
-      // Use setTimeout to ensure the tree has been fully rendered
-      setTimeout(() => expandToDirectParent(targetId), 0)
-    }
-  }, [selectedScheme, treeData])
-
-  const handleTreeChange = useCallback((updatedData) => {
-    setTreeData(updatedData)
-    if (selectedScheme === 'sciencekeywords') {
-      const targetId = 'f1a25060-330c-4f84-9633-ed59ae8c64bf'
-      setTimeout(() => expandToDirectParent(targetId), 0)
-    }
-  }, [selectedScheme])
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
-        setContextMenu(null)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
   useEffect(() => {
     if (treeRef.current && treeData.length > 0) {
-      const tree = treeRef.current
-      const rootNode = tree.get(treeData[0].id)
-      if (rootNode) {
-        rootNode.open()
+      if (openAll) {
+        treeRef.current.openAll()
+      } else if (selectedNodeId) {
+        treeRef.current.openParents(selectedNodeId)
+        setTimeout(() => { // Delay to potentially allow tree updates
+          const node = treeRef.current.get(selectedNodeId)
+          if (node) {
+            treeRef.current.select(selectedNodeId)
+            treeRef.current.scrollTo(selectedNodeId, 'center')
+          }
+        }, 0)
+      } else {
+        const tree = treeRef.current
+        const rootNode = tree.get(treeData[0].id)
+        if (rootNode) {
+          rootNode.open()
+        }
       }
     }
-  }, [treeData])
+  }, [treeData, openAll])
 
   const closeAllDescendants = (node) => {
     if (node.isOpen) {
@@ -474,20 +206,19 @@ const KeywordTree = ({
         rowHeight={36}
         overscanCount={1}
         idAccessor={idAccessor}
-        onChange={handleTreeChange}
       >
         {
           ({ node, ...props }) => (
-            <CustomNode
+            <KeywordTreeCustomNode
               {...props}
               node={node}
               onAdd={handleAdd}
               onDelete={handleDelete}
+              searchTerm={searchTerm}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
-              onDoubleClick={onNodeDoubleClick}
               onEdit={onNodeEdit}
-              onNodeDoubleClick={onNodeDoubleClick}
+              onNodeClick={onNodeClick}
               handleAdd={handleAdd}
             />
           )
@@ -495,7 +226,7 @@ const KeywordTree = ({
       </Tree>
       {
         contextMenu && (
-          <ContextMenu
+          <KeywordTreeContextMenu
             {...contextMenu}
             onClose={() => setContextMenu(null)}
             forwardedRef={contextMenuRef}
@@ -533,56 +264,21 @@ const NodeShape = {
 }
 NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 
-ContextMenu.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  onClose: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    action: PropTypes.func.isRequired
-  })).isRequired,
-  forwardedRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ]).isRequired
-}
-
-CustomNode.propTypes = {
-  node: PropTypes.shape({
-    data: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      children: NodeShape.children
-    }).isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    toggle: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired
-  }).isRequired,
-  style: PropTypes.shape({}),
-  dragHandle: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ]),
-  onDelete: PropTypes.func.isRequired,
-  setContextMenu: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onNodeDoubleClick: PropTypes.func.isRequired,
-  handleAdd: PropTypes.func.isRequired
-}
-
-CustomNode.defaultProps = {
-  style: {},
-  dragHandle: null
+KeywordTree.defaultProps = {
+  searchTerm: null,
+  selectedNodeId: null,
+  openAll: false
 }
 
 KeywordTree.propTypes = {
+  selectedNodeId: PropTypes.string,
   data: PropTypes.oneOfType([
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
   ]).isRequired,
-  onNodeDoubleClick: PropTypes.func.isRequired,
+  onNodeClick: PropTypes.func.isRequired,
   onNodeEdit: PropTypes.func.isRequired,
-  selectedScheme: PropTypes.string.isRequired
+  searchTerm: PropTypes.string,
+  selectedScheme: PropTypes.string.isRequired,
+  openAll: PropTypes.bool
 }
-
-export default KeywordTree

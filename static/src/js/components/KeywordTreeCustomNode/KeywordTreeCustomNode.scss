@@ -1,0 +1,58 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.keyword-tree {
+  &__node-content {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    padding-block-end: 6px;
+  }
+
+  &__icon-button {
+    display: flex;
+    inline-size: 24px;
+    block-size: 24px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  &__triangle-icon {
+    padding-block-start: 6px;
+    font-size: 25px;
+    line-height: 1;
+  }
+
+  &__caret-icon {
+    font-size: 0.60em;
+  }
+
+  &__text-wrapper {
+    display: flex;
+    block-size: 100%;
+    align-items: center;
+  }
+
+  &__node-text {
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #cce5ff;
+    }
+  }
+}

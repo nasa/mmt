@@ -1,16 +1,17 @@
-import React from 'react'
 import {
   render,
   screen,
   waitFor
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import React from 'react'
 import {
   describe,
-  test,
   expect,
+  test,
   vi
 } from 'vitest'
-import userEvent from '@testing-library/user-event'
+
 import KeywordForm from '../KeywordForm'
 
 vi.mock('@/js/utils/getUmmSchema', () => ({
@@ -40,12 +41,22 @@ describe('when KeywordForm is rendered', () => {
   }
 
   test('should display the form title', () => {
-    render(<KeywordForm initialData={mockInitialData} />)
+    render(<KeywordForm
+      initialData={mockInitialData}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
+    />)
+
     expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
   })
 
   test('should render the form with initial data', () => {
-    render(<KeywordForm initialData={mockInitialData} />)
+    render(<KeywordForm
+      initialData={mockInitialData}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
+    />)
+
     expect(screen.getByDisplayValue('Test Keyword')).toBeInTheDocument()
     expect(screen.getByDisplayValue('This is a test keyword')).toBeInTheDocument()
   })
@@ -58,6 +69,8 @@ describe('when user types in the form', () => {
 
     render(<KeywordForm
       initialData={{ PreferredLabel: '' }}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
       onFormDataChange={mockOnFormDataChange}
     />)
 
@@ -80,10 +93,19 @@ describe('when user types in the form', () => {
 
 describe('when initialData prop changes', () => {
   test('should update the form', () => {
-    const { rerender } = render(<KeywordForm initialData={{ PreferredLabel: 'Initial Keyword' }} />)
+    const { rerender } = render(<KeywordForm
+      initialData={{ PreferredLabel: 'Initial Keyword' }}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
+    />)
     expect(screen.getByDisplayValue('Initial Keyword')).toBeInTheDocument()
 
-    rerender(<KeywordForm initialData={{ PreferredLabel: 'Updated Keyword' }} />)
+    rerender(<KeywordForm
+      initialData={{ PreferredLabel: 'Updated Keyword' }}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
+    />)
+
     expect(screen.getByDisplayValue('Updated Keyword')).toBeInTheDocument()
   })
 })
