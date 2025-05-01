@@ -1,12 +1,13 @@
 @use "sass:map";
+
 @import '../../../css/vendor/bootstrap/variables';
 
 .kms-concept-selection-edit-modal {
   &__search-input {
-    border-radius: 4px;
-    border: 1px solid #ccc;
     inline-size: 80%;
     padding: 8px;
+    border: 1px solid #ccc;      
+    border-radius: 4px;          
 
     &:focus {
       border-color: #007bff;
@@ -15,8 +16,8 @@
   }
 
   &__scheme-selector {
+    display: flex;                
     align-items: center;
-    display: flex;
     padding-block-end: 8px;
   }
 
@@ -26,22 +27,22 @@
   }
 
   &__tree-wrapper {
+    display: flex;                
     align-items: center;
-    display: flex;
     margin-block-end: 12px;
   }
 
   &__tree-placeholder {
+    display: flex;                
     align-items: center;
-    block-size: 300px;
-    border-radius: 4px;
-    border: 1px solid $gray-300;
-    display: flex;
+    justify-content: center;      
     inline-size: 100%;
-    justify-content: center;
+    border-radius: 4px;           
+    border: 1px solid $gray-300;  
+    block-size: 300px;
   }
 
   &__apply-button {
-    margin-inline-start: 10px; // Add spacing to the left of the button
+    margin-inline-start: 10px; 
   }
 }

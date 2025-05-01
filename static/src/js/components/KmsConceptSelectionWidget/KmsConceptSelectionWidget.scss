@@ -1,38 +1,38 @@
 .kms-concept-selection-widget {
   &__container {
+    display: inline-flex;          
     align-items: center;
-    display: inline-flex;
-    line-height: 1; // Match your design requirement
+    line-height: 1;
   }
 
   &__label {
-    color: #333; // You can use a consistent color palette here
+    color: #333; 
     font-size: 14px;
     margin-inline-end: 8px;
   }
 
   &__edit-button {
+    display: inline-flex;          
     align-items: center;
     background: none;
-    border: none;
-    color: #007bff; // Blue color for the icon
+    border: none;                  
+    color: #007bff; 
     cursor: pointer;
-    display: inline-flex;
     margin: 0;
     padding-inline-start: 5px;
-    transition: color 0.2s ease-in-out; // Smooth transition for color change
+    transition: color 0.2s ease-in-out; 
    
     &:hover,
     &:focus {
-      color: #0056b3; // Darker blue on hover/focus
+      color: #0056b3; 
     }
   }
 
   &__input {
+    border: 1px solid #ccc;       
     border-radius: 4px;
-    border: 1px solid #ccc;
-    inline-size: 80%; // Ensure consistency in sizing
-    padding: 8px;
+    inline-size: 80%; 
+    padding: 8px;                    
     transition: border-color 0.2s ease;
 
     &:focus {
