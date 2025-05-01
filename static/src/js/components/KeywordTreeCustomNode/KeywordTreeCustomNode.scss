@@ -18,21 +18,21 @@
   }
 
   &__icon-button {
-    align-items: center;
     background: none;
-    block-size: 24px;
+    display: flex;                 
+    align-items: center;
+    justify-content: center;       
     border: none;
-    cursor: pointer;
-    display: flex;
+    block-size: 24px;
     inline-size: 24px;
-    justify-content: center;
+    cursor: pointer;
     padding: 0 5px;
   }
 
   &__triangle-icon {
-    padding-block-start: 6px;
-    font-size: 25px;
+    font-size: 25px;               
     line-height: 1;
+    padding-block-start: 6px;
   }
 
   &__caret-icon {
@@ -40,9 +40,9 @@
   }
 
   &__text-wrapper {
+    align-items: center;           
     display: flex;
     block-size: 100%;
-    align-items: center;
   }
 
   &__node-text {
