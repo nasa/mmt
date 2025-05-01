@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import validator from '@rjsf/validator-ajv8'
 import Form from '@rjsf/core'
+import validator from '@rjsf/validator-ajv8'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 
 import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
-
 import editKeywordsUiSchema from '@/js/schemas/uiSchemas/keywords/editKeyword'
 import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
+import KmsConceptSelectionWidget from '../KmsConceptSelectionWidget/KmsConceptSelectionWidget'
+
 const KeywordForm = ({
   initialData,
-  onFormDataChange
+  onFormDataChange,
+  scheme,
+  version
 }) => {
   const [formData, setFormData] = useState(initialData)
 
@@ -23,11 +26,12 @@ const KeywordForm = ({
   }, [initialData])
 
   const fields = {
+    kmsConceptSelection: KmsConceptSelectionWidget,
     layout: GridLayout
   }
   const widgets = {
-    TextareaWidget: CustomTextareaWidget,
-    TextWidget: CustomTextWidget
+    TextWidget: CustomTextWidget,
+    TextareaWidget: CustomTextareaWidget
   }
   const templates = {
     ArrayFieldTemplate: CustomArrayTemplate,
@@ -55,6 +59,12 @@ const KeywordForm = ({
         uiSchema={editKeywordsUiSchema}
         formData={formData}
         onChange={handleChange}
+        formContext={
+          {
+            scheme,
+            version
+          }
+        }
         // OnSubmit={handleSubmit}
         validator={validator}
       >
@@ -75,29 +85,36 @@ KeywordForm.defaultProps = {
 
 KeywordForm.propTypes = {
   initialData: PropTypes.shape({
-    KeywordUUID: PropTypes.string,
-    BroaderKeyword: PropTypes.string,
-    NarrowerKeywords: PropTypes.arrayOf(PropTypes.shape({
-      NarrowerUUID: PropTypes.string
-    })),
-    PreferredLabel: PropTypes.string,
     AlternateLabels: PropTypes.arrayOf(PropTypes.shape({
       LabelName: PropTypes.string,
       LabelType: PropTypes.string
     })),
+    BroaderKeyword: PropTypes.string,
+    ChangeLogs: PropTypes.string,
     Definition: PropTypes.string,
     DefinitionReference: PropTypes.string,
+    KeywordUUID: PropTypes.string,
+    NarrowerKeywords: PropTypes.arrayOf(PropTypes.shape({
+      NarrowerUUID: PropTypes.string
+    })),
+    PreferredLabel: PropTypes.string,
+    RelatedKeywords: PropTypes.arrayOf(PropTypes.shape({
+      RelationshipType: PropTypes.string,
+      UUID: PropTypes.string
+    })),
     Resources: PropTypes.arrayOf(PropTypes.shape({
       ResourceType: PropTypes.string,
       ResourceUri: PropTypes.string
-    })),
-    RelatedKeywords: PropTypes.arrayOf(PropTypes.shape({
-      UUID: PropTypes.string,
-      RelationshipType: PropTypes.string
-    })),
-    ChangeLogs: PropTypes.string
+    }))
   }),
-  onFormDataChange: PropTypes.func
+  onFormDataChange: PropTypes.func,
+  scheme: PropTypes.shape({
+    name: PropTypes.string
+  }).isRequired,
+  version: PropTypes.shape({
+    version: PropTypes.string,
+    version_type: PropTypes.string
+  }).isRequired
 }
 
 export default KeywordForm
