@@ -11,7 +11,9 @@ import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/K
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 
 import './KmsConceptSelectionEditModal.scss'
-import { KeywordTreePlaceHolder } from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
 /**
  * KmsConceptSelectionEditModal component provides an interface to edit keyword selections

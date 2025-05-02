@@ -11,7 +11,6 @@ import {
   beforeEach,
   describe,
   expect,
-  it,
   vi
 } from 'vitest'
 
@@ -177,6 +176,7 @@ describe('KmsConceptSelectionEditModal', () => {
         })
       })
     })
+
     describe('when enter is pressed', () => {
       test('should fetch the tree and includes search term', async () => {
         render(<KmsConceptSelectionEditModal {...defaultProps} />)
@@ -188,6 +188,7 @@ describe('KmsConceptSelectionEditModal', () => {
         })
       })
     })
+
     describe('when fetch returns no results', () => {
       test('should show no results', async () => {
         vi.mocked(getKmsKeywordTree).mockResolvedValue(null)
@@ -199,7 +200,7 @@ describe('KmsConceptSelectionEditModal', () => {
         await waitFor(() => {
           expect(screen.getByText('No results.')).toBeInTheDocument()
         })
-      })  
+      })
     })
 
     test('should handle fetch errors', async () => {
