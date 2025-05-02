@@ -47,6 +47,7 @@ const KmsConceptSelectionWidget = ({
   const [keywordLabel, setKeywordLabel] = useState('')
   const [fullPath, setFullPath] = useState('')
   const [showEditModal, setShowEditModal] = useState(false)
+  const [error, setError] = useState('')
   const inputScrollRef = useRef(null)
   const focusRef = useRef(null)
 
@@ -68,8 +69,10 @@ const KmsConceptSelectionWidget = ({
         fullPaths = fullPaths.map((path) => path.replaceAll('|', ' > '))
         setKeywordLabel(lastField)
         setFullPath(fullPaths.join('\n'))
-      } catch (error) {
-        console.error('Error fetching versions:', error)
+      } catch (errorObj) {
+        console.log('error=', errorObj)
+        console.error(`Error fetching keyword for ${value}`, errorObj)
+        setError(`Error fetching keyword for ${value}`)
       }
     }
 
@@ -113,6 +116,14 @@ const KmsConceptSelectionWidget = ({
         />
       </div>
 
+      {
+        error && (
+          <div className="alert alert-danger kms-concept-selection-widget__compact-alert" role="alert">
+            {error}
+          </div>
+        )
+      }
+      {' '}
       <KmsConceptSelectionEditModal
         uuid={value}
         version={version}

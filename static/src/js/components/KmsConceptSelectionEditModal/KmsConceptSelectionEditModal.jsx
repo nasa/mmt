@@ -29,12 +29,12 @@ import {
  * @returns {JSX.Element} The complete modal component for editing keyword selections.
  */
 export const KmsConceptSelectionEditModal = ({
+  handleAcceptChanges,
+  scheme,
   show,
   toggleModal,
   uuid,
-  version,
-  scheme,
-  handleAcceptChanges
+  version
 }) => {
   const [treeData, setTreeData] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(scheme)
@@ -132,21 +132,21 @@ export const KmsConceptSelectionEditModal = ({
             Scheme:
           </label>
           <KmsConceptSchemeSelector
-            key={uuid}
-            id={uuid}
-            version={version}
             defaultScheme={scheme}
+            id={uuid}
+            key={uuid}
             onSchemeSelect={onSchemeSelect}
+            version={version}
           />
         </div>
         <div className="kms-concept-selection-edit-modal__tree-wrapper">
           <input
-            type="text"
-            placeholder="Search by Pattern or UUID"
             className="kms-concept-selection-edit-modal__search-input"
-            value={searchPattern}
             onChange={onHandleSearchInputChange}
             onKeyDown={onHandleKeyDown}
+            placeholder="Search by Pattern or UUID"
+            type="text"
+            value={searchPattern}
           />
           <button
             type="button"
@@ -159,13 +159,13 @@ export const KmsConceptSelectionEditModal = ({
         {
           treeData ? (
             <KeywordTree
-              key={`${uuid}`}
               data={treeData}
+              key={`${uuid}`}
+              onNodeClick={onHandleSelectKeyword}
+              openAll={!!searchPatternApplied && searchPatternApplied.trim() !== ''}
               searchTerm={searchPatternApplied}
               selectedNodeId={uuid}
               showContextMenu={false}
-              onNodeClick={onHandleSelectKeyword}
-              openAll={!!searchPatternApplied && searchPatternApplied.trim() !== ''}
             />
           ) : <KeywordTreePlaceHolder message={treeMessage} />
         }
@@ -198,15 +198,15 @@ export const KmsConceptSelectionEditModal = ({
 }
 
 KmsConceptSelectionEditModal.propTypes = {
-  uuid: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  version: PropTypes.shape({
-    version: PropTypes.string,
-    version_type: PropTypes.string
-  }).isRequired,
+  handleAcceptChanges: PropTypes.func.isRequired,
   scheme: PropTypes.shape({
     name: PropTypes.string
   }).isRequired,
-  handleAcceptChanges: PropTypes.func.isRequired
+  show: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  uuid: PropTypes.string.isRequired,
+  version: PropTypes.shape({
+    version: PropTypes.string,
+    version_type: PropTypes.string
+  }).isRequired
 }

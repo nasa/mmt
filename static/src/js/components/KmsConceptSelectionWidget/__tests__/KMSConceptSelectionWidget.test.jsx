@@ -151,21 +151,18 @@ describe('KmsConceptSelectionWidget', () => {
     })
   })
 
-  describe('when the user encounted network error', () => {
-    test('should handle errors thrown by getKmsConceptFullPaths gracefully', async () => {
-      getKmsConceptFullPaths.mockRejectedValueOnce(new Error('Failed to fetch full paths'))
+  describe('when the user encounters a network error', () => {
+    test('should handle errors by adding a notification', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+      vi.spyOn(console, 'log').mockImplementation(() => {})
 
-      // Mock console.error to suppress error logs
-      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      getKmsConceptFullPaths.mockRejectedValue(new Error('Failed to fetch full paths'))
 
       renderComponent()
 
       await waitFor(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching versions:', expect.any(Error))
+        expect(screen.getByRole('alert')).toHaveTextContent('Error fetching keyword for test-uuid')
       })
-
-      // Restore the original implementation of console.error
-      consoleErrorSpy.mockRestore()
     })
   })
 })
