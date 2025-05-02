@@ -1,0 +1,50 @@
+@use "sass:map";
+
+@import '../../../css/vendor/bootstrap/variables';
+
+.keyword-manager-page {
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__tree-container {
+    width: 40%;
+    max-width: 40%;
+    max-height: 80vh;
+    align-self: flex-start;
+    padding: 10px;
+    border: 1px solid $gray-300;
+    border-radius: 4px;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  &__form-container {
+    max-width: 58.33%;
+    min-height: 300px;
+    flex-basis: 58.33%;
+    padding: 0 15px 0 40px;
+  }
+
+  &__selector-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__selector-label {
+    margin-right: 10px;
+    margin-bottom: 25px;
+  }
+
+  &__scheme-selector-label {
+    margin-right: 10px;
+    margin-bottom: 25px;
+    margin-left: 20px;
+  }
+
+  &__scheme-selector-wrapper {
+    width: 300px;
+  }
+}
