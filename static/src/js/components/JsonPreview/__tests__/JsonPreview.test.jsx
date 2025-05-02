@@ -17,7 +17,7 @@ const setup = (draft = undefined) => {
 
 describe('JsonPreview Component', () => {
   describe('when draft is not present in the context', () => {
-    it('renders JSONPretty', () => {
+    test('renders JSONPretty', () => {
       setup()
 
       expect(JSONPretty).toHaveBeenCalledTimes(1)
@@ -28,7 +28,7 @@ describe('JsonPreview Component', () => {
   })
 
   describe('when ummMetadata is not present in draft', () => {
-    it('renders JSONPretty', () => {
+    test('renders JSONPretty', () => {
       setup({})
 
       expect(JSONPretty).toHaveBeenCalledTimes(1)
@@ -39,7 +39,7 @@ describe('JsonPreview Component', () => {
   })
 
   describe('when draft metadata exists', () => {
-    it('renders JSONPretty', () => {
+    test('renders JSONPretty', () => {
       setup({
         ummMetadata: {
           Name: 'Mock Name'

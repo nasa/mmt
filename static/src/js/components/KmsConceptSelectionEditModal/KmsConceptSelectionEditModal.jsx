@@ -11,13 +11,21 @@ import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/K
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 
 import './KmsConceptSelectionEditModal.scss'
+import { KeywordTreePlaceHolder } from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
-const TreePlaceholder = ({ message }) => (
-  <div className="kms-concept-selection-edit-modal__tree-placeholder">
-    {message}
-  </div>
-)
-
+/**
+ * KmsConceptSelectionEditModal component provides an interface to edit keyword selections
+ * within a modal. It allows users to select a scheme, search for keywords, and apply their changes.
+ *
+ * @param {Object} props - React component props.
+ * @param {boolean} props.show - Determines if the modal is visible.
+ * @param {Function} props.toggleModal - Function to toggle the modal visibility.
+ * @param {string} props.uuid - UUID of the selected keyword.
+ * @param {Object} props.version - Object containing version details like version and version_type.
+ * @param {Object} props.scheme - Object containing scheme details.
+ * @param {Function} props.handleAcceptChanges - Callback function when changes are accepted.
+ * @returns {JSX.Element} The complete modal component for editing keyword selections.
+ */
 export const KmsConceptSelectionEditModal = ({
   show,
   toggleModal,
@@ -107,7 +115,7 @@ export const KmsConceptSelectionEditModal = ({
 
   const renderTree = () => {
     if (isTreeLoading) {
-      return <TreePlaceholder message="Loading..." />
+      return <KeywordTreePlaceHolder message="Loading..." />
     }
 
     const schemeSelectorId = selectedScheme?.name
@@ -157,7 +165,7 @@ export const KmsConceptSelectionEditModal = ({
               onNodeClick={onHandleSelectKeyword}
               openAll={!!searchPatternApplied && searchPatternApplied.trim() !== ''}
             />
-          ) : <TreePlaceholder message={treeMessage} />
+          ) : <KeywordTreePlaceHolder message={treeMessage} />
         }
       </div>
     )
@@ -185,10 +193,6 @@ export const KmsConceptSelectionEditModal = ({
       }
     />
   )
-}
-
-TreePlaceholder.propTypes = {
-  message: PropTypes.string.isRequired
 }
 
 KmsConceptSelectionEditModal.propTypes = {

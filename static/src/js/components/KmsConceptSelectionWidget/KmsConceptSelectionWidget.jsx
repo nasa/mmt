@@ -18,20 +18,22 @@ import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 import './KmsConceptSelectionWidget.scss'
 
 /**
- * KmsConceptSelectionWidget
- * @typedef {Object} KmsConceptSelectionWidget
- * @property {Boolean} disable A boolean value to disable the selection widget
- * @property {String} id The id of the widget.
- * @property {String} label The label of the widget.
- * @property {Boolean} onBlur Should blur a field.
- * @property {Function} onChange A callback function triggered when the concept uuid changes
- * @property {Object} registry An Object that has all the props that are in registry.
- * @property {Boolean} required Is the KmsConceptSelectionWidget field required
- * @property {Object} schema A UMM Schema for the widget being previewed.
- * @property {Object} uiSchema A uiSchema for the field being shown.
- * @property {String} value A concept uuid saved to the draft.
+ * KmsConceptSelectionWidget component for selecting and editing keyword concepts
+ * within a user interface. It uses a modal to allow keyword selection and then
+ * displays the selected keyword and its full path.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {string} props.id - Unique identifier for the widget.
+ * @param {string} props.label - Label displayed for the widget.
+ * @param {Function} props.onChange - Callback function to handle changes.
+ * @param {Object} props.registry - Contains form context information.
+ * @param {boolean} [props.required=false] - Specifies if the field is required.
+ * @param {Object} props.schema - Schema containing field constraints.
+ * @param {Object} props.uiSchema - UI schema allowing customization of display.
+ * @param {string|number} [props.value=''] - Current value of the widget.
+ * @returns {JSX.Element} The rendered component.
  */
-
 const KmsConceptSelectionWidget = ({
   id,
   label,
@@ -80,6 +82,7 @@ const KmsConceptSelectionWidget = ({
 
   return (
     <CustomWidgetWrapper
+      id={id}
       key={`${id}-${value}`}
       charactersUsed={value?.length}
       description={description}
