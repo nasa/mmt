@@ -1,31 +1,40 @@
 import React, {
+  useState,
   useCallback,
-  useEffect,
-  useState
+  useEffect
 } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
-import CustomModal from '@/js/components/CustomModal/CustomModal'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+
 import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
-import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
-import {
-  KeywordTreePlaceHolder
-} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
-import errorLogger from '@/js/utils/errorLogger'
+import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
+
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
-import { getApplicationConfig } from 'sharedUtils/getConfig'
+import errorLogger from '@/js/utils/errorLogger'
+import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 
 import './KeywordManagerPage.scss'
 
+/**
+ * KeywordManagerPage Component
+ *
+ * This component represents the main page for managing keywords.
+ * It allows users to select keyword versions and schemes, view and interact with a keyword tree,
+ * and manage individual keywords.
+ */
 const KeywordManagerPage = () => {
   const [showError, setShowError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -37,12 +46,20 @@ const KeywordManagerPage = () => {
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
-
+  /**
+   * Fetches and sets the data for a selected keyword
+   * @param {string} uuid - The unique identifier of the keyword
+   */
   const handleShowKeyword = useCallback(async (uuid) => {
     setIsLoading(true)
     setShowError(null)
     try {
-      const response = await fetch(`${kmsHost}/concept/${uuid}`)
+      let versionParam = selectedVersion.version
+      if (selectedVersion.version_type === 'published') {
+        versionParam = 'published'
+      }
+
+      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${versionParam}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -57,12 +74,19 @@ const KeywordManagerPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
-
+  }, [selectedVersion])
+  /**
+   * Handles the click event on a tree node
+   * @param {string} nodeId - The id of the clicked node
+   */
   const handleNodeClick = useCallback((nodeId) => {
     handleShowKeyword(nodeId)
   }, [handleShowKeyword])
-
+  /**
+   * Fetches the keyword tree data based on the selected version and scheme
+   * @param {object} version - The selected version object
+   * @param {object} scheme - The selected scheme object
+   */
   const fetchTreeData = async (version, scheme) => {
     if (version && scheme) {
       setIsTreeLoading(true)
@@ -79,23 +103,31 @@ const KeywordManagerPage = () => {
     }
   }
 
+  /**
+   * Handles the selection of a version
+   * @param {object} versionInfo - The selected version information
+   */
   const onVersionSelect = useCallback((versionInfo) => {
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
     setTreeData(null)
   }, [])
-
+  /**
+   * Handles the selection of a scheme
+   * @param {object} schemeInfo - The selected scheme information
+   */
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
     setTreeData(null)
   }, [])
-
+  // Effect to show warning when published version is selected
   useEffect(() => {
     if (selectedVersion && selectedVersion.version_type === 'published') {
       setShowWarning(true)
     }
   }, [selectedVersion])
 
+  // Effect to fetch tree data when version and scheme are selected
   useEffect(() => {
     if (selectedVersion && selectedScheme) {
       setTreeMessage('Loading...')
@@ -105,8 +137,11 @@ const KeywordManagerPage = () => {
     }
   }, [selectedVersion, selectedScheme])
 
+  /**
+   * Closes the warning modal
+   */
   const handleCloseWarning = () => setShowWarning(false)
-
+  // Modal actions for the warning modal
   const warningModalActions = [
     {
       label: 'OK',
@@ -114,7 +149,10 @@ const KeywordManagerPage = () => {
       onClick: handleCloseWarning
     }
   ]
-
+  /**
+   * Renders the content based on the current state
+   * @returns {JSX.Element} The rendered content
+   */
   const renderContent = () => {
     if (isLoading) {
       return <MetadataPreviewPlaceholder />
@@ -137,6 +175,10 @@ const KeywordManagerPage = () => {
     return null
   }
 
+  /**
+   * Renders the keyword tree or a placeholder based on the current state
+   * @returns {JSX.Element} The rendered tree or placeholder
+   */
   const renderTree = () => {
     if (isTreeLoading) {
       return <KeywordTreePlaceHolder message="Loading..." />

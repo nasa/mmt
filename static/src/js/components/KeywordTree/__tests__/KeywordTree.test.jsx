@@ -1,21 +1,20 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within
-} from '@testing-library/react'
 import React from 'react'
 import {
+  render,
+  fireEvent,
+  screen,
+  within,
+  waitFor
+} from '@testing-library/react'
+import {
   describe,
-  expect,
   test,
+  expect,
   vi
 } from 'vitest'
-
 import { KeywordTree } from '../KeywordTree'
 
-describe('KeywordTree', () => {
+describe('KeywordTree component', () => {
   const mockData = [
     {
       id: '1',
@@ -52,8 +51,8 @@ describe('KeywordTree', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  describe('Rendering', () => {
-    test('renders KeywordTree component', () => {
+  describe('when rendering', () => {
+    test('should render KeywordTree component', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -65,7 +64,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Root')).toBeTruthy()
     })
 
-    test('expands root node on initial render', () => {
+    test('should expand root node on initial render', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -78,7 +77,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Child 2')).toBeTruthy()
     })
 
-    test('handles empty data gracefully', () => {
+    test('should handle empty data gracefully', () => {
       render(
         <KeywordTree
           data={[]}
@@ -97,8 +96,8 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Node Interaction', () => {
-    test('calls onNodeClick when a node is clicked', () => {
+  describe('when node interaction', () => {
+    test('should call onNodeClick when a node is clicked', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -111,7 +110,7 @@ describe('KeywordTree', () => {
       expect(mockOnNodeClick).toHaveBeenCalledWith('2')
     })
 
-    test('toggles node expansion when clicked', async () => {
+    test('should toggle node expansion when clicked', async () => {
       const dataWithGrandchildren = [
         {
           id: '1',
@@ -176,7 +175,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('handles node click on leaf nodes', () => {
+    test('should handle node click on leaf nodes', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -189,7 +188,7 @@ describe('KeywordTree', () => {
       expect(mockOnNodeClick).toHaveBeenCalledWith('2')
     })
 
-    test('handles node click on parent nodes', () => {
+    test('should handle node click on parent nodes', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -202,7 +201,7 @@ describe('KeywordTree', () => {
       expect(mockOnNodeClick).toHaveBeenCalledWith('1')
     })
 
-    test('handles rapid expansion and collapse of nodes', async () => {
+    test('should handle rapid expansion and collapse of nodes', async () => {
       const nestedData = [
         {
           id: '1',
@@ -267,8 +266,8 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Context Menu', () => {
-    test('context menu appears on right click', () => {
+  describe('when context menu', () => {
+    test('should display context menu when right click', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -281,7 +280,7 @@ describe('KeywordTree', () => {
       expect(screen.getByRole('menu')).toBeTruthy()
     })
 
-    test('context menu closes when clicking outside', () => {
+    test('should close context menu when clicking outside', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -297,7 +296,7 @@ describe('KeywordTree', () => {
       expect(screen.queryByRole('menu')).toBeFalsy()
     })
 
-    test('handles multiple context menu opens without clicking', () => {
+    test('should handles multiple context menu opens without clicking', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -315,8 +314,8 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Adding Nodes', () => {
-    test('adds a new node when "Add Narrower" is used', async () => {
+  describe('when adding nodes', () => {
+    test('should add a new node when "Add Narrower" is used', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -348,7 +347,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('closes "Add Narrower" modal when Cancel is clicked', async () => {
+    test('should close "Add Narrower" modal when Cancel is clicked', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -375,7 +374,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('handles adding a node with empty title', async () => {
+    test('should handle adding a node with empty title', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -401,7 +400,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Add Narrower')).toBeInTheDocument()
     })
 
-    test('expands parent node when a new child is added', async () => {
+    test('should expand parent node when a new child is added', async () => {
       const collapsedData = [
         {
           id: '1',
@@ -446,7 +445,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('handles adding a node with a very long title', async () => {
+    test('should handle adding a node with a very long title', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -468,7 +467,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('handles nodes with very long titles', async () => {
+    test('should handle nodes with very long titles', async () => {
       const longTitleData = [
         {
           id: '1',
@@ -497,7 +496,7 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Editing and Deleting Nodes', () => {
+  describe('when editing and deleting nodes', () => {
     test('deletes a node when "Delete" is used', async () => {
       render(
         <KeywordTree
@@ -519,7 +518,7 @@ describe('KeywordTree', () => {
       })
     })
 
-    test('edits a node when "Edit" is used', () => {
+    test('should edit a node when "Edit" is used', () => {
       render(
         <KeywordTree
           data={mockData}
@@ -539,8 +538,8 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Tree State Management', () => {
-    test('maintains tree state when nodes are added or deleted', async () => {
+  describe('when tree state management', () => {
+    test('should maintain tree state when nodes are added or deleted', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -576,7 +575,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('New Child')).toBeInTheDocument()
     })
 
-    test('handles concurrent add and delete operations', async () => {
+    test('should handle concurrent add and delete operations', async () => {
       render(
         <KeywordTree
           data={mockData}
@@ -610,7 +609,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Child 2')).toBeInTheDocument()
     })
 
-    test('does not modify nodes that are not the target parent and have no children', async () => {
+    test('should not modify nodes that are not the target parent and have no children', async () => {
       const dataWithLeafNodes = [
         {
           id: '1',
@@ -662,8 +661,8 @@ describe('KeywordTree', () => {
     })
   })
 
-  describe('Edge Cases and Performance', () => {
-    test('handles nodes with empty children array', () => {
+  describe('when edge cases and performance', () => {
+    test('should handle nodes with empty children array', () => {
       const dataWithEmptyChildren = [
         {
           id: '1',
@@ -691,7 +690,7 @@ describe('KeywordTree', () => {
       expect(screen.getByText('Node with empty children')).toBeInTheDocument()
     })
 
-    test('handles very large number of operations without crashing', async () => {
+    test('should handle very large number of operations without crashing', async () => {
       render(
         <KeywordTree
           data={mockData}

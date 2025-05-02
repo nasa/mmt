@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types'
 import React, {
+  useState,
   useEffect,
-  useRef,
-  useState
+  useRef
 } from 'react'
 import { Tree } from 'react-arborist'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
+import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
-
-import CustomModal from '@/js/components/CustomModal/CustomModal'
 import {
   KeywordTreeContextMenu
 } from '@/js/components/KeywordTreeContextMenu/KeywordTreeContextMenu'

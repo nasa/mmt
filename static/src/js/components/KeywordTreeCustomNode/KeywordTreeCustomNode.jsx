@@ -11,45 +11,45 @@ import './KeywordTreeCustomNode.scss'
  *
  * @component
  * @param {Object} props
- * @param {Object} props.node - The node data object
- * @param {Object} props.style - Inline styles for the node
  * @param {Function|Object} props.dragHandle - Ref or function for drag handle
+ * @param {Function} props.handleAdd - Callback function to add a child node
+ * @param {Object} props.node - The node data object
  * @param {Function} props.onDelete - Callback function to delete a node
- * @param {Function} props.setContextMenu - Function to set the context menu
- * @param {Function} props.onToggle - Callback function to toggle node expansion
  * @param {Function} props.onEdit - Callback function to edit a node
  * @param {Function} props.onNodeClick - Callback function for node click
- * @param {Function} props.handleAdd - Callback function to add a child node
+ * @param {Function} props.onToggle - Callback function to toggle node expansion
+ * @param {Function} props.setContextMenu - Function to set the context menu
+ * @param {Object} props.style - Inline styles for the node
  *
  * @example
  * <CustomNode
+ *   dragHandle={dragHandleRef}
+ *   handleAdd={(parentId) => console.log('Add child to', parentId)}
  *   node={{
  *     id: '1',
  *     data: { title: 'Node 1', children: [] },
  *     isOpen: false,
  *     toggle: () => {}
  *   }}
- *   style={{}}
- *   dragHandle={dragHandleRef}
  *   onDelete={(id) => console.log('Delete node', id)}
- *   setContextMenu={(menu) => setContextMenu(menu)}
- *   onToggle={(node) => node.toggle()}
  *   onEdit={(id) => console.log('Edit node', id)}
  *   onNodeClick={(id) => console.log('Click on node', id)}
- *   handleAdd={(parentId) => console.log('Add child to', parentId)}
+ *   onToggle={(node) => node.toggle()}
+ *   setContextMenu={(menu) => setContextMenu(menu)}
+ *   style={{}}
  * />
  */
 export const KeywordTreeCustomNode = ({
-  node,
-  style,
   dragHandle,
+  handleAdd,
+  node,
   onDelete,
-  searchTerm,
-  setContextMenu,
-  onToggle,
   onEdit,
   onNodeClick,
-  handleAdd
+  onToggle,
+  searchTerm,
+  setContextMenu,
+  style
 }) => {
   const [isHovered, setIsHovered] = useState(false)
   const handleTriangleClick = (e) => {
@@ -179,6 +179,11 @@ const NodeShape = {
 NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 
 KeywordTreeCustomNode.propTypes = {
+  dragHandle: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  handleAdd: PropTypes.func.isRequired,
   node: PropTypes.shape({
     data: PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -190,21 +195,16 @@ KeywordTreeCustomNode.propTypes = {
     id: PropTypes.string.isRequired
   }).isRequired,
   style: PropTypes.shape({}),
-  dragHandle: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ]),
   onDelete: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
   setContextMenu: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onNodeClick: PropTypes.func.isRequired,
-  handleAdd: PropTypes.func.isRequired
+  onNodeClick: PropTypes.func.isRequired
 }
 
 KeywordTreeCustomNode.defaultProps = {
+  dragHandle: null,
   searchTerm: null,
-  style: {},
-  dragHandle: null
+  style: {}
 }

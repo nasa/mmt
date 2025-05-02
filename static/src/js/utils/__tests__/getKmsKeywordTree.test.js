@@ -153,7 +153,7 @@ describe('getKmsKeywordTree', () => {
     })
   })
 
-  describe('edge cases', () => {
+  describe('when edge cases', () => {
     test('should handle empty tree', async () => {
       const mockResponse = {
         tree: {
@@ -239,7 +239,7 @@ describe('getKmsKeywordTree', () => {
     })
   })
 
-  describe('version handling', () => {
+  describe('when handling version', () => {
     test('should use version number for non-published versions', async () => {
       global.fetch.mockResolvedValueOnce({
         ok: true,
@@ -258,7 +258,7 @@ describe('getKmsKeywordTree', () => {
     })
   })
 
-  describe('scheme handling', () => {
+  describe('when handling scheme', () => {
     test('should use the correct scheme name in the URL', async () => {
       global.fetch.mockResolvedValueOnce({
         ok: true,
@@ -274,7 +274,7 @@ describe('getKmsKeywordTree', () => {
     })
   })
 
-  describe('response structure', () => {
+  describe('when handling response structure', () => {
     test('should handle deeply nested tree structures', async () => {
       const mockResponse = {
         tree: {

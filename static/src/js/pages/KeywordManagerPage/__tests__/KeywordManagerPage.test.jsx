@@ -215,7 +215,7 @@ describe('KeywordManagerPage component', () => {
   })
 
   describe('when the page loads', () => {
-    test('renders the KeywordManagerPage component', async () => {
+    test('should render the KeywordManagerPage component', async () => {
       setup()
 
       await waitFor(() => {
@@ -229,7 +229,7 @@ describe('KeywordManagerPage component', () => {
   })
 
   describe('when a version is selected', () => {
-    test('updates selectedVersion', async () => {
+    test('should update selectedVersion', async () => {
       const { user } = setup()
 
       await waitFor(() => {
@@ -248,7 +248,7 @@ describe('KeywordManagerPage component', () => {
       expect(versionSelector).toHaveValue('3.0')
     })
 
-    test('shows warning modal when a published version is selected', async () => {
+    test('should show warning modal when a published version is selected', async () => {
       setup()
 
       await waitFor(() => {
@@ -279,7 +279,7 @@ describe('KeywordManagerPage component', () => {
       expect(versionSelector).toHaveValue('3.0')
     })
 
-    test('closes warning modal when toggleModal is called', async () => {
+    test('should close warning modal when toggleModal is called', async () => {
       const { user } = setup()
 
       // Select a published version to trigger the warning modal
@@ -306,8 +306,8 @@ describe('KeywordManagerPage component', () => {
     })
   })
 
-  describe('KmsConceptSchemeSelector', () => {
-    test('renders the scheme selector next to the version selector', async () => {
+  describe('KmsConceptSchemeSelector component', () => {
+    test('should render the scheme selector next to the version selector', async () => {
       setup()
 
       await waitFor(() => {
@@ -324,7 +324,7 @@ describe('KeywordManagerPage component', () => {
       expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
     })
 
-    test('updates selectedScheme when a scheme is selected', async () => {
+    test('should update selectedScheme when a scheme is selected', async () => {
       setup()
 
       await waitFor(() => {
@@ -345,7 +345,7 @@ describe('KeywordManagerPage component', () => {
       expect(schemeSelector).toHaveValue('scheme1')
     })
 
-    test('scheme selector is enabled when a version is selected', async () => {
+    test('scheme selector should be enabled when a version is selected', async () => {
       setup()
 
       await waitFor(() => {
@@ -364,7 +364,7 @@ describe('KeywordManagerPage component', () => {
     })
   })
 
-  describe('KeywordTree', () => {
+  describe('KeywordTree component', () => {
     let getKmsKeywordTreeMock
 
     beforeEach(() => {
@@ -388,7 +388,7 @@ describe('KeywordManagerPage component', () => {
       vi.spyOn(getKmsKeywordTreeModule, 'default').mockImplementation(getKmsKeywordTreeMock)
     })
 
-    test('renders the tree when version and scheme are selected', async () => {
+    test('should render the tree when version and scheme are selected', async () => {
       const { user } = setup()
 
       await waitFor(() => {
@@ -416,7 +416,7 @@ describe('KeywordManagerPage component', () => {
       expect(treeContent).toHaveTextContent('"name": "Child 2"')
     })
 
-    test('shows loading message while fetching tree data', async () => {
+    test('should show loading message while fetching tree data', async () => {
       getKmsKeywordTreeMock.mockImplementation(() => new Promise((resolve) => {
         setTimeout(() => resolve([]), 1000)
       }))
@@ -449,7 +449,7 @@ describe('KeywordManagerPage component', () => {
       expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
     })
 
-    test('shows error message when tree data fetch fails', async () => {
+    test('should show error message when tree data fetch fails', async () => {
       getKmsKeywordTreeMock.mockRejectedValue(new Error('Failed to fetch tree data'))
 
       const { user } = setup()
@@ -477,7 +477,7 @@ describe('KeywordManagerPage component', () => {
       expect(screen.queryByTestId('keyword-tree')).not.toBeInTheDocument()
     })
 
-    test('calls handleShowKeyword and createFormDataFromRdf when a node is clicked', async () => {
+    test('should call handleShowKeyword and createFormDataFromRdf when a node is clicked', async () => {
       const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({})
       vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
 
@@ -523,7 +523,7 @@ describe('KeywordManagerPage component', () => {
       })
     })
 
-    test('shows error message when fetching keyword data fails', async () => {
+    test('should show error message when fetching keyword data fails', async () => {
       // Mock fetch to return a non-OK response
       global.fetch = vi.fn().mockResolvedValue({
         ok: false,
@@ -564,6 +564,62 @@ describe('KeywordManagerPage component', () => {
 
       // Ensure that the KeywordForm is not rendered
       expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
+    })
+    // Add this test within the 'KeywordTree' describe block
+
+    test('should use "published" as version parameter when selected version is published', async () => {
+      const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({})
+      vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+      })
+
+      const { user } = setup()
+
+      // Select published version
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0') // Assuming '3.0' is the published version
+
+      // Close the warning modal
+      await waitFor(() => {
+        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+      })
+
+      const okButton = screen.getByTestId('modal-action-ok')
+      await user.click(okButton)
+
+      // Select scheme
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for the tree to load
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      // Simulate click on a node
+      const clickButton = screen.getByText('Click Node')
+      await user.click(clickButton)
+
+      // Wait for the fetch to be called and check the URL
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/concept/test-node-id?version=published'))
+      })
+
+      // Verify that createFormDataFromRdf was called with the fetched RDF data
+      await waitFor(() => {
+        expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
+      })
     })
   })
 })
