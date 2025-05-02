@@ -83,31 +83,42 @@ describe('KmsConceptSelectionWidget', () => {
   )
 
   describe('when a user first loads the page', () => {
-    it('should render the page', async () => {
+    test('should render the page', async () => {
       renderComponent()
       await waitFor(() => {
         expect(screen.getByText(/tornadoes/i)).toBeInTheDocument()
       })
     })
 
-    it('should fetch and display the correct full path', async () => {
+    test('should fetch and display the correct keyword', async () => {
       renderComponent()
       expect(getKmsConceptFullPaths).toHaveBeenCalledWith('test-uuid')
       await waitFor(async () => {
         expect(await screen.findByText('TORNADOES')).toBeInTheDocument()
       })
     })
+    test('should show the full path as a title attribute', async () => {
+      renderComponent()
+      expect(getKmsConceptFullPaths).toHaveBeenCalledWith('test-uuid')
+      await waitFor(() => {
+        const keywordElement = screen.getByText(/tornadoes/i)
+        const expectedTitle = /ScienceKeywords\s*>\s*ATMOSPHERE\s*>\s*TORNADOES/
+        expect(keywordElement).toHaveAttribute('title', expect.stringMatching(expectedTitle))
+      })    
+    })
   })
 
   describe('when a user clicks the edit icon', () => {
-    it('should open the edit modal', () => {
+    test('should open the edit modal', async () => {
       renderComponent()
       const button = screen.getByRole('button', { name: /edit/i })
       fireEvent.click(button)
-      expect(screen.getByText('Handle Change Modal')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText('Handle Change Modal')).toBeInTheDocument()
+      })
     })
 
-    it('should toggle the edit modal state correctly', async () => {
+    test('should toggle the edit modal state correctly', async () => {
       renderComponent()
 
       // Open the modal
@@ -127,31 +138,33 @@ describe('KmsConceptSelectionWidget', () => {
   })
 
   describe('when a user accepts changes', () => {
-    it('should call onChange when accepting changes from the modal', () => {
+    test('should call onChange when accepting the updated keyword from the modal', async () => {
       const onChangeMock = vi.fn()
       renderComponent({ onChange: onChangeMock })
 
       fireEvent.click(screen.getByRole('button', { name: /edit/i }))
       fireEvent.click(screen.getByText('Accept Change'))
 
-      expect(onChangeMock).toHaveBeenCalledWith('new-uuid')
+      await waitFor(() => {
+        expect(onChangeMock).toHaveBeenCalledWith('new-uuid')
+      })
     })
   })
 
-  describe('error handling in fetchFullPaths', () => {
-    it('should handle errors thrown by getKmsConceptFullPaths gracefully', async () => {
+  describe('when the user encounted network error', () => {
+    test('should handle errors thrown by getKmsConceptFullPaths gracefully', async () => {
       getKmsConceptFullPaths.mockRejectedValueOnce(new Error('Failed to fetch full paths'))
-
-      // Spy on console.error
-      const consoleErrorSpy = vi.spyOn(console, 'error')
-
+  
+      // Mock console.error to suppress error logs
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+  
       renderComponent()
-
+  
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching versions:', expect.any(Error))
       })
-
-      // Restore the console.error after the test
+  
+      // Restore the original implementation of console.error
       consoleErrorSpy.mockRestore()
     })
   })

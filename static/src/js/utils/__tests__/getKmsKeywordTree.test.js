@@ -344,4 +344,31 @@ describe('getKmsKeywordTree', () => {
       })
     })
   })
+
+  describe('when providing a search pattern', () => {
+    test('should append search pattern to the endpoint URL', async () => {
+      const mockResponse = {
+        tree: {
+          treeData: [{ children: [{}] }]
+        }
+      }
+  
+      global.fetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockResponse)
+      })
+  
+      const searchPattern = 'someSearchPattern'
+      await getKmsKeywordTree(
+        { version: '21.0', version_type: 'draft' },
+        { name: 'idnnode' },
+        searchPattern
+      )
+  
+      expect(global.fetch).toHaveBeenCalledWith(
+        'http://example.com/tree/concept_scheme/idnnode?version=21.0&filter=someSearchPattern',
+        { method: 'GET' }
+      )
+    })
+  })
 })
