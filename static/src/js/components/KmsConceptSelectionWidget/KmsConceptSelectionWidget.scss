@@ -40,4 +40,10 @@
       outline: none;
     }
   }
+
+  &__compact-alert {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;  
+    margin-block-end: 0.5rem;
+  }
 }
