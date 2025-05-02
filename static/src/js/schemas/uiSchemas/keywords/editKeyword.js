@@ -89,7 +89,8 @@ const editKeywordsUiSchema = {
     'ui:disabled': true
   },
   BroaderKeyword: {
-    'ui:widget': KmsConceptSelectionWidget
+    'ui:widget': KmsConceptSelectionWidget,
+    'ui:title': 'Keyword'
   },
   NarrowerKeywords: {
     items: {
@@ -105,7 +106,8 @@ const editKeywordsUiSchema = {
         ]
       },
       NarrowerUUID: {
-        'ui:widget': KmsConceptSelectionWidget
+        'ui:widget': KmsConceptSelectionWidget,
+        'ui:title': 'Keyword'
       }
     }
   },
@@ -195,7 +197,8 @@ const editKeywordsUiSchema = {
         'ui:widget': CustomSelectWidget
       },
       UUID: {
-        'ui:widget': KmsConceptSelectionWidget
+        'ui:widget': KmsConceptSelectionWidget,
+        'ui:title': 'Keyword'
       }
     }
   },
