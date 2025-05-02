@@ -217,48 +217,48 @@ describe('KeywordTreeCustomNode component', () => {
   })
 
   describe('when a search pattern is provided', () => {
-      describe('when a match occurs', () => {
-        test('should highlight matched search term in node title', () => {
-          const propsWithSearchTerm = {
-            ...defaultProps,
-            searchTerm: 'Node'
-          }
-          render(<KeywordTreeCustomNode {...propsWithSearchTerm} />)
+    describe('when a match occurs', () => {
+      test('should highlight matched search term in node title', () => {
+        const propsWithSearchTerm = {
+          ...defaultProps,
+          searchTerm: 'Node'
+        }
+        render(<KeywordTreeCustomNode {...propsWithSearchTerm} />)
 
-          const highlightedText = screen.getByText((content, element) => element.tagName.toLowerCase() === 'strong' && content === 'Node')
+        const highlightedText = screen.getByText((content, element) => element.tagName.toLowerCase() === 'strong' && content === 'Node')
 
-          expect(highlightedText).toBeInTheDocument()
-        })
-      })
-
-      describe('when a match does not occur', () => {
-        test('renders node title without changes', () => {
-          const propsWithNoMatchTerm = {
-            ...defaultProps,
-            searchTerm: 'NoMatch'
-          }
-          render(<KeywordTreeCustomNode {...propsWithNoMatchTerm} />)
-
-          const regularText = screen.getByText('Node 1')
-
-          expect(regularText).toBeInTheDocument()
-          expect(regularText.tagName.toLowerCase()).not.toBe('strong')
-        })
-      })
-
-      describe('when search term is empty', () => {
-        test('should render node title without changes', () => {
-          const propsWithEmptySearchTerm = {
-            ...defaultProps,
-            searchTerm: ''
-          }
-          render(<KeywordTreeCustomNode {...propsWithEmptySearchTerm} />)
-
-          const regularText = screen.getByText('Node 1')
-
-          expect(regularText).toBeInTheDocument()
-          expect(regularText.tagName.toLowerCase()).not.toBe('strong')
-        })
+        expect(highlightedText).toBeInTheDocument()
       })
     })
+
+    describe('when a match does not occur', () => {
+      test('renders node title without changes', () => {
+        const propsWithNoMatchTerm = {
+          ...defaultProps,
+          searchTerm: 'NoMatch'
+        }
+        render(<KeywordTreeCustomNode {...propsWithNoMatchTerm} />)
+
+        const regularText = screen.getByText('Node 1')
+
+        expect(regularText).toBeInTheDocument()
+        expect(regularText.tagName.toLowerCase()).not.toBe('strong')
+      })
+    })
+
+    describe('when search term is empty', () => {
+      test('should render node title without changes', () => {
+        const propsWithEmptySearchTerm = {
+          ...defaultProps,
+          searchTerm: ''
+        }
+        render(<KeywordTreeCustomNode {...propsWithEmptySearchTerm} />)
+
+        const regularText = screen.getByText('Node 1')
+
+        expect(regularText).toBeInTheDocument()
+        expect(regularText.tagName.toLowerCase()).not.toBe('strong')
+      })
+    })
+  })
 })
