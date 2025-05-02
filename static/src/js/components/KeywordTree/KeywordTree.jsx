@@ -25,6 +25,7 @@ import './KeywordTree.scss'
  * @param {Object|Array} props.data - The initial tree data structure
  * @param {Function} props.onNodeClick - Callback function when a node is clicked
  * @param {Function} props.onNodeEdit - Callback function when a node is edited
+ * @param {Function} props.onAddNarrower - Callback function when a narrower keyword is added
  *
  * @example
  * const treeData = [
@@ -57,16 +58,21 @@ import './KeywordTree.scss'
  *   console.log('Node edit requested:', nodeId);
  * };
  *
+ * const handleAddNarrower = (parentId, newChild) => {
+ *   console.log('New narrower added:', newChild, 'to parent:', parentId);
+ * };
+ *
  * return (
  *   <KeywordTree
  *     data={treeData}
  *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
+ *     onAddNarrower={handleAddNarrower}
  *   />
  * );
  */
 export const KeywordTree = ({
-  data, onNodeClick, onNodeEdit
+  data, onAddNarrower, onNodeClick, onNodeEdit
 }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)
@@ -163,6 +169,9 @@ export const KeywordTree = ({
           parentNode.toggle()
         }
       }
+
+      // Notify the parent component about the new keyword
+      onAddNarrower(addNarrowerParentId, newChild)
 
       setShowAddNarrowerPopup(false)
       setNewNarrowerTitle('')
@@ -269,6 +278,7 @@ KeywordTree.propTypes = {
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
   ]).isRequired,
+  onAddNarrower: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,
   onNodeEdit: PropTypes.func.isRequired
 }

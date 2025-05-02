@@ -39,6 +39,7 @@ describe('KeywordTree component', () => {
 
   const mockOnNodeClick = vi.fn()
   const mockOnNodeEdit = vi.fn()
+  const mockOnAddNarrower = vi.fn()
   let consoleErrorSpy
 
   beforeAll(() => {
@@ -58,6 +59,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -70,6 +72,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -83,6 +86,7 @@ describe('KeywordTree component', () => {
           data={[]}
           onNodeClick={vi.fn()}
           onNodeEdit={vi.fn()}
+          onAddNarrower={vi.fn()}
         />
       )
 
@@ -103,6 +107,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -139,6 +144,7 @@ describe('KeywordTree component', () => {
           data={dataWithGrandchildren}
           onNodeClick={vi.fn()}
           onNodeEdit={vi.fn()}
+          onAddNarrower={vi.fn()}
         />
       )
 
@@ -181,6 +187,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -194,6 +201,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -243,6 +251,7 @@ describe('KeywordTree component', () => {
           data={nestedData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -273,6 +282,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -286,6 +296,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -302,6 +313,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -321,6 +333,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -345,6 +358,9 @@ describe('KeywordTree component', () => {
       await waitFor(() => {
         expect(screen.getByText('New Child')).toBeInTheDocument()
       })
+
+      // Check if onAddNarrower was called
+      expect(mockOnAddNarrower).toHaveBeenCalled()
     })
 
     test('should close "Add Narrower" modal when Cancel is clicked', async () => {
@@ -353,6 +369,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -380,6 +397,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -422,6 +440,7 @@ describe('KeywordTree component', () => {
           data={collapsedData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -451,6 +470,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -489,6 +509,7 @@ describe('KeywordTree component', () => {
           data={longTitleData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -503,6 +524,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -524,6 +546,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -545,6 +568,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -581,6 +605,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -635,6 +660,7 @@ describe('KeywordTree component', () => {
           data={dataWithLeafNodes}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -684,6 +710,7 @@ describe('KeywordTree component', () => {
           data={dataWithEmptyChildren}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
@@ -696,6 +723,7 @@ describe('KeywordTree component', () => {
           data={mockData}
           onNodeClick={mockOnNodeClick}
           onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
         />
       )
 
