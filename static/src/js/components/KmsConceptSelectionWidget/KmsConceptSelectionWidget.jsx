@@ -76,7 +76,9 @@ const KmsConceptSelectionWidget = ({
       }
     }
 
-    fetchFullPaths()
+    if (value !== null && value.trim() !== '') {
+      fetchFullPaths()
+    }
   }, [value])
 
   const toggleEditModal = (nextState) => {
