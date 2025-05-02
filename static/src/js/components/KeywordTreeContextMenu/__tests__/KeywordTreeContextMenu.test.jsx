@@ -40,7 +40,7 @@ describe('KeywordTreeContextMenu component', () => {
     />
   )
 
-  describe('when Rendering and Positioning', () => {
+  describe('when rendering and positioning context menu', () => {
     test('should render the context menu with correct options', () => {
       renderComponent()
       expect(screen.getByText('Edit')).toBeDefined()
@@ -55,7 +55,7 @@ describe('KeywordTreeContextMenu component', () => {
     })
   })
 
-  describe('when User Interactions', () => {
+  describe('when user interacts with context menu', () => {
     test('should call action and onClose when an option is clicked', () => {
       renderComponent()
       fireEvent.click(screen.getByText('Edit'))
@@ -137,7 +137,7 @@ describe('KeywordTreeContextMenu component', () => {
     })
   })
 
-  describe('when State Management', () => {
+  describe('when user interacts using mouse or keys', () => {
     test('should reset hovered state on mouse leave', () => {
       render(
         <KeywordTreeContextMenu
