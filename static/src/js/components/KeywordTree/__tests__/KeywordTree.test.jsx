@@ -714,9 +714,9 @@ describe('KeywordTree', () => {
       })
     })
   })
-  
+
   describe('When opening the tree', () => {
-    const mockData = [
+    const treeData = [
       {
         id: '1',
         key: '1',
@@ -732,24 +732,26 @@ describe('KeywordTree', () => {
                 key: '3',
                 title: 'Node 3',
                 children: []
-              }    
+              }
             ]
           }
         ]
       }
-    ]  
-    test('should open all nodes when openAll is true', async() => {
+    ]
+    test('should open all nodes when openAll is true', async () => {
       render(
         <KeywordTree
-          data={mockData}
+          data={treeData}
           onNodeClick={vi.fn()}
           onNodeEdit={vi.fn()}
-          openAll={true}
+          openAll
         />
       )
+
       await waitFor(() => {
         expect(screen.getByText('Node 3')).toBeVisible()
       })
+
       expect(screen.getByText('Root')).toBeVisible()
       expect(screen.getByText('Node 3')).toBeVisible()
     })
@@ -757,16 +759,17 @@ describe('KeywordTree', () => {
     test('should scroll to selected node when selectedNodeId is provided', async () => {
       render(
         <KeywordTree
-          data={mockData}
+          data={treeData}
           onNodeClick={vi.fn()}
           onNodeEdit={vi.fn()}
-          selectedNodeId='2'
+          selectedNodeId="2"
         />
       )
 
       await waitFor(() => {
         expect(screen.getByText('Node 2')).toBeVisible()
       })
+
       expect(screen.getByText('Node 2')).toBeVisible()
       expect(screen.queryByText('Node 3')).not.toBeInTheDocument()
     })

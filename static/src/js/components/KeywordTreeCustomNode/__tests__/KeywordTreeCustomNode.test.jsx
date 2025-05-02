@@ -219,14 +219,13 @@ describe('KeywordTreeCustomNode', () => {
           searchTerm: 'Node'
         }
         render(<KeywordTreeCustomNode {...propsWithSearchTerm} />)
-        
-        const highlightedText = screen.getByText((content, element) => {
-          return element.tagName.toLowerCase() === 'strong' && content === 'Node'
-        })
+
+        const highlightedText = screen.getByText((content, element) => element.tagName.toLowerCase() === 'strong' && content === 'Node')
 
         expect(highlightedText).toBeInTheDocument()
       })
     })
+
     describe('when a match does not occur', () => {
       test('renders node title without changes', () => {
         const propsWithNoMatchTerm = {
@@ -241,6 +240,7 @@ describe('KeywordTreeCustomNode', () => {
         expect(regularText.tagName.toLowerCase()).not.toBe('strong')
       })
     })
+
     describe('when search term is empty', () => {
       test('should render node title without changes', () => {
         const propsWithEmptySearchTerm = {
@@ -253,8 +253,7 @@ describe('KeywordTreeCustomNode', () => {
 
         expect(regularText).toBeInTheDocument()
         expect(regularText.tagName.toLowerCase()).not.toBe('strong')
-      })  
+      })
     })
   })
-
 })

@@ -352,19 +352,22 @@ describe('getKmsKeywordTree', () => {
           treeData: [{ children: [{}] }]
         }
       }
-  
+
       global.fetch.mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve(mockResponse)
       })
-  
+
       const searchPattern = 'someSearchPattern'
       await getKmsKeywordTree(
-        { version: '21.0', version_type: 'draft' },
+        {
+          version: '21.0',
+          version_type: 'draft'
+        },
         { name: 'idnnode' },
         searchPattern
       )
-  
+
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/idnnode?version=21.0&filter=someSearchPattern',
         { method: 'GET' }

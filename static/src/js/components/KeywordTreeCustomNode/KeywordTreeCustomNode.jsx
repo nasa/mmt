@@ -40,7 +40,16 @@ import './KeywordTreeCustomNode.scss'
  * />
  */
 export const KeywordTreeCustomNode = ({
-  node, style, dragHandle, onDelete, searchTerm, setContextMenu, onToggle, onEdit, onNodeClick, handleAdd
+  node,
+  style,
+  dragHandle,
+  onDelete,
+  searchTerm,
+  setContextMenu,
+  onToggle,
+  onEdit,
+  onNodeClick,
+  handleAdd
 }) => {
   const [isHovered, setIsHovered] = useState(false)
   const handleTriangleClick = (e) => {

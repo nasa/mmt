@@ -10,7 +10,6 @@ import { Button } from 'react-bootstrap'
 import {
   beforeEach,
   describe,
-  it,
   vi
 } from 'vitest'
 
@@ -97,6 +96,7 @@ describe('KmsConceptSelectionWidget', () => {
         expect(await screen.findByText('TORNADOES')).toBeInTheDocument()
       })
     })
+
     test('should show the full path as a title attribute', async () => {
       renderComponent()
       expect(getKmsConceptFullPaths).toHaveBeenCalledWith('test-uuid')
@@ -104,7 +104,7 @@ describe('KmsConceptSelectionWidget', () => {
         const keywordElement = screen.getByText(/tornadoes/i)
         const expectedTitle = /ScienceKeywords\s*>\s*ATMOSPHERE\s*>\s*TORNADOES/
         expect(keywordElement).toHaveAttribute('title', expect.stringMatching(expectedTitle))
-      })    
+      })
     })
   })
 
@@ -154,16 +154,16 @@ describe('KmsConceptSelectionWidget', () => {
   describe('when the user encounted network error', () => {
     test('should handle errors thrown by getKmsConceptFullPaths gracefully', async () => {
       getKmsConceptFullPaths.mockRejectedValueOnce(new Error('Failed to fetch full paths'))
-  
+
       // Mock console.error to suppress error logs
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-  
+
       renderComponent()
-  
+
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching versions:', expect.any(Error))
       })
-  
+
       // Restore the original implementation of console.error
       consoleErrorSpy.mockRestore()
     })
