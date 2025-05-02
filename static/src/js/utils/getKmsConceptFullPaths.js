@@ -3,6 +3,15 @@ import { castArray } from 'lodash-es'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
+/**
+ * Fetches the full path(s) for a given KMS concept UUID and returns them as an array of strings.
+ *
+ * @async
+ * @function getKmsConceptFullPaths
+ * @param {string} value - The UUID of the KMS concept whose full paths are to be fetched.
+ * @returns {Promise<string[]>} A promise that resolves to an array of full paths as strings.
+ * @throws Will throw an error if the fetch operation or XML parsing fails.
+ */
 const getKmsConceptFullPaths = async (value) => {
   const { kmsHost } = getApplicationConfig()
   try {
