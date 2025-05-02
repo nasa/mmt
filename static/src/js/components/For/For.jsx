@@ -35,6 +35,9 @@ export const For = ({
   each,
   empty
 }) => {
+  // console.log("🚀 ~ empty:", empty)
+  // console.log("🚀 ~ each:", each)
+  // console.log("🚀 ~ children:", children)
   const items = each.map((item, index) => children(item, index))
 
   if (isEmpty(items) && empty) return empty

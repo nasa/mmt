@@ -37,12 +37,12 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 import errorLogger from '@/js//utils/errorLogger'
-import getConceptTypeByConceptId from '@/js//utils/getConceptTypeByConceptId'
 import removeMetadataKeys from '@/js//utils/removeMetadataKeys'
 import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
 
 import './PublishPreview.scss'
+import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a PublishPreviewHeader component
@@ -54,11 +54,11 @@ import './PublishPreview.scss'
  * )
  */
 const PublishPreviewHeader = () => {
-  const { conceptId } = useParams()
+  const { conceptId, type } = useParams()
+
+  const formattedType = capitalize(trimEnd(type, 's'))
 
   const navigate = useNavigate()
-
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showTagModal, setShowTagModal] = useState(false)
@@ -76,18 +76,18 @@ const PublishPreviewHeader = () => {
   }
 
   const { addNotification } = useNotificationsContext()
-  const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType], {
+  const [deleteMutation] = useMutation(deleteMutationTypes[formattedType], {
     update: (cache) => {
       cache.modify({
         fields: {
           // Remove the list of the derivedContceptType from the cache. This ensures that if the user returns to the list page they will see the correct data.
-          [pluralize(derivedConceptType).toLowerCase()]: () => {}
+          [pluralize(formattedType).toLowerCase()]: () => {}
         }
       })
     }
   })
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params: {
         conceptId
@@ -95,7 +95,7 @@ const PublishPreviewHeader = () => {
     }
   })
 
-  const { [derivedConceptType.toLowerCase()]: concept } = data
+  const { [formattedType.toLowerCase()]: concept } = data
 
   // This may be due to a CMR lag error and affects functionality in ErrorBanner
   if (!concept) {
@@ -142,7 +142,7 @@ const PublishPreviewHeader = () => {
     // Removes the value from the metadata that has to be unique
     const modifiedMetadata = removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName', 'EntryTitle'])
 
-    ingestMutation(derivedConceptType, modifiedMetadata, cloneNativeId, providerId)
+    ingestMutation(formattedType, modifiedMetadata, cloneNativeId, providerId)
   }
 
   // Handles the user selecting download record
@@ -190,7 +190,7 @@ const PublishPreviewHeader = () => {
         toggleShowDeleteModal(false)
 
         // Navigate to the search page
-        navigate(`/${pluralize(derivedConceptType).toLowerCase()}`)
+        navigate(`/${pluralize(formattedType).toLowerCase()}`)
       },
       onError: (deleteError) => {
         // Add an error notification
@@ -220,12 +220,12 @@ const PublishPreviewHeader = () => {
             },
             {
               icon: FaEye,
-              to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
+              to: `/${pluralize(formattedType).toLowerCase()}/${conceptId}/revisions`,
               title: 'View Revisions',
               count: revisionCount
             },
             ...(
-              derivedConceptType === conceptTypes.Collection
+              formattedType === conceptTypes.Collection
                 ? [
                   {
                     icon: FaEye,
@@ -250,7 +250,7 @@ const PublishPreviewHeader = () => {
                 : [
                   {
                     icon: FaEye,
-                    to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`,
+                    to: `/${pluralize(formattedType).toLowerCase()}/${conceptId}/collection-association`,
                     title: 'Collection Associations'
                   }
                 ]
@@ -260,8 +260,8 @@ const PublishPreviewHeader = () => {
         breadcrumbs={
           [
             {
-              label: `${pluralize(derivedConceptType)}`,
-              to: `/${pluralize(derivedConceptType).toLowerCase()}`
+              label: `${pluralize(formattedType)}`,
+              to: `/${pluralize(formattedType).toLowerCase()}`
             },
             {
               label: pageTitle,
@@ -274,7 +274,7 @@ const PublishPreviewHeader = () => {
           [
             {
               icon: FaEdit,
-              onClick: () => ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId),
+              onClick: () => ingestMutation(formattedType, ummMetadata, nativeId, providerId),
               title: 'Edit',
               iconTitle: 'A edit icon',
               variant: 'primary'
@@ -383,15 +383,16 @@ const PublishPreviewPlaceholder = () => (
  */
 const PublishPreview = ({ isRevision }) => {
   const {
-    conceptId
+    conceptId,
+    type
   } = useParams()
 
   const navigate = useNavigate()
 
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
+  const formattedType = capitalize(trimEnd(type, 's'))
 
   const viewPublishedRecord = () => {
-    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
+    navigate(`/${pluralize(formattedType).toLowerCase()}/${conceptId}`)
   }
 
   return (
@@ -408,7 +409,7 @@ const PublishPreview = ({ isRevision }) => {
                 {' '}
                 You are viewing an older revision of this
                 {' '}
-                {`${derivedConceptType}.`}
+                {`${formattedType}.`}
                 {' '}
                 <Button
                   className="ms-2 p-0"
@@ -427,7 +428,7 @@ const PublishPreview = ({ isRevision }) => {
         <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}
-            conceptType={derivedConceptType}
+            conceptType={formattedType}
           />
         </Suspense>
       </ErrorBoundary>

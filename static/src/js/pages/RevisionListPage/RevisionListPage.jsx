@@ -15,6 +15,7 @@ import PageHeader from '../../components/PageHeader/PageHeader'
 import RevisionList from '../../components/RevisionList/RevisionList'
 
 import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
+import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a `RevisionListPageHeader` component
@@ -26,11 +27,11 @@ import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
  * )
  */
 const RevisionListPageHeader = () => {
-  const { conceptId } = useParams()
+  const { conceptId, type } = useParams()
 
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
+  const formattedType = capitalize(trimEnd(type, 's'))
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params: {
         conceptId
@@ -38,11 +39,11 @@ const RevisionListPageHeader = () => {
     }
   })
 
-  const { [derivedConceptType.toLowerCase()]: concept } = data
+  const { [formattedType.toLowerCase()]: concept } = data
   const { pageTitle, revisions } = concept
   const { count } = revisions
 
-  const revisionsPageTitle = `${commafy(count)} ${derivedConceptType} ${pluralize('Revisions', count)}`
+  const revisionsPageTitle = `${commafy(count)} ${formattedType} ${pluralize('Revisions', count)}`
 
   return (
     <PageHeader
@@ -51,12 +52,12 @@ const RevisionListPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: `${pluralize(derivedConceptType)}`,
-            to: `/${pluralize(derivedConceptType).toLowerCase()}`
+            label: `${pluralize(formattedType)}`,
+            to: `/${pluralize(formattedType).toLowerCase()}`
           },
           {
             label: pageTitle,
-            to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`
+            to: `/${pluralize(formattedType).toLowerCase()}/${conceptId}`
           },
           {
             label: 'Revision History',

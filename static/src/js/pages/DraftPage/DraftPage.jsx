@@ -34,6 +34,7 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a DraftPageHeader component
@@ -45,9 +46,9 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
  * )
  */
 const DraftPageHeader = () => {
-  const { conceptId } = useParams()
+  const { conceptId, draftType } = useParams()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  const formattedDraftType = capitalize(trimEnd(draftType, 's'))
 
   const navigate = useNavigate()
 
@@ -70,17 +71,17 @@ const DraftPageHeader = () => {
     publishMutation,
     publishDraft,
     error: publishErrors
-  } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
+  } = usePublishMutation(pluralize(formattedDraftType).toLowerCase())
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
 
-  const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { data } = useSuspenseQuery(conceptTypeDraftQueries[formattedDraftType], {
     variables: {
       params: {
         conceptId,
-        conceptType: derivedConceptType
+        conceptType: formattedDraftType
       }
     }
   })
@@ -100,7 +101,7 @@ const DraftPageHeader = () => {
   } = draft
 
   // Get the UMM Schema for the draft
-  const schema = getUmmSchema(derivedConceptType)
+  const schema = getUmmSchema(formattedDraftType)
 
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
@@ -109,14 +110,14 @@ const DraftPageHeader = () => {
   const { errors } = ummMetadata
 
   const handlePublish = () => {
-    publishMutation(derivedConceptType, nativeId)
+    publishMutation(formattedDraftType, nativeId)
   }
 
   useEffect(() => {
     if (publishDraft) {
       const { conceptId: publishConceptId } = publishDraft
 
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
+      navigate(`/${pluralize(formattedDraftType).toLowerCase()}/${publishConceptId}`)
 
       addNotification({
         message: 'Draft published',
@@ -162,7 +163,7 @@ const DraftPageHeader = () => {
   const handleDelete = () => {
     deleteDraftMutation({
       variables: {
-        conceptType: derivedConceptType,
+        conceptType: formattedDraftType,
         nativeId,
         providerId
       },
@@ -171,7 +172,7 @@ const DraftPageHeader = () => {
         toggleShowDeleteModal(false)
 
         // Navigate to the manage page
-        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}`)
+        navigate(`/drafts/${pluralize(formattedDraftType).toLowerCase()}`)
 
         // Add a success notification
         addNotification({
@@ -201,8 +202,8 @@ const DraftPageHeader = () => {
         breadcrumbs={
           [
             {
-              label: `${derivedConceptType} Drafts`,
-              to: `/drafts/${derivedConceptType.toLowerCase()}s`
+              label: `${formattedDraftType} Drafts`,
+              to: `/drafts/${formattedDraftType.toLowerCase()}s`
             },
             {
               label: previewMetadata?.pageTitle || '<Blank Name>',
@@ -230,7 +231,7 @@ const DraftPageHeader = () => {
               variant: 'danger'
             },
             ...[(
-              derivedConceptType === conceptTypes.Collection
+              formattedDraftType === conceptTypes.Collection
                 ? {
                   disabled: !!errors,
                   icon: FaCopy,

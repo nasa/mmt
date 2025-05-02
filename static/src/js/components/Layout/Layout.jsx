@@ -19,12 +19,12 @@ import {
 import useAuthContext from '@/js/hooks/useAuthContext'
 import usePermissions from '@/js/hooks/usePermissions'
 
+import { getApplicationConfig, getUmmVersionsConfig } from 'sharedUtils/getConfig'
+
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
-
-import { getApplicationConfig, getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 
 import './Layout.scss'
 

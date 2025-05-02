@@ -16,6 +16,7 @@ import Table from '../Table/Table'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
+import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a RevisionList component
@@ -31,9 +32,9 @@ const RevisionList = () => {
 
   const { addNotification } = useNotificationsContext()
 
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
+  const formattedType = capitalize(trimEnd(type, 's'))
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params: {
         conceptId
@@ -41,7 +42,7 @@ const RevisionList = () => {
     }
   })
 
-  const { [derivedConceptType.toLowerCase()]: concept } = data
+  const { [formattedType.toLowerCase()]: concept } = data
   const { revisions, revisionId: conceptRevisionId } = concept
   const { count, items } = revisions
 
@@ -68,9 +69,9 @@ const RevisionList = () => {
     return descriptionCellContent
   }, [])
 
-  const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
+  const [restoreMutation] = useMutation(restoreRevisionMutations[formattedType], {
     refetchQueries: [{
-      query: conceptTypeQueries[derivedConceptType],
+      query: conceptTypeQueries[formattedType],
       variables: {
         params: {
           conceptId
@@ -87,13 +88,13 @@ const RevisionList = () => {
       },
       onCompleted: () => {
         addNotification({
-          message: `${derivedConceptType} revision created successfully`,
+          message: `${formattedType} revision created successfully`,
           variant: 'success'
         })
       },
       onError: () => {
         addNotification({
-          message: `Error creating ${derivedConceptType.toLowerCase()} revision`,
+          message: `Error creating ${formattedType.toLowerCase()} revision`,
           variant: 'danger'
         })
 

@@ -19,6 +19,7 @@ import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import '@edsc/metadata-preview/dist/style.min.css'
+import { capitalize, trimEnd } from 'lodash-es'
 /**
  * MetadataPreview
  * @typedef {Object} MetadataPreview
@@ -49,16 +50,17 @@ const MetadataPreview = ({
     conceptId
   }
 
-  let query = conceptTypeQueries[conceptType]
+  const formattedConceptType = capitalize(trimEnd(conceptType, 's'))
+  let query = conceptTypeQueries[formattedConceptType]
   let conceptKey = conceptType.toLowerCase()
 
   if (isDraft) {
     conceptKey = 'draft'
-    query = conceptTypeDraftQueries[getConceptTypeByDraftConceptId(conceptId)]
+    query = conceptTypeDraftQueries[formattedConceptType]
 
     params = {
       ...params,
-      conceptType: getConceptTypeByDraftConceptId(conceptId)
+      conceptType: formattedConceptType
     }
   }
 

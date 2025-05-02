@@ -1,17 +1,20 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import React from 'react'
+import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 
+import { capitalize, trimEnd } from 'lodash-es'
+import { preview } from 'vite'
+import { formatError } from 'graphql'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import formConfigurations from '../../schemas/uiForms'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'
 
-import getConceptTypeByDraftConceptId from '../../utils/getConceptTypeByDraftConceptId'
+import formConfigurations from '../../schemas/uiForms'
+
 import getUmmSchema from '../../utils/getUmmSchema'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
@@ -28,20 +31,21 @@ import './DraftPreview.scss'
  * )
  */
 const DraftPreview = () => {
-  const { conceptId } = useParams()
+  const { conceptId, draftType } = useParams()
 
-  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
+  let formattedDraftType = capitalize(trimEnd(draftType, 's'))
 
-  const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
+  const { data } = useSuspenseQuery(conceptTypeDraftQueries[formattedDraftType], {
     variables: {
       params: {
         conceptId,
-        conceptType: derivedConceptType
+        conceptType: formattedDraftType
       }
     }
   })
 
   const { draft } = data
+  console.log('🚀 ~ DraftPreview ~ draft:', draft)
 
   // This may be due to a CMR lag error and affects functionality in ErrorBanner
   if (!draft) {
@@ -52,8 +56,16 @@ const DraftPreview = () => {
     ummMetadata
   } = draft
 
+  const { VisualizationType = '' } = ummMetadata
+
+  if (VisualizationType === 'tiles') {
+    formattedDraftType = `${formattedDraftType}_Tiles`
+  } else {
+    formattedDraftType = `${formattedDraftType}_Maps`
+  }
+
   // Get the UMM Schema for the draft
-  const schema = getUmmSchema(derivedConceptType)
+  const schema = getUmmSchema(formattedDraftType)
 
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
@@ -61,7 +73,7 @@ const DraftPreview = () => {
   const { errors } = ummMetadata
 
   // Pull the formSections out of the formConfigurations
-  const formSections = formConfigurations[derivedConceptType]
+  const formSections = formConfigurations[formattedDraftType]
 
   return (
     <Container id="metadata-form" fluid className="px-0">
@@ -94,7 +106,7 @@ const DraftPreview = () => {
                 <ErrorBoundary>
                   <MetadataPreview
                     conceptId={conceptId}
-                    conceptType={derivedConceptType}
+                    conceptType={formattedDraftType}
                   />
                 </ErrorBoundary>
               </Col>
