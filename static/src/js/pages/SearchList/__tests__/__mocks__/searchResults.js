@@ -1,8 +1,9 @@
+import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import { GET_SERVICES } from '@/js/operations/queries/getServices'
+import { GET_TOOLS } from '@/js/operations/queries/getTools'
+import { GET_VARIABLES } from '@/js/operations/queries/getVariables'
+import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
 import { GraphQLError } from 'graphql'
-import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
-import { GET_SERVICES } from '../../../../operations/queries/getServices'
-import { GET_VARIABLES } from '../../../../operations/queries/getVariables'
-import { GET_TOOLS } from '../../../../operations/queries/getTools'
 
 export const singlePageCollectionSearch = {
   request: {
@@ -778,6 +779,45 @@ export const singlePageToolsSearchWithProvider = {
             revisionDate: '2023-11-30 00:00:00',
             revisionId: '1',
             userId: 'admin'
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const singlePageVisualizationsSearch = {
+  request: {
+    query: GET_VISUALIZATIONS,
+    variables: {
+      params: {
+        limit: 25,
+        offset: 0,
+        provider: null,
+        sortKey: null
+      }
+    }
+  },
+  result: {
+    data: {
+      visualizations: {
+        count: 2,
+        items: [
+          {
+            conceptId: 'VIS000000001-TESTPROV',
+            name: 'Visualization Name 1',
+            title: 'Visualization Long Name 1',
+            providerId: 'TESTPROV',
+            revisionId: '1',
+            revisionDate: '2025-04-28T15:13:10.461Z'
+          },
+          {
+            conceptId: 'VIS000000002-TESTPROV',
+            name: '',
+            title: '',
+            providerId: 'TESTPROV',
+            revisionId: '1',
+            revisionDate: '2025-04-28T15:13:10.461Z'
           }
         ]
       }

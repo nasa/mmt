@@ -22,7 +22,8 @@ import {
   singlePageServicesSearch,
   singlePageToolsSearch,
   singlePageToolsSearchWithProvider,
-  singlePageVariablesSearch
+  singlePageVariablesSearch,
+  singlePageVisualizationsSearch
 } from './__mocks__/searchResults'
 
 import SearchList from '../SearchList'
@@ -457,6 +458,54 @@ describe('SearchPage component', () => {
         expect(row1Cells[1].textContent).toBe('Variable Long Name 1')
         expect(row1Cells[2].textContent).toBe('TESTPROV')
         expect(row1Cells[3].textContent).toBe('Thursday, November 30, 2023 12:00 AM')
+      })
+    })
+  })
+
+  describe('when searching for visualizations', () => {
+    beforeEach(() => {
+      setup([singlePageVisualizationsSearch], {}, ['/visualizations'])
+    })
+
+    describe('while the request is loading', () => {
+      test('renders the headers', async () => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(3)
+
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Last Modified')
+      })
+    })
+
+    describe('when the request has loaded', () => {
+      test('renders the data', async () => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        const table = await screen.findByRole('table')
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(tableRows.length).toEqual(3)
+
+        const row1Cells = within(tableRows[1]).queryAllByRole('cell')
+        const row2Cells = within(tableRows[2]).queryAllByRole('cell')
+
+        expect(row1Cells).toHaveLength(4)
+        expect(row1Cells[0].textContent).toBe('Visualization Name 1')
+        expect(row1Cells[1].textContent).toBe('Visualization Long Name 1')
+        expect(row1Cells[2].textContent).toBe('TESTPROV')
+        expect(row1Cells[3].textContent).toBe('Monday, April 28, 2025 3:13 PM')
+        expect(row2Cells).toHaveLength(4)
+        expect(row2Cells[0].textContent).toBe('<Blank Short Name>')
+        expect(row2Cells[1].textContent).toBe('<Blank Long Name>')
+        expect(row2Cells[2].textContent).toBe('TESTPROV')
+        expect(row2Cells[3].textContent).toBe('Monday, April 28, 2025 3:13 PM')
       })
     })
   })

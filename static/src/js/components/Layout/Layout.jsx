@@ -44,7 +44,8 @@ const Layout = ({ className, displayNav }) => {
     ummC,
     ummS,
     ummT,
-    ummV
+    ummV,
+    ummVis
   } = getUmmVersionsConfig()
 
   const { env, displayProdWarning } = getApplicationConfig()
@@ -185,6 +186,20 @@ const Layout = ({ className, displayNav }) => {
                                   },
                                   {
                                     to: '/drafts/tools',
+                                    title: 'Drafts'
+                                  }
+                                ]
+                              },
+                              {
+                                title: 'Visualizations',
+                                version: `v${ummVis}`,
+                                children: [
+                                  {
+                                    to: '/visualizations',
+                                    title: 'All Visualizations'
+                                  },
+                                  {
+                                    to: '/drafts/visualizations',
                                     title: 'Drafts'
                                   }
                                 ]

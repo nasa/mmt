@@ -26,7 +26,8 @@ const setup = (loggedIn) => {
     ummC: 'mock-umm-c',
     ummS: 'mock-umm-s',
     ummT: 'mock-umm-t',
-    ummV: 'mock-umm-v'
+    ummV: 'mock-umm-v',
+    ummVis: 'mock-umm-vis'
   }))
 
   vi.setSystemTime('2024-01-01')
@@ -157,6 +158,20 @@ describe('Layout component', () => {
             ]
           },
           {
+            title: 'Visualizations',
+            version: 'vmock-umm-vis',
+            children: [
+              {
+                title: 'All Visualizations',
+                to: '/visualizations'
+              },
+              {
+                title: 'Drafts',
+                to: '/drafts/visualizations'
+              }
+            ]
+          },
+          {
             title: 'Order Options',
             children: [
               {
@@ -273,6 +288,20 @@ describe('Layout component', () => {
                 {
                   to: '/drafts/tools',
                   title: 'Drafts'
+                }
+              ]
+            },
+            {
+              title: 'Visualizations',
+              version: 'vmock-umm-vis',
+              children: [
+                {
+                  title: 'All Visualizations',
+                  to: '/visualizations'
+                },
+                {
+                  title: 'Drafts',
+                  to: '/drafts/visualizations'
                 }
               ]
             },

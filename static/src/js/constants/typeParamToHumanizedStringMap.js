@@ -2,7 +2,8 @@ const typeParamToHumanizedStringMap = {
   collections: 'collection',
   services: 'service',
   tools: 'tool',
-  variables: 'variable'
+  variables: 'variable',
+  visualizations: 'visualization'
 }
 
 export default typeParamToHumanizedStringMap
