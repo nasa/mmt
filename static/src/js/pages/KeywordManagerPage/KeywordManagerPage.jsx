@@ -177,11 +177,6 @@ const KeywordManagerPage = () => {
       return (
         <KeywordForm
           initialData={selectedKeywordData}
-          onFormDataChange={
-            (newFormData) => {
-              setSelectedKeywordData(newFormData)
-            }
-          }
         />
       )
     }
