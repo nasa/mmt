@@ -7,8 +7,7 @@ import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 
 import { capitalize, trimEnd } from 'lodash-es'
-import { preview } from 'vite'
-import { formatError } from 'graphql'
+
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import MetadataPreview from '../MetadataPreview/MetadataPreview'
 import PreviewProgress from '../PreviewProgress/PreviewProgress'
@@ -33,7 +32,7 @@ import './DraftPreview.scss'
 const DraftPreview = () => {
   const { conceptId, draftType } = useParams()
 
-  let formattedDraftType = capitalize(trimEnd(draftType, 's'))
+  const formattedDraftType = capitalize(trimEnd(draftType, 's'))
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[formattedDraftType], {
     variables: {
@@ -45,7 +44,6 @@ const DraftPreview = () => {
   })
 
   const { draft } = data
-  console.log('🚀 ~ DraftPreview ~ draft:', draft)
 
   // This may be due to a CMR lag error and affects functionality in ErrorBanner
   if (!draft) {
@@ -55,14 +53,6 @@ const DraftPreview = () => {
   const {
     ummMetadata
   } = draft
-
-  const { VisualizationType = '' } = ummMetadata
-
-  if (VisualizationType === 'tiles') {
-    formattedDraftType = `${formattedDraftType}_Tiles`
-  } else {
-    formattedDraftType = `${formattedDraftType}_Maps`
-  }
 
   // Get the UMM Schema for the draft
   const schema = getUmmSchema(formattedDraftType)

@@ -5,35 +5,35 @@ import ummVisTilesDefinitions from '../schemas/umm/ummVisSchema/tiles/ummVisTile
 import ummVisMapsSchema from '../schemas/umm/ummVisSchema/maps/ummVisMapsSchema'
 
 const getCombinedUmmVisSchema = () => {
-  // Combine all definitions
-  const combinedDefinitions = {
-    ...ummVisRootDefinitions[0].definitions,
-    ...ummVisTilesDefinitions[0].definitions,
-    ...ummVisMapsSchema[0].definitions
-  }
+  const rootSchema = ummVisRootSchema[0]
+  const rootDefinitions = ummVisRootDefinitions[0].definitions
+  const tilesDefinitions = ummVisTilesDefinitions[0].definitions
+  const tilesSchema = ummVisTilesSchema[0]
+  const mapsSchema = ummVisMapsSchema[0]
 
-  // Combine root schema with tiles and maps schemas
+  // Combine the schemas
   const combinedSchema = {
-    ...ummVisRootSchema[0],
-    definitions: combinedDefinitions
+    ...rootSchema,
+    definitions: {
+      ...rootDefinitions,
+      ...tilesDefinitions,
+      ...mapsSchema.definitions,
+      Specification: {
+        oneOf: [
+          tilesSchema.properties.Specification,
+          mapsSchema.definitions.Specification
+        ]
+      },
+      Generation: {
+        oneOf: [
+          tilesSchema.properties.Generation,
+          mapsSchema.definitions.Generation
+        ]
+      }
+    }
   }
 
-  // Add tiles and maps specific properties
-  combinedSchema.properties.Specification = {
-    oneOf: [
-      ummVisTilesSchema[0].properties.Specification,
-      ummVisMapsSchema[0].definitions.Specification
-    ]
-  }
-
-  combinedSchema.properties.Generation = {
-    oneOf: [
-      ummVisTilesSchema[0].properties.Generation,
-      ummVisMapsSchema[0].definitions.Generation
-    ]
-  }
-
-  // Function to update references
+  // Update references
   const updateReferences = (obj) => {
     if (typeof obj !== 'object' || obj === null) return obj
 
@@ -50,24 +50,17 @@ const getCombinedUmmVisSchema = () => {
             [key]: value.replace(/(\.\.\/)?definitions\.json#\/definitions\//, '#/definitions/')
           }
         }
-
         if (value.startsWith('tiles/schema.json#/properties/')) {
           return {
             ...acc,
             [key]: value.replace('tiles/schema.json#/properties/', '#/definitions/')
           }
         }
-
         if (value.startsWith('maps/schema.json#/properties/')) {
           return {
             ...acc,
             [key]: value.replace('maps/schema.json#/properties/', '#/definitions/')
           }
-        }
-
-        return {
-          ...acc,
-          [key]: value
         }
       }
 
@@ -78,8 +71,22 @@ const getCombinedUmmVisSchema = () => {
     }, {})
   }
 
-  // Update all references in the combined schema
   const updatedSchema = updateReferences(combinedSchema)
+
+  // Update the allOf section
+  if (updatedSchema.allOf) {
+    updatedSchema.allOf = updatedSchema.allOf.map(condition => {
+      if (condition.then && condition.then.properties) {
+        if (condition.then.properties.Specification) {
+          condition.then.properties.Specification.$ref = '#/definitions/Specification'
+        }
+        if (condition.then.properties.Generation) {
+          condition.then.properties.Generation.$ref = '#/definitions/Generation'
+        }
+      }
+      return condition
+    })
+  }
 
   return updatedSchema
 }

@@ -18,7 +18,7 @@ export const VISUALIZATION_DRAFT = gql`
           generation
           identifier
           metadataSpecification
-          name
+          pageTitle: name
           nativeId
           providerId
           revisionDate

@@ -13,7 +13,6 @@ import {
   FaTrash
 } from 'react-icons/fa'
 
-import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 import getUmmSchema from '@/js/utils/getUmmSchema'

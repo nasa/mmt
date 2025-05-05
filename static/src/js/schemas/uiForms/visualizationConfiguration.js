@@ -1,4 +1,4 @@
-const visualizationTilesConfiguration = [
+const visualizationConfiguration = [
   {
     displayName: 'Visualization Information',
     properties: [
@@ -79,4 +79,4 @@ const visualizationTilesConfiguration = [
   }
 ]
 
-export default visualizationTilesConfiguration
+export default visualizationConfiguration
