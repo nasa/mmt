@@ -1,22 +1,20 @@
-import React, { useCallback } from 'react'
+import { capitalize, trimEnd } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
+import React, { useCallback } from 'react'
 
 import moment from 'moment'
 
-import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
-
-import { DATE_FORMAT } from '../../constants/dateFormat'
-import conceptTypeQueries from '../../constants/conceptTypeQueries'
-import restoreRevisionMutations from '../../constants/restoreRevisionMutations'
+import { DATE_FORMAT } from '@/js/constants/dateFormat'
+import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
+import restoreRevisionMutations from '@/js/constants/restoreRevisionMutations'
 
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
 import errorLogger from '../../utils/errorLogger'
-import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a RevisionList component

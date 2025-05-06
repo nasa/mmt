@@ -3,7 +3,7 @@ import {
   Col,
   Row
 } from 'react-bootstrap'
-import { camelCase, capitalize, trimEnd } from 'lodash-es'
+import { camelCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -25,6 +25,7 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
 
 import errorLogger from '@/js/utils/errorLogger'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 
 /**
  * Renders a ManageCollectionAssociation component
@@ -36,7 +37,7 @@ import errorLogger from '@/js/utils/errorLogger'
  * )
  */
 const ManageCollectionAssociation = () => {
-  const { conceptId, type } = useParams()
+  const { conceptId } = useParams()
 
   const { addNotification } = useNotificationsContext()
 
@@ -44,7 +45,7 @@ const ManageCollectionAssociation = () => {
   const [collectionConceptIds, setCollectionConceptIds] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const limit = 20
   const activePage = parseInt(searchParams.get('page'), 10) || 1
@@ -73,13 +74,13 @@ const ManageCollectionAssociation = () => {
     }
   }
 
-  const { data, refetch } = useSuspenseQuery(conceptTypeQueries[formattedType], {
+  const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: params
   })
 
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
     refetchQueries: [{
-      query: conceptTypeQueries[formattedType],
+      query: conceptTypeQueries[derivedConceptType],
       variables: params
     }],
     onCompleted: () => {
@@ -99,7 +100,7 @@ const ManageCollectionAssociation = () => {
         variant: 'danger'
       })
 
-      errorLogger(`Unable to disassociate collection record for ${formattedType}`, 'Manage Collection Association: deleteAssociation Mutation')
+      errorLogger(`Unable to disassociate collection record for ${derivedConceptType}`, 'Manage Collection Association: deleteAssociation Mutation')
     }
   })
 
@@ -225,7 +226,7 @@ const ManageCollectionAssociation = () => {
     handleRefreshPage()
   })
 
-  const { [camelCase(formattedType)]: concept } = data
+  const { [camelCase(derivedConceptType)]: concept } = data
 
   const { collections: associatedCollections } = concept
 

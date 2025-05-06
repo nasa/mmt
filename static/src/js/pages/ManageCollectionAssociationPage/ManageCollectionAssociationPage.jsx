@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 
-import { camelCase, capitalize, trimEnd } from 'lodash-es'
+import { camelCase } from 'lodash-es'
 import { FaPlus } from 'react-icons/fa'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
@@ -30,11 +30,11 @@ import toTitleCase from '@/js/utils/toTitleCase'
  * )
  */
 const ManageCollectionAssociationPageHeader = () => {
-  const { conceptId, type } = useParams()
+  const { conceptId } = useParams()
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId
@@ -42,7 +42,7 @@ const ManageCollectionAssociationPageHeader = () => {
     }
   })
 
-  const { [camelCase(formattedType)]: concept } = data
+  const { [camelCase(derivedConceptType)]: concept } = data
 
   const { pageTitle } = concept
 
@@ -52,12 +52,12 @@ const ManageCollectionAssociationPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: `${pluralize(toTitleCase(formattedType))}`,
-            to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}`
+            label: `${pluralize(toTitleCase(derivedConceptType))}`,
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}`
           },
           {
             label: pageTitle,
-            to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}/${conceptId}`
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
           {
             label: 'Collection Associations',
@@ -70,7 +70,7 @@ const ManageCollectionAssociationPageHeader = () => {
         [{
           icon: FaPlus,
           iconTitle: 'A plus icon',
-          to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}/${conceptId}/collection-association-search`,
+          to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`,
           title: 'Add Collection Associations',
           variant: 'success'
         }]

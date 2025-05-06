@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 
 import { useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
-import { camelCase, capitalize, trimEnd } from 'lodash-es'
+import { camelCase } from 'lodash-es'
 
 import pluralize from 'pluralize'
 
@@ -28,11 +28,11 @@ import toTitleCase from '@/js/utils/toTitleCase'
  * )
  */
 const CollectionAssociationFormPageHeader = () => {
-  const { conceptId, type } = useParams()
+  const { conceptId } = useParams()
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId
@@ -40,7 +40,7 @@ const CollectionAssociationFormPageHeader = () => {
     }
   })
 
-  const { [camelCase(formattedType)]: concept } = data
+  const { [camelCase(derivedConceptType)]: concept } = data
 
   const { name } = concept
 
@@ -50,17 +50,17 @@ const CollectionAssociationFormPageHeader = () => {
       breadcrumbs={
         [
           {
-            label: `${pluralize(toTitleCase(formattedType))}`,
-            to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}`
+            label: `${pluralize(toTitleCase(derivedConceptType))}`,
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}`
           },
           {
             label: name,
-            to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}/${conceptId}`
+            to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}`
           },
-          formattedType !== conceptIdTypes.O
+          derivedConceptType !== conceptIdTypes.O
             ? {
               label: 'Collection Associations',
-              to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}/${conceptId}/collection-association`
+              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`
             } : {},
           {
             label: 'Collection Association Search',

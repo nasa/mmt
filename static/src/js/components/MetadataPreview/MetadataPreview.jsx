@@ -5,21 +5,19 @@ import {
   ToolPreview,
   VariablePreview
 } from '@edsc/metadata-preview'
+import { capitalize, trimEnd } from 'lodash-es'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
 
-import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
-
 import '@edsc/metadata-preview/dist/style.min.css'
-import { capitalize, trimEnd } from 'lodash-es'
 /**
  * MetadataPreview
  * @typedef {Object} MetadataPreview

@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import { capitalize, trimEnd } from 'lodash-es'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
@@ -33,7 +34,6 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a DraftPageHeader component

@@ -19,7 +19,7 @@ import {
   useMutation,
   useQuery
 } from '@apollo/client'
-import { camelCase, capitalize, cloneDeep, trimEnd } from 'lodash-es'
+import { camelCase, cloneDeep } from 'lodash-es'
 
 import moment from 'moment'
 
@@ -56,6 +56,7 @@ import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 
 /**
  * Renders a CollectionAssociationForm component
@@ -67,7 +68,7 @@ import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
  * )
  */
 const CollectionAssociationForm = ({ metadata }) => {
-  const { conceptId, type } = useParams()
+  const { conceptId } = useParams()
 
   const navigate = useNavigate()
 
@@ -89,7 +90,7 @@ const CollectionAssociationForm = ({ metadata }) => {
     setCollectionLoading(false)
   }, [metadata])
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const limit = 20
   const activePage = parseInt(searchParams.get('page'), 10) || 1
@@ -129,9 +130,9 @@ const CollectionAssociationForm = ({ metadata }) => {
         limit: 2000
       }
     }
-  }, { skip: formattedType !== conceptIdTypes.O })
+  }, { skip: derivedConceptType !== conceptIdTypes.O })
 
-  if (formattedType === conceptIdTypes.O) {
+  if (derivedConceptType === conceptIdTypes.O) {
     const { required } = schema
     required.push('ServiceField')
 
@@ -247,7 +248,7 @@ const CollectionAssociationForm = ({ metadata }) => {
       associatedConceptIds: collectionConceptIds
     }
 
-    if (formattedType === conceptIdTypes.O) {
+    if (derivedConceptType === conceptIdTypes.O) {
       const serviceItems = serviceData?.services.items
       const { ServiceField: name } = searchFormData
       const serviceConceptId = serviceItems?.filter((service) => service.name === name)[0].conceptId
@@ -265,10 +266,10 @@ const CollectionAssociationForm = ({ metadata }) => {
       variables,
       onCompleted: () => {
         setLoading(true)
-        if (formattedType === conceptIdTypes.O) {
+        if (derivedConceptType === conceptIdTypes.O) {
           navigate(`/order-options/${conceptId}`)
         } else {
-          navigate(`/${pluralize(camelCase(formattedType)).toLowerCase()}/${conceptId}/collection-association`)
+          navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
         }
 
         addNotification({

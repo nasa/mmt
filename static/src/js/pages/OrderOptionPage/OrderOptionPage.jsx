@@ -28,7 +28,6 @@ import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 import OrderOption from '@/js/components/OrderOption/OrderOption'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
-import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a OrderOptionPageHeader component
@@ -44,7 +43,7 @@ const OrderOptionPageHeader = () => {
 
   const { addNotification } = useNotificationsContext()
 
-  const { conceptId, type } = useParams()
+  const { conceptId } = useParams()
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
@@ -59,7 +58,7 @@ const OrderOptionPageHeader = () => {
     }
   })
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const { data } = useSuspenseQuery(GET_ORDER_OPTION, {
     variables: {
@@ -114,7 +113,7 @@ const OrderOptionPageHeader = () => {
           [
             {
               icon: FaEye,
-              to: `/${pluralize(toKebabCase(formattedType)).toLowerCase()}/${conceptId}/collection-association-search`,
+              to: `/${pluralize(toKebabCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association-search`,
               title: 'Add Collection Associations'
             }
           ]

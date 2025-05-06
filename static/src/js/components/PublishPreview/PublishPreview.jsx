@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
+import { capitalize, trimEnd } from 'lodash-es'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
@@ -42,7 +43,6 @@ import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
 
 import './PublishPreview.scss'
-import { capitalize, trimEnd } from 'lodash-es'
 
 /**
  * Renders a PublishPreviewHeader component
