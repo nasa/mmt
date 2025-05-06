@@ -292,6 +292,5 @@ KeywordTree.propTypes = {
   onNodeClick: PropTypes.func.isRequired,
   onNodeEdit: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
-  selectedScheme: PropTypes.string.isRequired,
   openAll: PropTypes.bool
 }

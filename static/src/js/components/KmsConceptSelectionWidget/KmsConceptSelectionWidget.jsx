@@ -70,7 +70,6 @@ const KmsConceptSelectionWidget = ({
         setKeywordLabel(lastField)
         setFullPath(fullPaths.join('\n'))
       } catch (errorObj) {
-        console.log('error=', errorObj)
         console.error(`Error fetching keyword for ${value}`, errorObj)
         setError(`Error fetching keyword for ${value}`)
       }

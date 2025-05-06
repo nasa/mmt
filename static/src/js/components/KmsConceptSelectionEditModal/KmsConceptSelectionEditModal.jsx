@@ -132,7 +132,7 @@ export const KmsConceptSelectionEditModal = ({
             Scheme:
           </label>
           <KmsConceptSchemeSelector
-            defaultScheme={scheme}
+            defaultScheme={selectedScheme || scheme}
             id={uuid}
             key={uuid}
             onSchemeSelect={onSchemeSelect}
