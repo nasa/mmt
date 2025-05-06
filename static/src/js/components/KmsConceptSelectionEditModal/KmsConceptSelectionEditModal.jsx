@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import React, {
   useCallback,
   useEffect,
-  useState
+  useState,
+  useRef
 } from 'react'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -42,14 +43,14 @@ export const KmsConceptSelectionEditModal = ({
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const [treeMessage, setTreeMessage] = useState('')
   const [searchPattern, setSearchPattern] = useState('')
-  const [searchPatternApplied, setSearchPatternApplied] = useState('')
+  const searchInputRef = useRef(null)
 
   const fetchTreeData = async () => {
     if (version && scheme) {
       setIsTreeLoading(true)
 
       try {
-        const data = await getKmsKeywordTree(version, selectedScheme, searchPatternApplied)
+        const data = await getKmsKeywordTree(version, selectedScheme, searchPattern)
         if (data) {
           setTreeData(data)
         } else {
@@ -71,9 +72,9 @@ export const KmsConceptSelectionEditModal = ({
   useEffect(() => {
     if (version && selectedScheme) {
       setTreeMessage('Loading...')
-      fetchTreeData(version, selectedScheme, searchPatternApplied)
+      fetchTreeData(version, selectedScheme, searchPattern)
     }
-  }, [show, version, selectedScheme, searchPatternApplied])
+  }, [show, version, selectedScheme, searchPattern])
 
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
@@ -83,7 +84,7 @@ export const KmsConceptSelectionEditModal = ({
   useEffect(() => {
     if (show) {
       setTreeMessage('Loading...')
-      fetchTreeData(version, selectedScheme, searchPatternApplied)
+      fetchTreeData(version, selectedScheme, searchPattern)
     }
   }, [show])
 
@@ -98,20 +99,18 @@ export const KmsConceptSelectionEditModal = ({
 
   // New function to handle search input change
   const onHandleSearchInputChange = (event) => {
-    setSearchPattern(event.target.value)
-
     if (event.target.value === '') {
-      setSearchPatternApplied('')
+      setSearchPattern('')
     }
   }
 
   const onHandleApplyFilteredSearch = () => {
-    setSearchPatternApplied(searchPattern)
+    setSearchPattern(searchInputRef.current.value)
   }
 
   const onHandleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      setSearchPatternApplied(searchPattern)
+      setSearchPattern(searchInputRef.current.value)
     }
   }
 
@@ -146,7 +145,7 @@ export const KmsConceptSelectionEditModal = ({
             onKeyDown={onHandleKeyDown}
             placeholder="Search by Pattern or UUID"
             type="text"
-            value={searchPattern}
+            ref={searchInputRef}
           />
           <button
             type="button"
@@ -162,8 +161,8 @@ export const KmsConceptSelectionEditModal = ({
               data={treeData}
               key={`${uuid}`}
               onNodeClick={onHandleSelectKeyword}
-              openAll={!!searchPatternApplied && searchPatternApplied.trim() !== ''}
-              searchTerm={searchPatternApplied}
+              openAll={!!searchPattern && searchPattern.trim() !== ''}
+              searchTerm={searchPattern}
               selectedNodeId={uuid}
               showContextMenu={false}
             />

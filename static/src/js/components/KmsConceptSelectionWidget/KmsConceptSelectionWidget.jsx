@@ -1,6 +1,7 @@
 import { startCase } from 'lodash-es'
 import PropTypes from 'prop-types'
 import React, {
+  useCallback,
   useEffect,
   useRef,
   useState
@@ -80,9 +81,13 @@ const KmsConceptSelectionWidget = ({
     }
   }, [value])
 
-  const toggleEditModal = (nextState) => {
+  const toggleEditModal = useCallback((nextState) => {
     setShowEditModal(nextState)
-  }
+  }, [])
+
+  const handleAcceptChanges = useCallback((uuidValue) => {
+    onChange(uuidValue)
+  }, [onChange])
 
   return (
     <CustomWidgetWrapper
@@ -131,11 +136,7 @@ const KmsConceptSelectionWidget = ({
         scheme={scheme}
         show={showEditModal}
         toggleModal={toggleEditModal}
-        handleAcceptChanges={
-          (uuidValue) => {
-            onChange(uuidValue)
-          }
-        }
+        handleAcceptChanges={handleAcceptChanges}
       />
     </CustomWidgetWrapper>
   )
