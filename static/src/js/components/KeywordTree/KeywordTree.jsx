@@ -97,6 +97,7 @@ export const KeywordTree = ({
     }
   }, [])
 
+  // Effect to manage tree expansion or node selection
   useEffect(() => {
     if (treeRef.current && treeData.length > 0) {
       if (openAll) {
