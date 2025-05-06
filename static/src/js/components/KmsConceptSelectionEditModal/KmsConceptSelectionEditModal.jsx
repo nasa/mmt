@@ -146,6 +146,7 @@ export const KmsConceptSelectionEditModal = ({
             placeholder="Search by Pattern or UUID"
             type="text"
             ref={searchInputRef}
+            defaultValue={searchPattern}
           />
           <button
             type="button"
