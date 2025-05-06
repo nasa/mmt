@@ -167,7 +167,7 @@ const setup = ({
   overrideMocks = false,
   pageUrl = '/drafts/tools/TD1000000-MMT',
   overridePageUrl = false,
-  path = '/drafts/tools',
+  path = '/drafts/:draftType/:conceptId',
   overridePath = false
 }) => {
   const mocks = [{
@@ -198,12 +198,8 @@ const setup = ({
           <Routes>
             <Route
               path={overridePath || path}
-            >
-              <Route
-                path=":conceptId"
-                element={<DraftPage />}
-              />
-            </Route>
+              element={<DraftPage />}
+            />
           </Routes>
         </MemoryRouter>
       </MockedProvider>
@@ -424,7 +420,7 @@ describe('DraftPage', () => {
             }
           }],
           overridePageUrl: '/drafts/collections/CD1000000-MMT',
-          overridePath: '/drafts/collections'
+          overridePath: '/drafts/:draftType/:conceptId'
         })
 
         const publishButton = await screen.findByRole('button', { name: /Publish/ })
@@ -606,7 +602,7 @@ describe('DraftPage', () => {
       __typename: 'Draft'
     }
 
-    describe('when click on save as template results in a success', () => {
+    describe('when a click on save as template results in a success', () => {
       test('should navigate to /templates', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
@@ -632,7 +628,7 @@ describe('DraftPage', () => {
             }
           ],
           pageUrl: '/drafts/collections/CD1200000-MMT',
-          path: 'drafts/collections'
+          path: '/drafts/:draftType/:conceptId'
 
         })
 
@@ -670,7 +666,7 @@ describe('DraftPage', () => {
             }
           ],
           pageUrl: '/drafts/collections/CD1200000-MMT',
-          path: 'drafts/collections'
+          path: '/drafts/:draftType/:conceptId'
 
         })
 

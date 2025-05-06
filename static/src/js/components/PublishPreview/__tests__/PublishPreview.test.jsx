@@ -126,8 +126,6 @@ const setup = ({
   additionalMocks = [],
   overrideMocks = false,
   overrideInitialEntries,
-  overridePath,
-  overridePathValue,
   overrideProps = {}
 }) => {
   const props = {
@@ -174,24 +172,32 @@ const setup = ({
       <MockedProvider
         mocks={overrideMocks || mocks}
       >
-        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT/1']}>
+        <MemoryRouter initialEntries={overrideInitialEntries || ['/tools/T1000000-MMT']}>
           <Routes>
             <Route
-              path={overridePath || '/tools'}
-            >
-              <Route
-                path={overridePathValue || ':conceptId/:revisionId'}
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <PublishPreview {...props} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-            </Route>
+              path="/:type/:conceptId"
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense>
+                      <PublishPreview {...props} />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
+            <Route
+              path="/:type/:conceptId/:revisionId"
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense>
+                      <PublishPreview {...props} isRevision />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
           </Routes>
         </MemoryRouter>
       </MockedProvider>
@@ -464,7 +470,6 @@ describe('PublishPreview', () => {
 
         const { user } = setup({
           overrideInitialEntries: ['/variables/V1000000-MMT/1'],
-          overridePath: '/variables',
           overrideMocks: [
             {
               request: {
@@ -545,7 +550,7 @@ describe('PublishPreview', () => {
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({
-        overrideInitialEntries: ['/tools/T1000000-MMT/revisions/1'],
+        overrideInitialEntries: ['/tools/T1000000-MMT/1'],
         overridePathValue: ':conceptId/revisions/:revisionId',
         overrideProps: {
           isRevision: true
@@ -566,7 +571,7 @@ describe('PublishPreview', () => {
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
       const { user } = setup({
-        overrideInitialEntries: ['/tools/T1000000-MMT/revisions/1'],
+        overrideInitialEntries: ['/tools/T1000000-MMT/1'],
         overridePathValue: ':conceptId/revisions/:revisionId',
         overrideProps: {
           isRevision: true

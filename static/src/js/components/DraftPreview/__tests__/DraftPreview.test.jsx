@@ -152,8 +152,8 @@ const mockErrorDraft = {
 const setup = ({
   additionalMocks = [],
   overrideMocks = false,
-  pageUrl = '/drafts/tools/TD1000000-MMT',
-  path = '/drafts/tools'
+  pageUrl = '/tools/TD1000000-MMT',
+  path = '/:draftType/:conceptId'
 }) => {
   const mocks = [{
     request: {
@@ -183,20 +183,16 @@ const setup = ({
           <Routes>
             <Route
               path={path}
-            >
-              <Route
-                path=":conceptId"
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <DraftPreview />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-            </Route>
+              element={
+                (
+                  <ErrorBoundary>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <DraftPreview />
+                    </Suspense>
+                  </ErrorBoundary>
+                )
+              }
+            />
           </Routes>
         </MemoryRouter>
       </MockedProvider>
