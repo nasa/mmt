@@ -74,6 +74,18 @@ const KeywordManagerPage = () => {
       setIsLoading(false)
     }
   }, [selectedVersion])
+
+  const handleAddNarrower = useCallback((parentId, newKeyword) => {
+    // Create a new keyword data structure for the form
+    const newKeywordData = {
+      KeywordUUID: newKeyword.id,
+      PreferredLabel: newKeyword.title,
+      BroaderKeyword: parentId
+    }
+
+    // Update the selected keyword data with the new keyword
+    setSelectedKeywordData(newKeywordData)
+  }, [])
   /**
    * Handles the click event on a tree node
    * @param {string} nodeId - The id of the clicked node
@@ -162,7 +174,11 @@ const KeywordManagerPage = () => {
     }
 
     if (selectedKeywordData) {
-      return <KeywordForm initialData={selectedKeywordData} />
+      return (
+        <KeywordForm
+          initialData={selectedKeywordData}
+        />
+      )
     }
 
     return null
@@ -184,6 +200,7 @@ const KeywordManagerPage = () => {
           data={treeData}
           onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
+          onAddNarrower={handleAddNarrower}
         />
       )
     }

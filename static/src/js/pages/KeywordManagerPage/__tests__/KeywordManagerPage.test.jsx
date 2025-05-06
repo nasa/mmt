@@ -25,6 +25,17 @@ vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
       <div data-testid="keyword-tree">
         <pre>{JSON.stringify(props.data, null, 2)}</pre>
         <button type="button" onClick={() => props.onNodeClick('test-node-id')}>Click Node</button>
+        <button
+          type="button"
+          onClick={
+            () => props.onAddNarrower('parent-id', {
+              id: 'new-id',
+              title: 'New Keyword'
+            })
+          }
+        >
+          Add Narrower
+        </button>
       </div>
     )
   })
@@ -35,11 +46,22 @@ vi.mock('@/js/utils/createFormDataFromRdf')
 
 vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
   __esModule: true,
-  default: ({ initialData }) => (
+  default: vi.fn(({ initialData, onFormDataChange }) => (
     <div data-testid="keyword-form">
       <pre>{JSON.stringify(initialData, null, 2)}</pre>
+      <button
+        type="button"
+        onClick={
+          () => onFormDataChange({
+            ...initialData,
+            PreferredLabel: 'Updated Keyword'
+          })
+        }
+      >
+        Update Form Data
+      </button>
     </div>
-  )
+  ))
 }))
 
 vi.mock('@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder', () => ({
@@ -620,6 +642,46 @@ describe('KeywordManagerPage component', () => {
       await waitFor(() => {
         expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
       })
+    })
+
+    test('should update selected keyword data when handleAddNarrower is called', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for the tree to load
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      // Find and click the "Add Narrower" button
+      const addNarrowerButton = screen.getByText('Add Narrower')
+      await user.click(addNarrowerButton)
+
+      // Wait for the KeywordForm to be rendered
+      let keywordFormContent
+      await waitFor(() => {
+        keywordFormContent = screen.getByTestId('keyword-form').textContent
+        expect(keywordFormContent).toBeTruthy()
+      })
+
+      // Now perform the individual assertions
+      expect(keywordFormContent).toContain('"KeywordUUID": "new-id"')
+      expect(keywordFormContent).toContain('"PreferredLabel": "New Keyword"')
+      expect(keywordFormContent).toContain('"BroaderKeyword": "parent-id"')
     })
   })
 })
