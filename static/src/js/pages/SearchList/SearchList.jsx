@@ -127,7 +127,6 @@ const SearchList = ({ limit }) => {
     return (
       <EllipsisLink to={`/${conceptType}/${conceptId}`}>
         {newCellData}
-        {newCellData}
       </EllipsisLink>
     )
   }, [conceptType])

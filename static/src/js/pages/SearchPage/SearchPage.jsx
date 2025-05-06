@@ -229,7 +229,6 @@ const SearchPageHeader = () => {
       title={`All ${capitalize(getHumanizedNameFromTypeParam(conceptType))}s`}
       pageType="secondary"
       beforeActions={renderSearchBar()}
-      beforeActions={renderSearchBar()}
       breadcrumbs={
         [
           {

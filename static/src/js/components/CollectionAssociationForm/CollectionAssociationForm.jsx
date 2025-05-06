@@ -47,7 +47,7 @@ import collectionAssociationUiSchema from '@/js/schemas/uiSchemas/CollectionAsso
 
 import collectionAssociationSearch from '@/js/utils/collectionAssociationSearch'
 import errorLogger from '@/js/utils/errorLogger'
-
+import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
@@ -56,7 +56,6 @@ import { CREATE_ASSOCIATION } from '@/js/operations/mutations/createAssociation'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 import conceptIdTypes from '@/js/constants/conceptIdTypes'
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
-import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
 
 /**
  * Renders a CollectionAssociationForm component
