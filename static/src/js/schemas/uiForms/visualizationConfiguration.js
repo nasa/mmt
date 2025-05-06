@@ -36,45 +36,15 @@ const visualizationConfiguration = [
     ]
   },
   {
-    displayName: 'Concept IDs',
-    properties: ['ConceptIds']
-  },
-  {
-    displayName: 'Metadata Specification',
+    displayName: 'Specification',
     properties: [
-      'MetadataSpecification.URL',
-      'MetadataSpecification.Name',
-      'MetadataSpecification.Version'
+      'Specification'
     ]
   },
   {
-    displayName: 'Tiles Specification',
+    displayName: 'Generation',
     properties: [
-      'Specification.ProductIdentification',
-      'Specification.ProductMetadata'
-    ]
-  },
-  {
-    displayName: 'Tiles Generation',
-    properties: [
-      'Generation.SourceProjection',
-      'Generation.SourceResolution',
-      'Generation.SourceFormat',
-      'Generation.SourceColorModel',
-      'Generation.SourceNoDataIndexOrRGB',
-      'Generation.SourceCoverage',
-      'Generation.OutputProjection',
-      'Generation.OutputResolution',
-      'Generation.OutputFormat',
-      'Generation.SourceData',
-      'Generation.Reprojection',
-      'Generation.Regridding',
-      'Generation.Sampling',
-      'Generation.Resolution',
-      'Generation.QualityFlag',
-      'Generation.Range',
-      'Generation.Scale',
-      'Generation.PixelStyle'
+      'Generation'
     ]
   }
 ]
