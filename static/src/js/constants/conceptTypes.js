@@ -9,7 +9,8 @@ const conceptTypes = {
   Tool: 'Tool',
   Tools: 'Tools',
   Variable: 'Variable',
-  Variables: 'Variables'
+  Variables: 'Variables',
+  Visualizations: 'Visualizations'
 }
 
 export default conceptTypes

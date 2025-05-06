@@ -209,6 +209,18 @@ const SearchBar = () => {
  *   <SearchPageHeader />
  * )
  */
+
+// Remove this in MMT-4023
+const renderSearchBar = () => {
+  const { type: searchTypeFromPath } = useParams()
+  // Don't render SearchBar for Visualizations
+  if (searchTypeFromPath.toLowerCase() === 'visualizations') {
+    return null
+  }
+
+  return <SearchBar />
+}
+
 const SearchPageHeader = () => {
   const { type: conceptType } = useParams()
 
@@ -216,9 +228,7 @@ const SearchPageHeader = () => {
     <PageHeader
       title={`All ${capitalize(getHumanizedNameFromTypeParam(conceptType))}s`}
       pageType="secondary"
-      beforeActions={(
-        <SearchBar />
-      )}
+      beforeActions={renderSearchBar()}
       breadcrumbs={
         [
           {

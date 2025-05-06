@@ -13,8 +13,15 @@ import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 
 import { GET_TOOL_DRAFTS } from '@/js/operations/queries/getToolDrafts'
 import { GET_COLLECTION_DRAFTS } from '@/js/operations/queries/getCollectionDrafts'
+import { GET_VISUALIZATION_DRAFTS } from '@/js/operations/queries/getVisualizationDrafts'
 
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+
+import {
+  mockCollectionDrafts,
+  mockToolDrafts,
+  mockVisualizationDrafts
+} from './__mocks__/DraftListMocks'
 
 import DraftList from '../DraftList'
 
@@ -26,124 +33,6 @@ vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
   useParams: vi.fn().mockImplementation(() => ({ draftType: 'tools' }))
 }))
-
-const mockToolDrafts = {
-  count: 3,
-  items: [
-    {
-      conceptId: 'TD1200000092-MMT_2',
-      revisionDate: '2023-12-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {
-        Name: 'Tool TD1200000092 short name',
-        LongName: 'Tool TD1200000092 long name'
-      },
-      name: 'Tool TD1200000092 short name',
-      previewMetadata: {
-        conceptId: 'TD1200000092-MMT_2',
-        revisionId: '1',
-        name: 'Tool TD1200000092 short name',
-        longName: 'Tool TD1200000092 long name',
-        __typename: 'Tool'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    },
-    {
-      conceptId: 'TD1200000093-MMT_2',
-      revisionDate: '2023-11-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {},
-      previewMetadata: {
-        conceptId: 'TD1200000093-MMT_2',
-        revisionId: '1',
-        name: null,
-        longName: null,
-        __typename: 'Tool'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    },
-    {
-      conceptId: 'TD1200000094-MMT_2',
-      revisionDate: '2023-10-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {
-        Name: 'Tool TD1200000094 short name',
-        LongName: 'Tool TD1200000094 long name'
-      },
-      previewMetadata: {
-        conceptId: 'TD1200000094-MMT_2',
-        revisionId: '1',
-        name: null,
-        longName: null,
-        __typename: 'Tool'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    }
-  ],
-  __typename: 'DraftList'
-}
-
-const mockCollectionDrafts = {
-  count: 3,
-  items: [
-    {
-      conceptId: 'CD1200000092-MMT_2',
-      revisionDate: '2023-12-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {
-        ShortName: 'Collection CD1200000092 short name',
-        EntryTitle: 'Collection CD1200000092 entry title'
-      },
-      shortName: 'Collection CD1200000092 short name',
-      previewMetadata: {
-        conceptId: 'CD1200000092-MMT_2',
-        revisionId: '1',
-        shortName: 'Collection CD1200000092 short name',
-        entryTitle: 'Collection CD1200000092 entry title',
-        __typename: 'Collection'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    },
-    {
-      conceptId: 'CD1200000093-MMT_2',
-      revisionDate: '2023-11-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {},
-      previewMetadata: {
-        conceptId: 'CD1200000093-MMT_2',
-        revisionId: '1',
-        shortName: null,
-        entryTitle: null,
-        __typename: 'Collection'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    },
-    {
-      conceptId: 'CD1200000094-MMT_2',
-      revisionDate: '2023-10-08T17:56:09.385Z',
-      revisionId: '1',
-      ummMetadata: {
-        ShortName: 'Collection CD1200000094 short name',
-        EntryTitle: 'Collection CD1200000094 entry title'
-      },
-      previewMetadata: {
-        conceptId: 'CD1200000094-MMT_2',
-        revisionId: '1',
-        shortName: null,
-        entryTitle: null,
-        __typename: 'Collection'
-      },
-      providerId: 'MMT_2',
-      __typename: 'Draft'
-    }
-  ],
-  __typename: 'DraftList'
-}
 
 const setup = ({ overrideMocks = false }) => {
   const mocks = [{
@@ -333,6 +222,53 @@ describe('DraftList', () => {
         JSON.stringify(mockToolDrafts.items[0].ummMetadata, null, 2),
         'TD1200000092-MMT_2'
       )
+    })
+  })
+
+  describe('when draft type Visualization is given', () => {
+    test('renders Visualization draft list', async () => {
+      useParams.mockImplementation(() => ({ draftType: 'visualizations' }))
+
+      setup({
+        overrideMocks: [{
+          request: {
+            query: GET_VISUALIZATION_DRAFTS,
+            variables: {
+              params: {
+                conceptType: 'Visualization',
+                limit: 20,
+                offset: 0,
+                sortKey: ['-revision_date']
+              }
+            }
+          },
+          result: {
+            data: {
+              drafts: mockVisualizationDrafts
+            }
+          }
+        }]
+      })
+
+      const rows = await screen.findAllByRole('row')
+
+      expect(within(rows[1]).getByRole('cell', { name: 'Short Name 1' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Long Name 1' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'Friday, April 25, 2025 5:26 PM' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('cell', { name: 'MMT_1' })).toBeInTheDocument()
+      expect(within(rows[1]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
+
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Name>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: '<Blank Long Name>' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: 'Thursday, May 15, 2025 10:30 AM' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('cell', { name: 'MMT_1' })).toBeInTheDocument()
+      expect(within(rows[2]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
+
+      expect(within(rows[3]).getByRole('cell', { name: 'Short Name 3' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Long Name 3' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'Thursday, June 5, 2025 2:45 PM' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('cell', { name: 'MMT_1' })).toBeInTheDocument()
+      expect(within(rows[3]).getByRole('button', { name: /Download JSON/ })).toBeInTheDocument()
     })
   })
 })
