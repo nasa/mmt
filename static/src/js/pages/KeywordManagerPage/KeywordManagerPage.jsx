@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect
 } from 'react'
+import { Col, Row } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
@@ -162,7 +163,13 @@ const KeywordManagerPage = () => {
     }
 
     if (selectedKeywordData) {
-      return <KeywordForm initialData={selectedKeywordData} />
+      return (
+        <KeywordForm
+          initialData={selectedKeywordData}
+          version={selectedVersion}
+          scheme={selectedScheme}
+        />
+      )
     }
 
     return null
@@ -231,7 +238,13 @@ const KeywordManagerPage = () => {
           >
             Version:
           </label>
-          <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+          <Row className="mb-4">
+            <Col>
+              <div className="rounded p-3">
+                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+              </div>
+            </Col>
+          </Row>
           <label
             htmlFor="scheme-selector"
             className="keyword-manager-page__scheme-selector-label"
@@ -239,12 +252,18 @@ const KeywordManagerPage = () => {
             Scheme:
           </label>
           <div className="keyword-manager-page__scheme-selector-wrapper">
-            <KmsConceptSchemeSelector
-              version={selectedVersion}
-              onSchemeSelect={onSchemeSelect}
-              key={selectedVersion?.version}
-              id="scheme-selector"
-            />
+            <Row className="mb-4">
+              <Col>
+                <div className="rounded p-3">
+                  <KmsConceptSchemeSelector
+                    version={selectedVersion}
+                    onSchemeSelect={onSchemeSelect}
+                    key={selectedVersion?.version}
+                    id="scheme-selector"
+                  />
+                </div>
+              </Col>
+            </Row>
           </div>
         </div>
       </ErrorBoundary>

@@ -1,13 +1,15 @@
-import React from 'react'
 import {
+  fireEvent,
   render,
   screen,
-  fireEvent,
   waitFor
 } from '@testing-library/react'
-import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { vi } from 'vitest'
+
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
+
 import KmsConceptVersionSelector from '../KmsConceptVersionSelector'
 
 vi.mock('@/js/utils/getKmsConceptVersions')

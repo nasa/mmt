@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
 import './KeywordTreeCustomNode.scss'
 
@@ -47,6 +47,7 @@ export const KeywordTreeCustomNode = ({
   onEdit,
   onNodeClick,
   onToggle,
+  searchTerm,
   setContextMenu,
   style
 }) => {
@@ -80,6 +81,36 @@ export const KeywordTreeCustomNode = ({
       ]
     }
     setContextMenu(newContextMenu)
+  }
+
+  let backgroundColor = 'transparent'
+  if (node.isSelected) {
+    backgroundColor = '#99ccff'
+  } else if (isHovered) {
+    backgroundColor = '#cce5ff'
+  }
+
+  const highlightSearchTerm = (text, term) => {
+    if (!term) {
+      // Return the original text if there is no search term
+      return text
+    }
+
+    // Define a regular expression to match the search term, case-insensitive
+    const regex = new RegExp(`(${term})`, 'gi')
+    // Split the text by the search term regex
+    const parts = text.split(regex)
+
+    // Map over each part, applying <strong> tags to the matched term parts
+    return parts.map((part, index) => {
+      const key = `${part}-${index}` // This still uses index but further distinguished with text content
+
+      if (regex.test(part)) {
+        return <strong key={key}>{part}</strong>
+      }
+
+      return part
+    })
   }
 
   return (
@@ -130,11 +161,11 @@ export const KeywordTreeCustomNode = ({
           className="keyword-tree__node-text"
           style={
             {
-              backgroundColor: isHovered ? '#cce5ff' : 'transparent'
+              backgroundColor
             }
           }
         >
-          {node.data.title}
+          {highlightSearchTerm(node.data.title, searchTerm)}
         </span>
       </div>
     </div>
@@ -159,18 +190,21 @@ KeywordTreeCustomNode.propTypes = {
       children: NodeShape.children
     }).isRequired,
     isOpen: PropTypes.bool.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired
   }).isRequired,
+  style: PropTypes.shape({}),
   onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onNodeClick: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string,
   setContextMenu: PropTypes.func.isRequired,
-  style: PropTypes.shape({})
+  onToggle: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onNodeClick: PropTypes.func.isRequired
 }
 
 KeywordTreeCustomNode.defaultProps = {
   dragHandle: null,
+  searchTerm: null,
   style: {}
 }

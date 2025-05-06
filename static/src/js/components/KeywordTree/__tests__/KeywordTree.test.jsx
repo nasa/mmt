@@ -713,4 +713,64 @@ describe('KeywordTree component', () => {
       })
     })
   })
+
+  describe('When opening the tree', () => {
+    const treeData = [
+      {
+        id: '1',
+        key: '1',
+        title: 'Root',
+        children: [
+          {
+            id: '2',
+            key: '2',
+            title: 'Node 2',
+            children: [
+              {
+                id: '3',
+                key: '3',
+                title: 'Node 3',
+                children: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    test('should open all nodes when openAll is true', async () => {
+      render(
+        <KeywordTree
+          data={treeData}
+          onNodeClick={vi.fn()}
+          onNodeEdit={vi.fn()}
+          openAll
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Node 3')).toBeVisible()
+      })
+
+      expect(screen.getByText('Root')).toBeVisible()
+      expect(screen.getByText('Node 3')).toBeVisible()
+    })
+
+    test('should scroll to selected node when selectedNodeId is provided', async () => {
+      render(
+        <KeywordTree
+          data={treeData}
+          onNodeClick={vi.fn()}
+          onNodeEdit={vi.fn()}
+          selectedNodeId="2"
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Node 2')).toBeVisible()
+      })
+
+      expect(screen.getByText('Node 2')).toBeVisible()
+      expect(screen.queryByText('Node 3')).not.toBeInTheDocument()
+    })
+  })
 })
