@@ -89,8 +89,7 @@ const editKeywordsUiSchema = {
     'ui:disabled': true
   },
   BroaderKeyword: {
-    'ui:widget': KmsConceptSelectionWidget,
-    'ui:title': 'Keyword'
+    'ui:widget': KmsConceptSelectionWidget
   },
   NarrowerKeywords: {
     items: {
