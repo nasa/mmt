@@ -26,6 +26,12 @@ const editKeywordsUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
+                    children: ['PreferredLabel']
+                  }
+                },
+                {
+                  'ui:col': {
+                    md: 12,
                     children: ['BroaderKeywords']
                   }
                 },
@@ -33,12 +39,6 @@ const editKeywordsUiSchema = {
                   'ui:col': {
                     md: 12,
                     children: ['NarrowerKeywords']
-                  }
-                },
-                {
-                  'ui:col': {
-                    md: 12,
-                    children: ['PreferredLabel']
                   }
                 },
                 {

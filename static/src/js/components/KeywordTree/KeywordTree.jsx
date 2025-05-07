@@ -72,7 +72,7 @@ import './KeywordTree.scss'
  * );
  */
 export const KeywordTree = ({
-  data, onAddNarrower, onNodeClick, onNodeEdit, searchTerm, selectedNodeId, openAll
+  data, onAddNarrower, onNodeClick, onNodeEdit, searchTerm, selectedNodeId, showContextMenu, openAll
 }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)
@@ -248,7 +248,7 @@ export const KeywordTree = ({
         }
       </Tree>
       {
-        contextMenu && (
+        contextMenu && showContextMenu && (
           <KeywordTreeContextMenu
             {...contextMenu}
             onClose={() => setContextMenu(null)}
@@ -290,6 +290,7 @@ NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 KeywordTree.defaultProps = {
   searchTerm: null,
   selectedNodeId: null,
+  showContextMenu: true,
   openAll: false
 }
 
@@ -303,5 +304,6 @@ KeywordTree.propTypes = {
   onNodeClick: PropTypes.func.isRequired,
   onNodeEdit: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
+  showContextMenu: PropTypes.bool,
   openAll: PropTypes.bool
 }

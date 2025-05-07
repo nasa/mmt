@@ -801,4 +801,42 @@ describe('KeywordTree component', () => {
       expect(screen.queryByText('Node 3')).not.toBeInTheDocument()
     })
   })
+
+  describe('when showing/hiding context menu', () => {
+    test('should not display context menu when showContextMenu is false', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
+          showContextMenu={false}
+        />
+      )
+
+      // Attempt to open context menu
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+
+      // Verify that the context menu is not in the document
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    })
+
+    test('should display context menu when showContextMenu is true', () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
+          showContextMenu
+        />
+      )
+
+      // Open context menu
+      fireEvent.contextMenu(screen.getByText('Child 1'))
+
+      // Verify that the context menu is in the document
+      expect(screen.getByRole('menu')).toBeInTheDocument()
+    })
+  })
 })
