@@ -13,6 +13,12 @@ describe('getConceptTypeByDraftConceptId', () => {
     })
   })
 
+  describe('when draft concept id starts with VISD', () => {
+    test('returns visualization draft type', () => {
+      expect(getConceptTypeByDraftConceptId('VISD12345')).toEqual('Visualization')
+    })
+  })
+
   describe('when draft concept id starts with CD', () => {
     test('returns collection draft type', () => {
       expect(getConceptTypeByDraftConceptId('CD12345')).toEqual('Collection')
