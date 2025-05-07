@@ -48,7 +48,6 @@ import collectionAssociationUiSchema from '@/js/schemas/uiSchemas/CollectionAsso
 import collectionAssociationSearch from '@/js/utils/collectionAssociationSearch'
 import errorLogger from '@/js/utils/errorLogger'
 import getConceptTypeByConceptId from '@/js/utils/getConceptTypeByConceptId'
-
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'

@@ -6,7 +6,8 @@ const conceptIdTypes = {
   O: 'OrderOption',
   S: 'Service',
   T: 'Tool',
-  V: 'Variable'
+  V: 'Variable',
+  VIS: 'Visualization'
 }
 
 export default conceptIdTypes

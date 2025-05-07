@@ -19,12 +19,12 @@ import {
 import useAuthContext from '@/js/hooks/useAuthContext'
 import usePermissions from '@/js/hooks/usePermissions'
 
+import { getApplicationConfig, getUmmVersionsConfig } from 'sharedUtils/getConfig'
+
 import Button from '../Button/Button'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
-
-import { getApplicationConfig, getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
 
 import './Layout.scss'
 
@@ -48,7 +48,8 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  const { env, displayProdWarning } = getApplicationConfig()
+  // Remove showVisualizations in MMT-4028
+  const { env, displayProdWarning, showVisualizations } = getApplicationConfig()
 
   const { user } = useAuthContext()
 
@@ -190,7 +191,8 @@ const Layout = ({ className, displayNav }) => {
                                   }
                                 ]
                               },
-                              {
+                              // Remove in MMT-4028
+                              ...((showVisualizations === 'true') ? [{
                                 title: 'Visualizations',
                                 version: `v${ummVis}`,
                                 children: [
@@ -203,7 +205,7 @@ const Layout = ({ className, displayNav }) => {
                                     title: 'Drafts'
                                   }
                                 ]
-                              },
+                              }] : []),
                               {
                                 title: 'Order Options',
                                 children: [

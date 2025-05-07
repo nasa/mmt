@@ -60,6 +60,9 @@ const cache = new InMemoryCache({
     },
     Variable: {
       keyFields: keyFieldsFunction
+    },
+    Visualization: {
+      keyFields: keyFieldsFunction
     }
   }
 })

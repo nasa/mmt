@@ -1,3 +1,4 @@
+import otherSchemasVisSchema from '@/js/schemas/otherSchemasVisSchema'
 import getUmmSchema from '../getUmmSchema'
 
 import ummCSchema from '../../schemas/umm/ummCSchema'
@@ -27,6 +28,12 @@ describe('getUmmSchema', () => {
   describe('when the concept type is variable-draft', () => {
     test('returns the UMM-Var schema', () => {
       expect(getUmmSchema('Variable')).toEqual(ummVarSchema)
+    })
+  })
+
+  describe('when the concept type is visualization-draft', () => {
+    test('returns the UMM-Vis schema', () => {
+      expect(getUmmSchema('Visualization')).toEqual(otherSchemasVisSchema)
     })
   })
 

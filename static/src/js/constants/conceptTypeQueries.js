@@ -8,6 +8,7 @@ import { GET_TOOL } from '@/js/operations/queries/getTool'
 import { GET_TOOLS } from '@/js/operations/queries/getTools'
 import { GET_VARIABLE } from '@/js/operations/queries/getVariable'
 import { GET_VARIABLES } from '@/js/operations/queries/getVariables'
+import { GET_VISUALIZATION } from '@/js/operations/queries/getVisualization'
 import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
 
 const conceptTypeQueries = {
@@ -21,6 +22,7 @@ const conceptTypeQueries = {
   Tools: GET_TOOLS,
   Variable: GET_VARIABLE,
   Variables: GET_VARIABLES,
+  Visualization: GET_VISUALIZATION,
   Visualizations: GET_VISUALIZATIONS
 }
 
