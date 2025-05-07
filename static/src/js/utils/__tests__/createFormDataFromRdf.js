@@ -28,7 +28,9 @@ describe('createFormDataFromRdf', () => {
         KeywordUUID: 'http://example.com/concept/123',
         PreferredLabel: 'Test Concept',
         Definition: 'This is a test concept',
-        BroaderKeyword: 'http://example.com/concept/parent',
+        BroaderKeywords: [
+          { BroaderUUID: 'http://example.com/concept/parent' }
+        ],
         NarrowerKeywords: [
           { NarrowerUUID: 'http://example.com/concept/child1' },
           { NarrowerUUID: 'http://example.com/concept/child2' }
@@ -176,7 +178,7 @@ describe('createFormDataFromRdf', () => {
       expect(result).toEqual({
         KeywordUUID: 'http://example.com/concept/123',
         PreferredLabel: 'Test Concept',
-        BroaderKeyword: '',
+        BroaderKeywords: [],
         NarrowerKeywords: [],
         AlternateLabels: [],
         Definition: '',

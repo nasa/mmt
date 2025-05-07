@@ -72,7 +72,7 @@ import './KeywordTree.scss'
  * );
  */
 export const KeywordTree = ({
-  data, onAddNarrower, onNodeClick, onNodeEdit
+  data, onAddNarrower, onNodeClick, onNodeEdit, searchTerm, selectedNodeId, openAll
 }) => {
   const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
   const treeRef = useRef(null)
@@ -99,13 +99,26 @@ export const KeywordTree = ({
 
   useEffect(() => {
     if (treeRef.current && treeData.length > 0) {
-      const tree = treeRef.current
-      const rootNode = tree.get(treeData[0].id)
-      if (rootNode) {
-        rootNode.open()
+      if (openAll) {
+        treeRef.current.openAll()
+      } else if (selectedNodeId) {
+        treeRef.current.openParents(selectedNodeId)
+        setTimeout(() => { // Delay to potentially allow tree updates
+          const node = treeRef.current.get(selectedNodeId)
+          if (node) {
+            treeRef.current.select(selectedNodeId)
+            treeRef.current.scrollTo(selectedNodeId, 'center')
+          }
+        }, 0)
+      } else {
+        const tree = treeRef.current
+        const rootNode = tree.get(treeData[0].id)
+        if (rootNode) {
+          rootNode.open()
+        }
       }
     }
-  }, [treeData])
+  }, [treeData, openAll])
 
   const closeAllDescendants = (node) => {
     if (node.isOpen) {
@@ -223,9 +236,9 @@ export const KeywordTree = ({
               node={node}
               onAdd={handleAdd}
               onDelete={handleDelete}
+              searchTerm={searchTerm}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
-              onClick={onNodeClick}
               onEdit={onNodeEdit}
               onNodeClick={onNodeClick}
               handleAdd={handleAdd}
@@ -273,12 +286,21 @@ const NodeShape = {
 }
 NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 
+KeywordTree.defaultProps = {
+  searchTerm: null,
+  selectedNodeId: null,
+  openAll: false
+}
+
 KeywordTree.propTypes = {
+  selectedNodeId: PropTypes.string,
   data: PropTypes.oneOfType([
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
   ]).isRequired,
   onAddNarrower: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,
-  onNodeEdit: PropTypes.func.isRequired
+  onNodeEdit: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string,
+  openAll: PropTypes.bool
 }

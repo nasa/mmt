@@ -1,0 +1,49 @@
+.kms-concept-selection-widget {
+  &__container {
+    display: inline-flex;          
+    align-items: center;
+    line-height: 1;
+  }
+
+  &__label {
+    color: #333; 
+    font-size: 14px;
+    margin-inline-end: 8px;
+  }
+
+  &__edit-button {
+    display: inline-flex;          
+    align-items: center;
+    border: none;
+    margin: 0;
+    background: none;                  
+    color: #007bff; 
+    cursor: pointer;
+    padding-inline-start: 5px;
+    transition: color 0.2s ease-in-out; 
+   
+    &:hover,
+    &:focus {
+      color: #0056b3; 
+    }
+  }
+
+  &__input { 
+    padding: 8px;
+    border: 1px solid #ccc;       
+    border-radius: 4px;
+    inline-size: 80%;                    
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+
+  &__compact-alert {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;  
+    margin-block-end: 0.5rem;
+  }
+}

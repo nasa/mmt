@@ -1,6 +1,7 @@
 import CustomSelectWidget from '@/js/components/CustomSelectWidget/CustomSelectWidget'
 import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
 import CustomTextWidget from '@/js/components/CustomTextWidget/CustomTextWidget'
+import KmsConceptSelectionWidget from '@/js/components/KmsConceptSelectionWidget/KmsConceptSelectionWidget'
 
 const editKeywordsUiSchema = {
   'ui:submitButtonOptions': {
@@ -25,7 +26,7 @@ const editKeywordsUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
-                    children: ['BroaderKeyword']
+                    children: ['BroaderKeywords']
                   }
                 },
                 {
@@ -87,8 +88,24 @@ const editKeywordsUiSchema = {
     'ui:widget': CustomTextWidget,
     'ui:disabled': true
   },
-  BroaderKeyword: {
-    'ui:widget': CustomTextWidget
+  BroaderKeywords: {
+    items: {
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: ['BroaderUUID']
+            }
+          }
+        ]
+      },
+      BroaderUUID: {
+        'ui:widget': KmsConceptSelectionWidget,
+        'ui:title': 'Keyword'
+      }
+    }
   },
   NarrowerKeywords: {
     items: {
@@ -102,10 +119,11 @@ const editKeywordsUiSchema = {
             }
           }
         ]
+      },
+      NarrowerUUID: {
+        'ui:widget': KmsConceptSelectionWidget,
+        'ui:title': 'Keyword'
       }
-    },
-    NarrowerUUID: {
-      'ui:widget': CustomTextWidget
     }
   },
   PreferredLabel: {
@@ -194,8 +212,8 @@ const editKeywordsUiSchema = {
         'ui:widget': CustomSelectWidget
       },
       UUID: {
-        'ui:widget': CustomTextWidget,
-        'ui:readonly': true
+        'ui:widget': KmsConceptSelectionWidget,
+        'ui:title': 'Keyword'
       }
     }
   },

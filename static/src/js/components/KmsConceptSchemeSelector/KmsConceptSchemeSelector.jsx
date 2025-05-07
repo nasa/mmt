@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+
 import getKmsConceptSchemes from '@/js/utils/getKmsConceptSchemes'
 
 /**
@@ -15,7 +14,7 @@ import getKmsConceptSchemes from '@/js/utils/getKmsConceptSchemes'
  * @param {string} props.version - The version of KMS to fetch schemes for
  * @param {function} props.onSchemeSelect - Callback function triggered when a scheme is selected
  */
-const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
+const KmsConceptSchemeSelector = ({ version, defaultScheme, onSchemeSelect }) => {
   // State for storing the list of schemes
   const [schemes, setSchemes] = useState([])
   // State for storing the currently selected scheme
@@ -55,14 +54,12 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
 
         // Select the first option
         if (options.length > 0) {
-          const firstOption = options[0]
-          setSelectedScheme(firstOption)
-          onSchemeSelect({
-            name: firstOption.value,
-            longName: firstOption.label,
-            updateDate: firstOption.updateDate,
-            csvHeaders: firstOption.csvHeaders
-          })
+          if (defaultScheme) {
+            const matchingScheme = options.find((option) => option.value === defaultScheme?.name)
+            if (matchingScheme) {
+              setSelectedScheme(matchingScheme)
+            }
+          }
         }
 
         setLoading(false)
@@ -91,23 +88,20 @@ const KmsConceptSchemeSelector = ({ version, onSchemeSelect }) => {
   }
 
   return (
-    <Row className="mb-4">
-      <Col>
-        <div className="rounded p-3">
-          <Select
-            isLoading={loading}
-            options={schemes}
-            value={selectedScheme}
-            onChange={handleChange}
-            placeholder="Loading schemes..."
-          />
-        </div>
-      </Col>
-    </Row>
+    <Select
+      isLoading={loading}
+      options={schemes}
+      value={selectedScheme ?? defaultScheme}
+      onChange={handleChange}
+      placeholder="Select scheme..."
+    />
   )
 }
 
 KmsConceptSchemeSelector.propTypes = {
+  defaultScheme: PropTypes.shape({
+    name: PropTypes.string
+  }),
   version: PropTypes.shape({
     version: PropTypes.string,
     version_type: PropTypes.string
@@ -116,6 +110,7 @@ KmsConceptSchemeSelector.propTypes = {
 }
 
 KmsConceptSchemeSelector.defaultProps = {
+  defaultScheme: null,
   version: null,
   onSchemeSelect: () => {}
 }
