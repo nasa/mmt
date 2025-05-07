@@ -1,14 +1,15 @@
-import { capitalize, trimEnd } from 'lodash-es'
+import React, { useCallback } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
-import React, { useCallback } from 'react'
 
 import moment from 'moment'
 
-import { DATE_FORMAT } from '@/js/constants/dateFormat'
-import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
-import restoreRevisionMutations from '@/js/constants/restoreRevisionMutations'
+import getConceptTypeByConceptId from '../../utils/getConceptTypeByConceptId'
+
+import { DATE_FORMAT } from '../../constants/dateFormat'
+import conceptTypeQueries from '../../constants/conceptTypeQueries'
+import restoreRevisionMutations from '../../constants/restoreRevisionMutations'
 
 import EllipsisLink from '../EllipsisLink/EllipsisLink'
 import Table from '../Table/Table'
@@ -30,9 +31,9 @@ const RevisionList = () => {
 
   const { addNotification } = useNotificationsContext()
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId
@@ -40,7 +41,7 @@ const RevisionList = () => {
     }
   })
 
-  const { [formattedType.toLowerCase()]: concept } = data
+  const { [derivedConceptType.toLowerCase()]: concept } = data
   const { revisions, revisionId: conceptRevisionId } = concept
   const { count, items } = revisions
 
@@ -67,9 +68,9 @@ const RevisionList = () => {
     return descriptionCellContent
   }, [])
 
-  const [restoreMutation] = useMutation(restoreRevisionMutations[formattedType], {
+  const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
     refetchQueries: [{
-      query: conceptTypeQueries[formattedType],
+      query: conceptTypeQueries[derivedConceptType],
       variables: {
         params: {
           conceptId
@@ -86,13 +87,13 @@ const RevisionList = () => {
       },
       onCompleted: () => {
         addNotification({
-          message: `${formattedType} revision created successfully`,
+          message: `${derivedConceptType} revision created successfully`,
           variant: 'success'
         })
       },
       onError: () => {
         addNotification({
-          message: `Error creating ${formattedType.toLowerCase()} revision`,
+          message: `Error creating ${derivedConceptType.toLowerCase()} revision`,
           variant: 'danger'
         })
 

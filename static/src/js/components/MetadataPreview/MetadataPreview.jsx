@@ -5,17 +5,18 @@ import {
   ToolPreview,
   VariablePreview
 } from '@edsc/metadata-preview'
-import { capitalize, trimEnd } from 'lodash-es'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
 
-import { getApplicationConfig } from 'sharedUtils/getConfig'
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 
 import conceptTypeDraftQueries from '../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
+
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import '@edsc/metadata-preview/dist/style.min.css'
 /**
@@ -48,17 +49,16 @@ const MetadataPreview = ({
     conceptId
   }
 
-  const formattedConceptType = capitalize(trimEnd(conceptType, 's'))
-  let query = conceptTypeQueries[formattedConceptType]
+  let query = conceptTypeQueries[conceptType]
   let conceptKey = conceptType.toLowerCase()
 
   if (isDraft) {
     conceptKey = 'draft'
-    query = conceptTypeDraftQueries[formattedConceptType]
+    query = conceptTypeDraftQueries[getConceptTypeByDraftConceptId(conceptId)]
 
     params = {
       ...params,
-      conceptType: formattedConceptType
+      conceptType: getConceptTypeByDraftConceptId(conceptId)
     }
   }
 

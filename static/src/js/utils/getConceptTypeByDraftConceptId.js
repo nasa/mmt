@@ -7,6 +7,10 @@ import draftConceptIdTypes from '../constants/draftConceptIdTypes'
 const getConceptTypeByDraftConceptId = (draftConceptId) => {
   if (!draftConceptId) return undefined
 
+  if (draftConceptId.startsWith('VISD')) {
+    return draftConceptIdTypes.VISD
+  }
+
   const prefix = draftConceptId.substring(0, 2)
 
   return draftConceptIdTypes[prefix]

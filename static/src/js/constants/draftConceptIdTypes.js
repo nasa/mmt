@@ -5,7 +5,8 @@ const draftConceptIdTypes = {
   CD: 'Collection',
   SD: 'Service',
   TD: 'Tool',
-  VD: 'Variable'
+  VD: 'Variable',
+  VISD: 'Visualization'
 }
 
 export default draftConceptIdTypes

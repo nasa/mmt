@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import { capitalize, trimEnd } from 'lodash-es'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
@@ -38,6 +37,7 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 import errorLogger from '@/js//utils/errorLogger'
+import getConceptTypeByConceptId from '@/js//utils/getConceptTypeByConceptId'
 import removeMetadataKeys from '@/js//utils/removeMetadataKeys'
 import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
@@ -54,11 +54,11 @@ import './PublishPreview.scss'
  * )
  */
 const PublishPreviewHeader = () => {
-  const { conceptId, type } = useParams()
-
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const { conceptId } = useParams()
 
   const navigate = useNavigate()
+
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showTagModal, setShowTagModal] = useState(false)
@@ -76,18 +76,18 @@ const PublishPreviewHeader = () => {
   }
 
   const { addNotification } = useNotificationsContext()
-  const [deleteMutation] = useMutation(deleteMutationTypes[formattedType], {
+  const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType], {
     update: (cache) => {
       cache.modify({
         fields: {
           // Remove the list of the derivedContceptType from the cache. This ensures that if the user returns to the list page they will see the correct data.
-          [pluralize(formattedType).toLowerCase()]: () => {}
+          [pluralize(derivedConceptType).toLowerCase()]: () => {}
         }
       })
     }
   })
 
-  const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId
@@ -95,7 +95,7 @@ const PublishPreviewHeader = () => {
     }
   })
 
-  const { [formattedType.toLowerCase()]: concept } = data
+  const { [derivedConceptType.toLowerCase()]: concept } = data
 
   // This may be due to a CMR lag error and affects functionality in ErrorBanner
   if (!concept) {
@@ -142,7 +142,7 @@ const PublishPreviewHeader = () => {
     // Removes the value from the metadata that has to be unique
     const modifiedMetadata = removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName', 'EntryTitle'])
 
-    ingestMutation(formattedType, modifiedMetadata, cloneNativeId, providerId)
+    ingestMutation(derivedConceptType, modifiedMetadata, cloneNativeId, providerId)
   }
 
   // Handles the user selecting download record
@@ -190,7 +190,7 @@ const PublishPreviewHeader = () => {
         toggleShowDeleteModal(false)
 
         // Navigate to the search page
-        navigate(`/${pluralize(formattedType).toLowerCase()}`)
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}`)
       },
       onError: (deleteError) => {
         // Add an error notification
@@ -220,12 +220,12 @@ const PublishPreviewHeader = () => {
             },
             {
               icon: FaEye,
-              to: `/${pluralize(formattedType).toLowerCase()}/${conceptId}/revisions`,
+              to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
               title: 'View Revisions',
               count: revisionCount
             },
             ...(
-              formattedType === conceptTypes.Collection
+              derivedConceptType === conceptTypes.Collection
                 ? [
                   {
                     icon: FaEye,
@@ -250,7 +250,7 @@ const PublishPreviewHeader = () => {
                 : [
                   {
                     icon: FaEye,
-                    to: `/${pluralize(formattedType).toLowerCase()}/${conceptId}/collection-association`,
+                    to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/collection-association`,
                     title: 'Collection Associations'
                   }
                 ]
@@ -260,8 +260,8 @@ const PublishPreviewHeader = () => {
         breadcrumbs={
           [
             {
-              label: `${pluralize(formattedType)}`,
-              to: `/${pluralize(formattedType).toLowerCase()}`
+              label: `${pluralize(derivedConceptType)}`,
+              to: `/${pluralize(derivedConceptType).toLowerCase()}`
             },
             {
               label: pageTitle,
@@ -274,7 +274,7 @@ const PublishPreviewHeader = () => {
           [
             {
               icon: FaEdit,
-              onClick: () => ingestMutation(formattedType, ummMetadata, nativeId, providerId),
+              onClick: () => ingestMutation(derivedConceptType, ummMetadata, nativeId, providerId),
               title: 'Edit',
               iconTitle: 'A edit icon',
               variant: 'primary'
@@ -383,16 +383,15 @@ const PublishPreviewPlaceholder = () => (
  */
 const PublishPreview = ({ isRevision }) => {
   const {
-    conceptId,
-    type
+    conceptId
   } = useParams()
 
   const navigate = useNavigate()
 
-  const formattedType = capitalize(trimEnd(type, 's'))
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
   const viewPublishedRecord = () => {
-    navigate(`/${pluralize(formattedType).toLowerCase()}/${conceptId}`)
+    navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}`)
   }
 
   return (
@@ -409,7 +408,7 @@ const PublishPreview = ({ isRevision }) => {
                 {' '}
                 You are viewing an older revision of this
                 {' '}
-                {`${formattedType}.`}
+                {`${derivedConceptType}.`}
                 {' '}
                 <Button
                   className="ms-2 p-0"
@@ -428,7 +427,7 @@ const PublishPreview = ({ isRevision }) => {
         <Suspense fallback={<PublishPreviewPlaceholder />}>
           <MetadataPreview
             conceptId={conceptId}
-            conceptType={formattedType}
+            conceptType={derivedConceptType}
           />
         </Suspense>
       </ErrorBoundary>

@@ -192,7 +192,7 @@ const Layout = ({ className, displayNav }) => {
                                 ]
                               },
                               // Remove in MMT-4028
-                              ...(showVisualizations ? [{
+                              ...((showVisualizations === 'true') ? [{
                                 title: 'Visualizations',
                                 version: `v${ummVis}`,
                                 children: [

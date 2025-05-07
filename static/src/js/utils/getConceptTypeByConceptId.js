@@ -7,7 +7,11 @@ import conceptIdTypes from '../constants/conceptIdTypes'
 const getConceptTypeByConceptId = (conceptId) => {
   if (!conceptId) return undefined
 
-  const prefix = conceptId.substring(0, 1)
+  if (conceptId.startsWith('VIS')) {
+    return conceptIdTypes.VIS
+  }
+
+  const prefix = conceptId.charAt(0)
 
   return conceptIdTypes[prefix]
 }

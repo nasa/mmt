@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import { capitalize, trimEnd } from 'lodash-es'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
@@ -14,6 +13,7 @@ import {
   FaTrash
 } from 'react-icons/fa'
 
+import getConceptTypeByDraftConceptId from '@/js/utils/getConceptTypeByDraftConceptId'
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 import getUmmSchema from '@/js/utils/getUmmSchema'
@@ -45,9 +45,9 @@ import PageHeader from '@/js/components/PageHeader/PageHeader'
  * )
  */
 const DraftPageHeader = () => {
-  const { conceptId, draftType } = useParams()
+  const { conceptId } = useParams()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const formattedDraftType = capitalize(trimEnd(draftType, 's'))
+  const derivedConceptType = getConceptTypeByDraftConceptId(conceptId)
 
   const navigate = useNavigate()
 
@@ -70,17 +70,17 @@ const DraftPageHeader = () => {
     publishMutation,
     publishDraft,
     error: publishErrors
-  } = usePublishMutation(pluralize(formattedDraftType).toLowerCase())
+  } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
   }
 
-  const { data } = useSuspenseQuery(conceptTypeDraftQueries[formattedDraftType], {
+  const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
     variables: {
       params: {
         conceptId,
-        conceptType: formattedDraftType
+        conceptType: derivedConceptType
       }
     }
   })
@@ -100,7 +100,7 @@ const DraftPageHeader = () => {
   } = draft
 
   // Get the UMM Schema for the draft
-  const schema = getUmmSchema(formattedDraftType)
+  const schema = getUmmSchema(derivedConceptType)
 
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(ummMetadata, schema)
@@ -109,14 +109,14 @@ const DraftPageHeader = () => {
   const { errors } = ummMetadata
 
   const handlePublish = () => {
-    publishMutation(formattedDraftType, nativeId)
+    publishMutation(derivedConceptType, nativeId)
   }
 
   useEffect(() => {
     if (publishDraft) {
       const { conceptId: publishConceptId } = publishDraft
 
-      navigate(`/${pluralize(formattedDraftType).toLowerCase()}/${publishConceptId}`)
+      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
 
       addNotification({
         message: 'Draft published',
@@ -162,7 +162,7 @@ const DraftPageHeader = () => {
   const handleDelete = () => {
     deleteDraftMutation({
       variables: {
-        conceptType: formattedDraftType,
+        conceptType: derivedConceptType,
         nativeId,
         providerId
       },
@@ -171,7 +171,7 @@ const DraftPageHeader = () => {
         toggleShowDeleteModal(false)
 
         // Navigate to the manage page
-        navigate(`/drafts/${pluralize(formattedDraftType).toLowerCase()}`)
+        navigate(`/drafts/${pluralize(derivedConceptType).toLowerCase()}`)
 
         // Add a success notification
         addNotification({
@@ -201,8 +201,8 @@ const DraftPageHeader = () => {
         breadcrumbs={
           [
             {
-              label: `${formattedDraftType} Drafts`,
-              to: `/drafts/${formattedDraftType.toLowerCase()}s`
+              label: `${derivedConceptType} Drafts`,
+              to: `/drafts/${derivedConceptType.toLowerCase()}s`
             },
             {
               label: previewMetadata?.pageTitle || '<Blank Name>',
@@ -230,7 +230,7 @@ const DraftPageHeader = () => {
               variant: 'danger'
             },
             ...[(
-              formattedDraftType === conceptTypes.Collection
+              derivedConceptType === conceptTypes.Collection
                 ? {
                   disabled: !!errors,
                   icon: FaCopy,
