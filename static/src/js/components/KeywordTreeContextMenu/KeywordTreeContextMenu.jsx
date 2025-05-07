@@ -102,7 +102,6 @@ export const KeywordTreeContextMenu = ({
             }
             onKeyDown={
               (e) => {
-                console.log('KeyDown event triggered', e.key)
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault()
                   option.action()

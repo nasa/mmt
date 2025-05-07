@@ -31,7 +31,10 @@ const createFormDataFromRdf = (rdfData) => {
   const keywordUUID = conceptElement['@_rdf:about']
   const preferredLabel = getTextContent(conceptElement['skos:prefLabel'])
   const definition = getTextContent(conceptElement['skos:definition'])
-  const broaderKeyword = conceptElement['skos:broader']?.['@_rdf:resource'] || ''
+  const broaderKeywords = ensureArray(conceptElement['skos:broader'])
+    .map((broader) => ({
+      BroaderUUID: broader['@_rdf:resource']
+    }))
 
   const narrowerKeywords = ensureArray(conceptElement['skos:narrower'])
     .map((narrower) => ({
@@ -73,7 +76,7 @@ const createFormDataFromRdf = (rdfData) => {
 
   const transformedData = {
     KeywordUUID: keywordUUID,
-    BroaderKeyword: broaderKeyword,
+    BroaderKeywords: broaderKeywords,
     NarrowerKeywords: narrowerKeywords,
     PreferredLabel: preferredLabel,
     AlternateLabels: alternateLevels,

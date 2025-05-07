@@ -56,7 +56,7 @@ describe('CustomTitleFieldTemplate', () => {
   })
 
   describe('when a title field with hide-header set to true', () => {
-    it('renders it with no header', () => {
+    test('renders it with no header', () => {
       setup({
         uiSchema: {
           'ui:hide-header': true

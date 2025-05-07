@@ -7,8 +7,16 @@ const keywordSchema = {
       type: 'string',
       format: 'uuid'
     },
-    BroaderKeyword: {
-      type: 'string'
+    BroaderKeywords: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          BroaderUUID: {
+            type: 'string'
+          }
+        }
+      }
     },
     NarrowerKeywords: {
       type: 'array',

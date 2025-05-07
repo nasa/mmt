@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
 
 /**
@@ -90,19 +89,13 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
   }
 
   return (
-    <Row className="mb-4">
-      <Col>
-        <div className="rounded p-3">
-          <Select
-            isLoading={loading}
-            options={versions}
-            value={selectedVersion}
-            onChange={handleChange}
-            placeholder="Loading versions..."
-          />
-        </div>
-      </Col>
-    </Row>
+    <Select
+      isLoading={loading}
+      options={versions}
+      value={selectedVersion}
+      onChange={handleChange}
+      placeholder="Loading versions..."
+    />
   )
 }
 

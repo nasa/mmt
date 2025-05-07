@@ -678,10 +678,9 @@ describe('KeywordManagerPage component', () => {
         expect(keywordFormContent).toBeTruthy()
       })
 
-      // Now perform the individual assertions
       expect(keywordFormContent).toContain('"KeywordUUID": "new-id"')
       expect(keywordFormContent).toContain('"PreferredLabel": "New Keyword"')
-      expect(keywordFormContent).toContain('"BroaderKeyword": "parent-id"')
+      expect(keywordFormContent).toContain('"BroaderKeywords": [\n    {\n      "BroaderUUID": "parent-id"\n    }\n  ]')
     })
   })
 })
