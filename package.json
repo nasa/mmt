@@ -150,7 +150,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./",
     "lint-fix": "eslint ./ --fix",
-    "tsc": "tsc --pretty --noEmit"
+    "tsc": "tsc --pretty --noEmit",
+    "prepare": "husky install || true"
   },
   "jest": {
     "collectCoverageFrom": [
