@@ -55,8 +55,8 @@ const KeywordManagerPage = () => {
   const [newVersionName, setNewVersionName] = useState('')
   const [publishError, setPublishError] = useState(null)
   const [publishSuccess, setPublishSuccess] = useState(false)
-  const [versionRefreshKey, setVersionRefreshKey] = useState(0)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
+  const [isPublishDisabled, setIsPublishDisabled] = useState(false)
 
   /**
  * Opens the modal for publishing a new keyword version.
@@ -70,8 +70,7 @@ const KeywordManagerPage = () => {
 
   /**
    * Publishes a new keyword version.
-   * If successful, closes the publish modal, shows a success message,
-   * and schedules a refresh of the version selector after 30 seconds.
+   * If successful, closes the publish modal, shows a success message.
    * If unsuccessful, displays an error message.
    */
   const handlePublishVersion = async () => {
@@ -79,9 +78,7 @@ const KeywordManagerPage = () => {
       await publishKmsconceptVersion(newVersionName)
       setShowPublishModal(false)
       setPublishSuccess(true)
-      setTimeout(() => {
-        setVersionRefreshKey((prevKey) => prevKey + 1)
-      }, 30000)
+      setIsPublishDisabled(true)
     } catch (error) {
       setPublishError('Error publishing new keyword version. Please try again in few minutes.')
     }
@@ -282,7 +279,8 @@ const KeywordManagerPage = () => {
                   iconTitle: 'A plus icon',
                   title: 'Publish New Keyword Version',
                   onClick: handleOpenPublishModal,
-                  variant: 'success'
+                  variant: 'success',
+                  disabled: isPublishDisabled
                 }
               ]
             }
@@ -302,7 +300,7 @@ const KeywordManagerPage = () => {
           <Row className="mb-4">
             <Col>
               <div className="rounded p-3">
-                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" key={versionRefreshKey} />
+                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
               </div>
             </Col>
           </Row>
@@ -356,7 +354,7 @@ const KeywordManagerPage = () => {
           (
             <>
               <Form.Group>
-                <Form.Label htmlFor="newKeywordVersion">New keyword version:</Form.Label>
+                <Form.Label htmlFor="newKeywordVersion">Version Name:</Form.Label>
                 <Form.Control
                   id="newKeywordVersion"
                   type="text"
@@ -388,7 +386,7 @@ const KeywordManagerPage = () => {
         show={publishSuccess}
         toggleModal={() => setPublishSuccess(false)}
         header="Success"
-        message={`Successfully published new keyword version: ${newVersionName}`}
+        message={`Initiated new published version ${newVersionName}. Refresh browser after a few minutes to see the new published version.`}
         actions={
           [
             {
