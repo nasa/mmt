@@ -199,12 +199,13 @@ KeywordTreeCustomNode.propTypes = {
   searchTerm: PropTypes.string,
   setContextMenu: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
   onNodeClick: PropTypes.func.isRequired
 }
 
 KeywordTreeCustomNode.defaultProps = {
   dragHandle: null,
   searchTerm: null,
-  style: {}
+  style: {},
+  onEdit: null
 }

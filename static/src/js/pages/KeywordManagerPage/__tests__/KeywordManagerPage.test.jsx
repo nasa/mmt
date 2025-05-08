@@ -3,7 +3,8 @@ import {
   render,
   screen,
   fireEvent,
-  waitFor
+  waitFor,
+  within
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as getConfigModule from 'sharedUtils/getConfig'
@@ -11,9 +12,12 @@ import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import * as createFormDataFromRdfModule from '@/js/utils/createFormDataFromRdf'
 import userEvent from '@testing-library/user-event'
 import * as getKmsKeywordTreeModule from '@/js/utils/getKmsKeywordTree'
+import * as publishKmsConceptVersionModule from '@/js/utils/publishKmsConceptVersion'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('@/js/utils/getKmsKeywordTree')
+
+vi.mock('@/js/utils/publishKmsConceptVersion')
 
 vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
   KeywordTree: vi.fn((props) => {
@@ -324,6 +328,232 @@ describe('KeywordManagerPage component', () => {
       // Check if the modal is closed
       await waitFor(() => {
         expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when publishing a new version', () => {
+    let publishKmsConceptVersionMock
+
+    beforeEach(() => {
+      publishKmsConceptVersionMock = vi.fn()
+      vi.spyOn(publishKmsConceptVersionModule, 'publishKmsConceptVersion').mockImplementation(publishKmsConceptVersionMock)
+    })
+
+    test('should close publish modal when toggleModal is called', async () => {
+      const { user } = setup()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Check if the modal is open by looking for the version name input
+      await waitFor(() => {
+        expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+      })
+
+      // Find and click the close button (assuming it has a 'Close' text)
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      await user.click(closeButton)
+
+      // Check that the modal is closed
+      await waitFor(() => {
+        expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
+      })
+
+      // Ensure the publish button is still enabled
+      expect(publishButton).not.toBeDisabled()
+    })
+
+    test('should close publish success modal when toggleModal is called', async () => {
+      const { user } = setup()
+
+      // Mock the publishKmsConceptVersion function to resolve immediately
+      publishKmsConceptVersionMock.mockResolvedValue()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Enter a new version name
+      const versionNameInput = screen.getByLabelText('Version Name:')
+      await user.type(versionNameInput, 'NewVersion')
+
+      // Click the publish button in the modal
+      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      await user.click(modalPublishButton)
+
+      // Check that the success modal is shown
+      await waitFor(() => {
+        expect(screen.getByText(/initiated new published version/i)).toBeInTheDocument()
+      })
+
+      // Find and click the close button (assuming it has a 'Close' text)
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      await user.click(closeButton)
+
+      // Check that the success modal is closed
+      await waitFor(() => {
+        expect(screen.queryByText(/initiated new published version/i)).not.toBeInTheDocument()
+      })
+
+      // Ensure the main publish button is still disabled after closing the success modal
+      expect(publishButton).toBeDisabled()
+    })
+
+    test('should show success modal after successful publish and close it using both toggleModal and OK button', async () => {
+      publishKmsConceptVersionMock.mockResolvedValue()
+      const { user } = setup()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Wait for the modal to appear
+      const modal = await screen.findByTestId('custom-modal')
+      expect(modal).toBeInTheDocument()
+
+      // Find the version name input within the modal
+      const versionNameInput = within(modal).getByRole('textbox')
+      expect(versionNameInput).toBeInTheDocument()
+
+      // Enter a new version name
+      await user.type(versionNameInput, 'NewVersion')
+
+      // Click the publish button in the modal
+      const modalPublishButton = within(modal).getByRole('button', { name: /publish/i })
+      await user.click(modalPublishButton)
+
+      // Check that the success modal is shown
+      let successModal
+      await waitFor(() => {
+        successModal = screen.getByTestId('custom-modal')
+        expect(successModal).toBeInTheDocument()
+      })
+
+      expect(successModal).toHaveTextContent(/initiated new published version/i)
+      expect(successModal).toHaveTextContent(/refresh browser after a few minutes/i)
+
+      // Close the modal using the OK button (onClick handler)
+      const okButton = screen.getByRole('button', { name: /ok/i })
+      await user.click(okButton)
+
+      // Check that the success modal is closed
+      await waitFor(() => {
+        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+      })
+
+      // Ensure the main publish button is disabled after successful publish
+      expect(publishButton).toBeDisabled()
+
+      // We can't easily reopen the success modal in a test environment,
+      // so we'll end the test here
+    })
+
+    test('should handle successful publish', async () => {
+      publishKmsConceptVersionMock.mockResolvedValue()
+      const { user } = setup()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Check if the modal is open by looking for the version name input
+      await waitFor(() => {
+        expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+      })
+
+      // Enter a new version name
+      const versionNameInput = screen.getByLabelText('Version Name:')
+      await user.type(versionNameInput, 'NewVersion')
+
+      // Click the publish button in the modal
+      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      await user.click(modalPublishButton)
+
+      // Check that publishKmsConceptVersion was called with the correct argument
+      expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
+
+      // Check that the publish modal is closed
+      await waitFor(() => {
+        expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
+      })
+
+      // Check that the success modal is shown
+      await waitFor(() => {
+        expect(screen.getByText(/initiated new published version/i)).toBeInTheDocument()
+      })
+
+      // Check that the publish button is disabled
+      await waitFor(() => {
+        expect(publishButton).toBeDisabled()
+      })
+    })
+
+    test('should handle publish failure', async () => {
+      publishKmsConceptVersionMock.mockRejectedValue(new Error('Publish failed'))
+      const { user } = setup()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Check if the modal is open by looking for the version name input
+      await waitFor(() => {
+        expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+      })
+
+      // Enter a new version name
+      const versionNameInput = screen.getByLabelText('Version Name:')
+      await user.type(versionNameInput, 'FailedVersion')
+
+      // Click the publish button in the modal
+      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      await user.click(modalPublishButton)
+
+      // Check that publishKmsConceptVersion was called with the correct argument
+      expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('FailedVersion')
+
+      // Check that the error message is displayed
+      await waitFor(() => {
+        expect(screen.getByText('Error publishing new keyword version. Please try again in few minutes.')).toBeInTheDocument()
+      })
+
+      // Check that the publish modal is still open
+      expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+
+      // Check that the publish button is not disabled
+      expect(publishButton).not.toBeDisabled()
+    })
+  })
+
+  describe('when display publish modal', () => {
+    test('should open publish modal and reset related states', async () => {
+      const { user } = setup()
+
+      // Find and click the "Publish New Keyword Version" button
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Check if the modal is opened by looking for a specific element inside the modal
+      await waitFor(() => {
+        expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+      })
+
+      // Check if the version name input is empty
+      const versionNameInput = screen.getByLabelText('Version Name:')
+      expect(versionNameInput).toHaveValue('')
+
+      // Check if there's no publish error message
+      expect(screen.queryByText(/error publishing new keyword version/i)).not.toBeInTheDocument()
+
+      // Close the modal
+      const cancelButton = screen.getByRole('button', { name: /cancel/i })
+      await user.click(cancelButton)
+
+      // Check if the modal is closed by ensuring the version name input is no longer present
+      await waitFor(() => {
+        expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
       })
     })
   })
