@@ -18,7 +18,7 @@ import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
-import { publishKmsconceptVersion } from '@/js/utils/publishKmsConceptVersion'
+import { publishKmsConceptVersion } from '@/js/utils/publishKmsConceptVersion'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
@@ -59,9 +59,9 @@ const KeywordManagerPage = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false)
 
   /**
- * Opens the modal for publishing a new keyword version.
- * Resets the new version name and clears any previous publish errors.
- */
+   * Opens the modal for publishing a new keyword version.
+   * Resets the new version name and clears any previous publish errors.
+   */
   const handleOpenPublishModal = () => {
     setShowPublishModal(true)
     setNewVersionName('')
@@ -75,7 +75,7 @@ const KeywordManagerPage = () => {
    */
   const handlePublishVersion = async () => {
     try {
-      await publishKmsconceptVersion(newVersionName)
+      await publishKmsConceptVersion(newVersionName)
       setShowPublishModal(false)
       setPublishSuccess(true)
       setIsPublishDisabled(true)

@@ -17,7 +17,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  *   console.error('Failed to publish version:', error.message);
  * }
  */
-export const publishKmsconceptVersion = async (version) => {
+export const publishKmsConceptVersion = async (version) => {
   try {
     // Trim and process version to replace spaces with underscores
     const processedVersion = version.trim().replace(/\s+/g, '_')
