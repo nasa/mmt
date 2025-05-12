@@ -349,7 +349,7 @@ describe('KeywordManagerPage component', () => {
 
       // Check if the modal is open by looking for the version name input
       await waitFor(() => {
-        expect(screen.getByLabelText('Version Name:')).toBeInTheDocument()
+        expect(screen.getByLabelText('Version Name:')).toBeVisible()
       })
 
       // Find and click the close button (assuming it has a 'Close' text)
@@ -468,7 +468,7 @@ describe('KeywordManagerPage component', () => {
       await user.type(versionNameInput, 'NewVersion')
 
       // Click the publish button in the modal
-      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
       await user.click(modalPublishButton)
 
       // Check that publishKmsConceptVersion was called with the correct argument
@@ -508,7 +508,7 @@ describe('KeywordManagerPage component', () => {
       await user.type(versionNameInput, 'FailedVersion')
 
       // Click the publish button in the modal
-      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
       await user.click(modalPublishButton)
 
       // Check that publishKmsConceptVersion was called with the correct argument
