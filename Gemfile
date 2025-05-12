@@ -126,5 +126,3 @@ gem "shakapacker", "= 6.5"
 
 gem "react-rails", "= 2.6"
 gem 'erb'
-
-gem "terser", "~> 1.2"
