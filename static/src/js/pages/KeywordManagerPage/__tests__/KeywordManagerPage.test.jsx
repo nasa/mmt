@@ -380,7 +380,7 @@ describe('KeywordManagerPage component', () => {
       await user.type(versionNameInput, 'NewVersion')
 
       // Click the publish button in the modal
-      const modalPublishButton = screen.getByTestId('modal-action-publish')
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
       await user.click(modalPublishButton)
 
       // Check that the success modal is shown
