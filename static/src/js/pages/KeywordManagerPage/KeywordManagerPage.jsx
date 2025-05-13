@@ -57,6 +57,8 @@ const KeywordManagerPage = () => {
   const [isPublishing, setIsPublishing] = useState(false)
   const [publishError, setPublishError] = useState(null)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
+  const [reloadVersions, setReloadVersions] = useState(false)
+  const [reloadSchemes, setReloadSchemes] = useState(false)
 
   /**
    * Opens the modal for publishing a new keyword version.
@@ -79,10 +81,34 @@ const KeywordManagerPage = () => {
     try {
       await publishKmsConceptVersion(newVersionName)
       setShowPublishModal(false)
+
+      // Reset selected version and scheme
+      setSelectedVersion(null)
+      setSelectedScheme(null)
+
+      // Clear tree data
+      setTreeData(null)
+
+      // Clear keyword form
+      setSelectedKeywordData(null)
+      setShowKeywordForm(false)
+
+      // Trigger reloads
+      setReloadVersions(true)
+      setReloadSchemes(true)
+
+      // Reset tree message
+      setTreeMessage('Select a version and scheme to load the tree')
     } catch (error) {
       setPublishError(`${error.message}.`)
     } finally {
       setIsPublishing(false)
+    }
+  }
+
+  const handleClosePublishModal = () => {
+    if (!isPublishing) {
+      setShowPublishModal(false)
     }
   }
 
@@ -196,6 +222,16 @@ const KeywordManagerPage = () => {
     }
   }, [selectedVersion, selectedScheme])
 
+  useEffect(() => {
+    if (reloadVersions) {
+      setReloadVersions(false)
+    }
+
+    if (reloadSchemes) {
+      setReloadSchemes(false)
+    }
+  }, [reloadVersions, reloadSchemes])
+
   /**
    * Closes the warning modal
    */
@@ -301,7 +337,11 @@ const KeywordManagerPage = () => {
           <Row className="mb-4">
             <Col>
               <div className="rounded p-3">
-                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+                <KmsConceptVersionSelector
+                  onVersionSelect={onVersionSelect}
+                  id="version-selector"
+                  key={reloadVersions ? 'reload-versions' : 'versions'}
+                />
               </div>
             </Col>
           </Row>
@@ -318,7 +358,7 @@ const KeywordManagerPage = () => {
                   <KmsConceptSchemeSelector
                     version={selectedVersion}
                     onSchemeSelect={onSchemeSelect}
-                    key={selectedVersion?.version}
+                    key={`${selectedVersion?.version}-${reloadSchemes ? 'reload-schemes' : 'schemes'}`}
                     id="scheme-selector"
                   />
                 </div>
@@ -349,7 +389,7 @@ const KeywordManagerPage = () => {
       />
       <CustomModal
         show={showPublishModal}
-        toggleModal={() => setShowPublishModal(false)}
+        toggleModal={handleClosePublishModal}
         header="Publish New Keyword Version"
         message={
           (
@@ -383,13 +423,13 @@ const KeywordManagerPage = () => {
             {
               label: 'Cancel',
               variant: 'secondary',
-              onClick: () => !isPublishing && setShowPublishModal(false),
+              onClick: handleClosePublishModal,
               disabled: isPublishing
             },
             {
               label: 'Publish',
               variant: 'primary',
-              onClick: !isPublishing && handlePublishVersion,
+              onClick: handlePublishVersion,
               disabled: isPublishing || !newVersionName.trim()
             }
           ]
