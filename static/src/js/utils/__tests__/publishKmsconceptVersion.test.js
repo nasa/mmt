@@ -36,10 +36,9 @@ describe('when publishKmsConceptVersion', () => {
     await expect(publishKmsConceptVersion('Version 1.0')).resolves.not.toThrow()
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://test-kms-host.com/publish',
+      'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST',
-        body: JSON.stringify({ name: 'Version_1.0' })
+        method: 'POST'
       }
     )
   })
@@ -69,10 +68,9 @@ describe('when publishKmsConceptVersion', () => {
     await publishKmsConceptVersion('  Version  1.0  ')
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://test-kms-host.com/publish',
+      'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST',
-        body: JSON.stringify({ name: 'Version_1.0' })
+        method: 'POST'
       }
     )
   })

@@ -21,14 +21,10 @@ export const publishKmsConceptVersion = async (version) => {
   try {
     // Trim and process version to replace spaces with underscores
     const processedVersion = version.trim().replace(/\s+/g, '_')
-    const payload = {
-      name: processedVersion
-    }
     const { kmsHost } = getApplicationConfig()
-    const endPoint = `${kmsHost}/publish`
+    const endPoint = `${kmsHost}/publish?name=${processedVersion}`
     const options = {
-      method: 'POST',
-      body: JSON.stringify(payload)
+      method: 'POST'
     }
 
     const response = await fetch(endPoint, options)

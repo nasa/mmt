@@ -6,7 +6,8 @@ import React, {
 import {
   Col,
   Row,
-  Form
+  Form,
+  Spinner
 } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
@@ -53,10 +54,9 @@ const KeywordManagerPage = () => {
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [newVersionName, setNewVersionName] = useState('')
+  const [isPublishing, setIsPublishing] = useState(false)
   const [publishError, setPublishError] = useState(null)
-  const [publishSuccess, setPublishSuccess] = useState(false)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
-  const [isPublishDisabled, setIsPublishDisabled] = useState(false)
 
   /**
    * Opens the modal for publishing a new keyword version.
@@ -74,13 +74,15 @@ const KeywordManagerPage = () => {
    * If unsuccessful, displays an error message.
    */
   const handlePublishVersion = async () => {
+    setIsPublishing(true)
+    setPublishError(null)
     try {
       await publishKmsConceptVersion(newVersionName)
       setShowPublishModal(false)
-      setPublishSuccess(true)
-      setIsPublishDisabled(true)
     } catch (error) {
-      setPublishError('Error publishing new keyword version. Please try again in few minutes.')
+      setPublishError(`${error.message}.`)
+    } finally {
+      setIsPublishing(false)
     }
   }
 
@@ -279,8 +281,7 @@ const KeywordManagerPage = () => {
                   iconTitle: 'A plus icon',
                   title: 'Publish New Keyword Version',
                   onClick: handleOpenPublishModal,
-                  variant: 'success',
-                  disabled: isPublishDisabled
+                  variant: 'success'
                 }
               ]
             }
@@ -361,8 +362,18 @@ const KeywordManagerPage = () => {
                   value={newVersionName}
                   onChange={(e) => setNewVersionName(e.target.value)}
                   placeholder="Enter version"
+                  disabled={isPublishing}
                 />
               </Form.Group>
+              {
+                isPublishing && (
+                  <div className="text-primary mt-2">
+                    <Spinner animation="border" size="sm" />
+                    {' '}
+                    Publishing...
+                  </div>
+                )
+              }
               {publishError && <div className="text-danger mt-2">{publishError}</div>}
             </>
           )
@@ -372,27 +383,14 @@ const KeywordManagerPage = () => {
             {
               label: 'Cancel',
               variant: 'secondary',
-              onClick: () => setShowPublishModal(false)
+              onClick: () => !isPublishing && setShowPublishModal(false),
+              disabled: isPublishing
             },
             {
               label: 'Publish',
               variant: 'primary',
-              onClick: handlePublishVersion
-            }
-          ]
-        }
-      />
-      <CustomModal
-        show={publishSuccess}
-        toggleModal={() => setPublishSuccess(false)}
-        header="Success"
-        message={`Initiated new published version ${newVersionName}. Refresh browser after a few minutes to see the new published version.`}
-        actions={
-          [
-            {
-              label: 'OK',
-              variant: 'primary',
-              onClick: () => setPublishSuccess(false)
+              onClick: !isPublishing && handlePublishVersion,
+              disabled: isPublishing || !newVersionName.trim()
             }
           ]
         }
