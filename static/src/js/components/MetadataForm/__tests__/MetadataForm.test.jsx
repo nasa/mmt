@@ -57,11 +57,27 @@ import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
 import MetadataForm from '../MetadataForm'
 
 vi.mock('@/js/hooks/usePublishMutation', () => ({
-  default: vi.fn(() => ({
-    publishMutation: vi.fn(),
-    publishDraft: null,
-    error: null
-  }))
+  default: vi.fn(() => {
+    const [publishDraft, setPublishDraft] = React.useState(null)
+    const [error] = React.useState(null)
+
+    const publishMutation = vi.fn(() => new Promise((resolve) => {
+      setTimeout(() => {
+        setPublishDraft({
+          conceptId: 'T1000000-MMT',
+          revisionId: '1'
+        })
+
+        resolve()
+      }, 100)
+    }))
+
+    return {
+      publishMutation,
+      publishDraft,
+      error
+    }
+  })
 }))
 
 vi.mock('@rjsf/core', () => ({
@@ -847,8 +863,12 @@ describe('MetadataForm', () => {
         const button = screen.getByRole('button', { name: 'Save & Publish' })
         await user.click(button)
 
-        expect(navigateSpy).toHaveBeenCalledTimes(2)
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(2)
+        }, { timeout: 5000 })
+
+        expect(navigateSpy).toHaveBeenNthCalledWith(1, '/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', expect.anything())
+        expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1000000-MMT')
       })
     })
 
@@ -891,6 +911,10 @@ describe('MetadataForm', () => {
     })
 
     describe('when saving a new draft', () => {
+      afterEach(() => {
+        vi.restoreAllMocks()
+      })
+
       test('navigates to the current form and calls scrolls to the top', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
