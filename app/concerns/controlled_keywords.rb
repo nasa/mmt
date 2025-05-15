@@ -252,14 +252,14 @@ module ControlledKeywords
   def set_country_codes
     # put the US at the top of the country list
     @country_codes = []
-     country_codes = Carmen::Country.all.sort
-     country_codes.each do |code|
-       if code.alpha_3_code == 'USA'
-         @country_codes.insert(0, code)
-       else
-         @country_codes << code
-       end
-     end
+    country_codes = Carmen::Country.all.sort
+    country_codes.each do |code|
+      if code.alpha_3_code == 'USA'
+        @country_codes.insert(0, code)
+      else
+        @country_codes << code
+      end
+    end
     @country_codes
   end
 
