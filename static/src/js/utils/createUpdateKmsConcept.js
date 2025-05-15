@@ -1,5 +1,15 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
+/**
+ * Creates or updates a concept in the Knowledge Management System (KMS)
+ *
+ * @param {string} rdfData - The RDF data of the concept
+ * @param {string} userNote - A note provided by the user
+ * @param {Object} version - The version object containing version information
+ * @param {Object} scheme - The scheme object containing scheme information
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete
+ * @throws {Error} - If there's an HTTP error or any other error during the process
+ */
 export const createUpdateKmsConcept = async (rdfData, userNote, version, scheme) => {
   const { kmsHost } = getApplicationConfig()
   // In case of published version, use 'published' instead of the version label
@@ -8,13 +18,20 @@ export const createUpdateKmsConcept = async (rdfData, userNote, version, scheme)
     versionParam = 'published'
   }
 
+  const schemeParam = scheme.name
+
   try {
-    const endpoint = `${kmsHost}/concept?version=${versionParam}&scheme=${scheme}`
+    // Construct the endpoint URL
+    const endpoint = `${kmsHost}/concept?version=${versionParam}&scheme=${schemeParam}`
+
+    // Send PUT request to create/update the concept
     const response = await fetch(endpoint, {
       method: 'PUT',
       body: rdfData,
       userNote
     })
+
+    // Check if the response is successful
     if (!response.ok) {
       throw new Error(`createUpdateKmsConcept HTTP error! status: ${response.status}`)
     }
