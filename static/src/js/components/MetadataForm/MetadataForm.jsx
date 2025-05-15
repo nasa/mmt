@@ -204,7 +204,6 @@ const MetadataForm = () => {
         metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId: fetchedMetadataProviderId || providerId,
-        // TODO pull this version number from a config
         ummVersion: getUmmVersion(derivedConceptType)
       },
       onCompleted: (mutationData) => {

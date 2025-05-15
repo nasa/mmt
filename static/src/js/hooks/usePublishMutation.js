@@ -32,13 +32,10 @@ const usePublishMutation = (queryName) => {
     conceptType,
     nativeId
   ) => {
-    // Can be removed once CMR-10545 is complete
-    const publishNativeId = conceptType === 'Visualization' ? `MMT_${crypto.randomUUID()}` : nativeId
-
     await publishDraftMutation({
       variables: {
         draftConceptId: conceptId,
-        nativeId: publishNativeId,
+        nativeId,
         ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getPublishedData) => {
