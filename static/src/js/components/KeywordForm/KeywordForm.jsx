@@ -2,6 +2,7 @@ import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
@@ -25,6 +26,8 @@ const KeywordForm = ({
   const [formData, setFormData] = useState(initialData)
   const [showModal, setShowModal] = useState(false)
   const [userNote, setUserNote] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
+  const [savingError, setSavingError] = useState(null)
 
   useEffect(() => {
     setFormData(initialData)
@@ -53,11 +56,19 @@ const KeywordForm = ({
   }
 
   const handleFinalSubmit = async () => {
-    const rdfData = convertFormDataToRdf(formData)
-    console.log('Form submitted:', rdfData, 'User note:', userNote) //// TODO
-    await createUpdateKmsConcept(rdfData, userNote, version, scheme)
-    setShowModal(false)
-    setUserNote('')
+    setIsSaving(true)
+    setSavingError(null)
+    try {
+      const rdfData = convertFormDataToRdf(formData)
+      console.log('Form submitted:', rdfData, 'User note:', userNote) /// / TODO
+      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      setShowModal(false)
+      setUserNote('')
+    } catch (error) {
+      setSavingError(error.message)
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -102,6 +113,17 @@ const KeywordForm = ({
                 rows={4}
                 className="form-control"
               />
+              {
+                isSaving && (
+                  <div className="text-primary mt-2">
+                    <Spinner animation="border" size="sm" />
+                    {' '}
+                    Saving...
+                  </div>
+                )
+              }
+              {savingError && <div className="text-danger mt-2">{savingError}</div>}
+
             </div>
           )
         }
@@ -110,12 +132,14 @@ const KeywordForm = ({
             {
               label: 'Cancel',
               variant: 'secondary',
-              onClick: () => setShowModal(false)
+              onClick: () => setShowModal(false),
+              disabled: isSaving
             },
             {
               label: 'Save',
               variant: 'primary',
-              onClick: handleFinalSubmit
+              onClick: handleFinalSubmit,
+              disabled: isSaving
             }
           ]
         }
