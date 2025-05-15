@@ -81,7 +81,9 @@ const CustomTextWidget = ({
 
   // Handle the field losing focus
   const handleBlur = () => {
-    setFocusField(null)
+    if (setFocusField) {
+      setFocusField(null)
+    }
 
     onBlur(id)
   }

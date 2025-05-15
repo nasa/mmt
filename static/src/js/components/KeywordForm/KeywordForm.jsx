@@ -3,6 +3,7 @@ import validator from '@rjsf/validator-ajv8'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
 import CustomFieldTemplate from '@/js/components/CustomFieldTemplate/CustomFieldTemplate'
 import CustomTextareaWidget from '@/js/components/CustomTextareaWidget/CustomTextareaWidget'
@@ -11,6 +12,8 @@ import GridLayout from '@/js/components/GridLayout/GridLayout'
 import editKeywordsUiSchema from '@/js/schemas/uiSchemas/keywords/editKeyword'
 import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
+import { convertFormDataToRdf } from '@/js/utils/convertFormDataToRdf'
+import { createUpdateKmsConcept } from '@/js/utils/createUpdateKmsConcept'
 import KmsConceptSelectionWidget from '../KmsConceptSelectionWidget/KmsConceptSelectionWidget'
 
 const KeywordForm = ({
@@ -20,6 +23,8 @@ const KeywordForm = ({
   version
 }) => {
   const [formData, setFormData] = useState(initialData)
+  const [showModal, setShowModal] = useState(false)
+  const [userNote, setUserNote] = useState('')
 
   useEffect(() => {
     setFormData(initialData)
@@ -43,10 +48,17 @@ const KeywordForm = ({
     onFormDataChange(newFormData)
   }
 
-  // Handlesubmit to be completed in MMT-4003
-  // const handleSubmit = ({ submitFormData }) => {
-  //   console.log('Form submitted:', submitFormData)
-  // }
+  const handleSubmit = () => {
+    setShowModal(true)
+  }
+
+  const handleFinalSubmit = async () => {
+    const rdfData = convertFormDataToRdf(formData)
+    console.log('Form submitted:', rdfData, 'User note:', userNote) //// TODO
+    await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+    setShowModal(false)
+    setUserNote('')
+  }
 
   return (
     <div className="keyword-form">
@@ -65,7 +77,7 @@ const KeywordForm = ({
             version
           }
         }
-        // OnSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         validator={validator}
       >
         <div className="d-flex justify-content-end mt-4">
@@ -74,6 +86,40 @@ const KeywordForm = ({
           </button>
         </div>
       </Form>
+      <CustomModal
+        show={showModal}
+        toggleModal={() => setShowModal(false)}
+        header="User Note"
+        message={
+          (
+            <div>
+              <label htmlFor="userNote" className="form-label">Add a user note for your change (optional):</label>
+              <textarea
+                id="userNote"
+                value={userNote}
+                onChange={(e) => setUserNote(e.target.value)}
+                placeholder="Enter user note"
+                rows={4}
+                className="form-control"
+              />
+            </div>
+          )
+        }
+        actions={
+          [
+            {
+              label: 'Cancel',
+              variant: 'secondary',
+              onClick: () => setShowModal(false)
+            },
+            {
+              label: 'Save',
+              variant: 'primary',
+              onClick: handleFinalSubmit
+            }
+          ]
+        }
+      />
     </div>
   )
 }

@@ -291,7 +291,9 @@ KeywordTree.defaultProps = {
   searchTerm: null,
   selectedNodeId: null,
   showContextMenu: true,
-  openAll: false
+  openAll: false,
+  onAddNarrower: null,
+  onNodeEdit: null
 }
 
 KeywordTree.propTypes = {
@@ -300,9 +302,9 @@ KeywordTree.propTypes = {
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
   ]).isRequired,
-  onAddNarrower: PropTypes.func.isRequired,
+  onAddNarrower: PropTypes.func,
   onNodeClick: PropTypes.func.isRequired,
-  onNodeEdit: PropTypes.func.isRequired,
+  onNodeEdit: PropTypes.func,
   searchTerm: PropTypes.string,
   showContextMenu: PropTypes.bool,
   openAll: PropTypes.bool
