@@ -60,8 +60,7 @@ const KeywordForm = ({
     setSavingError(null)
     try {
       const rdfData = convertFormDataToRdf(formData)
-      console.log('Form submitted:', rdfData, 'User note:', userNote) /// / TODO
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
       setShowModal(false)
       setUserNote('')
     } catch (error) {

@@ -185,8 +185,7 @@ describe('when the form is submitted', () => {
         rdf: true
       }, // Mocked result of convertFormDataToRdf
       '',
-      { version: 'draft' },
-      { name: 'sciencekeywords' }
+      { version: 'draft' }
     )
   })
 

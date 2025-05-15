@@ -35,14 +35,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({ ok: true })
 
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=test%20user%20note',
+        'http://kms.example.com/concept?version=1.0&userNote=test%20user%20note',
         expect.anything()
       )
     })
@@ -54,14 +53,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({ ok: true })
 
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=test%20%26%20user%20note',
+        'http://kms.example.com/concept?version=1.0&userNote=test%20%26%20user%20note',
         expect.anything()
       )
     })
@@ -73,14 +71,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({ ok: true })
 
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=testScheme',
+        'http://kms.example.com/concept?version=1.0',
         expect.anything()
       )
     })
@@ -94,14 +91,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({ ok: true })
 
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=user%20note',
+        'http://kms.example.com/concept?version=1.0&userNote=user%20note',
         expect.objectContaining({
           method: 'PUT',
           body: rdfData
@@ -116,14 +112,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'published'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({ ok: true })
 
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      await createUpdateKmsConcept(rdfData, userNote, version)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=published&scheme=testScheme&userNote=user%20note',
+        'http://kms.example.com/concept?version=published&userNote=user%20note',
         expect.anything()
       )
     })
@@ -137,14 +132,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       global.fetch.mockResolvedValueOnce({
         ok: false,
         status: 400
       })
 
-      await expect(createUpdateKmsConcept(rdfData, userNote, version, scheme))
+      await expect(createUpdateKmsConcept(rdfData, userNote, version))
         .rejects.toThrow('createUpdateKmsConcept HTTP error! status: 400')
     })
   })
@@ -157,14 +151,13 @@ describe('createUpdateKmsConcept', () => {
         version: '1.0',
         version_type: 'draft'
       }
-      const scheme = { name: 'testScheme' }
 
       const error = new Error('Unexpected error')
       global.fetch.mockRejectedValueOnce(error)
 
       console.error = vi.fn()
 
-      await expect(createUpdateKmsConcept(rdfData, userNote, version, scheme))
+      await expect(createUpdateKmsConcept(rdfData, userNote, version))
         .rejects.toThrow('Unexpected error')
 
       expect(console.error).toHaveBeenCalledWith('Error in createUpdateKmsConcept:', error)
