@@ -32,10 +32,22 @@ const usePublishMutation = (queryName) => {
     conceptType,
     nativeId
   ) => {
+    // Can be removed once CMR-10545 is complete
+    let publishNativeId = nativeId
+
+    if (conceptType === 'Visualization') {
+      // Remove '-draft' from the end of nativeId if it exists
+      publishNativeId = nativeId.endsWith('-draft')
+        ? nativeId.slice(0, -6)
+        : nativeId
+    }
+
+    console.log('🚀 ~ usePublishMutation ~ publishNativeId:', publishNativeId)
+
     await publishDraftMutation({
       variables: {
         draftConceptId: conceptId,
-        nativeId,
+        nativeId: publishNativeId,
         ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getPublishedData) => {
