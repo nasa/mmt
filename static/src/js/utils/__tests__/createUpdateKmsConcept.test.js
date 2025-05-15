@@ -8,7 +8,6 @@ import {
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 import { createUpdateKmsConcept } from '../createUpdateKmsConcept'
 
-// Mock the getApplicationConfig function
 vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
@@ -18,12 +17,73 @@ beforeEach(() => {
   vi.mocked(getApplicationConfig).mockReturnValue({ kmsHost: 'http://kms.example.com' })
 })
 
+const originalConsoleError = console.error
+beforeAll(() => {
+  console.error = vi.fn()
+})
+
+afterAll(() => {
+  console.error = originalConsoleError
+})
+
 describe('createUpdateKmsConcept', () => {
-  beforeEach(() => {
-    // Clear all mocks before each test
-    vi.clearAllMocks()
-    // Reset fetch mock
-    global.fetch = vi.fn()
+  describe('When userNote is provided', () => {
+    it('should include userNote in the endpoint URL', async () => {
+      const rdfData = 'some rdf data'
+      const userNote = 'test user note'
+      const version = {
+        version: '1.0',
+        version_type: 'draft'
+      }
+      const scheme = { name: 'testScheme' }
+
+      global.fetch.mockResolvedValueOnce({ ok: true })
+
+      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=test%20user%20note',
+        expect.anything()
+      )
+    })
+
+    it('should properly encode userNote in the URL', async () => {
+      const rdfData = 'some rdf data'
+      const userNote = 'test & user note'
+      const version = {
+        version: '1.0',
+        version_type: 'draft'
+      }
+      const scheme = { name: 'testScheme' }
+
+      global.fetch.mockResolvedValueOnce({ ok: true })
+
+      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=test%20%26%20user%20note',
+        expect.anything()
+      )
+    })
+
+    it('should not include userNote in the URL when it is not provided', async () => {
+      const rdfData = 'some rdf data'
+      const userNote = ''
+      const version = {
+        version: '1.0',
+        version_type: 'draft'
+      }
+      const scheme = { name: 'testScheme' }
+
+      global.fetch.mockResolvedValueOnce({ ok: true })
+
+      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        'http://kms.example.com/concept?version=1.0&scheme=testScheme',
+        expect.anything()
+      )
+    })
   })
 
   describe('When called with valid parameters', () => {
@@ -41,11 +101,10 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(rdfData, userNote, version, scheme)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=testScheme',
+        'http://kms.example.com/concept?version=1.0&scheme=testScheme&userNote=user%20note',
         expect.objectContaining({
           method: 'PUT',
-          body: rdfData,
-          userNote: 'user note'
+          body: rdfData
         })
       )
     })
@@ -64,7 +123,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(rdfData, userNote, version, scheme)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=published&scheme=testScheme',
+        'http://kms.example.com/concept?version=published&scheme=testScheme&userNote=user%20note',
         expect.anything()
       )
     })
