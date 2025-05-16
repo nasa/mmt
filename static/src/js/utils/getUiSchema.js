@@ -2,6 +2,7 @@ import collectionsUiSchema from '../schemas/uiSchemas/collections'
 import serviceUiSchema from '../schemas/uiSchemas/services'
 import toolsUiSchema from '../schemas/uiSchemas/tools'
 import variableUiSchema from '../schemas/uiSchemas/variables'
+import visualizationUiSchema from '../schemas/uiSchemas/visualizations'
 
 /**
  * Returns the UI Schema of the provided conceptType
@@ -17,6 +18,8 @@ const getUiSchema = (conceptType) => {
       return toolsUiSchema
     case 'Variable':
       return variableUiSchema
+    case 'Visualization':
+      return visualizationUiSchema
     default:
       return null
   }

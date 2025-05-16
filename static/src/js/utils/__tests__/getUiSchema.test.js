@@ -1,7 +1,9 @@
-import collectionUiSchema from '../../schemas/uiSchemas/collections'
-import serviceUiSchema from '../../schemas/uiSchemas/services'
-import toolsUiSchema from '../../schemas/uiSchemas/tools'
-import variableUiSchema from '../../schemas/uiSchemas/variables'
+import collectionUiSchema from '@/js/schemas/uiSchemas/collections'
+import serviceUiSchema from '@/js/schemas/uiSchemas/services'
+import toolsUiSchema from '@/js/schemas/uiSchemas/tools'
+import variableUiSchema from '@/js/schemas/uiSchemas/variables'
+import visualizationUiSchema from '@/js/schemas/uiSchemas/visualizations'
+
 import getUiSchema from '../getUiSchema'
 
 describe('getUiSchema', () => {
@@ -26,6 +28,12 @@ describe('getUiSchema', () => {
   describe('when the concept type is collection-draft', () => {
     test('returns the UMM-C schema', () => {
       expect(getUiSchema('Collection')).toEqual(collectionUiSchema)
+    })
+  })
+
+  describe('when the concept type is visualization-draft', () => {
+    test('returns the UMM-VIS schema', () => {
+      expect(getUiSchema('Visualization')).toEqual(visualizationUiSchema)
     })
   })
 
