@@ -36,10 +36,9 @@ describe('when publishKmsConceptVersion', () => {
     await expect(publishKmsConceptVersion('Version 1.0')).resolves.not.toThrow()
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://test-kms-host.com/publish',
+      'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST',
-        body: JSON.stringify({ name: 'Version_1.0' })
+        method: 'POST'
       }
     )
   })
@@ -63,16 +62,28 @@ describe('when publishKmsConceptVersion', () => {
     expect(consoleErrorSpy).toHaveBeenCalled()
   })
 
-  test('should trim and process version string correctly', async () => {
+  test('should trim, process and encode version string correctly', async () => {
     fetchMock.mockResolvedValueOnce({ ok: true })
 
     await publishKmsConceptVersion('  Version  1.0  ')
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://test-kms-host.com/publish',
+      'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST',
-        body: JSON.stringify({ name: 'Version_1.0' })
+        method: 'POST'
+      }
+    )
+  })
+
+  test('should handle special characters in version string', async () => {
+    fetchMock.mockResolvedValueOnce({ ok: true })
+
+    await publishKmsConceptVersion('Version 1.0 (Special)')
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://test-kms-host.com/publish?name=Version_1.0_(Special)',
+      {
+        method: 'POST'
       }
     )
   })
