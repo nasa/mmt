@@ -162,10 +162,13 @@ describe('when the form is submitted', () => {
 
   test('should call createUpdateKmsConcept when final save is clicked', async () => {
     const user = userEvent.setup()
+    const scheme = { name: 'sciencekeywords' }
+    const version = { version: 'draft' }
+
     render(<KeywordForm
       initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
+      scheme={scheme}
+      version={version}
     />)
 
     // Click the form's Save button
@@ -185,7 +188,8 @@ describe('when the form is submitted', () => {
         rdf: true
       }, // Mocked result of convertFormDataToRdf
       '',
-      { version: 'draft' }
+      version,
+      scheme
     )
   })
 
@@ -210,10 +214,13 @@ describe('when the form is submitted', () => {
     const user = userEvent.setup()
     createUpdateKmsConcept.mockRejectedValueOnce(new Error('Save failed'))
 
+    const scheme = { name: 'sciencekeywords' }
+    const version = { version: 'draft' }
+
     render(<KeywordForm
       initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
+      scheme={scheme}
+      version={version}
     />)
 
     // Find the Save button within the form
