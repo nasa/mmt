@@ -42,8 +42,6 @@ const usePublishMutation = (queryName) => {
         : nativeId
     }
 
-    console.log('🚀 ~ usePublishMutation ~ publishNativeId:', publishNativeId)
-
     await publishDraftMutation({
       variables: {
         draftConceptId: conceptId,

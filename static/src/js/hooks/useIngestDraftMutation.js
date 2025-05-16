@@ -23,7 +23,8 @@ const useIngestDraftMutation = () => {
     let draftNativeId = nativeId
 
     if (conceptType === 'Visualization') {
-      // Add '-draft' to the end of nativeId if it doesn't already end with it
+      // Add '-draft' to the end of nativeId if it doesn't already end with it.
+      // Can be removed after CMR-10545 is complete
       draftNativeId = nativeId.endsWith('-draft')
         ? nativeId
         : `${nativeId}-draft`
