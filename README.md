@@ -6,7 +6,7 @@ The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are
 
 ### Requirements
 
-- Ruby 3.0.6
+- Ruby 3.3.8
 
 ### Setup
 
