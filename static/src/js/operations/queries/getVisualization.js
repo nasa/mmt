@@ -16,6 +16,13 @@ export const GET_VISUALIZATION = gql`
       revisions {
         count
       }
+      collections {
+        count
+        items {
+          conceptId
+          title
+        }
+      }
       scienceKeywords
       spatialExtent
       specification
