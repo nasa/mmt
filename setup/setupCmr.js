@@ -580,7 +580,8 @@ const insertMetadata = async () => {
       let url
       const headers = {
         'Content-Type': contentType,
-        Authorization: systemToken
+        Authorization: systemToken,
+        'Cmr-Validate-Keywords': 'false'
       }
 
       if (collectionUri.includes('EDF_DEV06')) {

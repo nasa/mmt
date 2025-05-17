@@ -3631,3 +3631,214 @@ export const mockVariableDraft = {
   __typename: 'Draft'
 
 }
+
+export const mockVisualizationDraft = {
+  conceptId: 'VISD000000-MMT',
+  conceptType: 'visualization-draft',
+  deleted: false,
+  name: 'Visualization Draft Preview Test',
+  description: 'MODIS Terra Corrected Reflectance True Color imagery shows land surface, ocean and atmospheric features by combining three different channels (bands) of the sensor data. The image has been enhanced through processing, including atmospheric correction for aerosols, to improve the visual depiction of the land surface while maintaining realistic colors.',
+  generation: {
+    sourceProjection: 'EPSG:4326',
+    sourceResolution: 'Native',
+    sourceFormat: 'GeoTIFF',
+    sourceColorModel: 'Full-Color RGB',
+    sourceCoverage: 'Granule',
+    outputProjection: 'EPSG:4326',
+    outputResolution: '250m',
+    outputFormat: 'JPEG'
+  },
+  identifier: 'MODIS_Terra_CorrectedReflectance_TrueColor',
+  metadataSpecification: {
+    url: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+    name: 'Visualization',
+    version: '1.1.0'
+  },
+  pageTitle: 'MODIS_Terra_Corrected_Reflectance_TrueColor',
+  nativeId: 'edsCoolVisualization',
+  providerId: 'LARC',
+  revisionDate: '2025-05-17T01:21:05.615Z',
+  revisionId: '1',
+  previewMetadata: {
+    conceptId: 'VISD0000000000-CMR',
+    description: 'Draft test description',
+    generation: {},
+    identifier: 'Extra Data',
+    metadataSpecification: {
+      url: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+      name: 'Visualization',
+      version: '1.1.0'
+    },
+    pageTitle: 'Creating Test 3',
+    nativeId: 'Visualization-1303',
+    providerId: 'MMT_1',
+    revisionDate: '2025-04-25T17:25:17.825Z',
+    revisionId: '1',
+    scienceKeywords: null,
+    spatialExtent: null,
+    specification: {},
+    subtitle: null,
+    temporalExtents: null,
+    title: 'Draft test title',
+    ummMetadata: null,
+    visualizationType: 'tiles',
+    __typename: 'Visualization'
+  },
+  ummMetadata: {
+    ConceptIds: [
+      {
+        Type: 'STD',
+        Value: 'C1000000001-EARTHDATA',
+        DataCenter: 'MODAPS',
+        ShortName: 'MODIS_Terra_CorrectedReflectance',
+        Title: 'MODIS/Terra Corrected Reflectance True Color',
+        Version: '6.1'
+      }
+    ],
+    SpatialExtent: {
+      GranuleSpatialRepresentation: 'GEODETIC',
+      HorizontalSpatialDomain: {
+        Geometry: {
+          CoordinateSystem: 'GEODETIC',
+          BoundingRectangles: [
+            {
+              WestBoundingCoordinate: -180,
+              NorthBoundingCoordinate: 90,
+              EastBoundingCoordinate: 180,
+              SouthBoundingCoordinate: -90
+            }
+          ]
+        }
+      }
+    },
+    VisualizationType: 'tiles',
+    Title: 'MODIS Terra Corrected Reflectance (True Color)',
+    ScienceKeywords: [
+      {
+        Category: 'EARTH SCIENCE',
+        Topic: 'SPECTRAL/ENGINEERING',
+        Term: 'VISIBLE WAVELENGTHS',
+        VariableLevel1: 'REFLECTANCE'
+      },
+      {
+        Category: 'EARTH SCIENCE',
+        Topic: 'ATMOSPHERIC OPTICS',
+        Term: 'ATMOSPHERIC TRANSMITTANCE',
+        VariableLevel1: 'ATMOSPHERIC TRANSPARENCY'
+      }
+    ],
+    TemporalExtents: [
+      {
+        RangeDateTimes: [
+          {
+            BeginningDateTime: '2002-05-01T00:00:00Z',
+            EndingDateTime: '2023-12-31T23:59:59Z'
+          }
+        ],
+        EndsAtPresentFlag: true
+      }
+    ],
+    Specification: {
+      ProductIdentification: {
+        InternalIdentifier: 'MODIS_Terra_CorrectedReflectance_TrueColor',
+        StandardOrNRTExternalIdentifier: 'MODIS_Terra_CorrectedReflectance_TrueColor',
+        BestAvailableExternalIdentifier: 'MODIS_Terra_CorrectedReflectance',
+        GIBSTitle: 'Corrected Reflectance (True Color)',
+        WorldviewTitle: 'Corrected Reflectance (True Color)',
+        WorldviewSubtitle: 'Terra / MODIS'
+      },
+      ProductMetadata: {
+        ParameterUnits: [
+          null
+        ],
+        InternalIdentifier: 'MODIS_Terra_CorrectedReflectance_TrueColor',
+        SourceDatasets: [
+          'C1000000001-EARTHDATA'
+        ],
+        TemporalCoverage: '2002-05-01/P1D',
+        RepresentingDatasets: [
+          'C1000000001-EARTHDATA'
+        ],
+        'wmts:Dimension': {
+          Identifier: 'Time',
+          UOM: 'ISO8601',
+          Default: '2023-12-31',
+          Current: true,
+          Value: [
+            '2002-05-01/2023-12-31/P1D'
+          ]
+        },
+        OrbitDirection: [
+          'descending'
+        ],
+        Measurement: 'Corrected Reflectance',
+        ScienceParameters: [
+          'reflectance'
+        ],
+        AscendingOrDescending: 'Both',
+        Daynight: [
+          'day'
+        ],
+        NativeSpatialCoverage: [
+          -90,
+          -180,
+          90,
+          180
+        ],
+        'wmts:Format': [
+          'image/jpeg'
+        ],
+        UpdateInterval: 180,
+        OrbitTracks: [
+          'OrbitTracks_Terra_Descending'
+        ],
+        LayerPeriod: 'Daily',
+        Ongoing: true,
+        'ows:Metadata': [
+          {
+            'xlink:Href': 'https://gibs.earthdata.nasa.gov/colormaps/v1.3/MODIS_Corrected_Reflectance_TrueColor.xml',
+            'xlink:Role': 'http://earthdata.nasa.gov/gibs/metadata-type/colormap/1.3',
+            'xlink:Title': 'GIBS Color Map: Data - RGB Mapping',
+            'xlink:Type': 'simple'
+          }
+        ],
+        'ows:Identifier': 'MODIS_Terra_CorrectedReflectance_TrueColor',
+        WGS84SpatialCoverage: [
+          -90,
+          -180,
+          90,
+          180
+        ],
+        GranuleOrComposite: 'Granule',
+        ColorMap: 'MODIS_Corrected_Reflectance_TrueColor',
+        DataDayBreak: '00:00:00Z',
+        VisualizationLatency: '4 hours',
+        'wmts:TileMatrixSetLink': {
+          TileMatrixSet: '250m'
+        },
+        RetentionPeriod: 365
+      }
+    },
+    Generation: {
+      SourceProjection: 'EPSG:4326',
+      SourceResolution: 'Native',
+      SourceFormat: 'GeoTIFF',
+      SourceColorModel: 'Full-Color RGB',
+      SourceCoverage: 'Granule',
+      OutputProjection: 'EPSG:4326',
+      OutputResolution: '250m',
+      OutputFormat: 'JPEG'
+    },
+    Description: 'MODIS Terra Corrected Reflectance True Color imagery shows land surface, ocean and atmospheric features by combining three different channels (bands) of the sensor data. The image has been enhanced through processing, including atmospheric correction for aerosols, to improve the visual depiction of the land surface while maintaining realistic colors.',
+    Subtitle: 'Terra / MODIS',
+    Name: 'MODIS_Terra_Corrected_Reflectance_TrueColor',
+    Identifier: 'MODIS_Terra_CorrectedReflectance_TrueColor',
+    MetadataSpecification: {
+      URL: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+      Name: 'Visualization',
+      Version: '1.1.0'
+    }
+  },
+  visualizationType: 'tiles',
+  __typename: 'Visualization'
+}
