@@ -1,5 +1,6 @@
 export const mockCollection = {
   abstract: "The 2012 Environmental Performance Index (EPI) ranks 132 countries on 22 performance indicators in the following 10 policy categories:  environmental burden of disease, water (effects on human health), air pollution (effects on human health), air pollution (ecosystem effects), water resources (ecosystem effects), biodiversity and habitat, forestry, fisheries, agriculture and climate change. These categories track performance and progress on two broad policy objectives, environmental health and ecosystem vitality. Each indicator has an associated environmental public health or ecosystem sustainability target. The EPI's proximity-to-target methodology facilitates cross-country comparisons among economic and regional peer groups.\n\n\n\n\nThe Pilot Trend Environmental Performance Index (Trend EPI) ranks countries on the change in their environmental performance over the last decade. As a complement to the EPI, the Trend EPI shows who is improving and who is declining over time.\n\n\n\n\nThe 2012 EPI and Pilot Trend EPI were formally released in Davos, Switzerland, at the annual meeting of the World Economic Forum on January 27, 2012. These are the result of collaboration between the Yale Center for Environmental Law and Policy (YCELP) and the Columbia University Center for International Earth Science Information Network (CIESIN). The Interactive Website for the 2012 EPI is at http://epi.yale.edu/.",
+  associationDetails: [],
   accessConstraints: {
     description: 'None'
   },
@@ -1652,6 +1653,7 @@ export const mockCollectionWithAssociatedVariables = {
     ]
   },
   associatedDois: null,
+  associationDetails: [],
   collectionCitations: null,
   collectionProgress: 'COMPLETE',
   conceptId: 'C1200000104-MMT_2',
