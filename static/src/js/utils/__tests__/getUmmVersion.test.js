@@ -1,4 +1,5 @@
-import { getUmmVersionsConfig } from '../../../../../sharedUtils/getConfig'
+import { getUmmVersionsConfig } from 'sharedUtils/getConfig'
+
 import getUmmVersion from '../getUmmVersion'
 
 const ummVersion = getUmmVersionsConfig()
@@ -27,8 +28,14 @@ describe('getUmmVersion', () => {
     })
   })
 
-  describe('when the concept type is Collection', () => {
-    test('returns correct UMM-C version', () => {
+  describe('when the concept type is Visualization', () => {
+    test('returns correct UMM-VIS version', () => {
+      expect(getUmmVersion('Visualization')).toEqual(ummVersion.ummVis)
+    })
+  })
+
+  describe('when the concept type is a bad name', () => {
+    test('returns null', () => {
       expect(getUmmVersion('bad-name')).toEqual(null)
     })
   })

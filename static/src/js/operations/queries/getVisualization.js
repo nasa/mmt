@@ -20,7 +20,7 @@ export const GET_VISUALIZATION = gql`
       spatialExtent
       specification
       subtitle
-      temporalExtent
+      temporalExtents
       title
       ummMetadata
       visualizationType
