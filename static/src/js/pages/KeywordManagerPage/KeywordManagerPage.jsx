@@ -6,7 +6,8 @@ import React, {
 import {
   Col,
   Row,
-  Form
+  Form,
+  Spinner
 } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
@@ -54,9 +55,9 @@ const KeywordManagerPage = () => {
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [newVersionName, setNewVersionName] = useState('')
   const [publishError, setPublishError] = useState(null)
-  const [publishSuccess, setPublishSuccess] = useState(false)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
-  const [isPublishDisabled, setIsPublishDisabled] = useState(false)
+  const [showPublishingModal, setShowPublishingModal] = useState(false)
+  const [versionSelectorKey, setVersionSelectorKey] = useState(0)
 
   /**
    * Opens the modal for publishing a new keyword version.
@@ -74,13 +75,23 @@ const KeywordManagerPage = () => {
    * If unsuccessful, displays an error message.
    */
   const handlePublishVersion = async () => {
+    setShowPublishModal(false)
+    setShowPublishingModal(true)
+    setPublishError(null)
     try {
       await publishKmsConceptVersion(newVersionName)
-      setShowPublishModal(false)
-      setPublishSuccess(true)
-      setIsPublishDisabled(true)
+      // Refresh the screen
+      setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
+      setSelectedVersion(null)
+      setSelectedScheme(null)
+      setTreeData(null)
+      setSelectedKeywordData(null)
+      setShowKeywordForm(false)
+      setTreeMessage('Select a version and scheme to load the tree')
     } catch (error) {
       setPublishError('Error publishing new keyword version. Please try again in few minutes.')
+    } finally {
+      setShowPublishingModal(false)
     }
   }
 
@@ -206,6 +217,15 @@ const KeywordManagerPage = () => {
       onClick: handleCloseWarning
     }
   ]
+
+  const renderPublishStatus = () => {
+    if (publishError) {
+      return <div className="text-danger mt-2">{publishError}</div>
+    }
+
+    return null
+  }
+
   /**
    * Renders the content based on the current state
    * @returns {JSX.Element} The rendered content
@@ -279,8 +299,7 @@ const KeywordManagerPage = () => {
                   iconTitle: 'A plus icon',
                   title: 'Publish New Keyword Version',
                   onClick: handleOpenPublishModal,
-                  variant: 'success',
-                  disabled: isPublishDisabled
+                  variant: 'success'
                 }
               ]
             }
@@ -300,7 +319,11 @@ const KeywordManagerPage = () => {
           <Row className="mb-4">
             <Col>
               <div className="rounded p-3">
-                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+                <KmsConceptVersionSelector
+                  onVersionSelect={onVersionSelect}
+                  id="version-selector"
+                  key={versionSelectorKey}
+                />
               </div>
             </Col>
           </Row>
@@ -363,7 +386,7 @@ const KeywordManagerPage = () => {
                   placeholder="Enter version"
                 />
               </Form.Group>
-              {publishError && <div className="text-danger mt-2">{publishError}</div>}
+              {renderPublishStatus()}
             </>
           )
         }
@@ -382,20 +405,20 @@ const KeywordManagerPage = () => {
           ]
         }
       />
+
       <CustomModal
-        show={publishSuccess}
-        toggleModal={() => setPublishSuccess(false)}
-        header="Success"
-        message={`Initiated new published version ${newVersionName}. Refresh browser after a few minutes to see the new published version.`}
-        actions={
-          [
-            {
-              label: 'OK',
-              variant: 'primary',
-              onClick: () => setPublishSuccess(false)
-            }
-          ]
+        show={showPublishingModal}
+        toggleModal={() => {}}
+        header="Publishing New Version"
+        message={
+          (
+            <div className="text-center">
+              <Spinner animation="border" role="status" className="mb-2" />
+              <p>Publishing...</p>
+            </div>
+          )
         }
+        actions={[]}
       />
 
     </Page>
