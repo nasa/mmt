@@ -75,10 +75,9 @@ const KeywordManagerPage = () => {
    * If unsuccessful, displays an error message.
    */
   const handlePublishVersion = async () => {
-    setShowPublishModal(false)
-    setShowPublishingModal(true)
     setPublishError(null)
     try {
+      setShowPublishingModal(true)
       await publishKmsConceptVersion(newVersionName)
       // Refresh the screen
       setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
@@ -88,8 +87,9 @@ const KeywordManagerPage = () => {
       setSelectedKeywordData(null)
       setShowKeywordForm(false)
       setTreeMessage('Select a version and scheme to load the tree')
+      setShowPublishModal(false) // Close the modal only on success
     } catch (error) {
-      setPublishError('Error publishing new keyword version. Please try again in few minutes.')
+      setPublishError('Error publishing new keyword version. Please try again in a few minutes.')
     } finally {
       setShowPublishingModal(false)
     }

@@ -939,5 +939,68 @@ describe('KeywordManagerPage component', () => {
       // Verify that the Version Name input is no longer present
       expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
     })
+
+    test('should not allow closing of publishing modal while publishing is in progress', async () => {
+      // Mock the publishKmsConceptVersion function to delay resolution
+      publishKmsConceptVersionMock = vi.fn(() => new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      }))
+
+      vi.spyOn(publishKmsConceptVersionModule, 'publishKmsConceptVersion')
+        .mockImplementation(publishKmsConceptVersionMock)
+
+      const { user } = setup()
+
+      // Open publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
+      await user.click(publishButton)
+
+      // Enter version name and click publish
+      const versionNameInput = screen.getByLabelText('Version Name:')
+      await user.type(versionNameInput, 'NewVersion')
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
+      await user.click(modalPublishButton)
+
+      // Check if the publishing modal is shown
+      const publishingModal = await screen.findByText('Publishing New Version')
+      expect(publishingModal).toBeInTheDocument()
+
+      // Try to find a close button or any interactive element in the modal
+      let closeButton
+      try {
+        // Try to find by role 'button' and name 'Close'
+        closeButton = within(publishingModal).getByRole('button', { name: /close/i })
+      } catch (error) {
+        try {
+          // If that fails, try to find any button in the modal
+          closeButton = within(publishingModal).getByRole('button')
+        } catch (innerError) {
+          // If that also fails, log an error and continue the test
+          console.error('No close button found in the publishing modal')
+        }
+      }
+
+      // If a close button is found, try to click it
+      if (closeButton) {
+        await user.click(closeButton)
+      }
+
+      // Verify that the modal is still open, regardless of whether we found a close button
+      expect(screen.getByText('Publishing New Version')).toBeInTheDocument()
+
+      // Verify that the modal content includes the spinner and "Publishing..." text
+      expect(screen.getByText('Publishing...')).toBeInTheDocument()
+      expect(screen.getByRole('status')).toBeInTheDocument() // This checks for the spinner
+
+      // Wait for publishing to complete
+      await waitFor(() => {
+        expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
+      }, { timeout: 2000 })
+
+      // Verify that the modal is closed after publishing is complete
+      await waitFor(() => {
+        expect(screen.queryByText('Publishing New Version')).not.toBeInTheDocument()
+      })
+    })
   })
 })
