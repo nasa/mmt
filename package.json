@@ -140,7 +140,7 @@
     "webpack-dev-server": "^4.11.1",
     "serialize-javascript": "^6.0.2",
     "braces": "^3.0.3",
-    "micromatch":"^4.0.6"
+    "micromatch": "^4.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
