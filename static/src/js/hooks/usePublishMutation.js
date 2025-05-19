@@ -45,7 +45,7 @@ const usePublishMutation = (queryName) => {
     await publishDraftMutation({
       variables: {
         draftConceptId: conceptId,
-        nativeId,
+        nativeId: publishNativeId,
         ummVersion: getUmmVersion(conceptType)
       },
       onCompleted: (getPublishedData) => {
