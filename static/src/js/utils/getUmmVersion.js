@@ -16,6 +16,8 @@ const getUmmVersion = (conceptType) => {
       return ummVersion.ummT
     case 'Variable':
       return ummVersion.ummV
+    case 'Visualization':
+      return ummVersion.ummVis
     default:
       return null
   }
