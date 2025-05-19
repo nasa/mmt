@@ -408,7 +408,6 @@ const KeywordManagerPage = () => {
 
       <CustomModal
         show={showPublishingModal}
-        toggleModal={() => {}}
         header="Publishing New Version"
         message={
           (
