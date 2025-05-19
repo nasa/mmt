@@ -63,8 +63,7 @@
       ) %>
 
       <%
-        # country_codes = Carmen::Country.all.sort
-        country_codes = []
+        country_codes = Carmen::Country.all.sort
         country_codes.each do |code|
           if(code.to_s == address['Country'])
             @country = code
