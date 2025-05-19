@@ -26,7 +26,6 @@ const TestComponent = ({ queryName, customNativeId }) => {
   const {
     error, loading, publishDraft, publishMutation
   } = usePublishMutation(queryName)
-  console.log('🚀 ~ TestComponent ~ loading:', loading)
 
   return (
     <div>
