@@ -983,6 +983,12 @@ describe('KeywordManagerPage component', () => {
         expect(screen.getByText('Publishing...')).toBeInTheDocument()
       })
 
+      // Try to close the modal by calling toggleModal
+      mockToggleModal()
+
+      // Verify that the modal is still open
+      expect(screen.getByText('Publishing...')).toBeInTheDocument()
+
       // Wait for publishing to complete
       await waitFor(() => {
         expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
