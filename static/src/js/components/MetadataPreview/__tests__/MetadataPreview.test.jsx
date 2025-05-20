@@ -286,6 +286,7 @@ describe('MetadataPreview', () => {
               version: '1.1.0'
             },
             pageTitle: 'Creating Test 3',
+            name: 'Creating Test 3',
             nativeId: 'Visualization-1303',
             providerId: 'MMT_1',
             revisionDate: '2025-04-25T17:25:17.825Z',
