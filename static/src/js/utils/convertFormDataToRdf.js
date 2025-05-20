@@ -44,7 +44,7 @@ export const convertFormDataToRdf = (formData) => {
       // RDF namespaces and attributes
       '@_xmlns:rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
       '@_xmlns:skos': 'http://www.w3.org/2004/02/skos/core#',
-      '@_xmlns:gcmd': 'http://gcmd.gsfc.nasa.gov/rdf#',
+      '@_xmlns:gcmd': 'https://gcmd.earthdata.nasa.gov/kms#',
       '@_xmlns:dcterms': 'http://purl.org/dc/terms/',
       '@_xml:base': 'https://gcmd.earthdata.nasa.gov/kms/concept/',
       'skos:Concept': {
