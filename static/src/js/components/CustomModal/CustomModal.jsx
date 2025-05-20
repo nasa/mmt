@@ -22,6 +22,7 @@ import Button from '@/js/components/Button/Button'
  * @property {Object} show Determines the state of the modal
  * @property {Object} size A list of actions for the modal
  * @property {Object} toggleModal A list of actions for the modal
+ * @property {Boolean} showCloseButton should close button to be shown
  */
 
 /**
@@ -48,7 +49,8 @@ const CustomModal = ({
   header,
   show,
   size,
-  toggleModal
+  toggleModal,
+  showCloseButton
 }) => (
   <Modal
     show={show}
@@ -65,22 +67,26 @@ const CustomModal = ({
           )
         }
       </div>
-      <Button
-        className="text-secondary p-0"
-        naked
-        variant="link"
-        onClick={
-          () => {
-            toggleModal(false)
-          }
-        }
-        Icon={FaTimes}
-        iconTitle="X icon"
-        iconOnly
-        inline
-      >
-        Close
-      </Button>
+      {
+        showCloseButton && (
+          <Button
+            className="text-secondary p-0"
+            naked
+            variant="link"
+            onClick={
+              () => {
+                toggleModal(false)
+              }
+            }
+            Icon={FaTimes}
+            iconTitle="X icon"
+            iconOnly
+            inline
+          >
+            Close
+          </Button>
+        )
+      }
     </Modal.Header>
     <Modal.Body>{message}</Modal.Body>
     {
@@ -111,7 +117,8 @@ CustomModal.defaultProps = {
   actions: null,
   header: null,
   message: null,
-  size: null
+  size: null,
+  showCloseButton: true
 }
 
 CustomModal.propTypes = {
@@ -130,7 +137,8 @@ CustomModal.propTypes = {
   ]),
   show: PropTypes.bool.isRequired,
   size: PropTypes.string,
-  toggleModal: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired,
+  showCloseButton: PropTypes.bool
 }
 
 export default CustomModal

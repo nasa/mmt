@@ -409,11 +409,12 @@ const KeywordManagerPage = () => {
       <CustomModal
         show={showPublishingModal}
         header="Publishing New Version"
+        showCloseButton={false}
         message={
           (
             <div className="text-center">
               <Spinner animation="border" role="status" className="mb-2" />
-              <p>Publishing...</p>
+              <p>Publishing... Please wait.</p>
             </div>
           )
         }

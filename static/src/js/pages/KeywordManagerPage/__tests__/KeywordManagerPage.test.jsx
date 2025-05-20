@@ -980,14 +980,14 @@ describe('KeywordManagerPage component', () => {
 
       // Check if the publishing modal is shown
       await waitFor(() => {
-        expect(screen.getByText('Publishing...')).toBeInTheDocument()
+        expect(screen.getByText('Publishing... Please wait.')).toBeVisible()
       })
 
       // Try to close the modal by calling toggleModal
       mockToggleModal()
 
       // Verify that the modal is still open
-      expect(screen.getByText('Publishing...')).toBeInTheDocument()
+      expect(screen.getByText('Publishing... Please wait.')).toBeVisible()
 
       // Wait for publishing to complete
       await waitFor(() => {
@@ -996,7 +996,7 @@ describe('KeywordManagerPage component', () => {
 
       // Verify that the modal is closed after publishing is complete
       await waitFor(() => {
-        expect(screen.queryByText('Publishing...')).not.toBeInTheDocument()
+        expect(screen.queryByText('Publishing... Please wait.')).not.toBeInTheDocument()
       })
     })
   })
