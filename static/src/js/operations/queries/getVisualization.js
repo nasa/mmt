@@ -8,6 +8,7 @@ export const GET_VISUALIZATION = gql`
       generation
       identifier
       metadataSpecification
+      name,
       pageTitle: name
       nativeId
       providerId
