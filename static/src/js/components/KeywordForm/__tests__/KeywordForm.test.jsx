@@ -53,8 +53,11 @@ vi.mock('@/js/utils/createUpdateKmsConcept', () => ({
 }))
 
 vi.mock('@/js/components/CustomModal/CustomModal', () => ({
-  default: ({ show, message, actions }) => (show ? (
+  default: ({
+    show, message, actions, toggleModal
+  }) => (show ? (
     <div data-testid="custom-modal">
+      <button type="button" data-testid="modal-close-button" onClick={toggleModal}>Close</button>
       {message}
       {
         actions.map((action) => (
@@ -276,6 +279,29 @@ describe('when the modal is open', () => {
 
     // Click the Cancel button
     await user.click(screen.getByRole('button', { name: 'Cancel' }))
+
+    // Verify that the modal is closed
+    await waitFor(() => {
+      expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+    })
+  })
+
+  test('should close the modal when close button is clicked', async () => {
+    const user = userEvent.setup()
+    render(<KeywordForm
+      initialData={mockInitialData}
+      scheme={{ name: 'sciencekeywords' }}
+      version={{ version: 'draft' }}
+    />)
+
+    // Open the modal
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+
+    // Verify that the modal is open
+    expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+
+    // Click the close button
+    await user.click(screen.getByTestId('modal-close-button'))
 
     // Verify that the modal is closed
     await waitFor(() => {

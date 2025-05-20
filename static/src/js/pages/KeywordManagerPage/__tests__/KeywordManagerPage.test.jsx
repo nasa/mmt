@@ -13,8 +13,6 @@ import userEvent from '@testing-library/user-event'
 import * as getKmsKeywordTreeModule from '@/js/utils/getKmsKeywordTree'
 import KeywordManagerPage from '../KeywordManagerPage'
 
-vi.mock('@/js/utils/getKmsKeywordTree')
-
 vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
   KeywordTree: vi.fn((props) => {
     if (!props.data) {
