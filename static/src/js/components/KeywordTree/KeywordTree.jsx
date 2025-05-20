@@ -153,36 +153,6 @@ export const KeywordTree = ({
         title: newNarrowerTitle.trim(),
         children: []
       }
-      // setTreeData((prevData) => {
-      //   const addChildToNode = (node) => {
-      //     if (node.id === addNarrowerParentId || node.key === addNarrowerParentId) {
-      //       return {
-      //         ...node,
-      //         children: [...(node.children || []), newChild],
-      //         isOpen: true
-      //       }
-      //     }
-
-      //     if (node.children) {
-      //       return {
-      //         ...node,
-      //         children: node.children.map(addChildToNode)
-      //       }
-      //     }
-
-      //     return node
-      //   }
-
-      //   return prevData.map(addChildToNode)
-      // })
-
-      // // Expand the parent node
-      // if (treeRef.current) {
-      //   const parentNode = treeRef.current.get(addNarrowerParentId)
-      //   if (parentNode && !parentNode.isOpen) {
-      //     parentNode.toggle()
-      //   }
-      // }
 
       // Notify the parent component about the new keyword
       onAddNarrower(addNarrowerParentId, newChild)

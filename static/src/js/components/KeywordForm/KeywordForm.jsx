@@ -21,7 +21,8 @@ const KeywordForm = ({
   initialData,
   onFormDataChange,
   scheme,
-  version
+  version,
+  onSave
 }) => {
   const [formData, setFormData] = useState(initialData)
   const [showModal, setShowModal] = useState(false)
@@ -63,6 +64,7 @@ const KeywordForm = ({
       await createUpdateKmsConcept(rdfData, userNote, version, scheme)
       setShowModal(false)
       setUserNote('')
+      onSave(formData.KeywordUUID)
     } catch (error) {
       setSavingError(error.message)
     } finally {
@@ -185,7 +187,8 @@ KeywordForm.propTypes = {
   version: PropTypes.shape({
     version: PropTypes.string,
     version_type: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  onSave: PropTypes.func.isRequired
 }
 
 export default KeywordForm

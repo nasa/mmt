@@ -46,6 +46,13 @@ const KeywordManagerPage = () => {
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
+  const [reloadTree, setReloadTree] = useState(false)
+  const [selectedKeywordId, setSelectedKeywordId] = useState(null)
+
+  const handleKeywordSave = useCallback((savedKeywordId) => {
+    setReloadTree((prev) => !prev)
+    setSelectedKeywordId(savedKeywordId)
+  }, [])
   /**
    * Fetches and sets the data for a selected keyword
    * @param {string} uuid - The unique identifier of the keyword
@@ -147,7 +154,7 @@ const KeywordManagerPage = () => {
     } else {
       setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedVersion, selectedScheme])
+  }, [selectedVersion, selectedScheme, reloadTree])
 
   /**
    * Closes the warning modal
@@ -180,6 +187,7 @@ const KeywordManagerPage = () => {
           initialData={selectedKeywordData}
           version={selectedVersion}
           scheme={selectedScheme}
+          onSave={handleKeywordSave}
         />
       )
     }
@@ -199,11 +207,12 @@ const KeywordManagerPage = () => {
     if (treeData) {
       return (
         <KeywordTree
-          key={`${selectedVersion?.version}-${selectedScheme?.name}`}
+          key={`${selectedVersion?.version}-${selectedScheme?.name}-${reloadTree}`}
           data={treeData}
           onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
           onAddNarrower={handleAddNarrower}
+          selectedNodeId={selectedKeywordId}
         />
       )
     }
