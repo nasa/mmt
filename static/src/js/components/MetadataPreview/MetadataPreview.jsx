@@ -3,7 +3,8 @@ import {
   CollectionPreview,
   ServicePreview,
   ToolPreview,
-  VariablePreview
+  VariablePreview,
+  VisualizationPreview
 } from '@edsc/metadata-preview'
 import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
@@ -119,6 +120,16 @@ const MetadataPreview = ({
             <VariablePreview
               cmrHost={cmrHost}
               variable={concept}
+              conceptId={conceptId}
+              conceptType={type}
+            />
+          )
+        }
+        {
+          conceptType === 'Visualization' && (
+            <VisualizationPreview
+              cmrHost={cmrHost}
+              visualization={concept}
               conceptId={conceptId}
               conceptType={type}
             />
