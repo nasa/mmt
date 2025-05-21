@@ -3,7 +3,12 @@ import React, {
   useCallback,
   useEffect
 } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import {
+  Col,
+  Row,
+  Form,
+  Spinner
+} from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
@@ -14,6 +19,7 @@ import KeywordForm from '@/js/components/KeywordForm/KeywordForm'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
+import { publishKmsConceptVersion } from '@/js/utils/publishKmsConceptVersion'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
@@ -25,6 +31,7 @@ import {
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './KeywordManagerPage.scss'
 
@@ -46,6 +53,49 @@ const KeywordManagerPage = () => {
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
+  const [showPublishModal, setShowPublishModal] = useState(false)
+  const [newVersionName, setNewVersionName] = useState('')
+  const [publishError, setPublishError] = useState(null)
+  const [showKeywordForm, setShowKeywordForm] = useState(false)
+  const [showPublishingModal, setShowPublishingModal] = useState(false)
+  const [versionSelectorKey, setVersionSelectorKey] = useState(0)
+  const { tokenValue } = useAuthContext()
+  /**
+   * Opens the modal for publishing a new keyword version.
+   * Resets the new version name and clears any previous publish errors.
+   */
+  const handleOpenPublishModal = () => {
+    setShowPublishModal(true)
+    setNewVersionName('')
+    setPublishError(null)
+  }
+
+  /**
+   * Publishes a new keyword version.
+   * If successful, closes the publish modal, shows a success message.
+   * If unsuccessful, displays an error message.
+   */
+  const handlePublishVersion = async () => {
+    setPublishError(null)
+    try {
+      setShowPublishingModal(true)
+      await publishKmsConceptVersion(newVersionName, tokenValue)
+      // Refresh the screen
+      setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
+      setSelectedVersion(null)
+      setSelectedScheme(null)
+      setTreeData(null)
+      setSelectedKeywordData(null)
+      setShowKeywordForm(false)
+      setTreeMessage('Select a version and scheme to load the tree')
+      setShowPublishModal(false) // Close the modal only on success
+    } catch (error) {
+      setPublishError('Error publishing new keyword version. Please try again in a few minutes.')
+    } finally {
+      setShowPublishingModal(false)
+    }
+  }
+
   /**
    * Fetches and sets the data for a selected keyword
    * @param {string} uuid - The unique identifier of the keyword
@@ -67,10 +117,12 @@ const KeywordManagerPage = () => {
       const rdfData = await response.text()
       const parsedData = createFormDataFromRdf(rdfData)
       setSelectedKeywordData(parsedData)
+      setShowKeywordForm(true)
     } catch (error) {
       errorLogger(error, 'KeywordManagerPage: handleShowKeyword')
       setShowError(error.message)
       setSelectedKeywordData(null)
+      setShowKeywordForm(false)
     } finally {
       setIsLoading(false)
     }
@@ -86,6 +138,7 @@ const KeywordManagerPage = () => {
 
     // Update the selected keyword data with the new keyword
     setSelectedKeywordData(newKeywordData)
+    setShowKeywordForm(true)
   }, [])
   /**
    * Handles the click event on a tree node
@@ -123,6 +176,8 @@ const KeywordManagerPage = () => {
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
     setTreeData(null)
+    setSelectedKeywordData(null)
+    setShowKeywordForm(false)
   }, [])
   /**
    * Handles the selection of a scheme
@@ -131,6 +186,8 @@ const KeywordManagerPage = () => {
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
     setTreeData(null)
+    setSelectedKeywordData(null)
+    setShowKeywordForm(false)
   }, [])
   // Effect to show warning when published version is selected
   useEffect(() => {
@@ -161,6 +218,15 @@ const KeywordManagerPage = () => {
       onClick: handleCloseWarning
     }
   ]
+
+  const renderPublishStatus = () => {
+    if (publishError) {
+      return <div className="text-danger mt-2">{publishError}</div>
+    }
+
+    return null
+  }
+
   /**
    * Renders the content based on the current state
    * @returns {JSX.Element} The rendered content
@@ -174,7 +240,7 @@ const KeywordManagerPage = () => {
       return <ErrorBanner message={showError} />
     }
 
-    if (selectedKeywordData) {
+    if (showKeywordForm && selectedKeywordData) {
       return (
         <KeywordForm
           initialData={selectedKeywordData}
@@ -233,7 +299,7 @@ const KeywordManagerPage = () => {
                   icon: FaPlus,
                   iconTitle: 'A plus icon',
                   title: 'Publish New Keyword Version',
-                  to: 'new',
+                  onClick: handleOpenPublishModal,
                   variant: 'success'
                 }
               ]
@@ -254,7 +320,11 @@ const KeywordManagerPage = () => {
           <Row className="mb-4">
             <Col>
               <div className="rounded p-3">
-                <KmsConceptVersionSelector onVersionSelect={onVersionSelect} id="version-selector" />
+                <KmsConceptVersionSelector
+                  onVersionSelect={onVersionSelect}
+                  id="version-selector"
+                  key={versionSelectorKey}
+                />
               </div>
             </Col>
           </Row>
@@ -300,6 +370,58 @@ const KeywordManagerPage = () => {
         message="You are now viewing the live published keyword version. Changes made to this version will show up on the website right away."
         actions={warningModalActions}
       />
+      <CustomModal
+        show={showPublishModal}
+        toggleModal={() => setShowPublishModal(false)}
+        header="Publish New Keyword Version"
+        message={
+          (
+            <>
+              <Form.Group>
+                <Form.Label htmlFor="newKeywordVersion">Version Name:</Form.Label>
+                <Form.Control
+                  id="newKeywordVersion"
+                  type="text"
+                  value={newVersionName}
+                  onChange={(e) => setNewVersionName(e.target.value)}
+                  placeholder="Enter version"
+                />
+              </Form.Group>
+              {renderPublishStatus()}
+            </>
+          )
+        }
+        actions={
+          [
+            {
+              label: 'Cancel',
+              variant: 'secondary',
+              onClick: () => setShowPublishModal(false)
+            },
+            {
+              label: 'Publish',
+              variant: 'primary',
+              onClick: handlePublishVersion
+            }
+          ]
+        }
+      />
+
+      <CustomModal
+        show={showPublishingModal}
+        header="Publishing New Version"
+        showCloseButton={false}
+        message={
+          (
+            <div className="text-center">
+              <Spinner animation="border" role="status" className="mb-2" />
+              <p>Publishing... Please wait.</p>
+            </div>
+          )
+        }
+        actions={[]}
+      />
+
     </Page>
   )
 }
