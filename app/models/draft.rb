@@ -8,7 +8,7 @@ class Draft < ApplicationRecord
   validates :collection_concept_id, inclusion: { in: [nil],
     message: "%{attribute} is not allowed for %{model}" }, unless: :is_variable_draft?
 
-  serialize :draft, JSON
+  serialize :draft, coder: JSON
 
   before_create :default_values
   after_create :set_native_id

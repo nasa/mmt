@@ -32,7 +32,7 @@ Capybara.register_driver :headless_chrome do |app|
   client.open_timeout = 60
 
   # http://technopragmatica.blogspot.com/2017/10/switching-to-headless-chrome-for-rails_31.html
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+  capabilities = Selenium::WebDriver::Options.chrome(
     # This makes javascript console logs available, but doesn't cause them to appear in real time
     # to display javascript logs in the rspec output, add `puts page.driver.browser.manage.logs.get(:browser)`
     # in the desired test location
@@ -148,7 +148,7 @@ RSpec.configure do |config|
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = [ Rails.root.join("spec", "fixtures") ]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

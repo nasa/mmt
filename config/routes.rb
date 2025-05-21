@@ -3,29 +3,29 @@ Rails.application.routes.draw do
 
   # PUMPness
   get '/permissions/tea_configuration' => 'permissions#download_tea_configuration'
-  resources :permissions
+  resources :permissions, controller: 'manage_cmr/permissions'
 
-  resources :system_identity_permissions, only: [:index, :edit, :update]
-  resources :provider_identity_permissions, only: [:index, :edit, :update]
+  resources :system_identity_permissions, only: [:index, :edit, :update], controller: 'manage_cmr/system_identity_permissions'
+  resources :provider_identity_permissions, only: [:index, :edit, :update], controller: 'manage_cmr/provider_identity_permissions'
 
-  resource :order_policies, except: :show
+  resource :order_policies, except: :show, controller: 'manage_cmr/order_policies'
 
-  resources :order_options
-  post '/order_options/:id/deprecate' => 'order_options#deprecate', as: 'order_option_deprecate'
+  resources :order_options, controller: 'manage_cmr/order_options'
+  post '/order_options/:id/deprecate' => 'manage_cmr/order_options#deprecate', as: 'order_option_deprecate'
 
-  get '/order_policies' => 'order_policies#index'
-  post '/order_policies/test_endpoint_connection' => 'order_policies#test_endpoint_connection'
+  get '/order_policies' => 'manage_cmr/order_policies#index'
+  post '/order_policies/test_endpoint_connection' => 'manage_cmr/order_policies#test_endpoint_connection'
 
-  resource :order_option_assignments, only: [:edit, :destroy]
-  resources :order_option_assignments, except: :edit
-  post '/order_option_assignments/edit' => 'order_option_assignments#edit'
+  resource :order_option_assignments, only: [:edit, :destroy], controller: 'manage_cmr/order_options'
+  resources :order_option_assignments, except: :edit, controller: 'manage_cmr/order_options'
+  post '/order_option_assignments/edit' => 'manage_cmr/order_option_assignments#edit'
 
-  resources :data_quality_summaries
+  resources :data_quality_summaries, controller: 'manage_cmr/data_quality_summaries'
 
-  resource :data_quality_summary_assignments, except: :show
-  get '/data_quality_summary_assignments' => 'data_quality_summary_assignments#index'
+  resource :data_quality_summary_assignments, except: :show, controller: 'manage_cmr/data_quality_summary_assignments'
+  get '/data_quality_summary_assignments' => 'manage_cmr/data_quality_summary_assignments#index'
 
-  resources :orders do
+  resources :orders, controller: 'manage_cmr/orders' do
     collection do
       put 'search'
     end
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :groups do
+  resources :groups, controller: 'manage_cmr/groups' do
     collection do
       get 'urs_search'
     end

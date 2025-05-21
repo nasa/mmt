@@ -32,7 +32,7 @@
         {
           "key": "URL",
           "title": "URL",
-          "type": "UmmPreviewURL"
+          "type": "UmmPreviewUrl"
         }
       ]
     },
@@ -44,7 +44,7 @@
           "key": "RelatedURLs",
           "title": "Related URLs",
           "hideFieldTitle": true,
-          "type": "UmmPreviewURL"
+          "type": "UmmPreviewUrl"
         }
       ]
     },

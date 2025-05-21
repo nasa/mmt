@@ -3,8 +3,8 @@ class CollectionDraftsController < BaseDraftsController
   include CollectionsHelper
   include DraftsHelper
   include ControlledKeywords
-  include CMRCollectionsHelper
-  include GKRKeywordRecommendations
+  include CmrCollectionsHelper
+  include GkrKeywordRecommendations
 
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :publish, :download_json, :check_cmr_validation]
   before_action :load_umm_c_schema, only: [:new, :edit, :show, :publish]

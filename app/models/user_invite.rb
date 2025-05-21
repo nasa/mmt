@@ -44,7 +44,7 @@ class UserInvite < ApplicationRecord
     column = :token
     self[column] = loop do
       random_token = SecureRandom.urlsafe_base64(nil, false)
-      break random_token unless self.class.exists?(column => random_token)
+      break random_token unless self.class.exist?(column => random_token)
     end
   end
 end

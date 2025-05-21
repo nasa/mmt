@@ -1,5 +1,4 @@
 module Proposal
-
   class ManageCollectionProposalsController < ManageMetadataController
     skip_before_action :provider_set?
 

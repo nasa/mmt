@@ -21,8 +21,8 @@ class CollectionDraftProposal < CollectionDraft
   # Need to bypass this before action to delete when publishing while in dev
   before_destroy :proposal_mode_enabled? unless Rails.env.development? || Rails.env.test?
 
-  serialize :status_history, JSON
-  serialize :approver_feedback, JSON
+  serialize :status_history, coder: JSON
+  serialize :approver_feedback, coder: JSON
 
   class << self
     def create_request(collection:, user:, provider_id:, native_id:, request_type:, username: nil)
@@ -100,7 +100,7 @@ class CollectionDraftProposal < CollectionDraft
         Rails.logger.error("A #{self.class} with title #{entry_title} and id #{id} is being asked for a status_history for #{action}, but does not have that information. This proposal should be investigated.")
       end
     else
-      action_time = status['action_date'].in_time_zone('UTC').to_s(:default_with_time_zone)
+      action_time = status['action_date'].in_time_zone('UTC').to_fs(:default_with_time_zone)
       action_username = status['username']
     end
 

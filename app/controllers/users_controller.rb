@@ -20,14 +20,14 @@ class UsersController < ApplicationController
       if params[:login_method] == 'launchpad'
         redirect_to sso_url
       elsif params[:login_method] == 'urs'
-        redirect_to cmr_client.urs_login_path
+        redirect_to cmr_client.urs_login_path, allow_other_host: true
       else
         redirect_to root_url
       end
     elsif launchpad_login_required?
       redirect_to sso_url
     elsif urs_login_required?
-      redirect_to cmr_client.urs_login_path
+      redirect_to cmr_client.urs_login_path, allow_other_host: true
     end
   end
 

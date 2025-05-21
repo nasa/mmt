@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby "3.0.6"
+ruby "3.3.8"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # We have not investigated the cost of moving to rails 6, but expect it to make
 # more breaking changes.  Rails 5 is still supported.
-gem 'rails', '~> 6.1.7.7'
+gem 'rails', '~> 7.2.2.1'
 # Rails currently limits all of the action*/active* gems
 # activesupport limits tzinfo
 
@@ -49,7 +49,7 @@ gem 'faraday_middleware'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 gem 'builder'
-gem 'carmen', '~>1.0.2' # countries and subdivisions
+gem 'carmen', '~>1.1.3' # countries and subdivisions
 gem 'factory_bot_rails'
 gem 'faker'
 gem 'figaro'
@@ -60,6 +60,7 @@ gem 'kaminari'
 gem 'momentjs-rails' # js lib for dates
 gem 'pundit'
 
+gem 'nokogiri', force_ruby_platform: true
 gem 'nokogiri-diff', '~> 0.2.0' # for comparing xml documents
 
 gem 'activerecord-import' # bulk insertion of data
@@ -76,9 +77,9 @@ gem 'aasm'
 
 gem 'browser'
 
-gem 'actionpack', '~> 6.1.7.8'
+gem 'actionpack'
 
-gem 'pg', '<1.3'
+gem 'pg'
 
 gem 'dotenv-rails'
 
@@ -91,7 +92,7 @@ group :development, :test do
 
   # gem 'jshint'
   gem 'rspec-rails'
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 2.5.0', force_ruby_platform: true
   gem 'vcr'
   gem 'rails-controller-testing' # https://www.ombulabs.com/blog/rails/upgrades/upgrade-rails-from-4-2-to-5-0.html
 end
@@ -110,18 +111,20 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'capybara'
   gem 'fuubar'
   gem 'launchy'
+  gem 'prime'
   gem 'rack_session_access'
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
-  gem 'webdrivers'
 end
 
 gem "shakapacker", "= 6.5"
 
 gem "react-rails", "= 2.6"
 gem 'erb'
+
+gem "terser", "~> 1.2"

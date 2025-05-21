@@ -1,5 +1,5 @@
 # :nodoc:
-module GKRKeywordRecommendations
+module GkrKeywordRecommendations
   extend ActiveSupport::Concern
 
   def fetch_keyword_recommendations(user, request_id, provider)

@@ -41,15 +41,15 @@ ENV JAVA_HOME /etc/alternatives/jre
 
 # Install Ruby from source
 WORKDIR /
-RUN curl -OL https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.6.tar.gz \
- && tar -xzf ruby-3.0.6.tar.gz \
- && rm ruby-3.0.6.tar.gz \
- && cd /ruby-3.0.6 \
+RUN curl -OL https://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.8.tar.gz \
+ && tar -xzf ruby-3.3.8.tar.gz \
+ && rm ruby-3.3.8.tar.gz \
+ && cd /ruby-3.3.8 \
  && ./configure --disable-install-doc \
  && make -j $(nproc) \
  && make install \
  && cd / \
- && rm -fr ruby-3.0.6
+ && rm -fr ruby-3.3.8
 
 # Install PostgreSQL
 RUN dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm

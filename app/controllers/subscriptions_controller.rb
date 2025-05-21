@@ -1,6 +1,6 @@
 class SubscriptionsController < ManageCmrController
   include UrsUserEndpoints
-  include CMRSubscriptions
+  include CmrSubscriptions
 
   before_action :subscriptions_enabled?
   before_action :add_top_level_breadcrumbs

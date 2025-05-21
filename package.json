@@ -59,7 +59,7 @@
     "react-select-event": "^5.5.1",
     "react-uuid": "^1.0.2",
     "react_ujs": "^2.6.2",
-    "shakapacker": "6.5.0",
+    "shakapacker": "^6.5.0",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "5",
     "testing-library": "^0.0.2",
@@ -151,7 +151,7 @@
     "lint": "eslint ./",
     "lint-fix": "eslint ./ --fix",
     "tsc": "tsc --pretty --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky install || true"
   },
   "jest": {
     "collectCoverageFrom": [

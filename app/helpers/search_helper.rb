@@ -60,7 +60,7 @@ module SearchHelper
     if revision_date.blank?
       'UNKNOWN'
     else
-      DateTime.parse(revision_date).to_s(:date)
+      DateTime.parse(revision_date).to_fs(:date)
     end
   end
 

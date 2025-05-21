@@ -19,7 +19,7 @@ Bundler.require(*Rails.groups)
 module Mmt
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 7.2
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -37,13 +37,16 @@ module Mmt
     # config.active_record.raise_in_transactional_callbacks = true
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
-    config.eager_load_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
+    # config.autoload_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
+    # config.eager_load_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
+    config.autoload_paths += ["#{config.root}/lib"]
+    config.eager_load_paths += ["#{config.root}/lib"]
+
 
     # This was added when MMT added custom error routes and pages
     config.exceptions_app = self.routes
 
-    config.services = YAML.load_file(Rails.root.join('config/services.yml'))
+    config.services = YAML.load_file(Rails.root.join('config/services.yml'), aliases: true)
 
     # Versions of UMM for the different metadata types MMT is on
 

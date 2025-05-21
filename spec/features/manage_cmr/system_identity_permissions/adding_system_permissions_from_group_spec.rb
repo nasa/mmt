@@ -3,7 +3,7 @@ describe 'Saving System Object Permissions from the system group show page', js:
     @token = 'jwt_access_token'
     allow_any_instance_of(Cmr::UrsClient).to receive(:get_client_token).and_return('client_access_token')
     allow_any_instance_of(ApplicationController).to receive(:token).and_return(@token)
-    allow_any_instance_of(UserContext).to receive(:token).and_return(@token)
+    allow_any_instance_of(Pundit::UserContext).to receive(:token).and_return(@token)
     allow_any_instance_of(User).to receive(:urs_uid).and_return('dmistry')
 
     VCR.use_cassette("edl/#{File.basename(__FILE__, '.rb')}_vcr", record: :none) do

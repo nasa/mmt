@@ -168,16 +168,16 @@ class BasePublishedRecordController < ManageMetadataController
   end
 
   def set_schema
-    @schema = UmmJsonSchema.new(plural_resource_name, resource_schema_file)
+    @schema = JsonSchemaForm::UmmJsonSchema.new(plural_resource_name, resource_schema_file)
     @schema.fetch_references(@schema.parsed_json)
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(plural_resource_name, resource_form_file, @schema, get_resource, field_prefix: "#{resource_name}_draft/draft")
+    @json_form = JsonSchemaForm::UmmJsonForm.new(plural_resource_name, resource_form_file, @schema, get_resource, field_prefix: "#{resource_name}_draft/draft")
   end
 
   def set_preview
-    @preview = UmmPreview.new(
+    @preview = JsonSchemaForm::UmmPreview.new(
       schema_type: resource_name,
       preview_filename: resource_preview_schema,
       data: get_resource

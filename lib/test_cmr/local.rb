@@ -11,7 +11,7 @@ require 'timeout'
 require 'erb'
 include ERB::Util
 
-module Cmr
+module TestCmr
   class Local
     attr_accessor :nsidc_test_case_collection
 
@@ -621,7 +621,7 @@ module Cmr
     def insert_metadata
       added = 0
       Dir.glob(File.join(Rails.root, 'lib', 'test_cmr', 'data', '*.yml')).sort.each_with_index do |filename, index|
-        data = Psych.load_file(filename)
+        data = Psych.load_file(filename, aliases: true)
 
         data['ingest_count'].times do
           response = connection.put do |req|
@@ -643,6 +643,7 @@ module Cmr
             content_type = 'application/iso:smap+xml' if data['type'] == 'iso-smap'
             req.headers['Content-Type'] = content_type
             req.headers['Authorization'] = 'mock-echo-system-token'
+            req.headers['Cmr-Validate-Keywords'] = 'false'
             req.body = data['metadata']
 
           end

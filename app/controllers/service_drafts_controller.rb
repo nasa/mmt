@@ -21,12 +21,12 @@ class ServiceDraftsController < BaseDraftsController
   private
 
   def set_schema
-    @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-s-json-schema.json')
+    @schema = JsonSchemaForm::UmmJsonSchema.new(plural_published_resource_name, 'umm-s-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
   end
 
   def set_form
-    @json_form = UmmJsonForm.new(
+    @json_form = JsonSchemaForm::UmmJsonForm.new(
       plural_published_resource_name,
       'umm-s-form.json',
       @schema,
@@ -37,7 +37,7 @@ class ServiceDraftsController < BaseDraftsController
   end
 
   def set_preview
-    @preview = UmmPreview.new(
+    @preview = JsonSchemaForm::UmmPreview.new(
       schema_type: published_resource_name,
       preview_filename: 'umm-s-preview.json',
       data: get_resource.draft,

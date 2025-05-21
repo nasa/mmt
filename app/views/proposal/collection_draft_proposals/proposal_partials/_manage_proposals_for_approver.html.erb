@@ -9,7 +9,7 @@
         <% @in_work_proposals[0..@proposal_display_max_count-1].each do |proposal| %>
           <li>
             <p class="drafts">
-              <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
+              <%= time_tag proposal.updated_at, proposal.updated_at.to_fs(:date) %> |
               <%= link_to proposal.display_short_name, send("#{@proposal_type.underscore}_path", proposal), title: proposal.display_short_name %>
               <br>
               <%= status_content_tag(proposal) %>
@@ -37,7 +37,7 @@
         <% @queued_proposals[0..@proposal_display_max_count-1].each do |proposal| %>
           <li>
             <p class="drafts">
-              <%= time_tag proposal.updated_at, proposal.updated_at.to_s(:date) %> |
+              <%= time_tag proposal.updated_at, proposal.updated_at.to_fs(:date) %> |
               <%= link_to proposal.display_short_name, send("#{@proposal_type.underscore}_path", proposal), title: proposal.display_short_name %>
               <br>
               <%= status_content_tag(proposal) %>

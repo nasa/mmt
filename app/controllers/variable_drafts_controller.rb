@@ -51,7 +51,7 @@ class VariableDraftsController < BaseDraftsController
   private
 
   def set_schema
-    @schema = UmmJsonSchema.new(plural_published_resource_name, 'umm-var-json-schema.json')
+    @schema = JsonSchemaForm::UmmJsonSchema.new(plural_published_resource_name, 'umm-var-json-schema.json')
     @schema.fetch_references(@schema.parsed_json)
   end
 
@@ -82,7 +82,7 @@ class VariableDraftsController < BaseDraftsController
       existing_variable = false
     end
 
-    @json_form = UmmJsonForm.new(
+    @json_form = JsonSchemaForm::UmmJsonForm.new(
       plural_published_resource_name,
       'umm-var-form.json',
       @schema,
@@ -94,7 +94,7 @@ class VariableDraftsController < BaseDraftsController
   end
 
   def set_preview
-    @preview = UmmPreview.new(
+    @preview = JsonSchemaForm::UmmPreview.new(
       schema_type: published_resource_name,
       preview_filename: 'umm-var-preview.json',
       data: get_resource.draft,

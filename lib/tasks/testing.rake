@@ -1,5 +1,5 @@
 require 'factory_bot'
-require 'test_cmr/load_data.rb'
+require 'test_cmr/local.rb'
 
 # Usage:
 # rake testing:ingest_full[<ticket number>,<number of collections>,<development|sit>]
@@ -17,7 +17,7 @@ require 'test_cmr/load_data.rb'
 #
 
 namespace :testing do
-  include Cmr
+  # include Cmr
   desc 'Ingest testing collections into CMR with every field completed'
   task :ingest_full, [:ticket, :count, :env] => [:environment] do |_t, args|
     draft = FactoryBot.build(:full_collection_draft)
@@ -74,8 +74,8 @@ namespace :testing do
   task :ingest_tabs_test, [:serv_count, :tool_count] => [:environment] do |_t, args|
     puts('Only usable in dev') && return unless Rails.env.development? || Rails.env.test?
 
-    # make a Cmr::Local to take advantage of wait_for_indexing method
-    cmr = Cmr::Local.new
+    # make a TestCmr::Local to take advantage of wait_for_indexing method
+    cmr = TestCmr::Local.new
     collection_draft = FactoryBot.build(:full_collection_draft)
     collection_response = cmr_client.ingest_collection(collection_draft.draft.to_json, 'MMT_2', SecureRandom.uuid, 'access_token')
     puts("Error ingesting collection: #{collection_response.clean_inspect}") && return unless collection_response.success?

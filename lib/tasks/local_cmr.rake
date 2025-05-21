@@ -1,7 +1,7 @@
-require 'test_cmr/load_data.rb'
+require 'test_cmr/local.rb'
 
 namespace :cmr do
-  include Cmr
+  # include Cmr
 
   jar_name = 'cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar'
   url_source = "https://maven.earthdata.nasa.gov/repository/mmt/#{jar_name}"
@@ -44,13 +44,13 @@ namespace :cmr do
 
   desc 'Save collection data from CMR'
   task :save_data do
-    cmr = Cmr::Local.new
+    cmr = TestCmr::Local.new
     cmr.save_data
   end
 
   desc 'Load collection metadata into locally running CMR'
   task load: [:reset] do
-    cmr = Cmr::Local.new
+    cmr = TestCmr::Local.new
     cmr.load_data
 
     puts "Local CMR downloaded on: #{File.ctime('cmr/' + jar_name)}"
@@ -63,10 +63,7 @@ namespace :cmr do
     # `-DCMR_DEV_SYSTEM_REDIS_TYPE=external` was added when CMR made a change to use Redis
     # we may be able to remove it when they adjust the uberjar configuration
     cmd = 'cd cmr ; '\
-      'nohup java '\
-        '-DCMR_DEV_SYSTEM_REDIS_TYPE=external '\
-        "-classpath ./#{jar_name} "\
-        'cmr.dev_system.runner '\
+      'CMR_VALIDATE_KEYWORDS_DEFAULT_TRUE_ENABLED=false java -jar -Xmx1g cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar'\
         '> cmr.log 2>&1 &'
     Process.spawn( "#{cmd}" )
 
@@ -77,7 +74,7 @@ namespace :cmr do
 
   desc 'Reset data in CMR'
   task :reset do
-    cmr = Cmr::Local.new
+    cmr = TestCmr::Local.new
     cmr.reset_data
   end
 
@@ -94,7 +91,7 @@ namespace :cmr do
   task :reset_test_provider, [:provider_id] => ['tmp:cache:clear'] do |_task, args|
     args.with_defaults(provider_id: 'MMT_2')
 
-    cmr = Cmr::Local.new
+    cmr = TestCmr::Local.new
     cmr.reset_provider(args[:provider_id])
   end
 
@@ -203,7 +200,7 @@ namespace :cmr do
           FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
           File.write(js_asset_output_file, compressed_file)
-          raise 'Error writing file; could not verify existence after write attempt' unless File.exists?(js_asset_output_file)
+          raise 'Error writing file; could not verify existence after write attempt' unless File.exist?(js_asset_output_file)
 
           puts "- Compressed file available at #{js_asset_output_file}"
           puts "\nDone!"

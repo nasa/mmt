@@ -1,12 +1,15 @@
 # Metadata Management Tool Application
+
 The Metadata Management Tool (MMT) and Draft Metadata Management Tool (dMMT) are web applications designed to assist users in managing metadata and interfacing with the CMR. The user’s guide for MMT can be found [here](https://wiki.earthdata.nasa.gov/display/ED/Metadata+Management+Tool+%28MMT%29+User%27s+Guide "MMT User Guide") and the user’s guide for dMMT can be found [here](https://wiki.earthdata.nasa.gov/display/ED/Draft+MMT+%28dMMT%29+User%27s+Guide "dMMT User Guide"). Release notes for these applications can be found [here](https://wiki.earthdata.nasa.gov/display/ED/MMT+Release+Notes "Release Notes").
 
 ## Getting Started
 
 ### Requirements
- - Ruby 3.0.6
+
+- Ruby 3.3.8
 
 ### Setup
+
 Clone the Metadata Management Tool Git project:
 
     git clone https://github.com/nasa/mmt.git
@@ -15,14 +18,8 @@ Type the following command to install the necessary components:
 
     bundle install
 
-Depending on your version of Ruby, you may need to install ruby rdoc/ri data:
-
-    <= 1.8.6 : unsupported
-     = 1.8.7 : gem install rdoc-data; rdoc-data --install
-     = 1.9.1 : gem install rdoc-data; rdoc-data --install
-    >= 1.9.2 : you're good to go!
-
 #### Additional Install Steps
+
 Some operating systems may require additional steps.
 
 Mac OS X 10.14.6 moved some required libraries around which has been known to cause nokogiri to not install, if you have errors with that gem, you may need to run the following:
@@ -78,18 +75,22 @@ To start the project, just type the default rails command:
 If you need to stop the server from running, hit `Ctrl + C` and the server will shutdown.
 
 ### Running a local copy of CMR
+
 In order to use a local copy of the CMR you will need to download the latest file, set an environment variable, and run a rake task to set required permissions and ingest some data.
 
 #### 1. Downloading the CMR file
+
 If access to https://maven.earthdata.nasa.gov is possible, then the rake command `rake cmr:fetch` can be used to download the latest CMR jar. This task put the jar file in the `cmr` directory.
 If this task fails for some reason, such as the maven repository is down, you can follow the instructions below to download and install manually from Bamboo:
 
 Go to https://ci.earthdata.nasa.gov/browse/CN2-CSN2/latestSuccessful/artifact/, and download the `cmr-dev-system-uberjar.jar` file.
-  * Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
+  
+- Note: It will rename itself to `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar`. This is the correct behavior. **DO NOT rename the file.**
 
 In your root directory for MMT, create a folder named `cmr`. Place the `cmr-dev-system-0.1.0-SNAPSHOT-standalone.jar` file in the `cmr` folder.
 
 #### 2. Setting the environment variable needed by the local CMR
+
 Before running a local copy of the CMR, you will need to set a required environment variable. Add this line into your `.bash_profile`:
 
     export CMR_URS_PASSWORD=mock-urs-password
@@ -99,6 +100,7 @@ After adding the line and saving the file, don't forget to source the file
     source ~/.bash_profile
 
 #### 3. Setting up local redis for CMR
+
 CMR comes with redis in the jar, but it is not compiled to run on Macs.  If you need to run the CMR on a Mac, download it from
 
     https://redis.io/
@@ -127,9 +129,8 @@ For more information, see one of these links
     https://www.devglan.com/blog/install-redis-windows-and-mac
     https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8
 
-
-
 #### 4. Running the CMR rake tasks
+
 To start the local CMR and load data*:
 
     rake cmr:start_and_load
@@ -160,7 +161,7 @@ To insert a sample draft with every field completed:
 
 ### OpenSSL Issue
 
-* If you receive a error from running `rake cmr:start_and_load` like
+If you receive a error from running `rake cmr:start_and_load` like
 
     Faraday::ConnectionFailed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
 
@@ -170,9 +171,9 @@ Try the following steps:
 
 2. Update the SSL certificates by running the following commands
 
-    * `brew update`
-    * `brew install openssl`
-    * `brew link openssl --force`
+    - `brew update`
+    - `brew install openssl`
+    - `brew link openssl --force`
 
 3. Restart your terminal to refresh the OpenSSL version.
 
@@ -186,21 +187,21 @@ Try the following steps:
 
 8. Reinstall Ruby with the following command (if you are using rvm): `rvm install 2.2.2 --with-open-ssl-dir={DIRECTORY FROM STEP 7}`.
 
-    * Using the example directory from above, it would be `rvm install 2.2.2 --with-open-ssl-dir=/usr/local/bin/openssl`.
+    - Using the example directory from above, it would be `rvm install 2.2.2 --with-open-ssl-dir=/usr/local/bin/openssl`.
 
 9. Run `bundle install` to install any missing gems.
 
-    * If your terminal tells you that it does not recognize the `bundle` command, run `gem install bundler`
+    - If your terminal tells you that it does not recognize the `bundle` command, run `gem install bundler`
 
-9. Restart your terminal to refresh all settings.
+10. Restart your terminal to refresh all settings.
 
-10. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
+11. Navigate to MMT directory and check to make sure Ruby and OpenSSL version are correct.
 
-11. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
+12. Run `rake cmr:start` and `rake cmr:load` again. If you still have issues, please reach out to a developer to help with troubleshooting.
 
 ### Earthdata Login Issue
 
-* If you receive an error when logging into MMT using Earthdata Login such as
+If you receive an error when logging into MMT using Earthdata Login such as
 
     JSON::ParserError at /urs_login_callback
     784: unexpected token at 'null'
@@ -213,26 +214,30 @@ You can view/download the latest UMM JSON-Schema here, https://git.earthdata.nas
 
 ## Local Testing
 
-#### JavaScript
+### JavaScript
+
 MMT uses PhantomJS which allows us to run our Capybara tests on a headless WebKit browser. Before you're able to run tests locally you'll need to install it. The easiest way to accomplish this would be to use [Homebrew](http://brew.sh/) or a similar packager manager. If you're using Homebrew, run the following the command:
 
     brew install phantomjs
 
-#### VCR
+### VCR
+
 MMT uses [VCR](https://github.com/vcr/vcr) to record non-localhost HTTP interactions, it is configured in [spec/support/vcr.rb](spec/support/vcr.rb).
 
 All calls to localhost are ignored by VCR and therefore will not be recorded.
 
 This isn't an issue normally but with MMT we run a number of services locally while developing that we would like to be recorded.
 
-#### CMR
+### CMR
 
 For calls to CMR that are asynchronous, we do have a method of waiting for those to finish, synchronously. Within the [spec/helpers/cmr_helper.rb](spec/helpers/cmr_helper.rb) we have a method called `wait_for_cmr` that makes two calls to CMR and ElasticSearch to ensure all work is complete. This should ONLY be used within tests.
 
 ## ACLs
+
 Access Control Lists (ACLs, aka Permissions) determine access to data and functionality in the CMR. See the [Access Control Documentation](https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html) for technical information.
 
 ### Testing against ACLs
+
 When testing functionality in the browser that requires specific permissions you'll need to ensure your environment is setup properly and you're able to assign yourself the permissions necessary. This includes:
 
 1. Creating a Group
@@ -247,7 +252,8 @@ This gives you permission to view System Level Groups and the System Object Perm
 
 From here you'll need to modify appropriate permissions of the group so that you can test functionality associated with any of the permissions via the group show page, or the Provider or System Object Permissions pages.
 
-##### Automating ACL Group Management
+#### Automating ACL Group Management
+
 To run the above steps automatically there is a provided rake task to do the heavy lifting.
 
     rake acls:testing:prepare[URS_USERNAME]
@@ -269,6 +275,7 @@ or
     rake acls:groups:admins[username]
 
 ### Draft MMT
+
 The Draft MMT is intended for Non-NASA Users to propose new metadata records or changes to existing records in the CMR.  There are several steps required to run a local version of Draft MMT.
 
 1. Enable https connections to the Draft MMT.     See the directions for configuring https [here](doc/local_https_setup.md)
@@ -277,10 +284,9 @@ The Draft MMT is intended for Non-NASA Users to propose new metadata records or 
 
 3. Create ACLs to give yourself permission to use Draft MMT. Access to the Draft MMT is controlled by the Non-NASA Draft User and Non-NASA Draft Approver ACLs. There is a rake task that will create the group and assign the ACL for you (make sure you use your own username):
 
-
     $ rake acls:proposal_mode:draft_user[URS_USERNAME]
 
-or
+    or
 
     $ rake acls:proposal_mode:draft_approver[URS_USERNAME]
 
@@ -289,7 +295,6 @@ or
 
 4. Change the app to the Draft MMT (aka proposal mode) by changing the `proposal_mode` environment variable in your `application.yml` file. Set `proposal_mode` to `true`.
 
-
 5. Start the MMT app as usual with `bin/rails server -p 3000`  
 
 6. Direct your browser to https://mmt.localtest.earthdata.nasa.gov .   Note that some browsers will give you a warning about the self-signed certificate that was created in step 1.  In that case,  use the browser controls to allow the certificate.
@@ -297,6 +302,7 @@ or
 7. To return to normal MMT mode,  set `proposal_mode` to `false` in the application.yml file and restart the app.
 
 ### Replicating SIT Collections Locally
+
 Often we need collections to exist in our local CMR that already exist in SIT for the purposes of sending collection ids (concept ids) as part of a payload to the ECHO API that doesn't run locally, but instead on testbed. In order to do this the collection concept ids have to match those on SIT so we cannot simply download and ingest them. A rake task exists to replicate collections locally for this purpose.
 
     $ rake collections:replicate
@@ -306,7 +312,7 @@ The task accepts two parameters
 - **provider:** The provider id to replicate collections for *default: MMT_2*
 - **page_size:** The number of collections to request *default: 25*
 
-##### Examples
+#### Examples
 
     $ rake collections:replicate[MMT_1,10]
 
@@ -329,10 +335,11 @@ After adding the line and saving the file, don't forget to source the file.
     source ~/.bash_profile
 
 ### Running MMT UAT locally
+
 Running UAT locally can make it easier to debug issues that only occur in UAT - typically because UAT has many more records (metadata, order options, service options, etc.). Assuming MMT is running normally in development mode, the following can be done to switch over to UAT mode. 
 
 Obtain the `uat` object from the `application.yml` file that is used to run UAT remotely (this can be found in Bamboo). Using the information in the `uat` object, fill in empty fields of the new `uat` object below, and copy/paste this `uat` object into your local `application.yml` file.
-    
+
     uat:
       <<: *defaults
       CMR_URS_PASSWORD: *<FILL IN WITH REMOTE UAT INFO>*
@@ -348,7 +355,7 @@ Obtain the `uat` object from the `application.yml` file that is used to run UAT 
       urs_login_callback_url: 'https://mmt.localtest.earthdata.nasa.gov/urs_login_callback'
 
  Paste the following into your local `database.yml` file: 
- 
+
     uat:
       <<: *default
       database: db/uat.sqlite3
@@ -368,7 +375,7 @@ The following URIs need to be added to the UAT URS Redirect URIs list:
     https://mmt.localtest.earthdata.nasa.gov/urs_association_callback
     https://mmt.localtest.earthdata.nasa.gov/urs_login_callback
     
-like so: 
+like so:
 
 ![image](https://user-images.githubusercontent.com/42478387/123997171-17114500-d99e-11eb-8d3d-0318593e9eb8.png)
 
@@ -381,6 +388,7 @@ In your terminal, run:
 In order for the collection preview to run in MMT, you will need to run a local instance of graphdb and graphql.   Here are the steps:
 
 #### Graph DB
+
 From your mmt directory(or any directory), start the server with:
 
     docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml
@@ -390,7 +398,7 @@ From your mmt directory(or any directory), start the server with:
 #### GraphQL
 
 Clone the repo:
-     
+
     git clone https://git.earthdata.nasa.gov/scm/edsc/edsc-graphql.git
 
 Modify serverless.yml:
@@ -401,7 +409,7 @@ Modify serverless.yml:
 (Todo: Look into why we can't use the default 3003 and 3004, unless maybe cmr uber 
 jar ports conflict)
 And to start the server, use the following:
-    
+
     CMR_ROOT_URL=http://localhost:3003 MMT_ROOT_URL=http://localhost:3000 DRAFT_MMT_ROOT_URL=http://localhost:3000 npm start
 
 You will know the server is running when you see the following:
@@ -428,12 +436,12 @@ You will need to install serverless-webpack:
 
     serverless plugin install --name serverless-webpack
 
-##### Note:
+##### Note
 
 Temporary Source Code Changes necessary to get GraphQL working, there is a ticket (EDSC-3396) which should remove the necessity of doing this soon.
 
 +++ b/src/utils/cmrGraphDb.js
-    
+
     @@ -33,7 +33,7 @@ export const cmrGraphDb = ({
     data: query,
     headers: permittedHeaders,
@@ -449,6 +457,3 @@ Temporary Source Code Changes necessary to get GraphQL working, there is a ticke
     method: 'POST',
     -    url: `${process.env.cmrRootUrl}/search/${conceptType}.${format}`
     +    url: `${process.env.cmrRootUrl}/${conceptType}.${format}`
-
-
-  
