@@ -8,6 +8,7 @@ export const GET_VISUALIZATION = gql`
       generation
       identifier
       metadataSpecification
+      name,
       pageTitle: name
       nativeId
       providerId
@@ -15,6 +16,13 @@ export const GET_VISUALIZATION = gql`
       revisionId
       revisions {
         count
+      }
+      collections {
+        count
+        items {
+          conceptId
+          title
+        }
       }
       scienceKeywords
       spatialExtent
