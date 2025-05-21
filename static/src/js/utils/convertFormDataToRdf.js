@@ -5,7 +5,7 @@ import { XMLBuilder } from 'fast-xml-parser'
  * @param {Object} formData - The form data to be converted
  * @returns {string} The RDF XML string
  */
-export const convertFormDataToRdf = (formData) => {
+export const convertFormDataToRdf = (formData, scheme) => {
   // Initialize XML builder with specific options
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -53,6 +53,9 @@ export const convertFormDataToRdf = (formData) => {
         'skos:broader': ensureArray(formData.BroaderKeywords).map((bk) => ({
           '@_rdf:resource': bk.BroaderUUID
         })),
+        'skos:inScheme': {
+          '@_rdf:resource': `https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/${scheme.name}`
+        },
         'gcmd:reference': formData.DefinitionReference ? {
           '@_gcmd:text': formData.DefinitionReference,
           '@_xml:lang': 'en'
