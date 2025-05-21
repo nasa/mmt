@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 /**
  * Publishes a new KMS concept version.
@@ -23,7 +22,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
 export const publishKmsConceptVersion = async (version, token) => {
   try {
     // Trim and process version to replace spaces with underscores
-    const processedVersion = _.replace(_.trim(version), /\s+/g, '_')
+    const processedVersion = version.trim().replace(/\s+/g, '_')
     const { kmsHost } = getApplicationConfig()
     const endPoint = `${kmsHost}/publish?name=${processedVersion}`
     const options = {
