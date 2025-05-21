@@ -15,6 +15,7 @@ import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
 import { convertFormDataToRdf } from '@/js/utils/convertFormDataToRdf'
 import { createUpdateKmsConcept } from '@/js/utils/createUpdateKmsConcept'
+import useAuthContext from '@/js/hooks/useAuthContext'
 import KmsConceptSelectionWidget from '../KmsConceptSelectionWidget/KmsConceptSelectionWidget'
 
 const KeywordForm = ({
@@ -29,6 +30,7 @@ const KeywordForm = ({
   const [userNote, setUserNote] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [savingError, setSavingError] = useState(null)
+  const { token } = useAuthContext()
 
   useEffect(() => {
     setFormData(initialData)
@@ -60,8 +62,15 @@ const KeywordForm = ({
     setIsSaving(true)
     setSavingError(null)
     try {
-      const rdfData = convertFormDataToRdf(formData)
-      await createUpdateKmsConcept(rdfData, userNote, version, scheme)
+      const rdfXml = convertFormDataToRdf(formData)
+      await createUpdateKmsConcept({
+        rdfXml,
+        userNote,
+        version,
+        scheme,
+        token
+      })
+
       setShowModal(false)
       setUserNote('')
       onSave(formData.KeywordUUID)

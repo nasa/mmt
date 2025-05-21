@@ -22,6 +22,10 @@ const mockInitialData = {
   Definition: 'This is a test keyword'
 }
 
+vi.mock('@/js/hooks/useAuthContext', () => ({
+  default: vi.fn(() => ({ token: 'mock-token' }))
+}))
+
 vi.mock('@/js/utils/convertFormDataToRdf', () => ({
   convertFormDataToRdf: vi.fn((data) => ({
     ...data,
@@ -73,6 +77,14 @@ vi.mock('@/js/components/CustomModal/CustomModal', () => ({
     </div>
   ) : null)
 }))
+
+beforeAll(() => {
+  vi.spyOn(console, 'error').mockImplementation(() => {})
+})
+
+afterAll(() => {
+  console.error.mockRestore()
+})
 
 describe('when KeywordForm is rendered', () => {
   test('should display the form title', () => {
@@ -167,6 +179,7 @@ describe('when the form is submitted', () => {
     const user = userEvent.setup()
     const scheme = { name: 'sciencekeywords' }
     const version = { version: 'draft' }
+    const mockToken = 'mock-token'
 
     render(<KeywordForm
       initialData={mockInitialData}
@@ -185,15 +198,16 @@ describe('when the form is submitted', () => {
       expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData)
     })
 
-    expect(createUpdateKmsConcept).toHaveBeenCalledWith(
-      {
+    expect(createUpdateKmsConcept).toHaveBeenCalledWith({
+      rdfXml: {
         ...mockInitialData,
         rdf: true
       }, // Mocked result of convertFormDataToRdf
-      '',
+      userNote: '',
       version,
-      scheme
-    )
+      scheme,
+      token: mockToken
+    })
   })
 
   test('should close the modal after successful save', async () => {

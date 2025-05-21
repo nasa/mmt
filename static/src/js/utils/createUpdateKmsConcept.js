@@ -10,7 +10,9 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @returns {Promise<void>} - A promise that resolves when the operation is complete
  * @throws {Error} - If there's an HTTP error or any other error during the process
  */
-export const createUpdateKmsConcept = async (rdfXml, userNote, version, scheme) => {
+export const createUpdateKmsConcept = async ({
+  rdfXml, userNote, version, scheme, token
+}) => {
   const { kmsHost } = getApplicationConfig()
   // In case of published version, use 'published' instead of the version label
   let versionParam = version.version
@@ -31,7 +33,10 @@ export const createUpdateKmsConcept = async (rdfXml, userNote, version, scheme) 
 
     const response = await fetch(endpoint, {
       method: 'PUT',
-      body: rdfXml
+      body: rdfXml,
+      headers: {
+        Authorization: token
+      }
     })
 
     // Check if the response is successful
