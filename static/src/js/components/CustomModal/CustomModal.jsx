@@ -118,7 +118,8 @@ CustomModal.defaultProps = {
   header: null,
   message: null,
   size: null,
-  showCloseButton: true
+  showCloseButton: true,
+  toggleModal: null
 }
 
 CustomModal.propTypes = {
@@ -137,7 +138,7 @@ CustomModal.propTypes = {
   ]),
   show: PropTypes.bool.isRequired,
   size: PropTypes.string,
-  toggleModal: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func,
   showCloseButton: PropTypes.bool
 }
 

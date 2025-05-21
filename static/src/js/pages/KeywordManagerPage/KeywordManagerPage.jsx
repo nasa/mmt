@@ -411,7 +411,6 @@ const KeywordManagerPage = () => {
         show={showPublishingModal}
         header="Publishing New Version"
         showCloseButton={false}
-        toggleModal={() => {}}
         message={
           (
             <div className="text-center">
