@@ -17,22 +17,13 @@ const visualizationConfiguration = [
   {
     displayName: 'Spatial Extent',
     properties: [
-      'SpatialExtent.SpatialCoverageType',
-      'SpatialExtent.HorizontalSpatialDomain',
-      'SpatialExtent.VerticalSpatialDomains',
-      'SpatialExtent.OrbitParameters',
-      'SpatialExtent.GranuleSpatialRepresentation'
+      'SpatialExtent'
     ]
   },
   {
     displayName: 'Temporal Extents',
     properties: [
-      'TemporalExtents.PrecisionOfSeconds',
-      'TemporalExtents.EndsAtPresentFlag',
-      'TemporalExtents.RangeDateTimes',
-      'TemporalExtents.SingleDateTimes',
-      'TemporalExtents.PeriodicDateTimes',
-      'TemporalExtents.TemporalResolution'
+      'TemporalExtents'
     ]
   },
   {
