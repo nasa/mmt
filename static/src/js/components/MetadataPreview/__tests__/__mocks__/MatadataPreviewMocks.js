@@ -1561,6 +1561,11 @@ export const mockCollection = {
   },
   versionDescription: null,
   versionId: '2012.00',
+  visualizations: {
+    count: 0,
+    items: null,
+    __typename: 'VisualizationList'
+  },
   revisions: {
     count: 8,
     items: [
@@ -3295,6 +3300,11 @@ export const mockCollectionWithAssociatedVariables = {
   },
   versionDescription: null,
   versionId: '2012.00',
+  visualizations: {
+    count: 0,
+    items: null,
+    __typename: 'VisualizationList'
+  },
   revisions: {
     count: 8,
     items: [
@@ -3661,6 +3671,7 @@ export const mockVisualizationDraft = {
   revisionId: '1',
   previewMetadata: {
     conceptId: 'VISD0000000000-CMR',
+    name: 'Visualization Draft Preview Test',
     description: 'Draft test description',
     generation: {},
     identifier: 'Extra Data',

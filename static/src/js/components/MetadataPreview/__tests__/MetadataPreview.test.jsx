@@ -266,8 +266,6 @@ describe('MetadataPreview', () => {
       })
 
       await waitFor(() => {
-        console.log('it was called with', VisualizationPreview.mock.calls[0][0].visualization)
-        // TODO I need to figure out why this mock does not look right
         expect(VisualizationPreview).toHaveBeenCalledWith({
           cmrHost: 'http://example.com',
           conceptId: 'VISD000000-MMT',
