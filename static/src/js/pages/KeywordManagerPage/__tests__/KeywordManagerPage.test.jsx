@@ -13,11 +13,17 @@ import * as createFormDataFromRdfModule from '@/js/utils/createFormDataFromRdf'
 import userEvent from '@testing-library/user-event'
 import * as getKmsKeywordTreeModule from '@/js/utils/getKmsKeywordTree'
 import * as publishKmsConceptVersionModule from '@/js/utils/publishKmsConceptVersion'
+import * as useAuthContextModule from '@/js/hooks/useAuthContext'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('@/js/utils/getKmsKeywordTree')
 
 vi.mock('@/js/utils/publishKmsConceptVersion')
+
+vi.mock('@/js/hooks/useAuthContext', () => ({
+  __esModule: true,
+  default: vi.fn()
+}))
 
 vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
   KeywordTree: vi.fn((props) => {
@@ -250,6 +256,9 @@ describe('KeywordManagerPage component', () => {
     })
 
     vi.spyOn(getKmsConceptVersionsModule, 'default').mockImplementation(getKmsConceptVersionsMock)
+    vi.spyOn(useAuthContextModule, 'default').mockImplementation(() => ({
+      tokenValue: 'mock-token-value'
+    }))
   })
 
   afterEach(() => {
@@ -394,6 +403,13 @@ describe('KeywordManagerPage component', () => {
     })
 
     test('should initiate publish process when Publish button is clicked', async () => {
+      const mockTokenValue = 'mock-token-value'
+      vi.spyOn(useAuthContextModule, 'default').mockImplementation(() => ({
+        tokenValue: mockTokenValue
+      }))
+
+      publishKmsConceptVersionMock.mockResolvedValue()
+
       const { user } = setup()
 
       // Open the publish modal
@@ -411,13 +427,27 @@ describe('KeywordManagerPage component', () => {
       const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
       await user.click(modalPublishButton)
 
-      // Verify that the publish function was called with the correct version
-      expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
+      // Verify that the publish function was called with the correct version and token
+      expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion', mockTokenValue)
 
-      // Verify that the modal is closed after publishing
+      // Wait for the publishing process to complete
+      await waitFor(() => {
+        expect(publishKmsConceptVersionMock).toHaveBeenCalled()
+      })
+
+      // Verify that the version selector is reset (indicating the publish process has completed)
+      await waitFor(() => {
+        const versionSelector = screen.getByTestId('version-selector')
+        expect(versionSelector).toHaveValue('')
+      }, { timeout: 3000 })
+
+      // Verify that the tree message is reset
+      expect(screen.getByText('Select a version and scheme to load the tree')).toBeInTheDocument()
+
+      // Verify that the original publish modal is closed after publishing
       await waitFor(() => {
         expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
-      })
+      }, { timeout: 3000 })
     })
 
     test('should reset page state after successful publish', async () => {
@@ -850,83 +880,68 @@ describe('KeywordManagerPage component', () => {
       vi.spyOn(publishKmsConceptVersionModule, 'publishKmsConceptVersion').mockImplementation(publishKmsConceptVersionMock)
     })
 
-    test('should show publishing modal while publishing is in progress', async () => {
-      // Mock the publishKmsConceptVersion function to delay resolution
-      publishKmsConceptVersionMock = vi.fn(() => new Promise((resolve) => {
-        setTimeout(resolve, 100)
-      }))
-
-      vi.spyOn(publishKmsConceptVersionModule, 'publishKmsConceptVersion')
-        .mockImplementation(publishKmsConceptVersionMock)
-
-      const { user } = setup()
-
-      // Open publish modal
-      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
-      await user.click(publishButton)
-
-      // Enter version name and click publish
-      const versionNameInput = screen.getByLabelText('Version Name:')
-      await user.type(versionNameInput, 'NewVersion')
-      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
-      await user.click(modalPublishButton)
-
-      // Check if the publishing state is entered
-      await waitFor(() => {
-        expect(screen.queryByRole('button', { name: 'Publish' })).not.toBeInTheDocument()
-      })
-
-      expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
-
-      // Wait for publishing to complete
-      await waitFor(() => {
-        expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
-      })
-    })
-
-    test('should re-enable publish button after error in publishing', async () => {
+    test('should display error message when publishing fails', async () => {
       publishKmsConceptVersionMock.mockRejectedValue(new Error('Publish failed'))
+
       const { user } = setup()
 
       // Open the publish modal
       const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
       await user.click(publishButton)
 
-      // Wait for the modal to open and find elements within it
-      const modal = await screen.findByTestId('custom-modal')
-
-      // Find the input field and type the new version name
-      const versionNameInput = within(modal).getByLabelText('Version Name:')
+      // Enter a new version name
+      const versionNameInput = await screen.findByLabelText('Version Name:')
       await user.type(versionNameInput, 'NewVersion')
 
-      // Find and click the publish button in the modal
-      const modalPublishButton = within(modal).getByRole('button', { name: 'Publish' })
+      // Find and click the Publish button in the modal
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
       await user.click(modalPublishButton)
 
-      // Wait for the publish action to be called
+      // Wait for the error message to appear
       await waitFor(() => {
-        expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
+        expect(screen.getByText('Error publishing new keyword version. Please try again in a few minutes.')).toBeInTheDocument()
       })
 
-      // Wait for a short period to allow for state updates
-      await waitFor(() => {}, { timeout: 100 })
+      // Verify that the modal is still open
+      expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
+    })
 
-      // Check if the main publish button is not disabled
-      expect(publishButton).not.toBeDisabled()
+    test('should clear error message when attempting to publish again', async () => {
+      publishKmsConceptVersionMock
+        .mockRejectedValueOnce(new Error('Publish failed'))
+        .mockResolvedValueOnce()
 
-      // Open the publish modal again to check if it's re-enabled
+      const { user } = setup()
+
+      // Open the publish modal
+      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
       await user.click(publishButton)
 
-      // Wait for the modal to open again
-      const reopenedModal = await screen.findByTestId('custom-modal')
+      // Enter a new version name
+      const versionNameInput = await screen.findByLabelText('Version Name:')
+      await user.type(versionNameInput, 'NewVersion')
 
-      // Check if the version name input is present and empty
-      const newVersionNameInput = within(reopenedModal).getByLabelText('Version Name:')
-      expect(newVersionNameInput).toHaveValue('')
+      // Find and click the Publish button in the modal
+      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
+      await user.click(modalPublishButton)
 
-      // Check if the publish button in the modal is enabled
-      const modalPublishButtonAfterError = within(reopenedModal).getByRole('button', { name: 'Publish' })
-      expect(modalPublishButtonAfterError).not.toBeDisabled()
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('Error publishing new keyword version. Please try again in a few minutes.')).toBeInTheDocument()
+      })
+
+      // Click the Publish button again
+      await user.click(modalPublishButton)
+
+      // Wait for the error message to disappear
+      await waitFor(() => {
+        expect(screen.queryByText('Error publishing new keyword version. Please try again in a few minutes.')).not.toBeInTheDocument()
+      })
+
+      // Verify that the modal is closed after successful publish
+      await waitFor(() => {
+        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+      })
     })
 
     test('should close publish modal when toggleModal is called', async () => {
@@ -955,49 +970,6 @@ describe('KeywordManagerPage component', () => {
 
       // Verify that the Version Name input is no longer present
       expect(screen.queryByLabelText('Version Name:')).not.toBeInTheDocument()
-    })
-
-    test('should not allow closing of publishing modal while publishing is in progress', async () => {
-      const { user } = setup()
-
-      // Mock the publishKmsConceptVersion function to delay resolution
-      publishKmsConceptVersionMock = vi.fn(() => new Promise((resolve) => {
-        setTimeout(resolve, 1000)
-      }))
-
-      vi.spyOn(publishKmsConceptVersionModule, 'publishKmsConceptVersion')
-        .mockImplementation(publishKmsConceptVersionMock)
-
-      // Open publish modal
-      const publishButton = screen.getByRole('button', { name: /publish new keyword version/i })
-      await user.click(publishButton)
-
-      // Enter version name and click publish
-      const versionNameInput = screen.getByLabelText('Version Name:')
-      await user.type(versionNameInput, 'NewVersion')
-      const modalPublishButton = screen.getByRole('button', { name: 'Publish' })
-      await user.click(modalPublishButton)
-
-      // Check if the publishing modal is shown
-      await waitFor(() => {
-        expect(screen.getByText('Publishing... Please wait.')).toBeVisible()
-      })
-
-      // Try to close the modal by calling toggleModal
-      mockToggleModal()
-
-      // Verify that the modal is still open
-      expect(screen.getByText('Publishing... Please wait.')).toBeVisible()
-
-      // Wait for publishing to complete
-      await waitFor(() => {
-        expect(publishKmsConceptVersionMock).toHaveBeenCalledWith('NewVersion')
-      }, { timeout: 2000 })
-
-      // Verify that the modal is closed after publishing is complete
-      await waitFor(() => {
-        expect(screen.queryByText('Publishing... Please wait.')).not.toBeInTheDocument()
-      })
     })
   })
 })

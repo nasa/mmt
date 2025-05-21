@@ -9,7 +9,6 @@ import {
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 import { publishKmsConceptVersion } from '../publishKmsConceptVersion'
 
-// Mock the getApplicationConfig function
 vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
@@ -33,12 +32,15 @@ describe('when publishKmsConceptVersion', () => {
   test('should publish a new KMS concept version successfully', async () => {
     fetchMock.mockResolvedValueOnce({ ok: true })
 
-    await expect(publishKmsConceptVersion('Version 1.0')).resolves.not.toThrow()
+    await expect(publishKmsConceptVersion('Version 1.0', 'test_token')).resolves.not.toThrow()
 
     expect(fetchMock).toHaveBeenCalledWith(
       'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          Authorization: 'test_token'
+        }
       }
     )
   })
@@ -49,7 +51,7 @@ describe('when publishKmsConceptVersion', () => {
       status: 400
     })
 
-    await expect(publishKmsConceptVersion('Version 1.0')).rejects.toThrow('Error publishing new keyword version: publishKmsconceptVersion HTTP error! status: 400')
+    await expect(publishKmsConceptVersion('Version 1.0', 'test_token')).rejects.toThrow('Error publishing new keyword version: publishKmsconceptVersion HTTP error! status: 400')
 
     expect(consoleErrorSpy).toHaveBeenCalled()
   })
@@ -57,7 +59,7 @@ describe('when publishKmsConceptVersion', () => {
   test('should throw an error when fetch fails', async () => {
     fetchMock.mockRejectedValueOnce(new Error('Network error'))
 
-    await expect(publishKmsConceptVersion('Version 1.0')).rejects.toThrow('Error publishing new keyword version: Network error')
+    await expect(publishKmsConceptVersion('Version 1.0', 'test_token')).rejects.toThrow('Error publishing new keyword version: Network error')
 
     expect(consoleErrorSpy).toHaveBeenCalled()
   })
@@ -65,12 +67,15 @@ describe('when publishKmsConceptVersion', () => {
   test('should trim and process version string correctly', async () => {
     fetchMock.mockResolvedValueOnce({ ok: true })
 
-    await publishKmsConceptVersion('  Version  1.0  ')
+    await publishKmsConceptVersion('  Version  1.0  ', 'test_token')
 
     expect(fetchMock).toHaveBeenCalledWith(
       'http://test-kms-host.com/publish?name=Version_1.0',
       {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          Authorization: 'test_token'
+        }
       }
     )
   })

@@ -31,6 +31,7 @@ import {
 import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './KeywordManagerPage.scss'
 
@@ -58,7 +59,7 @@ const KeywordManagerPage = () => {
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
   const [versionSelectorKey, setVersionSelectorKey] = useState(0)
-
+  const { tokenValue } = useAuthContext()
   /**
    * Opens the modal for publishing a new keyword version.
    * Resets the new version name and clears any previous publish errors.
@@ -78,7 +79,7 @@ const KeywordManagerPage = () => {
     setPublishError(null)
     try {
       setShowPublishingModal(true)
-      await publishKmsConceptVersion(newVersionName)
+      await publishKmsConceptVersion(newVersionName, tokenValue)
       // Refresh the screen
       setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
       setSelectedVersion(null)
