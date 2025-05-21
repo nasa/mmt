@@ -2,7 +2,8 @@ import {
   CollectionPreview,
   ServicePreview,
   ToolPreview,
-  VariablePreview
+  VariablePreview,
+  VisualizationPreview
 } from '@edsc/metadata-preview'
 import { render, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
@@ -24,7 +25,8 @@ import {
   mockCollectionWithAssociatedVariables,
   mockServiceDraft,
   mockToolDraft,
-  mockVariableDraft
+  mockVariableDraft,
+  mockVisualizationDraft
 } from './__mocks__/MatadataPreviewMocks'
 
 vi.mock('@edsc/metadata-preview')
@@ -233,6 +235,73 @@ describe('MetadataPreview', () => {
       })
 
       expect(ServicePreview).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when the conceptType is Visualization draft', () => {
+    test('renders a Visualization Preview component', async () => {
+      setup({
+        overrideProps: {
+          conceptId: 'VISD000000-MMT',
+          conceptType: 'Visualization'
+        },
+        mock: [{
+          request: {
+            query: conceptTypeDraftQueries.Visualization,
+            variables: {
+              params: {
+                conceptId: 'VISD000000-MMT',
+                conceptType: 'Visualization'
+              },
+              variableParams: null
+            }
+          },
+          result: {
+            data: {
+              draft: mockVisualizationDraft
+            }
+          }
+        }],
+        initialEntries: '/drafts/visualizations/VISD000000-MMT'
+      })
+
+      await waitFor(() => {
+        expect(VisualizationPreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
+          conceptId: 'VISD000000-MMT',
+          conceptType: 'visualization-draft',
+          conceptUrlTemplate: '/{conceptType}/{conceptId}',
+          isPlugin: true,
+          visualization: {
+            __typename: 'Visualization',
+            conceptId: 'VISD0000000000-CMR',
+            description: 'Draft test description',
+            generation: {},
+            identifier: 'Extra Data',
+            metadataSpecification: {
+              url: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+              name: 'Visualization',
+              version: '1.1.0'
+            },
+            pageTitle: 'Creating Test 3',
+            name: 'Creating Test 3',
+            nativeId: 'Visualization-1303',
+            providerId: 'MMT_1',
+            revisionDate: '2025-04-25T17:25:17.825Z',
+            revisionId: '1',
+            scienceKeywords: null,
+            spatialExtent: null,
+            specification: {},
+            subtitle: null,
+            temporalExtents: null,
+            title: 'Draft test title',
+            ummMetadata: null,
+            visualizationType: 'tiles'
+          }
+        }, {})
+      })
+
+      expect(VisualizationPreview).toHaveBeenCalledTimes(1)
     })
   })
 
