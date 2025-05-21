@@ -59,7 +59,7 @@ module Cmr
     end
 
     def request(method, url, params, body, headers)
-      # Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_fs(:log_time)}"
+      Rails.logger.info "#{self.class} Request #{method} #{url} - Body: #{parse_string_for_tokens(body)} - Time: #{Time.now.to_fs(:log_time)}"
       if params.nil?
         faraday_response = connection.send(method, url) do |req|
           unless self.class == UrsClient || self.class == LaunchpadClient
